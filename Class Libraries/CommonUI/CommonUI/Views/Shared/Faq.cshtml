@@ -1,0 +1,31 @@
+﻿@using BusinessLogic;
+@using CommonUI.Models;
+
+@model List<QandA>
+
+@if (Model.Count > 0)
+{
+    <hr id="Faq" class="g-m-t-60 g-m-b-20" />
+
+    <div id="faqs" class="row">
+        <div class="col-md-12">
+            <div>
+                <h2>Frequently Asked Questions</h2>
+            </div>
+            <div class="accordion">
+                @foreach (QandA Faq in Model)
+                {
+                    <div class="accordion_item g-b-1-p">
+                        <div class="accordion_title">
+                            <div class="accordion_arrow">
+                                <span class="accordion_arrow-item"><i class="fa fa-plus fa-2x"></i></span>
+                            </div>
+                            <span class="accordion_title-text"><strong>@Html.Raw(Faq.Question)</strong></span>
+                        </div>
+                        <div class="accordion_content">@Html.Raw(Faq.Answer)</div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,46 @@
+﻿@using BusinessLogic
+@using BusinessLogic.ViewModels
+@using Kendo.Mvc.UI
+@using SharedUI.Models;
+
+@model PortalViewModel
+
+@{
+    Layout = "~/Views/Shared/_Portal.cshtml";
+}
+
+<div class="g-fs-lg g-p-l-20 g-p-t-10 g-p-b-10 g-bc-s g-m-b-20 g-b-1-p">
+    Delete Customer Voucher
+</div>
+
+<div class="g-m-l-20 g-m-r-20 g-inp-md">
+    @using (Ajax.BeginForm("DeleteVoucher", "Portal", null, new AjaxOptions {HttpMethod = "POST", OnComplete = "deleteVoucherComplete", OnFailure = "logAjaxFormError"}))
+    {
+        @*@Html.AntiForgeryToken()*@
+
+        <div class="g-m-t-20">SELECT WEBSITE</div>
+        @Html.DropDownListFor(m => m.DbName, Model.Sites, "Select Website", new { @class = "selectpicker g-m-t-5 g-m-b-10", size = "auto", data_size = "4", data_val = "true", data_val_required = "Please select a website" })
+        @Html.CustomValidationMessage(m => m.DbName, "", new { @class = "text-danger" })
+        
+        <div class="g-inp-md g-m-t-20">VOUCHER CODE</div>
+        <div class="form-group g-m-t-5">
+            @Html.TextBoxFor(m => m.VoucherCode, new {@class = "g-m-b-10 form-control", placeholder = "Voucher Code", data_val = "true", data_val_required = "Please enter a voucher code" })
+            @Html.CustomValidationMessage(m => m.VoucherCode, "", new { @class = "text-danger" })
+        </div>
+
+        <input type="submit" value="DELETE VOUCHER" class="g-butt-secondary g-w-250 g-m-t-20 g-m-b-40"/>
+    }
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        function deleteVoucherComplete(data) {
+            var x = data.responseJSON.savereturn.IsSuccess ? 'SUCCEEDED' : 'FAILED';
+            $.alert({
+                title: 'Delete Customer Voucher',
+                content: 'The attempt to delete the customer voucher ' + x
+            });
+        }
+    </script>
+}

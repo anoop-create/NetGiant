@@ -1,0 +1,69 @@
+﻿@using System.Configuration
+@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+@using System.Data;
+@using System.Text;
+
+@model MyAccountViewModel
+
+@{
+    DataTable dt = new DataTable();
+    if (Session["U_FavoutirePrinters"] != null)
+    {
+        dt = (DataTable)Session["U_FavoutirePrinters"];
+    }
+
+    bool isPrinters = false;
+    if (dt != null)
+    {
+        if (dt.Rows.Count > 0)
+        {
+            isPrinters = true;
+        }
+    }
+
+    if (isPrinters)
+    {
+        <div class="row g-m-t-20">
+            <div class="col-md-12">
+                <div class="mini-product-container clearfix">
+                    @foreach (DataRow dr in dt.Rows)
+                    {
+                        StringBuilder replacements = new System.Text.StringBuilder();
+                        replacements.Append("nickname=" + dr["Name"].ToString());
+                        replacements.Append("&favid=" + dr["FavouritePrinterID"].ToString());
+                        replacements.Append("&modelname=" + dr["modelName"].ToString());
+                        <div class="mini-product-entry g-ps-r myprinter-id-@dr["FavouritePrinterID"].ToString()">
+                            <div class="g-bc-s g-b-1-p g-h-140 text-center">
+                                <img src="@dr["ImageURL"].ToString()" alt="@dr["ModelName"].ToString()" onerror="this.src = '@ConfigurationManager.AppSettings["CDN"]/Images/noimage.jpg';"/>
+                            </div>
+                            <div class="g-m-t-10">
+                                <div class="g-h-60"><strong>@dr["modelName"].ToString()</strong>
+                                </div>
+                                <div class="">@dr["Name"].ToString()</div>
+                                <a class="btn g-butt-primary g-butt-100p g-m-t-10" href="/model/@dr["modelName"].ToString().Replace(" ", "-")-@dr["CartridgeTypeName"].ToString().Replace(" ", "-").ToLower()/" role="button">View Cartridges</a>
+                            </div>
+                            <span class="g-ps-a g-top-0 g-rt-30 popup g-bc-neg g-d-n g-fc-st g-cur-p delete-printer"
+                                  title="Delete from My Printers"
+                                  data-popupname="DeleteMyPrinter"
+                                  data-popupwidth="md"
+                                  data-replacements="@replacements"
+                                  data-toggle="modal"
+                                  data-target="#popup">
+                                <i class="fa fa-times fa-lg g-p-10"></i>
+                            </span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="g-m-t-20">You have no saved printers.</div>
+        <div class="g-m-t-20 g-fw-b">To add a printer follow these steps:</div>
+        <div><strong>1 </strong>Find your printer model using the search bar at the top of the page or our <a class="secondary" href="/Home/">cartridge wizard</a></div>
+        <div><strong>2 </strong>Under the printer model name, there is a link that reads 'Save to My Printers', click this</div>
+        <div><strong>3 </strong>Your printer can now be quickly accessed on this page or the <a class="secondary" href="javascript:openUtilityBar('my-printers');">side panel to the right of the screen</a></div>
+    }
+}

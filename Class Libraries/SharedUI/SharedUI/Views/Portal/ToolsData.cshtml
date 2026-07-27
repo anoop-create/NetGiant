@@ -1,0 +1,56 @@
+﻿@using System.Configuration
+@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+
+@model CommonViewModel
+
+<div class="container body-content">
+    <div class="row g-m-t-10 panel panel-default g-m-b-40">
+        <div class="panel-heading">Change Settings</div>
+        <div class="col-md-6">
+            @using (Ajax.BeginForm("Settings", "Portal", null, new AjaxOptions { HttpMethod = "POST", OnComplete = "settingsComplete" }))
+            {
+                <div class="checkbox checkbox-success">
+                    <input class="g-cur-p" type="checkbox" name="loadversion" id="loadversion" value="true" />
+                    <label for="loadversion">Load the CDN version muber. Currently: <strong>@ConfigurationManager.AppSettings["CDN"]</strong>.</label>
+                </div>
+                <div class="checkbox checkbox-success">
+                    <input class="g-cur-p" type="checkbox" name="loadcompupsell" id="loadcompupsell" value="true" />
+                    <label for="loadcompupsell">Reload 'IsCompatibleUpsellActive'. Currently: <strong>@ConfigurationManager.AppSettings["IsCompatibleUpsellActive"]</strong>.</label>
+                </div>
+                <div class="checkbox checkbox-success">
+                    <input class="g-cur-p" type="checkbox" name="loadappvars" id="loadappvars" value="true" />
+                    <label for="loadappvars">Reload all app variables from PMS.</label>
+                </div>
+                <div class="checkbox checkbox-success">
+                    <input class="g-cur-p" type="checkbox" name="clearsession" id="clearsession" value="true" />
+                    <label for="clearsession">Clear all session variables.</label>
+                </div>
+
+                if (ConfigurationManager.AppSettings["Environment"] != "Live")
+                {
+                    // Dev only
+                    <div class="checkbox checkbox-success g-p-t-20">
+                        <input class="g-cur-p" type="checkbox" name="ppcuser" id="ppcuser" value="true"/>
+                        <label for="ppcuser">Set as PPC user.</label>
+                    </div>
+                    <div class="checkbox checkbox-success">
+                        <input class="g-cur-p" type="checkbox" name="saleoem" id="saleoem" value="true" />
+                        <label for="saleoem">Set OEM Sale active.</label>
+                    </div>
+                    <div class="checkbox checkbox-success">
+                        <input class="g-cur-p" type="checkbox" name="salecompat" id="salecompat" value="true" />
+                        <label for="salecompat">Set Compatible Sale active.</label>
+                    </div>
+                    <div class="checkbox checkbox-success">
+                        <input class="g-cur-p" type="checkbox" name="upsellcompat" id="upsellcompat" value="true" />
+                        <label for="upsellcompat">Turn the compatible upsell facility OFF</label>
+                    </div>
+                }
+                <button id="dbg-settings" class="g-butt-primary g-butt-lg pull-right">
+                    submit
+                </button>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+﻿@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+
+@model SearchViewModel
+
+@{ 
+    List<SearchList> products = Model.SearchList;
+}
+
+<div class="g-fs-lg g-p-b-20 pull-left">Filter Products <span class="g-fc-s">(<span id="pl-product-count">@products.Count</span>)</span></div>
+<div class="pull-right fltr-filters">
+    <div class="pull-right">
+        @if (products.Any(x => x.Product.BrandFlag == BrandFlag.Compatible))
+        {
+            <div class="pull-left g-p-r-10 g-d-ib g-p-b-10"><button name="fltr_Y-*-*-*-*" class="g-butt-lg g-butt-secondary-inv-alt"><i class="fa fa-gbp g-p-r-10"></i>Best Value</button></div>
+        }
+        @if (products.Any(x => x.Product.PrimarySortSeq == ProductFlag.Assembly))
+        {
+            <div class="pull-left g-p-r-10 g-d-ib g-p-b-10"><button name="fltr_*-Y-*-*-*" class="g-butt-lg g-butt-secondary-inv-alt"><i class="fa fa-clone g-p-r-10"></i>Multi-Packs</button></div>
+        }
+        @if (products.Any(x => x.Product.AttDesc8 == "Black"))
+        {
+            <div class="pull-left g-p-r-10 g-d-ib g-p-b-10"><button name="fltr_*-*-Y-*-*" class="g-butt-lg g-butt-secondary-inv-alt"><i class="fa fa-stop g-p-r-10"></i>Black</button></div>
+        }
+        @if (products.Any(x => x.Product.AttDesc8 != "Black" && x.Product.PrimarySortSeq != ProductFlag.Ancillary))
+        {
+            <div class="pull-left g-p-r-10 g-d-ib g-p-b-10"><button name="fltr_*-*-*-Y-*" class="g-butt-lg g-butt-secondary-inv-alt"><i class="fa g-m-r-10 cc-33" style="height:12px;width:12px;"></i>Colours</button></div>
+        }
+        @if (products.Any(x => x.Product.PrimarySortSeq == ProductFlag.Ancillary))
+        {
+            <div class="pull-left g-p-r-10 g-d-ib g-p-b-10"><button name="fltr_*-*-*-*-Y" class="g-butt-lg g-butt-secondary-inv-alt"><i class="fa fa-wrench g-p-r-10"></i>Maintenance</button></div>
+        }
+        <div class="pull-left g-d-ib g-p-b-10"><button name="fltr_*-*-*-*-*" class="g-butt-lg g-butt-secondary-inv-alt"><i class="fa fa-minus g-p-r-10"></i>Clear all</button></div>
+    </div>
+</div>
+<div class="clearfix"></div>

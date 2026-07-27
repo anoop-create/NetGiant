@@ -1,0 +1,127 @@
+﻿@using BusinessLogic;
+@using SharedUI.Models;
+
+@model MyAccountDetails
+
+
+@using (Ajax.BeginForm("UpdateAddress", "MyAccount", new AjaxOptions { HttpMethod = "POST", OnBegin = "return verifyPassword('password-change')", OnComplete = "myAccountUpdateComplete", OnFailure = "logAjaxFormError" }, new { id = "updateAddress" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Record)
+
+    bool isDisabled = Convert.ToBoolean(Session["U_IsAccountCustomer"]);
+
+    <div class="update-address">
+        @if (isDisabled)
+        {
+            <div class="g-bc-note g-b-1-p g-p-10 g-m-t-20 clearfix">
+                <span>
+                    We have detected you are registered with a credit account, please contact us to change your billing address. Call @Html.RawFromDict(Model.CommonData, "TelephoneNumber") or email
+                    <a href="mailto:@Html.RawFromDict(Model.CommonData, "SupportEmail")">@Html.RawFromDict(Model.CommonData, "SupportEmail")</a>
+                </span>
+            </div>
+            <div class="g-bc-s g-b-1-p g-m-t-20 g-p-10">
+                <div>Your current billing address is:</div>
+                @Html.DisplayAddressDetails(Model.CustomerAddress)
+            </div>
+        }
+
+        <div class="g-m-t-20 clearfix">
+            <div class="g-inp-md">COMPANY NAME</div>
+        </div>
+        <div class="clearfix g-m-t-3">
+            <div class="g-inp-md clearfix">
+                @Html.EditorFor(x => x.CustomerAddress.Line1, new { htmlAttributes = Utilities.CondAddToDict(new RouteValueDictionary(new { placeholder = "Company Name", @class = "g-b-1-p" }), isDisabled, "disabled", "disabled")})
+            </div>
+        </div>
+        <div class="clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+
+        <div class="clearfix g-m-t-5">
+            <div class="g-inp-md">ADDRESS LINE 1*</div>
+        </div>
+        <div class="clearfix g-m-t-3">
+            <div class="g-inp-md clearfix">
+                @Html.EditorFor(x => x.CustomerAddress.Line2, new { htmlAttributes = Utilities.CondAddToDict(new RouteValueDictionary( new { placeholder = "Address Line1", @class = "g-b-1-p" }), isDisabled, "disabled", "disabled") })
+            </div>
+        </div>
+        <div class="clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+
+        <div class="clearfix g-m-t-5">
+            <div class="g-inp-md">ADDRESS LINE 2</div>
+        </div>
+        <div class="clearfix g-m-t-3">
+            <div class="g-inp-md clearfix">
+                @Html.EditorFor(x => x.CustomerAddress.Line3, new { htmlAttributes = Utilities.CondAddToDict(new RouteValueDictionary(new { placeholder = "Address Line2", @class = "g-b-1-p" }), isDisabled, "disabled", "disabled") })
+            </div>
+        </div>
+        <div class="clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+
+        <div class="clearfix g-m-t-5">
+            <div class="g-inp-md">TOWN OR CITY*</div>
+        </div>
+        <div class="clearfix g-m-t-3">
+            <div class="g-inp-md clearfix">
+                @Html.EditorFor(x => x.CustomerAddress.Line4, new { htmlAttributes = Utilities.CondAddToDict(new RouteValueDictionary(new { placeholder = "Town or City", @class = "g-b-1-p" }), isDisabled, "disabled", "disabled") })
+            </div>
+        </div>
+        <div class="clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+
+        <div class="clearfix g-m-t-5">
+            <div class="g-inp-md">COUNTY</div>
+        </div>
+        <div class="clearfix g-m-t-3">
+            <div class="g-inp-md clearfix">
+                @Html.EditorFor(x => x.CustomerAddress.Line5, new { htmlAttributes = Utilities.CondAddToDict(new RouteValueDictionary(new { placeholder = "County", @class = "g-b-1-p" }), isDisabled, "disabled", "disabled") })
+            </div>
+        </div>
+        <div class="clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+
+        <div class="clearfix g-m-t-5">
+            <div class="g-inp-md">POSTCODE*</div>
+        </div>
+        <div class="clearfix g-m-t-3">
+            <div class="g-inp-md clearfix">
+                @Html.EditorFor(x => x.CustomerAddress.PostCode, new { htmlAttributes = Utilities.CondAddToDict(new RouteValueDictionary(new { placeholder = "Postcode", @class = "g-b-1-p" }), isDisabled, "disabled", "disabled") })
+            </div>
+        </div>
+        <div class="clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+
+        <div class="clearfix g-m-t-5">
+            <div class="g-inp-md">CURRENT PASSWORD*</div>
+        </div>
+        <div class="clearfix g-m-t-3">
+            <div class="g-inp-md clearfix">
+                @Html.PasswordFor(x => x.OldPassword, new { placeholder = "Current Password", @class = "g-b-1-p" })
+            </div>
+        </div>
+        <div class="clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+
+        @if (!isDisabled)
+        {
+            <div class="">
+                <button type="submit" class="g-butt-primary g-butt-xl g-m-t-20">Save Changes</button>
+            </div>
+            @Html.ValidationSummary()
+
+            <div class="g-d-ib">
+                <div class="error-message g-d-n g-m-t-20-i">
+                    <i class="fa fa-exclamation-triangle g-fs-20 g-p-r-10"></i>
+                    <p class="g-m-0 g-d-i g-p-r-10"></p>
+                </div>
+            </div>
+
+            <div id="password-success" class="g-m-t-20 g-fc-pm g-d-n">
+                <i class="fa fa-check g-p-r-5"></i>
+                <span class="">Changes successfully saved!</span>
+            </div>
+        }
+    </div>
+}
+
+<script type="text/javascript">
+    var form = $("#updateAddress");
+    form.removeData('validator');
+    form.removeData('unobtrusiveValidation');
+    $.validator.unobtrusive.parse(form);
+</script>
+

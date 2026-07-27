@@ -1,0 +1,35 @@
+﻿@using SharedUI.Models;
+@using BusinessLogic.ViewModels;
+@using System.Web.Optimization;
+
+@model CommonViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <title>@Html.RawFromDict(Model.CommonData, "SiteName")</title>
+    <meta name="description" content="Debug @Html.RawFromDict(Model.CommonData, "SiteName")">
+    <meta name="msvalidate.01" content="25C06F8BDF2376F495D44F19998FAE5F">
+    <meta name="robots" content="noindex, nofollow">
+
+    @Styles.Render("~/Content/cssBundle.css")
+    @RenderSection("AddTags", required: false)
+    @Scripts.Render("~/bundles/jqueryBundle.js")
+</head>
+<body class="g-ps-r">
+    @RenderBody()
+
+    @Scripts.Render("~/bundles/bootstrapBundle.js")
+    @Scripts.Render("~/bundles/jqueryvalBundle.js")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

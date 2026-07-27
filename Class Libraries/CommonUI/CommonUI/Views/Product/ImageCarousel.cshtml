@@ -1,0 +1,32 @@
+﻿@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using CommonUI.Models;
+@using System.Configuration;
+
+@model ProductViewModel
+
+<div class="image-carousel custom-popup row g-m-t-20">
+    <div class="col-md-12 image-modal">
+        <div class="clearfix g-of-h g-ws-nw" style="width:250px">
+            <div class="image-slides g-ps-r g-rt-0">
+                @{
+                    string active = "active";
+                }
+                @foreach (CarouselEntry ce in Model.CarouselList)
+                {
+                    <div class="g-bc-s g-ta-c g-p-t-3 g-d-ib g-b-1-p g-m-r-10 g-cur-p image-slide-container xg-flex-allcenter @active">
+                        <img src="@ce.ThumbnailUrl" data-image="@ce.MainImageUrl" data-zoom="@ce.ZoomImageUrl" class="prd-altImage" title="click to view alternative image" />
+                    </div>
+                    active = "";
+                }
+            </div>
+        </div>
+        <div id="previous-image" class="g-ps-a g-cur-p g-fs-n g-fc-s" style="top:20px;left:-20px;">
+            <img src="/Content/Images/1pxTrans.png" class="msp_chevronLeft g-cur-p g-m-r-20" alt="left">
+        </div>
+        <div id="next-image" class="g-ps-a g-cur-p g-fs-n g-fc-s" style="top:20px;right:-20px;">
+            <img src="/Content/Images/1pxTrans.png" class="msp_chevronRight g-cur-p g-m-r-20" alt="left">
+        </div>
+    </div>
+</div>
+

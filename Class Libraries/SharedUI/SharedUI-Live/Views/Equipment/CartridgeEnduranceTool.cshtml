@@ -1,0 +1,162 @@
+﻿@using System.Configuration
+@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+@using Kendo.Mvc.UI
+
+@model EquipmentViewModel
+
+@{
+    Layout = "~/Views/Shared/_Empty.cshtml";
+}
+
+<section id="cartridge-endurance" class="container-fluid g-bc-p">
+    <div class="row">
+        @using (Ajax.BeginForm("CartridgeEnduranceCalc", "Equipment", null, new AjaxOptions {HttpMethod = "POST", OnComplete = "calculationComplete", OnFailure = ""}))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.Hidden("wiz-cartridgetype", Model.CartridgeTypeName)
+            @Html.Hidden("wiz-ch-manu-url", Url.Action("ChangeManufacturer"))
+            @Html.Hidden("wiz-iframeid", (object) ViewBag.IframeId.ToString())
+
+            <div class="wiz-widget equip g-p-lr-10">
+                <div class="">
+                    <div class="col-lg-6 g-p-0">
+                        @{
+                            if (ViewBag.ShowDropDowns)
+                            {
+                                <div class="g-fs-lg g-fw-b">Your cartridge</div>
+                                Html.RenderPartial("~/Views/Equipment/EquipmentSelector.cshtml", Model);
+
+                                <div id="wiz-cartridge-container">
+                                    <span class="fa-stack g-fc-st hidden-xs hidden-sm hidden-md">
+                                        <i class="fa fa-circle-thin fa-stack-2x"></i>
+                                        <span class="fa-stack-1x in-text">4</span>
+                                    </span>
+                                    @(Html.Kendo().DropDownList()
+                                          .Name("wiz-cartridge")
+                                          .OptionLabel(new SelectListItem {Text = "Select Cartridge", Value = ""})
+                                          .DataTextField("Text")
+                                          .DataValueField("Value")
+                                          .Filter("contains")
+                                          .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("ChangeEquipment", "Wizard")
+                                                      .Data("filterCartridge");
+                                              })
+                                                  .ServerFiltering(true);
+                                          })
+                                          .Enable(false)
+                                          .AutoBind(false)
+                                          .CascadeFrom("wiz-equipment")
+                                          )
+
+                                    <script>
+                                        function filterCartridge() {
+                                            var params = {
+                                                type: '@Model.CartridgeTypeName',
+                                                search: null,
+                                                equipmentId: $('#wiz-equipment').data('kendoDropDownList').value() == ""
+                                                    ? 0
+                                                    : $('#wiz-equipment').data('kendoDropDownList').value(),
+                                                familyId: $('#wiz-family').data('kendoDropDownList').value() == ""
+                                                    ? 0
+                                                    : $('#wiz-family').data('kendoDropDownList').value(),
+                                                manufacturerId: $("#wiz-manufacturer").data("kendoDropDownList").value()
+                                            }
+
+                                            var filter = $('#wiz-cartridge').data('kendoDropDownList').dataSource
+                                                .filter();
+
+                                            if (filter && filter.filters[0].operator == "contains") {
+                                                params.search = filter.filters[0].value;
+                                            }
+
+                                            return params;
+                                        }
+                                    </script>
+                                </div>
+                            }
+                            else
+                            {
+                                @Html.Hidden("wiz-productid", (object) ViewBag.ProductId.ToString())
+                                ;
+                            }
+                        }
+                        
+                        <div class="g-fs-lg g-fw-b">Your usage</div>
+                        <div class="row g-flex-vcenter">
+                            <div class="col-xs-6 form-name">
+                                <i class="fa fa-question-circle"
+                                   data-toggle="tooltip"
+                                   data-placement="bottom"
+                                   title="Enter the average number of pages you are printing, then select how frequently below"></i>
+                                Pages Printed
+                            </div>
+                            <div class="col-xs-6 form-value g-fc-st">
+                                @Html.CustomValidationMessage(m => m.PagesPrintedPerDay, "", new {@class = "g-fc-st"})
+                                <div class="input-group g-inp-100p">
+                                    @Html.TextBoxFor(m => m.PagesPrintedPerDay, new {@class = "form-control text-left", placeholder = "Pages Printed", data_val = "true", data_val_required = "Please enter page usage"})
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-flex-vcenter">
+                            <div class="col-xs-6 form-name">
+                                <i class="fa fa-question-circle"
+                                   data-toggle="tooltip"
+                                   data-placement="bottom"
+                                   title="Select how often you are printing these number of pages"></i>
+                                Frequency
+                            </div>
+                            <div class="col-xs-6 form-value g-fc-st">
+                                <div class="pull-left g-inp-100p g-m-t-3 clearfix">
+                                    @Html.DropDownListFor(x => x.Frequency, Model.FrequencyList, new { @class = "selectpicker" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-flex-vcenter">
+                            <div class="col-xs-6 form-name">
+                                <i class="fa fa-question-circle"
+                                   data-toggle="tooltip"
+                                   data-placement="bottom"
+                                   title="This indicates the average amount of the page that is covered in ink. Manufacturers assume that, on average, this is 5%. If your prints are more 'ink intensive' you should increase this value."></i>
+                                Page Coverage
+                            </div>
+                            <div class="col-xs-6 form-value g-fc-st">
+                                @Html.CustomValidationMessage(m => m.PageCoverage, "", new {@class = "g-fc-st"})
+                                <div class="input-group g-inp-100p">
+                                    @Html.TextBoxFor(m => m.PageCoverage, new {@class = "form-control text-left", placeholder = "Page Coverage", data_val = "true", data_val_required = "Please enter page coverage"})
+                                    <div class="input-group-addon alt">%</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input id="wiz-find" type="submit" value="Calculate Estimate" class="g-butt-secondary g-w-100p center-block g-fw-b" @(ViewBag.ShowDropDowns ? "disabled=\"disabled\"" : "") />
+
+                        <div class="g-m-t-20 xg-h-0" data-inuse="0" id="calculation-result"></div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<iframe id="iframe-height-adjust" class="g-ps-a g-top-0 g-btm-0 g-lf-0 g-h-100p g-w-0 g-b-n g-bc-transparent" data-containerid="#cartridge-endurance" data-iframeid="@ViewBag.IframeId" tabindex="-1"></iframe>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        function calculationComplete(data) {
+            $('#calculation-result').html(data.responseJSON.savereturn.Html);
+            if (data.responseJSON.savereturn.IsSuccess) {
+                if (inIframe()) {
+                    $('#productLink').prop('target', '_top');
+                }
+            }
+        }
+    </script>
+}

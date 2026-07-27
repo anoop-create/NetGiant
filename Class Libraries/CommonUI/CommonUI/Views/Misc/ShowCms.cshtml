@@ -1,0 +1,12 @@
+﻿@using CommonUI.Models;
+@using BusinessLogic.ViewModels;
+
+@model MiscViewModel
+    
+@{
+    Layout = "~/Views/Shared/_Empty.cshtml";
+}
+
+<div class="restrict-images">
+    @Html.RawFromDict((Dictionary<string, string>)ViewData["Dict"], ViewData["CmsEntry"].ToString(), (Dictionary<string, string>)ViewData["Replacements"])
+</div>

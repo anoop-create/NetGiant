@@ -1,0 +1,53 @@
+﻿@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+
+@model CommonViewModel
+
+@Html.HtmlActionLink("<i class=\"fa fa-plus\"></i> Add Cookie",
+                                    "AddCookie",
+                                    "Portal",
+                                    new
+                                    {
+                                    },
+                                    new
+                                    {
+                                        @class = "g-m-t-10 g-p-5 btn btn-default btn-sm"
+                                    })
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Cookie Name</th>
+            <th>Cookie Value</th>
+            <th class="text-right">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Request.Cookies.Count; i++)
+        {
+            HttpCookie aCookie = Request.Cookies[i];
+            <tr>
+                <td>@aCookie.Name</td>
+                <td>@aCookie.Value</td>
+                <td class="text-center">
+                    @Ajax.HtmlActionLink("<i class=\"fa fa-trash\"></i> Delete",
+                            "DeleteCookie",
+                            "Debug",
+                            new
+                            {
+
+                            },
+                            new AjaxOptions()
+                            {
+                                HttpMethod = "POST",
+                                OnComplete = "location.reload()"
+                            },
+                            new
+                            {
+                                @class = "pull-right g-m-r-10 form-delete btn btn-default btn-sm"
+                            })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

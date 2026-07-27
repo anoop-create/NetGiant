@@ -1,0 +1,28 @@
+﻿@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+@using System.Web.Optimization;
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unavailable</title>
+    @Styles.Render("~/Content/cssBundle.css")
+</head>
+<body>
+    <div class="g-flex-allcenter g-ps-f g-h-100p g-w-100p">
+        <div class="g-p-10">
+            <div class="g-flex-allcenter">
+                <img src="/Content/Images/main-logo.png" class="img-responsive g-m-t-10" alt="Site logo" />
+            </div>
+            <h2 class="g-m-t-60 text-center">@ViewBag.AlertTitle</h2>
+            <div class="g-m-t-20 text-center">@Html.Raw(ViewBag.AlertMessage)</div>
+        </div>
+    </div>
+</body>
+</html>

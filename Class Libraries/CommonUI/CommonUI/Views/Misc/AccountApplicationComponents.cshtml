@@ -1,0 +1,329 @@
+﻿@using BusinessLogic;
+@using CommonUI.Models;
+
+@model AccountApplicationDetails
+
+@{
+    bool renderAll = Model.Section == AccountApplicationSection.All ? true : false;
+}
+
+@if (Model.Section == AccountApplicationSection.CustomerType || renderAll)
+{
+    <div class="row g-m-t-5">
+        <div class="g-inp-md">CUSTOMER TYPE*</div>
+    </div>
+
+    <div class="row g-m-t-5">
+        <div class="g-inp-md clearfix g-d-ib">
+            @Html.DropDownListFor(x => x.CustomerType, Model.DropDownList.CustomerType, "Select...", new { @class = "selectpicker" })
+        </div>
+        <div class="g-d-ib g-fc-tt g-fs-sm g-w-225 g-va-m g-p-l-10">
+            Are you ordering for yourself, a business or public sector organisation?
+        </div>
+    </div>
+}
+
+@if (renderAll)
+{
+    <div class="row">
+        <hr class="g-m-t-20 g-m-b-20 g-m-r-80" />
+    </div>
+}
+
+@if (Model.Section == AccountApplicationSection.CreditAccountText || renderAll)
+{
+    @Html.RawFromDict(Model.Data, "CreditAccountApplication")
+}
+
+@if (Model.Section == AccountApplicationSection.ContactDetails || renderAll)
+{
+    <div class="row">
+        <hr class="g-m-t-20 g-m-b-20 g-m-r-80" />
+    </div>
+    if (renderAll)
+    {
+        @Html.Raw("<div class=\"row\"><div class=\"col-sm-6\">")
+    }
+    <div class="row g-fw-b">CONTACT DETAILS</div>
+    <div class="row">Details of who will manage this credit account.</div>
+    <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+
+    <div class="row">
+        <div class="pull-left g-inp-md">TRADING OR ORGANISATION NAME*</div>
+    </div>
+    <div class="row g-m-t-3">
+        <div class="g-inp-md clearfix">
+            @Html.EditorFor(x => x.TradingName, new { htmlAttributes = new { placeholder = "Trading Name", @class = "g-b-1-p" } })
+        </div>
+    </div>
+    <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+
+    <div class="row">
+        <div class="pull-left g-inp-md">CONTACT FULL NAME*</div>
+    </div>
+    <div class="row g-m-t-3">
+        <div class="g-inp-md clearfix">
+            @Html.EditorFor(x => x.ContactName, new { htmlAttributes = new { placeholder = "First and Last Name", @class = "g-b-1-p" } })
+        </div>
+    </div>
+    <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+
+    <div class="row">
+        <div class="pull-left g-inp-md">CONTACT EMAIL ADDRESS*</div>
+    </div>
+    <div class="row g-m-t-3">
+        <div class="g-inp-md clearfix">
+            @Html.EditorFor(x => x.ContactEmail, new { htmlAttributes = new { placeholder = "Email Address", @class = "g-b-1-p" } })
+        </div>
+    </div>
+    <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+
+    <div class="row">
+        <div class="pull-left g-inp-md">CONTACT TELEPHONE NUMBER*</div>
+    </div>
+    <div class="row g-m-t-3">
+        <div class="g-inp-md clearfix">
+            @Html.EditorFor(x => x.ContactTelephoneNumber, new { htmlAttributes = new { placeholder = "Landline or Mobile Number", @class = "g-b-1-p" } })
+        </div>
+    </div>
+    <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+
+    <div class="row">
+        <div class="pull-left g-inp-md">ESTIMATED MONTHLY SPEND*</div>
+    </div>
+    <div class="row">
+        <div class="g-w-100 clearfix g-d-ib">
+            <div class="input-group monthly-spend">
+                <span class="input-group-addon" id="monthlyspend-addon">£</span>
+                @Html.EditorFor(x => x.MonthlySpend, new { htmlAttributes = new { aria_describedby = "monthlyspend-addon", @class = "g-w-70 g-p-l-10 g-b-1-p" } })
+            </div>
+        </div>
+        <div class="g-d-ib g-fc-tt g-fs-sm g-w-225 g-va-t g-p-t-5 g-p-l-10">
+            For businesses there is a £200 Minimum Monthly Spend.
+        </div>
+    </div>
+    if (renderAll)
+    {
+        @*@Html.Raw("</div>")*@
+    }
+}
+
+@if (Model.Section == AccountApplicationSection.OrganisationInformation || renderAll)
+{
+    @Html.HiddenFor(x => x.OrganisationType)
+    @Html.HiddenFor(x => x.Sector)
+    @Html.HiddenFor(x => x.StaffCount)
+    @Html.HiddenFor(x => x.StaffOrderCount)
+}
+
+@if (Model.Section == AccountApplicationSection.CompanyIdentifier || renderAll)
+{
+    <div class="row">
+        <hr class="g-m-t-20 g-m-b-20" />
+    </div>
+
+    <div class="row">
+        <h2>Company Identifier</h2>
+    </div>
+
+    <div class="row">
+        <div class="pull-left g-inp-md">COMPANY REGISTRATION NUMBER*</div>
+    </div>
+    <div class="row g-m-t-3">
+        <div class="g-inp-md clearfix">
+            @Html.EditorFor(x => x.CompanyRegistrationNumber, new { htmlAttributes = new { placeholder = "Registration Number", @class = "g-b-1-p" } })
+        </div>
+    </div>
+    <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+
+    <div class="row">
+        <div class="pull-left g-inp-md">COMPANY VAT NUMBER*</div>
+    </div>
+    <div class="row g-m-t-3">
+        <div class="g-inp-md clearfix">
+            @Html.EditorFor(x => x.CompanyVATNumber, new { htmlAttributes = new { placeholder = "VAT Number", @class = "g-b-1-p" } })
+        </div>
+    </div>
+}
+
+@if (Model.Section == AccountApplicationSection.BillingAddress || renderAll)
+{
+    <div class="co-acc-bill-address g-m-t-20 @(renderAll ? "" : "g-d-n")">
+        @{
+            bool hasBillingAddress = Model.BillingAddress != null;
+        }
+
+        @*@if (renderAll)
+            {
+                <div class="row">
+                    <hr class="g-m-t-20 g-m-b-20" />
+                </div>
+                <div class="row">
+                    <h2>Billing Address</h2>
+                </div>
+
+                @Html.EditorFor(m => m.BillingAddress)
+            }*@
+
+        @if (renderAll)
+        {
+            <div class="row">
+                <hr class="g-m-t-20 g-m-b-20" />
+            </div>
+
+            <div class="row">
+                <h2>Billing Address</h2>
+            </div>
+
+            <div id="co-bill-search" class="g-m-t-20">
+                <div id="co-billadd-search" class="">
+                    <div class="row g-m-t-5 ">
+                        <div>FIND ADDRESS</div>
+                    </div>
+                    <div class="row g-m-t-3">
+                        <div class="g-inp-lg-md clearfix">
+                            @Html.TextBox("billing-address-search", "", new { placeholder = "Start typing an address, company or postcode", @type = "search", @class = "g-b-1-p" })
+                        </div>
+                    </div>
+                    <div id="bill-manual-address" class="row g-m-t-5 g-cur-p g-u">Enter Address Manually</div>
+                </div>
+            </div>
+        }
+
+        <div id="co-acc-billadd-fields" class="@(hasBillingAddress ? "" : "g-d-n")">
+            <div class="row g-m-t-20">
+                <div class="pull-left g-inp-md">COMPANY NAME</div>
+            </div>
+            <div class="row g-m-t-3">
+                <div class="g-inp-md clearfix">
+                    @Html.EditorFor(x => x.BillingAddress.Line1, new { htmlAttributes = new { placeholder = "Company Name", @class = "g-b-1-p" } })
+                </div>
+            </div>
+            <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+            <div class="row">
+                <div class="pull-left g-inp-md">ADDRESS LINE 1*</div>
+            </div>
+            <div class="row g-m-t-3">
+                <div class="g-inp-md clearfix">
+                    @Html.EditorFor(x => x.BillingAddress.Line2, new { htmlAttributes = new { placeholder = "Address Line 1", @class = "g-b-1-p" } })
+                </div>
+            </div>
+            <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+            <div class="row">
+                <div class="pull-left g-inp-md">ADDRESS LINE 2</div>
+            </div>
+            <div class="row g-m-t-3">
+                <div class="g-inp-md clearfix">
+                    @Html.EditorFor(x => x.BillingAddress.Line3, new { htmlAttributes = new { placeholder = "Address Line 2", @class = "g-b-1-p" } })
+                </div>
+            </div>
+            <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+            <div class="row">
+                <div class="pull-left g-inp-md">TOWN OR CITY*</div>
+            </div>
+            <div class="row g-m-t-3">
+                <div class="g-inp-md clearfix">
+                    @Html.EditorFor(x => x.BillingAddress.Line4, new { htmlAttributes = new { placeholder = "Town or City", @class = "g-b-1-p" } })
+                </div>
+            </div>
+            <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+            <div class="row">
+                <div class="pull-left g-inp-md">COUNTY</div>
+            </div>
+            <div class="row g-m-t-3">
+                <div class="g-inp-md clearfix">
+                    @Html.EditorFor(x => x.BillingAddress.Line5, new { htmlAttributes = new { placeholder = "County", @class = "g-b-1-p" } })
+                </div>
+            </div>
+            <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+            <div class="row">
+                <div class="pull-left g-inp-md">POSTCODE*</div>
+            </div>
+            <div class="row g-m-t-3">
+                <div class="g-inp-md clearfix">
+                    @Html.EditorFor(x => x.BillingAddress.PostCode, new { htmlAttributes = new { placeholder = "Postcode", @class = "g-b-1-p" } })
+                </div>
+            </div>
+            <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+        </div>
+        <div id="co-credit-billing">
+            <div class="row g-m-t-20">
+                <div class="pull-left g-inp-md">BILLING FULL NAME*</div>
+            </div>
+            <div class="row g-m-t-3">
+                <div class="g-inp-md clearfix g-d-ib">
+                    @Html.EditorFor(x => x.BillingFullName, new { htmlAttributes = new { placeholder = "First and Last Name", @class = "g-b-1-p" } })
+                </div>
+                <div class="g-d-ib g-fc-tt g-fs-sm g-w-225 g-va-m g-p-l-10">
+                    This is the full name of the person that we will invoice.
+                </div>
+            </div>
+            <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+            <div class="row">
+                <div class="pull-left g-inp-md">BILLING EMAIL ADDRESS*</div>
+            </div>
+            <div class="row g-m-t-3">
+                <div class="g-inp-md clearfix g-d-ib">
+                    @Html.EditorFor(x => x.BillingEmail, new { htmlAttributes = new { placeholder = "Email Address", @class = "g-b-1-p" } })
+                </div>
+                <div class="g-d-ib g-fc-tt g-fs-sm g-w-225 g-va-m g-p-l-10">
+                    The email address we will send correspondence in regard to billing.
+                </div>
+            </div>
+            <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+            <div class="row">
+                <div class="pull-left g-inp-md">BILLING TELEPHONE NUMBER*</div>
+            </div>
+            <div class="row g-m-t-3">
+                <div class="g-inp-md clearfix g-d-ib">
+                    @Html.EditorFor(x => x.BillingTelephoneNumber, new { htmlAttributes = new { placeholder = "Landline or Mobile Number", @class = "g-b-1-p" } })
+                </div>
+                <div class="g-d-ib g-fc-tt g-fs-sm g-w-225 g-va-m g-p-l-10">
+                    The telephone number we will call to discuss billing enquiries.
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@if (Model.Section == AccountApplicationSection.Payment || renderAll)
+{
+    <div class="row">
+        <hr class="g-m-t-20 g-m-b-20" />
+    </div>
+
+    <div class="row">
+        <h2>Payment</h2>
+    </div>
+    <div class="row">
+        @Html.RawFromDict(Model.Data, "CreditAccountPayment")
+    </div>
+}
+
+@if (Model.Section == AccountApplicationSection.CreditTerms || renderAll)
+{
+    <div class="row">
+        <hr class="g-m-t-20 g-m-b-20" />
+    </div>
+
+    <div class="row">
+        @Html.RawFromDict(Model.Data, "CreditAccountTerms")
+    </div>
+
+    <div class="container-fluid">
+        <div class="row g-flex-vcenter">
+            <div class="checkbox checkbox-success checkbox-validate">
+                @Html.CheckBoxFor(x => x.AcceptCreditTerms)
+                <label for="AcceptCreditTerms">I have read &amp; accept the credit terms</label>
+            </div>
+        </div>
+        <div class="row g-flex-vcenter">
+            <div class="checkbox checkbox-success checkbox-validate">
+                @Html.CheckBoxFor(x => x.AcceptStandardTerms)
+                <label for="AcceptStandardTerms">I have read &amp; accept the <a href="https://www.tonergiant.co.uk/blog/help/policies/" target="_blank">standard terms and conditions</a></label>
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+}

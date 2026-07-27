@@ -1,0 +1,524 @@
+﻿@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+@using System.Configuration;
+@using System.Text
+@using BusinessLogic
+
+@model CheckoutViewModel
+
+@{
+    int websiteId = int.Parse(ConfigurationManager.AppSettings["WebsiteId"].ToString());
+    //string trackmethod = "";
+    string gaEcommId = "";
+    string googleReviewsId = "";
+    string adwordsId1 = "";
+    string adwordsId2 = "";
+    string adwordsId3 = "";
+    string adwordsId4 = "";
+    string adwordsLabel1 = "";
+    string adwordsLabel2 = "";
+    string adwordsLabel3 = "";
+    string adwordsLabel4 = "";
+    string kenshooId1 = "";
+    string kenshooId2 = "";
+    string kenshooId3 = "";
+    string kenshooId4 = "";
+    string bingId = "";
+    string facebookId = "";
+    string affiliateWindowId = "";
+    string twitterId = "";
+    string linkedInId = "";
+    string linkedInConvId = "";
+
+    switch (websiteId)
+    {
+        case 1:
+            {
+                gaEcommId = "UA-1727271-1";
+                googleReviewsId = "9099197";
+                adwordsId1 = "1062996651";      // Tonergiant
+                adwordsId2 = "1004936566";      // Tonergiant - Shopping
+                adwordsId3 = "929223363";       // Tonergiant IBC
+                adwordsLabel1 = "iGPXCPXI6AEQq5Xw-gM";
+                adwordsLabel2 = "j6kMCOqHmAMQ9rqY3wM";
+                adwordsLabel3 = "shGxCJeN22QQw6WLuwM";
+                kenshooId1 = "7667d005-3c55-4261-b83f-c041c23e845b";
+                kenshooId2 = "cf2a741e-df38-4338-b145-c00a1fe32199";
+                bingId = "4017809";
+                facebookId = "1512021432429512";
+                affiliateWindowId = "5500";
+                twitterId = "ntucn";
+                linkedInId = "548697";
+                linkedInConvId = "641058";
+                break;
+            }
+        case 2:
+            {
+                gaEcommId = "UA-788128-1";
+                googleReviewsId = "9103257";
+                adwordsId1 = "1054433765";      // CartridgeMonkey
+                adwordsId2 = "1007814028";      // CartridgeMonkey - Shopping
+                adwordsLabel1 = "Xq7aCNfcZxDlw-X2Aw";
+                adwordsLabel2 = "aG1HCKTL0wIQjIvI4AM";
+                kenshooId1 = "e014d516-1d91-4e97-ac57-7c7de5b5c34f";
+                kenshooId2 = "848a8f9e-282c-440d-a7fe-785c83b44ef6";
+                kenshooId3 = "30d63788-e18f-4793-af0f-aed24b4e7fd8";
+                affiliateWindowId = "808";
+                break;
+            }
+        case 3:
+            {
+                gaEcommId = "UA-49671214-1";
+                googleReviewsId = "";
+                adwordsId1 = "1003559772";      // Netgiant - Branded
+                adwordsId2 = "1011141398";      // Netgiant - Unbranded
+                adwordsId3 = "963271532";       // Netgiant - Shopping
+                adwordsId4 = "1004178977";      // Netgiant - IBC
+                adwordsLabel1 = "vMdECIT09gIQ3LbE3gM";
+                adwordsLabel2 = "W3enCPSki2sQlpaT4gM";
+                adwordsLabel3 = "A8riCMbtg1cQ7LapywM";
+                adwordsLabel4 = "P4xgCM_k1QIQoZzq3gM";
+                kenshooId1 = "b6cf34b1-8ef0-4fc0-afb0-2eb8821587ac";
+                kenshooId2 = "a811eb45-0caf-4572-915f-872d16a579ac";
+                kenshooId3 = "6a7f1a33-7280-4f88-83ef-6f6a8efd973f";
+                kenshooId4 = "b8e96e89-3e24-4d49-9d6c-01e34e52e479";
+                facebookId = "988029194576258";
+                affiliateWindowId = "6704";
+                break;
+            }
+    }
+
+    // Checkout/Stage3
+    if (Html.Controller() == "checkout" && Html.Action() == "stage3")
+    {
+        // Google Analytics
+        if (gaEcommId != "")
+        {
+            @:<!-- Google Analytics -->
+            @:<script type="text/javascript">
+            <text>
+                    var _gaq = _gaq || [];
+                    _gaq.push(['_setAccount', '@gaEcommId']);
+                    _gaq.push(['_trackPageview']);
+                    _gaq.push([
+                        '_addTrans',
+                        '@Model.CheckoutDetails.BackOfficeOrderRef',                    // transaction ID - required
+                        '@Html.RawFromDict(Model.CommonData, "SiteName").ToString()',   // Store Name – Example Toner Giant
+                        '@Model.BasketTotals.GrandTotalExcVat.ToString("F2")',          // Ex Vat total - required
+                        '@Model.BasketTotals.Vat.ToString("F2")',                       // tax
+                        '@Model.BasketTotals.Delivery.ToString("F2")',                  // shipping cost
+                        '',                                                             // city
+                        '',                                                             // state or province
+                        ''                                                              // country
+                    ]);
+            </text>
+
+            foreach (BasketContents bc in Model.BasketContents)
+            {
+                <text>
+                    _gaq.push([
+                        '_addItem',
+                        '@Model.CheckoutDetails.BackOfficeOrderRef', // transaction ID - required
+                        '@bc.PartNo',                               // SKU/code - required
+                        '@bc.Description',                          // product name
+                        '@bc.GroupName',                            // EBusiness group – Example HP Toner
+                        '@bc.PriceEx.ToString("F2")',               // unit price ex Vat - required
+                        '@bc.Quantity.ToString()'                   // quantity - required
+                    ]);
+                </text>
+            }
+
+            <text>
+
+                    _gaq.push(['_trackTrans']);         //submits transaction to the Analytics servers
+            </text>
+            @:</script>
+        }
+
+        @:<!-- Google Reviews + Affiliate Window -->
+        if (!Convert.ToBoolean(HttpContext.Current.Session["U_IsPortalUser"]))
+        {
+            string awinitems = "";
+            string pipe = "";
+            string testmode = ConfigurationManager.AppSettings["Environment"] == "Live" ? "0" : "1";
+            foreach (BasketContents bc in Model.BasketContents)
+            {
+                if (!bc.IsDelivery && !bc.IsVoucher)
+                {
+                    awinitems += pipe + bc.AffiliateCommissionGroup + ":" + ((bc.PriceEx * bc.Quantity) - bc.VoucherAmount).ToString("F2");
+                    pipe = "|";
+                }
+            }
+            string awinsaleamount = websiteId == 2 ? Model.BasketTotals.GrandTotalIncVat.ToString("F2") : Model.BasketTotals.GrandTotalExcVat.ToString("F2");
+
+            @:<img height="0" width="0" style="display:none;" alt="" src="https://www.awin1.com/sread.img?tt=ns&tv=2&merchant=@(affiliateWindowId)&amount=@(awinsaleamount)&ref=@(Model.CheckoutDetails.BackOfficeOrderRef)&parts=@(awinitems)&vc=@(Model.CheckoutDetails.VoucherCode)&testmode=@(testmode)&cr=GBP" />
+
+
+            @:<script src="https://apis.google.com/js/platform.js?onload=renderOptIn" async defer></script>
+            @:<script type="text/javascript">
+            if (googleReviewsId != "")
+            {
+                //<!-- Google Reviews -->
+                <text>
+                    window.renderOptIn = function () {
+                        window.gapi.load('surveyoptin',
+                            function() {
+                                window.gapi.surveyoptin.render({
+                                    "merchant_id": @googleReviewsId,
+                                    "order_id": "@(string.IsNullOrEmpty(Model.CheckoutDetails.Reference) ? Model.CheckoutDetails.BackOfficeOrderRef : Model.CheckoutDetails.Reference)",
+                                    "email": "@Model.CheckoutDetails.Email",
+                                    "delivery_country": "GB",
+                                    "estimated_delivery_date":
+                                        "@(Convert.ToDateTime(Session["D_StandardDeliveryDate"]).ToString("yyyy-MM-dd"))"
+                               });
+                        });
+                    }
+                </text>
+            }
+            <text>
+                var AWIN = {};
+                AWIN.Tracking = {};
+                AWIN.Tracking.Sale = {};
+                AWIN.Tracking.Sale.amount = "@awinsaleamount";  /*** TG & NG Ex VAT Amount , CM Inc VAT ***/
+                AWIN.Tracking.Sale.currency = "GBP";
+                AWIN.Tracking.Sale.orderRef = "@Model.CheckoutDetails.BackOfficeOrderRef";
+                AWIN.Tracking.Sale.parts = "@awinitems";                                            /*** Ebusiness Group Code|Item Price (All Sites Should be ex Vat) ***/
+                AWIN.Tracking.Sale.voucher = "@Model.CheckoutDetails.VoucherCode";
+                AWIN.Tracking.Sale.test = "@testmode";
+            </text>
+            @:</script>
+        }
+
+        // Kenshoo
+        if (!Convert.ToBoolean(HttpContext.Current.Session["U_IsPortalUser"]))
+        {
+            int orderCount = Model.BasketContents.FindAll(x => !x.IsDelivery && !x.IsVoucher).Count;
+            int compatCount = Model.BasketContents.FindAll(x => !x.IsDelivery && !x.IsVoucher && x.IsCompatible).Count;
+            decimal compatRevenue = Model.BasketContents.FindAll(x => !x.IsDelivery && !x.IsVoucher && x.IsCompatible).Sum(x => ((Math.Round(x.PriceInc, 2) * x.Quantity) / Convert.ToDecimal(ConfigurationManager.AppSettings["VatMultiplier"])));
+            string newUser = Model.CheckoutDetails.IsNewCustomer ? "New" : "Returning";
+            if (kenshooId1 != "")
+            {
+                @:<!-- Kenshoo Main -->
+                <text>
+                    <script type="text/javascript" src="https://services.xg4ken.com/js/kenshoo.js?cid=@kenshooId1"></script>
+                    <script type="text/javascript">
+                        kenshoo.trackConversion('21',
+                            '@kenshooId1',
+                            {
+                                conversionType: 'conv',
+                                revenue:
+                                    @Model.BasketTotals.GrandTotalExcVat.ToString("F2"), //numeric conversion value. example convValue: 12.34
+                                currency: 'GBP',
+                                orderId: '@Model.CheckoutDetails.BackOfficeOrderRef', //example orderId: 'TA456'
+                                promoCode: '@Model.CheckoutDetails.VoucherCode',
+                                New_Returning_Customer: '@newUser', //New or retunring customer, Example 'New'
+                                //Customer_Order_Count:'{Current Order Count}', //Tracks the customer order count, Example '5'
+                                QTY_Items_Bought: '@orderCount',
+                                QTY_Compatible_Items_Bought: '@compatCount',
+                                Compatible_Revenue: '@compatRevenue.ToString("F2")'
+                            })
+                    </script>
+
+                    <noscript>
+                        <img src="https://21.xg4ken.com/pixel/v1?track=1&token=@(kenshooId1)&conversionType=conv&revenue=@(Model.BasketTotals.TotalExcVat.ToString("F2"))&currency=GBP&orderId=@(Model.CheckoutDetails.BackOfficeOrderRef)&promoCode=@(Model.CheckoutDetails.VoucherCode)&New_Returning_Customer=@(newUser)&QTY_Items_Bought=@(orderCount)&QTY_Compatible_Items_Bought=@(compatCount)" width="1" height="1" />
+                    </noscript>
+                </text>
+            }
+            if (kenshooId2 != "")
+            {
+                @:<!-- Kenshoo Shopping -->
+                <text>
+                    <script type="text/javascript" src="https://services.xg4ken.com/js/kenshoo.js?cid=@kenshooId2"></script>
+                    <script type="text/javascript">
+                        kenshoo.trackConversion('21',
+                            '@kenshooId2',
+                            {
+                                conversionType: 'conv',
+                                revenue:
+                                    @Model.BasketTotals.GrandTotalExcVat.ToString("F2"), //numeric conversion value. example convValue: 12.34
+                                currency: 'GBP',
+                                orderId: '@Model.CheckoutDetails.BackOfficeOrderRef', //example orderId: 'TA456'
+                                promoCode: '@Model.CheckoutDetails.VoucherCode',
+                                New_Returning_Customer: '@newUser', //New or retunring customer, Example 'New'
+                                //Customer_Order_Count:'{Current Order Count}', //Tracks the customer order count, Example '5'
+                                QTY_Items_Bought: '@orderCount',
+                                QTY_Compatible_Items_Bought: '@compatCount',
+                                Compatible_Revenue: '@compatRevenue.ToString("F2")'
+                            })
+                    </script>
+
+                    <noscript>
+                        <img src="https://21.xg4ken.com/pixel/v1?track=1&token=@(kenshooId2)&conversionType=conv&revenue=@(Model.BasketTotals.TotalExcVat.ToString("F2"))&currency=GBP&orderId=@(Model.CheckoutDetails.BackOfficeOrderRef)&promoCode=@(Model.CheckoutDetails.VoucherCode)&New_Returning_Customer=@(newUser)&QTY_Items_Bought=@(orderCount)&QTY_Compatible_Items_Bought=@(compatCount)" width="1" height="1" />
+                    </noscript>
+                </text>
+            }
+            if (kenshooId3 != "")
+            {
+                @:<!-- Kenshoo IBC -->
+                <text>
+                    <script type="text/javascript" src="https://services.xg4ken.com/js/kenshoo.js?cid=@kenshooId3"></script>
+                    <script type="text/javascript">
+                        kenshoo.trackConversion('21',
+                            '@kenshooId3',
+                            {
+                                conversionType: 'conv',
+                                revenue:
+                                    @Model.BasketTotals.GrandTotalExcVat.ToString("F2"), //numeric conversion value. example convValue: 12.34
+                                currency: 'GBP',
+                                orderId: '@Model.CheckoutDetails.BackOfficeOrderRef', //example orderId: 'TA456'
+                                promoCode: '@Model.CheckoutDetails.VoucherCode',
+                                customParam1: '', /*any custom parameter. example: Airport: 'JFK'*/
+                                customParam2: '', /*any custom parameter. example: Rooms: '3'*/
+                                customParamN: ''
+                            })
+                    </script>
+
+                    <noscript>
+                        <img src="https://21.xg4ken.com/pixel/v1?track=1&token=@(kenshooId3)&conversionType=conv&revenue=@(Model.BasketTotals.TotalExcVat.ToString("F2"))&currency=GBP&orderId=@(Model.CheckoutDetails.BackOfficeOrderRef)&promoCode=@(Model.CheckoutDetails.VoucherCode)&New_Returning_Customer=@(newUser)&QTY_Items_Bought=@(orderCount)&QTY_Compatible_Items_Bought=@(compatCount)" width="1" height="1" />
+                    </noscript>
+                </text>
+            }
+            if (kenshooId4 != "")
+            {
+                @:<!-- Kenshoo IBC -->
+                <text>
+                    <script type="text/javascript" src="https://services.xg4ken.com/js/kenshoo.js?cid=@kenshooId4"></script>
+                    <script type="text/javascript">
+                        kenshoo.trackConversion('21',
+                            '@kenshooId4',
+                            {
+                                conversionType: 'conv',
+                                revenue:
+                                    @Model.BasketTotals.GrandTotalExcVat.ToString("F2"), //numeric conversion value. example convValue: 12.34
+                                currency: 'GBP',
+                                orderId: '@Model.CheckoutDetails.BackOfficeOrderRef', //example orderId: 'TA456'
+                                promoCode: '@Model.CheckoutDetails.VoucherCode',
+                                customParam1: '', /*any custom parameter. example: Airport: 'JFK'*/
+                                customParam2: '', /*any custom parameter. example: Rooms: '3'*/
+                                customParamN: ''
+                            })
+                    </script>
+
+                    <noscript>
+                        <img src="https://21.xg4ken.com/pixel/v1?track=1&token=@(kenshooId4)&conversionType=conv&revenue=@(Model.BasketTotals.TotalExcVat.ToString("F2"))&currency=GBP&orderId=@(Model.CheckoutDetails.BackOfficeOrderRef)&promoCode=@(Model.CheckoutDetails.VoucherCode)&New_Returning_Customer=@(newUser)&QTY_Items_Bought=@(orderCount)&QTY_Compatible_Items_Bought=@(compatCount)" width="1" height="1" />
+                    </noscript>
+                </text>
+            }
+        }
+
+        // Bing
+        if (!Convert.ToBoolean(HttpContext.Current.Session["U_IsPortalUser"]))
+        {
+            if (bingId != "")
+            {
+                @:<!-- Bing -->
+                <text>
+                    <script type="text/javascript">
+                        (function(w, d, t, r, u) {
+                            var f, n, i;
+                            w[u] = w[u] || [], f = function() {
+                                var o = { ti: "@(bingId)" };
+                                o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad")
+                            }, n = d.createElement(t), n.src = r, n.async = 1, n.onload = n.onreadystatechange =
+                                function() {
+                                    var s = this.readyState;
+                                    s && s !== "loaded" && s !== "complete" ||
+                                        (f(), n.onload = n.onreadystatechange = null)
+                                }, i = d.getElementsByTagName(t)[0], i.parentNode.insertBefore(n, i)
+                        })(window, document, "script", "//bat.bing.com/bat.js", "uetq");
+
+                        var uetq = uetq || [];
+                        uetq.push({
+                            'gv': @Model.BasketTotals.GrandTotalIncVat.ToString("F2")
+                        }); // Compute and pass the computed goal value
+
+                    </script>
+
+                    <noscript>
+                        <img src="//bat.bing.com/action/0?ti=@(bingId)&Ver=2&gv= @(Model.BasketTotals.GrandTotalIncVat.ToString("F2"))" height="0" width="0" style="display: none; visibility: hidden;" />
+                    </noscript>
+                </text>
+            }
+        }
+
+        // Social Media
+        if (!Convert.ToBoolean(HttpContext.Current.Session["U_IsPortalUser"]))
+        {
+            if (facebookId != "")
+            {
+                @:<!-- Facebook -->
+                StringBuilder sb = new StringBuilder();
+                foreach (BasketContents bc in Model.BasketContents)
+                {
+                    if (bc.IsDelivery == false)
+                    {
+                        if (sb.Length > 0)
+                        {
+                            sb.Append(" , ");
+                        }
+                        sb.Append(bc.PartNo);
+                    }
+                }
+                <text>
+                    <script type="text/javascript">
+                        !function(f, b, e, v, n, t, s) {
+                            if (f.fbq) return;
+                            n = f.fbq = function() {
+                                n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                            };
+                            if (!f._fbq) f._fbq = n;
+                            n.push = n;
+                            n.loaded = !0;
+                            n.version = '2.0';
+                            n.queue = [];
+                            t = b.createElement(e);
+                            t.async = !0;
+                            t.src = v;
+                            s = b.getElementsByTagName(e)[0];
+                            s.parentNode.insertBefore(t, s)
+                        }(window,
+                            document,
+                            'script',
+                            '//connect.facebook.net/en_US/fbevents.js');
+
+                        fbq('init', '@facebookId');
+                        fbq('track', "PageView");
+
+                        fbq('track',
+                            'Purchase',
+                            {
+                                content_ids: ['@sb.ToString()'],
+                                content_type: 'product',
+                                value: @Model.BasketTotals.GrandTotalExcVat.ToString("F2"),
+                                currency: 'GBP'
+                            });
+
+                    </script>
+                    <noscript>
+                        <img height="1" width="1" style="display: none"
+                             src="https://www.facebook.com/tr?id=@facebookId&ev=PageView&noscript=1" />
+                    </noscript>
+                </text>
+            }
+
+            @:<!-- Twitter -->
+            if (twitterId != "")
+            {
+                <text>
+                    <script src="//platform.twitter.com/oct.js" type="text/javascript"></script>
+                    <script type="text/javascript">
+                        //twttr.conversion.trackPid('@twitterId', { tw_sale_amount: @Model.BasketTotals.GrandTotalExcVat.ToString("F2"), tw_order_quantity: @Model.BasketTotals.Quantity });
+
+                        !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments); 
+                            },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js', 
+                            a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script'); 
+                        // Insert Twitter Pixel ID and Standard Event data below 
+                        twq('init','@twitterId'); 
+                        twq('track','Purchase', { 
+                            value: '@Model.BasketTotals.GrandTotalExcVat.ToString("F2")', 
+                            currency: 'GBP', 
+                            num_items: '@Model.BasketTotals.Quantity', 
+                            order_id: '@Model.CheckoutDetails.BackOfficeOrderRef' 
+                        });
+                    </script>
+                    <!--<noscript>
+                        <img height="1" width="1" style="display:none;" alt="" src="https://analytics.twitter.com/i/adsct?txn_id=@twitterId&p_id=Twitter&tw_sale_amount=@Model.BasketTotals.GrandTotalExcVat.ToString("F2")&tw_order_quantity=@Model.BasketTotals.Quantity" />
+                        <img height="1" width="1" style="display:none;" alt="" src="//t.co/i/adsct?txn_id=@twitterId&p_id=Twitter&tw_sale_amount=@Model.BasketTotals.GrandTotalExcVat.ToString("F2")&tw_order_quantity=@Model.BasketTotals.Quantity" />
+                    </noscript>-->
+
+                </text>
+            }
+
+            @:<!-- LinkedIn -->
+            if (linkedInId != "")
+            {
+                <text>
+                    <img height="1" width="1" style="display:none;" alt="" src="https://dc.ads.linkedin.com/collect/?pid=@(linkedInId)&conversionId=@(linkedInConvId)&fmt=gif" />
+                </text>
+            }
+        }
+
+
+        // Google Adwords
+        if (!Convert.ToBoolean(HttpContext.Current.Session["U_IsPortalUser"]))
+        {
+            if (adwordsId1 != "")
+            {
+                @:<!-- Google Adwords 1 -->
+                @WriteGoogleTag(adwordsId1, adwordsLabel1, Model.BasketTotals.GrandTotalExcVat)
+            }
+            if (adwordsId2 != "")
+            {
+                @:<!-- Google Adwords 2 -->
+                @WriteGoogleTag(adwordsId2, adwordsLabel2, Model.BasketTotals.GrandTotalExcVat)
+            }
+            if (adwordsId3 != "")
+            {
+                @:<!-- Google Adwords 3 -->
+                @WriteGoogleTag(adwordsId3, adwordsLabel3, Model.BasketTotals.GrandTotalExcVat)
+            }
+            if (adwordsId4 != "")
+            {
+                @:<!-- Google Adwords 4 -->
+                @WriteGoogleTag(adwordsId4, adwordsLabel4, Model.BasketTotals.GrandTotalExcVat)
+            }
+        }
+
+        // SLI Spark Tracking
+        if (ConfigurationManager.AppSettings["SearchApplication"] == "SLI")
+        {
+            @:<!-- SLI Spark Tracking -->
+            @:<script type="text/javascript">
+            <text>
+                (function(i,s,o,g,r,a,m){i[r]=i[r]||function(){
+                (i[r].a=i[r].a||[]).push(arguments)};i[r].t=1;a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window, document, 'script', '//@(Html.RawFromDict(Model.CommonData, "DomainName"))data/static-files/cpy_slispark.js', 'sliSpark');
+            </text>
+            foreach (BasketContents bc in Model.BasketContents)
+            {
+                if (!bc.IsDelivery && !bc.IsVoucher)
+                {
+                    <text>
+                        sliSpark("sli:addProduct", {
+                        id: "@bc.ProductId",
+                        price: "'@bc.PriceInc.ToString("F2")",
+                        quantity: "@bc.Quantity.ToString()",
+                        currency: "GBP"
+                        });
+                    </text>
+                }
+            }
+            <text>
+                sliSpark("sli:setAction", "purchase", {
+                id: "@Model.CheckoutDetails.BackOfficeOrderRef",
+                revenue: "@Model.BasketTotals.GrandTotalIncVat.ToString("F2")",
+                tax: "@Model.BasketTotals.Vat.ToString("F2")",
+                shipping: "@Model.BasketTotals.Delivery.ToString("F2")",
+                currency: "GBP"
+                });
+                sliSpark('send', 'pageview');
+            </text>
+            @:</script>
+        }
+    }
+}
+
+@helper WriteGoogleTag(
+    string Id,
+    string Label,
+    decimal Price)
+{
+    <text>
+    <!-- Adwords event snippet for Order Complete @Id -->
+        <script>
+            gtag('event',
+                'conversion',
+                {
+                    'send_to': 'AW-@Id/@Label',
+                    'value': @Price.ToString("F2"),
+                    'currency': 'GBP'
+                });
+        </script>
+    </text>
+}

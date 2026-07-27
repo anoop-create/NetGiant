@@ -1,0 +1,2783 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="NgmdEntitiesStoreContainer" CdmEntityContainer="Ngmd">
+    <EntitySetMapping Name="cmsSections">
+      <EntityTypeMapping TypeName="NgmdEntities.cmsSection">
+        <MappingFragment StoreEntitySet="cmsSection">
+          <ScalarProperty Name="cmsSectionID" ColumnName="cmsSectionID" />
+          <ScalarProperty Name="websiteFK" ColumnName="websiteFK" />
+          <ScalarProperty Name="sectionName" ColumnName="sectionName" />
+          <ScalarProperty Name="headerContent" ColumnName="headerContent" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="eqEquipments">
+      <EntityTypeMapping TypeName="NgmdEntities.eqEquipment">
+        <MappingFragment StoreEntitySet="eqEquipment">
+          <ScalarProperty Name="homeFeatured" ColumnName="homeFeatured" />
+          <ScalarProperty Name="metaDescription" ColumnName="metaDescription" />
+          <ScalarProperty Name="metaTitle" ColumnName="metaTitle" />
+          <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+          <ScalarProperty Name="imageIsNotRequired" ColumnName="imageIsNotRequired" />
+          <ScalarProperty Name="globallyFeatured" ColumnName="globallyFeatured" />
+          <ScalarProperty Name="brandFeatured" ColumnName="brandFeatured" />
+          <ScalarProperty Name="metaContentTypeFK" ColumnName="metaContentTypeFK" />
+          <ScalarProperty Name="dateInactive" ColumnName="dateInactive" />
+          <ScalarProperty Name="statusFK" ColumnName="statusFK" />
+          <ScalarProperty Name="metaKeywords" ColumnName="metaKeywords" />
+          <ScalarProperty Name="productFK" ColumnName="productFK" />
+          <ScalarProperty Name="thumbnailURL" ColumnName="thumbnailURL" />
+          <ScalarProperty Name="mainURL" ColumnName="mainURL" />
+          <ScalarProperty Name="eqCartridgeTypeFK" ColumnName="eqCartridgeTypeFK" />
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="productTypeFK" ColumnName="productTypeFK" />
+          <ScalarProperty Name="manufacturerFK" ColumnName="manufacturerFK" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="eqEquipmentID" ColumnName="eqEquipmentID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="eqFamilies">
+      <EntityTypeMapping TypeName="NgmdEntities.eqFamily">
+        <MappingFragment StoreEntitySet="eqFamily">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="manufacturerFK" ColumnName="manufacturerFK" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="eqFamilyID" ColumnName="eqFamilyID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="eqFamilyMemberships">
+      <EntityTypeMapping TypeName="NgmdEntities.eqFamilyMembership">
+        <MappingFragment StoreEntitySet="eqFamilyMembership">
+          <ScalarProperty Name="eqEquipmentID" ColumnName="eqEquipmentID" />
+          <ScalarProperty Name="eqFamilyID" ColumnName="eqFamilyID" />
+          <ScalarProperty Name="eqFamilyMembershipID" ColumnName="eqFamilyMembershipID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="eqProductMemberships">
+      <EntityTypeMapping TypeName="NgmdEntities.eqProductMembership">
+        <MappingFragment StoreEntitySet="eqProductMembership">
+          <ScalarProperty Name="eqEquipmentFK" ColumnName="eqEquipmentFK" />
+          <ScalarProperty Name="productFK" ColumnName="productFK" />
+          <ScalarProperty Name="eqProductMembershipID" ColumnName="eqProductMembershipID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="equipmentNotes">
+      <EntityTypeMapping TypeName="NgmdEntities.equipmentNote">
+        <MappingFragment StoreEntitySet="equipmentNotes">
+          <ScalarProperty Name="isDetail" ColumnName="isDetail" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="eqEquipmentFK" ColumnName="eqEquipmentFK" />
+          <ScalarProperty Name="websiteFK" ColumnName="websiteFK" />
+          <ScalarProperty Name="equipmentNotesID" ColumnName="equipmentNotesID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="manufacturers">
+      <EntityTypeMapping TypeName="NgmdEntities.manufacturer">
+        <MappingFragment StoreEntitySet="manufacturer">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="axisManufacturerNo" ColumnName="axisManufacturerNo" />
+          <ScalarProperty Name="equipmentManuName" ColumnName="equipmentManuName" />
+          <ScalarProperty Name="manufacturerName" ColumnName="manufacturerName" />
+          <ScalarProperty Name="manufacturerID" ColumnName="manufacturerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="qa_Granularity">
+      <EntityTypeMapping TypeName="NgmdEntities.qa_Granularity">
+        <MappingFragment StoreEntitySet="qa_Granularity">
+          <ScalarProperty Name="SearchTitle" ColumnName="SearchTitle" />
+          <ScalarProperty Name="Granularity" ColumnName="Granularity" />
+          <ScalarProperty Name="GranularityID" ColumnName="GranularityID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="qa_Main">
+      <EntityTypeMapping TypeName="NgmdEntities.qa_Main">
+        <MappingFragment StoreEntitySet="qa_Main">
+          <ScalarProperty Name="eqEquipmentFK" ColumnName="eqEquipmentFK" />
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="AltRef" ColumnName="AltRef" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="SourceWebsiteID" ColumnName="SourceWebsiteID" />
+          <ScalarProperty Name="UserFK" ColumnName="UserFK" />
+          <ScalarProperty Name="GranularityFK" ColumnName="GranularityFK" />
+          <ScalarProperty Name="ShowOnAllSites" ColumnName="ShowOnAllSites" />
+          <ScalarProperty Name="RepliedDate" ColumnName="RepliedDate" />
+          <ScalarProperty Name="AskedDate" ColumnName="AskedDate" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="QuestionAnswerID" ColumnName="QuestionAnswerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="qa_WebsiteMapping">
+      <EntityTypeMapping TypeName="NgmdEntities.qa_WebsiteMapping">
+        <MappingFragment StoreEntitySet="qa_WebsiteMapping">
+          <ScalarProperty Name="QuestionAnswerFK" ColumnName="QuestionAnswerFK" />
+          <ScalarProperty Name="WebsiteFK" ColumnName="WebsiteFK" />
+          <ScalarProperty Name="WebsiteMappingID" ColumnName="WebsiteMappingID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AxisFields">
+      <EntityTypeMapping TypeName="NgmdEntities.AxisField">
+        <MappingFragment StoreEntitySet="AxisFields">
+          <ScalarProperty Name="salesYearToDate" ColumnName="salesYearToDate" />
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="additionalInfoUrl" ColumnName="additionalInfoUrl" />
+          <ScalarProperty Name="supressOpenRangeSpec" ColumnName="supressOpenRangeSpec" />
+          <ScalarProperty Name="supressOpenRangeImage" ColumnName="supressOpenRangeImage" />
+          <ScalarProperty Name="bestSeller" ColumnName="bestSeller" />
+          <ScalarProperty Name="featured" ColumnName="featured" />
+          <ScalarProperty Name="published" ColumnName="published" />
+          <ScalarProperty Name="attr10" ColumnName="attr10" />
+          <ScalarProperty Name="attr9" ColumnName="attr9" />
+          <ScalarProperty Name="attr8" ColumnName="attr8" />
+          <ScalarProperty Name="attr7" ColumnName="attr7" />
+          <ScalarProperty Name="attr6" ColumnName="attr6" />
+          <ScalarProperty Name="attr5" ColumnName="attr5" />
+          <ScalarProperty Name="attr4" ColumnName="attr4" />
+          <ScalarProperty Name="attr3" ColumnName="attr3" />
+          <ScalarProperty Name="attr2" ColumnName="attr2" />
+          <ScalarProperty Name="attr1" ColumnName="attr1" />
+          <ScalarProperty Name="defaultDeliveryToCust" ColumnName="defaultDeliveryToCust" />
+          <ScalarProperty Name="discontinuedItem" ColumnName="discontinuedItem" />
+          <ScalarProperty Name="stockRecordType" ColumnName="stockRecordType" />
+          <ScalarProperty Name="reSaleable" ColumnName="reSaleable" />
+          <ScalarProperty Name="spec6" ColumnName="spec6" />
+          <ScalarProperty Name="spec5" ColumnName="spec5" />
+          <ScalarProperty Name="spec4" ColumnName="spec4" />
+          <ScalarProperty Name="spec3" ColumnName="spec3" />
+          <ScalarProperty Name="spec2" ColumnName="spec2" />
+          <ScalarProperty Name="spec1" ColumnName="spec1" />
+          <ScalarProperty Name="stockReference" ColumnName="stockReference" />
+          <ScalarProperty Name="productFK" ColumnName="productFK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="categoryCodes">
+      <EntityTypeMapping TypeName="NgmdEntities.categoryCode">
+        <MappingFragment StoreEntitySet="categoryCode">
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="metaDescription" ColumnName="metaDescription" />
+          <ScalarProperty Name="metaTitle" ColumnName="metaTitle" />
+          <ScalarProperty Name="isInSitemap" ColumnName="isInSitemap" />
+          <ScalarProperty Name="isPartOfSale" ColumnName="isPartOfSale" />
+          <ScalarProperty Name="googleProductCategoryFK" ColumnName="googleProductCategoryFK" />
+          <ScalarProperty Name="isPrimary" ColumnName="isPrimary" />
+          <ScalarProperty Name="AXISGroupNo" ColumnName="AXISGroupNo" />
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="AXISGroupID" ColumnName="AXISGroupID" />
+          <ScalarProperty Name="websiteFK" ColumnName="websiteFK" />
+          <ScalarProperty Name="parentCategoryCodeID" ColumnName="parentCategoryCodeID" />
+          <ScalarProperty Name="categoryCodeName" ColumnName="categoryCodeName" />
+          <ScalarProperty Name="categoryCodeID" ColumnName="categoryCodeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crossSellingLinks">
+      <EntityTypeMapping TypeName="NgmdEntities.crossSellingLink">
+        <MappingFragment StoreEntitySet="crossSellingLink">
+          <ScalarProperty Name="crossSellingLinkTypeFK" ColumnName="crossSellingLinkTypeFK" />
+          <ScalarProperty Name="bProductFK" ColumnName="bProductFK" />
+          <ScalarProperty Name="aProductFK" ColumnName="aProductFK" />
+          <ScalarProperty Name="crossSellingLinkID" ColumnName="crossSellingLinkID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="feefoFeedbacks">
+      <EntityTypeMapping TypeName="NgmdEntities.feefoFeedback">
+        <MappingFragment StoreEntitySet="feefoFeedback">
+          <ScalarProperty Name="isHidden" ColumnName="isHidden" />
+          <ScalarProperty Name="author" ColumnName="author" />
+          <ScalarProperty Name="vendorReply" ColumnName="vendorReply" />
+          <ScalarProperty Name="productComment" ColumnName="productComment" />
+          <ScalarProperty Name="productRating" ColumnName="productRating" />
+          <ScalarProperty Name="uniqueRef" ColumnName="uniqueRef" />
+          <ScalarProperty Name="productFK" ColumnName="productFK" />
+          <ScalarProperty Name="websiteFK" ColumnName="websiteFK" />
+          <ScalarProperty Name="feedbackDate" ColumnName="feedbackDate" />
+          <ScalarProperty Name="feefoFeedbackID" ColumnName="feefoFeedbackID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="productGroups">
+      <EntityTypeMapping TypeName="NgmdEntities.productGroup">
+        <MappingFragment StoreEntitySet="productGroup">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="productTypeFK" ColumnName="productTypeFK" />
+          <ScalarProperty Name="productGroupNo" ColumnName="productGroupNo" />
+          <ScalarProperty Name="productGroupName" ColumnName="productGroupName" />
+          <ScalarProperty Name="productGroupID" ColumnName="productGroupID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="productPrices">
+      <EntityTypeMapping TypeName="NgmdEntities.productPrice">
+        <MappingFragment StoreEntitySet="productPrice">
+          <ScalarProperty Name="tradePriceIncVat" ColumnName="tradePriceIncVat" />
+          <ScalarProperty Name="tradePrice" ColumnName="tradePrice" />
+          <ScalarProperty Name="breakPricingRule" ColumnName="breakPricingRule" />
+          <ScalarProperty Name="basePrice" ColumnName="basePrice" />
+          <ScalarProperty Name="breakPrice5IncVat" ColumnName="breakPrice5IncVat" />
+          <ScalarProperty Name="breakPrice4IncVat" ColumnName="breakPrice4IncVat" />
+          <ScalarProperty Name="breakPrice3IncVat" ColumnName="breakPrice3IncVat" />
+          <ScalarProperty Name="breakPrice2IncVat" ColumnName="breakPrice2IncVat" />
+          <ScalarProperty Name="breakPrice1IncVat" ColumnName="breakPrice1IncVat" />
+          <ScalarProperty Name="priceIncVat" ColumnName="priceIncVat" />
+          <ScalarProperty Name="breakPrice5" ColumnName="breakPrice5" />
+          <ScalarProperty Name="breakPrice4" ColumnName="breakPrice4" />
+          <ScalarProperty Name="breakPrice3" ColumnName="breakPrice3" />
+          <ScalarProperty Name="breakPrice2" ColumnName="breakPrice2" />
+          <ScalarProperty Name="breakPrice1" ColumnName="breakPrice1" />
+          <ScalarProperty Name="pricingRule" ColumnName="pricingRule" />
+          <ScalarProperty Name="competitorCount" ColumnName="competitorCount" />
+          <ScalarProperty Name="cheapestCompetitorPrice" ColumnName="cheapestCompetitorPrice" />
+          <ScalarProperty Name="cheapestCostPrice" ColumnName="cheapestCostPrice" />
+          <ScalarProperty Name="dateLastUpdated" ColumnName="dateLastUpdated" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="websiteInventoryFK" ColumnName="websiteInventoryFK" />
+          <ScalarProperty Name="productPriceID" ColumnName="productPriceID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="salesAreaGroups">
+      <EntityTypeMapping TypeName="NgmdEntities.salesAreaGroup">
+        <MappingFragment StoreEntitySet="salesAreaGroup">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="salesAreaGroupNo" ColumnName="salesAreaGroupNo" />
+          <ScalarProperty Name="salesAreaGroupName" ColumnName="salesAreaGroupName" />
+          <ScalarProperty Name="salesAreaGroupID" ColumnName="salesAreaGroupID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Websites">
+      <EntityTypeMapping TypeName="NgmdEntities.Website">
+        <MappingFragment StoreEntitySet="Website">
+          <ScalarProperty Name="Abbreviation" ColumnName="Abbreviation" />
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+          <ScalarProperty Name="WebURL" ColumnName="WebURL" />
+          <ScalarProperty Name="WebsiteName" ColumnName="WebsiteName" />
+          <ScalarProperty Name="WebsiteID" ColumnName="WebsiteID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="websiteInventories">
+      <EntityTypeMapping TypeName="NgmdEntities.websiteInventory">
+        <MappingFragment StoreEntitySet="websiteInventory">
+          <ScalarProperty Name="imageIsNotRequired" ColumnName="imageIsNotRequired" />
+          <ScalarProperty Name="promotionalGroupFK" ColumnName="promotionalGroupFK" />
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="categoryCodeFK" ColumnName="categoryCodeFK" />
+          <ScalarProperty Name="productFK" ColumnName="productFK" />
+          <ScalarProperty Name="websiteFK" ColumnName="websiteFK" />
+          <ScalarProperty Name="websiteInventoryID" ColumnName="websiteInventoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="configurationSettings">
+      <EntityTypeMapping TypeName="NgmdEntities.configurationSetting">
+        <MappingFragment StoreEntitySet="configurationSetting">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="settingValue" ColumnName="settingValue" />
+          <ScalarProperty Name="websiteFK" ColumnName="websiteFK" />
+          <ScalarProperty Name="settingName" ColumnName="settingName" />
+          <ScalarProperty Name="sectionName" ColumnName="sectionName" />
+          <ScalarProperty Name="configurationSettingID" ColumnName="configurationSettingID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="passwordResets">
+      <EntityTypeMapping TypeName="NgmdEntities.passwordReset">
+        <MappingFragment StoreEntitySet="passwordReset">
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="guid" ColumnName="guid" />
+          <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+          <ScalarProperty Name="siteId" ColumnName="siteId" />
+          <ScalarProperty Name="passwordResetId" ColumnName="passwordResetId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="dataSupplierOverrides">
+      <EntityTypeMapping TypeName="NgmdEntities.dataSupplierOverride">
+        <MappingFragment StoreEntitySet="dataSupplierOverride">
+          <ScalarProperty Name="overrideType" ColumnName="overrideType" />
+          <ScalarProperty Name="attributeName" ColumnName="attributeName" />
+          <ScalarProperty Name="dataSupplierFk" ColumnName="dataSupplierFk" />
+          <ScalarProperty Name="dataSupplierOverrideId" ColumnName="dataSupplierOverrideId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="deliveryLookups">
+      <EntityTypeMapping TypeName="NgmdEntities.deliveryLookup">
+        <MappingFragment StoreEntitySet="deliveryLookup">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="DeliveryServiceFK" ColumnName="DeliveryServiceFK" />
+          <ScalarProperty Name="DeliveryZoneFK" ColumnName="DeliveryZoneFK" />
+          <ScalarProperty Name="DeliveryLookupId" ColumnName="DeliveryLookupId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="deliveryServices">
+      <EntityTypeMapping TypeName="NgmdEntities.deliveryService">
+        <MappingFragment StoreEntitySet="deliveryService">
+          <ScalarProperty Name="ProductFk" ColumnName="ProductFk" />
+          <ScalarProperty Name="IsSpecialOrderOnly" ColumnName="IsSpecialOrderOnly" />
+          <ScalarProperty Name="DeliveryMethod" ColumnName="DeliveryMethod" />
+          <ScalarProperty Name="ThresholdEnd" ColumnName="ThresholdEnd" />
+          <ScalarProperty Name="ThresholdStart" ColumnName="ThresholdStart" />
+          <ScalarProperty Name="UsesThresholds" ColumnName="UsesThresholds" />
+          <ScalarProperty Name="IsBulky" ColumnName="IsBulky" />
+          <ScalarProperty Name="IsCompatibleInkOnly" ColumnName="IsCompatibleInkOnly" />
+          <ScalarProperty Name="IsSaturdayOnly" ColumnName="IsSaturdayOnly" />
+          <ScalarProperty Name="InfoMessage" ColumnName="InfoMessage" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="StockRef" ColumnName="StockRef" />
+          <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+          <ScalarProperty Name="WebsiteFK" ColumnName="WebsiteFK" />
+          <ScalarProperty Name="DeliveryServiceId" ColumnName="DeliveryServiceId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="deliveryZones">
+      <EntityTypeMapping TypeName="NgmdEntities.deliveryZone">
+        <MappingFragment StoreEntitySet="deliveryZone">
+          <ScalarProperty Name="Postcodes" ColumnName="Postcodes" />
+          <ScalarProperty Name="ApplyVat" ColumnName="ApplyVat" />
+          <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+          <ScalarProperty Name="ZoneName" ColumnName="ZoneName" />
+          <ScalarProperty Name="WebsiteFK" ColumnName="WebsiteFK" />
+          <ScalarProperty Name="DeliveryZoneId" ColumnName="DeliveryZoneId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="obsoleteItems">
+      <EntityTypeMapping TypeName="NgmdEntities.obsoleteItem">
+        <MappingFragment StoreEntitySet="obsoleteItem">
+          <ScalarProperty Name="URL" ColumnName="URL" />
+          <ScalarProperty Name="equipmentName" ColumnName="equipmentName" />
+          <ScalarProperty Name="stockReference" ColumnName="stockReference" />
+          <ScalarProperty Name="websiteFK" ColumnName="websiteFK" />
+          <ScalarProperty Name="obsoleteItemID" ColumnName="obsoleteItemID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PortalIndexes">
+      <EntityTypeMapping TypeName="NgmdEntities.PortalIndex">
+        <MappingFragment StoreEntitySet="PortalIndex">
+          <ScalarProperty Name="HasTracking" ColumnName="HasTracking" />
+          <ScalarProperty Name="IsPrimaryContact" ColumnName="IsPrimaryContact" />
+          <ScalarProperty Name="OrgName" ColumnName="OrgName" />
+          <ScalarProperty Name="BillingAddress" ColumnName="BillingAddress" />
+          <ScalarProperty Name="CustomerGroup" ColumnName="CustomerGroup" />
+          <ScalarProperty Name="LastOrderDate" ColumnName="LastOrderDate" />
+          <ScalarProperty Name="FriendlyPostcode" ColumnName="FriendlyPostcode" />
+          <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Record" ColumnName="Record" />
+          <ScalarProperty Name="Account" ColumnName="Account" />
+          <ScalarProperty Name="WebsiteFk" ColumnName="WebsiteFk" />
+          <ScalarProperty Name="PortalIndexId" ColumnName="PortalIndexId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VoucherPromoGroups">
+      <EntityTypeMapping TypeName="NgmdEntities.VoucherPromoGroup">
+        <MappingFragment StoreEntitySet="VoucherPromoGroup">
+          <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+          <ScalarProperty Name="WebsiteFk" ColumnName="WebsiteFk" />
+          <ScalarProperty Name="VoucherPromoGroupId" ColumnName="VoucherPromoGroupId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VoucherPromoGroupMappings">
+      <EntityTypeMapping TypeName="NgmdEntities.VoucherPromoGroupMapping">
+        <MappingFragment StoreEntitySet="VoucherPromoGroupMapping">
+          <ScalarProperty Name="CategoryCodeFk" ColumnName="CategoryCodeFk" />
+          <ScalarProperty Name="VoucherPromoGroupFk" ColumnName="VoucherPromoGroupFk" />
+          <ScalarProperty Name="VoucherPromoGroupMappingId" ColumnName="VoucherPromoGroupMappingId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="secondaryCategoryLookups">
+      <EntityTypeMapping TypeName="NgmdEntities.secondaryCategoryLookup">
+        <MappingFragment StoreEntitySet="secondaryCategoryLookup">
+          <ScalarProperty Name="categoryCodeFK" ColumnName="categoryCodeFK" />
+          <ScalarProperty Name="websiteInventoryFK" ColumnName="websiteInventoryFK" />
+          <ScalarProperty Name="secondaryCategoryLookupID" ColumnName="secondaryCategoryLookupID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JsonStores">
+      <EntityTypeMapping TypeName="NgmdEntities.JsonStore">
+        <MappingFragment StoreEntitySet="JsonStore">
+          <ScalarProperty Name="Json" ColumnName="Json" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="JsonStoreId" ColumnName="JsonStoreId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="productImages">
+      <EntityTypeMapping TypeName="NgmdEntities.productImage">
+        <MappingFragment StoreEntitySet="productImage">
+          <ScalarProperty Name="URL" ColumnName="URL" />
+          <ScalarProperty Name="thumbnailImage" ColumnName="thumbnailImage" />
+          <ScalarProperty Name="mainImage" ColumnName="mainImage" />
+          <ScalarProperty Name="websiteInventoryFK" ColumnName="websiteInventoryFK" />
+          <ScalarProperty Name="productImageID" ColumnName="productImageID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="favouritePrinters">
+      <EntityTypeMapping TypeName="NgmdEntities.favouritePrinter">
+        <MappingFragment StoreEntitySet="favouritePrinter">
+          <ScalarProperty Name="dateLastUpdated" ColumnName="dateLastUpdated" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="modelName" ColumnName="modelName" />
+          <ScalarProperty Name="eqEquipmentFK" ColumnName="eqEquipmentFK" />
+          <ScalarProperty Name="siteId" ColumnName="siteId" />
+          <ScalarProperty Name="customerId" ColumnName="customerId" />
+          <ScalarProperty Name="favouritePrinterID" ColumnName="favouritePrinterID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FraudCriterias">
+      <EntityTypeMapping TypeName="NgmdEntities.FraudCriteria">
+        <MappingFragment StoreEntitySet="FraudCriteria">
+          <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+          <ScalarProperty Name="DateLastUpdated" ColumnName="DateLastUpdated" />
+          <ScalarProperty Name="FraudCriteriaId" ColumnName="FraudCriteriaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="McOrderDatas">
+      <EntityTypeMapping TypeName="NgmdEntities.McOrderData">
+        <MappingFragment StoreEntitySet="McOrderData">
+          <ScalarProperty Name="McCampaignId" ColumnName="McCampaignId" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+          <ScalarProperty Name="McOrderDataId" ColumnName="McOrderDataId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="McCartDatas">
+      <EntityTypeMapping TypeName="NgmdEntities.McCartData">
+        <MappingFragment StoreEntitySet="McCartData">
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="CartId" ColumnName="CartId" />
+          <ScalarProperty Name="RecordId" ColumnName="RecordId" />
+          <ScalarProperty Name="McCartDataId" ColumnName="McCartDataId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VoucherPromoes">
+      <EntityTypeMapping TypeName="NgmdEntities.VoucherPromo">
+        <MappingFragment StoreEntitySet="VoucherPromo">
+          <ScalarProperty Name="IsForCustomer" ColumnName="IsForCustomer" />
+          <ScalarProperty Name="IsForTrade" ColumnName="IsForTrade" />
+          <ScalarProperty Name="IsSingleUse" ColumnName="IsSingleUse" />
+          <ScalarProperty Name="ForGeneralUse" ColumnName="ForGeneralUse" />
+          <ScalarProperty Name="IsUsed" ColumnName="IsUsed" />
+          <ScalarProperty Name="IsGlobal" ColumnName="IsGlobal" />
+          <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+          <ScalarProperty Name="MultiBuyNoDiscounted" ColumnName="MultiBuyNoDiscounted" />
+          <ScalarProperty Name="MultiBuyQualNo" ColumnName="MultiBuyQualNo" />
+          <ScalarProperty Name="GiftStockRef" ColumnName="GiftStockRef" />
+          <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="MinQualValue" ColumnName="MinQualValue" />
+          <ScalarProperty Name="MinBasketValue" ColumnName="MinBasketValue" />
+          <ScalarProperty Name="StockRef" ColumnName="StockRef" />
+          <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+          <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="VoucherCode" ColumnName="VoucherCode" />
+          <ScalarProperty Name="VoucherPromoGroupFk" ColumnName="VoucherPromoGroupFk" />
+          <ScalarProperty Name="VoucherTypeFk" ColumnName="VoucherTypeFk" />
+          <ScalarProperty Name="WebsiteFk" ColumnName="WebsiteFk" />
+          <ScalarProperty Name="VoucherPromoId" ColumnName="VoucherPromoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LookupNgmds">
+      <EntityTypeMapping TypeName="NgmdEntities.LookupNgmd">
+        <MappingFragment StoreEntitySet="Lookup">
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="LookupName" ColumnName="LookupName" />
+          <ScalarProperty Name="AltLookupId" ColumnName="AltLookupId" />
+          <ScalarProperty Name="LookupTypeFk" ColumnName="LookupTypeFk" />
+          <ScalarProperty Name="LookupId" ColumnName="LookupId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LookupTypeNgmds">
+      <EntityTypeMapping TypeName="NgmdEntities.LookupTypeNgmd">
+        <MappingFragment StoreEntitySet="LookupType">
+          <ScalarProperty Name="LookupTypeName" ColumnName="LookupTypeName" />
+          <ScalarProperty Name="LookupTypeId" ColumnName="LookupTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="providers">
+      <EntityTypeMapping TypeName="NgmdEntities.provider">
+        <MappingFragment StoreEntitySet="provider">
+          <ScalarProperty Name="url" ColumnName="url" />
+          <ScalarProperty Name="shortName" ColumnName="shortName" />
+          <ScalarProperty Name="reviewRating" ColumnName="reviewRating" />
+          <ScalarProperty Name="reviewTotal" ColumnName="reviewTotal" />
+          <ScalarProperty Name="active" ColumnName="active" />
+          <ScalarProperty Name="feedFileDateTime" ColumnName="feedFileDateTime" />
+          <ScalarProperty Name="axisSupplierRef" ColumnName="axisSupplierRef" />
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="providerTypeFK" ColumnName="providerTypeFK" />
+          <ScalarProperty Name="providerDesc" ColumnName="providerDesc" />
+          <ScalarProperty Name="providerName" ColumnName="providerName" />
+          <ScalarProperty Name="providerID" ColumnName="providerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BackOrders">
+      <EntityTypeMapping TypeName="NgmdEntities.BackOrder">
+        <MappingFragment StoreEntitySet="BackOrder">
+          <ScalarProperty Name="WebsiteFK" ColumnName="WebsiteFK" />
+          <ScalarProperty Name="CustomerEmailAddress" ColumnName="CustomerEmailAddress" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="StatusFK" ColumnName="StatusFK" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="SupplierOrderNumber" ColumnName="SupplierOrderNumber" />
+          <ScalarProperty Name="PurchaseOrderNumber" ColumnName="PurchaseOrderNumber" />
+          <ScalarProperty Name="OrderReferenceNumber" ColumnName="OrderReferenceNumber" />
+          <ScalarProperty Name="ProviderFK" ColumnName="ProviderFK" />
+          <ScalarProperty Name="BackOrderId" ColumnName="BackOrderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BackOrderItems">
+      <EntityTypeMapping TypeName="NgmdEntities.BackOrderItem">
+        <MappingFragment StoreEntitySet="BackOrderItem">
+          <ScalarProperty Name="SellPrice" ColumnName="SellPrice" />
+          <ScalarProperty Name="CostPrice" ColumnName="CostPrice" />
+          <ScalarProperty Name="StatusFK" ColumnName="StatusFK" />
+          <ScalarProperty Name="StockReplenishmentDate" ColumnName="StockReplenishmentDate" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="QuantitySupplied" ColumnName="QuantitySupplied" />
+          <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
+          <ScalarProperty Name="SupplierItemReference" ColumnName="SupplierItemReference" />
+          <ScalarProperty Name="ItemReference" ColumnName="ItemReference" />
+          <ScalarProperty Name="BackOrderFK" ColumnName="BackOrderFK" />
+          <ScalarProperty Name="BackOrderItemId" ColumnName="BackOrderItemId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="pim_products">
+      <EntityTypeMapping TypeName="NgmdEntities.pim_products">
+        <MappingFragment StoreEntitySet="pim_products">
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="lastUpdated" ColumnName="lastUpdated" />
+          <ScalarProperty Name="image" ColumnName="image" />
+          <ScalarProperty Name="unspsc" ColumnName="unspsc" />
+          <ScalarProperty Name="unspsc_Commodity" ColumnName="unspsc_Commodity" />
+          <ScalarProperty Name="unspsc_Class" ColumnName="unspsc_Class" />
+          <ScalarProperty Name="unspsc_Family" ColumnName="unspsc_Family" />
+          <ScalarProperty Name="unspsc_Segment" ColumnName="unspsc_Segment" />
+          <ScalarProperty Name="manufacturer_Family_Member" ColumnName="manufacturer_Family_Member" />
+          <ScalarProperty Name="manufacturer_Family" ColumnName="manufacturer_Family" />
+          <ScalarProperty Name="model" ColumnName="model" />
+          <ScalarProperty Name="partno" ColumnName="partno" />
+          <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
+          <ScalarProperty Name="prodID" ColumnName="prodID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="pim_attributes">
+      <EntityTypeMapping TypeName="NgmdEntities.pim_attributes">
+        <MappingFragment StoreEntitySet="pim_attributes">
+          <ScalarProperty Name="searchable" ColumnName="searchable" />
+          <ScalarProperty Name="group" ColumnName="group" />
+          <ScalarProperty Name="units" ColumnName="units" />
+          <ScalarProperty Name="value" ColumnName="value" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="prodID" ColumnName="prodID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="pim_mediaLinks">
+      <EntityTypeMapping TypeName="NgmdEntities.pim_mediaLinks">
+        <MappingFragment StoreEntitySet="pim_mediaLinks">
+          <ScalarProperty Name="sortOrder" ColumnName="sortOrder" />
+          <ScalarProperty Name="url" ColumnName="url" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="prodID" ColumnName="prodID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PayPalLogs">
+      <EntityTypeMapping TypeName="NgmdEntities.PayPalLog">
+        <MappingFragment StoreEntitySet="PayPalLog">
+          <ScalarProperty Name="Response" ColumnName="Response" />
+          <ScalarProperty Name="AuthId" ColumnName="AuthId" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="PayPalLogId" ColumnName="PayPalLogId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SagePayTransactions">
+      <EntityTypeMapping TypeName="NgmdEntities.SagePayTransaction">
+        <MappingFragment StoreEntitySet="SagePayTransactions">
+          <ScalarProperty Name="websiteID" ColumnName="websiteID" />
+          <ScalarProperty Name="red_screened" ColumnName="red_screened" />
+          <ScalarProperty Name="doc_type" ColumnName="doc_type" />
+          <ScalarProperty Name="protx_acsurl" ColumnName="protx_acsurl" />
+          <ScalarProperty Name="protx_md" ColumnName="protx_md" />
+          <ScalarProperty Name="protx_cavv" ColumnName="protx_cavv" />
+          <ScalarProperty Name="protx_response" ColumnName="protx_response" />
+          <ScalarProperty Name="protx_3dsecurestatus" ColumnName="protx_3dsecurestatus" />
+          <ScalarProperty Name="protx_string" ColumnName="protx_string" />
+          <ScalarProperty Name="protx_cv2" ColumnName="protx_cv2" />
+          <ScalarProperty Name="protx_postcode" ColumnName="protx_postcode" />
+          <ScalarProperty Name="protx_address" ColumnName="protx_address" />
+          <ScalarProperty Name="protx_avscv2" ColumnName="protx_avscv2" />
+          <ScalarProperty Name="protx_auth_code" ColumnName="protx_auth_code" />
+          <ScalarProperty Name="protx_key" ColumnName="protx_key" />
+          <ScalarProperty Name="protx_uid" ColumnName="protx_uid" />
+          <ScalarProperty Name="protx_detail" ColumnName="protx_detail" />
+          <ScalarProperty Name="protx_status" ColumnName="protx_status" />
+          <ScalarProperty Name="protx_protocol" ColumnName="protx_protocol" />
+          <ScalarProperty Name="vm_uid" ColumnName="vm_uid" />
+          <ScalarProperty Name="protx_time" ColumnName="protx_time" />
+          <ScalarProperty Name="doc_id" ColumnName="doc_id" />
+          <ScalarProperty Name="protx_id" ColumnName="protx_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SagePayTokens">
+      <EntityTypeMapping TypeName="NgmdEntities.SagePayToken">
+        <MappingFragment StoreEntitySet="SagePayTokens">
+          <ScalarProperty Name="scheme_trace_id" ColumnName="scheme_trace_id" />
+          <ScalarProperty Name="ds_trans_id" ColumnName="ds_trans_id" />
+          <ScalarProperty Name="acs_trans_id" ColumnName="acs_trans_id" />
+          <ScalarProperty Name="websiteID" ColumnName="websiteID" />
+          <ScalarProperty Name="used" ColumnName="used" />
+          <ScalarProperty Name="expiry_date" ColumnName="expiry_date" />
+          <ScalarProperty Name="last_4_digits" ColumnName="last_4_digits" />
+          <ScalarProperty Name="card_type" ColumnName="card_type" />
+          <ScalarProperty Name="token" ColumnName="token" />
+          <ScalarProperty Name="sp_security_key" ColumnName="sp_security_key" />
+          <ScalarProperty Name="sp_uid" ColumnName="sp_uid" />
+          <ScalarProperty Name="uid" ColumnName="uid" />
+          <ScalarProperty Name="deleted" ColumnName="deleted" />
+          <ScalarProperty Name="sid" ColumnName="sid" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="account" ColumnName="account" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AmazonPayLogs">
+      <EntityTypeMapping TypeName="NgmdEntities.AmazonPayLog">
+        <MappingFragment StoreEntitySet="AmazonPayLog">
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="Json" ColumnName="Json" />
+          <ScalarProperty Name="CheckoutSessionId" ColumnName="CheckoutSessionId" />
+          <ScalarProperty Name="WebsiteFk" ColumnName="WebsiteFk" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="AmazonPayLogId" ColumnName="AmazonPayLogId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AxisFieldsAdditionals">
+      <EntityTypeMapping TypeName="NgmdEntities.AxisFieldsAdditional">
+        <MappingFragment StoreEntitySet="AxisFieldsAdditional">
+          <ScalarProperty Name="breakQuantity3" ColumnName="breakQuantity3" />
+          <ScalarProperty Name="breakQuantity2" ColumnName="breakQuantity2" />
+          <ScalarProperty Name="breakQuantity1" ColumnName="breakQuantity1" />
+          <ScalarProperty Name="googlePromotionId" ColumnName="googlePromotionId" />
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="bespokeFeedCondition" ColumnName="bespokeFeedCondition" />
+          <ScalarProperty Name="bespokeFeedAvailability" ColumnName="bespokeFeedAvailability" />
+          <ScalarProperty Name="bespokeFeedUseCustomShipCost" ColumnName="bespokeFeedUseCustomShipCost" />
+          <ScalarProperty Name="bespokeFeedInclude" ColumnName="bespokeFeedInclude" />
+          <ScalarProperty Name="bespokeFeedSite" ColumnName="bespokeFeedSite" />
+          <ScalarProperty Name="googleFeedCondition" ColumnName="googleFeedCondition" />
+          <ScalarProperty Name="googleFeedAvailability" ColumnName="googleFeedAvailability" />
+          <ScalarProperty Name="googleFeedCategory" ColumnName="googleFeedCategory" />
+          <ScalarProperty Name="googleFeedInclude" ColumnName="googleFeedInclude" />
+          <ScalarProperty Name="googleFeedSite" ColumnName="googleFeedSite" />
+          <ScalarProperty Name="metaDesc" ColumnName="metaDesc" />
+          <ScalarProperty Name="metaKeywords" ColumnName="metaKeywords" />
+          <ScalarProperty Name="metaTitle" ColumnName="metaTitle" />
+          <ScalarProperty Name="priorityNote" ColumnName="priorityNote" />
+          <ScalarProperty Name="stockNoteDesc" ColumnName="stockNoteDesc" />
+          <ScalarProperty Name="websiteFK" ColumnName="websiteFK" />
+          <ScalarProperty Name="productFK" ColumnName="productFK" />
+          <ScalarProperty Name="axisFieldsAdditionalID" ColumnName="axisFieldsAdditionalID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="manufacturerNotes">
+      <EntityTypeMapping TypeName="NgmdEntities.manufacturerNote">
+        <MappingFragment StoreEntitySet="manufacturerNotes">
+          <ScalarProperty Name="secondaryNote" ColumnName="secondaryNote" />
+          <ScalarProperty Name="priorityNote" ColumnName="priorityNote" />
+          <ScalarProperty Name="metaDescription" ColumnName="metaDescription" />
+          <ScalarProperty Name="metaTitle" ColumnName="metaTitle" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="eqCartridgeTypeFK" ColumnName="eqCartridgeTypeFK" />
+          <ScalarProperty Name="manufacturerFK" ColumnName="manufacturerFK" />
+          <ScalarProperty Name="websiteFK" ColumnName="websiteFK" />
+          <ScalarProperty Name="manufacturerNotesID" ColumnName="manufacturerNotesID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ds_attributeView">
+      <EntityTypeMapping TypeName="NgmdEntities.ds_attributeView">
+        <MappingFragment StoreEntitySet="ds_attributeView">
+          <ScalarProperty Name="attrValue" ColumnName="attrValue" />
+          <ScalarProperty Name="attrName" ColumnName="attrName" />
+          <ScalarProperty Name="dataSupplierID" ColumnName="dataSupplierID" />
+          <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="attributeID" ColumnName="attributeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderTracking">
+      <EntityTypeMapping TypeName="NgmdEntities.OrderTracking">
+        <MappingFragment StoreEntitySet="OrderTracking">
+          <ScalarProperty Name="IsSent" ColumnName="IsSent" />
+          <ScalarProperty Name="TrackingLink" ColumnName="TrackingLink" />
+          <ScalarProperty Name="TrackingCode" ColumnName="TrackingCode" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="CustomerRef" ColumnName="CustomerRef" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="PurchaseOrderNumber" ColumnName="PurchaseOrderNumber" />
+          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+          <ScalarProperty Name="CourierFk" ColumnName="CourierFk" />
+          <ScalarProperty Name="WebsiteFk" ColumnName="WebsiteFk" />
+          <ScalarProperty Name="OrderTrackingId" ColumnName="OrderTrackingId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CampaignTracking">
+      <EntityTypeMapping TypeName="NgmdEntities.CampaignTracking">
+        <MappingFragment StoreEntitySet="CampaignTracking">
+          <ScalarProperty Name="Campaign" ColumnName="Campaign" />
+          <ScalarProperty Name="OrderSourceFk" ColumnName="OrderSourceFk" />
+          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="CampaignTrackingId" ColumnName="CampaignTrackingId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Event">
+      <EntityTypeMapping TypeName="NgmdEntities.Event">
+        <MappingFragment StoreEntitySet="Event">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="DateInactive" ColumnName="DateInactive" />
+          <ScalarProperty Name="DateActive" ColumnName="DateActive" />
+          <ScalarProperty Name="EventName" ColumnName="EventName" />
+          <ScalarProperty Name="WebsiteFk" ColumnName="WebsiteFk" />
+          <ScalarProperty Name="EventId" ColumnName="EventId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EventMapping">
+      <EntityTypeMapping TypeName="NgmdEntities.EventMapping">
+        <MappingFragment StoreEntitySet="EventMapping">
+          <ScalarProperty Name="MappedCmsEntryFk" ColumnName="MappedCmsEntryFk" />
+          <ScalarProperty Name="DefaultCmsEntryFk" ColumnName="DefaultCmsEntryFk" />
+          <ScalarProperty Name="EventFk" ColumnName="EventFk" />
+          <ScalarProperty Name="EventMappingId" ColumnName="EventMappingId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InterimOrder">
+      <EntityTypeMapping TypeName="NgmdEntities.InterimOrder">
+        <MappingFragment StoreEntitySet="InterimOrder">
+          <ScalarProperty Name="Reason" ColumnName="Reason" />
+          <ScalarProperty Name="InterimOrderTypeFk" ColumnName="InterimOrderTypeFk" />
+          <ScalarProperty Name="WebsiteFk" ColumnName="WebsiteFk" />
+          <ScalarProperty Name="Json" ColumnName="Json" />
+          <ScalarProperty Name="IsOrdered" ColumnName="IsOrdered" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="InterimOrderId" ColumnName="InterimOrderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cmsEntry">
+      <EntityTypeMapping TypeName="NgmdEntities.cmsEntry">
+        <MappingFragment StoreEntitySet="cmsEntry">
+          <ScalarProperty Name="cmsGroupFK" ColumnName="cmsGroupFK" />
+          <ScalarProperty Name="useHtmlEditor" ColumnName="useHtmlEditor" />
+          <ScalarProperty Name="notes" ColumnName="notes" />
+          <ScalarProperty Name="metaData" ColumnName="metaData" />
+          <ScalarProperty Name="cmsContent" ColumnName="cmsContent" />
+          <ScalarProperty Name="entryName" ColumnName="entryName" />
+          <ScalarProperty Name="cmsSectionFK" ColumnName="cmsSectionFK" />
+          <ScalarProperty Name="cmsEntryID" ColumnName="cmsEntryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OpayoLog">
+      <EntityTypeMapping TypeName="NgmdEntities.OpayoLog">
+        <MappingFragment StoreEntitySet="OpayoLog">
+          <ScalarProperty Name="Json" ColumnName="Json" />
+          <ScalarProperty Name="ActionFk" ColumnName="ActionFk" />
+          <ScalarProperty Name="MerchandiseSessionKey" ColumnName="MerchandiseSessionKey" />
+          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+          <ScalarProperty Name="WebsiteFk" ColumnName="WebsiteFk" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="OpayoLogId" ColumnName="OpayoLogId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Faq">
+      <EntityTypeMapping TypeName="NgmdEntities.Faq">
+        <MappingFragment StoreEntitySet="Faq">
+          <ScalarProperty Name="Priority" ColumnName="Priority" />
+          <ScalarProperty Name="GenerateSchema" ColumnName="GenerateSchema" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="ManufacturerFk" ColumnName="ManufacturerFk" />
+          <ScalarProperty Name="CartridgeTypeFk" ColumnName="CartridgeTypeFk" />
+          <ScalarProperty Name="EquipmentFk" ColumnName="EquipmentFk" />
+          <ScalarProperty Name="ProductFk" ColumnName="ProductFk" />
+          <ScalarProperty Name="CategoryScopeFk" ColumnName="CategoryScopeFk" />
+          <ScalarProperty Name="PageScopeFk" ColumnName="PageScopeFk" />
+          <ScalarProperty Name="WebsiteFk" ColumnName="WebsiteFk" />
+          <ScalarProperty Name="FaqId" ColumnName="FaqId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="product">
+      <EntityTypeMapping TypeName="NgmdEntities.product">
+        <MappingFragment StoreEntitySet="product">
+          <ScalarProperty Name="dateLastInStock" ColumnName="dateLastInStock" />
+          <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+          <ScalarProperty Name="secondaryCrossSellGroupIdent" ColumnName="secondaryCrossSellGroupIdent" />
+          <ScalarProperty Name="supplierLastUpdate" ColumnName="supplierLastUpdate" />
+          <ScalarProperty Name="barcode" ColumnName="barcode" />
+          <ScalarProperty Name="capacity" ColumnName="capacity" />
+          <ScalarProperty Name="pageYield" ColumnName="pageYield" />
+          <ScalarProperty Name="manuReference" ColumnName="manuReference" />
+          <ScalarProperty Name="productItemTypeFK" ColumnName="productItemTypeFK" />
+          <ScalarProperty Name="supplierStock" ColumnName="supplierStock" />
+          <ScalarProperty Name="dataSupplierFK" ColumnName="dataSupplierFK" />
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="salesAreaGroupFK" ColumnName="salesAreaGroupFK" />
+          <ScalarProperty Name="productGroupFK" ColumnName="productGroupFK" />
+          <ScalarProperty Name="productStatusFK" ColumnName="productStatusFK" />
+          <ScalarProperty Name="manufacturerFK" ColumnName="manufacturerFK" />
+          <ScalarProperty Name="UNSPSCCode" ColumnName="UNSPSCCode" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="productName" ColumnName="productName" />
+          <ScalarProperty Name="productID" ColumnName="productID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Log">
+      <EntityTypeMapping TypeName="NgmdEntities.Log">
+        <MappingFragment StoreEntitySet="Log">
+          <ScalarProperty Name="LogStatusFk" ColumnName="LogStatusFk" />
+          <ScalarProperty Name="UserAgent" ColumnName="UserAgent" />
+          <ScalarProperty Name="DeveloperComments" ColumnName="DeveloperComments" />
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="FormData" ColumnName="FormData" />
+          <ScalarProperty Name="QueryString" ColumnName="QueryString" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="Entry" ColumnName="Entry" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="User" ColumnName="User" />
+          <ScalarProperty Name="WebsiteFk" ColumnName="WebsiteFk" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="actionLink">
+      <EntityTypeMapping TypeName="NgmdEntities.actionLink">
+        <MappingFragment StoreEntitySet="actionLink">
+          <ScalarProperty Name="area" ColumnName="area" />
+          <ScalarProperty Name="roles" ColumnName="roles" />
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="active" ColumnName="active" />
+          <ScalarProperty Name="controllerName" ColumnName="controllerName" />
+          <ScalarProperty Name="actionName" ColumnName="actionName" />
+          <ScalarProperty Name="actionLinkURL" ColumnName="actionLinkURL" />
+          <ScalarProperty Name="parentLevelID" ColumnName="parentLevelID" />
+          <ScalarProperty Name="actionLinkLevel" ColumnName="actionLinkLevel" />
+          <ScalarProperty Name="actionLinkDesc" ColumnName="actionLinkDesc" />
+          <ScalarProperty Name="actionLinkID" ColumnName="actionLinkID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="assemblyComponent">
+      <EntityTypeMapping TypeName="NgmdEntities.assemblyComponent">
+        <MappingFragment StoreEntitySet="assemblyComponent">
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="assemblyComponentFK" ColumnName="assemblyComponentFK" />
+          <ScalarProperty Name="assemblyProductFK" ColumnName="assemblyProductFK" />
+          <ScalarProperty Name="assemblyComponentID" ColumnName="assemblyComponentID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AxisEbusiness">
+      <EntityTypeMapping TypeName="NgmdEntities.AxisEbusiness">
+        <MappingFragment StoreEntitySet="AxisEbusiness">
+          <ScalarProperty Name="AffiliateCommissionGroup" ColumnName="AffiliateCommissionGroup" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="eBusinessCode" ColumnName="eBusinessCode" />
+          <ScalarProperty Name="eBusinessRef" ColumnName="eBusinessRef" />
+          <ScalarProperty Name="AxisEbusinessID" ColumnName="AxisEbusinessID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AxisEbusinessMapping">
+      <EntityTypeMapping TypeName="NgmdEntities.AxisEbusinessMapping">
+        <MappingFragment StoreEntitySet="AxisEbusinessMapping">
+          <ScalarProperty Name="eBusinessPrimary" ColumnName="eBusinessPrimary" />
+          <ScalarProperty Name="eBusinessRef" ColumnName="eBusinessRef" />
+          <ScalarProperty Name="productFK" ColumnName="productFK" />
+          <ScalarProperty Name="eBusinessMappingID" ColumnName="eBusinessMappingID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AXISGroups">
+      <EntityTypeMapping TypeName="NgmdEntities.AXISGroups">
+        <MappingFragment StoreEntitySet="AXISGroups">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="categoryCodeFK" ColumnName="categoryCodeFK" />
+          <ScalarProperty Name="websiteFK" ColumnName="websiteFK" />
+          <ScalarProperty Name="AXISGroupNo" ColumnName="AXISGroupNo" />
+          <ScalarProperty Name="s_eBusinessGroup" ColumnName="s_eBusinessGroup" />
+          <ScalarProperty Name="p_eBusinessGroup" ColumnName="p_eBusinessGroup" />
+          <ScalarProperty Name="AXISGroupName" ColumnName="AXISGroupName" />
+          <ScalarProperty Name="AXISGroupsID" ColumnName="AXISGroupsID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="axisPricingHistory">
+      <EntityTypeMapping TypeName="NgmdEntities.axisPricingHistory">
+        <MappingFragment StoreEntitySet="axisPricingHistory">
+          <ScalarProperty Name="axisPriceTrade" ColumnName="axisPriceTrade" />
+          <ScalarProperty Name="axisPriceRetail" ColumnName="axisPriceRetail" />
+          <ScalarProperty Name="altRef" ColumnName="altRef" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AXISQueue">
+      <EntityTypeMapping TypeName="NgmdEntities.AXISQueue">
+        <MappingFragment StoreEntitySet="AXISQueue">
+          <ScalarProperty Name="productFK" ColumnName="productFK" />
+          <ScalarProperty Name="dateLastUpdated" ColumnName="dateLastUpdated" />
+          <ScalarProperty Name="AXISQueueID" ColumnName="AXISQueueID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AXISQueueDetails">
+      <EntityTypeMapping TypeName="NgmdEntities.AXISQueueDetails">
+        <MappingFragment StoreEntitySet="AXISQueueDetails">
+          <ScalarProperty Name="CRUD" ColumnName="CRUD" />
+          <ScalarProperty Name="AXISQueueFK" ColumnName="AXISQueueFK" />
+          <ScalarProperty Name="completedDate" ColumnName="completedDate" />
+          <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+          <ScalarProperty Name="fieldName" ColumnName="fieldName" />
+          <ScalarProperty Name="entityName" ColumnName="entityName" />
+          <ScalarProperty Name="AXISQueueDetailsID" ColumnName="AXISQueueDetailsID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AxisTypeLookup">
+      <EntityTypeMapping TypeName="NgmdEntities.AxisTypeLookup">
+        <MappingFragment StoreEntitySet="AxisTypeLookup">
+          <ScalarProperty Name="attrName" ColumnName="attrName" />
+          <ScalarProperty Name="attrNameID" ColumnName="attrNameID" />
+          <ScalarProperty Name="axisTypeNameFK" ColumnName="axisTypeNameFK" />
+          <ScalarProperty Name="axisTypeLookupID" ColumnName="axisTypeLookupID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AxisTypeName">
+      <EntityTypeMapping TypeName="NgmdEntities.AxisTypeName">
+        <MappingFragment StoreEntitySet="AxisTypeName">
+          <ScalarProperty Name="axisTypeName1" ColumnName="axisTypeName" />
+          <ScalarProperty Name="axisTypeNameID" ColumnName="axisTypeNameID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AxisValueLookup">
+      <EntityTypeMapping TypeName="NgmdEntities.AxisValueLookup">
+        <MappingFragment StoreEntitySet="AxisValueLookup">
+          <ScalarProperty Name="attrValueDesc" ColumnName="attrValueDesc" />
+          <ScalarProperty Name="attrValueID" ColumnName="attrValueID" />
+          <ScalarProperty Name="attrNameFK" ColumnName="attrNameFK" />
+          <ScalarProperty Name="axisTypeNameFK" ColumnName="axisTypeNameFK" />
+          <ScalarProperty Name="axisValueLookupID" ColumnName="axisValueLookupID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BatchLog">
+      <EntityTypeMapping TypeName="NgmdEntities.BatchLog">
+        <MappingFragment StoreEntitySet="BatchLog">
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="WebsiteFk" ColumnName="WebsiteFk" />
+          <ScalarProperty Name="SubType" ColumnName="SubType" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Command" ColumnName="Command" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="BatchLogId" ColumnName="BatchLogId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BatchLogDetail">
+      <EntityTypeMapping TypeName="NgmdEntities.BatchLogDetail">
+        <MappingFragment StoreEntitySet="BatchLogDetail">
+          <ScalarProperty Name="ErrorCode" ColumnName="ErrorCode" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="BatchLogFk" ColumnName="BatchLogFk" />
+          <ScalarProperty Name="BatchLogDetailId" ColumnName="BatchLogDetailId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="categoryAttribute">
+      <EntityTypeMapping TypeName="NgmdEntities.categoryAttribute">
+        <MappingFragment StoreEntitySet="categoryAttribute">
+          <ScalarProperty Name="categoryCodeFK" ColumnName="categoryCodeFK" />
+          <ScalarProperty Name="filterableAttributeFK" ColumnName="filterableAttributeFK" />
+          <ScalarProperty Name="categoryAttributeID" ColumnName="categoryAttributeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="dataSupplier">
+      <EntityTypeMapping TypeName="NgmdEntities.dataSupplier">
+        <MappingFragment StoreEntitySet="dataSupplier">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="dataSupplierName" ColumnName="dataSupplierName" />
+          <ScalarProperty Name="dataSupplierID" ColumnName="dataSupplierID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DeleteTable">
+      <EntityTypeMapping TypeName="NgmdEntities.DeleteTable">
+        <MappingFragment StoreEntitySet="DeleteTable">
+          <ScalarProperty Name="DeletionDate" ColumnName="DeletionDate" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="DeleteTableId" ColumnName="DeleteTableId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="deliverySupplierCode">
+      <EntityTypeMapping TypeName="NgmdEntities.deliverySupplierCode">
+        <MappingFragment StoreEntitySet="deliverySupplierCode">
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="providerItemCode" ColumnName="providerItemCode" />
+          <ScalarProperty Name="providerFk" ColumnName="providerFk" />
+          <ScalarProperty Name="deliveryServiceFk" ColumnName="deliveryServiceFk" />
+          <ScalarProperty Name="deliverySupplierCodeId" ColumnName="deliverySupplierCodeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="exportFieldLookup">
+      <EntityTypeMapping TypeName="NgmdEntities.exportFieldLookup">
+        <MappingFragment StoreEntitySet="exportFieldLookup">
+          <ScalarProperty Name="websiteFK" ColumnName="websiteFK" />
+          <ScalarProperty Name="friendlyFieldName" ColumnName="friendlyFieldName" />
+          <ScalarProperty Name="fieldName" ColumnName="fieldName" />
+          <ScalarProperty Name="tableName" ColumnName="tableName" />
+          <ScalarProperty Name="exportFieldLookupID" ColumnName="exportFieldLookupID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="fieldMapping">
+      <EntityTypeMapping TypeName="NgmdEntities.fieldMapping">
+        <MappingFragment StoreEntitySet="fieldMapping">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="providerFK" ColumnName="providerFK" />
+          <ScalarProperty Name="fieldMappingWith" ColumnName="fieldMappingWith" />
+          <ScalarProperty Name="fieldMappingTo" ColumnName="fieldMappingTo" />
+          <ScalarProperty Name="fieldMappingID" ColumnName="fieldMappingID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="filterableAttribute">
+      <EntityTypeMapping TypeName="NgmdEntities.filterableAttribute">
+        <MappingFragment StoreEntitySet="filterableAttribute">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="attributeName" ColumnName="attributeName" />
+          <ScalarProperty Name="filterableAttributeID" ColumnName="filterableAttributeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ftpDetails">
+      <EntityTypeMapping TypeName="NgmdEntities.ftpDetails">
+        <MappingFragment StoreEntitySet="ftpDetails">
+          <ScalarProperty Name="fileColumnHeader" ColumnName="fileColumnHeader" />
+          <ScalarProperty Name="ftpZipFilename" ColumnName="ftpZipFilename" />
+          <ScalarProperty Name="dateLastFeedFile" ColumnName="dateLastFeedFile" />
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="providerFK" ColumnName="providerFK" />
+          <ScalarProperty Name="ftpFilename" ColumnName="ftpFilename" />
+          <ScalarProperty Name="ftpFolder" ColumnName="ftpFolder" />
+          <ScalarProperty Name="ftpPassword" ColumnName="ftpPassword" />
+          <ScalarProperty Name="ftpUser" ColumnName="ftpUser" />
+          <ScalarProperty Name="ftpHost" ColumnName="ftpHost" />
+          <ScalarProperty Name="ftpDetailID" ColumnName="ftpDetailID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GATransaction">
+      <EntityTypeMapping TypeName="NgmdEntities.GATransaction">
+        <MappingFragment StoreEntitySet="GATransaction">
+          <ScalarProperty Name="Medium" ColumnName="Medium" />
+          <ScalarProperty Name="Campaign" ColumnName="Campaign" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="googleProductCategory">
+      <EntityTypeMapping TypeName="NgmdEntities.googleProductCategory">
+        <MappingFragment StoreEntitySet="googleProductCategory">
+          <ScalarProperty Name="googleProductCategoryDescription" ColumnName="googleProductCategoryDescription" />
+          <ScalarProperty Name="googleProductCategoryNo" ColumnName="googleProductCategoryNo" />
+          <ScalarProperty Name="googleProductCategoryID" ColumnName="googleProductCategoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IcImage">
+      <EntityTypeMapping TypeName="NgmdEntities.IcImage">
+        <MappingFragment StoreEntitySet="IcImage">
+          <ScalarProperty Name="High" ColumnName="High" />
+          <ScalarProperty Name="Med" ColumnName="Med" />
+          <ScalarProperty Name="Low" ColumnName="Low" />
+          <ScalarProperty Name="Thumb" ColumnName="Thumb" />
+          <ScalarProperty Name="IsMain" ColumnName="IsMain" />
+          <ScalarProperty Name="ProductFk" ColumnName="ProductFk" />
+          <ScalarProperty Name="IcId" ColumnName="IcId" />
+          <ScalarProperty Name="IcImageId" ColumnName="IcImageId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="interimManufacturer">
+      <EntityTypeMapping TypeName="NgmdEntities.interimManufacturer">
+        <MappingFragment StoreEntitySet="interimManufacturer">
+          <ScalarProperty Name="manufacturerName" ColumnName="manufacturerName" />
+          <ScalarProperty Name="manufacturerID" ColumnName="manufacturerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="interimProductOverride">
+      <EntityTypeMapping TypeName="NgmdEntities.interimProductOverride">
+        <MappingFragment StoreEntitySet="interimProductOverride">
+          <ScalarProperty Name="manufacturerFK" ColumnName="manufacturerFK" />
+          <ScalarProperty Name="overrideRule" ColumnName="overrideRule" />
+          <ScalarProperty Name="overrideValue" ColumnName="overrideValue" />
+          <ScalarProperty Name="originalValue" ColumnName="originalValue" />
+          <ScalarProperty Name="overrideTypeFK" ColumnName="overrideTypeFK" />
+          <ScalarProperty Name="providerInventoryFK" ColumnName="providerInventoryFK" />
+          <ScalarProperty Name="providerFK" ColumnName="providerFK" />
+          <ScalarProperty Name="productOverrideID" ColumnName="productOverrideID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JobStatus">
+      <EntityTypeMapping TypeName="NgmdEntities.JobStatus">
+        <MappingFragment StoreEntitySet="JobStatus">
+          <ScalarProperty Name="HtmlNotes" ColumnName="HtmlNotes" />
+          <ScalarProperty Name="JobStatusString" ColumnName="JobStatusString" />
+          <ScalarProperty Name="JobStartDate" ColumnName="JobStartDate" />
+          <ScalarProperty Name="JobStatusId" ColumnName="JobStatusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mfpnExtensions">
+      <EntityTypeMapping TypeName="NgmdEntities.mfpnExtensions">
+        <MappingFragment StoreEntitySet="mfpnExtensions">
+          <ScalarProperty Name="extension" ColumnName="extension" />
+          <ScalarProperty Name="manuID" ColumnName="manuID" />
+          <ScalarProperty Name="mfpnExtensionID" ColumnName="mfpnExtensionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ng_attributes">
+      <EntityTypeMapping TypeName="NgmdEntities.ng_attributes">
+        <MappingFragment StoreEntitySet="ng_attributes">
+          <ScalarProperty Name="attributeID" ColumnName="attributeID" />
+          <ScalarProperty Name="units" ColumnName="units" />
+          <ScalarProperty Name="value" ColumnName="value" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="prodID" ColumnName="prodID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ng_features">
+      <EntityTypeMapping TypeName="NgmdEntities.ng_features">
+        <MappingFragment StoreEntitySet="ng_features">
+          <ScalarProperty Name="sequence" ColumnName="sequence" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="prodID" ColumnName="prodID" />
+          <ScalarProperty Name="featureID" ColumnName="featureID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ng_products">
+      <EntityTypeMapping TypeName="NgmdEntities.ng_products">
+        <MappingFragment StoreEntitySet="ng_products">
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="lastUpdated" ColumnName="lastUpdated" />
+          <ScalarProperty Name="image" ColumnName="image" />
+          <ScalarProperty Name="unspsc" ColumnName="unspsc" />
+          <ScalarProperty Name="unspsc_Commodity" ColumnName="unspsc_Commodity" />
+          <ScalarProperty Name="unspsc_Class" ColumnName="unspsc_Class" />
+          <ScalarProperty Name="unspsc_Family" ColumnName="unspsc_Family" />
+          <ScalarProperty Name="unspsc_Segment" ColumnName="unspsc_Segment" />
+          <ScalarProperty Name="manufacturer_Family_Member" ColumnName="manufacturer_Family_Member" />
+          <ScalarProperty Name="manufacturer_Family" ColumnName="manufacturer_Family" />
+          <ScalarProperty Name="model" ColumnName="model" />
+          <ScalarProperty Name="partno" ColumnName="partno" />
+          <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
+          <ScalarProperty Name="prodID" ColumnName="prodID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ng_searchables">
+      <EntityTypeMapping TypeName="NgmdEntities.ng_searchables">
+        <MappingFragment StoreEntitySet="ng_searchables">
+          <ScalarProperty Name="sequence" ColumnName="sequence" />
+          <ScalarProperty Name="baseUnits" ColumnName="baseUnits" />
+          <ScalarProperty Name="baseValue" ColumnName="baseValue" />
+          <ScalarProperty Name="valueType" ColumnName="valueType" />
+          <ScalarProperty Name="units" ColumnName="units" />
+          <ScalarProperty Name="value" ColumnName="value" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="nameID" ColumnName="nameID" />
+          <ScalarProperty Name="prodID" ColumnName="prodID" />
+          <ScalarProperty Name="searchableID" ColumnName="searchableID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="overrideType">
+      <EntityTypeMapping TypeName="NgmdEntities.overrideType">
+        <MappingFragment StoreEntitySet="overrideType">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="overrideTypeName" ColumnName="overrideTypeName" />
+          <ScalarProperty Name="overrideTypeID" ColumnName="overrideTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="potentialNewProducts">
+      <EntityTypeMapping TypeName="NgmdEntities.potentialNewProducts">
+        <MappingFragment StoreEntitySet="potentialNewProducts">
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="providerInventoryID" ColumnName="providerInventoryID" />
+          <ScalarProperty Name="potentialNewProductID" ColumnName="potentialNewProductID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="priorityProvider">
+      <EntityTypeMapping TypeName="NgmdEntities.priorityProvider">
+        <MappingFragment StoreEntitySet="priorityProvider">
+          <ScalarProperty Name="manufacturerFK" ColumnName="manufacturerFK" />
+          <ScalarProperty Name="providerFK" ColumnName="providerFK" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="productOverride">
+      <EntityTypeMapping TypeName="NgmdEntities.productOverride">
+        <MappingFragment StoreEntitySet="productOverride">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="productFK" ColumnName="productFK" />
+          <ScalarProperty Name="overrideTypeFK" ColumnName="overrideTypeFK" />
+          <ScalarProperty Name="overrideRule" ColumnName="overrideRule" />
+          <ScalarProperty Name="overrideValue" ColumnName="overrideValue" />
+          <ScalarProperty Name="originalValue" ColumnName="originalValue" />
+          <ScalarProperty Name="productOverrideID" ColumnName="productOverrideID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="promotionalGroup">
+      <EntityTypeMapping TypeName="NgmdEntities.promotionalGroup">
+        <MappingFragment StoreEntitySet="promotionalGroup">
+          <ScalarProperty Name="filterName" ColumnName="filterName" />
+          <ScalarProperty Name="active" ColumnName="active" />
+          <ScalarProperty Name="promotionalGroupName" ColumnName="promotionalGroupName" />
+          <ScalarProperty Name="promotionalGroupId" ColumnName="promotionalGroupId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="providerInventory">
+      <EntityTypeMapping TypeName="NgmdEntities.providerInventory">
+        <MappingFragment StoreEntitySet="providerInventory">
+          <ScalarProperty Name="untrustedAuto" ColumnName="untrustedAuto" />
+          <ScalarProperty Name="barcode" ColumnName="barcode" />
+          <ScalarProperty Name="providerManuRef" ColumnName="providerManuRef" />
+          <ScalarProperty Name="unspscClass" ColumnName="unspscClass" />
+          <ScalarProperty Name="unspscCode" ColumnName="unspscCode" />
+          <ScalarProperty Name="untrustedProvider" ColumnName="untrustedProvider" />
+          <ScalarProperty Name="unwantedProduct" ColumnName="unwantedProduct" />
+          <ScalarProperty Name="potentialNewProduct" ColumnName="potentialNewProduct" />
+          <ScalarProperty Name="manufacturerFK" ColumnName="manufacturerFK" />
+          <ScalarProperty Name="providerPartNo" ColumnName="providerPartNo" />
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="providerFK" ColumnName="providerFK" />
+          <ScalarProperty Name="effectiveDate" ColumnName="effectiveDate" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="providerInventoryID" ColumnName="providerInventoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="providerPrice">
+      <EntityTypeMapping TypeName="NgmdEntities.providerPrice">
+        <MappingFragment StoreEntitySet="providerPrice">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="providerInventoryFK" ColumnName="providerInventoryFK" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="effectiveDate" ColumnName="effectiveDate" />
+          <ScalarProperty Name="providerPriceID" ColumnName="providerPriceID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="qa_EmailSent">
+      <EntityTypeMapping TypeName="NgmdEntities.qa_EmailSent">
+        <MappingFragment StoreEntitySet="qa_EmailSent">
+          <ScalarProperty Name="QuestionAnswerFK" ColumnName="QuestionAnswerFK" />
+          <ScalarProperty Name="UserFK" ColumnName="UserFK" />
+          <ScalarProperty Name="EmailSentTo" ColumnName="EmailSentTo" />
+          <ScalarProperty Name="EmailSentDate" ColumnName="EmailSentDate" />
+          <ScalarProperty Name="EmailSentID" ColumnName="EmailSentID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalesforceBatchJob">
+      <EntityTypeMapping TypeName="NgmdEntities.SalesforceBatchJob">
+        <MappingFragment StoreEntitySet="SalesforceBatchJob">
+          <ScalarProperty Name="RecordsFailed" ColumnName="RecordsFailed" />
+          <ScalarProperty Name="RecordsProcessed" ColumnName="RecordsProcessed" />
+          <ScalarProperty Name="BatchesFailed" ColumnName="BatchesFailed" />
+          <ScalarProperty Name="BatchesCompleted" ColumnName="BatchesCompleted" />
+          <ScalarProperty Name="Operation" ColumnName="Operation" />
+          <ScalarProperty Name="Object" ColumnName="Object" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="JobId" ColumnName="JobId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="skuMapping">
+      <EntityTypeMapping TypeName="NgmdEntities.skuMapping">
+        <MappingFragment StoreEntitySet="skuMapping">
+          <ScalarProperty Name="providerInventoryFK" ColumnName="providerInventoryFK" />
+          <ScalarProperty Name="productFK" ColumnName="productFK" />
+          <ScalarProperty Name="altRef" ColumnName="altRef" />
+          <ScalarProperty Name="supplierNo" ColumnName="supplierNo" />
+          <ScalarProperty Name="providerFK" ColumnName="providerFK" />
+          <ScalarProperty Name="providerPartNo" ColumnName="providerPartNo" />
+          <ScalarProperty Name="skuMappingID" ColumnName="skuMappingID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="supplierManuMapping">
+      <EntityTypeMapping TypeName="NgmdEntities.supplierManuMapping">
+        <MappingFragment StoreEntitySet="supplierManuMapping">
+          <ScalarProperty Name="providerFK" ColumnName="providerFK" />
+          <ScalarProperty Name="manufacturerFK" ColumnName="manufacturerFK" />
+          <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
+          <ScalarProperty Name="supplierManuRef" ColumnName="supplierManuRef" />
+          <ScalarProperty Name="supplier" ColumnName="supplier" />
+          <ScalarProperty Name="supplierManuMappingID" ColumnName="supplierManuMappingID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="zproduct_20200108">
+      <EntityTypeMapping TypeName="NgmdEntities.zproduct_20200108">
+        <MappingFragment StoreEntitySet="zproduct_20200108">
+          <ScalarProperty Name="secondaryCrossSellGroupIdent" ColumnName="secondaryCrossSellGroupIdent" />
+          <ScalarProperty Name="supplierLastUpdate" ColumnName="supplierLastUpdate" />
+          <ScalarProperty Name="barcode" ColumnName="barcode" />
+          <ScalarProperty Name="pageYield" ColumnName="pageYield" />
+          <ScalarProperty Name="manuReference" ColumnName="manuReference" />
+          <ScalarProperty Name="productItemTypeFK" ColumnName="productItemTypeFK" />
+          <ScalarProperty Name="supplierStock" ColumnName="supplierStock" />
+          <ScalarProperty Name="dataSupplierFK" ColumnName="dataSupplierFK" />
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="salesAreaGroupFK" ColumnName="salesAreaGroupFK" />
+          <ScalarProperty Name="productGroupFK" ColumnName="productGroupFK" />
+          <ScalarProperty Name="productStatusFK" ColumnName="productStatusFK" />
+          <ScalarProperty Name="manufacturerFK" ColumnName="manufacturerFK" />
+          <ScalarProperty Name="UNSPSCCode" ColumnName="UNSPSCCode" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="productName" ColumnName="productName" />
+          <ScalarProperty Name="productID" ColumnName="productID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="zskuMapping_20100108">
+      <EntityTypeMapping TypeName="NgmdEntities.zskuMapping_20100108">
+        <MappingFragment StoreEntitySet="zskuMapping_20100108">
+          <ScalarProperty Name="providerInventoryFK" ColumnName="providerInventoryFK" />
+          <ScalarProperty Name="productFK" ColumnName="productFK" />
+          <ScalarProperty Name="altRef" ColumnName="altRef" />
+          <ScalarProperty Name="supplierNo" ColumnName="supplierNo" />
+          <ScalarProperty Name="providerFK" ColumnName="providerFK" />
+          <ScalarProperty Name="providerPartNo" ColumnName="providerPartNo" />
+          <ScalarProperty Name="skuMappingID" ColumnName="skuMappingID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="richTempPaper">
+      <EntityTypeMapping TypeName="NgmdEntities.richTempPaper">
+        <MappingFragment StoreEntitySet="richTempPaper">
+          <ScalarProperty Name="paperSize" ColumnName="paperSize" />
+          <ScalarProperty Name="paperWeight" ColumnName="paperWeight" />
+          <ScalarProperty Name="paperFinish" ColumnName="paperFinish" />
+          <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
+          <ScalarProperty Name="partno" ColumnName="partno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="richTempPrinters">
+      <EntityTypeMapping TypeName="NgmdEntities.richTempPrinters">
+        <MappingFragment StoreEntitySet="richTempPrinters">
+          <ScalarProperty Name="faxFacility" ColumnName="faxFacility" />
+          <ScalarProperty Name="scanFacility" ColumnName="scanFacility" />
+          <ScalarProperty Name="copyFacility" ColumnName="copyFacility" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="maximumPaperSize" ColumnName="maximumPaperSize" />
+          <ScalarProperty Name="monoOrColour" ColumnName="monoOrColour" />
+          <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
+          <ScalarProperty Name="partno" ColumnName="partno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="unwantedProducts">
+      <EntityTypeMapping TypeName="NgmdEntities.unwantedProducts">
+        <MappingFragment StoreEntitySet="unwantedProducts">
+          <ScalarProperty Name="productDescription" ColumnName="productDescription" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="unwantedProductID" ColumnName="unwantedProductID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AxisPriceView">
+      <EntityTypeMapping TypeName="NgmdEntities.AxisPriceView">
+        <MappingFragment StoreEntitySet="AxisPriceView">
+          <ScalarProperty Name="breakPrice3IncVat" ColumnName="breakPrice3IncVat" />
+          <ScalarProperty Name="breakPrice3ExVat" ColumnName="breakPrice3ExVat" />
+          <ScalarProperty Name="breakQuantity3" ColumnName="breakQuantity3" />
+          <ScalarProperty Name="breakPrice2IncVat" ColumnName="breakPrice2IncVat" />
+          <ScalarProperty Name="breakPrice2ExVat" ColumnName="breakPrice2ExVat" />
+          <ScalarProperty Name="breakQuantity2" ColumnName="breakQuantity2" />
+          <ScalarProperty Name="tradePriceIncVat" ColumnName="tradePriceIncVat" />
+          <ScalarProperty Name="retailPriceIncVat" ColumnName="retailPriceIncVat" />
+          <ScalarProperty Name="tradePriceExVat" ColumnName="tradePriceExVat" />
+          <ScalarProperty Name="retailPriceExVat" ColumnName="retailPriceExVat" />
+          <ScalarProperty Name="breakQuantity1" ColumnName="breakQuantity1" />
+          <ScalarProperty Name="account" ColumnName="account" />
+          <ScalarProperty Name="priceTypeID" ColumnName="priceTypeID" />
+          <ScalarProperty Name="language" ColumnName="language" />
+          <ScalarProperty Name="axisRef" ColumnName="axisRef" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ds_productView">
+      <EntityTypeMapping TypeName="NgmdEntities.ds_productView">
+        <MappingFragment StoreEntitySet="ds_productView">
+          <ScalarProperty Name="lastUpdated" ColumnName="lastUpdated" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="UNSPSC_Commodity" ColumnName="UNSPSC_Commodity" />
+          <ScalarProperty Name="UNSPSC_Class" ColumnName="UNSPSC_Class" />
+          <ScalarProperty Name="UNSPSC_Family" ColumnName="UNSPSC_Family" />
+          <ScalarProperty Name="UNSPSC_Segment" ColumnName="UNSPSC_Segment" />
+          <ScalarProperty Name="UNSPSC_Code" ColumnName="UNSPSC_Code" />
+          <ScalarProperty Name="model" ColumnName="model" />
+          <ScalarProperty Name="dataSupplierID" ColumnName="dataSupplierID" />
+          <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
+          <ScalarProperty Name="partno" ColumnName="partno" />
+          <ScalarProperty Name="prodID" ColumnName="prodID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ds_searchableView">
+      <EntityTypeMapping TypeName="NgmdEntities.ds_searchableView">
+        <MappingFragment StoreEntitySet="ds_searchableView">
+          <ScalarProperty Name="units" ColumnName="units" />
+          <ScalarProperty Name="value" ColumnName="value" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="dataSupplierID" ColumnName="dataSupplierID" />
+          <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LookupTypeView">
+      <EntityTypeMapping TypeName="NgmdEntities.LookupTypeView">
+        <MappingFragment StoreEntitySet="LookupTypeView">
+          <ScalarProperty Name="LookupTypeName" ColumnName="LookupTypeName" />
+          <ScalarProperty Name="LookupTypeID" ColumnName="LookupTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LookupView">
+      <EntityTypeMapping TypeName="NgmdEntities.LookupView">
+        <MappingFragment StoreEntitySet="LookupView">
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="LookupName" ColumnName="LookupName" />
+          <ScalarProperty Name="LookupTypeFK" ColumnName="LookupTypeFK" />
+          <ScalarProperty Name="LookupID" ColumnName="LookupID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="pim_attributesView">
+      <EntityTypeMapping TypeName="NgmdEntities.pim_attributesView">
+        <MappingFragment StoreEntitySet="pim_attributesView">
+          <ScalarProperty Name="searchable" ColumnName="searchable" />
+          <ScalarProperty Name="group" ColumnName="group" />
+          <ScalarProperty Name="units" ColumnName="units" />
+          <ScalarProperty Name="value" ColumnName="value" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="lastUpdated" ColumnName="lastUpdated" />
+          <ScalarProperty Name="image" ColumnName="image" />
+          <ScalarProperty Name="unspsc" ColumnName="unspsc" />
+          <ScalarProperty Name="unspsc_Commodity" ColumnName="unspsc_Commodity" />
+          <ScalarProperty Name="unspsc_Class" ColumnName="unspsc_Class" />
+          <ScalarProperty Name="unspsc_Family" ColumnName="unspsc_Family" />
+          <ScalarProperty Name="unspsc_Segment" ColumnName="unspsc_Segment" />
+          <ScalarProperty Name="manufacturer_Family_Member" ColumnName="manufacturer_Family_Member" />
+          <ScalarProperty Name="manufacturer_Family" ColumnName="manufacturer_Family" />
+          <ScalarProperty Name="model" ColumnName="model" />
+          <ScalarProperty Name="partno" ColumnName="partno" />
+          <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
+          <ScalarProperty Name="prodID" ColumnName="prodID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PMSAxisPriceDifference">
+      <EntityTypeMapping TypeName="NgmdEntities.PMSAxisPriceDifference">
+        <MappingFragment StoreEntitySet="PMSAxisPriceDifference">
+          <ScalarProperty Name="categoryCodeName" ColumnName="categoryCodeName" />
+          <ScalarProperty Name="categoryCodeFK" ColumnName="categoryCodeFK" />
+          <ScalarProperty Name="productStatusName" ColumnName="productStatusName" />
+          <ScalarProperty Name="productStatusFK" ColumnName="productStatusFK" />
+          <ScalarProperty Name="productItemTypeFK" ColumnName="productItemTypeFK" />
+          <ScalarProperty Name="pmsPriceChanged" ColumnName="pmsPriceChanged" />
+          <ScalarProperty Name="websiteFK" ColumnName="websiteFK" />
+          <ScalarProperty Name="manufacturerFK" ColumnName="manufacturerFK" />
+          <ScalarProperty Name="priceDiff" ColumnName="priceDiff" />
+          <ScalarProperty Name="axisPrice" ColumnName="axisPrice" />
+          <ScalarProperty Name="pmsPrice" ColumnName="pmsPrice" />
+          <ScalarProperty Name="manufacturerName" ColumnName="manufacturerName" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PriceCompView">
+      <EntityTypeMapping TypeName="NgmdEntities.PriceCompView">
+        <MappingFragment StoreEntitySet="PriceCompView">
+          <ScalarProperty Name="pricingRule" ColumnName="pricingRule" />
+          <ScalarProperty Name="competitorCount" ColumnName="competitorCount" />
+          <ScalarProperty Name="cheapestCompetitorPrice" ColumnName="cheapestCompetitorPrice" />
+          <ScalarProperty Name="productID" ColumnName="productID" />
+          <ScalarProperty Name="grossMargin" ColumnName="grossMargin" />
+          <ScalarProperty Name="costFinalDiff" ColumnName="costFinalDiff" />
+          <ScalarProperty Name="cheapestCostPrice" ColumnName="cheapestCostPrice" />
+          <ScalarProperty Name="diff" ColumnName="diff" />
+          <ScalarProperty Name="retailPrice" ColumnName="retailPrice" />
+          <ScalarProperty Name="tradePrice" ColumnName="tradePrice" />
+          <ScalarProperty Name="manufacturerID" ColumnName="manufacturerID" />
+          <ScalarProperty Name="manufacturerName" ColumnName="manufacturerName" />
+          <ScalarProperty Name="supplierStock" ColumnName="supplierStock" />
+          <ScalarProperty Name="categoryCodeName" ColumnName="categoryCodeName" />
+          <ScalarProperty Name="categoryCodeID" ColumnName="categoryCodeID" />
+          <ScalarProperty Name="productName" ColumnName="productName" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="rn" ColumnName="rn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductImagesView">
+      <EntityTypeMapping TypeName="NgmdEntities.ProductImagesView">
+        <MappingFragment StoreEntitySet="ProductImagesView">
+          <ScalarProperty Name="DataSource" ColumnName="DataSource" />
+          <ScalarProperty Name="websiteFK" ColumnName="websiteFK" />
+          <ScalarProperty Name="Main" ColumnName="Main" />
+          <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
+          <ScalarProperty Name="URL" ColumnName="URL" />
+          <ScalarProperty Name="Manufacturer" ColumnName="Manufacturer" />
+          <ScalarProperty Name="manufacturerID" ColumnName="manufacturerID" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="productID" ColumnName="productID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_Blitz" FunctionName="NgmdEntities.Store.sp_Blitz" />
+    <FunctionImportMapping FunctionImportName="sp_BlitzCache" FunctionName="NgmdEntities.Store.sp_BlitzCache">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.sp_BlitzCache_Result">
+          <ScalarProperty Name="Parameter_Name" ColumnName="Parameter Name" />
+          <ScalarProperty Name="Data_Type" ColumnName="Data Type" />
+          <ScalarProperty Name="Parameter_Description" ColumnName="Parameter Description" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="AXISQueueFeedData" FunctionName="NgmdEntities.Store.AXISQueueFeedData" />
+    <FunctionImportMapping FunctionImportName="AXISQueueFeedDataOLD" FunctionName="NgmdEntities.Store.AXISQueueFeedDataOLD" />
+    <FunctionImportMapping FunctionImportName="ClearAxisQueueRecords" FunctionName="NgmdEntities.Store.ClearAxisQueueRecords" />
+    <FunctionImportMapping FunctionImportName="CopyCNETData" FunctionName="NgmdEntities.Store.CopyCNETData" />
+    <FunctionImportMapping FunctionImportName="CopyEquipmentData" FunctionName="NgmdEntities.Store.CopyEquipmentData" />
+    <FunctionImportMapping FunctionImportName="CopyOpenRangeImagesToVMerchant" FunctionName="NgmdEntities.Store.CopyOpenRangeImagesToVMerchant" />
+    <FunctionImportMapping FunctionImportName="CopyProductFieldsData" FunctionName="NgmdEntities.Store.CopyProductFieldsData" />
+    <FunctionImportMapping FunctionImportName="CopyProviderData" FunctionName="NgmdEntities.Store.CopyProviderData" />
+    <FunctionImportMapping FunctionImportName="CreateMissingIndexes" FunctionName="NgmdEntities.Store.CreateMissingIndexes" />
+    <FunctionImportMapping FunctionImportName="CreatePortalIndex" FunctionName="NgmdEntities.Store.CreatePortalIndex" />
+    <FunctionImportMapping FunctionImportName="CreateTempFieldValue" FunctionName="NgmdEntities.Store.CreateTempFieldValue" />
+    <FunctionImportMapping FunctionImportName="DeleteOldRecords" FunctionName="NgmdEntities.Store.DeleteOldRecords" />
+    <FunctionImportMapping FunctionImportName="DeleteProduct" FunctionName="NgmdEntities.Store.DeleteProduct" />
+    <FunctionImportMapping FunctionImportName="DO_NOT_USE_GenerateEquipmentTables" FunctionName="NgmdEntities.Store.DO_NOT_USE_GenerateEquipmentTables" />
+    <FunctionImportMapping FunctionImportName="FixSagePayTokenAccount" FunctionName="NgmdEntities.Store.FixSagePayTokenAccount" />
+    <FunctionImportMapping FunctionImportName="fnSplit" FunctionName="NgmdEntities.Store.fnSplit">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.fnSplit_Result">
+          <ScalarProperty Name="item" ColumnName="item" />
+          <ScalarProperty Name="seq" ColumnName="seq" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GenerateSecondaryCategoryLookup" FunctionName="NgmdEntities.Store.GenerateSecondaryCategoryLookup" />
+    <FunctionImportMapping FunctionImportName="GetAllCMSEntries" FunctionName="NgmdEntities.Store.GetAllCMSEntries" />
+    <FunctionImportMapping FunctionImportName="GetAllQuestionAnswers" FunctionName="NgmdEntities.Store.GetAllQuestionAnswers">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetAllQuestionAnswers_Result">
+          <ScalarProperty Name="QuestionAnswerID" ColumnName="QuestionAnswerID" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="AskedDate" ColumnName="AskedDate" />
+          <ScalarProperty Name="RepliedDate" ColumnName="RepliedDate" />
+          <ScalarProperty Name="ShowOnAllSites" ColumnName="ShowOnAllSites" />
+          <ScalarProperty Name="GranularityID" ColumnName="GranularityID" />
+          <ScalarProperty Name="UserFK" ColumnName="UserFK" />
+          <ScalarProperty Name="SourceWebsiteID" ColumnName="SourceWebsiteID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="AltRef" ColumnName="AltRef" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetAmazonPayTransactions" FunctionName="NgmdEntities.Store.GetAmazonPayTransactions">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetAmazonPayTransactions_Result">
+          <ScalarProperty Name="Aut_Id" ColumnName="Aut_Id" />
+          <ScalarProperty Name="Aut_DateTime" ColumnName="Aut_DateTime" />
+          <ScalarProperty Name="Aut_Action" ColumnName="Aut_Action" />
+          <ScalarProperty Name="Aut_WebsiteId" ColumnName="Aut_WebsiteId" />
+          <ScalarProperty Name="Aut_SessionId" ColumnName="Aut_SessionId" />
+          <ScalarProperty Name="Aut_Response" ColumnName="Aut_Response" />
+          <ScalarProperty Name="Cap_Id" ColumnName="Cap_Id" />
+          <ScalarProperty Name="Cap_DateTime" ColumnName="Cap_DateTime" />
+          <ScalarProperty Name="Cap_Action" ColumnName="Cap_Action" />
+          <ScalarProperty Name="Cap_WebsiteId" ColumnName="Cap_WebsiteId" />
+          <ScalarProperty Name="Cap_SessionId" ColumnName="Cap_SessionId" />
+          <ScalarProperty Name="Cap_Response" ColumnName="Cap_Response" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetBestSellerIDs" FunctionName="NgmdEntities.Store.GetBestSellerIDs" />
+    <FunctionImportMapping FunctionImportName="GetBestSellers" FunctionName="NgmdEntities.Store.GetBestSellers">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetBestSellers_Result">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ProductURL" ColumnName="ProductURL" />
+          <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+          <ScalarProperty Name="PartNo" ColumnName="PartNo" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="Availability" ColumnName="Availability" />
+          <ScalarProperty Name="ManufacturerId" ColumnName="ManufacturerId" />
+          <ScalarProperty Name="AXISBrandNo" ColumnName="AXISBrandNo" />
+          <ScalarProperty Name="ProductReference" ColumnName="ProductReference" />
+          <ScalarProperty Name="BrandFlag" ColumnName="BrandFlag" />
+          <ScalarProperty Name="PriceRetail" ColumnName="PriceRetail" />
+          <ScalarProperty Name="PriceTrade" ColumnName="PriceTrade" />
+          <ScalarProperty Name="RandomNumber" ColumnName="RandomNumber" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetCategoryBestSellers" FunctionName="NgmdEntities.Store.GetCategoryBestSellers">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetCategoryBestSellers_Result">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ProductURL" ColumnName="ProductURL" />
+          <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+          <ScalarProperty Name="PartNo" ColumnName="PartNo" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="Availability" ColumnName="Availability" />
+          <ScalarProperty Name="ManufacturerId" ColumnName="ManufacturerId" />
+          <ScalarProperty Name="AXISBrandNo" ColumnName="AXISBrandNo" />
+          <ScalarProperty Name="ProductReference" ColumnName="ProductReference" />
+          <ScalarProperty Name="BrandFlag" ColumnName="BrandFlag" />
+          <ScalarProperty Name="PriceRetail" ColumnName="PriceRetail" />
+          <ScalarProperty Name="PriceTrade" ColumnName="PriceTrade" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetCategoryResults" FunctionName="NgmdEntities.Store.GetCategoryResults" />
+    <FunctionImportMapping FunctionImportName="GetChildCategories" FunctionName="NgmdEntities.Store.GetChildCategories">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetChildCategories_Result">
+          <ScalarProperty Name="ParentCategoryName" ColumnName="ParentCategoryName" />
+          <ScalarProperty Name="ParentCategoryURL" ColumnName="ParentCategoryURL" />
+          <ScalarProperty Name="ParentCatName" ColumnName="ParentCatName" />
+          <ScalarProperty Name="TopParentBreadCrumb" ColumnName="TopParentBreadCrumb" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetCMSEntry" FunctionName="NgmdEntities.Store.GetCMSEntry" />
+    <FunctionImportMapping FunctionImportName="GetCMSSection" FunctionName="NgmdEntities.Store.GetCMSSection">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetCMSSection_Result">
+          <ScalarProperty Name="cmsEntryID" ColumnName="cmsEntryID" />
+          <ScalarProperty Name="cmsSectionFK" ColumnName="cmsSectionFK" />
+          <ScalarProperty Name="entryName" ColumnName="entryName" />
+          <ScalarProperty Name="cmsContent" ColumnName="cmsContent" />
+          <ScalarProperty Name="metaData" ColumnName="metaData" />
+          <ScalarProperty Name="notes" ColumnName="notes" />
+          <ScalarProperty Name="useHTMLEditor" ColumnName="useHTMLEditor" />
+          <ScalarProperty Name="cmsGroupFK" ColumnName="cmsGroupFK" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetCompatibleRefs" FunctionName="NgmdEntities.Store.GetCompatibleRefs" />
+    <FunctionImportMapping FunctionImportName="GetConfigSettings" FunctionName="NgmdEntities.Store.GetConfigSettings">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetConfigSettings_Result">
+          <ScalarProperty Name="Setting_Name" ColumnName="Setting Name" />
+          <ScalarProperty Name="Setting_Value" ColumnName="Setting Value" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetCrossSellingProducts" FunctionName="NgmdEntities.Store.GetCrossSellingProducts" />
+    <FunctionImportMapping FunctionImportName="GetDataSupplierAttributes" FunctionName="NgmdEntities.Store.GetDataSupplierAttributes" />
+    <FunctionImportMapping FunctionImportName="GetEquipmentData" FunctionName="NgmdEntities.Store.GetEquipmentData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetEquipmentData_Result">
+          <ScalarProperty Name="FamilyName" ColumnName="FamilyName" />
+          <ScalarProperty Name="CartridgeType" ColumnName="CartridgeType" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetEquipmentDropDownData" FunctionName="NgmdEntities.Store.GetEquipmentDropDownData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetEquipmentDropDownData_Result">
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="AXISValue" ColumnName="AXISValue" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetEvoFeed" FunctionName="NgmdEntities.Store.GetEvoFeed" />
+    <FunctionImportMapping FunctionImportName="GetFacebookFeed_Product" FunctionName="NgmdEntities.Store.GetFacebookFeed_Product">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetFacebookFeed_Product_Result">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="availability" ColumnName="availability" />
+          <ScalarProperty Name="condition" ColumnName="condition" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="link" ColumnName="link" />
+          <ScalarProperty Name="image_link" ColumnName="image_link" />
+          <ScalarProperty Name="brand" ColumnName="brand" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetFavouritePrinters" FunctionName="NgmdEntities.Store.GetFavouritePrinters">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetFavouritePrinters_Result">
+          <ScalarProperty Name="FavouritePrinterID" ColumnName="FavouritePrinterID" />
+          <ScalarProperty Name="ModelId" ColumnName="ModelId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+          <ScalarProperty Name="Record" ColumnName="Record" />
+          <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+          <ScalarProperty Name="ThumbnailURL" ColumnName="ThumbnailURL" />
+          <ScalarProperty Name="CartridgeTypeName" ColumnName="CartridgeTypeName" />
+          <ScalarProperty Name="ManufacturerName" ColumnName="ManufacturerName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetFilteredQASummary" FunctionName="NgmdEntities.Store.GetFilteredQASummary" />
+    <FunctionImportMapping FunctionImportName="GetGoogleFeed_Equip" FunctionName="NgmdEntities.Store.GetGoogleFeed_Equip" />
+    <FunctionImportMapping FunctionImportName="GetGoogleFeed_Product" FunctionName="NgmdEntities.Store.GetGoogleFeed_Product">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetGoogleFeed_Product_Result">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="mpn" ColumnName="mpn" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="brand" ColumnName="brand" />
+          <ScalarProperty Name="google_product_category" ColumnName="google_product_category" />
+          <ScalarProperty Name="product_type" ColumnName="product_type" />
+          <ScalarProperty Name="link" ColumnName="link" />
+          <ScalarProperty Name="mobile_link" ColumnName="mobile_link" />
+          <ScalarProperty Name="image_link" ColumnName="image_link" />
+          <ScalarProperty Name="condition" ColumnName="condition" />
+          <ScalarProperty Name="availability" ColumnName="availability" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="expiration_date" ColumnName="expiration_date" />
+          <ScalarProperty Name="gtin" ColumnName="gtin" />
+          <ScalarProperty Name="promotion_id" ColumnName="promotion_id" />
+          <ScalarProperty Name="custom_label_0" ColumnName="custom_label_0" />
+          <ScalarProperty Name="custom_label_1" ColumnName="custom_label_1" />
+          <ScalarProperty Name="custom_label_2" ColumnName="custom_label_2" />
+          <ScalarProperty Name="custom_label_3" ColumnName="custom_label_3" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetImages" FunctionName="NgmdEntities.Store.GetImages">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetImages_Result">
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="Manufacturer" ColumnName="Manufacturer" />
+          <ScalarProperty Name="URL" ColumnName="URL" />
+          <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
+          <ScalarProperty Name="Main" ColumnName="Main" />
+          <ScalarProperty Name="DataSource" ColumnName="DataSource" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetITData" FunctionName="NgmdEntities.Store.GetITData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetITData_Result">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Hour" ColumnName="Hour" />
+          <ScalarProperty Name="Day" ColumnName="Day" />
+          <ScalarProperty Name="Week" ColumnName="Week" />
+          <ScalarProperty Name="Month" ColumnName="Month" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetMailChimpFeed_Product" FunctionName="NgmdEntities.Store.GetMailChimpFeed_Product">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetMailChimpFeed_Product_Result">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="websiteInventoryId" ColumnName="websiteInventoryId" />
+          <ScalarProperty Name="mpn" ColumnName="mpn" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="brand" ColumnName="brand" />
+          <ScalarProperty Name="product_type" ColumnName="product_type" />
+          <ScalarProperty Name="link" ColumnName="link" />
+          <ScalarProperty Name="image_link" ColumnName="image_link" />
+          <ScalarProperty Name="price" ColumnName="price" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetManufacturerNotes" FunctionName="NgmdEntities.Store.GetManufacturerNotes" />
+    <FunctionImportMapping FunctionImportName="GetManuFamily" FunctionName="NgmdEntities.Store.GetManuFamily">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetManuFamily_Result">
+          <ScalarProperty Name="manufacturerName" ColumnName="manufacturerName" />
+          <ScalarProperty Name="manufacturerID" ColumnName="manufacturerID" />
+          <ScalarProperty Name="familyName" ColumnName="familyName" />
+          <ScalarProperty Name="familyID" ColumnName="familyID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetMetaData" FunctionName="NgmdEntities.Store.GetMetaData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetMetaData_Result">
+          <ScalarProperty Name="metaDescription" ColumnName="metaDescription" />
+          <ScalarProperty Name="metaTitle" ColumnName="metaTitle" />
+          <ScalarProperty Name="familyName" ColumnName="familyName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetMissingImages" FunctionName="NgmdEntities.Store.GetMissingImages">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetMissingImages_Result">
+          <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
+          <ScalarProperty Name="WebsiteInventoryId" ColumnName="WebsiteInventoryId" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="PartNo" ColumnName="PartNo" />
+          <ScalarProperty Name="Website" ColumnName="Website" />
+          <ScalarProperty Name="EditLink" ColumnName="EditLink" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetObsoleteItem" FunctionName="NgmdEntities.Store.GetObsoleteItem">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetObsoleteItem_Result">
+          <ScalarProperty Name="obsoleteItemID" ColumnName="obsoleteItemID" />
+          <ScalarProperty Name="websiteFK" ColumnName="websiteFK" />
+          <ScalarProperty Name="stockReference" ColumnName="stockReference" />
+          <ScalarProperty Name="equipmentName" ColumnName="equipmentName" />
+          <ScalarProperty Name="URL" ColumnName="URL" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetOpayoTransactions" FunctionName="NgmdEntities.Store.GetOpayoTransactions">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetOpayoTransactions_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="WebsiteName" ColumnName="WebsiteName" />
+          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="Json" ColumnName="Json" />
+          <ScalarProperty Name="OrderIsPlaced" ColumnName="OrderIsPlaced" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetOrderDetail" FunctionName="NgmdEntities.Store.GetOrderDetail">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetOrderDetail_Result">
+          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+          <ScalarProperty Name="OrderReference" ColumnName="OrderReference" />
+          <ScalarProperty Name="CustomerReference" ColumnName="CustomerReference" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="TotalNet" ColumnName="TotalNet" />
+          <ScalarProperty Name="TotalVat" ColumnName="TotalVat" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+          <ScalarProperty Name="BillingAddress1" ColumnName="BillingAddress1" />
+          <ScalarProperty Name="BillingAddress2" ColumnName="BillingAddress2" />
+          <ScalarProperty Name="BillingAddress3" ColumnName="BillingAddress3" />
+          <ScalarProperty Name="BillingAddress4" ColumnName="BillingAddress4" />
+          <ScalarProperty Name="BillingAddress5" ColumnName="BillingAddress5" />
+          <ScalarProperty Name="BillingPostcode" ColumnName="BillingPostcode" />
+          <ScalarProperty Name="DeliveryAddress1" ColumnName="DeliveryAddress1" />
+          <ScalarProperty Name="DeliveryAddress2" ColumnName="DeliveryAddress2" />
+          <ScalarProperty Name="DeliveryAddress3" ColumnName="DeliveryAddress3" />
+          <ScalarProperty Name="DeliveryAddress4" ColumnName="DeliveryAddress4" />
+          <ScalarProperty Name="DeliveryAddress5" ColumnName="DeliveryAddress5" />
+          <ScalarProperty Name="DeliveryPostcode" ColumnName="DeliveryPostcode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetOrderDetails" FunctionName="NgmdEntities.Store.GetOrderDetails">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetOrderDetails_Result">
+          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+          <ScalarProperty Name="CustomerReference" ColumnName="CustomerReference" />
+          <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="TotalNet" ColumnName="TotalNet" />
+          <ScalarProperty Name="TotalVat" ColumnName="TotalVat" />
+          <ScalarProperty Name="TrackingLinks" ColumnName="TrackingLinks" />
+          <ScalarProperty Name="StatusDesc" ColumnName="StatusDesc" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetPayPalTransactions" FunctionName="NgmdEntities.Store.GetPayPalTransactions">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetPayPalTransactions_Result">
+          <ScalarProperty Name="Aut_Id" ColumnName="Aut_Id" />
+          <ScalarProperty Name="Aut_DateTime" ColumnName="Aut_DateTime" />
+          <ScalarProperty Name="Aut_Action" ColumnName="Aut_Action" />
+          <ScalarProperty Name="Aut_AuthId" ColumnName="Aut_AuthId" />
+          <ScalarProperty Name="Aut_Response" ColumnName="Aut_Response" />
+          <ScalarProperty Name="Cap_Id" ColumnName="Cap_Id" />
+          <ScalarProperty Name="Cap_DateTime" ColumnName="Cap_DateTime" />
+          <ScalarProperty Name="Cap_Action" ColumnName="Cap_Action" />
+          <ScalarProperty Name="Cap_AuthId" ColumnName="Cap_AuthId" />
+          <ScalarProperty Name="Cap_Response" ColumnName="Cap_Response" />
+          <ScalarProperty Name="OrderIsPlaced" ColumnName="OrderIsPlaced" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetPimberlyFeed" FunctionName="NgmdEntities.Store.GetPimberlyFeed">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetPimberlyFeed_Result">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="partno" ColumnName="partno" />
+          <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetPopularPrinters" FunctionName="NgmdEntities.Store.GetPopularPrinters">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetPopularPrinters_Result">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ManufacturerName" ColumnName="ManufacturerName" />
+          <ScalarProperty Name="FamilyName" ColumnName="FamilyName" />
+          <ScalarProperty Name="CartridgeTypeName" ColumnName="CartridgeTypeName" />
+          <ScalarProperty Name="CartridgeType" ColumnName="CartridgeType" />
+          <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetPrice" FunctionName="NgmdEntities.Store.GetPrice">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetPrice_Result">
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="axisRef" ColumnName="axisRef" />
+          <ScalarProperty Name="language" ColumnName="language" />
+          <ScalarProperty Name="priceTypeID" ColumnName="priceTypeID" />
+          <ScalarProperty Name="account" ColumnName="account" />
+          <ScalarProperty Name="breakQuantity1" ColumnName="breakQuantity1" />
+          <ScalarProperty Name="retailPriceExVat" ColumnName="retailPriceExVat" />
+          <ScalarProperty Name="tradePriceExVat" ColumnName="tradePriceExVat" />
+          <ScalarProperty Name="retailPriceIncVat" ColumnName="retailPriceIncVat" />
+          <ScalarProperty Name="tradePriceIncVat" ColumnName="tradePriceIncVat" />
+          <ScalarProperty Name="breakQuantity2" ColumnName="breakQuantity2" />
+          <ScalarProperty Name="breakPrice2ExVat" ColumnName="breakPrice2ExVat" />
+          <ScalarProperty Name="breakPrice2IncVat" ColumnName="breakPrice2IncVat" />
+          <ScalarProperty Name="breakQuantity3" ColumnName="breakQuantity3" />
+          <ScalarProperty Name="breakPrice3ExVat" ColumnName="breakPrice3ExVat" />
+          <ScalarProperty Name="breakPrice3IncVat" ColumnName="breakPrice3IncVat" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetPriceologyAssemblySupplierFeed" FunctionName="NgmdEntities.Store.GetPriceologyAssemblySupplierFeed">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetPriceologyAssemblySupplierFeed_Result">
+          <ScalarProperty Name="ClientProductID" ColumnName="ClientProductID" />
+          <ScalarProperty Name="MFPN" ColumnName="MFPN" />
+          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="CostPrice" ColumnName="CostPrice" />
+          <ScalarProperty Name="Stock" ColumnName="Stock" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetPriceologyCompetitorFeed" FunctionName="NgmdEntities.Store.GetPriceologyCompetitorFeed">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetPriceologyCompetitorFeed_Result">
+          <ScalarProperty Name="ClientProductID" ColumnName="ClientProductID" />
+          <ScalarProperty Name="MFPN" ColumnName="MFPN" />
+          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="CompetitorName" ColumnName="CompetitorName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetPriceologyProductFeed" FunctionName="NgmdEntities.Store.GetPriceologyProductFeed">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetPriceologyProductFeed_Result">
+          <ScalarProperty Name="ClientProductID" ColumnName="ClientProductID" />
+          <ScalarProperty Name="Mfpn" ColumnName="Mfpn" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+          <ScalarProperty Name="ProductCategory" ColumnName="ProductCategory" />
+          <ScalarProperty Name="BasePrice" ColumnName="BasePrice" />
+          <ScalarProperty Name="SalesFrequency" ColumnName="SalesFrequency" />
+          <ScalarProperty Name="RelatedProductMfpn" ColumnName="RelatedProductMfpn" />
+          <ScalarProperty Name="RelatedProductManufacturer" ColumnName="RelatedProductManufacturer" />
+          <ScalarProperty Name="KeyLineGroup" ColumnName="KeyLineGroup" />
+          <ScalarProperty Name="KeyLine" ColumnName="KeyLine" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetPriceologySupplierFeed" FunctionName="NgmdEntities.Store.GetPriceologySupplierFeed">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetPriceologySupplierFeed_Result">
+          <ScalarProperty Name="ClientProductID" ColumnName="ClientProductID" />
+          <ScalarProperty Name="MFPN" ColumnName="MFPN" />
+          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Stock" ColumnName="Stock" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetPricingRules" FunctionName="NgmdEntities.Store.GetPricingRules" />
+    <FunctionImportMapping FunctionImportName="GetPricingRulesAssemblies" FunctionName="NgmdEntities.Store.GetPricingRulesAssemblies" />
+    <FunctionImportMapping FunctionImportName="GetPricingRulesNonOEM" FunctionName="NgmdEntities.Store.GetPricingRulesNonOEM" />
+    <FunctionImportMapping FunctionImportName="GetPricingRulesOEM" FunctionName="NgmdEntities.Store.GetPricingRulesOEM" />
+    <FunctionImportMapping FunctionImportName="GetPricingRulesOLD" FunctionName="NgmdEntities.Store.GetPricingRulesOLD" />
+    <FunctionImportMapping FunctionImportName="GetPrinter3Equip" FunctionName="NgmdEntities.Store.GetPrinter3Equip">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetPrinter3Equip_Result">
+          <ScalarProperty Name="EquipmentURL" ColumnName="EquipmentURL" />
+          <ScalarProperty Name="EquipURL" ColumnName="EquipURL" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ModelID" ColumnName="ModelID" />
+          <ScalarProperty Name="AXISModelID" ColumnName="AXISModelID" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="ManufacturerID" ColumnName="ManufacturerID" />
+          <ScalarProperty Name="BrandNo" ColumnName="BrandNo" />
+          <ScalarProperty Name="FamilyName" ColumnName="FamilyName" />
+          <ScalarProperty Name="CartridgeType" ColumnName="CartridgeType" />
+          <ScalarProperty Name="CartridgeTypeName" ColumnName="CartridgeTypeName" />
+          <ScalarProperty Name="MainImageURL" ColumnName="MainImageURL" />
+          <ScalarProperty Name="ThumbnailURL" ColumnName="ThumbnailURL" />
+          <ScalarProperty Name="originalCount" ColumnName="originalCount" />
+          <ScalarProperty Name="compatibleCount" ColumnName="compatibleCount" />
+          <ScalarProperty Name="eqNoteSummary" ColumnName="eqNoteSummary" />
+          <ScalarProperty Name="eqNoteDetail" ColumnName="eqNoteDetail" />
+          <ScalarProperty Name="equipmentNote" ColumnName="equipmentNote" />
+          <ScalarProperty Name="MetaContentType" ColumnName="MetaContentType" />
+          <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
+          <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
+          <ScalarProperty Name="IsFavourite" ColumnName="IsFavourite" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetPrinter3Results" FunctionName="NgmdEntities.Store.GetPrinter3Results">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetPrinter3Results_Result">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ProductURL" ColumnName="ProductURL" />
+          <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+          <ScalarProperty Name="PartNo" ColumnName="PartNo" />
+          <ScalarProperty Name="BarCode" ColumnName="BarCode" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="Availability" ColumnName="Availability" />
+          <ScalarProperty Name="AttribValue5" ColumnName="AttribValue5" />
+          <ScalarProperty Name="AttribValue6" ColumnName="AttribValue6" />
+          <ScalarProperty Name="AttribValue8" ColumnName="AttribValue8" />
+          <ScalarProperty Name="AttribValue9" ColumnName="AttribValue9" />
+          <ScalarProperty Name="AttribDesc6" ColumnName="AttribDesc6" />
+          <ScalarProperty Name="AttribDesc8" ColumnName="AttribDesc8" />
+          <ScalarProperty Name="AttribDesc9" ColumnName="AttribDesc9" />
+          <ScalarProperty Name="AXISBrandNo" ColumnName="AXISBrandNo" />
+          <ScalarProperty Name="SpecLine2" ColumnName="SpecLine2" />
+          <ScalarProperty Name="SpecLine3" ColumnName="SpecLine3" />
+          <ScalarProperty Name="SpecLine6" ColumnName="SpecLine6" />
+          <ScalarProperty Name="ProductItemType" ColumnName="ProductItemType" />
+          <ScalarProperty Name="ProductTypeID" ColumnName="ProductTypeID" />
+          <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+          <ScalarProperty Name="ProductReference" ColumnName="ProductReference" />
+          <ScalarProperty Name="BrandFlag" ColumnName="BrandFlag" />
+          <ScalarProperty Name="PriceRetail" ColumnName="PriceRetail" />
+          <ScalarProperty Name="PriceTrade" ColumnName="PriceTrade" />
+          <ScalarProperty Name="BreakQty1" ColumnName="BreakQty1" />
+          <ScalarProperty Name="BreakQty2" ColumnName="BreakQty2" />
+          <ScalarProperty Name="BreakQty3" ColumnName="BreakQty3" />
+          <ScalarProperty Name="BreakPrice2" ColumnName="BreakPrice2" />
+          <ScalarProperty Name="BreakPrice3" ColumnName="BreakPrice3" />
+          <ScalarProperty Name="PageYield" ColumnName="PageYield" />
+          <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+          <ScalarProperty Name="AssemblySaving" ColumnName="AssemblySaving" />
+          <ScalarProperty Name="AssemblyCount" ColumnName="AssemblyCount" />
+          <ScalarProperty Name="PrimarySortSequence" ColumnName="PrimarySortSequence" />
+          <ScalarProperty Name="ManufacturerId" ColumnName="ManufacturerId" />
+          <ScalarProperty Name="promotionalGroupName" ColumnName="promotionalGroupName" />
+          <ScalarProperty Name="promotionalFilterName" ColumnName="promotionalFilterName" />
+          <ScalarProperty Name="CrossSellSaving" ColumnName="CrossSellSaving" />
+          <ScalarProperty Name="CrossSellBrand" ColumnName="CrossSellBrand" />
+          <ScalarProperty Name="FeeFoCount" ColumnName="FeeFoCount" />
+          <ScalarProperty Name="FeeFoRating" ColumnName="FeeFoRating" />
+          <ScalarProperty Name="recordType" ColumnName="recordType" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetPrintersForProducts" FunctionName="NgmdEntities.Store.GetPrintersForProducts">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetPrintersForProducts_Result">
+          <ScalarProperty Name="eqEquipmentFK" ColumnName="eqEquipmentFK" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="CartridgeType" ColumnName="CartridgeType" />
+          <ScalarProperty Name="Kount" ColumnName="Kount" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetProductComponents" FunctionName="NgmdEntities.Store.GetProductComponents">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetProductComponents_Result">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="AttribValue8" ColumnName="AttribValue8" />
+          <ScalarProperty Name="AttribValue9" ColumnName="AttribValue9" />
+          <ScalarProperty Name="AttribDesc8" ColumnName="AttribDesc8" />
+          <ScalarProperty Name="PageYield" ColumnName="PageYield" />
+          <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+          <ScalarProperty Name="PackQuantity" ColumnName="PackQuantity" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetProductEquipment" FunctionName="NgmdEntities.Store.GetProductEquipment">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetProductEquipment_Result">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Manufacturer" ColumnName="Manufacturer" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="EquipmentURL" ColumnName="EquipmentURL" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetProductFeedback" FunctionName="NgmdEntities.Store.GetProductFeedback">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetProductFeedback_Result">
+          <ScalarProperty Name="Count" ColumnName="Count" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetProductFromAxisRef" FunctionName="NgmdEntities.Store.GetProductFromAxisRef">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetProductFromAxisRef_Result">
+          <ScalarProperty Name="ProductURL" ColumnName="ProductURL" />
+          <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+          <ScalarProperty Name="PartNo" ColumnName="PartNo" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="Availability" ColumnName="Availability" />
+          <ScalarProperty Name="AttribValue5" ColumnName="AttribValue5" />
+          <ScalarProperty Name="AttribValue6" ColumnName="AttribValue6" />
+          <ScalarProperty Name="AttribValue8" ColumnName="AttribValue8" />
+          <ScalarProperty Name="AttribValue9" ColumnName="AttribValue9" />
+          <ScalarProperty Name="AttribDesc6" ColumnName="AttribDesc6" />
+          <ScalarProperty Name="AttribDesc8" ColumnName="AttribDesc8" />
+          <ScalarProperty Name="AttribDesc9" ColumnName="AttribDesc9" />
+          <ScalarProperty Name="AXISBrandNo" ColumnName="AXISBrandNo" />
+          <ScalarProperty Name="SpecLine2" ColumnName="SpecLine2" />
+          <ScalarProperty Name="SpecLine6" ColumnName="SpecLine6" />
+          <ScalarProperty Name="ProductItemType" ColumnName="ProductItemType" />
+          <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+          <ScalarProperty Name="ProductReference" ColumnName="ProductReference" />
+          <ScalarProperty Name="BrandFlag" ColumnName="BrandFlag" />
+          <ScalarProperty Name="PriceRetail" ColumnName="PriceRetail" />
+          <ScalarProperty Name="PriceTrade" ColumnName="PriceTrade" />
+          <ScalarProperty Name="BreakQty1" ColumnName="BreakQty1" />
+          <ScalarProperty Name="BreakQty2" ColumnName="BreakQty2" />
+          <ScalarProperty Name="BreakQty3" ColumnName="BreakQty3" />
+          <ScalarProperty Name="BreakPrice2" ColumnName="BreakPrice2" />
+          <ScalarProperty Name="BreakPrice3" ColumnName="BreakPrice3" />
+          <ScalarProperty Name="PageYield" ColumnName="PageYield" />
+          <ScalarProperty Name="AssemblySaving" ColumnName="AssemblySaving" />
+          <ScalarProperty Name="AssemblyCount" ColumnName="AssemblyCount" />
+          <ScalarProperty Name="sequence" ColumnName="sequence" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="productTypeID" ColumnName="productTypeID" />
+          <ScalarProperty Name="manufacturerID" ColumnName="manufacturerID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetProductImages" FunctionName="NgmdEntities.Store.GetProductImages">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetProductImages_Result">
+          <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+          <ScalarProperty Name="ThumbURL" ColumnName="ThumbURL" />
+          <ScalarProperty Name="ZoomURL" ColumnName="ZoomURL" />
+          <ScalarProperty Name="PartNo" ColumnName="PartNo" />
+          <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
+          <ScalarProperty Name="MainImage" ColumnName="MainImage" />
+          <ScalarProperty Name="Column1" ColumnName="Column1" />
+          <ScalarProperty Name="Column2" ColumnName="Column2" />
+          <ScalarProperty Name="productViewManufacturer" ColumnName="productViewManufacturer" />
+          <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetProductMetaData" FunctionName="NgmdEntities.Store.GetProductMetaData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetProductMetaData_Result">
+          <ScalarProperty Name="metaTitle" ColumnName="metaTitle" />
+          <ScalarProperty Name="metaDesc" ColumnName="metaDesc" />
+          <ScalarProperty Name="metaKeywords" ColumnName="metaKeywords" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetProductName" FunctionName="NgmdEntities.Store.GetProductName" />
+    <FunctionImportMapping FunctionImportName="GetProductPDFs" FunctionName="NgmdEntities.Store.GetProductPDFs">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetProductPDFs_Result">
+          <ScalarProperty Name="PDFURL" ColumnName="PDFURL" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetProductPrices" FunctionName="NgmdEntities.Store.GetProductPrices">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetProductPrices_Result">
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+          <ScalarProperty Name="dateLastUpdated" ColumnName="dateLastUpdated" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetProductResults" FunctionName="NgmdEntities.Store.GetProductResults">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetProductResults_Result">
+          <ScalarProperty Name="ProductURL" ColumnName="ProductURL" />
+          <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+          <ScalarProperty Name="PartNo" ColumnName="PartNo" />
+          <ScalarProperty Name="ManuRef" ColumnName="ManuRef" />
+          <ScalarProperty Name="BarCode" ColumnName="BarCode" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="Availability" ColumnName="Availability" />
+          <ScalarProperty Name="AttribValue4" ColumnName="AttribValue4" />
+          <ScalarProperty Name="AttribValue5" ColumnName="AttribValue5" />
+          <ScalarProperty Name="AttribValue6" ColumnName="AttribValue6" />
+          <ScalarProperty Name="AttribValue7" ColumnName="AttribValue7" />
+          <ScalarProperty Name="AttribValue8" ColumnName="AttribValue8" />
+          <ScalarProperty Name="AttribValue9" ColumnName="AttribValue9" />
+          <ScalarProperty Name="ManufacturerId" ColumnName="ManufacturerId" />
+          <ScalarProperty Name="AXISBrandNo" ColumnName="AXISBrandNo" />
+          <ScalarProperty Name="AttribDesc6" ColumnName="AttribDesc6" />
+          <ScalarProperty Name="AttribDesc8" ColumnName="AttribDesc8" />
+          <ScalarProperty Name="AttribDesc9" ColumnName="AttribDesc9" />
+          <ScalarProperty Name="SpecLine1" ColumnName="SpecLine1" />
+          <ScalarProperty Name="SpecLine2" ColumnName="SpecLine2" />
+          <ScalarProperty Name="SpecLine3" ColumnName="SpecLine3" />
+          <ScalarProperty Name="SpecLine4" ColumnName="SpecLine4" />
+          <ScalarProperty Name="SpecLine6" ColumnName="SpecLine6" />
+          <ScalarProperty Name="ProductItemType" ColumnName="ProductItemType" />
+          <ScalarProperty Name="ProductReference" ColumnName="ProductReference" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="BrandFlag" ColumnName="BrandFlag" />
+          <ScalarProperty Name="PriceRetail" ColumnName="PriceRetail" />
+          <ScalarProperty Name="PriceTrade" ColumnName="PriceTrade" />
+          <ScalarProperty Name="BreakQty1" ColumnName="BreakQty1" />
+          <ScalarProperty Name="BreakQty2" ColumnName="BreakQty2" />
+          <ScalarProperty Name="BreakQty3" ColumnName="BreakQty3" />
+          <ScalarProperty Name="BreakPrice2" ColumnName="BreakPrice2" />
+          <ScalarProperty Name="BreakPrice3" ColumnName="BreakPrice3" />
+          <ScalarProperty Name="PageYield" ColumnName="PageYield" />
+          <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+          <ScalarProperty Name="AssemblySaving" ColumnName="AssemblySaving" />
+          <ScalarProperty Name="AssemblyCount" ColumnName="AssemblyCount" />
+          <ScalarProperty Name="ProductNotes" ColumnName="ProductNotes" />
+          <ScalarProperty Name="AxisGroupNo" ColumnName="AxisGroupNo" />
+          <ScalarProperty Name="IsStationerySaleItem" ColumnName="IsStationerySaleItem" />
+          <ScalarProperty Name="ProductGroup" ColumnName="ProductGroup" />
+          <ScalarProperty Name="CategoryCodeName" ColumnName="CategoryCodeName" />
+          <ScalarProperty Name="ProductTypeID" ColumnName="ProductTypeID" />
+          <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+          <ScalarProperty Name="ProductVideoURL" ColumnName="ProductVideoURL" />
+          <ScalarProperty Name="CrossSellProductURL" ColumnName="CrossSellProductURL" />
+          <ScalarProperty Name="CrossSellProductID" ColumnName="CrossSellProductID" />
+          <ScalarProperty Name="CrossSellDescription" ColumnName="CrossSellDescription" />
+          <ScalarProperty Name="CrossSellBrand" ColumnName="CrossSellBrand" />
+          <ScalarProperty Name="CrossSellStatus" ColumnName="CrossSellStatus" />
+          <ScalarProperty Name="CrossSellPrice" ColumnName="CrossSellPrice" />
+          <ScalarProperty Name="CrossSellImage" ColumnName="CrossSellImage" />
+          <ScalarProperty Name="CrossSellRef" ColumnName="CrossSellRef" />
+          <ScalarProperty Name="CrossSellPageYield" ColumnName="CrossSellPageYield" />
+          <ScalarProperty Name="DSNotes" ColumnName="DSNotes" />
+          <ScalarProperty Name="PriorityNote" ColumnName="PriorityNote" />
+          <ScalarProperty Name="DSSuppress" ColumnName="DSSuppress" />
+          <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
+          <ScalarProperty Name="MetaDesc" ColumnName="MetaDesc" />
+          <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
+          <ScalarProperty Name="FeeFoCount" ColumnName="FeeFoCount" />
+          <ScalarProperty Name="FeeFoRating" ColumnName="FeeFoRating" />
+          <ScalarProperty Name="promotionalGroupName" ColumnName="promotionalGroupName" />
+          <ScalarProperty Name="recordType" ColumnName="recordType" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetProductSeoText" FunctionName="NgmdEntities.Store.GetProductSeoText" />
+    <FunctionImportMapping FunctionImportName="GetProductsToCreateTempFields" FunctionName="NgmdEntities.Store.GetProductsToCreateTempFields" />
+    <FunctionImportMapping FunctionImportName="GetProductSuppliers" FunctionName="NgmdEntities.Store.GetProductSuppliers">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetProductSuppliers_Result">
+          <ScalarProperty Name="providerID" ColumnName="providerID" />
+          <ScalarProperty Name="providerName" ColumnName="providerName" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="providerPartNo" ColumnName="providerPartNo" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="priceUpdatedOn" ColumnName="priceUpdatedOn" />
+          <ScalarProperty Name="axisSupplierRef" ColumnName="axisSupplierRef" />
+          <ScalarProperty Name="inventoryUpdated" ColumnName="inventoryUpdated" />
+          <ScalarProperty Name="manufacturerFK" ColumnName="manufacturerFK" />
+          <ScalarProperty Name="untrusted" ColumnName="untrusted" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetQAList" FunctionName="NgmdEntities.Store.GetQAList">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetQAList_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="ProductURL" ColumnName="ProductURL" />
+          <ScalarProperty Name="Equipment" ColumnName="Equipment" />
+          <ScalarProperty Name="AskedDate" ColumnName="AskedDate" />
+          <ScalarProperty Name="RepliedDate" ColumnName="RepliedDate" />
+          <ScalarProperty Name="RepliedBy" ColumnName="RepliedBy" />
+          <ScalarProperty Name="WebsiteId" ColumnName="WebsiteId" />
+          <ScalarProperty Name="Granularity" ColumnName="Granularity" />
+          <ScalarProperty Name="EquipmentType" ColumnName="EquipmentType" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetQASummary" FunctionName="NgmdEntities.Store.GetQASummary" />
+    <FunctionImportMapping FunctionImportName="GetRecentlyOrdered" FunctionName="NgmdEntities.Store.GetRecentlyOrdered" />
+    <FunctionImportMapping FunctionImportName="GetReturnOrderDetail" FunctionName="NgmdEntities.Store.GetReturnOrderDetail" />
+    <FunctionImportMapping FunctionImportName="GetSagePayTransactions" FunctionName="NgmdEntities.Store.GetSagePayTransactions">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetSagePayTransactions_Result">
+          <ScalarProperty Name="Reg_Id" ColumnName="Reg_Id" />
+          <ScalarProperty Name="Reg_Docid" ColumnName="Reg_Docid" />
+          <ScalarProperty Name="Reg_Time" ColumnName="Reg_Time" />
+          <ScalarProperty Name="Reg_Vmuid" ColumnName="Reg_Vmuid" />
+          <ScalarProperty Name="Reg_Protocol" ColumnName="Reg_Protocol" />
+          <ScalarProperty Name="Reg_Status" ColumnName="Reg_Status" />
+          <ScalarProperty Name="Reg_Detail" ColumnName="Reg_Detail" />
+          <ScalarProperty Name="Reg_Uid" ColumnName="Reg_Uid" />
+          <ScalarProperty Name="Reg_Key" ColumnName="Reg_Key" />
+          <ScalarProperty Name="Reg_Authcode" ColumnName="Reg_Authcode" />
+          <ScalarProperty Name="Reg_Avscv2" ColumnName="Reg_Avscv2" />
+          <ScalarProperty Name="Reg_Address" ColumnName="Reg_Address" />
+          <ScalarProperty Name="Reg_Postcode" ColumnName="Reg_Postcode" />
+          <ScalarProperty Name="Reg_Cv2" ColumnName="Reg_Cv2" />
+          <ScalarProperty Name="Reg_String" ColumnName="Reg_String" />
+          <ScalarProperty Name="Reg_3dsecurestatus" ColumnName="Reg_3dsecurestatus" />
+          <ScalarProperty Name="Reg_Cavv" ColumnName="Reg_Cavv" />
+          <ScalarProperty Name="Reg_Md" ColumnName="Reg_Md" />
+          <ScalarProperty Name="Reg_Acsurl" ColumnName="Reg_Acsurl" />
+          <ScalarProperty Name="Reg_Type" ColumnName="Reg_Type" />
+          <ScalarProperty Name="Reg_Redscreened" ColumnName="Reg_Redscreened" />
+          <ScalarProperty Name="Reg_Website" ColumnName="Reg_Website" />
+          <ScalarProperty Name="Aut_Id" ColumnName="Aut_Id" />
+          <ScalarProperty Name="Aut_Time" ColumnName="Aut_Time" />
+          <ScalarProperty Name="Aut_Vmuid" ColumnName="Aut_Vmuid" />
+          <ScalarProperty Name="Aut_Protocol" ColumnName="Aut_Protocol" />
+          <ScalarProperty Name="Aut_Status" ColumnName="Aut_Status" />
+          <ScalarProperty Name="Aut_Detail" ColumnName="Aut_Detail" />
+          <ScalarProperty Name="Aut_Uid" ColumnName="Aut_Uid" />
+          <ScalarProperty Name="Aut_Key" ColumnName="Aut_Key" />
+          <ScalarProperty Name="Aut_Authcode" ColumnName="Aut_Authcode" />
+          <ScalarProperty Name="Aut_Avscv2" ColumnName="Aut_Avscv2" />
+          <ScalarProperty Name="Aut_Address" ColumnName="Aut_Address" />
+          <ScalarProperty Name="Aut_Postcode" ColumnName="Aut_Postcode" />
+          <ScalarProperty Name="Aut_Cv2" ColumnName="Aut_Cv2" />
+          <ScalarProperty Name="Aut_String" ColumnName="Aut_String" />
+          <ScalarProperty Name="Aut_3dsecurestatus" ColumnName="Aut_3dsecurestatus" />
+          <ScalarProperty Name="Aut_Cavv" ColumnName="Aut_Cavv" />
+          <ScalarProperty Name="Aut_Md" ColumnName="Aut_Md" />
+          <ScalarProperty Name="Aut_Acsurl" ColumnName="Aut_Acsurl" />
+          <ScalarProperty Name="Aut_Type" ColumnName="Aut_Type" />
+          <ScalarProperty Name="Aut_Redscreened" ColumnName="Aut_Redscreened" />
+          <ScalarProperty Name="OrderIsPlaced" ColumnName="OrderIsPlaced" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetSearchResults" FunctionName="NgmdEntities.Store.GetSearchResults">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetSearchResults_Result">
+          <ScalarProperty Name="RowNumber" ColumnName="RowNumber" />
+          <ScalarProperty Name="ProductURL" ColumnName="ProductURL" />
+          <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+          <ScalarProperty Name="PartNo" ColumnName="PartNo" />
+          <ScalarProperty Name="BarCode" ColumnName="BarCode" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="Availability" ColumnName="Availability" />
+          <ScalarProperty Name="AttribValue5" ColumnName="AttribValue5" />
+          <ScalarProperty Name="AttribValue6" ColumnName="AttribValue6" />
+          <ScalarProperty Name="AttribValue8" ColumnName="AttribValue8" />
+          <ScalarProperty Name="AttribValue9" ColumnName="AttribValue9" />
+          <ScalarProperty Name="AttribDesc6" ColumnName="AttribDesc6" />
+          <ScalarProperty Name="AttribDesc8" ColumnName="AttribDesc8" />
+          <ScalarProperty Name="AttribDesc9" ColumnName="AttribDesc9" />
+          <ScalarProperty Name="AXISBrandNo" ColumnName="AXISBrandNo" />
+          <ScalarProperty Name="SpecLine2" ColumnName="SpecLine2" />
+          <ScalarProperty Name="SpecLine3" ColumnName="SpecLine3" />
+          <ScalarProperty Name="SpecLine6" ColumnName="SpecLine6" />
+          <ScalarProperty Name="ProductItemType" ColumnName="ProductItemType" />
+          <ScalarProperty Name="productTypeID" ColumnName="productTypeID" />
+          <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+          <ScalarProperty Name="ProductReference" ColumnName="ProductReference" />
+          <ScalarProperty Name="BrandFlag" ColumnName="BrandFlag" />
+          <ScalarProperty Name="PriceRetail" ColumnName="PriceRetail" />
+          <ScalarProperty Name="PriceTrade" ColumnName="PriceTrade" />
+          <ScalarProperty Name="BreakQty1" ColumnName="BreakQty1" />
+          <ScalarProperty Name="BreakQty2" ColumnName="BreakQty2" />
+          <ScalarProperty Name="BreakQty3" ColumnName="BreakQty3" />
+          <ScalarProperty Name="BreakPrice2" ColumnName="BreakPrice2" />
+          <ScalarProperty Name="BreakPrice3" ColumnName="BreakPrice3" />
+          <ScalarProperty Name="PageYield" ColumnName="PageYield" />
+          <ScalarProperty Name="AssemblySaving" ColumnName="AssemblySaving" />
+          <ScalarProperty Name="AssemblyCount" ColumnName="AssemblyCount" />
+          <ScalarProperty Name="sequence" ColumnName="sequence" />
+          <ScalarProperty Name="productID" ColumnName="productID" />
+          <ScalarProperty Name="manufacturerID" ColumnName="manufacturerID" />
+          <ScalarProperty Name="promotionalGroupName" ColumnName="promotionalGroupName" />
+          <ScalarProperty Name="promotionalFilterName" ColumnName="promotionalFilterName" />
+          <ScalarProperty Name="CrossSellSaving" ColumnName="CrossSellSaving" />
+          <ScalarProperty Name="CrossSellBrand" ColumnName="CrossSellBrand" />
+          <ScalarProperty Name="FeeFoCount" ColumnName="FeeFoCount" />
+          <ScalarProperty Name="FeeFoRating" ColumnName="FeeFoRating" />
+          <ScalarProperty Name="recordType" ColumnName="recordType" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetSearchResultsEquip" FunctionName="NgmdEntities.Store.GetSearchResultsEquip" />
+    <FunctionImportMapping FunctionImportName="GetSiteMapsData" FunctionName="NgmdEntities.Store.GetSiteMapsData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetSiteMapsData_Result">
+          <ScalarProperty Name="Equipment" ColumnName="Equipment" />
+          <ScalarProperty Name="Manufacturer" ColumnName="Manufacturer" />
+          <ScalarProperty Name="Family" ColumnName="Family" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="CartridgeType" ColumnName="CartridgeType" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetSkuuudleFeed" FunctionName="NgmdEntities.Store.GetSkuuudleFeed">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetSkuuudleFeed_Result">
+          <ScalarProperty Name="Manufacturer_Name" ColumnName="Manufacturer Name" />
+          <ScalarProperty Name="Product_Name" ColumnName="Product Name" />
+          <ScalarProperty Name="Part_Number" ColumnName="Part Number" />
+          <ScalarProperty Name="Categorization" ColumnName="Categorization" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="Shipping" ColumnName="Shipping" />
+          <ScalarProperty Name="Availability" ColumnName="Availability" />
+          <ScalarProperty Name="Prod_URL" ColumnName="Prod URL" />
+          <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+          <ScalarProperty Name="Condition" ColumnName="Condition" />
+          <ScalarProperty Name="Product_Type" ColumnName="Product Type" />
+          <ScalarProperty Name="Stock_On_Hand" ColumnName="Stock On Hand" />
+          <ScalarProperty Name="EAN_Barcode" ColumnName="EAN Barcode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetSpecificationAttributes" FunctionName="NgmdEntities.Store.GetSpecificationAttributes">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetSpecificationAttributes_Result">
+          <ScalarProperty Name="attributeID" ColumnName="attributeID" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
+          <ScalarProperty Name="dataSupplierID" ColumnName="dataSupplierID" />
+          <ScalarProperty Name="attrName" ColumnName="attrName" />
+          <ScalarProperty Name="attrValue" ColumnName="attrValue" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetSummaryData" FunctionName="NgmdEntities.Store.GetSummaryData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetSummaryData_Result">
+          <ScalarProperty Name="stockReference" ColumnName="stockReference" />
+          <ScalarProperty Name="productID" ColumnName="productID" />
+          <ScalarProperty Name="ProductURL" ColumnName="ProductURL" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+          <ScalarProperty Name="Availability" ColumnName="Availability" />
+          <ScalarProperty Name="BrandFlag" ColumnName="BrandFlag" />
+          <ScalarProperty Name="ManufacturerName" ColumnName="ManufacturerName" />
+          <ScalarProperty Name="CrossSellingStockRef" ColumnName="CrossSellingStockRef" />
+          <ScalarProperty Name="CrossSellingPriceEx" ColumnName="CrossSellingPriceEx" />
+          <ScalarProperty Name="CrossSellingAvailability" ColumnName="CrossSellingAvailability" />
+          <ScalarProperty Name="CrossSellingDescription" ColumnName="CrossSellingDescription" />
+          <ScalarProperty Name="SpecLine6" ColumnName="SpecLine6" />
+          <ScalarProperty Name="GroupNo" ColumnName="GroupNo" />
+          <ScalarProperty Name="CategoryNo" ColumnName="CategoryNo" />
+          <ScalarProperty Name="AffiliateCommissionGroup" ColumnName="AffiliateCommissionGroup" />
+          <ScalarProperty Name="EBGName" ColumnName="EBGName" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="axisRef" ColumnName="axisRef" />
+          <ScalarProperty Name="language" ColumnName="language" />
+          <ScalarProperty Name="priceTypeID" ColumnName="priceTypeID" />
+          <ScalarProperty Name="account" ColumnName="account" />
+          <ScalarProperty Name="breakQuantity1" ColumnName="breakQuantity1" />
+          <ScalarProperty Name="retailPriceExVat" ColumnName="retailPriceExVat" />
+          <ScalarProperty Name="tradePriceExVat" ColumnName="tradePriceExVat" />
+          <ScalarProperty Name="retailPriceIncVat" ColumnName="retailPriceIncVat" />
+          <ScalarProperty Name="tradePriceIncVat" ColumnName="tradePriceIncVat" />
+          <ScalarProperty Name="breakQuantity2" ColumnName="breakQuantity2" />
+          <ScalarProperty Name="breakPrice2ExVat" ColumnName="breakPrice2ExVat" />
+          <ScalarProperty Name="breakPrice2IncVat" ColumnName="breakPrice2IncVat" />
+          <ScalarProperty Name="breakQuantity3" ColumnName="breakQuantity3" />
+          <ScalarProperty Name="breakPrice3ExVat" ColumnName="breakPrice3ExVat" />
+          <ScalarProperty Name="breakPrice3IncVat" ColumnName="breakPrice3IncVat" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetUnAnsweredQASummary" FunctionName="NgmdEntities.Store.GetUnAnsweredQASummary" />
+    <FunctionImportMapping FunctionImportName="GetXSells" FunctionName="NgmdEntities.Store.GetXSells">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.GetXSells_Result">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ProductURL" ColumnName="ProductURL" />
+          <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+          <ScalarProperty Name="PartNo" ColumnName="PartNo" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="Availability" ColumnName="Availability" />
+          <ScalarProperty Name="ManufacturerId" ColumnName="ManufacturerId" />
+          <ScalarProperty Name="AXISBrandNo" ColumnName="AXISBrandNo" />
+          <ScalarProperty Name="ProductReference" ColumnName="ProductReference" />
+          <ScalarProperty Name="BrandFlag" ColumnName="BrandFlag" />
+          <ScalarProperty Name="Brand1" ColumnName="Brand1" />
+          <ScalarProperty Name="AttribValue4" ColumnName="AttribValue4" />
+          <ScalarProperty Name="AttribValue8" ColumnName="AttribValue8" />
+          <ScalarProperty Name="AttribValue9" ColumnName="AttribValue9" />
+          <ScalarProperty Name="AttribDesc8" ColumnName="AttribDesc8" />
+          <ScalarProperty Name="PageYield" ColumnName="PageYield" />
+          <ScalarProperty Name="AssemblyCount" ColumnName="AssemblyCount" />
+          <ScalarProperty Name="PriceRetail" ColumnName="PriceRetail" />
+          <ScalarProperty Name="PriceTrade" ColumnName="PriceTrade" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="InsertPriceologyPrices" FunctionName="NgmdEntities.Store.InsertPriceologyPrices" />
+    <FunctionImportMapping FunctionImportName="InsertProductPrices" FunctionName="NgmdEntities.Store.InsertProductPrices" />
+    <FunctionImportMapping FunctionImportName="InsertProductPricesNEW" FunctionName="NgmdEntities.Store.InsertProductPricesNEW" />
+    <FunctionImportMapping FunctionImportName="InsFeeFoFeedback" FunctionName="NgmdEntities.Store.InsFeeFoFeedback" />
+    <FunctionImportMapping FunctionImportName="IsAxisLocked" FunctionName="NgmdEntities.Store.IsAxisLocked" />
+    <FunctionImportMapping FunctionImportName="ListCategoryCodes" FunctionName="NgmdEntities.Store.ListCategoryCodes">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.ListCategoryCodes_Result">
+          <ScalarProperty Name="Website" ColumnName="Website" />
+          <ScalarProperty Name="Level_1" ColumnName="Level 1" />
+          <ScalarProperty Name="Level_2" ColumnName="Level 2" />
+          <ScalarProperty Name="Level_3" ColumnName="Level 3" />
+          <ScalarProperty Name="Inventory_Count" ColumnName="Inventory Count" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="MaintainBackOrders" FunctionName="NgmdEntities.Store.MaintainBackOrders" />
+    <FunctionImportMapping FunctionImportName="MaintainFavouritePrinters" FunctionName="NgmdEntities.Store.MaintainFavouritePrinters" />
+    <FunctionImportMapping FunctionImportName="MaintainSagePayTokens" FunctionName="NgmdEntities.Store.MaintainSagePayTokens" />
+    <FunctionImportMapping FunctionImportName="ng_FreshRelevance" FunctionName="NgmdEntities.Store.ng_FreshRelevance">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.ng_FreshRelevance_Result">
+          <ScalarProperty Name="sku" ColumnName="sku" />
+          <ScalarProperty Name="product_category" ColumnName="product_category" />
+          <ScalarProperty Name="related_sku" ColumnName="related_sku" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="openRangeUpdateFull" FunctionName="NgmdEntities.Store.openRangeUpdateFull" />
+    <FunctionImportMapping FunctionImportName="openRangeUpdateInc" FunctionName="NgmdEntities.Store.openRangeUpdateInc" />
+    <FunctionImportMapping FunctionImportName="pimberlyDeleteDuplicates" FunctionName="NgmdEntities.Store.pimberlyDeleteDuplicates" />
+    <FunctionImportMapping FunctionImportName="pimberlyRefresh1" FunctionName="NgmdEntities.Store.pimberlyRefresh1" />
+    <FunctionImportMapping FunctionImportName="pimberlyUpdateFull1" FunctionName="NgmdEntities.Store.pimberlyUpdateFull1" />
+    <FunctionImportMapping FunctionImportName="pimberlyUpdateFull2" FunctionName="NgmdEntities.Store.pimberlyUpdateFull2" />
+    <FunctionImportMapping FunctionImportName="PopulatePotentialNewProds" FunctionName="NgmdEntities.Store.PopulatePotentialNewProds" />
+    <FunctionImportMapping FunctionImportName="QAWebsites" FunctionName="NgmdEntities.Store.QAWebsites" />
+    <FunctionImportMapping FunctionImportName="SagePayCheckValidTrans" FunctionName="NgmdEntities.Store.SagePayCheckValidTrans" />
+    <FunctionImportMapping FunctionImportName="SagePayDeleteToken" FunctionName="NgmdEntities.Store.SagePayDeleteToken" />
+    <FunctionImportMapping FunctionImportName="SagePayGetSecurityKey" FunctionName="NgmdEntities.Store.SagePayGetSecurityKey" />
+    <FunctionImportMapping FunctionImportName="SagePayGetToken" FunctionName="NgmdEntities.Store.SagePayGetToken" />
+    <FunctionImportMapping FunctionImportName="SagePayInsertRecord" FunctionName="NgmdEntities.Store.SagePayInsertRecord" />
+    <FunctionImportMapping FunctionImportName="SagePayListTokens" FunctionName="NgmdEntities.Store.SagePayListTokens">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.SagePayListTokens_Result">
+          <ScalarProperty Name="card_type" ColumnName="card_type" />
+          <ScalarProperty Name="last_4_digits" ColumnName="last_4_digits" />
+          <ScalarProperty Name="expiry_date" ColumnName="expiry_date" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="sid" ColumnName="sid" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SagePaySaveToken" FunctionName="NgmdEntities.Store.SagePaySaveToken" />
+    <FunctionImportMapping FunctionImportName="SagePayUpdateSavedToken" FunctionName="NgmdEntities.Store.SagePayUpdateSavedToken" />
+    <FunctionImportMapping FunctionImportName="SaveQuestionAnswer" FunctionName="NgmdEntities.Store.SaveQuestionAnswer">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.SaveQuestionAnswer_Result">
+          <ScalarProperty Name="QuestionAnswerID" ColumnName="QuestionAnswerID" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="AskedDate" ColumnName="AskedDate" />
+          <ScalarProperty Name="RepliedDate" ColumnName="RepliedDate" />
+          <ScalarProperty Name="ShowOnAllSites" ColumnName="ShowOnAllSites" />
+          <ScalarProperty Name="GranularityID" ColumnName="GranularityID" />
+          <ScalarProperty Name="UserFK" ColumnName="UserFK" />
+          <ScalarProperty Name="SourceWebsiteID" ColumnName="SourceWebsiteID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="AltRef" ColumnName="AltRef" />
+          <ScalarProperty Name="eqEquipmentFK" ColumnName="eqEquipmentFK" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SearchQuestion" FunctionName="NgmdEntities.Store.SearchQuestion">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.SearchQuestion_Result">
+          <ScalarProperty Name="QuestionAnswerID" ColumnName="QuestionAnswerID" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="AskedDate" ColumnName="AskedDate" />
+          <ScalarProperty Name="RepliedDate" ColumnName="RepliedDate" />
+          <ScalarProperty Name="ShowOnAllSites" ColumnName="ShowOnAllSites" />
+          <ScalarProperty Name="GranularityID" ColumnName="GranularityID" />
+          <ScalarProperty Name="UserFK" ColumnName="UserFK" />
+          <ScalarProperty Name="SourceWebsiteID" ColumnName="SourceWebsiteID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="AltRef" ColumnName="AltRef" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SetProvidersAlertStatus" FunctionName="NgmdEntities.Store.SetProvidersAlertStatus" />
+    <FunctionImportMapping FunctionImportName="StringSplit" FunctionName="NgmdEntities.Store.StringSplit">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.StringSplit_Result">
+          <ScalarProperty Name="item" ColumnName="item" />
+          <ScalarProperty Name="seq" ColumnName="seq" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Test" FunctionName="NgmdEntities.Store.Test" />
+    <FunctionImportMapping FunctionImportName="TruncateTable" FunctionName="NgmdEntities.Store.TruncateTable" />
+    <FunctionImportMapping FunctionImportName="UpdateAXISQueueCompletedDate" FunctionName="NgmdEntities.Store.UpdateAXISQueueCompletedDate" />
+    <FunctionImportMapping FunctionImportName="UpdateCompletedDates" FunctionName="NgmdEntities.Store.UpdateCompletedDates" />
+    <FunctionImportMapping FunctionImportName="UpdateDropDownEquipmentStatus" FunctionName="NgmdEntities.Store.UpdateDropDownEquipmentStatus" />
+    <FunctionImportMapping FunctionImportName="UpdateEquipmentImageUrls" FunctionName="NgmdEntities.Store.UpdateEquipmentImageUrls" />
+    <FunctionImportMapping FunctionImportName="UpdateProductIds" FunctionName="NgmdEntities.Store.UpdateProductIds" />
+    <FunctionImportMapping FunctionImportName="UpdateProviderFeedTime" FunctionName="NgmdEntities.Store.UpdateProviderFeedTime" />
+    <FunctionImportMapping FunctionImportName="UpdateSupplierStockQuantity" FunctionName="NgmdEntities.Store.UpdateSupplierStockQuantity" />
+    <FunctionImportMapping FunctionImportName="zGetOrderDetail" FunctionName="NgmdEntities.Store.zGetOrderDetail">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NgmdEntities.zGetOrderDetail_Result">
+          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+          <ScalarProperty Name="OrderReference" ColumnName="OrderReference" />
+          <ScalarProperty Name="CustomerReference" ColumnName="CustomerReference" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="TotalNet" ColumnName="TotalNet" />
+          <ScalarProperty Name="TotalVat" ColumnName="TotalVat" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+          <ScalarProperty Name="BillingAddress1" ColumnName="BillingAddress1" />
+          <ScalarProperty Name="BillingAddress2" ColumnName="BillingAddress2" />
+          <ScalarProperty Name="BillingAddress3" ColumnName="BillingAddress3" />
+          <ScalarProperty Name="BillingAddress4" ColumnName="BillingAddress4" />
+          <ScalarProperty Name="BillingAddress5" ColumnName="BillingAddress5" />
+          <ScalarProperty Name="BillingPostcode" ColumnName="BillingPostcode" />
+          <ScalarProperty Name="DeliveryAddress1" ColumnName="DeliveryAddress1" />
+          <ScalarProperty Name="DeliveryAddress2" ColumnName="DeliveryAddress2" />
+          <ScalarProperty Name="DeliveryAddress3" ColumnName="DeliveryAddress3" />
+          <ScalarProperty Name="DeliveryAddress4" ColumnName="DeliveryAddress4" />
+          <ScalarProperty Name="DeliveryAddress5" ColumnName="DeliveryAddress5" />
+          <ScalarProperty Name="DeliveryPostcode" ColumnName="DeliveryPostcode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

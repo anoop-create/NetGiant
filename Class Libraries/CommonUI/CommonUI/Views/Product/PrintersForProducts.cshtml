@@ -1,0 +1,21 @@
+﻿@using System.Configuration
+@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using CommonUI.Models;
+@using System.Data;
+
+@model SearchViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Printers that accept @Model.EquipmentDetail.Rows[0]["Description"].ToString() <span class="g-tt-c">@Model.EquipmentDetail.Rows[0]["CartridgeTypeName"].RangeReplace(false)</span></h2>
+    </div>
+    @foreach (DataRow dr in Model.PrintersForProducts.Rows)
+    {
+        string link = "/model/" + dr["Description"].ToString().Replace(" ", "-") + "-" + dr["CartridgeType"].RangeReplace() + "/";
+        <div class="col-md-6 g-p-b-10">
+            <i class="fa fa-chevron-right g-p-r-10"></i>
+            <a class="primary" href="@link">@(dr["Description"].ToString())</a>
+        </div>
+    }
+</div>

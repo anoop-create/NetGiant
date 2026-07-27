@@ -1,0 +1,368 @@
+/*----- Sage Pay Payment Page Templates Style Sheet - 09-APR-2009 -------*/
+
+@import url('https://fonts.googleapis.com/css?family=Asap:400,400i,700,700i');
+/* zero margins and padding */
+
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+    padding-bottom: 10px;
+    font-family: "Asap", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+    font-size: 14px;
+    color: #65615e;
+    /*	background-image:url(testbackground.gif); */
+}		
+select {
+	font-style: normal;
+	font-weight: normal;
+	color: #000000;
+	text-align: left;
+	width: 60px;
+    height: 40px;
+    padding-left: 10px;
+
+}
+.g-fs-sm {
+    font-size: 10px;
+}
+.g-m-l-10 {
+    margin-left: 10px;
+}
+.g-m-r-30 {
+    margin-right: 30px;
+}
+.g-cur-p {
+    cursor: pointer;
+}
+/* main document structure */
+#pageWrapper {
+	width: 670px;
+	margin: 0 auto;
+	padding: 0;
+}
+#pageWrapperLow {
+	width: auto;
+}
+#headerTop {
+	background-image: url(greybar_thin.gif);
+	background-repeat: no-repeat;
+	height: 25px;
+	margin: 0 auto;
+	top: 1.0em;
+	font: bold 0.8em sans-serif;
+	color: #FFFFFF;
+	text-align: center
+}	
+#header {
+	background-image: url(lines_bg.jpg);
+	background-repeat: no-repeat;
+	background-position: 0px 15px;
+}		
+#sagePayLogo {
+	margin: 30px 20px 10px 0px;
+}
+#protxLogo {
+	margin-top: 28px;
+	vertical-align: top;
+}
+#vendorLogo {
+	margin-top: 5px;
+	float: right;
+	clear: right;
+}
+#padlockContainer {
+	font-family: sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #999999;
+	text-align: left;
+	vertical-align: text-top;
+	text-align:center;
+}	
+#padlockimage {
+	border: 0px none;
+	vertical-align: middle;
+}
+#templateNavigation {
+	margin: 10px;
+	height: 25px;
+	clear: both;
+}
+#backButton {
+	
+}
+#proceedButton {
+	width: 168px;
+	background-color: #333333;
+	height: 40px;
+	color: #FFFFFF;
+	line-height: 40px;
+	text-align: center;
+	font-family: inherit;
+	font-size: inherit;
+	text-decoration: none;
+	display: block;
+}
+#proceedButton:hover {
+    background-color: #0099cc;
+    color: white;
+}
+#proceedButton:active {
+	background-color: #006699;
+}
+#templateCancel {
+	margin-top: 10px;
+}
+#templateCancel img {
+	margin: 10px;
+}
+#templatefooter {
+	width: 670px;
+	height: 38px;
+	padding-top: 5px;
+	color: #F2AF00;
+	text-align: center;
+}
+.greyHzShadeBar
+{
+    height: 20px;
+    background-image: url(greyGrad.png);
+    background-repeat: repeat-x;
+    background-position: bottom left;
+}
+.sectionheader {
+	padding: 25px 0px 12px 0px;
+	font: 20px Verdana, Arial, Helvetica;
+	color: #008469;
+	text-align: left;
+	background-image: url(whiteback.gif);
+	background-repeat:no-repeat;
+}		
+.popheader {		
+	color : #008469;
+	font: bold 1.3em sans-serif;
+}	
+.noTopMargin {
+	margin-top: 0px;
+	padding-top: 0px;
+}
+/* Tables */
+.formTable {
+    width: auto;
+    border: 0px none;
+	border-collapse: collapse;
+}
+.formTable td
+{
+	border-right: 0px none;
+	border-left: 0px none;
+    padding: 3px 10px 30px 0;
+	vertical-align: middle;
+}
+
+    .formTable td input {
+        height: 40px;
+        padding-left: 10px;
+        font-family: inherit;
+        font-size: inherit;
+        margin-top: 5px;
+    }
+    .formTable td select {
+        font-family: inherit;
+        font-size: inherit;
+        margin-top: 5px;
+    } 
+    
+    .formTable .label {
+        text-align: left;
+        width: 150px;
+        font-size: 12px;
+        font-family: "Asap", sans-serif;
+        color: #000000;
+        white-space: nowrap;
+    }
+.formTable .data {
+	font: 14px sans-serif;
+	color: #333333 !important;
+	width: auto;
+}
+.readonly .data {
+	font-weight: bold;
+}
+.formTable .data input {
+	width: 292px;
+	margin: 0;
+	padding: 3px 1px;
+	border: 1px solid #cccccc;
+	vertical-align: middle;
+	padding-left: 8px;
+}
+.formTable .data select {
+	font: 14px sans-serif;
+	width: 210px;
+	border: 1px solid #cccccc;
+}
+.formTable .data input[type='checkbox'] {
+	width: 20px;
+}
+.formTable .info {
+	display: none;
+	padding-top: 5px;
+	font: 10px sans-serif;
+	color:#575C53;
+	width: 480px;
+}
+#transactionDetails {
+	font-size: 10px;
+	font-weight: normal;
+	color: #65615e;
+}
+#transactionDetails table {
+    border: 0px none;
+	border-collapse: collapse;
+	margin: 0px 10px 10px 10px;
+	background-color:#ffffff;
+}
+#transactionDetails td {
+	border-top: 1px solid #d3d3d3;
+	border-bottom: 1px solid #d3d3d3;
+	border-right: 0px none;
+	border-left: 0px none;
+    padding: 3px 10px 6px 3px;
+	vertical-align: top;
+}
+#transactionDetails .label {
+
+}
+#transactionDetails .data {
+	font-weight: bold;
+}
+#transactionDetails .data .total {
+	font-size: 12px;
+}
+#shoppingBasket {
+	font-size: 11px;
+	color:#575C53;
+}
+#shoppingBasket thead {
+	font-size: 10px;
+	font-weight:bold;
+	color: #A8B400;
+}		
+/* Text */
+p {
+	font: 12px sans-serif;
+	color : #65615e;
+	text-align:left;
+	margin-bottom: 10px;
+}
+.indent {
+	margin-left: 10px;
+}
+.errortext {
+	color : #B3161C;
+}
+.bodytextbold {
+	color : #000000;
+	font-weight: bold;
+}	
+.bodybold {
+	font-weight: bold;
+}
+.bodysmalltext {
+	color : #65615e;
+	font: 0.8em sans-serif;
+	text-align:left;
+}
+.bodysmalltextBold {
+	color : #65615e;
+	font: 0.8em sans-serif;
+	text-align:left;
+	font-weight:bold;
+	padding-left:5px;
+}	
+.bodytextGreen {
+	color : #69923A;
+	text-align:left;
+}
+.bodytextOrange {
+	color : #F2AF00;
+	font: 0.8em sans-serif;
+	text-align:left;
+}		
+.sagepayOrangeHeading {
+	font-style:normal;
+	font-weight:bold;
+	font-variant:normal;
+	color: #F2AF00;
+	font-size: 16px;
+}
+.sagepaySmalltext {
+	font-size: 10px;
+}
+.address {
+	font-family: sans-serif;
+	font-size: 0.8em;
+	font-weight: normal;
+	color: #65615e;
+	text-align:left
+}
+.copyright {
+    font: 0.8em foco sans-serif;
+	font-style:normal;
+	font-weight:bold;
+	font-variant:normal;
+	color: #F2AF00;
+}
+.questiontext {
+	font-weight: bold;
+}	
+/* Hyperlinks */
+#templatefooter a {
+	color: #F2AF00;
+	text-decoration: none;
+}
+#templatefooter a:hover {
+	color: #F2AF00;
+	text-decoration: underline
+}
+#cancelpayment {
+	margin-top: 15px;	
+}
+#cancelOrderButton {
+	height: 22px; 
+	text-align: center; 
+	font-size: 8pt; 
+	color: #FFFFFF; 
+	font-weight: bold; 
+	font-family: sans-serif; 
+	width: 84px;
+	background-color: #333333;
+	display: block;
+	text-decoration: none;
+	margin-left: 160px;
+	line-height: 22px;
+}
+#cancelOrderButton:hover {
+	background-color: #0099cc;
+	transition: all 0.2s ease-in;
+	-moz-transition: all 0.2s ease-in;
+	-webkit-transition: all 0.2s ease-in;	
+}
+#cancelOrderButton:active {
+	background-color: #006699;
+	transition: none !important;
+}
+
+.whatsThis {
+    text-decoration: none !important;
+    color: #0099CC;
+}
+
+.name-container1 {
+	margin-bottom: 30px;
+}

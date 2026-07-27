@@ -1,0 +1,264 @@
+﻿@using System.Configuration
+@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using CommonUI.Models;
+@using Kendo.Mvc.UI;
+
+@model SearchViewModel
+
+@{
+    string ad = "";
+    Dictionary<string, string> ad_dir = new Dictionary<string, string>();
+    if (!Model.IsMobile && (Model.IsCompatibleSaleActive || Model.IsOEMSaleActive) && !string.IsNullOrEmpty(Utilities.GetItemFromDict(Model.SaleData, "ModelMarketing1")))
+    {
+        ad = "ModelMarketing1";
+        ad_dir = Model.SaleData;
+    }
+    else
+    {
+        if (!Model.IsMobile && !string.IsNullOrEmpty(Utilities.GetItemFromDict(Model.ProductData, "ModelMarketing1")))
+        {
+            ad = "ModelMarketing1";
+            ad_dir = Model.ProductData;
+        }
+    }
+}
+
+@section AddTags {
+    <link rel="canonical" href="@("https://" + Model.DomainNameTrunc + ViewBag.cUrl)" />
+}
+
+<section id="loadbg" class="product" data-stellar-background-ratio="0.5" data-stellar-ratio="1" data-bgimg="@Html.RawFromDict(Model.CommonData, "FeatureBackground")">
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-md-12 comm-title-banner g-h-150-md g-fc-st">
+                @if (!Model.IsMobile)
+                {
+                    <div class="bread-crumb hidden-xs hidden-sm">
+                        @foreach (KeyValuePair<string, string> bc in Model.BreadcrumbTrail)
+                        {
+                            <a class="second" href="/@bc.Value">@bc.Key</a>
+                            <i class="fa fa-chevron-right g-fs-xs-i"></i>
+                        }
+                    </div>
+                }
+                <div class="comm-title-margin g-m-t-a">
+                    <div class="pull-left col-md-9">
+                        <h1>
+                            <span class="">@Model.EquipmentDetail.Rows[0]["Description"].ToString()</span> <span class="g-tt-c">@Model.EquipmentDetail.Rows[0]["CartridgeTypeName"].RangeReplace(false)</span>
+                        </h1>
+                        <i class="fa fa-print"></i>
+                        <span id="save-printer-text">
+                            @if (@Convert.ToBoolean(Model.EquipmentDetail.Rows[0]["IsFavourite"]))
+                            {
+                                <a class="second" href="/MyAccount/Index/MyPrinters">
+                                    <span class="g-i"> View My Printers</span>
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="popup g-i g-cur-p g-lk-white"
+                                      data-popupname="@(Authentication.IsAuthenticated() ? "SaveMyPrinter" : "SaveMyPrinterRegister")"
+                                      data-replacements="@ViewBag.SaveMyPrinterRep"
+                                      data-toggle="modal"
+                                      data-target="#popup">
+                                    Save to My Printers
+                                </span>
+                            }
+                            @if (!string.IsNullOrEmpty(ad))
+                            {
+                                <span class="g-m-l-20 hidden-xs hidden-sm">
+                                    <button class="popup g-cur-p g-butt-second-inv g-butt-lg-2"
+                                            onclick="scrollToSelector('#questions',0, function() { scrollToSelector('#questions'); });">
+                                        Ask a Question
+                                    </button>
+                                </span>
+                            }
+                        </span>
+                    </div>
+                    @if (string.IsNullOrEmpty(ad))
+                    {
+                        <div class="pull-right hidden-xs hidden-sm">
+                            <div>
+                                <button class="popup g-cur-p g-butt-second-inv g-butt-lg-2"
+                                        onclick="scrollToSelector('#questions');">
+                                    Ask a Question
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="comm-title-image g-b-1-p g-bc-s g-cur-p g-flex-allcenter hidden-xs hidden-sm">
+                    <img id="prd-image" src="@(Model.EquipmentDetail.Rows[0]["ThumbnailURL"].ToString())" alt="@Model.EquipmentDetail.Rows[0]["Description"].ToString()"
+                         data-toggle="modal" data-target="#imageModal"
+                         onerror="this.src = '@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
+                    <span>
+                        <img id="image-zoom" class="msp_zoom g-ps-a g-d-n" src="/Content/Images/1pxTrans.png" alt="zoom" />
+                    </span>
+                </div>
+
+                @if (!string.IsNullOrEmpty(ad))
+                {
+                    <div class="pl-mktg-image1 g-cur-p g-flex-allcenter">
+                        @Html.RawFromDict(ad_dir, ad, null, "hidden-xs hidden-sm")
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="g-bc-p g-p-t-60-sm g-p-b-100">
+    <div class="container body-content g-ps-r">
+
+        <div class="row g-m-t-30">
+            <div class="col-md-12">
+                <div class="row">
+                    @if (Model.EquipmentDetail.Rows[0]["eqNoteSummary"].ToString() != "")
+                    {
+                        <div class="col-xs-12 g-m-b-30 g-fs-15">@Html.Raw(Model.EquipmentDetail.Rows[0]["eqNoteSummary"].ToString())</div>
+                    }
+
+                    <div class="col-xs-12 col-md-12 pl-products">
+                        @if (Model.IsMobile || !ViewBag.ShowSwitchBanner || !ViewBag.ShowSavings)
+                        {
+                            <hr class="g-m-b-20" />
+                            Html.RenderPartial("~/Views/Product/ProductAltFilters.cshtml", Model);
+                        }
+                        else
+                        {
+                            @Html.RawFromDict(Model.ProductData, "SwitchToBanner")
+                        }
+
+                        @{
+                            int savedSortSeq1 = -1;
+                            string savedSortSeq2 = "";
+                            string endtag = "";
+
+                            foreach (SearchList se in Model.SearchList)
+                            {
+                                ProductEntry pe = Model.Product = se.Product;
+                                string imageSash = Model.GetImageSash();
+                                if ((int)pe.PrimarySortSeq != savedSortSeq1 || (pe.PrimarySortSeq.Equals(ProductFlag.Product) && pe.AttDesc8 != savedSortSeq2))
+                                {
+                                    @Html.Raw(endtag + "<div>")
+                                    ;
+                                    if (endtag == "")
+                                    {
+                                        endtag = "</div>";
+                                    }
+                                    if (pe.PrimarySortSeq.Equals(ProductFlag.Assembly))
+                                    {
+                                        <div class="pl-sub-banner">
+                                            <div class="pull-left">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-circle-thin fa-stack-2x"></i>
+                                                    <i class="fa fa-gbp fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </div>
+                                            <h2 class="g-fs-lg pull-left g-p-l-10 g-fw-n g-m-0 g-lh-40 g-d-ib g-va-t g-w-80p">@(pe.SpecLine6 == "Ink" ? "Ink" : "Toner") Value Packs</h2>
+                                            <div class="pull-right g-p-r-10 hidden-xs hidden-sm">
+                                                <div class="popup g-cur-p g-ps-a g-rt-10 g-p-r-10 g-i" data-popupname="WhatAreValuePacks" data-replacements="" data-toggle="modal" data-target="#popup">
+                                                    What are value packs?
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    if (pe.PrimarySortSeq.Equals(ProductFlag.Product))
+                                    {
+                                        string fs = Model.EquipmentDetail.Rows[0]["Description"].ToString().Length < 35 ? "lg" : "md";
+                                        <div class="pl-sub-banner">
+                                            <div class="pull-left g-m-r-10">
+                                                <div class="pl-chip g-m-t-7 cc-@pe.AttValue8"></div>
+                                            </div>
+                                            <h2 class="g-fs-lg g-fw-n g-m-0 g-lh-40 pl-h2-fs@(fs) g-d-ib g-va-t g-w-85p">
+                                                @pe.AttDesc8 Cartridges For @Model.EquipmentDetail.Rows[0]["Description"].ToString() printers
+                                            </h2>
+                                        </div>
+                                        savedSortSeq2 = pe.AttDesc8;
+                                    }
+                                    if (pe.PrimarySortSeq.Equals(ProductFlag.Ancillary))
+                                    {
+                                        <div class="pl-sub-banner">
+                                            <div class="pull-left">
+                                                <i class="fa fa-wrench fa-lg"></i>
+                                            </div>
+                                            <h2 class="g-fs-lg pull-left g-p-l-10 g-fw-n g-m-0 g-lh-40 g-d-ib g-va-t g-w-80p">Printer Maintenance Products</h2>
+                                            <div class="popup g-cur-p g-ps-a g-rt-10 g-p-r-10 g-i" data-popupname="WhatAreMaintenanceProducts" data-replacements="" data-toggle="modal" data-target="#popup">
+                                                What are printer maintenance products?
+                                            </div>
+                                        </div>
+                                    }
+                                    savedSortSeq1 = (int)pe.PrimarySortSeq;
+                                }
+                                Html.RenderPartial("~/Views/Product/ProductEntry.cshtml", Model, new ViewDataDictionary { { "ImageSash", imageSash }, { "ShowSavings", ViewBag.ShowSavings } });
+                            }
+                            @Html.Raw(endtag)
+
+                            if (Model.EquipmentDetail.Rows[0]["eqNoteDetail"].ToString() != "")
+                            {
+                                <hr class="g-m-t-40 g-m-b-30" />
+
+                                if (!Model.EquipmentDetail.Rows[0]["CartridgeTypeName"].ToString().Contains("Range"))
+                                {
+                                    <h2 class="g-tt-c">@Model.EquipmentDetail.Rows[0]["CartridgeTypeName"].ToString() for the @Model.EquipmentDetail.Rows[0]["Description"].ToString()</h2>
+                                }
+                                <div class="g-fs-15">@Html.Raw(Model.EquipmentDetail.Rows[0]["eqNoteDetail"].ToString())</div>
+                                <div class="clearfix"></div>
+                            }
+
+                            Html.RenderPartial("~/Views/Shared/Faq.cshtml", Model.FaqList);
+
+                            Html.RenderPartial("~/Views/Product/QandA.cshtml", Model.EquipmentQA);
+
+                            if (Model.PrintersForProducts.Rows.Count > 0)
+                            {
+                                <hr class="g-m-t-40 g-m-b-10" />
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div id="printers-for-products" class="col-md-12">
+                                                @{
+                                                    Html.RenderPartial("~/Views/Product/PrintersForProducts.cshtml", Model);
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            Html.RenderPartial("~/Views/Shared/LiveChat.cshtml", Model);
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@{
+    //List<string> eqlist = new List<string>();
+    //eqlist.Add(Model.EquipmentDetail.Rows[0]["MainImageURL"].ToString());
+
+    List<CarouselEntry> eqlist = new List<CarouselEntry>();
+    eqlist.Add(new CarouselEntry()
+    {
+        MainImageUrl = Model.EquipmentDetail.Rows[0]["MainImageURL"].ToString(),
+        ThumbnailUrl = Model.EquipmentDetail.Rows[0]["ThumbnailURL"].ToString(),
+        ZoomImageUrl = Model.EquipmentDetail.Rows[0]["MainImageURL"].ToString()
+    });
+
+    Html.RenderPartial("~/Views/Product/ImageModal.cshtml", eqlist);
+}
+
+@section StructuredData {
+    [
+    @Html.Raw(ViewBag.BreadcrumbJson)
+    @Html.Raw(ViewBag.FaqJson)
+    ]
+}
+
+@section AddScript
+{
+    @Scripts.Render("~/bundles/productBundle.js")
+}

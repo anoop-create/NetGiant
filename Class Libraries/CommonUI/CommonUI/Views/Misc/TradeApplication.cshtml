@@ -1,0 +1,179 @@
+﻿@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using CommonUI.Models;
+@using System.Configuration;
+
+@model MiscViewModel
+
+@{
+    Layout = "~/Views/Shared/_Empty.cshtml";
+    //Html.EnableClientValidation(false);
+}
+
+<div id="trade-application" class="container-fluid g-bc-p">
+    @{
+        using (Ajax.BeginForm("TradeApplication",
+            "Misc",
+            null,
+            new AjaxOptions { HttpMethod = "POST", OnBegin = "applicationBegin", OnComplete = "applicationComplete", OnFailure = "applicationError" },
+            new { id = "trade-application-form", autocomplete = "off" }))
+        {
+            @Html.AntiForgeryToken();
+
+            Html.RenderPartial("~/Views/Misc/TradeApplicationComponents.cshtml", Model.TradeApplicationDetails, new ViewDataDictionary
+            {
+                TemplateInfo = new TemplateInfo()
+                {
+                    HtmlFieldPrefix = "TradeApplicationDetails"
+                }
+                //, ["ShowAddress"] = Model.AccountApplicationDetails.BillingAddress != null
+            });
+
+            <div class="row">
+                <div class="pull-left">
+                    @Html.GoogleCaptcha()
+                </div>
+                @Html.InvalidGoogleCaptchaLabel("Captcha is not valid !")
+            </div>
+
+            <div class="row g-m-t-20">
+                <div id="captcha-error" class="g-p-20 g-bc-neg g-fc-st g-b-1-i g-d-ib g-d-n"></div>
+            </div>
+
+            <div class="row">
+                <div id="co-submit-button" class="g-d-ib g-va-t">
+                    <button type="submit" class="g-butt-primary g-butt-xl g-m-t-20">Submit Application</button>
+                    <span id="submit-error" class="g-p-l-20"></span>
+                </div>
+                <div id="co-privacy-notice" class="g-d-ib g-d-n">
+                    <p class="g-m-l-10 g-m-t-20">
+                        To understand how we use your data to<br>
+                        process orders view our <a href="/blog/help/policies/" target="_blank">Privacy Policy.</a>
+                    </p>
+                </div>
+            </div>
+
+            @Html.ValidationSummary(false)
+        }
+    }
+</div>
+
+<iframe id="iframe-height-adjust" class="g-ps-a g-top-0 g-btm-0 g-lf-0 g-h-100p g-w-0 g-b-n g-bc-transparent" data-containerid="#trade-application" data-iframeid="@ViewBag.IframeId" tabindex="-1"></iframe>
+
+@*@{
+        Html.RenderPartial("~/Views/MyAccount/SignIn.cshtml");
+    }*@
+
+@section AddTags
+{
+    <style>
+        .jconfirm-box {
+            margin-top: 100px !important;
+        }
+    </style>
+}
+
+@section scripts
+{
+
+    <script type="text/javascript">
+        $.validator.setDefaults({ ignore: null });
+
+        $('#trade-application-form').bind("invalid-form.validate",
+            function () {
+                // Ensure Address is expanded
+                $('#bill-manual-address').trigger('click');
+            });
+
+        $('#TradeApplicationDetails_ContactEmail').blur(function () {
+            validateEmail();
+        });
+
+        function validateEmail() {
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "POST",
+                url: "/MyAccount/TradeAccountChecks",
+                data: {
+                    email: $('#TradeApplicationDetails_ContactEmail').val(),
+                    __RequestVerificationToken: $('input[name=__RequestVerificationToken]').val()
+                },
+                success: function (data) {
+                    if (!data.saveReturn.IsSuccess) {
+                        scrollToSelector($('#trade-application-form'));
+                        if (data.saveReturn.Message == "NewAccount") {
+                            $.confirm({
+                                title: 'Please Register',
+                                content: 'In order to sign up as a Trade Customer you must first Sign Up on the website. Click the Sign Up button below to access the Home Page.',
+                                buttons: {
+                                    SignUp: {
+                                        text: 'Sign Up',
+                                        action: function () {
+                                            top.location.href = "/?signin=yes";
+                                            e.preventDefault();
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                        if (data.saveReturn.Message == "TradeAccountCustomer") {
+                            $.confirm({
+                                title: 'Please Register',
+                                content: 'You are already signed up as a Trade Account customer. Just log into the website to access low prices.',
+                                buttons: {
+                                    Shop: {
+                                        text: 'Go Shopping!',
+                                        action: function () {
+                                            top.location.href = "/";
+                                            e.preventDefault();
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    }
+                },
+                error: function (xhr, textStatus, thrownError) {
+                    logAjaxScriptError("/MyAccount/UserExists/", xhr, textStatus, thrownError);
+                }
+            });
+        }
+
+        function applicationBegin() {
+
+            validateEmail();
+            $('#co-submit-button > button').html('Submitting <i class="fa fa-spinner fa-spin"></i>');
+            $('#co-submit-button > button').attr('disabled', true);
+            $('#captcha-error').html('').addClass('g-d-n');
+        }
+
+        function applicationError(XMLHttpRequest, textStatus, errorThrown) {
+            if (XMLHttpRequest.responseText.indexOf('anti-forgery') > 0) {
+                $('#captcha-error').html('Anti-forgery error').removeClass('g-d-n');
+                scrollToSelector('#captcha-error');
+            }
+        }
+
+        function applicationComplete(data) {
+            $('#co-submit-button > button').html('Submit Application');
+            if (typeof $("#co-submit-button > button").attr('disabled') !== 'undefined') {
+                $("#co-submit-button > button").removeAttr('disabled');
+            }
+            if (typeof data.responseJSON !== 'undefined') {
+                if (data.responseJSON.savereturn.IsSuccess) {
+                    $('#trade-application').html(data.responseJSON.savereturn.Html);
+                    scrollToSelector('#trade-application');
+                } else {
+                    $('#submit-error').html(data.responseJSON.savereturn.Html);
+                }
+            } else {
+                if ($('#captcha-error').is(':empty')) {
+                    $('#captcha-error').html('Please complete the CAPTCHA').removeClass('g-d-n');
+                    scrollToSelector('#captcha-error');
+                }
+            }
+        }
+    </script>
+    @Scripts.Render("~/bundles/checkoutBundle.js")
+}

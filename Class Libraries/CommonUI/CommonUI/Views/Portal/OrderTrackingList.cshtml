@@ -1,0 +1,59 @@
+﻿@using BusinessLogic
+@using BusinessLogic.ViewModels
+@using Kendo.Mvc.UI
+@using CommonUI.Models;
+
+@model PortalViewModel
+
+@{
+    Layout = "~/Views/Shared/_Portal.cshtml";
+}
+
+<div class="g-fs-lg g-p-l-20 g-p-t-10 g-p-b-10 g-bc-s g-m-b-20 g-b-1-p">
+    Order Tracking
+</div>
+
+<div id="portal-grid" class="g-m-l-20 g-m-r-20">
+    @(Html.Kendo().Grid<PortalViewModel.TelerikOrderTracking>()
+            .Name("grid")
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(read => read.Action("OrderTracking_Read", "Portal", new { acc = Model.OrderTrackingAcc }))
+                .PageSize(200)
+            )
+            .Columns(columns =>
+            {
+                columns.Bound(x => x.Website).Width(70).Title("Site").HeaderHtmlAttributes(new { title = "Website", style = "text-align: center;" }).Hidden();
+                columns.Bound(x => x.OrderNumber).Width(70).Title("Order Number").HeaderHtmlAttributes(new { title = "Order Number", style = "text-align: center;" });
+                columns.Bound(x => x.PurchaseOrderNumber).Width(70).Title("PO Number").HeaderHtmlAttributes(new { title = "Purchase Order Number", style = "text-align: center;" });
+                columns.Bound(x => x.CustomerRef).Width(90).Title("Cust. Ref.").HeaderHtmlAttributes(new { title = "Customer Ref", style = "text-align: center;" });
+                columns.Bound(x => x.OrderDate).Title("Order Date").HeaderHtmlAttributes(new { title = "Order Date", style = "text-align: center;" }).Width(90)
+                    .ClientTemplate("#= kendo.toString(kendo.parseDate(OrderDate, 'yyyy-MM-dd'), 'dd/MM/yyyy') #");
+                columns.Bound(x => x.Courier).Width(80).Title("Courier").HeaderHtmlAttributes(new { title = "Courier", style = "text-align: center;" });
+                columns.Bound(x => x.Name).Width(120).Title("Name").HeaderHtmlAttributes(new { title = "Name", style = "text-align: center;" });
+                columns.Bound(x => x.Email).Width(120).Title("Email").HeaderHtmlAttributes(new { title = "Email Address", style = "text-align: center;" });
+                columns.Bound(x => x.TrackingCode).Width(150).Title("Consignment").HeaderHtmlAttributes(new { title = "Consignment", style = "text-align: center;" });
+                columns.Bound(x => x.IsSent).Width(80).Title("Email Sent").HeaderHtmlAttributes(new { title = "Sent", style = "text-align: center;" });
+                columns.Bound(x => x.OrderTrackingId).Title("Actions").HeaderHtmlAttributes(new { title = "Email Address", style = "text-align: center; font-weight: bold;" }).ClientTemplate(
+                    "<a href=\"javascript: sendTrackingLink('#:OrderTrackingId#')\" class=\"g-butt-secondary g-butt-s g-p-5\">Send Link</a>" +
+                    "<a href=\"#:TrackingLink#\" target=\"#:Blank#\" class=\"g-butt-secondary g-butt-s g-p-5 g-m-l-10\">Track Consignment</a>"
+                    ).Width(170).Filterable(false).Sortable(false).Groupable(false);
+            })
+            .Pageable(pager => pager.Refresh(true))
+            .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+            .Sortable(sortable => sortable
+                .AllowUnsort(true))
+            .Scrollable()
+            .Filterable(ftb => ftb
+                .Mode(GridFilterMode.Menu))
+            .ColumnMenu()
+            .Resizable(resize => resize.Columns(true))
+            .Reorderable(reorder => reorder.Columns(true))
+            .NoRecords("There are no items to display")
+            //.Events(events => events.Change("Grid_OnRowSelect"))
+            //.Selectable()
+            .Deferred()
+        )
+</div>
+
+

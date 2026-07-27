@@ -1,0 +1,132 @@
+﻿@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+@using System.Configuration;
+@using System.Data
+
+@model HomeViewModel
+
+@if (Model.BestSellers2.Count > 0)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Best Selling Toner Cartridges</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            @foreach (MiniProductEntry mpe in Model.BestSellers2)
+            {
+                decimal mainPrice = 0;
+                string mainPriceVat = "";
+                if (ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "1")
+                {
+                    mainPrice = mpe.PriceRetIncVat;
+                    mainPriceVat = "inc VAT";
+                }
+                else
+                {
+                    mainPrice = Decimal.Divide(mpe.PriceRetIncVat, Model.VatMultiplier);
+                    mainPriceVat = "ex VAT";
+                }
+                <div class="mini-product-entry best-seller atb-entry">
+                    <a href="@mpe.Url">
+                        <img class="g-bc-s g-b-1-p" src="@mpe.ImageUrl" alt="@mpe.Description" onerror="this.src = '@ConfigurationManager.AppSettings["CDN"]/Images/noimage.jpg';"/>
+                    </a>
+                    <div class="g-m-t-10 g-h-40 g-of-h">
+                        <a class="primary" href="@mpe.Url">
+                            <strong>@mpe.Description</strong>
+                        </a>
+                    </div>
+                    <div class="g-m-t-10 g-fs-lg g-h-35 g-of-h">
+                        &pound;@mainPrice.ToString("#,###,##0.00") <span class="g-fc-tt g-fs-sm">@mainPriceVat</span>
+                    </div>
+                    <div class="g-fc-st text-center g-m-t-10 g-fs-sm g-lh-20">
+                        @Html.ProductAvailability(mpe.Availability, Convert.ToBoolean(Model.CommonData["DeliveryDateIsOverridden"].ToString()), true)
+                    </div>
+                    <div class="pull-right g-m-t-10 g-w-100p">
+                        <button class="atb-add g-butt-primary g-butt-100p"
+                                data-price="@mainPrice.ToString("N2")"
+                                data-productid="@mpe.Reference"
+                                data-partno="@mpe.PartNo"
+                                data-imageurl="@mpe.ImageUrl"
+                                data-desc="@mpe.Description">
+                            Add to Basket
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-4">
+            <div class="hm-pp-notes g-f-l">
+                @Html.RawFromDict(Model.HomeData, "BestSeller1Text")
+            </div>
+            <div class="g-c-b"></div>
+        </div>
+    </div>
+}
+
+@if (Model.BestSellers1.Count > 0 && Model.BestSellers2.Count > 0)
+{
+    <hr class="g-m-t-60 g-m-b-20" />
+}
+
+@if (Model.BestSellers1.Count > 0)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Best Selling Ink Cartridges</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            @foreach (MiniProductEntry mpe in Model.BestSellers1)
+            {
+                decimal mainPrice = 0;
+                string mainPriceVAT = "";
+                if (ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "1")
+                {
+                    mainPrice = mpe.PriceRetIncVat;
+                    mainPriceVAT = "inc VAT";
+                }
+                else
+                {
+                    mainPrice = Decimal.Divide(mpe.PriceRetIncVat, Model.VatMultiplier);
+                    mainPriceVAT = "ex VAT";
+                }
+                <div class="mini-product-entry best-seller atb-entry">
+                    <a href="@mpe.Url">
+                        <img class="g-bc-s g-b-1-p" src="@mpe.ImageUrl" alt="@mpe.Description" onerror="this.src = '@ConfigurationManager.AppSettings["CDN"]/Images/noimage.jpg';"/>
+                    </a>
+                    <div class="g-m-t-10 g-h-40 g-of-h">
+                        <a class="primary" href="@mpe.Url">
+                            <strong>@mpe.Description</strong>
+                        </a>
+                    </div>
+                    <div class="g-m-t-10 g-fs-lg g-h-35 g-of-h">
+                        &pound;@mainPrice.ToString("#,###,##0.00") <span class="g-fc-tt g-fs-sm">@mainPriceVAT</span>
+                    </div>
+                    <div class="g-fc-st text-center g-m-t-10 g-fs-sm g-lh-20">
+                        @Html.ProductAvailability(mpe.Availability, Convert.ToBoolean(Model.CommonData["DeliveryDateIsOverridden"].ToString()), true)
+                    </div>
+                    <div class="pull-right g-m-t-10 g-w-100p">
+                        <button class="atb-add g-butt-primary g-butt-100p"
+                                data-price="@mainPrice.ToString("N2")"
+                                data-productid="@mpe.Reference"
+                                data-partno="@mpe.PartNo"
+                                data-imageurl="@mpe.ImageUrl"
+                                data-desc="@mpe.Description">
+                            Add to Basket
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-4">
+            <div class="hm-pp-notes g-f-l">
+                @Html.RawFromDict(Model.HomeData, "BestSeller2Text")
+            </div>
+            <div class="g-c-b"></div>
+        </div>
+    </div>
+}

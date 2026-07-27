@@ -1,0 +1,47 @@
+﻿@using System.Configuration;
+@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using System.Data;
+
+@model WizardViewModel
+
+@{
+    bool isSingleColumn = ViewBag.IsSingleColumn ?? false;
+}
+
+<div class="row">
+    @{
+        int counter = 0;
+        foreach (DataRow dr in Model.PopularRanges.Rows)
+        {
+            @*if (counter == 2)
+                {
+                    @Html.Raw("</div>")
+                    @Html.Raw("<div class=\"row\">")
+                    counter = 0;
+                }*@
+            string link = "/model/" + dr["Description"].ToString().Replace(" ", "-") + "-" + dr["CartridgeType"].RangeReplace() + "/";
+            <div class="@(isSingleColumn ? "col-sm-4" : "col-sm-6")">
+                <div class="hm-pp-GridEntry g-p-tb-15 g-b-1-p g-flex-vcenter">
+                    <div class="pull-left g-p-lr-15">
+                        <a href="@link" aria-label="@dr["Description"].ToString()">
+                            <img src="/Content/Images/1pxTrans.png" class="hm-pp-Image lazy" data-original="@dr["ImageURL"].ToString()" alt="@dr["Description"].ToString()" onerror="this.src = '@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';">
+                            <noscript>
+                                <img src="@dr["ImageURL"].ToString()" class="hm-pp-Image" alt="@dr["Description"].ToString()" onerror="this.src = '@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';">
+                            </noscript>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="@link" class="primary">
+                            <div class="g-of-h g-fw-b g-p-r-10">
+                                @(dr["Description"].ToString() + " " + dr["CartridgeTypeName"].ToString().Replace("Range", "Cartridges").Replace("Cartridges", ""))
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            counter += 1;
+        }
+    }
+</div>

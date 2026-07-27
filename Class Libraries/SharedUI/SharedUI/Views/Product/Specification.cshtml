@@ -1,0 +1,104 @@
+﻿@using System.Data;
+@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+
+@model ProductViewModel
+
+@*Changed to 1 rather than 0. Lots of products only match to 1 Open Range spec / attribute row which looks poor. In these cases, switch to showing our generated spec*@
+@if (Model.DataSupplierSpec.Rows.Count > 1)
+{
+    foreach (DataRow attr in Model.DataSupplierSpec.Rows)
+    {
+        <div class="row g-b-t-1">
+            <div class="col-md-4"><strong>@attr[0]</strong></div>
+            <div class="col-md-8 g-of-bw">@attr[1]</div>
+        </div>
+    }
+}
+else
+{
+    <div class="row g-b-t-1">
+        <div class="col-md-3"><strong>Brand</strong></div>
+        <div class="col-md-9">
+            @if (Model.Product.BrandFlag.Equals(BrandFlag.Compatible))
+            {
+                if (Model.Product.Brand != "Own Brand")
+                {
+                    @Model.Product.Brand
+                }
+                else
+                {
+                    @Html.RawFromDict(Model.CommonData, "SiteName")
+                }
+            }
+            else
+            {
+                @Model.Product.Brand
+            }
+        </div>
+    </div>
+
+    if (Model.Product.Type == "Toner" || Model.Product.Type == "Ink" || Model.Product.Type == "Solid Ink" || Model.Product.Type == "Franking")
+    {
+        if (Model.Product.PageYield > 0)
+        {
+            <div class="row g-b-t-1">
+                <div class="col-md-3"><strong>Duty Cycle</strong>
+                </div>
+                <div class="col-md-9">Up to @Model.Product.PageYield.ToString("#,###,##0") pages at 5% coverage</div>
+            </div>
+        }
+    }
+
+    if (Model.Product.AttDesc8 != "" && Model.Product.AttDesc8 != "Maintenance")
+    {
+        <div class="row g-b-t-1">
+            <div class="col-md-3"><strong>Printing Colour</strong></div>
+            <div class="col-md-9">@Model.Product.AttDesc8</div>
+        </div>
+    }
+
+    <div class="row g-b-t-1">
+        <div class="col-md-3"><strong>Product Code</strong></div>
+        <div class="col-md-9">@Model.Product.PartNo</div>
+    </div>
+    <div class="row g-b-t-1">
+        <div class="col-md-3"><strong>Product Description</strong></div>
+        <div class="col-md-9">@Model.Product.Description</div>
+    </div>
+    <div class="row g-b-t-1">
+        <div class="col-md-3"><strong>Product Type</strong></div>
+        <div class="col-md-9">
+            @if (Model.Product.AttDesc9 == "Ancillary")
+            {
+                @:Maintenance Product
+            }
+            else if (Model.Product.AttDesc9 == "Drum")
+            {
+                @:Maintenance Drum
+            }
+            else
+            {
+                @Model.Product.Type
+            }
+        </div>
+    </div>
+    <div class="row g-b-t-1">
+        <div class="col-md-3"><strong>Warranty</strong></div>
+        <div class="col-md-9">
+            @if (Model.Product.BrandFlag.Equals(BrandFlag.Compatible))
+            {
+                <div class="popup g-cur-p g-lk-u" 
+                     data-popupname="CompatibleGuarantee" 
+                     data-toggle="modal"
+                     data-target="#popup">3 Years</div>
+            }
+            else
+            {
+                @:6 Months
+            }
+        </div>
+    </div>
+}
+

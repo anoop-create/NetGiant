@@ -1,0 +1,83 @@
+﻿@using BusinessLogic;
+
+@model Address
+
+@{
+    if (ViewBag.ShowAddress == null)
+    {
+        ViewBag.ShowAddress = false;
+    }
+}
+
+<div class="add">
+    <div class="row g-m-t-5">
+        <div>FIND ADDRESS*</div>
+    </div>
+    <div class="row g-m-t-3">
+        <div class="add_pcablock g-inp-lg-md clearfix">
+            @Html.TextBox("add_search", "", new { placeholder = "Start typing an address, company or postcode", @type = "search", @class = "add_search g-b-1-p" })
+        </div>
+        <div class="add_pca g-ps-r g-d-n">
+            <div class="add_pcaautocomplete">
+                <ul class="add_pcalist"></ul>
+            </div>
+        </div>
+    </div>
+    <div id="add_manualentry" class="add_manualentry row g-m-t-5 g-cur-p g-u @(ViewBag.ShowAddress ? " g-d-n" : "" )">Enter Address Manually</div>
+    <div id="add_fields" class="add_fields @(ViewBag.ShowAddress ? " " : " g-d-n")">
+        <div class="row g-m-t-20">
+            <div class="pull-left g-inp-md">COMPANY NAME</div>
+        </div>
+        <div class="row g-m-t-3">
+            <div class="g-inp-md clearfix">
+                @Html.EditorFor(x => x.Line1, new { htmlAttributes = new { placeholder = "Company Name", @class = "add_line1 g-b-1-p" } })
+            </div>
+        </div>
+        <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+        <div class="row">
+            <div class="pull-left g-inp-md">ADDRESS LINE 1*</div>
+        </div>
+        <div class="row g-m-t-3">
+            <div class="g-inp-md clearfix">
+                @Html.EditorFor(x => x.Line2, new { htmlAttributes = new { placeholder = "Address Line 1", @class = "add_line2 g-b-1-p" } })
+            </div>
+        </div>
+        <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+        <div class="row">
+            <div class="pull-left g-inp-md">ADDRESS LINE 2</div>
+        </div>
+        <div class="row g-m-t-3">
+            <div class="g-inp-md clearfix">
+                @Html.EditorFor(x => x.Line3, new { htmlAttributes = new { placeholder = "Address Line 2", @class = "add_line3 g-b-1-p" } })
+            </div>
+        </div>
+        <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+        <div class="row">
+            <div class="pull-left g-inp-md">TOWN OR CITY*</div>
+        </div>
+        <div class="row g-m-t-3">
+            <div class="g-inp-md clearfix">
+                @Html.EditorFor(x => x.Line4, new { htmlAttributes = new { placeholder = "Town or City", @class = "add_line4 g-b-1-p" } })
+            </div>
+        </div>
+        <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+        <div class="row">
+            <div class="pull-left g-inp-md">COUNTY</div>
+        </div>
+        <div class="row g-m-t-3">
+            <div class="g-inp-md clearfix">
+                @Html.EditorFor(x => x.Line5, new { htmlAttributes = new { placeholder = "County", @class = "add_line5 g-b-1-p" } })
+            </div>
+        </div>
+        <div class="row clearfix g-fc-nm g-m-t-10 g-i g-h-20 g-of-h"></div>
+        <div class="row">
+            <div class="pull-left g-inp-md">POSTCODE*</div>
+        </div>
+        <div class="row g-m-t-3">
+            <div class="g-inp-md clearfix">
+                @Html.EditorFor(x => x.PostCode, new { htmlAttributes = new { placeholder = "Postcode", @class = "add_postcode g-b-1-p" } })
+            </div>
+        </div>
+        <div class="row clearfix g-fc-nm g-m-t-10 g-i xg-h-20 g-of-h"></div>
+    </div>
+</div>

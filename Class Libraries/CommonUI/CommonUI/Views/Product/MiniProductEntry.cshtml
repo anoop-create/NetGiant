@@ -1,0 +1,122 @@
+﻿@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using CommonUI.Models;
+@using System.Configuration;
+
+@model ProductViewModel
+
+@{
+    bool isSingleColumn = ViewBag.IsSingleColumn ?? false;
+}
+
+<hr class="g-m-t-30 g-m-b-20" />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-left">
+            <h2>@ViewBag.MiniProductEntryTitle <span class="g-fc-s">(@Model.MiniProductEntries.Count)</span></h2>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="mini-product-container clearfix @(isSingleColumn ? "single-column" : "")">
+            @foreach (MiniProductEntry mpe in Model.MiniProductEntries)
+            {
+                decimal mainPrice = 0;
+                string mainPriceVAT = "";
+                decimal tradePrice = mpe.PriceTrExVat;
+                if (ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "1")
+                {
+                    mainPrice = mpe.PriceRetIncVat;
+                    mainPriceVAT = "inc VAT";
+                }
+                else
+                {
+                    mainPrice = Decimal.Divide(mpe.PriceRetIncVat, Model.VatMultiplier);
+                    mainPriceVAT = "ex VAT";
+                }
+                decimal basketPrice = Convert.ToBoolean(HttpContext.Current.Session["U_IsTradeCustomer"]) ? tradePrice : mainPrice;
+                <div class="mini-product-entry atb-entry">
+
+                    <div class="g-b-1-p g-bc-s">
+                        <div class="mini-chip g-fs-sm g-fc-st cc-@mpe.AttValue8">@mpe.AttDesc8</div>
+
+                        @if (mpe.PrimarySortSeq.Equals(ProductFlag.Ancillary))
+                        {
+                            if (mpe.PageYield > 1)
+                            {
+                                <div class="g-ta-c g-m-t-10 g-fs-sm">Yield: @mpe.PageYield.ToString("#,###,##0") Cycles</div>
+                            }
+                            else
+                            {
+                                <div class="g-ta-c g-m-t-10 g-fs-sm">Genuine @mpe.Brand</div>
+                            }
+                        }
+                        else
+                        {
+                            if (mpe.AttValue9 > 0)
+                            {
+                                if (mpe.PageYield > 0)
+                                {
+                                    <div class="g-ta-c g-m-t-10 g-fs-sm">Capacity: @mpe.PageYield.ToString() Pages</div>
+                                }
+                                else
+                                {
+                                    if (mpe.AttValue4 == 2)
+                                    {
+                                        <div class="g-ta-c g-m-t-10 g-fs-sm">Best Value @mpe.Brand</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="g-ta-c g-m-t-10 g-fs-sm">Genuine @mpe.Brand</div>
+                                    }
+                                }
+                            }
+                        }
+                        <div class="mini-product-image">
+                            <a href="@mpe.Url">
+                                <img class="lazy" src="/Content/Images/1pxTrans.png" data-original="@mpe.ImageUrl" alt="@mpe.Description" onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
+                                <noscript>
+                                    <img src="@mpe.ImageUrl" alt="@mpe.Description" onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
+                                </noscript>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="g-m-t-10 g-h-40 g-of-h">
+                        <a class="primary" href="@mpe.Url">
+                            @mpe.Description
+                        </a>
+                    </div>
+                    <div class="product-price-message g-m-t-10 clearfix">
+                        @{
+                            Html.RenderPartial("~/Views/Product/InfoMessage.cshtml", null, new ViewDataDictionary                                                            {
+                            {"Section", "MiniPrice"},
+                            {"MainPrice", mainPrice},
+                            {"TradePriceEx", tradePrice}
+                        });
+                        }
+                    </div>
+                    <div class="g-fc-st text-center g-m-t-10 g-fs-sm g-lh-20">
+                        @Html.ProductAvailability(mpe.Availability, Convert.ToBoolean(Model.CommonData["DeliveryDateIsOverridden"].ToString()), true)
+                    </div>
+                    @if (mpe.Availability != 13)
+                    {
+                        <div class="xpull-right g-m-t-10 g-w-100p">
+                            <button class="atb-add g-butt-primary g-butt-100p"
+                                    data-price="@basketPrice.ToString("N2")"
+                                    data-productid="@mpe.Reference"
+                                    data-partno="@mpe.PartNo"
+                                    data-imageurl="@mpe.ImageUrl"
+                                    data-desc="@mpe.Description">
+                                Add to Basket
+                            </button>
+                        </div>
+                    }
+                    <div></div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

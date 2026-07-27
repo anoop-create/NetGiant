@@ -1,0 +1,168 @@
+﻿@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using CommonUI.Models;
+@using System.Configuration;
+
+@model BasketContents
+
+@{
+    string section = ViewData["Section"].ToString();
+    bool isProductPage = Convert.ToBoolean(ViewData["ProductPage"]);
+    bool productHasOffer = Convert.ToBoolean(ViewData["ProductHasOffer"]);
+
+    decimal saving;
+    decimal savingEx;
+    decimal savingInc;
+    decimal offerPrice1 = Decimal.Zero;
+    decimal offerPrice2 = Decimal.Zero;
+    decimal percentageDiscount = Decimal.Zero;
+    decimal currentDiscount = Decimal.Zero;
+    string mainVATExtn = "";
+    string subVATExtn = "";
+
+    bool isCompatibleUpsellActive = Convert.ToBoolean(ConfigurationManager.AppSettings["IsCompatibleUpsellActive"]);
+    if (ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "0")
+    {
+        mainVATExtn = "ex VAT";
+        subVATExtn = "inc VAT";
+    }
+    else
+    {
+        mainVATExtn = "inc VAT";
+        subVATExtn = "ex VAT";
+    }
+    if (Model != null)
+    {
+        if (Model.IsCompatible &&
+            isCompatibleUpsellActive &&
+            Model.IsUpsellTriggered &&
+            Model.QtyStart > 0 &&
+            Model.Quantity > Model.QtyStart)
+        {
+            //percentageDiscount = Utilities.GetUpsellRate();
+            currentDiscount = Utilities.GetUpsellRate();
+
+            savingEx = Math.Round(Model.PriceEx * (currentDiscount / 100), 2);
+            savingInc = Math.Round(Model.PriceInc * (currentDiscount / 100), 2);
+            if (ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "0")
+            {
+                //saving = Math.Round(Model.PriceEx * (percentageDiscount / 100), 2);
+                offerPrice1 = Math.Round(Model.PriceEx - savingEx, 2);
+                offerPrice2 = Math.Round(Model.PriceInc - savingInc, 2);
+            }
+            else
+            {
+                //saving = Math.Round(Model.PriceInc * (percentageDiscount / 100), 2);
+                offerPrice1 = Math.Round(Model.PriceInc - savingInc, 2);
+                offerPrice2 = Math.Round(Model.PriceEx - savingEx, 2);
+            }
+        }
+    }
+}
+
+@if (section == "Info")
+{
+    if (Model.Quantity > 0)
+    {
+        <div class="g-fs-sm g-m-t-10 g-m-b-10 text-center">
+            <div class="row visible-xs visible-sm g-m-0">
+                <div class="col-md-4 col-xs-12">
+                    <span class="atb-count">@Model.Quantity</span> in Basket | <a href="/checkout/">Checkout</a>
+                </div>
+            </div>
+            <div class="hidden-sm hidden-xs">
+                <div>
+                    <div class="g-i">
+                        @Model.Quantity in Basket | <a href="/checkout/">Checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+@if (section == "Price")
+{
+    decimal mainPrice = Decimal.Zero;
+    decimal subPrice = Decimal.Zero;
+    decimal tradePrice = Decimal.Zero;
+    tradePrice = Convert.ToDecimal(ViewData["TradePriceEx"]);
+    if (ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "0")
+    {
+        mainPrice = Convert.ToDecimal(ViewData["PriceEx"]);
+        subPrice = Convert.ToDecimal(ViewData["PriceInc"]);
+    }
+    else
+    {
+        mainPrice = Convert.ToDecimal(ViewData["PriceInc"]);
+        subPrice = Convert.ToDecimal(ViewData["PriceEx"]);
+    }
+
+    if (Convert.ToBoolean(HttpContext.Current.Session["U_IsTradeCustomer"]))
+    {
+        if (Math.Abs(mainPrice - tradePrice) > (decimal)0.02)
+        {
+            <div class="@(isProductPage ? "" : "")">
+                <span class="g-fs-n g-m-r-20 g-fw-b">Trade Price:</span>
+                <span class="@(isProductPage ? "g-fs-xl" : "g-fs-lg")">&pound;@tradePrice.ToString("#,###,##0.00")</span>
+            </div>
+            <div class="@(isProductPage ? "g-fw-n g-fs-n" : "g-fw-n g-fs-n")">
+                <span class="g-m-r-20">Retail Price:</span>
+                <span class="g-s">&pound;@mainPrice.ToString("#,###,##0.00")</span>
+                <span class="g-fc-tt g-fs-sm">ex VAT</span>
+            </div>
+        }
+        else
+        {
+            <div class="@(isProductPage ? "g-fs-xl g-fw-b" : "g-fs-lg g-m-t-15")">&pound;@mainPrice.ToString("#,###,##0.00")</div>
+            <div class="@(isProductPage ? "g-fs-16" : "g-fs-n")">&pound;@subPrice.ToString("#,###,##0.00") <span class="g-fc-tt g-fs-sm">@subVATExtn</span></div>
+        }
+    }
+    else
+    {
+        if (currentDiscount == 0 || productHasOffer)
+        {
+            <div class="@(isProductPage ? "g-fs-xl g-fw-b" : "g-fs-lg g-m-t-15")">&pound;@mainPrice.ToString("#,###,##0.00")</div>
+            <div class="@(isProductPage ? "g-fs-16" : "g-fs-n")">&pound;@subPrice.ToString("#,###,##0.00") <span class="g-fc-tt g-fs-sm">@subVATExtn</span></div>
+        }
+        else
+        {
+            <div class="g-fs-lg g-m-t-10 g-b">
+                <span class="g-s">&pound;@mainPrice.ToString("#,###,##0.00")&nbsp;</span>
+                <span>&pound;@offerPrice1.ToString("#,###,##0.00")</span>
+            </div>
+            <div class="g-fs-n">
+                <span class="g-s">&pound;@subPrice.ToString("#,###,##0.00")&nbsp;</span>
+                <span>&pound;@offerPrice2.ToString("#,###,##0.00") <span class="g-fc-tt g-fs-sm">@subVATExtn</span></span>
+            </div>
+        }
+    }
+}
+
+@if (section == "MiniPrice")
+{
+    decimal mainPrice = Decimal.Zero;
+    decimal tradePrice = Decimal.Zero;
+    tradePrice = Convert.ToDecimal(ViewData["TradePriceEx"]);
+    mainPrice = Convert.ToDecimal(ViewData["MainPrice"]);
+
+    if (Convert.ToBoolean(HttpContext.Current.Session["U_IsTradeCustomer"])
+        && Math.Abs(mainPrice - tradePrice) > (decimal)0.02)
+    {
+        <div class="clearfix">
+            <div class="g-fs-n g-m-r-10 g-fw-b g-f-l">Trade Price:</div>
+            <div class="g-fs-n g-f-r">&pound;@tradePrice.ToString("#,###,##0.00")</div>
+        </div>
+        <div class="g-fw-n g-fs-sm clearfix">
+            <div class="g-p-r-5 g-f-l">Retail Price:</div>
+            <div class="g-f-r">
+                <span class="g-s">&pound;@mainPrice.ToString("#,###,##0.00")</span>
+                <span class="g-fc-tt g-fs-xs">ex VAT</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="@(isProductPage ? "g-fs-xl g-fw-b" : "g-fs-lg g-m-t-5")">&pound;@mainPrice.ToString("#,###,##0.00")</div>
+    }
+}

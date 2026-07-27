@@ -1,0 +1,130 @@
+﻿@using System.Configuration
+@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+@using Kendo.Mvc.UI
+
+@model WizardViewModel
+
+@{ 
+    string searchadd = "";
+    if (ConfigurationManager.AppSettings["SearchApplication"] == "SLI")
+    {
+        searchadd = "data-provide=rac";
+    }
+}
+
+@if (HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() == "Home")
+{
+    if (int.Parse(ConfigurationManager.AppSettings["WebsiteId"]) != 3)
+    {
+        <div class="wiz-widget home">
+            <div class="g-fc-st">
+                <i class="fa fa-print fa-2x"></i>
+                <span class="g-fs-lg g-p-l-20">Find My Cartridges</span>
+            </div>
+            @Html.Hidden("wiz-cartridgetype", Model.CartridgeTypeName)
+            @Html.Hidden("wiz-ch-manu-url", Url.Action("ChangeManufacturer"))
+            @{
+                Html.RenderPartial("~/Views/Equipment/EquipmentSelector.cshtml", Model);
+            }
+            <div>
+                <button id="wiz-find" type="button" class="g-butt-secondary g-fw-b" disabled="disabled">Find My Cartridges</button>
+            </div>
+            <div class="g-fs-sm g-fc-st g-p-l-50 g-i hidden-xs">
+                Can't find your cartridge? <span class="g-cur-p" onclick="liveagent.startChat('@Html.RawFromDict(Model.CommonData, "LiveChatID")')">Click Here</span> for help
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="wiz-widget equip">
+            <div class="g-fc-st g-m-t-40 g-m-b-10 hidden-xs">
+                <span class="g-fs-lg g-p-l-20">Search Printer Cartridges</span>
+            </div>
+            <div class="g-fc-st g-m-t-20 g-m-b-10 visible-xs">
+                <span class="g-fs-n g-p-l-20">Search Printer Cartridges</span>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="wizardSearch-container g-bc-t g-op-90p g-p-20 g-ps-r hidden-xs">
+                    @using (Html.BeginForm("Index", "Search", FormMethod.Get))
+                    {
+                        <div class="input-group g-m-t-10">
+                            <input id="wizardSearch" name="wizardSearch" type="text" class="form-control g-fs-lg" autocomplete="off" placeholder="Search by Printer or Cartridge Number..." data-token="@Model.EncryptedDate" @searchadd />
+                            <input type="hidden" id="token" name="token" value="@Model.EncryptedDate" />
+                            <span class="input-group-btn">
+                                <button class="g-butt-secondary g-butt-lg g-fs-lg" type="submit">
+                                    SEARCH
+                                </button>
+                            </span>
+                        </div>
+                    }
+                    <div class="autocomplete-results g-ps-a g-w-100p g-bc-s g-b-1-p g-d-n g-m-t-5 g-p-10" style="z-index: 10;"></div>
+                    <div class="g-fs-sm g-fc-st g-i g-m-t-10 hidden-xs">
+                        Can't find your cartridge? <span class="g-cur-p" onclick="liveagent.startChat('@Html.RawFromDict(Model.CommonData, "LiveChatID")')">Click Here</span> for help
+                    </div>
+                </div>
+                <div class="wizardSearch-container g-op-90p g-p-b-20 g-ps-r visible-xs">
+                    @using (Html.BeginForm("Index", "Search", FormMethod.Get))
+                    {
+                        <div class="input-group g-m-t-10">
+                            <input id="wizardSearch" name="wizardSearch" type="text" class="form-control g-fs-n" autocomplete="off" placeholder="Search by Printer or Cartridge Number..." data-token="@Model.EncryptedDate" @searchadd />
+                            <input type="hidden" id="token" name="token" value="@Model.EncryptedDate" />
+                            <span class="input-group-btn">
+                                <button class="g-butt-secondary g-butt-md g-fs-n" type="submit">
+                                    Search
+                                </button>
+                            </span>
+                        </div>
+                    }
+                    <div class="autocomplete-results g-ps-a g-w-100p g-bc-s g-b-1-p g-d-n g-m-t-5 g-p-10" style="z-index: 10;"></div>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="wiz-widget equip">
+        <div class="g-fc-pt g-m-b-10">
+            <i class="fa fa-print fa-2x"></i>
+            <span class="g-fs-lg g-p-l-20">Find My Cartridges</span>
+        </div>
+        @Html.Hidden("wiz-cartridgetype", Model.CartridgeTypeName)
+        @Html.Hidden("wiz-ch-manu-url", Url.Action("ChangeManufacturer"))
+
+        <div class="g-bc-primary g-p-40-sm g-h-285-sm">
+            <div class="col-lg-6">
+                @{
+                    Html.RenderPartial("~/Views/Equipment/EquipmentSelector.cshtml", Model);
+                }
+                <div>
+                    <button id="wiz-find" type="button" class="g-butt-secondary g-fw-b" disabled="disabled">Find My Cartridges</button>
+                </div>
+            </div>
+            <div class="col-lg-6 visible-lg">
+                <div class="wizardSearch-container g-bc-s g-p-20 g-ps-r hidden-xs">
+                    <div class="g-i g-p-t-20-sm">
+                        <strong>Search by printer or cartridge number</strong>
+                    </div>
+                    @using (Html.BeginForm("Index", "Search", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="input-group g-m-t-10">
+                            <input id="wizardSearch" name="wizardSearch" type="text" class="form-control g-fs-sm" autocomplete="off" placeholder="Search by Printer or Cartridge Number..." @searchadd />
+                            <span class="input-group-btn">
+                                <button class="g-butt-secondary g-butt-sm g-fs-n" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    }
+                    <div class="autocomplete-results g-ps-a g-w-100p g-bc-s g-b-1-p g-d-n g-m-t-5 g-p-10" style="z-index: 10;"></div>
+                </div>
+                <div class="g-fs-sm g-fc-st g-i g-m-t-10 hidden-xs">
+                    Can't find your cartridge? <span class="g-cur-p" onclick="liveagent.startChat('@Html.RawFromDict(Model.CommonData, "LiveChatID")')">Click Here</span> for help
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,123 @@
+﻿@using BusinessLogic.ViewModels;
+@using DataAccess.EntityFramework
+@using CommonUI.Models;
+@using System.Data;
+
+@model CommonViewModel
+<fieldset class="g-b-1-p g-p-5 g-m-b-10" style="width:410px;">
+    @Ajax.HtmlActionLink("<i class=\"fa fa-trash\"></i> Abandon Session",
+        "SessionAbandon",
+        "Portal",
+        new
+        {
+        },
+        new AjaxOptions()
+        {
+            HttpMethod = "POST",
+            OnComplete = "location.replace($('#url').val())"
+        },
+        new
+        {
+            @class = "g-m-l-10 g-p-5 form-delete g-butt-primary g-butt-sm"
+        })
+    <span class="g-p-l-10">Redirect URL: </span><input id="url" name="url" type="text" value="/">
+</fieldset>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Variable Name</th>
+                <th>Variable Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Session.Contents.Count; i++)
+            {
+                <tr>
+                    <td class="g-w-78">@Session.Keys[i]</td>
+                    <td>
+                        @if (Session[i] != null)
+                        {
+                            if (Session[i].GetType().Namespace == "System")
+                            {
+                                <div style="width: 80%; word-wrap: break-word; overflow: auto;">
+                                    @if (Session.Keys[i] == "B_Basket")
+                                    {
+                                        @Html.DisplayBasketCookie(Session[i].ToSafeString())
+                                    }
+                                    else
+                                    {
+                                        @Session[i]
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                if (Session[i].GetType().AssemblyQualifiedName.Contains("BasketContents"))
+                                {
+                                    @Html.DisplayBasketContents((List<BusinessLogic.BasketContents>)Session[i])
+                                }
+                                if (Session[i].GetType().AssemblyQualifiedName.Contains("BasketTotals"))
+                                {
+                                    @Html.DisplayBasketTotals((BusinessLogic.BasketTotals)Session[i])
+                                }
+                                if (Session[i].GetType().AssemblyQualifiedName.Contains("CheckoutDetails"))
+                                {
+                                    @Html.DisplayCheckoutDetails((BusinessLogic.CheckoutDetails)Session[i])
+                                }
+                                if (Session[i].GetType().AssemblyQualifiedName.Contains("Voucher"))
+                                {
+                                    @Html.DisplayVoucherDetails((VoucherPromo)Session[i])
+                                }
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @*@for (int i = 0; i < Session.Contents.Count; i++)
+        {
+            if (Session[i] != null)
+            {
+                string type = Session[i].GetType().Name;
+                if ("Int32|String|Boolean|DateTime".Contains(type))
+                {
+                    <div class="g-fw-b">@Session.Keys[i]: @Session[i].ToString()</div>
+                }
+                else
+                {
+                    switch (type)
+                    {
+                        case "DataTable":
+                            {
+                                <div class="g-fw-b">@Session.Keys[i]</div>
+                                <table class="table table-bordered g-w-a">
+                                    <tr>
+                                        @foreach (DataColumn dc in ((DataTable)Session[i]).Columns)
+                                        {
+                                            <td class="g-fw-b">@dc.ColumnName</td>
+                                        }
+                                    </tr>
+                                    @foreach (DataRow dr in ((DataTable)Session[i]).Rows)
+                                    {
+                                        <tr>
+                                            @foreach (DataColumn dc in ((DataTable)Session[i]).Columns)
+                                            {
+                                                <td>@dr[dc.ColumnName].ToString()</td>
+                                            }
+                                        </tr>
+                                    }
+                                </table>
+                                break;
+                            }
+                        default:
+                            {
+                                break;
+                            }
+                    }
+                }
+            }
+        }*@
+</div>

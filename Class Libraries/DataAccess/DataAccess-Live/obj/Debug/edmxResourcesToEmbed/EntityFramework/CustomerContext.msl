@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CustomerDataModelStoreContainer" CdmEntityContainer="customerData">
+    <EntitySetMapping Name="Accounts">
+      <EntityTypeMapping TypeName="CustomerDataModel.Account">
+        <MappingFragment StoreEntitySet="Account">
+          <ScalarProperty Name="FirstOrderAmt" ColumnName="FirstOrderAmt" />
+          <ScalarProperty Name="FirstOrderRef" ColumnName="FirstOrderRef" />
+          <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+          <ScalarProperty Name="CustomerFk" ColumnName="CustomerFk" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="OrganisationTypeId" ColumnName="OrganisationTypeId" />
+          <ScalarProperty Name="SectorId" ColumnName="SectorId" />
+          <ScalarProperty Name="TradingName" ColumnName="TradingName" />
+          <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+          <ScalarProperty Name="ContactEmailAddress" ColumnName="ContactEmailAddress" />
+          <ScalarProperty Name="ContactTelephoneNo" ColumnName="ContactTelephoneNo" />
+          <ScalarProperty Name="TotalStaffCountId" ColumnName="TotalStaffCountId" />
+          <ScalarProperty Name="OrderStaffCountId" ColumnName="OrderStaffCountId" />
+          <ScalarProperty Name="EstMonthlySpend" ColumnName="EstMonthlySpend" />
+          <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
+          <ScalarProperty Name="CompanyRegNo" ColumnName="CompanyRegNo" />
+          <ScalarProperty Name="CompanyVatNo" ColumnName="CompanyVatNo" />
+          <ScalarProperty Name="AcceptStandardTerms" ColumnName="AcceptStandardTerms" />
+          <ScalarProperty Name="AcceptCreditTerms" ColumnName="AcceptCreditTerms" />
+          <ScalarProperty Name="DateOfApplication" ColumnName="DateOfApplication" />
+          <ScalarProperty Name="DateLastUpdated" ColumnName="DateLastUpdated" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="CustomerDataModel.Customer">
+        <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="WebsiteFk" ColumnName="WebsiteFk" />
+          <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+          <ScalarProperty Name="CustomerTypeId" ColumnName="CustomerTypeId" />
+          <ScalarProperty Name="OriginalEmailAddress" ColumnName="OriginalEmailAddress" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Lookups">
+      <EntityTypeMapping TypeName="CustomerDataModel.Lookup">
+        <MappingFragment StoreEntitySet="Lookup">
+          <ScalarProperty Name="LookupID" ColumnName="LookupID" />
+          <ScalarProperty Name="LookupTypeFK" ColumnName="LookupTypeFK" />
+          <ScalarProperty Name="LookupName" ColumnName="LookupName" />
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LookupTypes">
+      <EntityTypeMapping TypeName="CustomerDataModel.LookupType">
+        <MappingFragment StoreEntitySet="LookupType">
+          <ScalarProperty Name="LookupTypeID" ColumnName="LookupTypeID" />
+          <ScalarProperty Name="LookupTypeName" ColumnName="LookupTypeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WebsiteViews">
+      <EntityTypeMapping TypeName="CustomerDataModel.WebsiteView">
+        <MappingFragment StoreEntitySet="WebsiteView">
+          <ScalarProperty Name="WebsiteID" ColumnName="WebsiteID" />
+          <ScalarProperty Name="WebsiteName" ColumnName="WebsiteName" />
+          <ScalarProperty Name="WebURL" ColumnName="WebURL" />
+          <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Billings">
+      <EntityTypeMapping TypeName="CustomerDataModel.Billing">
+        <MappingFragment StoreEntitySet="Billing">
+          <ScalarProperty Name="DirectDebit" ColumnName="DirectDebit" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+          <ScalarProperty Name="AddressLine5" ColumnName="AddressLine5" />
+          <ScalarProperty Name="AddressLine4" ColumnName="AddressLine4" />
+          <ScalarProperty Name="AddressLine3" ColumnName="AddressLine3" />
+          <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+          <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+          <ScalarProperty Name="ContactTelephoneNo" ColumnName="ContactTelephoneNo" />
+          <ScalarProperty Name="ContactEmailAddress" ColumnName="ContactEmailAddress" />
+          <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+          <ScalarProperty Name="CustomerFk" ColumnName="CustomerFk" />
+          <ScalarProperty Name="BillingId" ColumnName="BillingId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

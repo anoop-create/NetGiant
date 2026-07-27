@@ -1,0 +1,66 @@
+﻿@using BusinessLogic.ViewModels;
+@model BusinessLogic.ViewModels.CheckoutViewModel
+
+@{
+    bool isReturningCustomer = ViewBag.ReturningCustomer;
+}
+
+<section class="modal fade donotremove" id="ident-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content g-bc-p">
+            <div class="modal-close g-ps-a g-fs-lg g-cur-p" data-toggle="modal" data-target="#ident-modal">
+                <i class="fa fa-times"></i>
+            </div>
+            <section class="ident">
+                @using (Ajax.BeginForm("Ident", "Checkout", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "disableSubmit", OnComplete = "identComplete", OnFailure = "logAjaxFormError" }, new { @id = "ident-form" }))
+                {
+                    @Html.Hidden("isreturningcustomer", (string)ViewBag.ReturningCustomer.ToString().ToLower())
+                    @Html.AntiForgeryToken()
+                    <div>
+                        <div class="g-fs-lg">Secure Checkout</div>
+                        <div class="g-m-t-40">
+                            <div class="g-m-t-20-i">
+                                <div class="g-fs-n">EMAIL ADDRESS</div>
+                                @Html.TextBoxFor(m => m.SignIn.UserName, new { @class = "form-control", placeholder = "Email Address", @type = "email" })
+                            </div>
+                            <div class="g-m-t-20-i">
+                                <strong>Already have an account?</strong>
+                                <div class="checkbox checkbox-success">
+                                    <input class="check-new g-cur-p" type="checkbox" name="SignIn.IsNewCustomer" id="isnotcustomer" value="true" @(isReturningCustomer ? "" : "checked=checked") />
+                                    <label class="check-new-label">No, I'm a new customer.</label>
+                                </div>
+                                <div class="checkbox checkbox-success">
+                                    <input class="check-existing g-cur-p" type="checkbox" name="SignIn.IsNewCustomer" id="iscustomer" value="false" @(isReturningCustomer ? "checked=checked" : "") />
+                                    <label class="check-existing-label">Yes, enter my password.</label>
+                                </div>
+                            </div>
+                            <div class="g-m-t-20-i ident-pass @(isReturningCustomer ? "" : "g-d-n")">
+                                <div class="g-fs-n">PASSWORD</div>
+                                @if (!ViewBag.IsPortalUser)
+                                {
+                                    @Html.PasswordFor(m => m.SignIn.Password, new { @class = "form-control", placeholder = "Password" })
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(m => m.SignIn.Password, new { @class = "form-control", placeholder = "Password" })
+                                }
+                            </div>
+                            <div class="g-m-t-20-i">
+                                <div class="ident-forgot-password g-cur-p g-fc-s g-u">Reset Password</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="error-message g-d-n">
+                        <i class="fa fa-exclamation-triangle g-fs-20 g-p-r-10"></i>
+                        <p class="g-m-0 g-d-i g-p-r-10"></p>
+                    </div>
+                    <div class="g-ps-a signin-btn">
+                        <input id="btn-ident-signin" type="submit" value="CONTINUE" class="g-butt-primary" />
+                    </div>
+                }
+            </section>
+
+            <section class="ident-reset-password g-d-n"></section>
+        </div>
+    </div>
+</section>

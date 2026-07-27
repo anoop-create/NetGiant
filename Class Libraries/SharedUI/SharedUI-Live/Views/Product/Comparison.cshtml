@@ -1,0 +1,91 @@
+﻿@using System.Data;
+@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+@using System.Configuration;
+
+@model ProductViewModel
+
+<div class="table-responsive">
+    <table class="table comparison-table">
+        <tr class="g-m-b-10">
+            <td style="width: 200px;"></td>
+            @foreach (var product in Model.ProductList)
+            {
+                decimal mainPrice = 0;
+                string mainPriceVAT = "";
+                if (ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "1")
+                {
+                    mainPrice = product.PriceRetIncVat;
+                    mainPriceVAT = "inc VAT";
+                }
+                else
+                {
+                    mainPrice = Decimal.Divide(product.PriceRetIncVat, Model.VatMultiplier);
+                    mainPriceVAT = "ex VAT";
+                }
+
+                <td class="compare-product text-center g-ps-r" data-productid="@product.Reference">
+                    <div class="g-flex-allcenter" style="height: 100px;">
+                        <a href="@product.Url">
+                            <img class="g-bc-s" src="@product.ImageUrl" alt="@product.Description" width="100"
+                                 onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noimage.jpg';" />
+                        </a>
+                    </div>
+                    <div class="g-m-t-20 g-h-60">
+                        <a class="primary" href="@product.Url">
+                            <strong>@product.Description</strong>
+                        </a>
+                    </div>
+                    <div class="g-m-t-10">
+                        <span class="g-fs-lg">&pound;@mainPrice.ToString("#,###,##0.00") </span><span class="g-fc-tt g-fs-sm">@mainPriceVAT</span>
+                    </div>
+                    <div class="g-fc-st text-center g-m-t-10 g-fs-sm g-lh-20 comparison-availability">
+                        @Html.ProductAvailability(product.Availability, Convert.ToBoolean(Model.CommonData["DeliveryDateIsOverridden"].ToString()), true)
+                    </div>
+                    <div class="g-m-t-10">
+                        <button class="atb-add g-butt-primary g-butt-lg g-m-b-10"
+                                data-price="@mainPrice.ToString("N2")"
+                                data-productid="@product.Reference"
+                                data-partno="@product.PartNo"
+                                data-imageurl="@product.ImageUrl"
+                                data-desc="@product.Description">
+                            Add to Basket
+                        </button>
+                    </div>
+                    <span class="g-ps-a g-top-0 g-rt-30 g-bc-neg g-d-n g-fc-st g-cur-p delete-compare" title="Delete from Compare" data-productid="@product.Reference">
+                        <i class="fa fa-times fa-lg g-p-10"></i>
+                    </span>
+                </td>
+            }
+        </tr>
+
+        @foreach (DataRow attr in Model.DataSupplierSpec.Rows)
+        {
+            <tr class="g-p-tb-5 g-b-t-1">
+                <td class="g-p-10">
+                    <strong>@attr["AttributeName"]</strong>
+                </td>
+
+                @foreach (var product in Model.ProductList)
+                {
+                    <td class="text-center" data-productid="@product.Reference">
+                        @(!string.IsNullOrEmpty(attr[product.PartNo].ToString()) ? attr[product.PartNo] : "-")
+                    </td>
+                }
+            </tr>
+        }
+
+        @if (Model.DataSupplierSpec.Rows.Count == 0)
+        {
+            <tr>
+                <td colspan="2" style="min-width: 300px;">
+                    <div class="g-m-t-20">
+                        No Comparison Data found for these products.
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+

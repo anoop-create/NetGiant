@@ -1,0 +1,277 @@
+﻿@using System.Configuration
+@using BusinessLogic
+@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+
+@model CheckoutViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutCheckout.cshtml";
+}
+
+<div class="g-bc-p g-p-t-60 g-p-b-60 g-b-t-1">
+    <div class="container body-content g-ps-r">
+        <div class="row g-m-t-20 g-m-b-40">
+            <div class="col-md-9">
+                <hr class="g-m-b-20" />
+                <div class="clearfix">
+                    @{
+                        Dictionary<string, string> replacements = new Dictionary<string, string>();
+                        replacements.Add("[Tel-No]", Html.RawFromDict(Model.CommonData, "TelephoneNumber").ToString());
+                        replacements.Add("[Ref-No]", @Model.CheckoutDetails.BackOfficeCustRef);
+                        replacements.Add("[Amt-Payable]", "&pound;" + Model.BasketTotals.GrandTotalIncVat.ToString("#,###,##0.00"));
+
+                        switch (Model.CheckoutDetails.PaymentMethod)
+                        {
+                            case "CreditDebit":
+                                {
+                                    <h2>Thank you for your order</h2>
+                                    <div class="g-bc-s g-b-1-p g-p-20 g-lh-30">
+                                        <div class="g-fs-lg"><strong>Order Reference</strong> : @Model.CheckoutDetails.BackOfficeOrderRef</div>
+                                        <div>
+                                            <strong>We will send an email confirmation to: <span class="g-fc-s">@Model.CheckoutDetails.Email</span></strong>
+                                        </div>
+                                        <div>
+                                            <strong>@ViewBag.DeliveryMessage</strong>
+                                        </div>
+                                        <div class="g-fs-lg g-m-t-20">
+                                            <strong>Payment Details</strong>
+                                        </div>
+                                        <div class="g-m-t-10">
+                                            <table class="table payment-details-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-left g-b-n">Card Type</th>
+                                                        <th class="text-center g-b-n">Amount Debited</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="g-bc-s">
+                                                    <tr>
+                                                        <td class="text-left">
+                                                            <img src="/Content/Images/1pxTrans.png" class="msp_@Model.CheckoutDetails.CardType.ToLower()" alt="@Model.CheckoutDetails.CardType" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            &pound;@Model.BasketTotals.GrandTotalIncVat.ToString("#,###,##0.00")
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    break;
+                                }
+                            case "PayPal":
+                                {
+                                    <h2>Thank you for your order</h2>
+                                    <div class="g-bc-s g-b-1-p g-p-20 g-lh-30">
+                                        <div class="g-fs-lg"><strong>Order Reference</strong> : @Model.CheckoutDetails.BackOfficeOrderRef</div>
+                                        <div>
+                                            <strong>We will send an email confirmation to: <span class="g-fc-s">@Model.CheckoutDetails.Email</span></strong>
+                                        </div>
+                                        <div>
+                                            <strong>@ViewBag.DeliveryMessage</strong>
+                                        </div>
+                                        <div class="g-fs-lg g-m-t-20">
+                                            <strong>Payment Details</strong>
+                                        </div>
+                                        <div class="g-m-t-10">
+                                            <img src="/Content/Images/1pxTrans.png" class="msp_payPal" alt="PayPal" />
+                                            <span class="g-p-l-20">PayPal Transaction @Model.CheckoutDetails.PayPalRef</span>
+                                        </div>
+                                    </div>
+                                    if (ViewBag.ShowPasswordForm)
+                                    {
+                                        <h2 class="g-m-t-40">Set a Password</h2>
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="pull-left g-bc-s g-b-1-p g-p-10 g-w-150">
+                                                    <i class="fa fa-check g-fc-pm"></i>
+                                                    <span class="g-i">Track your order</span>
+                                                </div>
+                                                <div class="pull-left g-m-l-20 g-bc-s g-b-1-p g-p-10 g-w-150">
+                                                    <i class="fa fa-check g-fc-pm"></i>
+                                                    <span class="g-i">Re-order Quickly</span>
+                                                </div>
+                                                <div class="pull-left g-m-l-20 g-bc-s g-b-1-p g-p-10 g-w-150">
+                                                    <i class="fa fa-check g-fc-pm"></i>
+                                                    <span class="g-i">Download Invoices</span>
+                                                </div>
+                                            </div>
+
+                                            @using (Ajax.BeginForm("SetPassword", "Checkout", null, new AjaxOptions {HttpMethod = "POST", OnComplete = "setPasswordComplete", OnFailure = ""}))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                @Html.HiddenFor(x => x.CheckoutDetails.Email)
+                                                @Html.HiddenFor(x => x.CheckoutDetails.Name.Firstname)
+                                                @Html.HiddenFor(x => x.CheckoutDetails.Name.Surname)
+
+                                                <div class="row g-flex-vcenter g-m-t-20">
+                                                    <div class="checkbox checkbox-success">
+                                                        @Html.CheckBoxFor(x => x.CheckoutDetails.Newsletter)
+                                                        <label for="Newsletter">I agree to receive @Html.RawFromDict(Model.CommonData, "SiteName").ToString() exclusive offers and news.</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row g-m-t-20">
+                                                    <div class="pull-left g-inp-md">PASSWORD*</div>
+                                                </div>
+                                                <div class="row g-m-t-3">
+                                                    <div class="g-inp-md clearfix g-d-ib">
+                                                        @Html.PasswordFor(x => x.CheckoutDetails.Password, new {placeholder = "New Password (Min 6 Characters)", @class = "g-b-1-p", autocomplete = "new-password"})
+                                                    </div>
+                                                    <div class="g-d-ib g-fc-tt g-fs-sm g-w-225 g-va-m g-p-l-10">
+                                                        By creating an account, you agree to our <a href="/blog/help/policies/" target="_blank">Terms and Conditions</a>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <button type="submit" class="g-butt-primary g-butt-xl g-m-t-20">Save Password & Continue</button>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                    break;
+                                }
+                            case "Phone":
+                                {
+                                    <h2>How to pay for your order</h2>
+                                    <div class="g-bc-s g-b-1-p g-p-20 g-lh-30">
+                                        <div class="g-fs-lg"><strong>Order Reference</strong> : @Model.CheckoutDetails.BackOfficeOrderRef</div>
+                                        <div>
+                                            <strong>Payment instructions sent to to: <span class="g-fc-s">@Model.CheckoutDetails.Email</span></strong>
+                                        </div>
+                                        @(Html.RawFromDict(Model.CheckoutData, "ConfirmPhone1", replacements))
+                                    </div>
+                                    break;
+                                }
+                            case "BACS":
+                                {
+                                    <h2>How to pay for your order</h2>
+                                    <div class="g-bc-s g-b-1-p g-p-20 g-lh-30">
+                                        <div class="g-fs-lg"><strong>Order Reference</strong> : @Model.CheckoutDetails.BackOfficeOrderRef</div>
+                                        <div>
+                                            <strong>Payment instructions sent to to: <span class="g-fc-s">@Model.CheckoutDetails.Email</span></strong>
+                                        </div>
+                                        @(Html.RawFromDict(Model.CheckoutData, "ConfirmBACS", replacements))
+                                    </div>
+                                    break;
+                                }
+                            case "Account":
+                                {
+                                    <h2>Thank you for your order</h2>
+                                    <div class="g-bc-s g-b-1-p g-p-20 g-lh-30">
+                                        <div class="g-fs-lg"><strong>Order Reference</strong> : @Model.CheckoutDetails.BackOfficeOrderRef</div>
+                                        <div>
+                                            <strong>We will send an email confirmation to: <span class="g-fc-s">@Model.CheckoutDetails.Email</span></strong>
+                                        </div>
+                                        <div>
+                                            <strong>@ViewBag.DeliveryMessage</strong>
+                                        </div>
+                                        <div class="g-fs-lg g-m-t-20">
+                                            <strong>Payment Details</strong>
+                                        </div>
+                                        <div class="g-m-t-10">
+                                            <strong>Credit Account Number: </strong>@Model.CheckoutDetails.AccountNumber
+                                        </div>
+                                        <div><strong>Invoice Amount: </strong>&pound;@Model.BasketTotals.GrandTotalIncVat.ToString("#,###,##0.00")</div>
+                                    </div>
+                                    break;
+                                }
+                            case "Cheque":
+                                {
+                                    <h2>Thank you for your order</h2>
+                                    <div class="g-bc-s g-b-1-p g-p-20 g-lh-30">
+                                        <div class="g-fs-lg"><strong>Order Reference</strong> : @Model.CheckoutDetails.BackOfficeOrderRef</div>
+                                        <div>
+                                            <strong>We will send an email confirmation to: <span class="g-fc-s">@Model.CheckoutDetails.Email</span></strong>
+                                        </div>
+                                    </div>
+                                    break;
+                                }
+                            case "AccountApplication":
+                                {
+                                    <h2>Thank you for your order</h2>
+                                    <div class="g-bc-s g-b-1-p g-p-20 g-lh-30">
+                                        <div class="g-fs-lg"><strong>Order Reference</strong> : @Model.CheckoutDetails.BackOfficeOrderRef</div>
+                                        <div>
+                                            <strong>Order information sent to: <span class="g-fc-s">@Model.CheckoutDetails.Email</span></strong>
+                                        </div>
+                                        @Html.RawFromDict(Model.CheckoutData, "ConfirmAccountApplication")
+                                    </div>
+                                    @Html.RawFromDict(Model.CheckoutData, "CreditAccountNote")
+                                    break;
+                                }
+                            default:
+                                {
+                                    break;
+                                }
+                        }
+                    }
+                    @if (Model.CheckoutDetails.PaymentMethod == "BACS")
+                    {
+                        <div class="g-bc-note g-b-1-p g-p-10 g-m-t-20">
+                            <strong>Please Note: </strong>The order reference displayed above must be entered as the payment reference so we can link your payment to the order.
+                        </div>
+                    }
+                    @if (Model.CheckoutDetails.PaymentMethod == "Phone")
+                    {
+                        @(Html.RawFromDict(Model.CheckoutData, "ConfirmPhone2", replacements))
+                    }
+                </div>
+                @if (!ViewBag.ShowPasswordForm)
+                {
+                    <a class="btn g-butt-primary g-butt-xl g-m-t-40" href="/" role="button">Continue Shopping</a>
+                }
+                else
+                {
+                    <a class="g-m-t-20 g-d-b" href="/">Skip and continue shopping</a>
+                }
+
+                <div class="g-m-t-60">
+                    @{
+                        Html.RenderPartial("~/Views/Shared/LiveChat.cshtml", Model);
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-3 restrict-images">
+                <hr class="g-m-b-20" />
+                @{
+                    Html.RenderPartial("~/Views/Checkout/OrderSummary.cshtml", Model);
+                }
+
+                <div class="g-bc-s g-b-1-p g-m-t-10">
+                    <div class="g-p-10">
+                        <strong>Payment Methods</strong>
+                    </div>
+                    <hr />
+                    <div class="g-p-10 text-center">
+                        @Html.Raw(Model.CheckoutData["PaymentMethods"].Replace("[newline]", "&#013;"))
+                    </div>
+                </div>
+
+                <div class="g-m-t-20">
+                    @Html.RawFromDict(Model.CheckoutData, "SecureMessage")
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@if (int.Parse(ConfigurationManager.AppSettings["WebsiteId"].ToString()) == 1)
+{
+    // Fresh Relevance Tracking
+    <img class="g-d-n" src="//d1f0tbk1v3e25u.cloudfront.net/pc/qgorm22z/?e=@Model.CheckoutDetails.Email&r=@Model.CheckoutDetails.BackOfficeOrderRef" id="__tms_pc" height="1" width="1" />
+}
+
+@section scripts
+{
+    @{
+        Html.RenderPartial("~/Views/Checkout/JSTracking.cshtml", Model);
+    }
+    
+    <script type="text/javascript">
+        function setPasswordComplete(data) {
+            location.href = "/";
+    }
+    </script>
+}

@@ -1,0 +1,204 @@
+﻿@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using CommonUI.Models;
+
+@model CheckoutViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutCheckout.cshtml";
+}
+
+
+<script>
+    $(document).ready(function () {
+        sessionStorage.costatus = "Started";
+    });
+
+    $(document).on('click', '.delivery-method', function () {
+        var delServiceId = $("input[name='CheckoutDetails.DeliveryServiceId']:checked").val()
+        console.log(delServiceId)
+        $.post("/Checkout/ChangeDeliveryMethod?deliveryServiceId=" + delServiceId, function (data) {
+            $("#orderSummaryContainer").html(data.savereturn.Html)
+        })
+    })
+</script>
+
+<style>
+    #OrderSummaryTitleRow{
+        display:none;
+        /*The Order summary comes with a title row. This removes it, we put the title row above the delivery on this page.*/
+    }
+
+</style>
+
+<div class="comm-content g-bc-p g-p-b-60 g-b-t-1">
+    <div class="container body-content g-ps-r">
+
+        <div class="row g-m-t-20 g-m-b-40">
+            <div class="col-md-12">
+                <div class="row">
+
+                    <!-- Left Hand Column -->
+                    <div class="col-md-9">
+                        <hr class="g-m-b-20" />
+
+                        <div class="clearfix">
+                            <div class="row">
+                                <h2 class="pull-left col-md-12 col-lg-7 g-ws-nw">Order Summary</h2>
+                                @if (ViewBag.AllowEdit)
+                                {
+                                    <div class="col-md-12 col-lg-5">
+                                        <a href="~/checkout/" class="btn g-butt-second-reg g-butt-md-2 pull-right" role="button">Edit Basket</a>
+                                    </div>
+                                    <div class="col-md-12 g-m-t-10 visible-md"></div>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Delivery Options -->
+
+                        <div id="delivery-options" class="g-bc-s g-b-rlt-1-p">
+                            <div class="g-p-10">
+                                <strong>
+                                    Select your delivery option:
+                                </strong>
+                            </div>
+
+                            <hr />
+
+                            @{
+                                Html.RenderPartial("~/Views/Checkout/DeliveryOptions.cshtml", Model.DeliveryOptions, new ViewDataDictionary { { "DeliveryServiceId", Model.CheckoutDetails.DeliveryServiceId } });
+                            }
+                        </div>
+
+                        <br class="g-m-b-20" />
+
+                        <div id="orderSummaryContainer">
+                            @{
+                                Html.RenderPartial("~/Views/Checkout/OrderSummary.cshtml", Model);
+                            }
+                        </div>
+
+                        @if (!Model.IsMobile)
+                        {
+                            <button type="button"
+                                    style="max-width:200px;"
+                                    class="checkout-button btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-right"
+                                    onclick="window.location.href='@Model.AmazonPayRedirectUrl'">
+                                Place Order
+                            </button>
+                        }
+
+                    </div>
+
+                    <script src="https://static-eu.payments-amazon.com/checkout.js"></script>
+
+                    <!-- Right Hand Column -->
+                    <div class="col-md-3" style="overflow-wrap: break-word;">
+                        <hr class="g-m-b-20" />
+
+                        <h2>Billing Details</h2>
+
+                        <div class="g-m-b-10">
+                            <div class="g-bc-s g-b-1-p">
+                                <div class="g-p-10 g-ps-r">
+
+                                    <div class="g-ps-a" style="right: 5px;top: 5px;">
+                                        <a href="#" id="changeAmazonAddress" class="btn g-butt-second-reg g-butt-md-2 pull-right" role="button">
+                                            Change
+                                        </a>
+
+                                    </div>
+
+                                    <strong>Delivering To</strong>
+                                </div>
+                                <hr />
+                                <div class="g-p-10">
+                                    @Html.Raw(Model.AmazonShippingAddress)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="g-m-b-10">
+                            <div class="g-bc-s g-b-1-p">
+                                <div class="g-p-10 g-ps-r">
+
+                                    <div class="g-ps-a" style="right: 5px;top: 5px;">
+                                        <a href="#" id="changeAmazonPaymentMethod" class="btn g-butt-second-reg g-butt-md-2 pull-right" role="button">
+                                            Change
+                                        </a>
+
+                                    </div>
+
+                                    <strong>Payment Method</strong>
+                                </div>
+                                <hr />
+                                <div class="g-p-10">
+                                    @Html.Raw(Model.AmazonPaymentMethod)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="g-m-b-10">
+                            <div class="g-bc-s g-b-1-p">
+                                <div class="g-p-10"><strong>Billing Address</strong></div>
+                                <hr />
+                                <div class="g-p-10">
+                                    @Html.Raw(Model.AmazonBillingAddress)
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (Model.IsMobile)
+                        {
+                            <button type="button"
+                                    style="max-width:200px;"
+                                    class="checkout-button btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-right"
+                                    onclick="window.location.href='@Model.AmazonPayRedirectUrl'">
+                                Place Order
+                            </button>
+                        }
+                    </div>
+
+                    <!-- Left Hand Column Again -->
+                    <div class="col-md-9">
+                        <hr class="g-m-t-60 g-m-b-20">
+
+                        <div class="clearfix">
+                            <div class="pull-left-lg g-fs-lg text-center">
+
+                                <span class="g-i g-fs-lg">Need Assistance? We'll be happy to help! Call us on <b>0345 365 3605</b></span>
+
+                            </div>
+                        </div>
+
+                        <hr class="g-m-t-20 g-m-b-20">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        amazon.Pay.bindChangeAction(
+            '#changeAmazonPaymentMethod',
+            {
+                amazonCheckoutSessionId: '@Html.Raw(Model.AmazonCheckoutSessionId)',
+                changeAction: 'changePayment'
+            }
+        );
+
+        amazon.Pay.bindChangeAction(
+            '#changeAmazonAddress',
+            {
+                amazonCheckoutSessionId: '@Html.Raw(Model.AmazonCheckoutSessionId)',
+                changeAction: 'changeAddress'
+            }
+        );
+    </script>
+}
+

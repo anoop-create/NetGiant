@@ -1,0 +1,2 @@
+C:\Anoop\AllProject\NetGiant Ecommerce\UI\NetGiant\NG-Ecommerce-Beta\NG-Ecommerce-Website\NG-Ecommerce-Website\obj\Debug\NG-Ecommerce-Website.csproj.AssemblyReference.cache
+C:\Anoop\AllProject\NetGiant Ecommerce\UI\NetGiant\NG-Ecommerce-Beta\NG-Ecommerce-Website\NG-Ecommerce-Website\obj\Debug\NG-Ecommerce-Website.csproj.CoreCompileInputs.cache

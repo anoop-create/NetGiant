@@ -1,0 +1,35 @@
+﻿@using System.Configuration
+@using BusinessLogic
+@using BusinessLogic.ViewModels;
+@using CommonUI.Models;
+
+@model SearchViewModel
+
+<div class="g-m-b-20 g-b-1-p pl-entry" data-logurl="@Model.SliLoggingUrl">
+    <div class="clearfix g-d-t g-bc-s prd-summ-entry">
+        <div class="clearfix g-w-200 g-va-m">
+            <div class="g-h-100p g-flex-allcenter g-m-t-10">
+                <a href="@Model.Category.Url">
+                    <img src="/Content/Images/1pxTrans.png" class="lazy" alt="@Model.Category.Name" data-original="@ConfigurationManager.AppSettings["CDN"]/Images/category-icons/@(Utilities.CleanUrl(Model.Category.Name.ToLower())).jpg" onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
+                </a>
+            </div>
+        </div>
+        <div class="g-va-m">
+            <div class="row g-h-100p">
+                <div class="col-md-8">
+                    <a href="@Model.Category.Url" class="primary">
+                        <div class="g-fw-b g-m-t-10 productName">@Html.HighlightKeyWords(Model.Category.Name, Model.SearchTerm, "search-highlight", true)</div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <div>
+                        <a href="@Model.Category.Url" class="btn g-butt-secondary g-butt-lg g-m-t-10 g-m-b-10 g-w-100p view-product">View Products<i class="fa fa-chevron-right g-m-l-10"></i></a>
+                        <span class="hidden price">999999.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

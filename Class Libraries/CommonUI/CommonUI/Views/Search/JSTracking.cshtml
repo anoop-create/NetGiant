@@ -1,0 +1,11 @@
+﻿@using BusinessLogic.ViewModels;
+
+@model SearchViewModel
+
+@{
+    <text>
+        gtag("event", "search", {
+        search_term: "@ViewBag.Term"
+        });
+    </text>
+}

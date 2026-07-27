@@ -1,0 +1,192 @@
+﻿@using System.Configuration
+@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+@using Kendo.Mvc.UI
+
+@model SearchViewModel
+
+@section AddTags
+{
+    <meta name="robots" content="noindex, nofollow">
+}
+
+<section data-stellar-background-ratio="0.5" data-stellar-ratio="1" style="background-image: url('@Html.RawFromDict(Model.CommonData, "FeatureBackground")')">
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-md-12 comm-title-banner g-h-120-sm g-fc-st">
+                <div class="bread-crumb hidden-xs hidden-sm">
+                    @foreach (KeyValuePair<string, string> bc in Model.BreadcrumbTrail)
+                    {
+                        <a class="second" href="@bc.Value">@bc.Key</a>
+                        <i class="fa fa-chevron-right g-fs-xs-i"></i>
+                    }
+                    Search
+                </div>
+                <div class="g-m-t-a">
+                    <div class="pull-left">
+                        <h1>
+                            <span class="">Search Results for @ViewBag.Term</span>
+                        </h1>
+                    </div>
+                    <div class="pull-right hidden-xs hidden-sm">
+                        @Html.ShowSaleInfoButton(Model.IsCompatibleSaleActive, Model.IsOEMSaleActive, Model.IsStationerySaleActive)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="comm-content g-bc-p g-p-b-100">
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-md-3 fltr-filters restrict-images">
+
+                @if(Model.FilterTopBanner != null)
+                {
+                    @Html.Raw(Model.FilterTopBanner.Content);
+                }
+
+                <hr class="g-m-b-20"/>
+
+                <!-- Desktop -->
+                <div class="clearfix hidden-xs hidden-sm">
+                    <div class="row">
+                        <h2 class="col-md-12 col-lg-7">Filter Results</h2>
+                        <div class="col-md-12 col-lg-5">
+                            <button id="clearFilter" class="g-butt-second-reg g-butt-md-2 pull-right-lg">Clear All</button>
+                        </div>
+                        <div class="col-md-12 g-m-t-10 visible-md"></div>
+                    </div>
+                </div>
+                <!-- Mobile -->
+                @if (Model.Results.Count > 0)
+                {
+                    <div class="clearfix hidden-md hidden-lg g-bc-s g-b-1-p g-m-b-10 g-p-lr-10 g-lh-40">
+                        <h2 class="toggle-filter pull-left g-fs-n g-lh-40 g-m-0" onClick="">
+                            <strong>Filter Results</strong>
+                        </h2>
+                        <div class="toggle-filter pull-left g-p-l-20" onClick="">
+                            <i class="fa fa-chevron-down g-p-r-40"></i>
+                        </div>
+                        <div class="pull-right">
+                            <button id="clearFilter" class="g-butt-second-reg g-butt-md-2">Clear All</button>
+                        </div>
+                    </div>
+                }
+                @{
+                    ViewBag.HidePriceFilter = Model.Results.Count == 0 ? (dynamic) true : null;
+                    Html.RenderPartial("~/Views/Product/ProductFilters.cshtml", Model);
+                }
+
+                <div class="g-m-t-20"></div>
+
+                @Html.RawFromDict(Model.ProductData, "ModelMarketing1", null, "hidden-xs hidden-sm")
+            </div>
+
+            <div class="col-md-9 pl-products">
+
+                @if (Model.ResultsTopBanner != null)
+                {
+                    @Html.Raw(Model.ResultsTopBanner.Content);
+                }
+
+                <hr class="g-m-b-20">
+                <div class="clearfix">
+                    <h2 class="pull-left">
+                        Results <span class="g-fc-s">(<span id="pl-product-count">@Model.Results.Count</span>)</span>
+                    </h2>
+                    <div class="pull-right">
+                        @if (Model.Results.Count > 0)
+                        {
+                            <select class="sortResults selectpicker auto-width" data-style="g-butt-second-reg g-butt-sm-2 g-fs-sm">
+                                <option value="0">Best Match</option>
+                                <option value="3">Price (Low-Hi)</option>
+                                <option value="4">Price (Hi-Low)</option>
+                                <option value="1">Description (A-Z)</option>
+                                <option value="2">Description (Z-A)</option>
+                            </select>
+                        }
+                    </div>
+                </div>
+                <div>
+                    @foreach (var se in Model.Results)
+                    {
+                        if (se.Product != null)
+                        {
+                            Model.Product = se.Product;
+                            Model.SliLoggingUrl = se.SliLoggingUrl;
+                            Html.RenderPartial("~/Views/Product/ProductEntry.cshtml", Model);
+                        }
+                        else
+                        {
+                            if (se.ItemType == "Equipment")
+                            {
+                                Model.Equipment = new EquipmentEntry
+                                {
+                                    ImageUrl = string.Format(ConfigurationManager.AppSettings["CDN"] + "/{0}", se.ImageUrl ?? ""),
+                                    ModelName = se.FriendlyModel ?? "",
+                                    CartridgeType = se.CartridgeType ?? "",
+                                    UrlLink = se.FriendlyModel != null && se.CartridgeType != null ? string.Format("/model/{0}-{1}", se.FriendlyModel.Replace(" ", "-"), se.CartridgeType.Replace(" ", "-").Replace("HP-Range", "Toner-Cartridges").ToLower()) : "",
+                                    ManufacturerId = se.ManufacturerId
+                                };
+                                Model.SliLoggingUrl = se.SliLoggingUrl;
+                                Html.RenderPartial("~/Views/Equipment/EquipmentEntry.cshtml", Model);
+                            }
+                            else if (se.ItemType == "Category")
+                            {
+                                Model.Category = new CategoryEntry
+                                {
+                                    Name = se.FriendlyModel,
+                                    BoGroupNo = se.ItemId,
+                                    Url = se.UrlLink
+                                };
+                                Model.SliLoggingUrl = se.SliLoggingUrl;
+                                Html.RenderPartial("~/Views/Misc/CategoryEntry.cshtml", Model);
+                            }
+                        }
+                    }
+
+                    @if (Model.Results.Count == 0)
+                    {
+                        if (int.Parse(ConfigurationManager.AppSettings["WebsiteId"]) == 3)
+                        {
+                            <span> No results found for "@ViewBag.Term", please try again.</span>
+                            <br/>
+                            <br/>
+                        }
+                        else
+                        {
+                            <span> No results found for "@ViewBag.Term", have you tried our printer cartridge wizard ?</span>
+                            <br/>
+                            <br/>
+                            Html.RenderAction("RenderWizard", "Equipment");
+                        }
+                    }
+
+                </div>
+                <div class="g-m-t-60">
+                    @{
+                        Html.RenderPartial("~/Views/Shared/LiveChat.cshtml", Model);
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section AddScript
+{
+    <script type="text/javascript">
+        @{
+            Html.RenderPartial("~/Views/Search/JSTracking.cshtml", Model);
+        }
+    </script>
+}
+
+@section StructuredData {
+    [
+    @Html.Raw(ViewBag.BreadcrumbJson)
+    ]
+}

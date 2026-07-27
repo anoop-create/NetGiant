@@ -1,0 +1,175 @@
+﻿@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+@using System.Configuration;
+
+@model CommonViewModel
+
+@{
+    int websiteId = int.Parse(ConfigurationManager.AppSettings["WebsiteId"].ToString());
+    string inspectletId = "";
+    string affiliateWindowId = "";
+    string gaId = "";
+    switch (websiteId)
+    {
+        case 1:
+        {
+            inspectletId = "1559749059";
+            affiliateWindowId = "5500";
+            gaId = "UA-1727271-1";
+            break;
+        }
+        case 2:
+        {
+            inspectletId = "809135745";
+            affiliateWindowId = "808";
+            gaId = "UA-788128-1";
+            break;
+        }
+        case 3:
+        {
+            inspectletId = "809135745";
+            affiliateWindowId = "6704";
+            gaId = "UA-49671214-1";
+            break;
+        }
+    }
+
+
+    // Inspectlet
+    if (ConfigurationManager.AppSettings["InspectletIsOn"] == "True")
+    {
+        <text>
+            window.__insp = window.__insp || [];
+            __insp.push(['wid', @inspectletId]);
+            //var insp_url = '://cdn.inspectlet.com/inspectlet.js';
+            var insp_url = '://@(Html.RawFromDict(Model.CommonData, "DomainName"))data/static-files/cpy_inspectlet.js';
+            (function() {
+            function __ldinsp() { var insp = document.createElement('script'); insp.type = 'text/javascript'; insp.async = true; insp.id = "inspsync"; insp.src = ('https:' == document.location.protocol ? 'https' : 'http') + insp_url; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(insp, x); }
+            if (window.attachEvent) window.attachEvent('onload', __ldinsp);
+            else window.addEventListener('load', __ldinsp, false);
+            })();
+        </text>
+    }
+
+    // Fresh Relevance
+    if (int.Parse(ConfigurationManager.AppSettings["WebsiteId"].ToString()) == 1)
+    {
+        <text>
+            //var fr_url = 'https://d81mfvml8p5ml.cloudfront.net/qgorm22z.js';
+            var fr_url = 'https://@(Html.RawFromDict(Model.CommonData, "DomainName"))data/static-files/cpy_freshrelevance.js';
+            deferScriptLoad("script", fr_url);
+        </text>
+    }
+
+    // Affiliate Window
+    if (!Convert.ToBoolean(HttpContext.Current.Session["U_IsPortalUser"]))
+    {
+        <text>
+            //var awin_url = 'https://www.dwin1.com/@(affiliateWindowId).js';
+            var awin_url = 'https://@(Html.RawFromDict(Model.CommonData, "DomainName"))data/static-files/cpy_affilliatewindow.js';
+            deferScriptLoad("script", awin_url);
+        </text>
+    }
+
+    // Google Analytics
+    <text>
+        var _gaq = _gaq || [];
+        var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+        _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+        _gaq.push(['_setAccount', '@gaId']);
+        _gaq.push(['_setAllowLinker', true]);
+        _gaq.push(['_setDomainName', '@Html.RawFromDict(Model.CommonData, "SiteName").ToSafeString().ToLower()']);
+        _gaq.push(['_setSiteSpeedSampleRate', 5]);
+
+        //Track Visitor ID from a GA cookie
+        _gaq.push(["_setCustomVar", 1, "VistorID", _goog_id(), 1]);
+
+        _gaq.push(['_trackPageview']);
+    </text>
+
+    if (Html.Controller() == "checkout" && Html.Action() == "stage3")
+    {
+        string trackmethod = "";
+        switch ((string) ViewBag.PayMethod)
+        {
+            case "Phone":
+            {
+                trackmethod = "Telephone";
+                break;
+            }
+            case "BACS":
+            {
+                trackmethod = "BACS";
+                break;
+            }
+            case "Account":
+            {
+                trackmethod = "Account";
+                break;
+            }
+            default:
+            {
+                trackmethod = "Card";
+                break;
+            }
+        }
+        <text>
+            // Track Payment Method
+            _gaq.push(['_trackEvent','Payment', '@trackmethod']);
+        </text>
+    }
+
+    if ((Html.Controller() == "home" && Html.Action() == "index") || (Html.Controller() == "equipment" && Html.Action() == "printerwizard"))
+    {
+        <text>
+            // Track Wizard Action
+            $('.wiz-widget').on('change', '#wiz-manufacturer', function(event) {
+            var manuId = $('#wiz-manufacturer').val() == "" ? 0 : $('#wiz-manufacturer').val();
+            if (manuId != 0) {
+            _gaq.push(['_trackEvent', 'Printer Wizard', 'Manufacturer', $("option:selected", this).text()]);
+            }
+            });
+            $('.wiz-widget').on('change', '#wiz-family', function(event) {
+            var familyId = $('#wiz-family').val() == "" ? 0 : $('#wiz-family').val();
+            if (familyId != 0) {
+            _gaq.push(['_trackEvent', 'Printer Wizard', 'Family', $("option:selected", this).text()]);
+            }
+            });
+            $('.wiz-widget').on('change', '#wiz-equipment', function(event) {
+            var equipId = $('#wiz-equipment').val() == "" ? 0 : $('#wiz-equipment').val();
+            if (equipId != 0) {
+            _gaq.push(['_trackEvent', 'Printer Wizard', 'Model', $("option:selected", this).text()]);
+            }
+            });
+            $('.wiz-widget').on('click', '#wiz-find', function(event) {
+            _gaq.push(['_trackEvent','Printer Wizard','Submit']);
+            });
+        </text>
+    }
+
+    <text>
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+        //function gaAddToBasket(prodDesc, prodRef, prodPrice) {
+        // _gaq.push(['_trackEvent','addtobasket',prodDesc,prodRef,parseFloat(prodPrice.replace(/[£]/, ''))]);
+        //}
+
+        function _goog_id() {
+        var id, a, c = document.cookie.split('; ');
+        for(i in c){a = c[i].split('=');if(a[0]=='__utma'){id = a[1].split('.')[1];}}
+        return id || 'unknown';
+        }
+    </text>
+
+    if (Convert.ToBoolean(Session["M_GoogleRevisit"]))
+    {
+        Session.Remove("M_GoogleRevisit");
+        <text>
+            _gaq.push(["_setCustomVar", 5, "Assumed Login", "Yes", 2]);
+        </text>
+    }
+}

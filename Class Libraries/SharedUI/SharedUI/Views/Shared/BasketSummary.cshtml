@@ -1,0 +1,102 @@
+﻿@using System.Configuration;
+@using BusinessLogic;
+@using SharedUI.Models;
+
+@{
+    var bt = (BasketTotals)Session["B_BasketTotals"];
+    Tuple<string, decimal> summPrice = Utilities.SetPrice(bt.GrandTotalIncVat, bt.GrandTotalExcVat);
+
+    List<BasketContents> lbc = new List<BasketContents>();
+    if (HttpContext.Current.Session["B_BasketArray"] != null)
+    {
+        lbc = (List<BasketContents>)HttpContext.Current.Session["B_BasketArray"];
+    }
+
+    bool isVatExempt = HttpContext.Current.Session["D_IsVatExempt"] != null && Convert.ToBoolean(HttpContext.Current.Session["D_IsVatExempt"]);
+    decimal vatMultiplier = Convert.ToDecimal(ConfigurationManager.AppSettings["VatMultiplier"]);
+}
+
+<div id="basket" class="navbar-toggle offcanvas-toggle collapsed pull-left" type="button" data-toggle="offcanvas-open" data-target="#utility-bar" aria-expanded="false">
+    <div class="header g-flex-vcenter" data-label="View Basket">
+        <span class="sr-only">Toggle Basket</span>
+        <img class="msp_basket" src="~/Content/Images/1pxTrans.png" />
+        <span class="g-fs-lg g-p-l-20">Basket</span>
+    </div>
+    <div class="content clearfix">
+        <a class="btn g-butt-second-reg g-butt-100p g-m-t-10" href="~/checkout/" role="button">Checkout/Edit Basket</a>
+        <div class="g-m-t-10 text-center g-fs-n">
+            <strong><span class="basketQuantity">@bt.Quantity</span></strong> Items | Subtotal <strong>&pound;<span class="basketTotal">@((summPrice.Item2 - bt.Delivery).ToString("#,###,##0.00"))</span></strong> <span class="g-fc-st g-fs-sm">@summPrice.Item1</span>
+        </div>
+
+        <div id="basketSummary"></div>
+        @{
+            foreach (BasketContents bc in lbc)
+            {
+                if (bc.ItemType == BasketItemType.Item || bc.ItemType == BasketItemType.CompatibleDiscount || bc.ItemType == BasketItemType.Voucher)
+                {
+                    Tuple<string, decimal> price;
+                    string neg = bc.ItemType == BasketItemType.Item ? "" : "-";
+
+                    if (isVatExempt)
+                    {
+                        decimal p = Math.Round(
+                            Math.Round(bc.PriceInc, 2) /
+                            vatMultiplier * bc.Quantity, 2);
+                        price = Utilities.SetPrice(p, p);
+                    }
+                    else
+                    {
+                        decimal p1 = Math.Round(Math.Round(bc.PriceInc, 2) * bc.Quantity, 2);
+                        decimal p2 =
+                            Math.Round(
+                                Math.Round(bc.PriceInc, 2) /
+                                Convert.ToDecimal(ConfigurationManager.AppSettings["VatMultiplier"]) * bc.Quantity,
+                                2);
+                        price = Utilities.SetPrice(p1, p2);
+                    }
+                    string imageUrl = String.IsNullOrEmpty(bc.ImageUrl) ? ConfigurationManager.AppSettings["CDN"] + "/Images/noImage.jpg" : bc.ImageUrl;
+
+                    <hr class="g-m-tb-10"/>
+                    <div class="basket-entry g-m-t-10 clearfix g-ps-r" data-productid="@bc.StockRef">
+                        <div class="pull-left">
+                            @if (!string.IsNullOrEmpty(bc.ProductUrl))
+                            {
+                                <a href="@bc.ProductUrl">
+                                    <img src="/Content/Images/1pxTrans.png" class="deferImage" data-original="@imageUrl" alt="@bc.Description">
+                                </a>
+                            }
+                            else
+                            {
+                                <img src="/Content/Images/1pxTrans.png" class="deferImage" data-original="@imageUrl" alt="@bc.Description">
+                            }
+                        </div>
+                        <div class="pull-left g-m-l-10 g-w-200">
+                            @if (!string.IsNullOrEmpty(bc.ProductUrl))
+                            {
+                                <a class="primary" href="@bc.ProductUrl">@bc.Description</a>
+                            }
+                            else
+                            {
+                                @bc.Description
+                            }
+                            <div class="g-m-t-5"><strong>Quantity: </strong>@bc.Quantity</div>
+                            <div><strong>Sub total: </strong> @neg&pound;@price.Item2.ToString("#,###,##0.00") @price.Item1</div>
+                        </div>
+                        @if (bc.PriceEx != 0)
+                        {
+                            <div class="delete g-d-n g-ps-a" data-productid="@bc.StockRef" style="right: 0px; bottom: 4px;">
+                                <i class="fa fa-times"></i>
+                            </div>
+                        }
+                    </div>
+                }
+            }
+
+        }
+
+        <div class="keep">
+            <div class="message g-d-n">*Not all entries are shown</div>
+            <a class="btn g-butt-second-reg g-butt-100p g-m-t-10" href="/checkout/" role="button">Checkout/Edit Basket</a>
+        </div>
+    </div>
+</div>

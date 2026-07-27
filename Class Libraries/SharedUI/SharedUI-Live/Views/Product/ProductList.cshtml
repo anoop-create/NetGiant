@@ -1,0 +1,256 @@
+﻿@using System.Configuration
+@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+
+@model SearchViewModel
+
+@section AddTags {
+
+    @{ 
+        var canonicalUrl = Model.DomainNameTrunc;
+        canonicalUrl += "/model/";
+        canonicalUrl += Convert.ToString(Model.EquipmentDetail.Rows[0]["Description"]).Replace(" ", "-");
+        canonicalUrl += "-";
+        canonicalUrl += Convert.ToString(Model.EquipmentDetail.Rows[0]["CartridgeTypeName"]).Replace(" ", "-").ToLower();
+    }
+
+    <link rel="canonical" href="https://@(canonicalUrl)/" />
+}
+
+<section data-stellar-background-ratio="0.5" data-stellar-ratio="1" style="background-image: url('@Html.RawFromDict(Model.CommonData, "FeatureBackground")')">
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-md-12 comm-title-banner g-h-150-md g-fc-st">
+                <div class="bread-crumb hidden-xs hidden-sm">
+                    <a class="second" href="/">Home</a>
+                    <i class="fa fa-chevron-right g-fs-xs-i"></i>
+                    <a class="second" href="/@Model.EquipmentDetail.Rows[0]["CartridgeTypeName"].ToString().ToLower().Replace(' ', '-')/">
+                        @Model.EquipmentDetail.Rows[0]["CartridgeTypeName"].ToString()
+                    </a>
+                    <i class="fa fa-chevron-right g-fs-xs-i"></i>
+                    <a class="second" href="/@Model.EquipmentDetail.Rows[0]["CartridgeTypeName"].ToString().ToLower().Replace(' ', '-')/@Model.EquipmentDetail.Rows[0]["Brand"].ToString().Replace(' ', '-')/">
+                        @Model.EquipmentDetail.Rows[0]["Brand"].ToString()
+                    </a>
+                    <i class="fa fa-chevron-right g-fs-xs-i"></i>
+                    @(Model.EquipmentDetail.Rows[0]["Description"].ToString() + " " + Model.EquipmentDetail.Rows[0]["CartridgeTypeName"].ToString())
+                </div>
+                <div class="comm-title-margin g-m-t-a">
+                    <div class="pull-left">
+                        <h1>
+                            <span class="">@Model.EquipmentDetail.Rows[0]["Description"].ToString()</span> <span class="g-tt-c">@Model.EquipmentDetail.Rows[0]["CartridgeTypeName"].ToString()</span>
+                        </h1>
+                        <i class="fa fa-print"></i>
+                        <span id="save-printer-text">
+                            @if (@Convert.ToBoolean(Model.EquipmentDetail.Rows[0]["IsFavourite"]))
+                            {
+                                <a class="second" href="/MyAccount/Index/MyPrinters">
+                                    <span class="g-i"> View My Printers</span>
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="popup g-i g-cur-p g-lk-white"
+                                        data-popupname="@(Authentication.IsAuthenticated() ? "SaveMyPrinter" : "SaveMyPrinterRegister")"
+                                        data-replacements="@ViewBag.SaveMyPrinterRep"
+                                        data-toggle="modal"
+                                        data-target="#popup">
+                                    Save to My Printers
+                                </span>
+                            }
+                        </span>
+                    </div>
+                    <div class="pull-right hidden-xs hidden-sm">
+                        <div>
+                            <button class="popup g-cur-p g-butt-second-inv g-butt-lg"
+                                    data-popupname="AskAQuestion"
+                                    data-replacements="@ViewBag.AskAQuestionRep"
+                                    data-toggle="modal"
+                                    data-target="#popup">
+                                Ask a Question
+                            </button>
+                        </div>
+                        @Html.ShowSaleInfoButton(Model.IsCompatibleSaleActive, Model.IsOEMSaleActive, Model.IsStationerySaleActive)
+                    </div>
+                </div>
+                <div class="comm-title-image g-b-1-p g-bc-s g-cur-p g-flex-allcenter">
+                    <img id="prd-image" src="@(Model.EquipmentDetail.Rows[0]["ThumbnailURL"].ToString())" alt="@Model.EquipmentDetail.Rows[0]["Description"].ToString()"  
+                         data-toggle="modal" data-target="#imageModal" 
+                         onerror="this.src = '@ConfigurationManager.AppSettings["CDN"]/Images/noimage.jpg';"/>
+                    <span>
+                        <img id="image-zoom" class="msp_zoom g-ps-a g-d-n" src="/Content/Images/1pxTrans.png" alt="zoom" />
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="g-bc-p g-p-t-60-sm g-p-b-100">
+    <div class="container body-content g-ps-r">
+
+        <div class="row g-m-t-20">
+            <div class="col-md-12">
+                <div class="row">
+                    @if (Model.EquipmentDetail.Rows[0]["eqNoteSummary"].ToString() != "")
+                    {
+                        <div class="col-xs-12 g-m-b-40">@Html.Raw(Model.EquipmentDetail.Rows[0]["eqNoteSummary"].ToString())</div>
+                    }
+
+                    <!-- Left Hand Column -->
+                    <div class="col-xs-12 col-md-3 fltr-filters restrict-images">
+                        @if (Model.IsCompatibleSaleActive || Model.IsOEMSaleActive)
+                        {
+                            string ctype = Model.EquipmentDetail.Rows[0]["CartridgeTypeName"].ToString().Replace(" Cartridges", "");
+                            if (("Toner".Contains(ctype) && 
+                                 ((Model.IsCompatibleSaleActive && "Toner|All".Contains(Model.CompatibleSaleType))
+                                  || (Model.IsOEMSaleActive && "Toner|All".Contains(Model.OEMSaleType))))
+                                || ("Ink|Solid Ink|Franking|".Contains(ctype) && 
+                                    ((Model.IsCompatibleSaleActive && "Ink|All".Contains(Model.CompatibleSaleType))
+                                     || (Model.IsOEMSaleActive && "Ink|All".Contains(Model.OEMSaleType)))))
+                            {
+                                @Html.RawFromDict(Model.SaleData, "ModelMarketing1", null, "hidden-xs hidden-sm")
+                            }
+                        }
+                        <hr class="g-m-b-20"/>
+
+                        <!-- Desktop -->
+                        <div class="clearfix hidden-xs hidden-sm">
+                            <div class="row">
+                                <h2 class="col-md-12 col-lg-7">Filter Results</h2>
+                                <div class="col-md-12 col-lg-5">
+                                    <button id="clearFilter" class="g-butt-second-reg g-butt-md-2 pull-right-lg">Clear All</button>
+                                </div>
+                                <div class="col-md-12 g-m-t-10 visible-md"></div>
+                            </div>
+                        </div>
+                        <!-- Mobile -->
+                        <div class="clearfix hidden-md hidden-lg g-bc-s g-b-1-p g-m-b-10 g-p-lr-10 g-lh-40">
+                            <h2 class="toggle-filter pull-left g-fs-n g-lh-40 g-m-0" onClick="">
+                                <strong>Filter Results</strong>
+                            </h2>
+                            <div class="toggle-filter pull-left g-p-l-20" onClick="">
+                                <i class="fa fa-chevron-down g-p-r-40"></i>
+                            </div>
+                            <div class="pull-right">
+                                <button id="clearFilter" class="g-butt-second-reg g-butt-md-2">Clear All</button>
+                            </div>
+                        </div>
+                        @{
+                            Html.RenderPartial("~/Views/Product/ProductFilters.cshtml", Model);
+                        }
+
+                        <div class="g-m-t-20"></div>
+
+                        @Html.RawFromDict(Model.ProductData, "ModelMarketing1", null, "hidden-xs hidden-sm")
+                    </div>
+
+                    <!-- Right Hand Column -->
+                    <div class="col-xs-12 col-md-9 pl-products">
+                        <hr class="g-m-b-20"/>
+                        <h2>
+                            Products for this printer <span class="g-fc-s">(<span id="pl-product-count">@Model.SearchList.Count</span>)</span>
+                        </h2>
+                        @{
+                            int savedSortSeq1 = -1;
+                            string savedSortSeq2 = "";
+                            string endtag = "";
+
+                            foreach (SearchEntry se in Model.SearchList)
+                            {
+                                ProductEntry pe = Model.Product = se.Product;
+                                if ((int) pe.PrimarySortSeq != savedSortSeq1 || (pe.PrimarySortSeq.Equals(ProductFlag.Product) && pe.AttDesc8 != savedSortSeq2))
+                                {
+                                    @Html.Raw(endtag + "<div>")
+                                    ;
+                                    if (endtag == "")
+                                    {
+                                        endtag = "</div>";
+                                    }
+                                    if (pe.PrimarySortSeq.Equals(ProductFlag.Assembly))
+                                    {
+                                        <div class="pl-sub-banner">
+                                            <div class="pull-left">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-circle-thin fa-stack-2x"></i>
+                                                    <i class="fa fa-gbp fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </div>
+                                            <div class="g-fs-lg pull-left g-p-l-10">@(pe.SpecLine6 == "Ink" ? "Ink" : "Toner") Value Packs</div>
+                                            <div class="pull-right g-p-r-10">
+                                                <div class="popup g-cur-p pull-right g-p-r-10 g-i" data-popupname="WhatAreValuePacks" data-replacements="" data-toggle="modal" data-target="#popup">
+                                                    What are value packs?
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    if (pe.PrimarySortSeq.Equals(ProductFlag.Product))
+                                    {
+                                        <div class="pl-sub-banner">
+                                            <div class="pull-left">
+                                                <div class="pl-chip g-m-t-7 cc-@pe.AttValue8"></div>
+                                            </div>
+                                            <div class="pull-left g-fs-lg g-p-l-10">
+                                                @pe.AttDesc8 Cartridges
+                                            </div>
+                                        </div>
+                                        savedSortSeq2 = pe.AttDesc8;
+                                    }
+                                    if (pe.PrimarySortSeq.Equals(ProductFlag.Ancillary))
+                                    {
+                                        <div class="pl-sub-banner">
+                                            <div class="pull-left">
+                                                <i class="fa fa-wrench fa-lg"></i>
+                                            </div>
+                                            <div class="pull-left g-fs-lg g-p-l-10">Printer Maintenance Products</div>
+                                            <div class="popup g-cur-p pull-right g-p-r-10 g-i" data-popupname="WhatAreMaintenanceProducts" data-replacements="" data-toggle="modal" data-target="#popup">
+                                                What are printer maintenance products?
+                                            </div>
+                                        </div>
+                                    }
+                                    savedSortSeq1 = (int) pe.PrimarySortSeq;
+                                }
+                                Html.RenderPartial("~/Views/Product/ProductEntry.cshtml", Model);
+                            }
+                            @Html.Raw(endtag)
+
+                            Html.RenderPartial("~/Views/Product/QandA.cshtml", Model.EquipmentQA);
+
+                            if (Model.EquipmentDetail.Rows[0]["eqNoteDetail"].ToString() != "")
+                            {
+                                <hr class="g-m-t-40 g-m-b-10"/>
+                                <h2 class="g-tt-c">@Model.EquipmentDetail.Rows[0]["CartridgeTypeName"].ToString() for the @Model.EquipmentDetail.Rows[0]["Description"].ToString()</h2>
+                                @Html.Raw(Model.EquipmentDetail.Rows[0]["eqNoteDetail"].ToString())
+                                <div class="clearfix"></div>
+                            }
+
+                            if (Model.PopularPrinters.Rows.Count > 0)
+                            {
+                                <hr class="g-m-t-40 g-m-b-10"/>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div id="pop-printers" class="col-md-12">
+                                                @{
+                                                    Html.RenderPartial("~/Views/Product/PopularPrinters.cshtml", Model);
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            Html.RenderPartial("~/Views/Shared/LiveChat.cshtml", Model);
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@{
+    List<string> eqlist = new List<string>();
+    eqlist.Add(Model.EquipmentDetail.Rows[0]["MainImageURL"].ToString());
+    Html.RenderPartial("~/Views/Product/ImageModal.cshtml", eqlist);
+}

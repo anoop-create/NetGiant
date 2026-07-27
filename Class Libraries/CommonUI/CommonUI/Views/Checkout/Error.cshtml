@@ -1,0 +1,47 @@
+﻿@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using CommonUI.Models;
+
+@model CheckoutViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutCheckout.cshtml";
+}
+
+<div class="comm-content g-bc-p g-p-b-60 g-b-t-1">
+    <div class="container body-content g-ps-r">
+        <div class="row g-m-t-20 g-m-b-40">
+            <div class="col-md-12">
+                <div class="row">
+
+                    <!-- Left Hand Column -->
+                    <div class="col-md-9">
+                        @TempData["CheckoutErrorMessage"]
+                    </div>
+
+                    <!-- Right Hand Column -->
+                    <div class="col-md-3 restrict-images">
+                        <hr class="g-m-b-20" />
+                        @{
+                            Html.RenderPartial("~/Views/Checkout/OrderSummary.cshtml", Model);
+                        }
+
+                        <div class="g-bc-s g-b-1-p g-m-t-10">
+                            <div class="g-p-10 text-center">
+                                <strong>Payment Methods</strong>
+                            </div>
+                            <hr />
+                            <div class="g-p-10">
+                                @Html.Raw(Model.CheckoutData["PaymentMethods"].Replace("[newline]", "&#013;"))
+                            </div>
+                        </div>
+
+                        <div class="g-m-t-20">
+                            @Html.RawFromDict(Model.CheckoutData, "SecureMessage")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

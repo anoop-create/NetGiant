@@ -1,0 +1,135 @@
+﻿@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+@using System.Configuration;
+@using Kendo.Mvc.UI;
+
+@model BasketContents
+    
+@{
+    string section = ViewData["Section"].ToString();
+    bool productHasOffer = Convert.ToBoolean(ViewData["ProductHasOffer"]);
+
+    decimal saving;
+    decimal savingEx;
+    decimal savingInc;
+    decimal offerPrice1 = Decimal.Zero;
+    decimal offerPrice2 = Decimal.Zero;
+    decimal percentageDiscount = Decimal.Zero;
+    decimal currentDiscount = Decimal.Zero;
+    string mainVATExtn = "";
+    string subVATExtn = "";
+    string btnMsg = "";
+
+    bool isCompatibleUpsellActive = Convert.ToBoolean(ConfigurationManager.AppSettings["IsCompatibleUpsellActive"]);
+    if (ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "0")
+    {
+        mainVATExtn = "ex VAT";
+        subVATExtn = "inc VAT";
+    }
+    else
+    {
+        mainVATExtn = "inc VAT";
+        subVATExtn = "ex VAT";
+    }
+    if (Model != null)
+    {
+        if (Model.IsCompatible && 
+            isCompatibleUpsellActive && 
+            Model.IsUpsellTriggered &&
+            Model.QtyStart > 0 &&
+            Model.Quantity > Model.QtyStart)
+        {
+            //percentageDiscount = Utilities.GetUpsellRate();
+            currentDiscount = Utilities.GetUpsellRate();
+
+            savingEx = Math.Round(Model.PriceEx * (currentDiscount / 100), 2);
+            savingInc = Math.Round(Model.PriceInc * (currentDiscount / 100), 2);
+            if (ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "0")
+            {
+                //saving = Math.Round(Model.PriceEx * (percentageDiscount / 100), 2);
+                offerPrice1 = Math.Round(Model.PriceEx - savingEx, 2);
+                offerPrice2 = Math.Round(Model.PriceInc - savingInc, 2);
+            }
+            else
+            {
+                //saving = Math.Round(Model.PriceInc * (percentageDiscount / 100), 2);
+                offerPrice1 = Math.Round(Model.PriceInc - savingInc, 2);
+                offerPrice2 = Math.Round(Model.PriceEx - savingEx, 2);
+            }
+            //btnMsg = "Add 1 more for " + percentageDiscount + "% discount<div class=\"g-fs-sm\">Save " + saving.ToString("C") + " " + mainVATExtn + " per item</div>";
+            //if (Model.Quantity > 2)
+            //{
+            //    btnMsg = "Wow, you're saving " + percentageDiscount + "%, that's<div>" + saving.ToString("C") + " " + mainVATExtn + " on each item!";
+            //}
+        }
+    }
+}
+
+@if (section == "Info")
+{
+    if (Model.Quantity > 0)
+    {
+        <div class="g-fs-sm g-m-t-10 g-m-b-10 text-center">
+            <div class="row visible-xs visible-sm g-m-0">
+                <div class="col-md-4 col-xs-4 g-bc-tt g-fc-st g-b-1-i">
+                    <span class="atb-count">@Model.Quantity</span> in Basket
+                </div>
+                <div class="col-md-8 col-xs-8 g-bc-tt g-b-1-i">
+                    <a class="second" href="/checkout/">Checkout</a>
+                </div>
+            </div>
+            <div class="hidden-sm hidden-xs">
+                <div>
+                    <div class="g-i">
+                        @Model.Quantity in Basket | <a href="/checkout/">Checkout</a>
+                </div>
+                @*@if (Model.IsCompatible && isCompatibleUpsellActive && !productHasOffer && Model.IsUpsellTriggered)
+                {
+                    <button class="atb-add g-butt-important g-butt-100p g-lh-20 g-m-t-5 g-fs-n"
+                            data-price="@Model.PriceEx.ToString("N2")"
+                            data-productid="@Model.StockRef"
+                            data-partno="@Model.PartNo"
+                            data-imageurl="@Model.ImageUrl"
+                            data-desc="@Model.Description">
+                        @Html.Raw(btnMsg)
+                    </button>
+                }*@
+            </div>
+        </div>
+    </div>
+    }
+}
+
+@if (section == "Price")
+{
+    decimal mainPrice = Decimal.Zero;
+    decimal subPrice = Decimal.Zero;
+    if (ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "0")
+    {
+        mainPrice = Convert.ToDecimal(ViewData["PriceEx"]);
+        subPrice = Convert.ToDecimal(ViewData["PriceInc"]);
+    }
+    else
+    {
+        mainPrice = Convert.ToDecimal(ViewData["PriceInc"]);
+        subPrice = Convert.ToDecimal(ViewData["PriceEx"]);
+    }
+
+    if (currentDiscount == 0 || productHasOffer)
+    {
+        <div class="g-fs-lg g-m-t-10 g-b">&pound;@mainPrice.ToString("#,###,##0.00")</div>
+        <div class="g-fs-n">&pound;@subPrice.ToString("#,###,##0.00") <span class="g-fc-tt g-fs-sm">@subVATExtn</span></div>
+    }
+    else
+    {
+        <div class="g-fs-lg g-m-t-10 g-b">
+            <span class="g-s">&pound;@mainPrice.ToString("#,###,##0.00")&nbsp;</span>
+            <span>&pound;@offerPrice1.ToString("#,###,##0.00")</span>
+        </div>
+        <div class="g-fs-n">
+            <span class="g-s">&pound;@subPrice.ToString("#,###,##0.00")&nbsp;</span>
+            <span>&pound;@offerPrice2.ToString("#,###,##0.00") <span class="g-fc-tt g-fs-sm">@subVATExtn</span></span>
+        </div>
+    }
+}

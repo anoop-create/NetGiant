@@ -1,0 +1,69 @@
+﻿@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+
+@model ProductViewModel
+
+@{
+    int filterId = 0;
+    string endtag = "";
+
+    <div class="prd-filters gm-d-n">
+
+        @if (Model.ProductFilterList != null)
+        {
+            foreach (ProductFilter pf in Model.ProductFilterList)
+            {
+                if (pf.Id != filterId)
+                {
+                    @Html.Raw(endtag + "<div class=\"g-bc-s g-b-1-p g-m-b-20 fltr-group\">");
+                    <div class="g-fw-b g-p-10">@pf.Name</div>
+                    <hr />
+                    if (endtag == "")
+                    {
+                        endtag = "</div>";
+                    }
+                    filterId = pf.Id;
+                }
+                <div class="form-group g-p-lr-10">
+                    <div class="checkbox checkbox-success">
+                        @if (pf.Selected)
+                        {
+                            @Html.CheckBox("att-" + pf.Id.ToString("000") + "-" + pf.ElementId.Replace("(", "").Replace(")", ""), new { @class = "g-m-0 g-cur-p g-w-100p g-h-100p", @checked = "checked" })
+                        }
+                        else
+                        {
+                            @Html.CheckBox("att-" + pf.Id.ToString("000") + "-" + pf.ElementId.Replace("(", "").Replace(")", ""), new { @class = "g-m-0 g-cur-p g-w-100p g-h-100p" })
+                        }
+                        <label for="att-@pf.Id.ToString("000")-@pf.ElementId">
+                            @pf.ElementName <span class="g-fc-s">(@pf.Count)</span>
+                        </label>
+                    </div>
+                </div>
+            }
+        }
+        @Html.Raw(endtag)
+
+        @if (ViewBag.HidePriceFilter == null)
+        {
+            <div class="g-bc-s g-b-1-p g-m-t-20 fltr-group">
+                <div class="g-fw-b g-p-10">Price</div>
+                <hr />
+                <div class="g-p-t-10 g-p-b-10 g-p-l-10 g-p-r-10 clearfix">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-6">
+                            @Html.TextBox("minPrice", "", new {@class = "g-b-1-p g-d-ib xg-p-lr-5 text-center", placeholder = "£ Min", onkeypress = "return isNumber(event)"})
+                            <span class=" g-p-l-15 g-lh-25">to</span>
+                        </div>
+                        <div class="col-md-12 g-m-t-10 visible-md"></div>
+                        <div class="col-md-12 col-lg-6">
+                            @Html.TextBox("maxPrice", "", new {@class = "g-b-1-p g-d-ib xg-p-lr-5 text-center", placeholder = "£ Max", onkeypress = "return isNumber(event)"})
+                            <button id="filter-price" class="g-butt-secondary g-butt-xs g-fs-n g-d-ib">
+                                <i class="fa fa-chevron-right g-fs-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

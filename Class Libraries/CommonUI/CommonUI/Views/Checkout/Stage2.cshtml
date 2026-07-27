@@ -1,0 +1,246 @@
+﻿@using BusinessLogic.ViewModels;
+@using DataAccess.EntityFramework;
+@using CommonUI.Models;
+@using System.Web.Optimization;
+@using PaymentMethod = BusinessLogic.PaymentMethod
+
+@model CheckoutViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutCheckout.cshtml";
+}
+
+<div class="comm-content g-bc-p g-p-b-60 g-b-t-1">
+    <div class="container body-content g-ps-r">
+
+        <div class="row g-m-t-20 g-m-b-40">
+            <div class="col-md-12">
+                <div class="row">
+
+                    <!-- Left Hand Column -->
+                    <div class="col-md-9">
+                        @using (Html.BeginForm("Stage3",
+                            "Checkout",
+                            FormMethod.Post,
+                            new { id = "co-stage2" }))
+                        {
+                            bool isAccountCustomer = Convert.ToBoolean(Session["U_IsAccountCustomer"]);
+                            @*@Html.AntiForgeryToken()*@
+                            @Html.HiddenFor(x => x.PreviousPage, new { @Value = "Stage2" })
+
+                            if (Model.CheckoutDetails.PaymentMethod == PaymentMethod.CreditDebit.ToString())
+                            {
+                                @Html.HiddenFor(x => x.CheckoutDetails.UseASavedCard)
+                                @Html.HiddenFor(x => x.CheckoutDetails.CardType)
+                                @Html.HiddenFor(x => x.CheckoutDetails.CardLast4Digits)
+                                @Html.HiddenFor(x => x.CheckoutDetails.SageToken)
+                                @Html.HiddenFor(x => x.CheckoutDetails.SagePayAuthCode)
+                                @Html.HiddenFor(x => x.CheckoutDetails.SagePayTxCode)
+                                @Html.Hidden("SagePayRegistrationUrl", "/Checkout/SagePayRegistration/new")
+
+                                <hr class="g-m-b-20" />
+
+                                <div id="co-section-credit-debit" class="clearfix">
+                                    @*<div class="@//(Model.CheckoutDetails.UseASavedCard ? "g-d-n" : "")">*@
+                                    <div>
+                                        @{
+                                            string iFrameUrl = "javascript:void(0)";
+                                            if (!ViewBag.ShowSavedCards)
+                                            {
+                                                iFrameUrl = "/Checkout/SagePayRegistration/new";
+                                            }
+                                        }
+
+                                        <div class="container-fluid">
+                                            <div id="saved-cards" class="@(ViewBag.ShowSavedCards ? "" : "g-d-n")">
+                                                <div class="row">
+
+                                                    <h2>
+                                                        Your Cards <span class="g-fc-s">(@Model.CardList.Count)</span>
+                                                        <span class="popup g-cur-p g-fc-s g-fs-n g-p-l-20"
+                                                              title="Saved Cards"
+                                                              data-popupname="SavedCardMessage"
+                                                              data-popupwidth="md"
+                                                              data-replacements=""
+                                                              data-toggle="modal"
+                                                              data-target="#popup">
+                                                            Can't see your saved card?
+                                                        </span>
+                                                    </h2>
+                                                    <div id="saved-error" class="g-fc-nm"></div>
+                                                    <table id="co-old-cards" class="table table-responsive">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-center">Use Card</th>
+                                                                <th class="text-center">Card Type</th>
+                                                                <th class="text-center">Card Number</th>
+                                                                <th class="text-center">Expires</th>
+                                                                <th class="text-center">Remove Card</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="g-bc-s g-b-1-p">
+                                                            @{
+                                                                bool firsttime = true;
+                                                                foreach (SagePayToken spt in Model.CardList)
+                                                                {
+                                                                    if (spt.card_type == "")
+                                                                    {
+                                                                        spt.card_type = "VISA";
+                                                                    }
+                                                                    // Has card expired
+                                                                    int currYear = Int32.Parse(DateTime.Now.ToString("yy"));
+                                                                    int currMonth = DateTime.Now.Month;
+                                                                    int cardYear = int.Parse(spt.expiry_date.Substring(2, 2));
+                                                                    int cardMonth = int.Parse(spt.expiry_date.Substring(0, 2));
+                                                                    bool hasExpired = currYear > cardYear || (currYear == cardYear && currMonth > cardMonth);
+
+                                                                    <tr id="card@(spt.id)">
+                                                                        <td class="text-center g-va-m">
+                                                                            <div class="checkbox checkbox-success radio-single">
+                                                                                @if (!hasExpired)
+                                                                                {
+                                                                                    if (firsttime)
+                                                                                    {
+                                                                                        @Html.RadioButton("CheckoutDetails_SagePayCardId", spt.id.ToString() + "_" + spt.sid, firsttime, new { id = "CardId_" + spt.id.ToString() + "_" + spt.sid, data_cardtype = spt.card_type, @checked = "checked" })
+                                                                                        firsttime = false;
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        @Html.RadioButton("CheckoutDetails_SagePayCardId", spt.id.ToString() + "_" + spt.sid, firsttime, new { id = "CardId_" + spt.id.ToString() + "_" + spt.sid, data_cardtype = spt.card_type })
+                                                                                    }
+                                                                                    <label for="CardId_@(spt.id.ToString())_@(spt.sid)" title="Select this card"></label>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <div>Expired</div>
+                                                                                }
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="text-left">
+                                                                            <img src="~/Content/Images/1pxTrans.png" class="msp_@spt.card_type.ToLower()" alt="@spt.card_type" />
+                                                                            <span class="g-p-l-20 hidden-sm hidden-xs">@spt.CardName</span>
+                                                                        </td>
+                                                                        <td class="text-center g-va-m"><span class="hidden-sm hidden-xs">**** ****</span> ****@spt.last_4_digits</td>
+                                                                        <td class="text-center g-va-m">@string.Format("{0}/{1}", spt.expiry_date.Substring(0, 2), spt.expiry_date.Substring(2, 2))</td>
+                                                                        <td class="text-center g-va-m g-fs-n">
+                                                                            <i id="deleteCard-@(spt.id.ToString())_@(spt.sid)" class="fa fa-close g-fc-nm g-cur-p" title="Delete this card"></i>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                <div class="row">
+                                                    <button id="add-card" class="g-butt-second-reg g-butt-lg-2" type="button">
+                                                        <i class="fa fa-plus fa g-p-r-10"></i>
+                                                        Add a Card
+                                                    </button>
+                                                </div>
+
+                                                @*<div class="row">
+                                    <button id="use-card" class="g-butt-primary g-butt-xl g-m-t-40" type="button">Place Order</button>
+                                </div>*@
+                                            </div>
+
+                                            <div id="card-entry" class="@(!ViewBag.ShowSavedCards ? "" : "g-d-n")">
+                                                <div class="row">
+                                                    <h2>Card Details</h2>
+                                                </div>
+
+                                                @if (Model.CardList.Count > 0)
+                                                {
+                                                    <div class="row g-m-b-20">
+                                                        <button id="show-saved-cards" class="g-butt-second-reg g-p-5" type="button">
+                                                            <i class="fa fa-mail-reply fa g-p-r-10"></i>
+                                                            Use <span id="saved-different">Saved</span> Card
+                                                        </button>
+                                                    </div>
+                                                }
+
+                                                @if (!Convert.ToBoolean(Session["U_IsPortalUser"]))
+                                                {
+                                                    <div id="chk-save" class="row">
+                                                        <div class="checkbox checkbox-success">
+                                                            @Html.CheckBoxFor(x => x.CheckoutDetails.SaveThisCard)
+                                                            <label for="CheckoutDetails_SaveThisCard">
+                                                                Save card for future orders.
+                                                            </label>
+                                                            &nbsp;Read our
+                                                            <span class="popup g-u g-fw-b g-cur-p"
+                                                                  title="Terms & Conditions"
+                                                                  data-popupname="SavedCardTandC"
+                                                                  data-popupwidth="md"
+                                                                  data-replacements=""
+                                                                  data-toggle="modal"
+                                                                  data-target="#popup">
+                                                                Terms & Conditions
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                <div class="row g-flex-vcenter">
+                                                    <iframe id="SagePayIFrame" width="100%" height="680" frameborder="0" src="@iFrameUrl" title="Card Payment"></iframe>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button id="co-place-order" type="@(ViewBag.ShowSavedCards ? "button" : "submit")" class="g-butt-primary g-butt-xl g-m-t-40 @(ViewBag.ShowSavedCards ? "" : "g-d-n")">Place Order</button>
+                            }
+                        }
+                        @if (Model.CheckoutDetails.PaymentMethod == PaymentMethod.PayPal.ToString())
+                        {
+                            <div id="co-section-paypal" class="clearfix">
+                                @{
+                                    @Html.RawFromDict(Model.CheckoutData, "PayByPayPal")
+                                }
+                            </div>
+                        }
+
+                        <div class="g-m-t-20">
+                            @{
+                                @Html.RawFromDict(Model.CheckoutData, "Stage2Message")
+                            }
+                        </div>
+
+                        <div class="g-m-t-60">
+                            @{
+                                Html.RenderPartial("~/Views/Shared/LiveChat.cshtml", Model);
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Right Hand Column -->
+                    <div class="col-md-3 restrict-images hidden-xs hidden-sm">
+                        <hr class="g-m-b-20" />
+                        @{
+                            Html.RenderPartial("~/Views/Checkout/OrderSummary.cshtml", Model);
+                        }
+
+                        <div class="g-bc-s g-b-1-p g-m-t-10">
+                            <div class="g-p-10 text-center"><strong>Payment Methods</strong></div>
+                            <hr />
+                            <div class="g-p-10">
+                                @Html.Raw(Model.CheckoutData["PaymentMethods"].Replace("[newline]", "&#013;"))
+                            </div>
+                        </div>
+
+                        <div class="g-m-t-20">
+                            @Html.RawFromDict(Model.CheckoutData, "SecureMessage")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input hidden="hidden" class="IsInCheckout" />
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/checkoutBundle.js")
+}

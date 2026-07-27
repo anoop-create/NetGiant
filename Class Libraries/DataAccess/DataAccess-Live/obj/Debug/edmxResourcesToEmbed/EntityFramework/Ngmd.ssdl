@@ -1,0 +1,1655 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="NgmdEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AxisFields">
+    <Key>
+      <PropertyRef Name="productFK" />
+    </Key>
+    <Property Name="productFK" Type="int" Nullable="false" />
+    <Property Name="stockReference" Type="varchar" MaxLength="20" />
+    <Property Name="spec1" Type="varchar" MaxLength="50" />
+    <Property Name="spec2" Type="varchar" MaxLength="50" />
+    <Property Name="spec3" Type="varchar" MaxLength="50" />
+    <Property Name="spec4" Type="varchar" MaxLength="50" />
+    <Property Name="spec5" Type="varchar" MaxLength="50" />
+    <Property Name="spec6" Type="varchar" MaxLength="50" />
+    <Property Name="reSaleable" Type="bit" />
+    <Property Name="stockRecordType" Type="varchar" MaxLength="50" />
+    <Property Name="discontinuedItem" Type="bit" />
+    <Property Name="defaultDeliveryToCust" Type="int" />
+    <Property Name="attr1" Type="int" />
+    <Property Name="attr2" Type="int" />
+    <Property Name="attr3" Type="int" />
+    <Property Name="attr4" Type="int" />
+    <Property Name="attr5" Type="int" />
+    <Property Name="attr6" Type="int" />
+    <Property Name="attr7" Type="int" />
+    <Property Name="attr8" Type="int" />
+    <Property Name="attr9" Type="int" />
+    <Property Name="attr10" Type="int" />
+    <Property Name="published" Type="bit" />
+    <Property Name="featured" Type="bit" />
+    <Property Name="bestSeller" Type="bit" />
+    <Property Name="supressOpenRangeImage" Type="bit" />
+    <Property Name="supressOpenRangeSpec" Type="bit" />
+    <Property Name="additionalInfoUrl" Type="varchar" MaxLength="200" />
+    <Property Name="dateLastUpdate" Type="datetime" />
+    <Property Name="salesYearToDate" Type="int" />
+  </EntityType>
+  <EntityType Name="AxisFieldsAdditional">
+    <Key>
+      <PropertyRef Name="axisFieldsAdditionalID" />
+    </Key>
+    <Property Name="axisFieldsAdditionalID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productFK" Type="int" Nullable="false" />
+    <Property Name="websiteFK" Type="int" Nullable="false" />
+    <Property Name="stockNoteDesc" Type="varchar(max)" />
+    <Property Name="metaTitle" Type="varchar" MaxLength="200" />
+    <Property Name="metaKeywords" Type="varchar" MaxLength="500" />
+    <Property Name="metaDesc" Type="varchar" MaxLength="500" />
+    <Property Name="googleFeedSite" Type="varchar" MaxLength="100" />
+    <Property Name="googleFeedInclude" Type="bit" />
+    <Property Name="googleFeedCategory" Type="varchar" MaxLength="100" />
+    <Property Name="googleFeedAvailability" Type="varchar" MaxLength="100" />
+    <Property Name="googleFeedCondition" Type="varchar" MaxLength="50" />
+    <Property Name="bespokeFeedSite" Type="varchar" MaxLength="100" />
+    <Property Name="bespokeFeedInclude" Type="bit" />
+    <Property Name="bespokeFeedUseCustomShipCost" Type="bit" />
+    <Property Name="bespokeFeedAvailability" Type="varchar" MaxLength="50" />
+    <Property Name="bespokeFeedCondition" Type="varchar" MaxLength="50" />
+    <Property Name="dateLastUpdate" Type="datetime" />
+    <Property Name="googlePromotionId" Type="varchar" MaxLength="100" />
+    <Property Name="breakQuantity1" Type="int" />
+    <Property Name="breakQuantity2" Type="int" />
+    <Property Name="breakQuantity3" Type="int" />
+  </EntityType>
+  <EntityType Name="categoryCode">
+    <Key>
+      <PropertyRef Name="categoryCodeID" />
+    </Key>
+    <Property Name="categoryCodeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="categoryCodeName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="parentCategoryCodeID" Type="int" />
+    <Property Name="websiteFK" Type="int" Nullable="false" />
+    <Property Name="AXISGroupID" Type="nchar" MaxLength="10" />
+    <Property Name="dateLastUpdate" Type="datetime" Nullable="false" />
+    <Property Name="AXISGroupNo" Type="varchar" MaxLength="45" />
+    <Property Name="isPrimary" Type="bit" Nullable="false" />
+    <Property Name="googleProductCategoryFK" Type="int" />
+    <Property Name="isPartOfSale" Type="bit" />
+    <Property Name="isInSitemap" Type="bit" Nullable="false" />
+    <Property Name="metaTitle" Type="varchar" MaxLength="200" />
+    <Property Name="metaDescription" Type="varchar" MaxLength="200" />
+    <Property Name="description" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="cmsEntry">
+    <Key>
+      <PropertyRef Name="cmsEntryID" />
+    </Key>
+    <Property Name="cmsEntryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="cmsSectionFK" Type="int" Nullable="false" />
+    <Property Name="entryName" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="cmsContent" Type="varchar(max)" Nullable="false" />
+    <Property Name="metaData" Type="varchar(max)" />
+    <Property Name="redirectIsActive" Type="bit" Nullable="false" />
+    <Property Name="redirectFrom" Type="datetime" />
+    <Property Name="redirectUntil" Type="datetime" />
+    <Property Name="redirectEntryId" Type="int" />
+    <Property Name="useHtmlEditor" Type="bit" Nullable="false" />
+    <Property Name="cmsGroupFK" Type="smallint" />
+  </EntityType>
+  <EntityType Name="cmsSection">
+    <Key>
+      <PropertyRef Name="cmsSectionID" />
+    </Key>
+    <Property Name="cmsSectionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="websiteFK" Type="int" Nullable="false" />
+    <Property Name="sectionName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="headerContent" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="configurationSetting">
+    <Key>
+      <PropertyRef Name="configurationSettingID" />
+    </Key>
+    <Property Name="configurationSettingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="sectionName" Type="varchar" MaxLength="50" />
+    <Property Name="settingName" Type="varchar" MaxLength="50" />
+    <Property Name="websiteFK" Type="int" />
+    <Property Name="settingValue" Type="varchar" MaxLength="8000" />
+    <Property Name="description" Type="varchar" MaxLength="500" />
+    <Property Name="dateLastUpdate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="crossSellingLink">
+    <Key>
+      <PropertyRef Name="crossSellingLinkID" />
+    </Key>
+    <Property Name="crossSellingLinkID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="aProductFK" Type="int" Nullable="false" />
+    <Property Name="bProductFK" Type="int" Nullable="false" />
+    <Property Name="crossSellingLinkTypeFK" Type="tinyint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="crossSellingLinkType">
+    <Key>
+      <PropertyRef Name="crossSellingLinkTypeID" />
+    </Key>
+    <Property Name="crossSellingLinkTypeID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="crossSellingLinkTypeName" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="dataSupplierOverride">
+    <Key>
+      <PropertyRef Name="dataSupplierOverrideId" />
+    </Key>
+    <Property Name="dataSupplierOverrideId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dataSupplierFk" Type="int" Nullable="false" />
+    <Property Name="attributeName" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="overrideType" Type="tinyint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="deliveryLookup">
+    <Key>
+      <PropertyRef Name="DeliveryLookupId" />
+    </Key>
+    <Property Name="DeliveryLookupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DeliveryZoneFK" Type="int" Nullable="false" />
+    <Property Name="DeliveryServiceFK" Type="int" Nullable="false" />
+    <Property Name="Sequence" Type="int" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="deliveryService">
+    <Key>
+      <PropertyRef Name="DeliveryServiceId" />
+    </Key>
+    <Property Name="DeliveryServiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WebsiteFK" Type="int" Nullable="false" />
+    <Property Name="ServiceName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="StockRef" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="InfoMessage" Type="varchar(max)" Nullable="false" />
+    <Property Name="IsSaturdayOnly" Type="bit" Nullable="false" />
+    <Property Name="IsCompatibleInkOnly" Type="bit" Nullable="false" />
+    <Property Name="IsBulky" Type="bit" Nullable="false" />
+    <Property Name="IsSpecialOrderOnly" Type="bit" Nullable="false" />
+    <Property Name="UsesThresholds" Type="bit" Nullable="false" />
+    <Property Name="ThresholdStart" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="ThresholdEnd" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="DeliveryMethod" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="deliveryZone">
+    <Key>
+      <PropertyRef Name="DeliveryZoneId" />
+    </Key>
+    <Property Name="DeliveryZoneId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WebsiteFK" Type="int" Nullable="false" />
+    <Property Name="ZoneName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsDefault" Type="bit" Nullable="false" />
+    <Property Name="ApplyVat" Type="bit" Nullable="false" />
+    <Property Name="Postcodes" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="eqCartridgeType">
+    <Key>
+      <PropertyRef Name="eqCartridgeTypeID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="eqCartridgeTypeID" Type="int" Nullable="false" />
+    <Property Name="eqCartridgeTypeName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="eqEquipment">
+    <Key>
+      <PropertyRef Name="eqEquipmentID" />
+    </Key>
+    <Property Name="eqEquipmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="description" Type="varchar" MaxLength="200" />
+    <Property Name="manufacturerFK" Type="int" Nullable="false" />
+    <Property Name="productTypeFK" Type="int" />
+    <Property Name="dateLastUpdate" Type="datetime" Nullable="false" />
+    <Property Name="eqCartridgeTypeFK" Type="int" Nullable="false" />
+    <Property Name="mainURL" Type="varchar" MaxLength="800" />
+    <Property Name="thumbnailURL" Type="varchar" MaxLength="800" />
+    <Property Name="productFK" Type="int" />
+    <Property Name="metaKeywords" Type="varchar" MaxLength="200" />
+    <Property Name="statusFK" Type="tinyint" Nullable="false" />
+    <Property Name="dateInactive" Type="datetime" />
+    <Property Name="metaContentTypeFK" Type="tinyint" Nullable="false" />
+    <Property Name="brandFeatured" Type="bit" Nullable="false" />
+    <Property Name="globallyFeatured" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="eqFamily">
+    <Key>
+      <PropertyRef Name="eqFamilyID" />
+    </Key>
+    <Property Name="eqFamilyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="description" Type="varchar" MaxLength="200" />
+    <Property Name="manufacturerFK" Type="int" Nullable="false" />
+    <Property Name="dateLastUpdate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="eqFamilyMembership">
+    <Key>
+      <PropertyRef Name="eqFamilyMembershipID" />
+    </Key>
+    <Property Name="eqFamilyMembershipID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="eqFamilyID" Type="int" Nullable="false" />
+    <Property Name="eqEquipmentID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="eqProductMembership">
+    <Key>
+      <PropertyRef Name="eqProductMembershipID" />
+    </Key>
+    <Property Name="eqProductMembershipID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productFK" Type="int" Nullable="false" />
+    <Property Name="eqEquipmentFK" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="equipmentNotes">
+    <Key>
+      <PropertyRef Name="equipmentNotesID" />
+    </Key>
+    <Property Name="equipmentNotesID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="websiteFK" Type="int" Nullable="false" />
+    <Property Name="eqEquipmentFK" Type="int" Nullable="false" />
+    <Property Name="note" Type="varchar(max)" />
+    <Property Name="isDetail" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="equipmentStatus">
+    <Key>
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="StatusID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="favouritePrinter">
+    <Key>
+      <PropertyRef Name="favouritePrinterID" />
+    </Key>
+    <Property Name="favouritePrinterID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="customerId" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="siteId" Type="int" />
+    <Property Name="eqEquipmentFK" Type="int" />
+    <Property Name="modelName" Type="varchar" MaxLength="200" />
+    <Property Name="description" Type="varchar" MaxLength="120" />
+    <Property Name="dateLastUpdated" Type="datetime" />
+  </EntityType>
+  <EntityType Name="feefoFeedback">
+    <Key>
+      <PropertyRef Name="feefoFeedbackID" />
+    </Key>
+    <Property Name="feefoFeedbackID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="feedbackDate" Type="datetime" Nullable="false" />
+    <Property Name="websiteFK" Type="int" Nullable="false" />
+    <Property Name="productFK" Type="int" Nullable="false" />
+    <Property Name="uniqueRef" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="productRating" Type="int" Nullable="false" />
+    <Property Name="productComment" Type="varchar(max)" Nullable="false" />
+    <Property Name="vendorReply" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="JsonStore">
+    <Key>
+      <PropertyRef Name="JsonStoreId" />
+    </Key>
+    <Property Name="JsonStoreId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DateTime" Type="datetime" Nullable="false" />
+    <Property Name="Json" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Log">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WebsiteFk" Type="int" Nullable="false" />
+    <Property Name="User" Type="varchar" MaxLength="200" />
+    <Property Name="Type" Type="tinyint" Nullable="false" />
+    <Property Name="DateTime" Type="datetime" Nullable="false" />
+    <Property Name="StatusCode" Type="int" />
+    <Property Name="Description" Type="varchar" MaxLength="500" />
+    <Property Name="Entry" Type="varchar(max)" />
+    <Property Name="Url" Type="varchar" MaxLength="200" />
+    <Property Name="QueryString" Type="varchar" MaxLength="1000" />
+    <Property Name="FormData" Type="varchar" MaxLength="2000" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+    <Property Name="DeveloperComments" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="manufacturer">
+    <Key>
+      <PropertyRef Name="manufacturerID" />
+    </Key>
+    <Property Name="manufacturerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="manufacturerName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="equipmentManuName" Type="varchar" MaxLength="100" />
+    <Property Name="axisManufacturerNo" Type="int" Nullable="false" />
+    <Property Name="dateLastUpdate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="manufacturerNotes">
+    <Key>
+      <PropertyRef Name="manufacturerNotesID" />
+    </Key>
+    <Property Name="manufacturerNotesID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="websiteFK" Type="int" Nullable="false" />
+    <Property Name="manufacturerFK" Type="int" />
+    <Property Name="eqCartridgeTypeFK" Type="int" Nullable="false" />
+    <Property Name="note" Type="varchar(max)" />
+    <Property Name="metaTitle" Type="varchar" MaxLength="180" />
+    <Property Name="metaDescription" Type="varchar" MaxLength="180" />
+  </EntityType>
+  <EntityType Name="obsoleteItem">
+    <Key>
+      <PropertyRef Name="obsoleteItemID" />
+    </Key>
+    <Property Name="obsoleteItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="websiteFK" Type="int" Nullable="false" />
+    <Property Name="stockReference" Type="varchar" MaxLength="20" />
+    <Property Name="equipmentName" Type="varchar" MaxLength="200" />
+    <Property Name="URL" Type="varchar" MaxLength="200" Nullable="false" />
+  </EntityType>
+  <EntityType Name="or_mediaLinks">
+    <Key>
+      <PropertyRef Name="mediaLinkID" />
+    </Key>
+    <Property Name="prodID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="type" Type="varchar" MaxLength="3" />
+    <Property Name="mediaID" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="sortOrder" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="manufacturer" Type="varchar" MaxLength="100" />
+    <Property Name="description" Type="varchar" MaxLength="200" />
+    <Property Name="filesize" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="width" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="height" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="lastUpdated" Type="date" />
+    <Property Name="url" Type="varchar" MaxLength="200" />
+    <Property Name="unknown" Type="varchar" MaxLength="10" />
+    <Property Name="mediaLinkID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="or_products">
+    <Key>
+      <PropertyRef Name="prodID" />
+    </Key>
+    <Property Name="prodID" Type="int" Nullable="false" />
+    <Property Name="manufacturer" Type="varchar" MaxLength="255" />
+    <Property Name="partno" Type="varchar" MaxLength="50" />
+    <Property Name="model" Type="varchar" MaxLength="200" />
+    <Property Name="manufacturer_Family" Type="varchar" MaxLength="100" />
+    <Property Name="manufacturer_Family_Member" Type="varchar" MaxLength="100" />
+    <Property Name="unspsc_Segment" Type="varchar" MaxLength="200" />
+    <Property Name="unspsc_Family" Type="varchar" MaxLength="200" />
+    <Property Name="unspsc_Class" Type="varchar" MaxLength="200" />
+    <Property Name="unspsc_Commodity" Type="varchar" MaxLength="200" />
+    <Property Name="unspsc" Type="varchar" MaxLength="8" />
+    <Property Name="image" Type="varchar" MaxLength="100" />
+    <Property Name="lastUpdated" Type="varchar" MaxLength="50" />
+    <Property Name="status" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="passwordReset">
+    <Key>
+      <PropertyRef Name="passwordResetId" />
+    </Key>
+    <Property Name="passwordResetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="siteId" Type="int" Nullable="false" />
+    <Property Name="dateCreated" Type="datetime" Nullable="false" />
+    <Property Name="guid" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="200" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PortalIndex">
+    <Key>
+      <PropertyRef Name="PortalIndexId" />
+    </Key>
+    <Property Name="PortalIndexId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WebsiteFk" Type="int" Nullable="false" />
+    <Property Name="Account" Type="varchar" MaxLength="13" Nullable="false" />
+    <Property Name="Record" Type="varchar" MaxLength="24" Nullable="false" />
+    <Property Name="Title" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="FullName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Postcode" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="FriendlyPostcode" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="LastOrderDate" Type="datetime" />
+    <Property Name="CustomerGroup" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="BillingAddress" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="OrgName" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="IsPrimaryContact" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="product">
+    <Key>
+      <PropertyRef Name="productID" />
+    </Key>
+    <Property Name="productID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productName" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="partNo" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="UNSPSCCode" Type="varchar" MaxLength="45" />
+    <Property Name="manufacturerFK" Type="int" />
+    <Property Name="productStatusFK" Type="int" Nullable="false" />
+    <Property Name="productGroupFK" Type="int" />
+    <Property Name="salesAreaGroupFK" Type="int" />
+    <Property Name="dateLastUpdate" Type="datetime" Nullable="false" />
+    <Property Name="dataSupplierFK" Type="int" Nullable="false" />
+    <Property Name="supplierStock" Type="int" />
+    <Property Name="productItemTypeFK" Type="tinyint" Nullable="false" />
+    <Property Name="manuReference" Type="varchar" MaxLength="30" />
+    <Property Name="pageYield" Type="int" />
+    <Property Name="barcode" Type="varchar" MaxLength="20" />
+    <Property Name="supplierLastUpdate" Type="datetime" />
+    <Property Name="secondaryCrossSellGroupIdent" Type="int" />
+  </EntityType>
+  <EntityType Name="productGroup">
+    <Key>
+      <PropertyRef Name="productGroupID" />
+    </Key>
+    <Property Name="productGroupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productGroupName" Type="varchar" MaxLength="55" Nullable="false" />
+    <Property Name="productGroupNo" Type="varchar" MaxLength="45" />
+    <Property Name="productTypeFK" Type="int" Nullable="false" />
+    <Property Name="dateLastUpdate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="productImage">
+    <Key>
+      <PropertyRef Name="productImageID" />
+    </Key>
+    <Property Name="productImageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="websiteInventoryFK" Type="int" Nullable="false" />
+    <Property Name="mainImage" Type="bit" Nullable="false" />
+    <Property Name="thumbnailImage" Type="bit" Nullable="false" />
+    <Property Name="URL" Type="varchar" MaxLength="800" Nullable="false" />
+  </EntityType>
+  <EntityType Name="productItemType">
+    <Key>
+      <PropertyRef Name="productItemTypeID" />
+    </Key>
+    <Property Name="productItemTypeID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productItemTypeName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="productPrice">
+    <Key>
+      <PropertyRef Name="productPriceID" />
+    </Key>
+    <Property Name="productPriceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="websiteInventoryFK" Type="int" Nullable="false" />
+    <Property Name="price" Type="float" Nullable="false" />
+    <Property Name="dateLastUpdated" Type="datetime" Nullable="false" />
+    <Property Name="cheapestCostPrice" Type="float" />
+    <Property Name="cheapestCompetitorPrice" Type="float" Nullable="false" />
+    <Property Name="competitorCount" Type="int" Nullable="false" />
+    <Property Name="pricingRule" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="breakPrice1" Type="float" />
+    <Property Name="breakPrice2" Type="float" />
+    <Property Name="breakPrice3" Type="float" />
+    <Property Name="breakPrice4" Type="float" />
+    <Property Name="breakPrice5" Type="float" />
+    <Property Name="priceIncVat" Type="float" />
+    <Property Name="breakPrice1IncVat" Type="float" />
+    <Property Name="breakPrice2IncVat" Type="float" />
+    <Property Name="breakPrice3IncVat" Type="float" />
+    <Property Name="breakPrice4IncVat" Type="float" />
+    <Property Name="breakPrice5IncVat" Type="float" />
+    <Property Name="basePrice" Type="float" />
+    <Property Name="breakPricingRule" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="productStatus">
+    <Key>
+      <PropertyRef Name="productStatusID" />
+    </Key>
+    <Property Name="productStatusID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productStatusName" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="dateLastUpdate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="productSubStatus">
+    <Key>
+      <PropertyRef Name="productSubStatusID" />
+    </Key>
+    <Property Name="productSubStatusID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productSubStatusName" Type="varchar" MaxLength="55" Nullable="false" />
+  </EntityType>
+  <EntityType Name="productType">
+    <Key>
+      <PropertyRef Name="productTypeID" />
+    </Key>
+    <Property Name="productTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productTypeName" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="productTypeNo" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="dateLastUpdate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="qa_Granularity">
+    <Key>
+      <PropertyRef Name="GranularityID" />
+    </Key>
+    <Property Name="GranularityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Granularity" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="SearchTitle" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="qa_Main">
+    <Key>
+      <PropertyRef Name="QuestionAnswerID" />
+    </Key>
+    <Property Name="QuestionAnswerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Question" Type="varchar(max)" Nullable="false" />
+    <Property Name="Answer" Type="varchar(max)" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="AskedDate" Type="datetime" Nullable="false" />
+    <Property Name="RepliedDate" Type="datetime" />
+    <Property Name="ShowOnAllSites" Type="tinyint" Nullable="false" />
+    <Property Name="GranularityFK" Type="int" Nullable="false" />
+    <Property Name="UserFK" Type="varchar" MaxLength="255" />
+    <Property Name="SourceWebsiteID" Type="int" Nullable="false" />
+    <Property Name="ProductID" Type="int" />
+    <Property Name="AltRef" Type="varchar" MaxLength="20" />
+    <Property Name="dateLastUpdate" Type="datetime" Nullable="false" />
+    <Property Name="eqEquipmentFK" Type="int" />
+  </EntityType>
+  <EntityType Name="qa_WebsiteMapping">
+    <Key>
+      <PropertyRef Name="WebsiteMappingID" />
+    </Key>
+    <Property Name="WebsiteMappingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WebsiteFK" Type="int" Nullable="false" />
+    <Property Name="QuestionAnswerFK" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SagePayTokens">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="account" Type="varchar" MaxLength="13" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="timestamp" Type="datetime" Nullable="false" />
+    <Property Name="sid" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="deleted" Type="tinyint" Nullable="false" />
+    <Property Name="uid" Type="varchar" MaxLength="40" />
+    <Property Name="sp_uid" Type="varchar" MaxLength="38" Nullable="false" />
+    <Property Name="sp_security_key" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="token" Type="varchar" MaxLength="38" Nullable="false" />
+    <Property Name="card_type" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="last_4_digits" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="expiry_date" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="used" Type="tinyint" Nullable="false" />
+    <Property Name="websiteID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SagePayTransactions">
+    <Key>
+      <PropertyRef Name="protx_id" />
+    </Key>
+    <Property Name="protx_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="doc_id" Type="varchar" MaxLength="20" />
+    <Property Name="protx_time" Type="datetime" Nullable="false" />
+    <Property Name="vm_uid" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="protx_protocol" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="protx_status" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="protx_detail" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="protx_uid" Type="varchar" MaxLength="38" Nullable="false" />
+    <Property Name="protx_key" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="protx_auth_code" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="protx_avscv2" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="protx_address" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="protx_postcode" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="protx_cv2" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="protx_string" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="protx_3dsecurestatus" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="protx_response" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="protx_cavv" Type="varchar" MaxLength="32" Nullable="false" />
+    <Property Name="protx_md" Type="varchar" MaxLength="35" Nullable="false" />
+    <Property Name="protx_acsurl" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="doc_type" Type="tinyint" Nullable="false" />
+    <Property Name="red_screened" Type="bit" />
+    <Property Name="websiteID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="salesAreaGroup">
+    <Key>
+      <PropertyRef Name="salesAreaGroupID" />
+    </Key>
+    <Property Name="salesAreaGroupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="salesAreaGroupName" Type="varchar" MaxLength="55" Nullable="false" />
+    <Property Name="salesAreaGroupNo" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="dateLastUpdate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="secondaryCategoryLookup">
+    <Key>
+      <PropertyRef Name="secondaryCategoryLookupID" />
+    </Key>
+    <Property Name="secondaryCategoryLookupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="websiteInventoryFK" Type="int" />
+    <Property Name="categoryCodeFK" Type="int" />
+  </EntityType>
+  <EntityType Name="VoucherPromo">
+    <Key>
+      <PropertyRef Name="VoucherPromoId" />
+    </Key>
+    <Property Name="VoucherPromoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WebsiteFk" Type="int" Nullable="false" />
+    <Property Name="VoucherTypeFk" Type="int" Nullable="false" />
+    <Property Name="VoucherPromoGroupFk" Type="int" Nullable="false" />
+    <Property Name="VoucherCode" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="ValidFrom" Type="datetime" Nullable="false" />
+    <Property Name="ValidTo" Type="datetime" Nullable="false" />
+    <Property Name="StockRef" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="MinBasketValue" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+    <Property Name="MinQualValue" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="Percentage" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="GiftStockRef" Type="varchar" MaxLength="10" />
+    <Property Name="MultiBuyQualNo" Type="int" />
+    <Property Name="MultiBuyNoDiscounted" Type="int" />
+    <Property Name="AccountNumber" Type="varchar" MaxLength="20" />
+    <Property Name="IsGlobal" Type="bit" Nullable="false" />
+    <Property Name="IsUsed" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VoucherPromoGroup">
+    <Key>
+      <PropertyRef Name="VoucherPromoGroupId" />
+    </Key>
+    <Property Name="VoucherPromoGroupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WebsiteFk" Type="int" Nullable="false" />
+    <Property Name="GroupName" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VoucherPromoGroupMapping">
+    <Key>
+      <PropertyRef Name="VoucherPromoGroupMappingId" />
+    </Key>
+    <Property Name="VoucherPromoGroupMappingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VoucherPromoGroupFk" Type="int" Nullable="false" />
+    <Property Name="CategoryCodeFk" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VoucherType">
+    <Key>
+      <PropertyRef Name="VoucherTypeId" />
+    </Key>
+    <Property Name="VoucherTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Website">
+    <Key>
+      <PropertyRef Name="WebsiteID" />
+    </Key>
+    <Property Name="WebsiteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WebsiteName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="WebURL" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="FriendlyName" Type="varchar" MaxLength="55" />
+    <Property Name="dateLastUpdate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="websiteInventory">
+    <Key>
+      <PropertyRef Name="websiteInventoryID" />
+    </Key>
+    <Property Name="websiteInventoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="websiteFK" Type="int" Nullable="false" />
+    <Property Name="productFK" Type="int" Nullable="false" />
+    <Property Name="categoryCodeFK" Type="int" />
+    <Property Name="dateLastUpdate" Type="datetime" Nullable="false" />
+    <Property Name="promotionalGroupFK" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'netgiantMasterData.ngmd.ds_attributeView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="ds_attributeView">
+    <Key>
+      <PropertyRef Name="attributeID" />
+      <PropertyRef Name="dataSupplierID" />
+    </Key>
+    <Property Name="attributeID" Type="int" Nullable="false" />
+    <Property Name="partNo" Type="varchar" MaxLength="50" />
+    <Property Name="manufacturer" Type="varchar" MaxLength="255" />
+    <Property Name="dataSupplierID" Type="int" Nullable="false" />
+    <Property Name="attrName" Type="varchar" MaxLength="2000" />
+    <Property Name="attrValue" Type="varchar" MaxLength="3000" />
+  </EntityType>
+  <Association Name="FK_AxisFields_product">
+    <End Role="product" Type="Self.product" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AxisFields" Type="Self.AxisFields" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="productID" />
+      </Principal>
+      <Dependent Role="AxisFields">
+        <PropertyRef Name="productFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AxisFieldsAdditional_AxisFieldsAdditional">
+    <End Role="AxisFields" Type="Self.AxisFields" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AxisFieldsAdditional" Type="Self.AxisFieldsAdditional" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AxisFields">
+        <PropertyRef Name="productFK" />
+      </Principal>
+      <Dependent Role="AxisFieldsAdditional">
+        <PropertyRef Name="productFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_categoryCode_websiteFK">
+    <End Role="Website" Type="Self.Website" Multiplicity="1" />
+    <End Role="categoryCode" Type="Self.categoryCode" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Website">
+        <PropertyRef Name="WebsiteID" />
+      </Principal>
+      <Dependent Role="categoryCode">
+        <PropertyRef Name="websiteFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_cmsEntry_cmsEntry">
+    <End Role="cmsEntry" Type="Self.cmsEntry" Multiplicity="0..1" />
+    <End Role="cmsEntry1" Type="Self.cmsEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cmsEntry">
+        <PropertyRef Name="cmsEntryID" />
+      </Principal>
+      <Dependent Role="cmsEntry1">
+        <PropertyRef Name="redirectEntryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_cmsEntry_cmsSection">
+    <End Role="cmsSection" Type="Self.cmsSection" Multiplicity="1" />
+    <End Role="cmsEntry" Type="Self.cmsEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cmsSection">
+        <PropertyRef Name="cmsSectionID" />
+      </Principal>
+      <Dependent Role="cmsEntry">
+        <PropertyRef Name="cmsSectionFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_cmsSeries_Website">
+    <End Role="Website" Type="Self.Website" Multiplicity="1" />
+    <End Role="cmsSection" Type="Self.cmsSection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Website">
+        <PropertyRef Name="WebsiteID" />
+      </Principal>
+      <Dependent Role="cmsSection">
+        <PropertyRef Name="websiteFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_configurationSetting_Website">
+    <End Role="Website" Type="Self.Website" Multiplicity="0..1" />
+    <End Role="configurationSetting" Type="Self.configurationSetting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Website">
+        <PropertyRef Name="WebsiteID" />
+      </Principal>
+      <Dependent Role="configurationSetting">
+        <PropertyRef Name="websiteFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_crossSellingLink_crossSellingLinkType">
+    <End Role="crossSellingLinkType" Type="Self.crossSellingLinkType" Multiplicity="1" />
+    <End Role="crossSellingLink" Type="Self.crossSellingLink" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="crossSellingLinkType">
+        <PropertyRef Name="crossSellingLinkTypeID" />
+      </Principal>
+      <Dependent Role="crossSellingLink">
+        <PropertyRef Name="crossSellingLinkTypeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_crossSellingLink_product">
+    <End Role="product" Type="Self.product" Multiplicity="1" />
+    <End Role="crossSellingLink" Type="Self.crossSellingLink" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="productID" />
+      </Principal>
+      <Dependent Role="crossSellingLink">
+        <PropertyRef Name="aProductFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_crossSellingLink_product1">
+    <End Role="product" Type="Self.product" Multiplicity="1" />
+    <End Role="crossSellingLink" Type="Self.crossSellingLink" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="productID" />
+      </Principal>
+      <Dependent Role="crossSellingLink">
+        <PropertyRef Name="bProductFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_deliveryLookup_deliveryLookup">
+    <End Role="deliveryService" Type="Self.deliveryService" Multiplicity="1" />
+    <End Role="deliveryLookup" Type="Self.deliveryLookup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="deliveryService">
+        <PropertyRef Name="DeliveryServiceId" />
+      </Principal>
+      <Dependent Role="deliveryLookup">
+        <PropertyRef Name="DeliveryServiceFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_deliveryLookup_deliveryZone">
+    <End Role="deliveryZone" Type="Self.deliveryZone" Multiplicity="1" />
+    <End Role="deliveryLookup" Type="Self.deliveryLookup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="deliveryZone">
+        <PropertyRef Name="DeliveryZoneId" />
+      </Principal>
+      <Dependent Role="deliveryLookup">
+        <PropertyRef Name="DeliveryZoneFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeliveryService_Website">
+    <End Role="Website" Type="Self.Website" Multiplicity="1" />
+    <End Role="deliveryService" Type="Self.deliveryService" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Website">
+        <PropertyRef Name="WebsiteID" />
+      </Principal>
+      <Dependent Role="deliveryService">
+        <PropertyRef Name="WebsiteFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_deliveryZone_Website">
+    <End Role="Website" Type="Self.Website" Multiplicity="1" />
+    <End Role="deliveryZone" Type="Self.deliveryZone" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Website">
+        <PropertyRef Name="WebsiteID" />
+      </Principal>
+      <Dependent Role="deliveryZone">
+        <PropertyRef Name="WebsiteFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_eqEquipment_eqCartridgeType">
+    <End Role="eqCartridgeType" Type="Self.eqCartridgeType" Multiplicity="1" />
+    <End Role="eqEquipment" Type="Self.eqEquipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="eqCartridgeType">
+        <PropertyRef Name="eqCartridgeTypeID" />
+      </Principal>
+      <Dependent Role="eqEquipment">
+        <PropertyRef Name="eqCartridgeTypeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_eqEquipment_equipmentStatus">
+    <End Role="equipmentStatus" Type="Self.equipmentStatus" Multiplicity="1" />
+    <End Role="eqEquipment" Type="Self.eqEquipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="equipmentStatus">
+        <PropertyRef Name="StatusID" />
+      </Principal>
+      <Dependent Role="eqEquipment">
+        <PropertyRef Name="statusFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_eqEquipment_manufacturer">
+    <End Role="manufacturer" Type="Self.manufacturer" Multiplicity="1" />
+    <End Role="eqEquipment" Type="Self.eqEquipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="manufacturer">
+        <PropertyRef Name="manufacturerID" />
+      </Principal>
+      <Dependent Role="eqEquipment">
+        <PropertyRef Name="manufacturerFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_eqEquipment_product">
+    <End Role="product" Type="Self.product" Multiplicity="0..1" />
+    <End Role="eqEquipment" Type="Self.eqEquipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="productID" />
+      </Principal>
+      <Dependent Role="eqEquipment">
+        <PropertyRef Name="productFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_eqEquipment_productType">
+    <End Role="productType" Type="Self.productType" Multiplicity="0..1" />
+    <End Role="eqEquipment" Type="Self.eqEquipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="productType">
+        <PropertyRef Name="productTypeID" />
+      </Principal>
+      <Dependent Role="eqEquipment">
+        <PropertyRef Name="productTypeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_eqFamily_manufacturer">
+    <End Role="manufacturer" Type="Self.manufacturer" Multiplicity="1" />
+    <End Role="eqFamily" Type="Self.eqFamily" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="manufacturer">
+        <PropertyRef Name="manufacturerID" />
+      </Principal>
+      <Dependent Role="eqFamily">
+        <PropertyRef Name="manufacturerFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_eqMapping_eqEquipment">
+    <End Role="eqEquipment" Type="Self.eqEquipment" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="eqFamilyMembership" Type="Self.eqFamilyMembership" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="eqEquipment">
+        <PropertyRef Name="eqEquipmentID" />
+      </Principal>
+      <Dependent Role="eqFamilyMembership">
+        <PropertyRef Name="eqEquipmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_eqMapping_eqFamily">
+    <End Role="eqFamily" Type="Self.eqFamily" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="eqFamilyMembership" Type="Self.eqFamilyMembership" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="eqFamily">
+        <PropertyRef Name="eqFamilyID" />
+      </Principal>
+      <Dependent Role="eqFamilyMembership">
+        <PropertyRef Name="eqFamilyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_eqMembership_eqEquipment">
+    <End Role="eqEquipment" Type="Self.eqEquipment" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="eqProductMembership" Type="Self.eqProductMembership" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="eqEquipment">
+        <PropertyRef Name="eqEquipmentID" />
+      </Principal>
+      <Dependent Role="eqProductMembership">
+        <PropertyRef Name="eqEquipmentFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_eqMembership_product">
+    <End Role="product" Type="Self.product" Multiplicity="1" />
+    <End Role="eqProductMembership" Type="Self.eqProductMembership" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="productID" />
+      </Principal>
+      <Dependent Role="eqProductMembership">
+        <PropertyRef Name="productFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_equipmentNotes_eqEquipmentFK">
+    <End Role="eqEquipment" Type="Self.eqEquipment" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="equipmentNotes" Type="Self.equipmentNotes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="eqEquipment">
+        <PropertyRef Name="eqEquipmentID" />
+      </Principal>
+      <Dependent Role="equipmentNotes">
+        <PropertyRef Name="eqEquipmentFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_equipmentNotes_websiteFK">
+    <End Role="Website" Type="Self.Website" Multiplicity="1" />
+    <End Role="equipmentNotes" Type="Self.equipmentNotes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Website">
+        <PropertyRef Name="WebsiteID" />
+      </Principal>
+      <Dependent Role="equipmentNotes">
+        <PropertyRef Name="websiteFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Log_Website">
+    <End Role="Website" Type="Self.Website" Multiplicity="1" />
+    <End Role="Log" Type="Self.Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Website">
+        <PropertyRef Name="WebsiteID" />
+      </Principal>
+      <Dependent Role="Log">
+        <PropertyRef Name="WebsiteFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Main_GranualityFK">
+    <End Role="qa_Granularity" Type="Self.qa_Granularity" Multiplicity="1" />
+    <End Role="qa_Main" Type="Self.qa_Main" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="qa_Granularity">
+        <PropertyRef Name="GranularityID" />
+      </Principal>
+      <Dependent Role="qa_Main">
+        <PropertyRef Name="GranularityFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_manufacturerNotes_eqCartridgeTypeFK">
+    <End Role="eqCartridgeType" Type="Self.eqCartridgeType" Multiplicity="1" />
+    <End Role="manufacturerNotes" Type="Self.manufacturerNotes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="eqCartridgeType">
+        <PropertyRef Name="eqCartridgeTypeID" />
+      </Principal>
+      <Dependent Role="manufacturerNotes">
+        <PropertyRef Name="eqCartridgeTypeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_manufacturerNotes_manufacturerFK">
+    <End Role="manufacturer" Type="Self.manufacturer" Multiplicity="0..1" />
+    <End Role="manufacturerNotes" Type="Self.manufacturerNotes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="manufacturer">
+        <PropertyRef Name="manufacturerID" />
+      </Principal>
+      <Dependent Role="manufacturerNotes">
+        <PropertyRef Name="manufacturerFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_manufacturerNotes_websiteFK">
+    <End Role="Website" Type="Self.Website" Multiplicity="1" />
+    <End Role="manufacturerNotes" Type="Self.manufacturerNotes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Website">
+        <PropertyRef Name="WebsiteID" />
+      </Principal>
+      <Dependent Role="manufacturerNotes">
+        <PropertyRef Name="websiteFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_obsoleteItem_Website">
+    <End Role="Website" Type="Self.Website" Multiplicity="1" />
+    <End Role="obsoleteItem" Type="Self.obsoleteItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Website">
+        <PropertyRef Name="WebsiteID" />
+      </Principal>
+      <Dependent Role="obsoleteItem">
+        <PropertyRef Name="websiteFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PortalIndex_Website">
+    <End Role="Website" Type="Self.Website" Multiplicity="1" />
+    <End Role="PortalIndex" Type="Self.PortalIndex" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Website">
+        <PropertyRef Name="WebsiteID" />
+      </Principal>
+      <Dependent Role="PortalIndex">
+        <PropertyRef Name="WebsiteFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_product_productGroupFK">
+    <End Role="productGroup" Type="Self.productGroup" Multiplicity="0..1" />
+    <End Role="product" Type="Self.product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="productGroup">
+        <PropertyRef Name="productGroupID" />
+      </Principal>
+      <Dependent Role="product">
+        <PropertyRef Name="productGroupFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_product_productItemType">
+    <End Role="productItemType" Type="Self.productItemType" Multiplicity="1" />
+    <End Role="product" Type="Self.product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="productItemType">
+        <PropertyRef Name="productItemTypeID" />
+      </Principal>
+      <Dependent Role="product">
+        <PropertyRef Name="productItemTypeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_product_productStatusFK">
+    <End Role="productStatus" Type="Self.productStatus" Multiplicity="1" />
+    <End Role="product" Type="Self.product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="productStatus">
+        <PropertyRef Name="productStatusID" />
+      </Principal>
+      <Dependent Role="product">
+        <PropertyRef Name="productStatusFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_product_salesAreaGroupFK">
+    <End Role="salesAreaGroup" Type="Self.salesAreaGroup" Multiplicity="0..1" />
+    <End Role="product" Type="Self.product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="salesAreaGroup">
+        <PropertyRef Name="salesAreaGroupID" />
+      </Principal>
+      <Dependent Role="product">
+        <PropertyRef Name="salesAreaGroupFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_productGroup_productTypeFK">
+    <End Role="productType" Type="Self.productType" Multiplicity="1" />
+    <End Role="productGroup" Type="Self.productGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="productType">
+        <PropertyRef Name="productTypeID" />
+      </Principal>
+      <Dependent Role="productGroup">
+        <PropertyRef Name="productTypeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_productImage_websiteInventory">
+    <End Role="websiteInventory" Type="Self.websiteInventory" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="productImage" Type="Self.productImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="websiteInventory">
+        <PropertyRef Name="websiteInventoryID" />
+      </Principal>
+      <Dependent Role="productImage">
+        <PropertyRef Name="websiteInventoryFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_productPrice_websiteInventory">
+    <End Role="websiteInventory" Type="Self.websiteInventory" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="productPrice" Type="Self.productPrice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="websiteInventory">
+        <PropertyRef Name="websiteInventoryID" />
+      </Principal>
+      <Dependent Role="productPrice">
+        <PropertyRef Name="websiteInventoryFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_qa_Main_eqEquipment">
+    <End Role="eqEquipment" Type="Self.eqEquipment" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="qa_Main" Type="Self.qa_Main" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="eqEquipment">
+        <PropertyRef Name="eqEquipmentID" />
+      </Principal>
+      <Dependent Role="qa_Main">
+        <PropertyRef Name="eqEquipmentFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_qa_Main_product">
+    <End Role="product" Type="Self.product" Multiplicity="0..1" />
+    <End Role="qa_Main" Type="Self.qa_Main" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="productID" />
+      </Principal>
+      <Dependent Role="qa_Main">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_secondaryCategoryLookup_categoryCode">
+    <End Role="categoryCode" Type="Self.categoryCode" Multiplicity="0..1" />
+    <End Role="secondaryCategoryLookup" Type="Self.secondaryCategoryLookup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="categoryCode">
+        <PropertyRef Name="categoryCodeID" />
+      </Principal>
+      <Dependent Role="secondaryCategoryLookup">
+        <PropertyRef Name="categoryCodeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_secondaryCategoryLookup_websiteInventory">
+    <End Role="websiteInventory" Type="Self.websiteInventory" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="secondaryCategoryLookup" Type="Self.secondaryCategoryLookup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="websiteInventory">
+        <PropertyRef Name="websiteInventoryID" />
+      </Principal>
+      <Dependent Role="secondaryCategoryLookup">
+        <PropertyRef Name="websiteInventoryFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VoucherPromo_VoucherPromoGroup">
+    <End Role="VoucherPromoGroup" Type="Self.VoucherPromoGroup" Multiplicity="1" />
+    <End Role="VoucherPromo" Type="Self.VoucherPromo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VoucherPromoGroup">
+        <PropertyRef Name="VoucherPromoGroupId" />
+      </Principal>
+      <Dependent Role="VoucherPromo">
+        <PropertyRef Name="VoucherPromoGroupFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VoucherPromo_VoucherType">
+    <End Role="VoucherType" Type="Self.VoucherType" Multiplicity="1" />
+    <End Role="VoucherPromo" Type="Self.VoucherPromo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VoucherType">
+        <PropertyRef Name="VoucherTypeId" />
+      </Principal>
+      <Dependent Role="VoucherPromo">
+        <PropertyRef Name="VoucherTypeFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VoucherPromo_Website">
+    <End Role="Website" Type="Self.Website" Multiplicity="1" />
+    <End Role="VoucherPromo" Type="Self.VoucherPromo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Website">
+        <PropertyRef Name="WebsiteID" />
+      </Principal>
+      <Dependent Role="VoucherPromo">
+        <PropertyRef Name="WebsiteFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VoucherPromoGroup_Website">
+    <End Role="Website" Type="Self.Website" Multiplicity="1" />
+    <End Role="VoucherPromoGroup" Type="Self.VoucherPromoGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Website">
+        <PropertyRef Name="WebsiteID" />
+      </Principal>
+      <Dependent Role="VoucherPromoGroup">
+        <PropertyRef Name="WebsiteFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VoucherPromoGroupMapping_CategoryCode">
+    <End Role="categoryCode" Type="Self.categoryCode" Multiplicity="1" />
+    <End Role="VoucherPromoGroupMapping" Type="Self.VoucherPromoGroupMapping" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="categoryCode">
+        <PropertyRef Name="categoryCodeID" />
+      </Principal>
+      <Dependent Role="VoucherPromoGroupMapping">
+        <PropertyRef Name="CategoryCodeFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VoucherPromoGroupMapping_VoucherPromoGroup">
+    <End Role="VoucherPromoGroup" Type="Self.VoucherPromoGroup" Multiplicity="1" />
+    <End Role="VoucherPromoGroupMapping" Type="Self.VoucherPromoGroupMapping" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VoucherPromoGroup">
+        <PropertyRef Name="VoucherPromoGroupId" />
+      </Principal>
+      <Dependent Role="VoucherPromoGroupMapping">
+        <PropertyRef Name="VoucherPromoGroupFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_websiteInventory_categoryCode">
+    <End Role="categoryCode" Type="Self.categoryCode" Multiplicity="0..1" />
+    <End Role="websiteInventory" Type="Self.websiteInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="categoryCode">
+        <PropertyRef Name="categoryCodeID" />
+      </Principal>
+      <Dependent Role="websiteInventory">
+        <PropertyRef Name="categoryCodeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_websiteInventory_productFK">
+    <End Role="product" Type="Self.product" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="websiteInventory" Type="Self.websiteInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="productID" />
+      </Principal>
+      <Dependent Role="websiteInventory">
+        <PropertyRef Name="productFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_websiteInventory_websiteFK">
+    <End Role="Website" Type="Self.Website" Multiplicity="1" />
+    <End Role="websiteInventory" Type="Self.websiteInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Website">
+        <PropertyRef Name="WebsiteID" />
+      </Principal>
+      <Dependent Role="websiteInventory">
+        <PropertyRef Name="websiteFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WebsiteMapping_QuestionAnswerFK">
+    <End Role="qa_Main" Type="Self.qa_Main" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="qa_WebsiteMapping" Type="Self.qa_WebsiteMapping" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="qa_Main">
+        <PropertyRef Name="QuestionAnswerID" />
+      </Principal>
+      <Dependent Role="qa_WebsiteMapping">
+        <PropertyRef Name="QuestionAnswerFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WebsiteMapping_WebsiteFK">
+    <End Role="Website" Type="Self.Website" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="qa_WebsiteMapping" Type="Self.qa_WebsiteMapping" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Website">
+        <PropertyRef Name="WebsiteID" />
+      </Principal>
+      <Dependent Role="qa_WebsiteMapping">
+        <PropertyRef Name="WebsiteFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="NgmdEntitiesStoreContainer">
+    <EntitySet Name="AxisFields" EntityType="Self.AxisFields" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="AxisFieldsAdditional" EntityType="Self.AxisFieldsAdditional" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="categoryCode" EntityType="Self.categoryCode" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="cmsEntry" EntityType="Self.cmsEntry" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="cmsSection" EntityType="Self.cmsSection" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="configurationSetting" EntityType="Self.configurationSetting" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="crossSellingLink" EntityType="Self.crossSellingLink" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="crossSellingLinkType" EntityType="Self.crossSellingLinkType" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="dataSupplierOverride" EntityType="Self.dataSupplierOverride" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="deliveryLookup" EntityType="Self.deliveryLookup" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="deliveryService" EntityType="Self.deliveryService" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="deliveryZone" EntityType="Self.deliveryZone" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="eqCartridgeType" EntityType="Self.eqCartridgeType" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="eqEquipment" EntityType="Self.eqEquipment" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="eqFamily" EntityType="Self.eqFamily" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="eqFamilyMembership" EntityType="Self.eqFamilyMembership" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="eqProductMembership" EntityType="Self.eqProductMembership" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="equipmentNotes" EntityType="Self.equipmentNotes" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="equipmentStatus" EntityType="Self.equipmentStatus" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="favouritePrinter" EntityType="Self.favouritePrinter" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="feefoFeedback" EntityType="Self.feefoFeedback" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="JsonStore" EntityType="Self.JsonStore" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="Log" EntityType="Self.Log" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="manufacturer" EntityType="Self.manufacturer" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="manufacturerNotes" EntityType="Self.manufacturerNotes" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="obsoleteItem" EntityType="Self.obsoleteItem" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="or_mediaLinks" EntityType="Self.or_mediaLinks" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="or_products" EntityType="Self.or_products" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="passwordReset" EntityType="Self.passwordReset" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="PortalIndex" EntityType="Self.PortalIndex" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="product" EntityType="Self.product" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="productGroup" EntityType="Self.productGroup" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="productImage" EntityType="Self.productImage" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="productItemType" EntityType="Self.productItemType" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="productPrice" EntityType="Self.productPrice" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="productStatus" EntityType="Self.productStatus" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="productSubStatus" EntityType="Self.productSubStatus" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="productType" EntityType="Self.productType" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="qa_Granularity" EntityType="Self.qa_Granularity" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="qa_Main" EntityType="Self.qa_Main" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="qa_WebsiteMapping" EntityType="Self.qa_WebsiteMapping" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="SagePayTokens" EntityType="Self.SagePayTokens" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="SagePayTransactions" EntityType="Self.SagePayTransactions" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="salesAreaGroup" EntityType="Self.salesAreaGroup" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="secondaryCategoryLookup" EntityType="Self.secondaryCategoryLookup" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="VoucherPromo" EntityType="Self.VoucherPromo" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="VoucherPromoGroup" EntityType="Self.VoucherPromoGroup" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="VoucherPromoGroupMapping" EntityType="Self.VoucherPromoGroupMapping" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="VoucherType" EntityType="Self.VoucherType" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="Website" EntityType="Self.Website" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="websiteInventory" EntityType="Self.websiteInventory" Schema="ngmd" store:Type="Tables" />
+    <EntitySet Name="ds_attributeView" EntityType="Self.ds_attributeView" store:Type="Views" store:Schema="ngmd">
+      <DefiningQuery>SELECT 
+    [ds_attributeView].[attributeID] AS [attributeID], 
+    [ds_attributeView].[partNo] AS [partNo], 
+    [ds_attributeView].[manufacturer] AS [manufacturer], 
+    [ds_attributeView].[dataSupplierID] AS [dataSupplierID], 
+    [ds_attributeView].[attrName] AS [attrName], 
+    [ds_attributeView].[attrValue] AS [attrValue]
+    FROM [ngmd].[ds_attributeView] AS [ds_attributeView]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_AxisFields_product" Association="Self.FK_AxisFields_product">
+      <End Role="product" EntitySet="product" />
+      <End Role="AxisFields" EntitySet="AxisFields" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AxisFieldsAdditional_AxisFieldsAdditional" Association="Self.FK_AxisFieldsAdditional_AxisFieldsAdditional">
+      <End Role="AxisFields" EntitySet="AxisFields" />
+      <End Role="AxisFieldsAdditional" EntitySet="AxisFieldsAdditional" />
+    </AssociationSet>
+    <AssociationSet Name="FK_categoryCode_websiteFK" Association="Self.FK_categoryCode_websiteFK">
+      <End Role="Website" EntitySet="Website" />
+      <End Role="categoryCode" EntitySet="categoryCode" />
+    </AssociationSet>
+    <AssociationSet Name="FK_cmsEntry_cmsEntry" Association="Self.FK_cmsEntry_cmsEntry">
+      <End Role="cmsEntry" EntitySet="cmsEntry" />
+      <End Role="cmsEntry1" EntitySet="cmsEntry" />
+    </AssociationSet>
+    <AssociationSet Name="FK_cmsEntry_cmsSection" Association="Self.FK_cmsEntry_cmsSection">
+      <End Role="cmsSection" EntitySet="cmsSection" />
+      <End Role="cmsEntry" EntitySet="cmsEntry" />
+    </AssociationSet>
+    <AssociationSet Name="FK_cmsSeries_Website" Association="Self.FK_cmsSeries_Website">
+      <End Role="Website" EntitySet="Website" />
+      <End Role="cmsSection" EntitySet="cmsSection" />
+    </AssociationSet>
+    <AssociationSet Name="FK_configurationSetting_Website" Association="Self.FK_configurationSetting_Website">
+      <End Role="Website" EntitySet="Website" />
+      <End Role="configurationSetting" EntitySet="configurationSetting" />
+    </AssociationSet>
+    <AssociationSet Name="FK_crossSellingLink_crossSellingLinkType" Association="Self.FK_crossSellingLink_crossSellingLinkType">
+      <End Role="crossSellingLinkType" EntitySet="crossSellingLinkType" />
+      <End Role="crossSellingLink" EntitySet="crossSellingLink" />
+    </AssociationSet>
+    <AssociationSet Name="FK_crossSellingLink_product" Association="Self.FK_crossSellingLink_product">
+      <End Role="product" EntitySet="product" />
+      <End Role="crossSellingLink" EntitySet="crossSellingLink" />
+    </AssociationSet>
+    <AssociationSet Name="FK_crossSellingLink_product1" Association="Self.FK_crossSellingLink_product1">
+      <End Role="product" EntitySet="product" />
+      <End Role="crossSellingLink" EntitySet="crossSellingLink" />
+    </AssociationSet>
+    <AssociationSet Name="FK_deliveryLookup_deliveryLookup" Association="Self.FK_deliveryLookup_deliveryLookup">
+      <End Role="deliveryService" EntitySet="deliveryService" />
+      <End Role="deliveryLookup" EntitySet="deliveryLookup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_deliveryLookup_deliveryZone" Association="Self.FK_deliveryLookup_deliveryZone">
+      <End Role="deliveryZone" EntitySet="deliveryZone" />
+      <End Role="deliveryLookup" EntitySet="deliveryLookup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeliveryService_Website" Association="Self.FK_DeliveryService_Website">
+      <End Role="Website" EntitySet="Website" />
+      <End Role="deliveryService" EntitySet="deliveryService" />
+    </AssociationSet>
+    <AssociationSet Name="FK_deliveryZone_Website" Association="Self.FK_deliveryZone_Website">
+      <End Role="Website" EntitySet="Website" />
+      <End Role="deliveryZone" EntitySet="deliveryZone" />
+    </AssociationSet>
+    <AssociationSet Name="FK_eqEquipment_eqCartridgeType" Association="Self.FK_eqEquipment_eqCartridgeType">
+      <End Role="eqCartridgeType" EntitySet="eqCartridgeType" />
+      <End Role="eqEquipment" EntitySet="eqEquipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_eqEquipment_equipmentStatus" Association="Self.FK_eqEquipment_equipmentStatus">
+      <End Role="equipmentStatus" EntitySet="equipmentStatus" />
+      <End Role="eqEquipment" EntitySet="eqEquipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_eqEquipment_manufacturer" Association="Self.FK_eqEquipment_manufacturer">
+      <End Role="manufacturer" EntitySet="manufacturer" />
+      <End Role="eqEquipment" EntitySet="eqEquipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_eqEquipment_product" Association="Self.FK_eqEquipment_product">
+      <End Role="product" EntitySet="product" />
+      <End Role="eqEquipment" EntitySet="eqEquipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_eqEquipment_productType" Association="Self.FK_eqEquipment_productType">
+      <End Role="productType" EntitySet="productType" />
+      <End Role="eqEquipment" EntitySet="eqEquipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_eqFamily_manufacturer" Association="Self.FK_eqFamily_manufacturer">
+      <End Role="manufacturer" EntitySet="manufacturer" />
+      <End Role="eqFamily" EntitySet="eqFamily" />
+    </AssociationSet>
+    <AssociationSet Name="FK_eqMapping_eqEquipment" Association="Self.FK_eqMapping_eqEquipment">
+      <End Role="eqEquipment" EntitySet="eqEquipment" />
+      <End Role="eqFamilyMembership" EntitySet="eqFamilyMembership" />
+    </AssociationSet>
+    <AssociationSet Name="FK_eqMapping_eqFamily" Association="Self.FK_eqMapping_eqFamily">
+      <End Role="eqFamily" EntitySet="eqFamily" />
+      <End Role="eqFamilyMembership" EntitySet="eqFamilyMembership" />
+    </AssociationSet>
+    <AssociationSet Name="FK_eqMembership_eqEquipment" Association="Self.FK_eqMembership_eqEquipment">
+      <End Role="eqEquipment" EntitySet="eqEquipment" />
+      <End Role="eqProductMembership" EntitySet="eqProductMembership" />
+    </AssociationSet>
+    <AssociationSet Name="FK_eqMembership_product" Association="Self.FK_eqMembership_product">
+      <End Role="product" EntitySet="product" />
+      <End Role="eqProductMembership" EntitySet="eqProductMembership" />
+    </AssociationSet>
+    <AssociationSet Name="FK_equipmentNotes_eqEquipmentFK" Association="Self.FK_equipmentNotes_eqEquipmentFK">
+      <End Role="eqEquipment" EntitySet="eqEquipment" />
+      <End Role="equipmentNotes" EntitySet="equipmentNotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_equipmentNotes_websiteFK" Association="Self.FK_equipmentNotes_websiteFK">
+      <End Role="Website" EntitySet="Website" />
+      <End Role="equipmentNotes" EntitySet="equipmentNotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Log_Website" Association="Self.FK_Log_Website">
+      <End Role="Website" EntitySet="Website" />
+      <End Role="Log" EntitySet="Log" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Main_GranualityFK" Association="Self.FK_Main_GranualityFK">
+      <End Role="qa_Granularity" EntitySet="qa_Granularity" />
+      <End Role="qa_Main" EntitySet="qa_Main" />
+    </AssociationSet>
+    <AssociationSet Name="FK_manufacturerNotes_eqCartridgeTypeFK" Association="Self.FK_manufacturerNotes_eqCartridgeTypeFK">
+      <End Role="eqCartridgeType" EntitySet="eqCartridgeType" />
+      <End Role="manufacturerNotes" EntitySet="manufacturerNotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_manufacturerNotes_manufacturerFK" Association="Self.FK_manufacturerNotes_manufacturerFK">
+      <End Role="manufacturer" EntitySet="manufacturer" />
+      <End Role="manufacturerNotes" EntitySet="manufacturerNotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_manufacturerNotes_websiteFK" Association="Self.FK_manufacturerNotes_websiteFK">
+      <End Role="Website" EntitySet="Website" />
+      <End Role="manufacturerNotes" EntitySet="manufacturerNotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_obsoleteItem_Website" Association="Self.FK_obsoleteItem_Website">
+      <End Role="Website" EntitySet="Website" />
+      <End Role="obsoleteItem" EntitySet="obsoleteItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PortalIndex_Website" Association="Self.FK_PortalIndex_Website">
+      <End Role="Website" EntitySet="Website" />
+      <End Role="PortalIndex" EntitySet="PortalIndex" />
+    </AssociationSet>
+    <AssociationSet Name="FK_product_productGroupFK" Association="Self.FK_product_productGroupFK">
+      <End Role="productGroup" EntitySet="productGroup" />
+      <End Role="product" EntitySet="product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_product_productItemType" Association="Self.FK_product_productItemType">
+      <End Role="productItemType" EntitySet="productItemType" />
+      <End Role="product" EntitySet="product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_product_productStatusFK" Association="Self.FK_product_productStatusFK">
+      <End Role="productStatus" EntitySet="productStatus" />
+      <End Role="product" EntitySet="product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_product_salesAreaGroupFK" Association="Self.FK_product_salesAreaGroupFK">
+      <End Role="salesAreaGroup" EntitySet="salesAreaGroup" />
+      <End Role="product" EntitySet="product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_productGroup_productTypeFK" Association="Self.FK_productGroup_productTypeFK">
+      <End Role="productType" EntitySet="productType" />
+      <End Role="productGroup" EntitySet="productGroup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_productImage_websiteInventory" Association="Self.FK_productImage_websiteInventory">
+      <End Role="websiteInventory" EntitySet="websiteInventory" />
+      <End Role="productImage" EntitySet="productImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_productPrice_websiteInventory" Association="Self.FK_productPrice_websiteInventory">
+      <End Role="websiteInventory" EntitySet="websiteInventory" />
+      <End Role="productPrice" EntitySet="productPrice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_qa_Main_eqEquipment" Association="Self.FK_qa_Main_eqEquipment">
+      <End Role="eqEquipment" EntitySet="eqEquipment" />
+      <End Role="qa_Main" EntitySet="qa_Main" />
+    </AssociationSet>
+    <AssociationSet Name="FK_qa_Main_product" Association="Self.FK_qa_Main_product">
+      <End Role="product" EntitySet="product" />
+      <End Role="qa_Main" EntitySet="qa_Main" />
+    </AssociationSet>
+    <AssociationSet Name="FK_secondaryCategoryLookup_categoryCode" Association="Self.FK_secondaryCategoryLookup_categoryCode">
+      <End Role="categoryCode" EntitySet="categoryCode" />
+      <End Role="secondaryCategoryLookup" EntitySet="secondaryCategoryLookup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_secondaryCategoryLookup_websiteInventory" Association="Self.FK_secondaryCategoryLookup_websiteInventory">
+      <End Role="websiteInventory" EntitySet="websiteInventory" />
+      <End Role="secondaryCategoryLookup" EntitySet="secondaryCategoryLookup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VoucherPromo_VoucherPromoGroup" Association="Self.FK_VoucherPromo_VoucherPromoGroup">
+      <End Role="VoucherPromoGroup" EntitySet="VoucherPromoGroup" />
+      <End Role="VoucherPromo" EntitySet="VoucherPromo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VoucherPromo_VoucherType" Association="Self.FK_VoucherPromo_VoucherType">
+      <End Role="VoucherType" EntitySet="VoucherType" />
+      <End Role="VoucherPromo" EntitySet="VoucherPromo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VoucherPromo_Website" Association="Self.FK_VoucherPromo_Website">
+      <End Role="Website" EntitySet="Website" />
+      <End Role="VoucherPromo" EntitySet="VoucherPromo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VoucherPromoGroup_Website" Association="Self.FK_VoucherPromoGroup_Website">
+      <End Role="Website" EntitySet="Website" />
+      <End Role="VoucherPromoGroup" EntitySet="VoucherPromoGroup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VoucherPromoGroupMapping_CategoryCode" Association="Self.FK_VoucherPromoGroupMapping_CategoryCode">
+      <End Role="categoryCode" EntitySet="categoryCode" />
+      <End Role="VoucherPromoGroupMapping" EntitySet="VoucherPromoGroupMapping" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VoucherPromoGroupMapping_VoucherPromoGroup" Association="Self.FK_VoucherPromoGroupMapping_VoucherPromoGroup">
+      <End Role="VoucherPromoGroup" EntitySet="VoucherPromoGroup" />
+      <End Role="VoucherPromoGroupMapping" EntitySet="VoucherPromoGroupMapping" />
+    </AssociationSet>
+    <AssociationSet Name="FK_websiteInventory_categoryCode" Association="Self.FK_websiteInventory_categoryCode">
+      <End Role="categoryCode" EntitySet="categoryCode" />
+      <End Role="websiteInventory" EntitySet="websiteInventory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_websiteInventory_productFK" Association="Self.FK_websiteInventory_productFK">
+      <End Role="product" EntitySet="product" />
+      <End Role="websiteInventory" EntitySet="websiteInventory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_websiteInventory_websiteFK" Association="Self.FK_websiteInventory_websiteFK">
+      <End Role="Website" EntitySet="Website" />
+      <End Role="websiteInventory" EntitySet="websiteInventory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WebsiteMapping_QuestionAnswerFK" Association="Self.FK_WebsiteMapping_QuestionAnswerFK">
+      <End Role="qa_Main" EntitySet="qa_Main" />
+      <End Role="qa_WebsiteMapping" EntitySet="qa_WebsiteMapping" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WebsiteMapping_WebsiteFK" Association="Self.FK_WebsiteMapping_WebsiteFK">
+      <End Role="Website" EntitySet="Website" />
+      <End Role="qa_WebsiteMapping" EntitySet="qa_WebsiteMapping" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,100 @@
+﻿@using BusinessLogic.ViewModels;
+@using CommonUI.Models;
+@using System.Configuration
+@using System.Data;
+
+@model HomeViewModel
+
+@section AddTags {
+    <link rel="canonical" href="https://@(Model.DomainNameTrunc + Request.Url.PathAndQuery.ToLower())" />
+}
+
+<section id="loadbg" class="" data-stellar-background-ratio="0.5" data-stellar-ratio="1" data-bgimg="@Html.RawFromDict(Model.CommonData, "FeatureBackground")">
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-md-12 comm-title-banner g-h-120 g-fc-st">
+                <div class="bread-crumb hidden-xs hidden-sm">
+                    @foreach (KeyValuePair<string, string> bc in Model.BreadcrumbTrail)
+                    {
+                        <a class="second" href="@bc.Value">@bc.Key</a>
+                        <i class="fa fa-chevron-right g-fs-xs-i"></i>
+                    }
+                    Customer Reviews
+                </div>
+
+                <div class="g-m-t-a">
+                    <div class="pull-left">
+                        <h1><span class="">@ViewBag.Title Reviews</span></h1>
+                    </div>
+                    <div class="pull-right hidden-xs hidden-sm">
+                        @Html.ShowSaleInfoButton(Model.IsCompatibleSaleActive, Model.IsOEMSaleActive, Model.IsStationerySaleActive)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="comm-content g-bc-p g-p-b-60">
+    <div class="container body-content g-ps-r">
+        <div class="row g-m-b-20 hidden-xs hidden-sm">
+            <div class="col-md-2">
+                <strong>Date</strong>
+            </div>
+            <div class="col-md-4">
+                <strong>Product</strong>
+            </div>
+            <div class="col-md-2">
+                <strong>Rating</strong>
+            </div>
+            <div class="col-md-4">
+                <strong>Review</strong>
+            </div>
+        </div>
+        <div class="zmoreLess" zdata-num-items="200" data-buttclass="g-m-t-20 g-butt-lg" data-scroll-offset="80">
+            @{
+                string hrdash = "none";
+                foreach (DataRow dr in Model.FeeFo.Rows)
+                {
+                    <hr class="g-m-tb-20 @hrdash" />
+                    <div class="row" itemtype="http://data-vocabulary.org/Review" itemscope>
+                        <div class="col-md-2" itemprop="dtreviewed">
+                            @Convert.ToDateTime(dr["Date"]).ToString("D")
+                        </div>
+                        <div class="col-md-4" itemprop="itemreviewed">
+                            <a href="/@dr["ProductURL"].ToString()">
+                                @dr["Description"].ToString()
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="hide" itemprop="itemreviewed">@dr["Description"].ToString()</span>
+                            <img src="/Content/Images/1pxTrans.png" class="lazy" alt="@(dr["Rating"].ToString())" data-original="@ConfigurationManager.AppSettings["CDN"]/Images/Rating@(dr["Rating"].ToString()).png" itemprop="rating" />
+                            <noscript>
+                                <img src="@ConfigurationManager.AppSettings["CDN"]/Images/Rating@(dr["Rating"].ToString()).png" alt="@(dr["Rating"].ToString())" itemprop="rating" />
+                            </noscript>
+                            <div itemscope="itemscope" itemtype="http://schema.org/Rating">
+                                <span itemprop="worstRating" content="1"></span>
+                                <span itemprop="ratingValue" content="@(dr["Rating"].ToString())"></span>
+                                <span itemprop="bestRating" content="5"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4" itemprop="summary">
+                            <div>@dr["Comment"].ToString()</div>
+                            @if (dr["Reply"].ToString() != "")
+                            {
+                                <div class="g-m-t-10">@dr["Reply"].ToString()</div>
+                            }
+                        </div>
+                    </div>
+                    hrdash = "dashed";
+                }
+            }
+        </div>
+    </div>
+</section>
+
+@section StructuredData {
+    [
+    @Html.Raw(ViewBag.BreadcrumbJson)
+    ]
+}

@@ -1,0 +1,59 @@
+﻿@using BusinessLogic.ViewModels;
+@using System.Xml;
+
+@model HomeViewModel
+
+<div class="row restrict-images">
+    @{
+        string from = System.Configuration.ConfigurationManager.AppSettings["DomainName_Live"].ToString().Replace("www.", "blog.");
+        string to = System.Configuration.ConfigurationManager.AppSettings["DomainName_Live"].ToString() + "blog/";
+        int i = 0;
+        foreach (XmlNode item in Model.BlogFeed)
+        {
+            if (i == 4)
+            {
+                break;
+            }
+            i += 1;
+
+            string sDate = "";
+            if (item.SelectSingleNode("pubDate") != null)
+            {
+                string[] aDate = item.SelectSingleNode("pubDate").InnerText.Split(' ');
+                sDate = aDate[0] + " " + aDate[1] + " " + aDate[2] + " " + aDate[3];
+            }
+            int endpos = item.SelectSingleNode("description").InnerText.IndexOf("</p>");
+            string content = item.SelectSingleNode("description").InnerText.Substring(3, endpos - 3);
+
+            <div class="hm-newsItem col-md-3 col-sm-6">
+                <div class="">
+                    <div class="hm-newsImage">
+                        <a href="@Html.Raw(item.SelectSingleNode("link").InnerText)" target="_blank">
+                            <div class="g-bc-1">
+                                <img src="/Content/Images/1pxTrans.png" class="lazy" data-original="@Html.Raw(item.SelectSingleNode("post-thumbnail/url").InnerText.Replace(from, to))" width="@Html.Raw(item.SelectSingleNode("post-thumbnail/width").InnerText)" height="@Html.Raw(item.SelectSingleNode("post-thumbnail/height").InnerText)" alt="@Html.Raw(item.SelectSingleNode("title").InnerText)" />
+                                <noscript>
+                                    <img src="@Html.Raw(item.SelectSingleNode("post-thumbnail/url").InnerText.Replace(from, to))" width="@Html.Raw(item.SelectSingleNode("post-thumbnail/width").InnerText)" height="@Html.Raw(item.SelectSingleNode("post-thumbnail/height").InnerText)" alt="@Html.Raw(item.SelectSingleNode("title").InnerText)" />
+                                </noscript>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="hm-newsDetails clearfix g-flex-column">
+                        <div class="g-fw-b g-p-t-20">
+                            <a href="@Html.Raw(item.SelectSingleNode("link").InnerText)" target="_blank" class="primary">
+                                @Html.Raw(item.SelectSingleNode("title").InnerText)
+                            </a>
+                        </div>
+                        <div class="g-fs-sm g-fc-tt g-m-t-5">@sDate</div>
+                        <div class="hm-newsText g-m-t-10 g-fs-sm dotdotdot">@Html.Raw(content)</div>
+                        <div class="g-m-t-a g-fw-b">
+                            <a href="@Html.Raw(item.SelectSingleNode("link").InnerText)" target="_blank" class="">
+                                Read Article
+                                <i class="fa fa-chevron-right g-fs-xs-i g-p-l-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

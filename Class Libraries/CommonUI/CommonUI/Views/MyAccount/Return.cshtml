@@ -1,0 +1,445 @@
+﻿@using BusinessLogic.ViewModels;
+@using CommonUI.Models;
+
+@model MyAccountViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="loadbg" class="" data-stellar-background-ratio="0.5" data-stellar-ratio="1" data-bgimg="@Html.RawFromDict(Model.CommonData, "FeatureBackground")">
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-md-12 comm-title-banner g-h-120 g-fc-st">
+                @if (!Model.IsMobile)
+                {
+                    <div class="bread-crumb hidden-xs hidden-sm">
+                        @foreach (KeyValuePair<string, string>
+                            bc in Model.BreadcrumbTrail)
+                        {
+                            <a class="second" href="/@bc.Value">@bc.Key</a>
+                            <i class="fa fa-chevron-right g-fs-xs-i"></i>
+                        }
+                    </div>
+                }
+                <div class="g-m-t-10">
+                    <div class="pull-left">
+                        <h1>
+                            <span class="">Return Items</span>
+                        </h1>
+                        <div class="">
+                            <i class="fa fa-reply"></i>
+                            <a class="second g-fc-st" href="@Url.Action("Index", "Home" )">
+                                <span class="g-i">Continue Shopping</span>
+                            </a>
+                        </div>
+                    </div>
+                    @if (!Model.IsMobile)
+                    {
+                        <div class="pull-right hidden-xs hidden-sm">
+                            @Html.ShowSaleInfoButton(Model.IsCompatibleSaleActive, Model.IsOEMSaleActive, Model.IsStationerySaleActive)
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="g-bc-p g-p-t-20-sm g-p-b-100">
+    <div class="container body-content g-ps-r">
+        @using (Ajax.BeginForm("Return",
+            "MyAccount",
+            null,
+            new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "result", OnBegin = "returnValidate", OnSuccess = "returnComplete", OnFailure = "logAjaxFormError" },
+            new { @id = "return-form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.RedirectUrl)
+            @Html.Hidden("RecordType", (string)ViewBag.RecordType)
+            @Html.Hidden("email", Session["U_Email"])
+
+            <div id="form-fields">
+                <div class="row">
+                    <div class="g-m-l-15 g-of-h">
+                        @Html.RawFromDict(Model.MyAccountData, "ReturnsGeneral")
+                    </div>
+                </div>
+                <div class="row g-m-t-10">
+                    <div class="col-md-2">
+                        Why are you returning the item?
+                    </div>
+                    <div class="col-md-4 g-m-t-3 clearfix">
+                        @Html.DropDownList("ReturnReason", Model.ReasonList, "Select...", new { @class = "selectpicker" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.RawFromDict(Model.MyAccountData, "ReturnsReason")
+                    </div>
+                </div>
+                <div class="row g-m-t-20 g-d-n">
+                    <div class="col-md-6">
+                        <div class="checkbox checkbox-success g-m-0">
+                            @Html.CheckBox("Unopened")
+                            <label for="Unopened" class="g-fw-b">Please confirm that the item(s) you wish to return are in an unopened state</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.RawFromDict(Model.MyAccountData, "ReturnsUnopened")
+                    </div>
+                </div>
+                @if (ViewBag.IsAuthenticated)
+                {
+                    <div class="row g-m-t-10 g-d-n">
+                        <div class="col-md-2">
+                            Select your Order Number
+                        </div>
+                        <div class="col-md-4 g-m-t-2 clearfix">
+                            @Html.DropDownList("OrderNumber", Model.OrderList, "Select...", new { @class = "selectpicker" })
+                        </div>
+                        <div class="col-md-65">
+                            @Html.RawFromDict(Model.MyAccountData, "ReturnsOrderNo")
+                        </div>
+                    </div>
+                    <div id="order-error" class="row g-m-t-10 g-d-n">
+                        <div class="g-b-1-p g-m-l-15">
+                        </div>
+                    </div>
+                    <div id="return-items" class="row g-d-n"></div>
+                    <div class="row g-m-t-10 g-d-n">
+                        <div class="col-md-2">
+                            How would you like us to resolve the issue?
+                        </div>
+                        <div class="col-md-4 g-m-t-3 clearfix">
+                            @Html.DropDownList("Resolution", Model.ResolutionList, "Select...", new { @class = "selectpicker" })
+                        </div>
+                        <div id="resolution-val" class="col-md-6 g-m-t-10 g-fc-nm"></div>
+                    </div>
+                    <div class="row g-m-t-10 g-d-n">
+                        <div class="col-md-2 g-m-t-10">
+                            Additional information
+                        </div>
+                        <div class="col-md-4 g-m-t-2 clearfix">
+                            <div id="additionalinfo-val" class="g-fc-nm g-m-b-10"></div>
+                            @Html.TextArea("AdditionalInfo", new { @rows = 6, placeholder = "Additional information", @class = "g-b-1-p g-w-100p" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.RawFromDict(Model.MyAccountData, "ReturnsAdditional")
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row g-m-t-10 g-d-n">
+                        <div class="col-md-2">
+                            Enter the full name of the person that placed the order
+                        </div>
+                        <div class="col-md-4 g-m-t-3 clearfix">
+                            <div id="fullname-val" class="g-fc-nm"></div>
+                            <div class="">
+                                @Html.Editor("FullName", new { htmlAttributes = new { placeholder = "Full name...", @class = "g-b-1-p g-w-100p g-p-l-5" } })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-m-t-10 g-d-n">
+                        <div class="col-md-2">
+                            Enter the billing post code for the order
+                        </div>
+                        <div class="col-md-4 g-m-t-3 clearfix">
+                            <div id="postcode-val" class="g-fc-nm"></div>
+                            <div class="">
+                                @Html.Editor("Postcode", new { htmlAttributes = new { placeholder = "Post code...", @class = "g-b-1-p g-w-100p g-p-l-5" } })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-m-t-10 g-d-n">
+                        <div class="col-md-2">
+                            Please provide a contact telephone number where we may contact you
+                        </div>
+                        <div class="col-md-4 g-m-t-3 clearfix">
+                            <div id="telno-val" class="g-fc-nm"></div>
+                            <div class="">
+                                @Html.Editor("TelNo", new { htmlAttributes = new { placeholder = "Contact number...", @class = "g-b-1-p g-w-100p g-p-l-5" } })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-m-t-10 g-d-n">
+                        <div class="col-md-2">
+                            Enter your Order Number
+                        </div>
+                        <div class="col-md-4 g-m-t-3 clearfix">
+                            <div id="manualordernumber-val" class="g-fc-nm"></div>
+                            <div class="">
+                                @Html.Editor("ManualOrderNumber", new { htmlAttributes = new { placeholder = "Order number...", @class = "g-b-1-p g-w-100p g-p-l-5" } })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            @Html.RawFromDict(Model.MyAccountData, "ReturnsOrderNo")
+                        </div>
+                    </div>
+                    <div class="row g-m-t-10 g-d-n">
+                        <div class="col-md-2">
+                            How would you like us to resolve the issue?
+                        </div>
+                        <div class="col-md-4 g-m-t-3 clearfix">
+                            <div class="">
+                                @Html.DropDownList("Resolution", Model.ResolutionList, "Select...", new { @class = "selectpicker" })
+                            </div>
+                        </div>
+                        <div id="resolution-val" class="col-md-6 g-m-t-10 g-fc-nm"></div>
+                    </div>
+                    <div class="row g-m-t-10 g-d-n">
+                        <div class="col-md-2">
+                            Please provide information about the items you wish to return
+                        </div>
+                        <div class="col-md-4 clearfix">
+                            <div id="items-val" class="g-fc-nm"></div>
+                            @Html.TextArea("Items", new { @rows = 6, placeholder = "Return item(s)...", @class = "g-b-1-p g-w-100p" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.RawFromDict(Model.MyAccountData, "ReturnsItems")
+                        </div>
+                    </div>
+                    <div class="row g-m-t-10 g-d-n">
+                        <div class="col-md-2">
+                            Please provide any other relevant information
+                        </div>
+                        <div class="col-md-4 clearfix">
+                            <div id="additionalinfo-val" class="g-fc-nm"></div>
+                            @Html.TextArea("DetailsInfo", new { @rows = 6, placeholder = "Additional information...", @class = "g-b-1-p g-w-100p" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.RawFromDict(Model.MyAccountData, "ReturnsAdditional")
+                        </div>
+                    </div>
+                }
+
+                <div class="row g-m-t-10 g-d-n">
+                    <div id="co-submit-button" class="g-d-ib g-va-t">
+                        <button type="submit" class="g-butt-primary g-butt-xl g-m-t-20">Submit</button>
+                    </div>
+                </div>
+
+                <div id="errors"></div>
+
+                @Html.ValidationSummary()
+            </div>
+
+            <div id="result"></div>
+        }
+    </div>
+
+    @*<div class="isCustReturn g-d-n">
+            @Html.DropDownList("Resolution", Model.ResolutionListCR, "Select...", new { @class = "selectpicker" })
+        </div>
+        <div class="isNotCustReturn g-d-n">
+            @Html.DropDownList("Resolution", Model.ResolutionList, "Select...", new { @class = "selectpicker" })
+        </div>*@
+
+
+</section>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#return-form').trigger('reset');
+
+            $('#return-form').on('change',
+                '#ReturnReason',
+                function (event) {
+                    hideFormFields(1);
+                    $('.isCustReturn').hide().find('select').prop('disabled', true);
+                    $('.isNotCustReturn').hide().find('select').prop('disabled', true);
+                    switch ($('#ReturnReason').val()) {
+                        case 'Faulty':
+                        case 'Supplier Error':
+                        case 'Damaged Goods':
+                            // faulty
+                            // damaged in transit
+                            // picking error
+                            if ('@Session["U_Authenticated"]' == 'True') {
+                                $('#form-fields > .row:eq(3)').removeClass('g-d-n');
+                            } else {
+                                showFormFields(2);
+                            }
+                            $('.isNotCustReturn').show().find('select').prop('disabled', false);
+                            break;
+                        case 'Customer Return':
+                            // ordered by mistake
+                            // no longer required
+                            $('#form-fields > .row:eq(2)').removeClass('g-d-n');
+                            $('.isCustReturn').show().find('select').prop('disabled', false);
+                            break;
+                        default:
+                            hideFormFields(2);
+                    }
+                    $('#OrderNumber, #Resolution').prop('selectedIndex', -1);
+                    $('#OrderNumber, #Resolution').selectpicker('refresh');
+                });
+
+            $('#return-form').on('change',
+                '#Unopened',
+                function (event) {
+                    hideFormFields(2);
+                    if ('@Session["U_Authenticated"]' == 'True') {
+                        if ($('#Unopened').is(':checked')) {
+                            $('#form-fields > .row:eq(3)').removeClass('g-d-n');
+                        } else {
+                            $('#form-fields > .row:eq(3)').addClass('g-d-n');
+                        }
+                    } else {
+                        if ($('#Unopened').is(':checked')) {
+                            showFormFields(2);
+                        } else {
+                            hideFormFields(2);
+                        }
+                    }
+                });
+
+            $('#return-form').on('change',
+                '#OrderNumber',
+                function (event) {
+                    var orderNo = $('#OrderNumber').val() == "" ? "" : $('#OrderNumber').val();
+                    $.ajax({
+                        url: '/MyAccount/ReturnSelectOrder',
+                        dataType: 'json',
+                        traditional: true,
+                        type: 'POST',
+                        cache: false,
+                        data: {
+                            ordernumber: orderNo,
+                            reason: $('#ReturnReason').val()
+                        },
+                        async: false,
+                        success: function (data) {
+                            if (data.savereturn.Message != '') {
+                                $('#order-error').removeClass('g-d-n');
+                                $('#order-error > div').html(data.savereturn.Message);
+                            } else {
+                                $('#order-error').addClass('g-d-n');
+                                $('#order-error > div').empty();
+                            }
+                            if (data.savereturn.IsSuccess) {
+                                showFormFields(4);
+                                $('#return-items').removeClass('g-d-n');
+                                $('#return-items').empty();
+                                $('#return-items').html(data.savereturn.Html);
+                                if ($('#ReturnReason').val() == 'Customer Return' && data.savereturn.Message != "") {
+                                    $('#Resolution option[value="Refund"]').prop('disabled', 'disabled');
+                                    $('#Resolution option[value="Replacement"]').prop('disabled', 'disabled');
+                                } else {
+                                    $('#Resolution option[value="Refund"]').removeAttr('disabled');
+                                    $('#Resolution option[value="Replacement"]').removeAttr('disabled');
+                                }
+                                $('.selectpicker').selectpicker('refresh');
+                            } else {
+                                hideFormFields(4);
+                                $('#return-items').addClass('g-d-n');
+                                $('#return-items').empty();
+                            }
+                        },
+                        error: function (xhr, textStatus, thrownError) {
+                            logAjaxScriptError("/MyAccount/ReturnSelectOrder", xhr, textStatus, thrownError);
+                        }
+                    });
+                    $('#Resolution').prop('selectedIndex', -1);
+                    $('#Resolution').selectpicker('refresh');
+                });
+            });
+
+        function hideFormFields(x) {
+            $('#form-fields > .row:gt(' + x + ')').addClass('g-d-n');
+        }
+        function showFormFields(x) {
+            $('#form-fields > .row:gt(' + x + ')').removeClass('g-d-n');
+        }
+        function returnValidate() {
+            var isError = false;
+            $('#resolution-val').html('');
+            if ($('#Resolution').val() == '') {
+                $('#resolution-val').html('<-- Please select a resolution');
+                isError = true;
+            }
+
+            if ('@Session["U_Authenticated"]' == 'True') {
+                var itemselected = false;
+                $("[id^='Qty-']").each(function () {
+                    if ($(this).val() > 0) {
+                        itemselected = true;
+                    }
+                });
+                $('#returnitems-val').html('');
+                if (!itemselected) {
+                    $('#returnitems-val').html('Please select at least one item to return');
+                    isError = true;
+                }
+
+                $('#restockfeeconfirm-val').html('');
+                if ($('#RestockFeeConfirm').length) {
+                    if (!$('#RestockFeeConfirm').is(':checked')) {
+                        $('#restockfeeconfirm-val').html('<div class="g-p-5">Please confirm that you understand and accept the Restock Fee</div>');
+                        isError = true;
+                    }
+                }
+
+                $('#additionalinfo-val').html('');
+                if ($('#ReturnReason').val() == 'Faulty' && $('#AdditionalInfo').val() == '') {
+                    $('#additionalinfo-val').html('Please provide additional information about the fault');
+                    isError = true;
+                }
+            }
+
+            if ('@Session["U_Authenticated"]' == 'False') {
+                $('#fullname-val').html('');
+                if ($('#FullName').val() == '') {
+                    $('#fullname-val').html('Please enter your name');
+                    isError = true;
+                }
+                $('#postcode-val').html('');
+                if ($('#Postcode').val() == '') {
+                    $('#postcode-val').html('Please enter your postcode');
+                    isError = true;
+                }
+                $('#telno-val').html('');
+                if ($('#TelNo').val() == '') {
+                    $('#telno-val').html('Please enter your contact number');
+                    isError = true;
+                }
+                $('#manualordernumber-val').html('');
+                if ($('#ManualOrderNumber').val() == '') {
+                    $('#manualordernumber-val').html('Please enter your order number');
+                    isError = true;
+                }
+                $('#items-val').html('');
+                if ($('#Items').val() == '') {
+                    $('#items-val').html('Please enter details about the item(s) you wish to return');
+                    isError = true;
+                }
+                $('#additionalinfo-val').html('');
+                if ($('#ReturnReason').val() == 'Faulty' && $('#DetailsInfo').val() == '') {
+                    $('#additionalinfo-val').html('Please provide additional information about the fault');
+                    isError = true;
+                }
+            }
+            if (isError) {
+                return false;
+            }
+            return true;
+        }
+
+        function returnComplete() {
+            $('#form-fields').addClass('g-d-n');
+        }
+    </script>
+}
+
+@section StructuredData {
+    [
+    @Html.Raw(ViewBag.BreadcrumbJson)
+    ]
+}
+
+@section AddScript
+{
+    @Scripts.Render("~/bundles/productBundle.js")
+}

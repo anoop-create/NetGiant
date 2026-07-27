@@ -1,0 +1,115 @@
+﻿@using System.Configuration
+@using BusinessLogic.ViewModels;
+@using CommonUI.Models;
+@using Kendo.Mvc.UI
+
+@model WizardViewModel
+
+@Html.Hidden("cartridge-type-name", Model.CartridgeTypeName)
+    <div id="wiz-manufacturer-container" class="g-ps-r g-m-t-20-sm">
+        <span class="fa-stack g-fc-st hidden-xs hidden-sm hidden-md">
+            <i class="fa fa-circle-thin fa-stack-2x"></i>
+            <span class="fa-stack-1x in-text">1</span>
+        </span>
+        @if (!Model.IsMobile)
+        {
+
+            @(Html.Kendo().DropDownList()
+                        .Name("wiz-manufacturer")
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .Filter("contains")
+                        .BindTo(Model.WizDropDowns.ManufacturerList)
+                        .OptionLabel(new SelectListItem { Text = "Select Printer Manufacturer", Value = "" })
+                        .Events(e => e.Close("closeWizDropDown"))
+                        .Deferred()
+            )
+        }
+        else
+        {
+            @Html.DropDownList("wiz-manufacturer",
+                Model.WizDropDowns.ManufacturerList,
+                "Select Printer Manufacturer",
+                new { @class = "selectpicker", size = "auto", data_size = "8" })
+        }
+        <label for="wiz-manufacturer" class="g-d-n">Select Printer Manufacturer</label>
+        <div class="wiz-manufacturer-image hidden-xs hidden-sm hidden-md">
+            <img src="@ConfigurationManager.AppSettings["CDN"]/Images/BannerLogos/@(ViewBag.ManufacturerName).jpg" alt="manufacturer" onerror="this.src = '/Content/Images/1pxTrans.png'">
+        </div>
+    </div>
+    <div id="wiz-family-container">
+        <span class="fa-stack g-fc-st hidden-xs hidden-sm hidden-md">
+            <i class="fa fa-circle-thin fa-stack-2x"></i>
+            <span class="fa-stack-1x in-text">2</span>
+        </span>
+        @if (!Model.IsMobile)
+        {
+            @(Html.Kendo().DropDownList()
+                          .Name("wiz-family")
+                          .OptionLabel(new SelectListItem { Text = "Select Printer Family or Series", Value = "" })
+                          .DataTextField("Text")
+                          .DataValueField("Value")
+                          .Filter("contains")
+                          .DataSource(source =>
+                          {
+                              source.Read(read =>
+                              {
+                                  read.Action("ChangeManufacturerFamily", "Wizard")
+                                      .Data("filterFamily");
+                              })
+                              .ServerFiltering(true);
+                          })
+                          .Enable(false)
+                          .AutoBind(false)
+                          .CascadeFrom("wiz-manufacturer")
+                          .Events(e => e.Close("closeWizDropDown"))
+                          .Deferred()
+            )
+        }
+        else
+        {
+            @Html.DropDownList("wiz-family",
+               Model.WizDropDowns.FamilyList,
+               "Select Printer Family or Series",
+               new { @class = "selectpicker", size = "auto", data_size = "8" })
+        }
+        <label for="wiz-family" class="g-d-n">Select Printer Family</label>
+    </div>
+    <div id="wiz-equipment-container">
+        <span class="fa-stack g-fc-st hidden-xs hidden-sm hidden-md">
+            <i class="fa fa-circle-thin fa-stack-2x"></i>
+            <span class="fa-stack-1x in-text">3</span>
+        </span>
+        @if (!Model.IsMobile)
+        {
+            @(Html.Kendo().DropDownList()
+                    .Name("wiz-equipment")
+                    .OptionLabel(new SelectListItem { Text = "Select Printer Model", Value = "" })
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .Filter("contains")
+                    .DataSource(source =>
+                    {
+                        source.Read(read =>
+                        {
+                            read.Action("ChangeManufacturerEquip", "Wizard")
+                                .Data("filterEquipment");
+                        })
+                        .ServerFiltering(true);
+                    })
+                    .Enable(false)
+                    .AutoBind(false)
+                    .CascadeFrom("wiz-manufacturer")
+                    .Events(e => e.Close("closeWizDropDown"))
+                    .Deferred()
+            )
+        }
+        else
+        {
+            @Html.ExtdDropDownList("wiz-equipment",
+               Model.WizDropDowns.EquipList,
+               "Select Printer Model",
+               new { @class = "selectpicker", size = "auto", data_size = "8" })
+        }
+        <label for="wiz-equipment" class="g-d-n">Select Printer Model</label>
+    </div>

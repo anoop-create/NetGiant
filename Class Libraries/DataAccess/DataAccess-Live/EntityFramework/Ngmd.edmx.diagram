@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4c5c0a5665764e9fa181a07caba28147" Name="Diagram1" ZoomLevel="71">
+        <EntityTypeShape EntityType="NgmdEntities.cmsEntry" Width="1.5" PointX="7.5" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="NgmdEntities.cmsSection" Width="1.5" PointX="5.25" PointY="5.625" IsExpanded="true" />
+        <AssociationConnector Association="NgmdEntities.FK_cmsEntry_cmsSection" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="NgmdEntities.eqCartridgeType" Width="1.5" PointX="0.75" PointY="13" />
+        <EntityTypeShape EntityType="NgmdEntities.eqEquipment" Width="1.5" PointX="3" PointY="14.5" />
+        <EntityTypeShape EntityType="NgmdEntities.eqFamily" Width="1.5" PointX="3" PointY="11.25" />
+        <EntityTypeShape EntityType="NgmdEntities.eqFamilyMembership" Width="1.5" PointX="5.25" PointY="13.375" />
+        <EntityTypeShape EntityType="NgmdEntities.eqProductMembership" Width="1.5" PointX="10.5" PointY="19.75" />
+        <EntityTypeShape EntityType="NgmdEntities.equipmentNote" Width="1.5" PointX="5.25" PointY="16.25" />
+        <AssociationConnector Association="NgmdEntities.FK_eqEquipment_eqCartridgeType" />
+        <AssociationConnector Association="NgmdEntities.FK_eqMapping_eqEquipment" />
+        <AssociationConnector Association="NgmdEntities.FK_eqMembership_eqEquipment" />
+        <AssociationConnector Association="NgmdEntities.FK_equipmentNotes_eqEquipmentFK" />
+        <AssociationConnector Association="NgmdEntities.FK_eqMapping_eqFamily" />
+        <EntityTypeShape EntityType="NgmdEntities.equipmentStatu" Width="1.5" PointX="0.75" PointY="19.75" />
+        <EntityTypeShape EntityType="NgmdEntities.manufacturer" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="NgmdEntities.manufacturerNote" Width="1.5" PointX="10.25" PointY="5.5" />
+        <EntityTypeShape EntityType="NgmdEntities.qa_Granularity" Width="1.5" PointX="5.25" PointY="27.875" />
+        <EntityTypeShape EntityType="NgmdEntities.qa_Main" Width="1.5" PointX="7.5" PointY="18.5" />
+        <EntityTypeShape EntityType="NgmdEntities.qa_WebsiteMapping" Width="1.5" PointX="12.75" PointY="19.75" />
+        <AssociationConnector Association="NgmdEntities.FK_manufacturerNotes_eqCartridgeTypeFK" />
+        <AssociationConnector Association="NgmdEntities.FK_eqEquipment_equipmentStatus" />
+        <AssociationConnector Association="NgmdEntities.FK_eqEquipment_manufacturer" />
+        <AssociationConnector Association="NgmdEntities.FK_qa_Main_eqEquipment" />
+        <AssociationConnector Association="NgmdEntities.FK_eqFamily_manufacturer" />
+        <AssociationConnector Association="NgmdEntities.FK_manufacturerNotes_manufacturerFK" />
+        <AssociationConnector Association="NgmdEntities.FK_Main_GranualityFK" />
+        <AssociationConnector Association="NgmdEntities.FK_WebsiteMapping_QuestionAnswerFK" />
+        <EntityTypeShape EntityType="NgmdEntities.AxisField" Width="1.5" PointX="7.5" PointY="29.25" />
+        <EntityTypeShape EntityType="NgmdEntities.AxisFieldsAdditional" Width="1.5" PointX="9.75" PointY="30.5" />
+        <EntityTypeShape EntityType="NgmdEntities.categoryCode" Width="1.5" PointX="5.25" PointY="30.875" />
+        <EntityTypeShape EntityType="NgmdEntities.crossSellingLink" Width="1.5" PointX="10.5" PointY="22.625" />
+        <EntityTypeShape EntityType="NgmdEntities.crossSellingLinkType" Width="1.5" PointX="8.25" PointY="10" />
+        <EntityTypeShape EntityType="NgmdEntities.feefoFeedback" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="NgmdEntities.product" Width="1.5" PointX="5.25" PointY="20.625" />
+        <EntityTypeShape EntityType="NgmdEntities.productGroup" Width="1.5" PointX="3" PointY="22.625" />
+        <EntityTypeShape EntityType="NgmdEntities.productPrice" Width="1.5" PointX="9.75" PointY="13.125" />
+        <EntityTypeShape EntityType="NgmdEntities.productStatu" Width="1.5" PointX="3" PointY="29" />
+        <EntityTypeShape EntityType="NgmdEntities.productSubStatu" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="NgmdEntities.productType" Width="1.5" PointX="0.75" PointY="16.25" />
+        <EntityTypeShape EntityType="NgmdEntities.salesAreaGroup" Width="1.5" PointX="3" PointY="26.375" />
+        <EntityTypeShape EntityType="NgmdEntities.Website" Width="1.5" PointX="3" PointY="6.75" />
+        <EntityTypeShape EntityType="NgmdEntities.websiteInventory" Width="1.5" PointX="7.5" PointY="24.375" />
+        <AssociationConnector Association="NgmdEntities.FK_AxisFields_product" />
+        <AssociationConnector Association="NgmdEntities.FK_AxisFieldsAdditional_AxisFieldsAdditional" />
+        <AssociationConnector Association="NgmdEntities.FK_categoryCode_categoryCode" />
+        <AssociationConnector Association="NgmdEntities.FK_websiteInventory_categoryCode" />
+        <AssociationConnector Association="NgmdEntities.FK_cmsSeries_Website" />
+        <AssociationConnector Association="NgmdEntities.FK_crossSellingLink_crossSellingLinkType" />
+        <AssociationConnector Association="NgmdEntities.FK_crossSellingLink_product" />
+        <AssociationConnector Association="NgmdEntities.FK_crossSellingLink_product1" />
+        <AssociationConnector Association="NgmdEntities.FK_eqEquipment_product" />
+        <AssociationConnector Association="NgmdEntities.FK_eqEquipment_productType" />
+        <AssociationConnector Association="NgmdEntities.FK_eqMembership_product" />
+        <AssociationConnector Association="NgmdEntities.FK_equipmentNotes_websiteFK" />
+        <AssociationConnector Association="NgmdEntities.FK_manufacturerNotes_websiteFK" />
+        <AssociationConnector Association="NgmdEntities.FK_product_productGroupFK" />
+        <AssociationConnector Association="NgmdEntities.FK_product_productStatusFK" />
+        <AssociationConnector Association="NgmdEntities.FK_product_salesAreaGroupFK" />
+        <AssociationConnector Association="NgmdEntities.FK_qa_Main_product" />
+        <AssociationConnector Association="NgmdEntities.FK_websiteInventory_productFK" />
+        <AssociationConnector Association="NgmdEntities.FK_productGroup_productTypeFK" />
+        <AssociationConnector Association="NgmdEntities.FK_productPrice_websiteInventory" />
+        <AssociationConnector Association="NgmdEntities.FK_WebsiteMapping_WebsiteFK" />
+        <AssociationConnector Association="NgmdEntities.FK_websiteInventory_websiteFK" />
+        <EntityTypeShape EntityType="NgmdEntities.configurationSetting" Width="1.5" PointX="5.25" PointY="9.5" />
+        <AssociationConnector Association="NgmdEntities.FK_configurationSetting_Website" />
+        <EntityTypeShape EntityType="NgmdEntities.SagePayToken" Width="1.5" PointX="10.375" PointY="0.75" />
+        <EntityTypeShape EntityType="NgmdEntities.SagePayTransaction" Width="1.5" PointX="12.375" PointY="0.75" />
+        <EntityTypeShape EntityType="NgmdEntities.Log" Width="1.5" PointX="5.25" PointY="35.75" />
+        <AssociationConnector Association="NgmdEntities.FK_Log_Website" />
+        <EntityTypeShape EntityType="NgmdEntities.passwordReset" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="NgmdEntities.ds_attributeView" Width="1.5" PointX="10.375" PointY="9.75" />
+        <AssociationConnector Association="NgmdEntities.FK_cmsEntry_cmsEntry" />
+        <EntityTypeShape EntityType="NgmdEntities.dataSupplierOverride" Width="1.5" PointX="12.375" PointY="7.75" />
+        <EntityTypeShape EntityType="NgmdEntities.or_mediaLinks" Width="1.5" PointX="12.375" PointY="10.75" />
+        <EntityTypeShape EntityType="NgmdEntities.or_products" Width="1.5" PointX="14.375" PointY="0.75" />
+        <EntityTypeShape EntityType="NgmdEntities.deliveryLookup" Width="1.5" PointX="7.5" PointY="42.375" />
+        <EntityTypeShape EntityType="NgmdEntities.deliveryService" Width="1.5" PointX="5.25" PointY="40.5" />
+        <EntityTypeShape EntityType="NgmdEntities.deliveryZone" Width="1.5" PointX="4.75" PointY="44.625" />
+        <AssociationConnector Association="NgmdEntities.FK_deliveryLookup_deliveryLookup" />
+        <AssociationConnector Association="NgmdEntities.FK_deliveryLookup_deliveryZone" />
+        <AssociationConnector Association="NgmdEntities.FK_DeliveryService_Website" />
+        <AssociationConnector Association="NgmdEntities.FK_deliveryZone_Website" />
+        <EntityTypeShape EntityType="NgmdEntities.obsoleteItem" Width="1.5" PointX="5.25" PointY="48.625" />
+        <AssociationConnector Association="NgmdEntities.FK_obsoleteItem_Website" />
+        <AssociationConnector Association="NgmdEntities.FK_categoryCode_websiteFK" />
+        <EntityTypeShape EntityType="NgmdEntities.productItemType" Width="1.5" PointX="14.375" PointY="5.875" />
+        <AssociationConnector Association="NgmdEntities.FK_product_productItemType" />
+        <EntityTypeShape EntityType="NgmdEntities.PortalIndex" Width="1.5" PointX="5.25" PointY="52.125" />
+        <AssociationConnector Association="NgmdEntities.FK_PortalIndex_Website" />
+        <EntityTypeShape EntityType="NgmdEntities.VoucherPromo" Width="1.5" PointX="12.5" PointY="30.875" />
+        <EntityTypeShape EntityType="NgmdEntities.VoucherPromoGroup" Width="1.5" PointX="5.25" PointY="57.375" />
+        <EntityTypeShape EntityType="NgmdEntities.VoucherPromoGroupMapping" Width="1.5" PointX="7.5" PointY="46.25" />
+        <EntityTypeShape EntityType="NgmdEntities.VoucherType" Width="1.5" PointX="10.25" PointY="27.375" />
+        <AssociationConnector Association="NgmdEntities.FK_VoucherPromoGroupMapping_CategoryCode" />
+        <AssociationConnector Association="NgmdEntities.FK_VoucherPromo_VoucherPromoGroup" />
+        <AssociationConnector Association="NgmdEntities.FK_VoucherPromo_VoucherType" />
+        <AssociationConnector Association="NgmdEntities.FK_VoucherPromo_Website" />
+        <AssociationConnector Association="NgmdEntities.FK_VoucherPromoGroup_Website" />
+        <AssociationConnector Association="NgmdEntities.FK_VoucherPromoGroupMapping_VoucherPromoGroup" />
+        <EntityTypeShape EntityType="NgmdEntities.secondaryCategoryLookup" Width="1.5" PointX="12.75" PointY="27.75" />
+        <AssociationConnector Association="NgmdEntities.FK_secondaryCategoryLookup_categoryCode" />
+        <AssociationConnector Association="NgmdEntities.FK_secondaryCategoryLookup_websiteInventory" />
+        <AssociationConnector Association="NgmdEntities.FK_product_product" />
+        <EntityTypeShape EntityType="NgmdEntities.JsonStore" Width="1.5" PointX="14.375" PointY="8.75" />
+        <EntityTypeShape EntityType="NgmdEntities.productImage" Width="1.5" PointX="9.75" PointY="37" />
+        <AssociationConnector Association="NgmdEntities.FK_productImage_websiteInventory" />
+        <EntityTypeShape EntityType="NgmdEntities.favouritePrinter" Width="1.5" PointX="14.375" PointY="11.75" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

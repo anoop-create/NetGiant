@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CustomerDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="AccountId" />
+    </Key>
+    <Property Name="AccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerFk" Type="Int32" Nullable="false" />
+    <Property Name="StatusId" Type="Int16" Nullable="false" />
+    <Property Name="OrganisationTypeId" Type="Int16" Nullable="false" />
+    <Property Name="SectorId" Type="Int16" Nullable="false" />
+    <Property Name="TradingName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="ContactName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ContactEmailAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ContactTelephoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="TotalStaffCountId" Type="Int16" Nullable="false" />
+    <Property Name="OrderStaffCountId" Type="Int16" Nullable="false" />
+    <Property Name="EstMonthlySpend" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CreditLimit" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CompanyRegNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CompanyVatNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="AcceptStandardTerms" Type="Boolean" Nullable="false" />
+    <Property Name="AcceptCreditTerms" Type="Boolean" Nullable="false" />
+    <Property Name="DateOfApplication" Type="DateTime" Precision="3" />
+    <Property Name="DateLastUpdated" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_Account_Customer" FromRole="Account" ToRole="Customer" />
+    <NavigationProperty Name="Lookup" Relationship="Self.FK_Account_Lookup" FromRole="Account" ToRole="Lookup" />
+    <NavigationProperty Name="Lookup1" Relationship="Self.FK_Account_Lookup1" FromRole="Account" ToRole="Lookup" />
+    <NavigationProperty Name="Lookup2" Relationship="Self.FK_Account_Lookup2" FromRole="Account" ToRole="Lookup" />
+    <NavigationProperty Name="Lookup3" Relationship="Self.FK_Account_Lookup3" FromRole="Account" ToRole="Lookup" />
+    <NavigationProperty Name="Lookup4" Relationship="Self.FK_Account_Lookup4" FromRole="Account" ToRole="Lookup" />
+    <Property Name="FirstOrderRef" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="FirstOrderAmt" Type="Decimal" Precision="19" Scale="4" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="WebsiteFk" Type="Int32" Nullable="false" />
+    <Property Name="AccountNumber" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CustomerTypeId" Type="Int16" Nullable="false" />
+    <Property Name="OriginalEmailAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Accounts" Relationship="Self.FK_Account_Customer" FromRole="Customer" ToRole="Account" />
+    <NavigationProperty Name="Lookup" Relationship="Self.FK_Customer_Lookup" FromRole="Customer" ToRole="Lookup" />
+    <NavigationProperty Name="Billings" Relationship="CustomerDataModel.FK_Billing_Customer" FromRole="Customer" ToRole="Billing" />
+  </EntityType>
+  <EntityType Name="Lookup">
+    <Key>
+      <PropertyRef Name="LookupID" />
+    </Key>
+    <Property Name="LookupID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LookupTypeFK" Type="Int32" />
+    <Property Name="LookupName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Sequence" Type="Int16" />
+    <NavigationProperty Name="Accounts" Relationship="Self.FK_Account_Lookup" FromRole="Lookup" ToRole="Account" />
+    <NavigationProperty Name="Accounts1" Relationship="Self.FK_Account_Lookup1" FromRole="Lookup" ToRole="Account" />
+    <NavigationProperty Name="Accounts2" Relationship="Self.FK_Account_Lookup2" FromRole="Lookup" ToRole="Account" />
+    <NavigationProperty Name="Accounts3" Relationship="Self.FK_Account_Lookup3" FromRole="Lookup" ToRole="Account" />
+    <NavigationProperty Name="Accounts4" Relationship="Self.FK_Account_Lookup4" FromRole="Lookup" ToRole="Account" />
+    <NavigationProperty Name="Customers" Relationship="Self.FK_Customer_Lookup" FromRole="Lookup" ToRole="Customer" />
+    <NavigationProperty Name="LookupType" Relationship="Self.FK_Lookup_LookupType" FromRole="Lookup" ToRole="LookupType" />
+  </EntityType>
+  <EntityType Name="LookupType">
+    <Key>
+      <PropertyRef Name="LookupTypeID" />
+    </Key>
+    <Property Name="LookupTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LookupTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Lookups" Relationship="Self.FK_Lookup_LookupType" FromRole="LookupType" ToRole="Lookup" />
+  </EntityType>
+  <EntityType Name="WebsiteView">
+    <Key>
+      <PropertyRef Name="WebsiteID" />
+      <PropertyRef Name="WebsiteName" />
+      <PropertyRef Name="WebURL" />
+      <PropertyRef Name="dateLastUpdate" />
+    </Key>
+    <Property Name="WebsiteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="WebsiteName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="WebURL" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FriendlyName" Type="String" MaxLength="55" FixedLength="false" Unicode="false" />
+    <Property Name="dateLastUpdate" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <Association Name="FK_Account_Customer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="Account" Type="Self.Account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="Account">
+        <PropertyRef Name="CustomerFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Account_Lookup">
+    <End Role="Lookup" Type="Self.Lookup" Multiplicity="1" />
+    <End Role="Account" Type="Self.Account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="Account">
+        <PropertyRef Name="OrderStaffCountId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Account_Lookup1">
+    <End Role="Lookup" Type="Self.Lookup" Multiplicity="1" />
+    <End Role="Account" Type="Self.Account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="Account">
+        <PropertyRef Name="OrganisationTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Account_Lookup2">
+    <End Role="Lookup" Type="Self.Lookup" Multiplicity="1" />
+    <End Role="Account" Type="Self.Account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="Account">
+        <PropertyRef Name="SectorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Account_Lookup3">
+    <End Role="Lookup" Type="Self.Lookup" Multiplicity="1" />
+    <End Role="Account" Type="Self.Account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="Account">
+        <PropertyRef Name="StatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Account_Lookup4">
+    <End Role="Lookup" Type="Self.Lookup" Multiplicity="1" />
+    <End Role="Account" Type="Self.Account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="Account">
+        <PropertyRef Name="TotalStaffCountId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Customer_Lookup">
+    <End Role="Lookup" Type="Self.Lookup" Multiplicity="1" />
+    <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="Customer">
+        <PropertyRef Name="CustomerTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Lookup_LookupType">
+    <End Role="LookupType" Type="Self.LookupType" Multiplicity="0..1" />
+    <End Role="Lookup" Type="Self.Lookup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LookupType">
+        <PropertyRef Name="LookupTypeID" />
+      </Principal>
+      <Dependent Role="Lookup">
+        <PropertyRef Name="LookupTypeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="customerData" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Accounts" EntityType="Self.Account" />
+    <EntitySet Name="Customers" EntityType="Self.Customer" />
+    <EntitySet Name="Lookups" EntityType="Self.Lookup" />
+    <EntitySet Name="LookupTypes" EntityType="Self.LookupType" />
+    <EntitySet Name="WebsiteViews" EntityType="Self.WebsiteView" />
+    <AssociationSet Name="FK_Account_Customer" Association="Self.FK_Account_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Account" EntitySet="Accounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Account_Lookup" Association="Self.FK_Account_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="Account" EntitySet="Accounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Account_Lookup1" Association="Self.FK_Account_Lookup1">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="Account" EntitySet="Accounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Account_Lookup2" Association="Self.FK_Account_Lookup2">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="Account" EntitySet="Accounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Account_Lookup3" Association="Self.FK_Account_Lookup3">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="Account" EntitySet="Accounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Account_Lookup4" Association="Self.FK_Account_Lookup4">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="Account" EntitySet="Accounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Customer_Lookup" Association="Self.FK_Customer_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="Customer" EntitySet="Customers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Lookup_LookupType" Association="Self.FK_Lookup_LookupType">
+      <End Role="LookupType" EntitySet="LookupTypes" />
+      <End Role="Lookup" EntitySet="Lookups" />
+    </AssociationSet>
+    <EntitySet Name="Billings" EntityType="CustomerDataModel.Billing" />
+    <AssociationSet Name="FK_Billing_Customer" Association="CustomerDataModel.FK_Billing_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Billing" EntitySet="Billings" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Billing">
+    <Key>
+      <PropertyRef Name="BillingId" />
+    </Key>
+    <Property Name="BillingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerFk" Type="Int32" Nullable="false" />
+    <Property Name="ContactName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="ContactEmailAddress" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="ContactTelephoneNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="AddressLine1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="AddressLine2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="AddressLine3" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="AddressLine4" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="AddressLine5" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="PostCode" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Country" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Customer" Relationship="CustomerDataModel.FK_Billing_Customer" FromRole="Billing" ToRole="Customer" />
+    <Property Name="DirectDebit" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Billing_Customer">
+    <End Type="CustomerDataModel.Customer" Role="Customer" Multiplicity="1" />
+    <End Type="CustomerDataModel.Billing" Role="Billing" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="Billing">
+        <PropertyRef Name="CustomerFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

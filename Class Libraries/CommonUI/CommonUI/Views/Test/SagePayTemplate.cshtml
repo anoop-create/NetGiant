@@ -1,0 +1,43 @@
+﻿@using System.Configuration
+@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using CommonUI.Models
+
+@{
+    ViewBag.Title = "SagePayTemplate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model HomeViewModel
+
+<h2>SagePayTemplate</h2>
+
+<div id="page-content" class="comm-content g-bc-p g-p-b-100">
+    <div class="container body-content g-ps-r">
+        <div class="row g-m-t-20">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="input-group g-w-100p pull-right">
+                        <input id="filename" name="filename" type="text" placeholder="File Name" class="form-control pull-right" value="card_details_low.html">
+                        <span class="input-group-btn">
+                            <button class="doit g-butt-primary g-butt-lg g-fs-n" type="submit">Done</button>
+                        </span>
+                    </div>
+
+                    <div class="row g-flex-vcenter">
+                        <iframe id="SagePayIFrame" width="100%" height="680" frameborder="0" src=""></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).on('click',
+        '.doit',
+        function () {
+            $('#SagePayIFrame').prop('src', '/data/local-static-files/' + $('#filename').val());
+        });
+</script>
+

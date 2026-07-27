@@ -1,0 +1,177 @@
+﻿@using System.Configuration
+@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using CommonUI.Models
+
+@model HomeViewModel
+
+@section AddTags {
+    <link rel="canonical" href="https://@(Model.DomainNameTrunc)/" />
+}
+
+<section id="loadbg" class="" data-stellar-background-ratio="0.5" data-stellar-ratio="1" data-bgimg="@Html.RawFromDict(Model.WizardData, "FeatureBackground")">
+    <div class="container body-content">
+        <div class="row">
+            @{
+                <div class="col-lg-6">
+                    @{
+                        Html.RenderPartial("~/Views/Equipment/Wizard.cshtml", Model);
+                    }
+                </div>
+
+                if (Authentication.IsAuthenticated())
+                {
+                    <div class="col-lg-6 visible-lg">
+                        @{
+                            Html.RenderPartial("~/Views/Home/CustomerSummary.cshtml", Model);
+                        }
+                    </div>
+                }
+                else
+                {
+                    if (!Model.IsMobile)
+                    {
+                        <div class="col-lg-6 hm-wizmsg g-flex-allcenter hidden-xs hidden-sm hidden-md">
+                            @((Model.IsCompatibleSaleActive || Model.IsOEMSaleActive || Model.IsStationerySaleActive) ? Html.RawFromDict(Model.SaleData, "WizardMessage") : Html.RawFromDict(Model.HomeData, "WizardMessage"))
+                        </div>
+                    }
+                }
+            }
+
+        </div>
+    </div>
+</section>
+
+<div class="g-bc-p g-p-b-100">
+    <div class="container g-bc-p g-ps-r">
+        <div class="row g-m-t-40"></div>
+        @Html.RawFromDict(Model.HomeData, "SpecialOffers")
+
+        @if (int.Parse(ConfigurationManager.AppSettings["WebsiteId"]) != 3)
+        {
+            <div class="row g-m-t-20">
+                <div class="col-md-12">
+                    <h2>Shop Ink & Toner Cartridges by Printer Brand</h2>
+                    <div class="g-ps-r hm-brandWizard text-center">
+                        @Html.RawFromDict(Model.HomeData, "BrandWizard")
+                    </div>
+                </div>
+            </div>
+
+            <hr class="g-m-t-60 g-m-b-20" />
+
+            <div class="row">
+                @Html.RawFromDict(Model.HomeData, "Confidence")
+            </div>
+
+            <div class="row g-m-t-20 hm-our-services">
+                <div class="col-md-12">
+                    <h2>@(int.Parse(ConfigurationManager.AppSettings["WebsiteId"]) == 1 ? "Trusted Support for Home & Business Printing" : "Trusted Printing Support for Home & Business")</h2>
+                    <div class="g-ps-r row">
+                        @Html.RawFromDict(Model.HomeData, "ServiceMessages")
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!Model.IsMobile)
+        {
+            <hr class="g-m-t-60 g-m-b-20 hidden-xs" />
+        }
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Ink & Toner for @(int.Parse(ConfigurationManager.AppSettings["WebsiteId"]) == 1 ? "Your Printer With Next Day Delivery" : "Popular Printer Models")</h2>
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div id="pop-printers" class="col-md-8">
+                        @{
+                            Html.RenderPartial("~/Views/Equipment/PopularPrinters.cshtml", Model);
+                        }
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="hm-pp-notes g-f-l">
+                            @Html.RawFromDict(Model.WizardData, "PopularPrintersText")
+                        </div>
+                        <div class="g-c-b"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="g-m-t-60 g-m-b-20" />
+
+        @*@{
+                throw new Exception("Custom error");
+            }*@
+
+        @if (!Model.IsMobile)
+        {
+            if (Model.BlogFeed != null && Convert.ToBoolean(Model.HomeData["ShowBlog"]))
+            {
+                <div class="row hidden-xs">
+                    <div class="col-md-12">
+                        <div class="clearfix">
+                            <h2>@(int.Parse(ConfigurationManager.AppSettings["WebsiteId"]) == 1 ? "Latest Printer & Printing Guides" : "Printer News, Tips & Buying Advice")</h2>
+                            <div class="pull-right">
+                                <a href="/blog/" class="btn g-butt-second-reg g-butt-lg-2">More News</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        @{
+                            Html.RenderPartial("BlogFeed", Model);
+                        }
+                    </div>
+                </div>
+
+                <hr class="g-m-t-60 g-m-b-20 hidden-xs" />
+            }
+        }
+
+        @if (!Model.IsMobile)
+        {
+            <div class="row g-m-t-10 g-m-b-40 hidden-xs">
+                <div class="col-md-12">
+                    @Html.RawFromDict(Model.HomeData, "Testimonials")
+                </div>
+            </div>
+
+            <hr class="g-m-t-60 g-m-b-20 hidden-xs" />
+
+            <div class="row g-m-t-10 g-m-b-40 hidden-xs">
+                @Html.RawFromDict(Model.HomeData, "HelpfulGuides")
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function() {
+            @if (TempData["VoucherSR"] != null)
+            {
+                SaveReturn sr = (SaveReturn) TempData["VoucherSR"];
+
+                @:$.confirm({ title: 'Voucher Code', content: '@Html.Raw(sr.Html)', buttons: { somethingElse: { text: 'Okay' } }, backgroundDismiss: true });
+            }
+        });
+    </script>
+}
+
+@section StructuredData {
+    [
+    @Html.Raw(ViewBag.BreadcrumbJson)
+    ,
+    @Html.RawFromDict(Model.CommonData, "Nap")
+    ]
+}
+
+@section AddScript
+{
+    @Scripts.Render("~/bundles/wizardBundle.js")
+}

@@ -1,0 +1,114 @@
+﻿@using BusinessLogic.ViewModels;
+@using CommonUI.Models;
+@using System.Web.Optimization
+
+@model ErrorViewModel
+
+<!--
+//******** Error Numbers *******//
+// 100  -  599 HTTP Error Codes //
+// 1000 - 1099 Sage Pay Error   //
+// 1001 - Registration Failed   //
+// 1002 - Notification Failed   //
+// 2000 - 2099 PayPal Error     //
+// 9000        Maintenace Mode  //
+//******** Error Numbers *******//
+-->
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, follow">
+    <title>@Model.ErrorDescription</title>
+    @Scripts.Render("~/bundles/jqueryBundle.js")
+    @Styles.Render("~/Content/cssBundle.css")
+</head>
+<body>
+    <div class="error-container">
+        <section id="loadbg" style="background-image: url('@Html.RawFromDict(Model.CommonData, "FeatureBackground")'">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 comm-title-banner g-fc-st text-center">
+                        <h1 class="g-fw-b g-p-t-60">OOPS!</h1>
+                        <h2 class="g-fw-b">@Model.ErrorDescription</h2>
+                        <div class="g-m-t-20">@Model.ErrorDetail</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="errorHelp" class="error-help">
+            <div class="container">
+                <div class="row g-m-b-80">
+                    <div class="error-links">
+                        <div class="col-md-12 g-fs-lg g-i g-m-b-30 g-fw-b text-center">
+                            Maybe you were trying to find...
+                        </div>
+                        @Html.RawFromDict(Model.ErrorData, "ErrorLinks")
+                    </div>
+                </div>
+                <hr class="g-w-50p" />
+                <div class="col-md-12 g-fs-lg g-i g-m-b-20 g-m-t-60 g-fw-b text-center">
+                    Can't find what you're looking for?
+                </div>
+                <div class="col-md-12 g-fs-lg g-i g-fw-b text-center">
+                    Call <span class="g-fw-n">@Html.RawFromDict(Model.CommonData, "TelephoneNumber")</span>
+                </div>
+                <div class="col-md-12 g-fs-lg g-i g-fw-b text-center">
+                    or
+                </div>
+                <div class="col-md-12 g-fs-lg g-i g-fw-b g-p-b-60 text-center">
+                    Email <span class="g-fw-n"><a href="mailto:@Html.RawFromDict(Model.CommonData, "SupportEmail")">@Html.RawFromDict(Model.CommonData, "SupportEmail")</a></span>
+                </div>
+                <div class="col-md-12">
+                    <div class="text-center g-fs-xs g-m-b-20">
+                        @{
+                            Dictionary<string, string> replacements = new Dictionary<string, string>();
+                            replacements.Add("[Year]", DateTime.Now.Year.ToString());
+                        }
+                        @(Html.RawFromDict(Model.ErrorData, "Copyright", replacements))
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="/Scripts/jquery-confirm.js"></script>
+    <script type="text/javascript">
+
+        // Set the errorHelp section height so that it fills the screen, should the screen be large enough.
+        // Otherwise, do nothing and allow a scrollbar to appear.
+        var containerEndPosition = (document.getElementById('errorHelp').getBoundingClientRect().top) + (document.getElementById('errorHelp').offsetHeight);
+        var windowHeight = document.body.clientHeight;
+
+        if (containerEndPosition < windowHeight) {
+            var errorHelpHeight = document.getElementById('errorHelp').offsetHeight;
+            document.getElementById('errorHelp').style.height = errorHelpHeight + (windowHeight - containerEndPosition)
+        }
+
+        if (!!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/) === false) {
+            if (window.history && window.history.pushState) {
+                $(window).on('popstate',
+                    function () {
+                        var hashLocation = location.hash;
+                        var hashSplit = hashLocation.split("#!/");
+                        var hashName = hashSplit[1];
+
+                        if (hashName !== '') {
+                            var hash = window.location.hash;
+                            if (hash === '') {
+                                $.alert({
+                                    title: 'Whoops!',
+                                    content: 'You clicked the back button. This might have unintended consequences, we highly recommend that you use the on screen menu\'s instead.'
+                                });
+                                window.history.pushState('forward', 'Home Page', '/');
+                            }
+                        }
+                    });
+
+                window.history.pushState('forward', 'Home Page', '/');
+            }
+        }
+    </script>
+</body>
+</html>
+
+

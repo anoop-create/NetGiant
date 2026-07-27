@@ -1,0 +1,710 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EB047C3E-145C-4C31-8470-5CA9F6B37976}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataAccess</RootNamespace>
+    <AssemblyName>DataAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\UI\CartridgeMonkey\CM-Ecommerce-Beta\CM-Ecommerce-Website\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\UI\CartridgeMonkey\CM-Ecommerce-Beta\CM-Ecommerce-Website\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\UI\CartridgeMonkey\CM-Ecommerce-Beta\CM-Ecommerce-Website\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ADO\ProductDataAccess.cs" />
+    <Compile Include="Entities\ProductEntity.cs" />
+    <Compile Include="EntityExtensions.cs" />
+    <Compile Include="EntityFramework\Account.cs">
+      <DependentUpon>CustomerContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\actionLink.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\AmazonPayLog.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\assemblyComponent.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\AxisEbusiness.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\AxisEbusinessMapping.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\AxisField.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\AxisFieldsAdditional.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\AXISGroups.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\AxisPriceView.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\axisPricingHistory.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\AXISQueue.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\AXISQueueDetails.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\AxisTypeLookup.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\AxisTypeName.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\AxisValueLookup.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\BackOrder.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\BackOrderItem.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\BatchLog.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\BatchLogDetail.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\Billing.cs">
+      <DependentUpon>CustomerContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\CampaignTracking.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\categoryAttribute.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\categoryCode.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\cmsEntry.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\cmsSection.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\configurationSetting.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\crossSellingLink.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\Customer.cs">
+      <DependentUpon>CustomerContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\CustomerContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomerContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\CustomerContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomerContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\CustomerContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomerContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\dataSupplier.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\dataSupplierOverride.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\DeleteTable.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\deliveryLookup.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\deliveryService.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\deliverySupplierCode.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\deliveryZone.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ds_attributeView.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ds_productView.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ds_searchableView.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\eqEquipment.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\eqFamily.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\eqFamilyMembership.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\eqProductMembership.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\equipmentNote.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\Event.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\EventMapping.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\exportFieldLookup.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\Faq.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\favouritePrinter.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\feefoFeedback.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\fieldMapping.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\filterableAttribute.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\fnSplit_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\FraudCriteria.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ftpDetails.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GATransaction.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetAllQuestionAnswers_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetAmazonPayTransactions_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetBestSellers_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetCategoryBestSellers_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetChildCategories_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetCMSSection_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetConfigSettings_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetEquipmentData_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetEquipmentDropDownData_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetFacebookFeed_Product_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetFavouritePrinters_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetGoogleFeed_Product_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetImages_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetITData_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetMailChimpFeed_Product_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetManuFamily_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetMetaData_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetMissingImages_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetObsoleteItem_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetOpayoTransactions_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetOrderDetails_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetOrderDetail_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetPayPalTransactions_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetPimberlyFeed_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetPopularPrinters_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetPriceologyAssemblySupplierFeed_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetPriceologyCompetitorFeed_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetPriceologyProductFeed_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetPriceologySupplierFeed_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetPrice_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetPrinter3Equip_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetPrinter3Results_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetPrintersForProducts_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetProductComponents_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetProductEquipment_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetProductFeedback_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetProductFromAxisRef_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetProductImages_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetProductMetaData_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetProductPDFs_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetProductPrices_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetProductResults_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetProductSuppliers_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetQAList_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetSagePayTransactions_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetSearchResults_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetSiteMapsData_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetSkuuudleFeed_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetSpecificationAttributes_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetSummaryData_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetXSells_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\googleProductCategory.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\IcImage.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\interimManufacturer.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\InterimOrder.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\interimProductOverride.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\JobStatus.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\JsonStore.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ListCategoryCodes_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\Log.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\LookupCust.cs">
+      <DependentUpon>CustomerContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\LookupNgmd.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\LookupTypeCust.cs">
+      <DependentUpon>CustomerContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\LookupTypeNgmd.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\LookupTypeView.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\LookupView.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\MailingList.cs">
+      <DependentUpon>CustomerContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\manufacturer.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\manufacturerNote.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\McCartData.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\McOrderData.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\mfpnExtensions.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\Ngmd.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Ngmd.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\Ngmd.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\Ngmd.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Ngmd.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ng_attributes.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ng_features.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ng_FreshRelevance_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ng_products.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ng_searchables.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\obsoleteItem.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\OpayoLog.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\OrderTracking.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\overrideType.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\passwordReset.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\PayPalLog.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\pim_attributes.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\pim_attributesView.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\pim_mediaLinks.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\pim_products.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\PMSAxisPriceDifference.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\PortalIndex.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\potentialNewProducts.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\PriceCompView.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\priorityProvider.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\product.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\productGroup.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\productImage.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ProductImagesView.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\productOverride.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\productPrice.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\promotionalGroup.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\provider.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\providerInventory.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\providerPrice.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\qa_EmailSent.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\qa_Granularity.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\qa_Main.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\qa_WebsiteMapping.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\richTempPaper.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\richTempPrinters.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\SagePayListTokens_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\SagePayToken.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\SagePayTransaction.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\salesAreaGroup.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\SalesforceBatchJob.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\SaveQuestionAnswer_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\SearchQuestion_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\secondaryCategoryLookup.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\skuMapping.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\sp_BlitzCache_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\StringSplit_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\supplierManuMapping.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\unwantedProducts.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\VoucherPromo.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\VoucherPromoGroup.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\VoucherPromoGroupMapping.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\Website.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\websiteInventory.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\WebsiteView.cs">
+      <DependentUpon>CustomerContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\zGetOrderDetail_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\zproduct_20200108.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\zskuMapping_20100108.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\SQL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="EntityFramework\Ngmd.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Ngmd.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="EntityFramework\CustomerContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CustomerContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="EntityFramework\CustomerContext.edmx.diagram">
+      <DependentUpon>CustomerContext.edmx</DependentUpon>
+    </None>
+    <None Include="EntityFramework\Ngmd.edmx.diagram">
+      <DependentUpon>Ngmd.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="EntityFramework\CustomerContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CustomerContext.edmx</DependentUpon>
+      <LastGenOutput>CustomerContext.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="EntityFramework\CustomerContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CustomerContext.edmx</DependentUpon>
+      <LastGenOutput>CustomerContext.cs</LastGenOutput>
+    </Content>
+    <Content Include="EntityFramework\Ngmd.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Ngmd.edmx</DependentUpon>
+      <LastGenOutput>Ngmd.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="EntityFramework\Ngmd.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Ngmd.edmx</DependentUpon>
+      <LastGenOutput>Ngmd.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

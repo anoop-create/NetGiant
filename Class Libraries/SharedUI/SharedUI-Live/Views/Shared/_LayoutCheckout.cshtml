@@ -1,0 +1,177 @@
+﻿@using System.Configuration
+@using System.Web.Configuration
+@using SharedUI.Models;
+@using BusinessLogic.ViewModels;
+@using System.Web.Optimization
+@using System.Web.SessionState
+@using BusinessLogic;
+
+@model CommonViewModel
+
+@{
+    int sessionTimeout = (Session.Timeout > 1 ? Session.Timeout - 1 : 1) * 60;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="@sessionTimeout.ToString(); URL=/checkout?pm=SessionExpired&sz=md">
+    <meta name="format-detection" content="telephone=no">
+    <title>@Html.RawFromDict(Model.MetaData, "Title")</title>
+    <meta name="description" content="@Html.RawFromDict(Model.MetaData, "Description")">
+    <meta name="msvalidate.01" content="25C06F8BDF2376F495D44F19998FAE5F">
+
+    <meta property="og:title" content="@Html.RawFromDict(Model.MetaData, "Title")">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="@ConfigurationManager.AppSettings["CDN"])/images/soc-logo.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="//@Html.RawFromDict(Model.CommonData, "DomainName")">
+    <meta property="og:site_name" content="@Html.RawFromDict(Model.CommonData, "SiteName")">
+    <meta property="og:description" content="@Html.RawFromDict(Model.MetaData, "Description")">
+    <meta name="twitter:title" content="@Html.RawFromDict(Model.MetaData, "Title")">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="@Html.RawFromDict(Model.MetaData, "Description")">
+    <meta name="twitter:image" content="@ConfigurationManager.AppSettings["CDN"]/images/soc-logo.jpg">
+    <link rel="apple-touch-icon" href="//@Html.RawFromDict(Model.CommonData, "DomainName")touch-icon-iphone.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="//@Html.RawFromDict(Model.CommonData, "DomainName")touch-icon-ipad.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="//@Html.RawFromDict(Model.CommonData, "DomainName")touch-icon-iphone-retina.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="//@Html.RawFromDict(Model.CommonData, "DomainName")touch-icon-ipad-retina.png" />
+
+    <link href="@Html.RawFromDict(Model.CommonData, "GooglePlusPage")" rel="publisher" />
+
+    <script type="application/ld+json">
+        @Html.RawFromDict(Model.CommonData, "Nap")
+    </script>
+    <script type="text/javascript">
+        @{
+            Html.RenderPartial("~/Views/Shared/JSTrackingAllHdr.cshtml", Model);
+        }
+    </script>
+
+    @RenderSection("AddScript", required: false)
+
+    @Styles.Render("~/Content/cssBundle.css")
+    @RenderSection("AddTags", required: false)
+    @Scripts.Render("~/bundles/jqueryBundle.js")
+</head>
+
+<body class="g-ps-r">
+
+    <section class="navbar navbar-inverse visible-xs visible-sm">
+        <div class="container">
+            <div class="navbar-header">
+                <button id="mobile-menu" type="button" class="navbar-toggle pull-left" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/Home/">
+                    <img src="/Content/Images/1pxTrans.png" class="msp_siteLogo visible-xs-inline visible-sm-inline navbar-brand g-m-t-10" alt="@Html.RawFromDict(Model.CommonData, "SiteName")" />
+                </a>
+            </div>
+            <div class="navbar-collapse collapse g-ps-a @(Authentication.IsAuthenticated() ? "authenticated" : "not-authenticated")">
+                @Html.Raw(Model.Menu)
+            </div>
+        </div>
+    </section>
+    <section class="container hidden-xs hidden-sm" id="checkout-header">
+        <div class="row g-m-t-10">
+            <div class="col-md-12">
+                <div class="clearfix g-d-t">
+                    <div class="clearfix g-w-360 g-va-t">
+                        <a href="/">
+                            <img src="/Content/Images/1pxTrans.png" class="msp_siteLogo img-responsive" alt="@Html.RawFromDict(Model.CommonData, "SiteName")" />
+                        </a>
+                    </div>
+                    <div class="clearfix g-fc-s g-va-t">
+                        <div class="g-fw-b g-m-t-5">
+                            <div class="col-xs-4 text-left">Delivery</div>
+                            <div class="col-xs-4 text-center">Billing &amp; Payment</div>
+                            <div class="col-xs-4 text-right">Complete</div>
+                        </div>
+                        <div class="g-d-t g-ps-r g-p-t-10">
+                            <div class="g-w-33p">
+                                <div class="cohead-stage g-m-l-20 @ViewBag.Stage1"></div>
+                            </div>
+                            <div class="g-w-33p">
+                                <div class="cohead-stage g-m-lr-a @ViewBag.Stage2"></div>
+                            </div>
+                            <div class="g-w-33p">
+                                <div class="cohead-stage g-m-r-20 pull-right @ViewBag.Stage3"></div>
+                            </div>
+                            <div class="cohead-connect g-bc-secondary"></div>
+                        </div>
+                    </div>
+                    <div class="clearfix g-w-200 text-right g-va-b">
+                        @if (ViewBag.AllowEdit == true)
+                        {
+                            <a class="btn g-butt-second-reg g-butt-lg g-m-b-15" href="~/" role="button">Continue Shopping</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @RenderBody()
+
+    <footer class="text-left">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="container">
+                    <div class="col-xs-12 payment-container text-center">
+                        @Html.RawFromDict(Model.CommonData, "FooterPartners")
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="container">
+                    <hr />
+                </div>
+            </div>
+            <div class="row legal-text text-center">
+                <div class="container">
+                    <div class="row">
+                        @{
+                            Dictionary<string, string> replacements = new Dictionary<string, string>();
+                            replacements.Add("[Year]", DateTime.Now.Year.ToString());
+                        }
+                        @(Html.RawFromDict(Model.CommonData, "FooterCopyright", replacements))
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <section class="g-ps-f g-btm-50 hidden-xs hidden-sm">
+        <div class="lhnChatButton" id="lhnChatButton1">
+            @*<img src="~/Content/Images/1pxTrans.png" class="msp_liveChatOnline g-m-b-10" id="liveagent_button_online1" onclick="liveagent.startChat('@Html.RawFromDict(Model.CommonData, "LiveChatID")')" style="display: none; cursor: pointer;" />
+                <img src="~/Content/Images/1pxTrans.png" class="" id="liveagent_button_offline1" style="display: none;" />*@
+            @Html.Hidden("liveagent_id", Html.RawFromDict(Model.CommonData, "LiveChatID"))
+        </div>
+        <div id="ft_gcs"></div>
+    </section>
+
+    @Scripts.Render("~/bundles/bootstrapBundle.js")
+    @Scripts.Render("~/bundles/jqueryvalBundle.js")
+    
+    <!--script type="text/javascript" src="https://c.la2w2.salesforceliveagent.com/content/g/js/30.0/deployment.js"></script-->
+    <script type="text/javascript" src="https://@(Html.RawFromDict(Model.CommonData, "DomainName"))data/static-files/cpy_sfliveagent.js"></script>
+    <script type="text/javascript">
+        @{
+            Html.RenderPartial("~/Views/Shared/JSTrackingAll.cshtml", Model);
+        }
+    </script>
+    @{
+        Html.RenderPartial("~/Views/Shared/JSGoogleAdTrackingAll.cshtml", Model);
+    }
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

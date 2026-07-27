@@ -1,0 +1,22 @@
+﻿@using System.Configuration
+@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+@using System.Data;
+
+@model SearchViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Popular Printer Models</h2>
+    </div>
+    @foreach (DataRow dr in Model.PopularPrinters.Rows)
+    {
+        string link = "/model/" + dr["Description"].ToString().Replace(" ", "-") + "-" + dr["CartridgeType"] + "/";
+        <div class="col-md-6 g-p-b-10">
+            <i class="fa fa-chevron-right g-p-r-10"></i>
+            <a class="primary" href="@link">@(dr["Description"].ToString())</a>
+        </div>
+    }
+</div>
+
+

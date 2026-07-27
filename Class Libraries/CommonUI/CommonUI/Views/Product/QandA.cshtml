@@ -1,0 +1,48 @@
+﻿@using BusinessLogic;
+
+@model List<QandA>
+
+<hr class="g-m-t-60 g-m-b-20" />
+
+<div id="questions" class="clearfix">
+    <div class="pull-left-md">
+        <h2>Customer Questions <span class="g-fc-s">(@Model.Count)</span></h2>
+        <button class="popup g-cur-p g-butt-second-reg g-butt-lg"
+                data-popupname="AskAQuestion"
+                data-replacements="@ViewBag.AskAQuestionRep"
+                data-toggle="modal"
+                data-target="#popup">
+            Ask a Question
+        </button>
+    </div>
+</div>
+<div class="moreLess" data-num-items="30" data-buttclass="g-m-t-20 g-butt-lg" data-scroll-offset="60">
+    @{
+        if (Model.Count > 0)
+        {
+            string hrdash = "none";
+            foreach (QandA qa in Model)
+            {
+                <hr class="g-m-tb-20 @hrdash"/>
+                <div class="qa g-d-t clearfix">
+                    <div class="q g-flex-allcenter">Q</div>
+                    <div class="g-p-l-10 g-w-100p text-xs-left">
+                        <div class=""><strong>@qa.Question</strong>
+                        </div>
+                        <div class="g-fc-tt">@qa.Date</div>
+                    </div>
+                </div>
+                <div class="qa g-d-t g-m-t-10 clearfix">
+                    <div class="a g-flex-allcenter">A</div>
+                    <div class="g-p-l-10 g-w-100p text-xs-left">@Html.Raw(qa.Answer)</div>
+                </div>
+
+                hrdash = "dashed";
+            }
+        }
+        else
+        {
+            <div class="g-m-t-20">Be the first to ask a question about this product.</div>
+        }
+    }
+</div>

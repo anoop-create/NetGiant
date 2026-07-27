@@ -1,0 +1,71 @@
+﻿@using System.Configuration
+@using BusinessLogic.ViewModels;
+@using DataAccess.EntityFramework;
+@using SharedUI.Models;
+
+@model ProductViewModel
+
+<hr id="reviews" class="g-m-t-60 g-m-b-20" />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-left-md">
+            <h2>Product Reviews <span class="g-fc-s">(@Model.FeeFoList.Count)</span></h2>
+        </div>
+        <div class="pull-right-md">
+            <button class="popup g-cur-p g-butt-second-reg g-butt-lg" data-popupname="ReviewProduct" data-replacements="" data-toggle="modal" data-target="#popup">
+                Review Product
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="row g-m-b-20 hidden-xs hidden-sm">
+    <div class="col-md-3">
+        <strong>Rating</strong>
+    </div>
+    <div class="col-md-3">
+        <strong>Date</strong>
+    </div>
+    <div class="col-md-6">
+        <strong>Review</strong>
+    </div>
+</div>
+<div class="moreLess" data-num-items="30" data-buttclass="g-m-t-20 g-butt-lg" data-scroll-offset="80">
+    @{
+        string hrdash = "none";
+        foreach (feefoFeedback feefo in Model.FeeFoList)
+        {
+            <hr class="g-m-tb-20 @hrdash" />
+            <div class="row" itemtype="http://data-vocabulary.org/Review" itemscope>
+                <div class="col-md-3">
+                    <span class="hide" itemprop="itemreviewed">@Model.Product.Description</span>
+                    <img src="/Content/Images/1pxTrans.png" class="lazy" alt="@(feefo.productRating.ToString())" data-original="@ConfigurationManager.AppSettings["CDN"]/Images/Rating@(feefo.productRating.ToString()).png" itemprop="rating" />
+                    <noscript>
+                        <img src="@ConfigurationManager.AppSettings["CDN"]/Images/Rating@(feefo.productRating.ToString()).png" alt="@(feefo.productRating.ToString())" itemprop="rating" />
+                    </noscript>
+                    <div itemscope="itemscope" itemtype="http://schema.org/Rating">
+                        <span itemprop="worstRating" content="1"></span>
+                        <span itemprop="ratingValue" content="@(feefo.productRating.ToString())"></span>
+                        <span itemprop="bestRating" content="5"></span>
+                    </div>
+                </div>
+                <div class="col-md-3" itemprop="dtreviewed">
+                    @feefo.feedbackDate.ToString("D")
+                </div>
+                <div class="col-md-6" itemprop="summary">
+                    @feefo.productComment
+                </div>
+            </div>
+            hrdash = "dashed";
+        }
+    }
+</div>
+
+
+
+
+
+
+
+

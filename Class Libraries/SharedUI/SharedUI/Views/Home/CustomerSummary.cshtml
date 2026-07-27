@@ -1,0 +1,128 @@
+﻿@using System.Configuration
+@using BusinessLogic.ViewModels;
+
+@model WizardViewModel
+
+<div class="hm-custsumm g-fc-st">
+    <div class="g-p-t-30">
+        <div class="g-fc-st pull-left">
+            <div class="g-fs-lg clearfix">
+                <div class="pull-left">
+                    <strong>Welcome</strong>,&nbsp;
+                </div>
+                <div class="pull-left g-w-250 g-of-h" style="white-space: nowrap; text-overflow: ellipsis;" title="@Session["U_Name"].ToString()">@Session["U_Name"].ToString()</div>
+            </div>
+        </div>
+        <div class="g-fc-st pull-right">
+            <button class="logout g-cur-p g-butt-second-inv g-butt-md-2">Sign Out</button>
+        </div>
+    </div>
+
+    <div class="g-m-t-3">
+        <div class="g-p-t-10">
+            <span class="g-fs-lg">Quick Links</span>
+        </div>
+        <div class="g-m-t-10 clearfix">
+            <div class="open-utility g-cur-p" data-utility="quick-order">
+                <div class="g-b-1-p g-p-10 text-center g-cur-p pull-left"
+                     data-toggle="tooltip"
+                     data-placement="bottom"
+                     title="Reorder items you have purchased before.">
+                    <div class="">
+                        <img class="msp_quickreorder g-m-b-2" src="~/Content/Images/1pxTrans.png"/>
+                    </div>
+                    <div>Quick</div>
+                    <div>Reorder</div>
+                </div>
+            </div>
+            <div class="open-utility g-cur-p" data-utility="my-printers">
+                <div class="g-b-1-p g-p-10 g-m-l-20 text-center g-cur-p pull-left"
+                     data-toggle="tooltip"
+                     data-placement="bottom"
+                     title="View your list of saved printers.">
+                    <div class="">
+                        <img class="msp_printer g-m-b-2" src="~/Content/Images/1pxTrans.png"/>
+                    </div>
+                    <div>My</div>
+                    <div>Printers</div>
+                </div>
+            </div>
+            <a class="second" href="/recycling/">
+                <div class="g-b-1-p g-p-10 g-m-l-20 text-center pull-left"
+                     data-toggle="tooltip"
+                     data-placement="bottom"
+                     title="Recycle your old ink & toner cartridges today.">
+                    <div class="">
+                        <i class="fa fa-recycle fa-lg"></i>
+                    </div>
+                    <div>Recycle</div>
+                    <div>Cartridges</div>
+                </div>
+            </a>
+            <a class="second" href="/help/returns/">
+                <div data-utility="return-item"
+                     class="g-b-1-p g-p-10 g-m-l-20 text-center pull-left"
+                     data-toggle="tooltip"
+                     data-placement="bottom"
+                     title="Find out how you can return an item and get a refund.">
+                    <div class="">
+                        <i class="fa fa-undo fa-lg"></i>
+                    </div>
+                    <div>Return</div>
+                    <div>an Item</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="g-m-t-10">
+            <span class="g-fs-lg">My Account</span>
+        </div>
+        <div class="g-m-t-10 clearfix">
+            <a class="second" href="/MyAccount/Index/orderhistory">
+                <div class="g-b-1-p g-p-10 text-center pull-left"
+                     data-toggle="tooltip"
+                     data-placement="bottom"
+                     title="Check the status of your orders and view invoices.">
+                    <div class="">
+                        <img class="msp_orders g-m-b-2" src="~/Content/Images/1pxTrans.png"/>
+                    </div>
+                    <div>My</div>
+                    <div>Orders</div>
+                </div>
+            </a>
+            <a class="second" href="/MyAccount/Index/yourdetails">
+                <div class="g-b-1-p g-p-10 g-m-l-20 text-center pull-left"
+                     data-toggle="tooltip"
+                     data-placement="bottom"
+                     title="Manage your account details and change your password.">
+                    <div class="">
+                        <img class="msp_user g-m-b-2" src="~/Content/Images/1pxTrans.png"/>
+                    </div>
+                    <div>My</div>
+                    <div>Details</div>
+                </div>
+            </a>
+            @if (int.Parse(ConfigurationManager.AppSettings["WebsiteId"].ToString()) != 2)
+            {
+                if (Session["U_IsAccountCustomer"].ToString() == "1")
+                {
+                }
+                else
+                {
+                    <a class="second" href="/help/credit/">
+                        <div class="big g-b-1-p g-p-t-10 g-m-l-20 text-center pull-left"
+                             data-toggle="tooltip"
+                             data-placement="bottom"
+                             title="Find out how you can benefit from one of our 0% interest free credit accounts.">
+                            <div class="">
+                                <img class="msp_credit" src="~/Content/Images/1pxTrans.png"/>
+                            </div>
+                            <div>Apply for a 0% interest</div>
+                            <div>30 Day Credit Account</div>
+                        </div>
+                    </a>
+                }
+            }
+        </div>
+    </div>
+</div>

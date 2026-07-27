@@ -1,0 +1,233 @@
+﻿@using BusinessLogic.ViewModels;
+@using BusinessLogic;
+@using CommonUI.Models;
+@using DataAccess.EntityFramework;
+@using System.Collections;
+@using System.Xml;
+
+@model CommonViewModel
+@Ajax.HtmlActionLink("<i class=\"fa fa-trash\"></i> Delete Cache",
+    "DeleteCache",
+    "Portal",
+    new
+    {
+    },
+    new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnComplete = "location.reload()"
+    },
+    new
+    {
+        @class = "g-m-l-10 g-p-5 form-delete g-butt-primary g-butt-sm"
+    })
+
+<div class="pull-right g-lh-20 g-m-l-40 g-fc-nm g-p-5 g-b-1-p">Memory In Use: @GC.GetTotalMemory(false).ToString("N0") bytes</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Variable Name</th>
+            <th>Variable Value</th>
+            <th>Approx Size</th>
+            <th style="width: 100px">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{HttpContext oc = HttpContext.Current;
+            foreach (DictionaryEntry c in oc.Cache)
+            {
+                if (!c.Key.ToString().StartsWith(":ViewCacheEntry"))
+                {
+                    <tr>
+                        <td>@(c.Key.ToString())</td>
+                        <td>
+                            <div style="max-width: 600px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                                @{
+                                    Type t = HttpContext.Current.Cache[c.Key.ToString()].GetType();
+
+                                    switch (1)
+                                    {
+                                        case 1 when t.Namespace == "System":
+                                            @HttpContext.Current.Cache[c.Key.ToString()]
+                                            break;
+                                        case 1 when t.AssemblyQualifiedName.StartsWith("System.Collections.Generic.Dictionary"):
+                                            @WriteDictionary(c)
+                                            break;
+                                        case 1 when t.AssemblyQualifiedName.Contains("System.Web.Mvc.SelectListItem"):
+                                            @WriteSelectListItem(c)
+                                            break;
+                                        case 1 when c.Key.ToString() == "FraudPostcodes":
+                                            @WriteStringList(c)
+                                            break;
+                                        case 1 when t.AssemblyQualifiedName.StartsWith("System.Collections.Generic.List"):
+                                            List<Tuple<string, string, string>> d = new List<Tuple<string, string, string>>();
+                                            Tuple<string, string, string> fields = new Tuple<string, string, string>("", "", "");
+                                            switch (1)
+                                            {
+                                                case 1 when t.AssemblyQualifiedName.Contains(".deliveryService"):
+                                                    fields = new Tuple<string, string, string>("ServiceName", "Price", "StockRef");
+                                                    d = Utilities.BuildCacheDictionary<deliveryService>(c.Value as List<deliveryService>, fields.Item1, fields.Item2, fields.Item3);
+                                                    break;
+                                                case 1 when t.AssemblyQualifiedName.Contains(".ZoneLookup"):
+                                                    fields = new Tuple<string, string, string>("Prefix", "From", "To");
+                                                    d = Utilities.BuildCacheDictionary<ZoneLookup>(c.Value as List<ZoneLookup>, fields.Item1, fields.Item2, fields.Item3);
+                                                    break;
+                                                case 1 when t.AssemblyQualifiedName.Contains(".LookupCust"):
+                                                    fields = new Tuple<string, string, string>("LookupName", "LookupTypeFK", "LookupID");
+                                                    d = Utilities.BuildCacheDictionary<LookupCust>(c.Value as List<LookupCust>, fields.Item1, fields.Item2, fields.Item3);
+                                                    break;
+                                                case 1 when t.AssemblyQualifiedName.Contains(".LookupNgmd"):
+                                                    fields = new Tuple<string, string, string>("LookupName", "LookupTypeFk", "LookupId");
+                                                    d = Utilities.BuildCacheDictionary<LookupNgmd>(c.Value as List<LookupNgmd>, fields.Item1, fields.Item2, fields.Item3);
+                                                    break;
+
+                                                default:
+                                                    break;
+                                            }
+                                            @WriteGenericDictionary(c, d, fields)
+                                            break;
+                                        case 1 when t.AssemblyQualifiedName.StartsWith("System.Xml.XPathNodeList"):
+                                            @t.AssemblyQualifiedName
+                                            @*@WriteXPathNodeList(c)*@
+                                            break;
+                                        default:
+                                            @t.AssemblyQualifiedName
+                                            break;
+                                    }
+                                }
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            @*@HttpContext.Current.Cache[c.Key.ToString()].ToString().Length.ToString()*@
+                            @*@Marshal.SizeOf(HttpContext.Current.Cache[c.Key.ToString()])*@
+                        </td>
+                        <td class="text-center">
+                            @Ajax.HtmlActionLink("<i class=\"fa fa-trash\"></i> Delete",
+                                "DeleteCache",
+                                "Portal",
+                                new
+                                {
+                                    cacheKey = c.Key
+                                },
+                                new AjaxOptions()
+                                {
+                                    HttpMethod = "POST",
+                                    OnComplete = "location.reload()"
+                                },
+                                new
+                                {
+                                    @class = "pull-right g-m-r-10 g-p-5 form-delete btn btn-default btn-sm"
+                                })
+                        </td>
+                    </tr>
+                }
+            }
+        }
+
+    </tbody>
+</table>
+
+@helper WriteDictionary(DictionaryEntry c)
+{
+    <button data-toggle="collapse" data-target="#@c.Key.ToString().Replace('/', '-')">Expand/Collapse</button>
+    <div id="@c.Key.ToString().Replace('/', '-')" class="collapse">
+        <div class="g-fw-b">
+            <div class="col-md-3">Name</div>
+            <div class="col-md-3">Value</div>
+            <div class="col-md-3">Text</div>
+            <div class="col-md-3 text-right">Size</div>
+        </div>
+        @if (c.Value.GetType() == typeof(Dictionary<string, List<SelectListItem>>))
+        {
+            foreach (KeyValuePair<string, List<SelectListItem>> kvp in (Dictionary<string, List<SelectListItem>>)(c.Value))
+            {
+                <div class="row">
+                    <div class="col-md-3">@kvp.Key</div>
+                    <div class="col-md-6" style="max-width: 600px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                        @foreach (SelectListItem sli in (List<SelectListItem>)(kvp.Value))
+                        {
+                            <div class="row">
+                                <div class="col-md-4">@sli.Value</div>
+                                <div class="col-md-4" style="max-width: 600px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">@sli.Text</div>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-md-3 text-right">@kvp.Value.Count</div>
+                </div>
+            }
+        }
+        else
+        {
+            foreach (KeyValuePair<string, string> kvp in (Dictionary<string, string>)(c.Value))
+            {
+                <div class="row">
+                    <div class="col-md-3">@kvp.Key</div>
+                    <div class="col-md-6" style="max-width: 600px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">@kvp.Value</div>
+                    <div class="col-md-3 text-right">@kvp.Value.Length</div>
+                </div>
+            }
+        }
+    </div>
+}
+
+@helper WriteSelectListItem(DictionaryEntry c)
+{
+    <button data-toggle="collapse" data-target="#@c.Key.ToString().Replace('/', '-')">Expand/Collapse</button>
+    <div id="@c.Key.ToString().Replace('/', '-')" class="collapse">
+        <div class="g-fw-b">
+            <div class="col-md-4">Value</div>
+            <div class="col-md-4">Text</div>
+            <div class="col-md-4">Selected</div>
+        </div>
+        @foreach (SelectListItem sli in (List<SelectListItem>)(c.Value))
+        {
+            <div class="row">
+                <div class="col-md-4">@sli.Value</div>
+                <div class="col-md-4" style="max-width: 600px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">@sli.Text</div>
+                <div class="col-md-4">@sli.Selected.ToString()</div>
+            </div>
+        }
+    </div>
+}
+
+@helper WriteStringList(DictionaryEntry c)
+{
+    <button data-toggle="collapse" data-target="#@c.Key.ToString().Replace('/', '-')">Expand/Collapse</button>
+    <div id="@c.Key.ToString().Replace('/', '-')" class="collapse">
+        <div class="g-fw-b">
+            <div class="col-md-12">Value</div>
+        </div>
+        @foreach (string s in (List<string>)(c.Value))
+        {
+            <div class="row">
+                <div class="col-md-12">@s</div>
+            </div>
+        }
+    </div>
+}
+
+@helper WriteXPathNodeList(string key)
+{
+
+}
+
+@helper WriteGenericDictionary(DictionaryEntry c, List<Tuple<string, string, string>> d, Tuple<string, string, string> titles)
+{
+    <button data-toggle="collapse" data-target="#@c.Key.ToString().Replace('/', '-')">Expand/Collapse</button>
+    <div id="@c.Key.ToString().Replace('/', '-')" class="collapse">
+        <div class="g-fw-b">
+            <div class="col-md-8">@titles.Item1</div>
+            <div class="col-md-2">@titles.Item2</div>
+            <div class="col-md-2">@titles.Item3</div>
+        </div>
+        @foreach (var e in d)
+        {
+            <div class="row">
+                <div class="col-md-8">@e.Item1</div>
+                <div class="col-md-2" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">@e.Item2</div>
+                <div class="col-md-2" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">@e.Item3</div>
+            </div>
+        }
+    </div>
+}

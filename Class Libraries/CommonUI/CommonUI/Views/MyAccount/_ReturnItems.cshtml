@@ -1,0 +1,99 @@
+﻿@using Kendo.Mvc.UI;
+@using System.Data;
+
+@model DataTable
+
+<div class="container">
+    <div class="row g-m-t-10">
+        @{
+            string qtytitle = "Qty To Be Returned";
+            if (ViewBag.Reson == "Supplier Error")
+            {
+                qtytitle = "Qty To Be Returned";
+                <div class="col-md-3">Select any item(s) from your order that have not been delivered</div>
+            }
+            else
+            {
+                <div class="col-md-2">Select the item(s) you want to return</div>
+            }
+        }
+        <div id="returnitems" class="col-md-10 g-p-r-0">
+            <div class="container-fluid g-bc-s g-b-1-p">
+                <div id="returnitems-val" class="row g-fc-nm g-p-l-10 g-p-t-5"></div>
+                <div class="row g-fw-b g-m-tb-10">
+                    <div class="col-md-8 text-center">Description</div>
+                    <div class="col-md-2 text-center">Qty Ordered</div>
+                    <div class="col-md-2 text-center">@qtytitle</div>
+                </div>
+                @{
+                    bool isFirst = true;
+                    foreach (DataRow dr in Model.Rows)
+                    {
+                        if (isFirst)
+                        {
+                            @Html.Hidden("PONumber", dr["PONumber"].ToString())
+                            @Html.Hidden("Supplier", dr["Supplier"].ToString())
+                            @Html.Hidden("BillingAddress", dr["BillingAddress1"].ToString() + ", " +
+                            dr["BillingAddress2"].ToString() + ", " +
+                            dr["BillingAddress3"].ToString() + ", " +
+                            dr["BillingAddress4"].ToString() + ", " +
+                            dr["BillingAddress5"].ToString() + ", " +
+                            dr["BillingPostcode"].ToString())
+                            @Html.Hidden("DeliveryAddress", dr["DeliveryAddress1"].ToString() + ", " +
+                            dr["DeliveryAddress2"].ToString() + ", " +
+                            dr["DeliveryAddress3"].ToString() + ", " +
+                            dr["DeliveryAddress4"].ToString() + ", " +
+                            dr["DeliveryAddress5"].ToString() + ", " +
+                            dr["DeliveryPostcode"].ToString())
+                            isFirst = false;
+                        }
+
+                        if (!Convert.ToBoolean(dr["IsVoucher"])
+                        && !Convert.ToBoolean(dr["IsDelivery"])
+                        && !dr["Description"].ToString().ToLower().Contains("voucher")
+                        && !dr["Description"].ToString().ToLower().Contains("discount"))
+                        {
+                            <div class="row g-m-b-10">
+                                <div class="col-md-8">
+                                    @dr["Description"].ToString()
+                                    @Html.Hidden("Desc-" + dr["Reference"].ToString().Trim(), dr["Description"].ToString())
+                                </div>
+                                <div class="col-md-2 text-center">
+                                    @Decimal.ToInt32((decimal)dr["Quantity"]).ToString()
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="g-w-78 g-h-40">
+                                        @* NB The settings in the Kendo statement below are repeated in site.js:changeBasketQty *@
+                                        @(Html.Kendo().NumericTextBox<int>()
+                                            .Format("#")
+                                            .Name("Qty-" + dr["Reference"].ToString().Trim())
+                                            .Value(0)
+                                            .Placeholder("Enter quantity")
+                                            .HtmlAttributes(new { style = "width: 100%; height: 34px; background-color: transparent;", @class = "" })
+                                            .Min(0)
+                                            .Max(Decimal.ToInt32((decimal)dr["Quantity"]))
+                                            .Deferred()
+                                        )
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    @if (ViewBag.Reason == "Supplier Error")
+    {
+        <div class="row g-m-t-10">
+            <div class="col-md-3">
+                Please enter product reference and description information about the product(s) delivered in error
+            </div>
+            <div class="col-md-9 g-m-t-3 clearfix">
+                @Html.TextArea("ProductError", new { @rows = 6, @cols = 84, placeholder = "Details of product(s) delivered in error ...", @class = "g-b-1-p" })
+            </div>
+        </div>
+    }
+</div>
+@Html.Kendo().DeferredScripts()

@@ -1,0 +1,67 @@
+﻿@using System.Configuration
+@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+@using System.Data;
+
+@model WizardViewModel
+
+@if (Model.PopularCartridges != null)
+{
+    <hr class="g-m-t-60 g-m-b-20"/>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Popular @(Model.Manufacturer == null ? "" : Model.Manufacturer.manufacturerName) @Model.CartridgeTypeName</h2>
+        </div>
+        <div class="col-md-12">
+            <div class="mini-product-container clearfix">
+                @foreach (DataRow dr in Model.PopularCartridges.Rows)
+                {
+                    decimal mainPrice = 0;
+                    string mainPriceVAT = "";
+                    if (ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "1")
+                    {
+                        mainPrice = Convert.ToDecimal(dr["PriceRetail"]);
+                        mainPriceVAT = "inc VAT";
+                    }
+                    else
+                    {
+                        mainPrice = Decimal.Divide(Convert.ToDecimal(dr["PriceRetail"]), Model.VatMultiplier);
+                        mainPriceVAT = "ex VAT";
+                    }
+                    <div class="mini-product-entry atb-entry">
+                        <div class="g-bc-s g-b-1-p g-h-140 g-w-140 text-center">
+                            <a href="@dr["ProductURL"].ToSafeString()">
+                                <img src="/Content/Images/1pxTrans.png" class="lazy" data-original="@dr["ImageURL"].ToSafeString()" alt="@dr["Description"].ToSafeString()" onerror="this.src = '@ConfigurationManager.AppSettings["CDN"]/Images/noimage.jpg';" />
+                                <noscript>
+                                    <img src="@dr["ImageURL"].ToString()" alt="@dr["Description"].ToSafeString()" onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noimage.jpg';">
+                                </noscript>
+                            </a>
+                        </div>
+                        <div class="g-m-t-10 g-h-40 g-of-h">
+                            <a class="primary" href="@dr["ProductURL"].ToSafeString()">
+                                <strong>@dr["Description"].ToSafeString()</strong>
+                            </a>
+                        </div>
+                        <div class="g-m-t-10 g-fs-lg g-h-35 g-of-h">
+                            &pound;@mainPrice.ToString("#,###,##0.00") <span class="g-fc-tt g-fs-sm">@mainPriceVAT</span>
+                        </div>
+                        <div class="g-fc-st text-center g-m-t-10 g-fs-sm g-lh-20">
+                            @Html.ProductAvailability(int.Parse(dr["Availability"].ToString()), Convert.ToBoolean(Model.CommonData["DeliveryDateIsOverridden"].ToString()), true)
+                        </div>
+                        <div class="pull-right g-m-t-10 g-w-100p">
+                            <button class="atb-add g-butt-primary g-butt-100p"
+                                    data-price="@mainPrice.ToString("N2")"
+                                    data-productid="@dr["ProductReference"].ToSafeString()"
+                                    data-partno="@dr["PartNo"].ToSafeString()"
+                                    data-imageurl="@dr["ImageURL"].ToSafeString()"
+                                    data-desc="@dr["Description"].ToSafeString()">
+                                Add to Basket
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

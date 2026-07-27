@@ -1,0 +1,57 @@
+﻿@using BusinessLogic.ViewModels;
+@using DataAccess.EntityFramework;
+
+@model MyAccountViewModel
+
+@if (ViewBag.IsNone)
+{
+    <div class="g-m-t-20">There are currently no vouchers available.</div>
+}
+else
+{
+    <div class="row g-m-t-20 g-h-40">
+        <div class="text-center col-sm-2 col-xs-3">
+            <strong>Voucher Code</strong>
+        </div>
+        <div class="text-center col-sm-4 col-xs-6">
+            <strong>Description</strong>
+        </div>
+        <div class="text-center col-sm-2 hidden-xs">
+            <strong>Type</strong>
+        </div>
+        <div class="text-center col-sm-2 hidden-xs">
+            <strong>Expires</strong>
+        </div>
+        <div class="text-center col-sm-2 col-xs-3">
+            <strong>Discount</strong>
+        </div>
+    </div>
+    <div class="g-bc-s g-b-1-p">
+        <div class="moreLess collapsable-sections" data-num-items="20" data-buttclass="g-m-20 g-butt-lg" data-scroll-offset="80">
+            <div class="container-fluid">
+                <div class="clearfix">
+                    @{
+                        foreach (VoucherPromo vp in Model.VoucherList)
+                        {
+                            decimal pc = vp.Percentage ?? default(decimal);
+                            decimal am = vp.Amount ?? default(decimal);
+                            string amount = vp.VoucherTypeName == "MultiBuy" ? "" : vp.Amount == null ? pc.ToString("N2") + "%" : "£" + am.ToString("N2");
+
+                            <div class="row g-b-b-1 g-flex-vcenter g-h-60">
+                                <div class="text-center col-sm-2 col-xs-3">
+                                    <a href="/misc/applyvoucher?voucherCode=@vp.VoucherCode" class="btn g-butt-second-reg g-butt-md-2" title="Apply this voucher">@vp.VoucherCode</a>
+                                </div>
+                                <div class="col-sm-4 col-xs-6">@vp.Description</div>
+                                <div class="text-center col-sm-2 hidden-xs">@vp.VoucherTypeName</div>
+                                <div class="text-center col-sm-2 hidden-xs">@vp.ValidTo.ToString("dd-MM-yyyy")</div>
+                                <div class="text-center col-sm-2 col-xs-3">@amount</div>
+                            </div>
+                            <div class="row collapsable-detail"></div>
+
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

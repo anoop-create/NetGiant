@@ -1,0 +1,50 @@
+﻿@using BusinessLogic;
+
+@if (Convert.ToBoolean(Session["U_IsPortalUser"]) && Session["U_CSUser"] == null)
+{
+    //string repl = "";
+
+    List<SelectListItem> users = DataCache.GetCustLookups(x => x.LookupType.LookupTypeName == "Customer Service Users")
+                .OrderBy(x => x.Sequence)
+                .Select(x => new SelectListItem
+                {
+                    Text = x.LookupName.Split('|')[0],
+                    Value = x.Sequence.ToString()
+                })
+                .OrderBy(x => x.Text)
+                .ToList();
+
+    string repl = HttpUtility.UrlEncode(Html.DropDownList("csuser-dropdown", users, null, new { @class = "form-control" }).ToString().Replace("\r\n", ""));
+
+    <script type="text/javascript">
+            $(function () {
+            launchPopup('CSAuth', 'popup-csuser', 'md', 'selectlist=' + '@repl', { backdrop: 'static', keyboard: false });
+
+            $('.btn-csuser').click(function () {
+                if ($('#csuser-dropdown').val()) {
+                    SetCSUser($('#csuser-dropdown').val());
+                }
+            });
+        });
+
+        function SetCSUser(orderSource) {
+            $.ajax({
+            url: "/Portal/SetCustomerServiceUser",
+                dataType: 'json',
+                taditional: true,
+                type: 'post',
+                data: {
+                orderSource: orderSource
+                },
+                async: false,
+                success: function (e) {
+                    if (e.savereturn.IsSuccess)
+                        window.location.reload();
+                },
+                error: function (e) {
+                    logAjaxScriptError("/Portal/SetCustomerServiceUser", xhr, textStatus, thrownError);
+                }
+            });
+    }
+    </script>
+}

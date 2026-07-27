@@ -1,0 +1,951 @@
+﻿@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+@using System.Configuration;
+@using Kendo.Mvc.UI;
+@using System.Text.RegularExpressions;
+@model ProductViewModel
+
+@section AddTags {
+    <link rel="canonical" href="https://@(Model.DomainNameTrunc + "/" + Model.Product.Url)" />
+}
+
+@{
+    ProductEntry pe = Model.Product;
+
+    decimal feefowidth = (pe.FeeFoRating * 16) + 5;
+    decimal mainPrice = 0;
+    decimal subPrice = 0;
+    decimal salePrice = 0;
+    decimal cashbackPrice1 = 0;
+    decimal cashbackPrice2 = 0;
+    decimal crossSellPrice = 0;
+    decimal mainB1Price = 0;
+    decimal subB1Price = 0;
+    decimal mainB2Price = 0;
+    decimal subB2Price = 0;
+    string mainPriceVAT = "";
+    string subPriceVAT = "";
+    string voucher = "";
+    string offerClass = "";
+    string hideBasketCount = "g-v-h";
+    bool isConsumable = false;
+    string tooltipHighlight = "";
+
+    if(pe.BrandFlag != BrandFlag.Compatible)
+    {
+        tooltipHighlight = "tooltip-highlight";
+    }
+
+    if (pe.Type == "Toner" || pe.Type == "Ink" || pe.Type == "Solid Ink" || pe.Type == "Franking")
+    {
+        isConsumable = true;
+    }
+
+    if (ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "1")
+    {
+        mainPrice = pe.PriceRetIncVat;
+        mainB1Price = pe.BreakPrice2IncVat;
+        mainB2Price = pe.BreakPrice3IncVat;
+        subPrice = Decimal.Divide(pe.PriceRetIncVat, Model.VatMultiplier);
+        subB1Price = Decimal.Divide(pe.BreakPrice2IncVat, Model.VatMultiplier);
+        subB2Price = Decimal.Divide(pe.BreakPrice3IncVat, Model.VatMultiplier);
+        crossSellPrice = pe.CrossSellPriceIncVat;
+        mainPriceVAT = "inc VAT";
+        subPriceVAT = "ex VAT";
+
+        if (isConsumable)
+        {
+            if (pe.BrandFlag.Equals(BrandFlag.Compatible))
+            {
+                if (Convert.ToBoolean(ConfigurationManager.AppSettings["PPCPromoIsOn"]) && Convert.ToBoolean(Session["U_IsFromPPC"]))
+                {
+                    salePrice = pe.PPCPromoPriceIncVat;
+                    voucher = ConfigurationManager.AppSettings["PPCPromoCode"];
+                }
+                if (Model.IsCompatibleSaleActive)
+                {
+                    salePrice = pe.PriceSaleIncVat;
+                    voucher = Html.RawFromDict(Model.SaleData, "CompatibleVoucher").ToSafeString();
+                    offerClass = "compatible";
+                }
+            }
+            if (pe.BrandFlag.Equals(BrandFlag.Original))
+            {
+                if (Convert.ToBoolean(ConfigurationManager.AppSettings["PPCPromoIsOn"]) && Convert.ToBoolean(Session["U_IsFromPPC"]))
+                {
+                    salePrice = pe.PPCPromoPriceIncVat;
+                    voucher = ConfigurationManager.AppSettings["PPCPromoCode"];
+                }
+                if (Model.IsOEMSaleActive)
+                {
+                    salePrice = pe.PriceSaleIncVat;
+                    voucher = Html.RawFromDict(Model.SaleData, "OEMVoucher").ToSafeString();
+                    offerClass = "oem";
+                }
+            }
+        }
+        if (pe.IsStationerySaleItem)
+        {
+            if (Model.IsStationerySaleActive)
+            {
+                salePrice = pe.PriceSaleIncVat;
+                voucher = Html.RawFromDict(Model.SaleData, "StationeryVoucher").ToSafeString();
+                offerClass = "stat";
+            }
+        }
+        if (Model.Product.AttValue6 == 1)
+        {
+            cashbackPrice1 = mainPrice - Convert.ToDecimal(Model.Product.SpecLine3);
+            cashbackPrice2 = Decimal.Divide(cashbackPrice1, Model.VatMultiplier);
+        }
+    }
+    else
+    {
+        mainPrice = Decimal.Divide(pe.PriceRetIncVat, Model.VatMultiplier);
+        mainB1Price = Decimal.Divide(pe.BreakPrice2IncVat, Model.VatMultiplier);
+        mainB2Price = Decimal.Divide(pe.BreakPrice3IncVat, Model.VatMultiplier);
+        subPrice = pe.PriceRetIncVat;
+        subB1Price = pe.BreakPrice2IncVat;
+        subB2Price = pe.BreakPrice3IncVat;
+        crossSellPrice = Decimal.Divide(pe.CrossSellPriceIncVat, Model.VatMultiplier);
+        mainPriceVAT = "ex VAT";
+        subPriceVAT = "inc VAT";
+
+        if (isConsumable)
+        {
+            if (pe.BrandFlag.Equals(BrandFlag.Compatible))
+            {
+                if (Convert.ToBoolean(ConfigurationManager.AppSettings["PPCPromoIsOn"]) && Convert.ToBoolean(Session["U_IsFromPPC"]))
+                {
+                    salePrice = Decimal.Divide(pe.PPCPromoPriceIncVat, Model.VatMultiplier);
+                    voucher = ConfigurationManager.AppSettings["PPCPromoCode"];
+                }
+                if (Model.IsCompatibleSaleActive)
+                {
+                    salePrice = Decimal.Divide(pe.PriceSaleIncVat, Model.VatMultiplier);
+                    voucher = Html.RawFromDict(Model.SaleData, "CompatibleVoucher").ToSafeString();
+                    offerClass = "compatible";
+                }
+            }
+            if (pe.BrandFlag.Equals(BrandFlag.Original))
+            {
+                if (Convert.ToBoolean(ConfigurationManager.AppSettings["PPCPromoIsOn"]) && Convert.ToBoolean(Session["U_IsFromPPC"]))
+                {
+                    salePrice = Decimal.Divide(pe.PPCPromoPriceIncVat, Model.VatMultiplier);
+                    voucher = ConfigurationManager.AppSettings["PPCPromoCode"];
+                }
+                if (Model.IsOEMSaleActive)
+                {
+                    salePrice = Decimal.Divide(pe.PriceSaleIncVat, Model.VatMultiplier);
+                    voucher = Html.RawFromDict(Model.SaleData, "OEMVoucher").ToSafeString();
+                    offerClass = "oem";
+                }
+            }
+        }
+        if (pe.IsStationerySaleItem)
+        {
+            if (Model.IsStationerySaleActive)
+            {
+                salePrice = Decimal.Divide(pe.PriceSaleIncVat, Model.VatMultiplier);
+                voucher = Html.RawFromDict(Model.SaleData, "StationeryVoucher").ToSafeString();
+                offerClass = "stat";
+            }
+        }
+        if (Model.Product.AttValue6 == 1)
+        {
+            cashbackPrice2 = subPrice - Convert.ToDecimal(Model.Product.SpecLine3);
+            cashbackPrice1 = Decimal.Divide(cashbackPrice2, Model.VatMultiplier);
+        }
+    }
+}
+
+<div itemtype="http://schema.org/Product" itemscope>
+<section data-stellar-background-ratio="0.5" data-stellar-ratio="1" style="background-image: url('@Html.RawFromDict(Model.CommonData, "FeatureBackground")')">
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-md-12 comm-title-banner g-h-150-md g-fc-st">
+                @if ("Toner,Ink,Franking,Solid Ink".Contains(pe.Type))
+                {
+                    <div class="bread-crumb hidden-xs hidden-sm">
+                        <a class="second" href="/">Home</a>
+                        <i class="fa fa-chevron-right g-fs-xs-i"></i>
+                        <a class="second" href="/@((pe.Type + " Cartridges").ToLower().Replace(' ', '-'))/">
+                            @(pe.Type) Cartridges
+                        </a>
+                        @if (ViewBag.Brand != "")
+                        {
+                            <i class="fa fa-chevron-right g-fs-xs-i"></i>
+                            <a class="second" href="/@((pe.Type + " Cartridges").ToLower().Replace(' ', '-'))/@ViewBag.Brand.Replace(' ', '-')/">
+                                @ViewBag.Brand
+                            </a>
+                        }
+                        <i class="fa fa-chevron-right g-fs-xs-i"></i>
+                        @pe.Description
+                    </div>
+                }
+                else
+                {
+                    <div class="bread-crumb hidden-xs hidden-sm">
+                        <a class="second" href="/">Home</a>
+                        @*<i class="fa fa-chevron-right g-fs-xs-i"></i>
+                                <span class="g-tt-c">@Model.ProductDetail.Rows[0]["CategoryCodeName"].ToString()</span>
+                                <i class="fa fa-chevron-right g-fs-xs-i"></i>
+                                <span class="g-tt-c">@Model.ProductDetail.Rows[0]["Brand"].ToString()</span>*@
+                        <i class="fa fa-chevron-right g-fs-xs-i"></i>
+                        <a class="second" href="/products/@Utilities.CleanUrl(pe.CategoryCodeName).ToLower()-@(pe.AxisGroupNo)/">
+                            @pe.CategoryCodeName
+                        </a>
+                        <i class="fa fa-chevron-right g-fs-xs-i"></i>
+                        @pe.Description
+                    </div>
+                }
+
+                <div class="comm-title-margin g-m-t-a">
+                    <div class="col-lg-10 col-md-9">
+
+                        <div class="@tooltipHighlight" data-tooltipname="PricePromise">
+                            <h1 class="g-w-630">
+                                <span itemprop="name">@pe.Description</span>
+                            </h1>
+                            <div class="g-i">
+                                <strong>Product Code:</strong> @pe.PartNo
+                            </div>
+                        </div>
+                        
+
+                        @if (Model.FeeFoList.Count > 0)
+                        {
+                            <div class="clearfix g-cur-p g-m-t-10 g-w-190"
+                                 onclick="scrollToSelector('#reviews');"
+                                 data-toggle="tooltip"
+                                 data-placement="bottom"
+                                 title="@pe.FeeFoCount reviews, average rating: @pe.FeeFoRating.ToString("0.00")">
+                                <div class="pull-left">
+                                    <strong>Product Rating:</strong>
+                                </div>
+                                <div class="pull-left g-of-h g-p-l-5" style="white-space: nowrap; width: @(feefowidth)px">
+                                    <i class="fa fa-star g-fc-ff"></i>
+                                    <i class="fa fa-star g-fc-ff"></i>
+                                    <i class="fa fa-star g-fc-ff"></i>
+                                    <i class="fa fa-star g-fc-ff"></i>
+                                    <i class="fa fa-star g-fc-ff"></i>
+                                </div>
+                                @*<div class="pull-left g-p-l-5">
+                                            (@pe.FeeFoCount.ToString() Reviews)
+                                        </div>*@
+                            </div>
+                        }
+                    </div>
+                    <div class="col-lg-2 col-md-3 pull-right text-right hidden-xs hidden-sm">
+                        <div>
+                            <button class="popup g-cur-p g-butt-second-inv g-butt-lg"
+                                    data-popupname="AskAQuestion"
+                                    data-replacements="@ViewBag.AskAQuestionRep"
+                                    data-toggle="modal"
+                                    data-target="#popup">
+                                Ask a Question
+                            </button>
+                        </div>
+                        @Html.ShowSaleInfoButton(Model.IsCompatibleSaleActive, Model.IsOEMSaleActive, Model.IsStationerySaleActive)
+                    </div>
+                </div>
+
+                <div class="comm-title-image g-b-1-p g-bc-s g-flex-allcenter">
+                    <img src="@ConfigurationManager.AppSettings["CDN"]/Images/BannerLogos/@(pe.Brand.Replace(' ', '-').Replace("-&", "").ToLower()).jpg" alt="@pe.Brand" onerror="this.src = '@ConfigurationManager.AppSettings["CDN"]/Images/noimage.jpg';"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="page-content" class="comm-content g-bc-p g-p-b-100">
+<div class="container body-content g-ps-r">
+<div class="row g-m-t-20">
+<div class="col-md-12">
+<div class="row">
+
+<!-- Left Hand Column -->
+<div class="col-md-9">
+    <hr class="g-m-tb-20"/>
+
+    <!-- Main -->
+    <div>
+        <div class="clearfix prd-main-entry">
+            <div class="clearfix prd-entry-col1 g-bc-s g-b-1-p g-ps-r g-va-t">
+                @if (pe.BrandFlag.Equals(BrandFlag.Original))
+                {
+                    <div class="g-bc-secondary g-fc-st text-center g-lh-30 g-m-b-10">Genuine @pe.Brand Product</div>
+                }
+                else
+                {
+                    <div class="g-fc-st text-center g-h-30"></div>
+                }
+                <div class="g-flex-allcenter prd-image-container g-cur-p g-ps-r">
+                    <img id="prd-image" src="@pe.ImageUrl" alt="@pe.Description" data-toggle="modal" data-target="#imageModal"
+                         onerror="this.src = '@ConfigurationManager.AppSettings["CDN"]/Images/noimage.jpg';"/>
+                    @if (Model.ImageList.Count > 0)
+                    {
+                        <span>
+                            <img id="image-zoom" class="msp_zoom g-ps-a g-d-n" src="/Content/Images/1pxTrans.png" alt="zoom"/>
+                        </span>
+                    }
+                </div>
+                <div class="g-ps-a g-btm-0 g-w-100p">
+                    <div class="text-center g-lh-30 g-w-100p g-m-lr-a">
+                        @foreach (string img in Model.ImageList)
+                        {
+                            string active = "";
+                            if (img == pe.ImageUrl)
+                            {
+                                active = "active";
+                            }
+                            <img src="/Content/Images/1pxTrans.png" class="prd-altImage msp_chkBox_unChecked g-m-r-10 g-cur-p @active" title="click to view alternative image" data-image="@img"/>
+                        }
+                    </div>
+                </div>
+                @{
+                    List<int> inkTypes = new List<int>() {1,2,5,7};
+
+                    if (pe.CompatibleSaleIsApplicable && pe.BrandFlag.Equals(BrandFlag.Compatible) && isConsumable)
+                     {
+                         @Html.RawFromDict(Model.SaleData, "CompatibleSash")
+                     }
+                    if (pe.OEMSaleIsApplicable && pe.BrandFlag.Equals(BrandFlag.Original) && isConsumable)
+                     {
+                         @Html.RawFromDict(Model.SaleData, "OEMSash")
+                     }
+                    if (Model.IsStationerySaleActive && pe.IsStationerySaleItem)
+                     {
+                         @Html.RawFromDict(Model.SaleData, "StationerySash")
+                     }
+                    if (((!pe.CompatibleSaleIsApplicable && pe.BrandFlag.Equals(BrandFlag.Compatible) && inkTypes.Contains(pe.ProductTypeID))
+                        || (!pe.OEMSaleIsApplicable && pe.BrandFlag.Equals(BrandFlag.Original) && inkTypes.Contains(pe.ProductTypeID)) 
+                        || (!Model.IsStationerySaleActive && pe.IsStationerySaleItem))
+                            && pe.AttValue6 != 0
+                            && pe.AttValue6 != 25)
+                    {
+                        @Html.Raw(pe.OfferSashImage)
+                    }
+                }
+            </div>
+            <div class="clearfix g-p-lr-20 g-p-b-10 g-va-t">
+                <div class="g-flex-column g-fs-sm">
+                    @if (pe.AttValue6 == 25)
+                    {
+                        @Html.RawFromDict(Model.ProductData, "DeliveryMessageOverride");
+                    }
+                    else
+                    {
+                        <div class="popup g-cur-p g-p-t-10 g-m-b-10"
+                             data-popupname="FreeDelivery"
+                             data-toggle="modal"
+                             data-target="#popup">
+                            <div class="g-lh-25 clearfix">
+                                <div class="g-d-ib g-w-35">
+                                    <img src="~/Content/Images/1pxTrans.png" class="msp_delivery" alt="Delivery"/>
+                                </div>
+                                <div class="g-d-ib">
+                                    <span>@Html.Raw(int.Parse(ConfigurationManager.AppSettings["WebsiteId"]) == 3 ? "Free Delivery on Orders Over &pound;100" : "Fast &amp; Free Delivery")</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @if (pe.BrandFlag.Equals(BrandFlag.Compatible))
+                    {
+                        <div class="popup g-cur-p g-m-b-10 g-lh-25 clearfix"
+                             data-popupname="CompatibleGuarantee"
+                             data-toggle="modal"
+                             data-target="#popup">
+                            <div class="g-d-ib g-w-35">
+                                <img src="/Content/Images/1pxTrans.png" class="msp_bullGuarantee" alt="BulletInfo"/>
+                            </div>
+                            <div class="g-d-ib">
+                                <span>3 Year Guarantee</span>
+                            </div>
+                        </div>
+                    }
+
+                    @if (pe.AttValue6 != 0 && pe.OfferBullet != null)
+                    {
+                        <div class="g-cur-p g-m-b-10 g-lh-25 clearfix">
+                            @Html.Raw(pe.OfferBullet)
+                        </div>
+                    }
+
+                    @if (Model.ProductPdfs.Count > 0)
+                    {
+                        <div class="g-m-b-10">
+                            <div class="g-ps-r">
+                                <div class="product-pdfs g-lh-25 clearfix">
+                                    <div class="g-d-ib g-w-35">
+                                        <img src="/Content/Images/1pxTrans.png" class="msp_bullInfo" alt="information"/>
+                                    </div>
+                                    <div class="g-d-ib">
+                                        <span>Product Documentation</span>
+                                    </div>
+                                    <div class="hide content g-ps-a g-bc-s g-b-1-p g-p-10">
+                                        <div>
+                                            <div class="g-m-b-10">
+                                                <strong>Documents</strong>
+                                            </div>
+                                            @{ var count = 1; }
+                                            @foreach (var pdf in Model.ProductPdfs)
+                                            {
+                                                <div>
+                                                    <a href="@pdf.Url" target="_blank">@(pdf.Description ?? "Document " + count)</a>
+                                                </div>
+
+                                                count++;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                                                
+                    @if (pe.Type == "Stationery")
+                    {
+                        if (pe.PageYield > 1)
+                        {
+                            <div class="popup g-cur-p g-p-t-10 g-m-b-10"
+                                 data-popupname="PackQuantity"
+                                 data-toggle="modal"
+                                 data-target="#popup">
+                                <div class="g-lh-25 clearfix">
+                                    <div class="g-d-ib g-w-35">
+                                        <img src="~/Content/Images/1pxTrans.png" class="msp_packSize" alt="Pack Quantity" />
+                                    </div>
+                                    <div class="g-d-ib">
+                                        <span>Pack Quantity: @pe.PageYield</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    
+                    @if (Model.Product.SpecLine6 == "Paper" || Model.Product.SpecLine6 == "Printer" || Model.Product.SpecLine6 == "Stationery"
+                         || Model.Product.SpecLine6 == "Audio Visual" || Model.Product.SpecLine6 == "")
+                    {
+                        <div class="flix-container">
+                            <div id="flix-minisite"></div>
+                        </div>
+                    }
+
+                    <div class="row clearfix">
+                        @if (pe.PrimarySortSeq.Equals(ProductFlag.Assembly))
+                        {
+                            if (pe.AssemblySaving > 0)
+                            {
+                                <div class="popup g-cur-p clearfix g-flex-vcenter g-p-b-10 col-xs-12"
+                                     data-popupname="MultiPackSaving"
+                                     data-replacements="savingamount=&pound;@pe.AssemblySaving.ToString("#,###,##0.00")"
+                                     data-toggle="modal"
+                                     data-target="#popup">
+                                    <img src="~/Content/Images/1pxTrans.png" class="msp_multibox" alt="Multipack Saving"/>
+                                    <span class="g-m-l-5">Multipack Saving </span>
+                                    <span class="g-p-l-5">&pound;@pe.AssemblySaving.ToString("#,###,##0.00")</span>
+                                </div>
+                            }
+                            foreach (ProductComponent ce in pe.ComponentList)
+                            {
+                                <div class="popup g-cur-p clearfix g-flex-vcenter g-p-b-10 col-xs-12 g-c-b"
+                                     data-popupname="ColourChip"
+                                     data-toggle="modal"
+                                     data-target="#popup">
+                                    <div class="g-m-l-10">@(ce.AttValue9 != 2 ? ce.PackQuantity.ToString() + " x" : "")</div>
+                                    <div class="pl-chip g-fc-st g-m-lr-5 cc-@ce.AttValue8">@ce.AttDesc8</div>
+                                    @if (ce.PageYield > 0)
+                                    {
+                                        <div>@ce.PageYield.ToString("#,###,##0") Pages</div>
+                                    }
+                                </div>
+                            }
+                        }
+
+                        @if (pe.Type == "Toner" || pe.Type == "Ink" || pe.Type == "Franking" || pe.Type == "Solid Ink")
+                        {
+                            if (pe.PageYield > 1)
+                            {
+                                <div class="popup g-cur-p clearfix g-flex-vcenter g-p-b-10 col-xs-12"
+                                     data-popupname="CostPerPage"
+                                     data-toggle="modal"
+                                     data-target="#popup">
+                                    <span class="fa-stack g-m-l-5">
+                                        <i class="fa fa-file-o fa-stack-2x"></i>
+                                        <span class="fa-stack-1x fa-nudge-down">&pound;</span>
+                                    </span>
+                                    <span class="g-m-l-10">Cost per page @((mainPrice * 100 / pe.PageYield).ToString("#,###,##0.00"))p</span>
+                                </div>
+                            }
+                            if (pe.PrimarySortSeq.Equals(ProductFlag.Ancillary))
+                            {
+                                if (pe.AttValue9 > 0)
+                                {
+                                    <div class="popup g-cur-p clearfix g-flex-vcenter g-p-b-10 col-xs-12"
+                                         data-popupname="ColourChip"
+                                         data-toggle="modal"
+                                         data-target="#popup">
+                                        <div class="g-m-l-10">1 x</div>
+                                        <div class="pl-chip g-fc-st g-m-lr-5 cc-@pe.AttValue8">@pe.AttDesc8</div>
+                                        @if (pe.PageYield > 1)
+                                        {
+                                            <div>@pe.PageYield.ToString("#,###,##0") Cycles</div>
+                                        }
+                                    </div>
+                                }
+                            }
+                            if (pe.AttValue8 > 0)
+                            {
+                                if (pe.PrimarySortSeq.Equals(ProductFlag.Product))
+                                {
+                                    <div class="popup g-cur-p clearfix g-flex-vcenter g-p-b-10 col-xs-12"
+                                         data-popupname="ColourChip"
+                                         data-toggle="modal"
+                                         data-target="#popup">
+                                        
+                                        @if (pe.AttValue9 != 2)
+                                        {
+                                            <div class="g-m-l-10">1 x</div>
+                                        }
+
+                                        <div class="pl-chip g-fc-st @(pe.AttValue9 != 2 ? "g-m-l-10" : "g-m-l-5") g-m-r-10 cc-@pe.AttValue8">@pe.AttDesc8</div>
+                                        @if (pe.PageYield > 1)
+                                        {
+                                            <div>@pe.PageYield.ToString("#,###,##0") Pages</div>
+                                        }
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="atb-entry g-w-250-md g-bc-s g-b-1-p g-p-lr-10 g-ps-r g-va-t clearfix" itemtype="http://schema.org/Offer" itemscope itemprop="offers">
+                @if (pe.BrandFlag.Equals(BrandFlag.Compatible))
+                {
+                    if (isConsumable 
+                        && ((Model.Product.CompatibleSaleIsApplicable && Model.CompatibleDiscount > 0) 
+                            || (Convert.ToBoolean(ConfigurationManager.AppSettings["PPCPromoIsOn"]) && Convert.ToBoolean(Session["U_IsFromPPC"]))))
+                    {
+                        @Html.RawFromDict(Model.ProductData, "CompatibleOverlayCss")
+
+                        <div class="@offerClass offer-overlay g-fc-st g-ps-r">
+                            <div class="clearfix g-p-5">
+                                <div class="pull-left">
+                                    <strong>@(Model.IsCompatibleSaleActive ? "SALE PRICE" : "EXCLUSIVE OFFER PRICE")</strong>
+                                </div>
+                                <div class="pull-right">
+                                    <i class="fa fa-info-circle fa-lg"
+                                       data-toggle="tooltip"
+                                       data-html="true"
+                                       data-placement="bottom"
+                                       title="Voucher Instructions:<ol><li>Add items to your basket</li><li>Go to basket page</li><li>Enter voucher code shown</li></ol>">
+                                    </i>
+                                </div>
+                            </div>
+                            <div class="g-fs-lg g-p-lr-5">
+                                &pound;@salePrice.ToString("#,###,##0.00") <span class="g-fc-st g-fs-sm">@mainPriceVAT</span>
+                            </div>
+                            <div class="g-p-lr-5">
+                                With Voucher Code: <strong>@voucher</strong>
+                            </div>
+
+                        </div>
+                    }
+                }
+                @if (pe.BrandFlag.Equals(BrandFlag.Original))
+                {
+                    if (isConsumable 
+                        && ((Model.Product.OEMSaleIsApplicable && Model.OEMDiscount > 0) 
+                            || (Convert.ToBoolean(ConfigurationManager.AppSettings["PPCPromoIsOn"]) && Convert.ToBoolean(Session["U_IsFromPPC"]))))
+                    {
+                        @Html.RawFromDict(Model.ProductData, "OEMOverlayCss")
+
+                        <div class="@offerClass offer-overlay g-fc-st g-ps-r">
+                            <div class="clearfix g-p-5">
+                                <div class="pull-left">
+                                    <strong>@(Model.IsOEMSaleActive ? "SALE PRICE" : "EXCLUSIVE OFFER PRICE")</strong>
+                                </div>
+                                <div class="pull-right">
+                                    <i class="fa fa-info-circle fa-lg"
+                                       data-toggle="tooltip"
+                                       data-html="true"
+                                       data-placement="bottom"
+                                       title="Voucher Instructions:<ol><li>Add items to your basket</li><li>Go to basket page</li><li>Enter voucher code shown</li></ol>">
+                                    </i>
+                                </div>
+                            </div>
+                            <div class="g-fs-lg g-p-lr-5">
+                                &pound;@salePrice.ToString("#,###,##0.00") <span class="g-fc-st g-fs-sm">@mainPriceVAT</span>
+                            </div>
+                            <div class="g-p-lr-5">
+                                With Voucher Code: <strong>@voucher</strong>
+                            </div>
+
+                        </div>
+                    }
+                    else
+                    {
+                        if (pe.IsStationerySaleItem && Model.IsStationerySaleActive)
+                        {
+                            @Html.RawFromDict(Model.ProductData, "StationeryOverlayCss")
+
+                            <div class="@offerClass offer-overlay g-fc-st g-ps-r">
+                                <div class="clearfix g-p-5">
+                                    <div class="pull-left">
+                                        <strong>@(Model.IsOEMSaleActive ? "SALE PRICE" : "EXCLUSIVE OFFER PRICE")</strong>
+                                    </div>
+                                    <div class="pull-right">
+                                        <i class="fa fa-info-circle fa-lg"
+                                           data-toggle="tooltip"
+                                           data-html="true"
+                                           data-placement="bottom"
+                                           title="Voucher Instructions:<ol><li>Add items to your basket</li><li>Go to basket page</li><li>Enter voucher code shown</li></ol>">
+                                        </i>
+                                    </div>
+                                </div>
+                                <div class="g-fs-lg g-p-lr-5">
+                                    &pound;@salePrice.ToString("#,###,##0.00") <span class="g-fc-st g-fs-sm">@mainPriceVAT</span>
+                                </div>
+                                <div class="g-p-lr-5">
+                                    With Voucher Code: <strong>@voucher</strong>
+                                </div>
+
+                            </div>
+                        }
+                        else
+                        {
+                            if (Model.Product.AttValue6 == 1)
+                            {
+                                <div class="cashback offer-overlay g-fc-st g-ps-r">
+                                    <div class="clearfix g-p-5">
+                                        <div class="pull-left"><strong> PRICE AFTER CASHBACK</strong>
+                                        </div>
+                                        <div class="pull-right">
+                                            <i class="fa fa-info-circle fa-lg" data-toggle="tooltip" data-html="true" data-placement="bottom" title="To claim cashback follow the instructions on the product detail page."></i>
+                                        </div>
+                                    </div>
+                                    <div class="g-fs-lg g-p-lr-5">&pound;@cashbackPrice1.ToString("#,###,##0.00")
+                                        <span class="g-fc-st g-fs-sm">@mainPriceVAT</span>
+                                    </div>
+                                    <div class="g-p-lr-5">&pound;@cashbackPrice2.ToString("#,###,##0.00")
+                                        <span class="g-fc-st g-fs-sm">@subPriceVAT</span>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                }
+
+                <div class="g-fs-lg g-m-t-10">
+                    <span itemprop="priceCurrency" content="GBP"><strong>&pound;</strong></span><span itemprop="price" content="@mainPrice"><strong>@mainPrice.ToString("#,###,##0.00")</strong></span>
+                </div>
+
+                <div class="g-fs-n">
+                    &pound;@subPrice.ToString("#,###,##0.00") <span class="g-fc-tt g-fs-sm">@subPriceVAT</span>
+                </div>
+
+                <div class="text-center g-m-t-10 g-fs-sm g-lh-20">
+                    @Html.ProductAvailability(@pe.Availability, Convert.ToBoolean(Model.CommonData["DeliveryDateIsOverridden"].ToString()))
+                </div>
+
+                <div class="clearfix">
+                    <div class="row g-m-t-10">
+                        <div class="col-md-4 col-xs-4">
+                            @(Html.Kendo().NumericTextBox<int>()
+                                .Format("#")
+                                .Name("qty")
+                                .Value(1)
+                                .Placeholder("Enter quantity")
+                                .HtmlAttributes(new { style = "height: 34px", @class = "atb-qty" })
+                                .Min(1)
+                                .Max(1000)
+                                .Events(events => events
+                                    .Change(
+                                            @<text>
+                                                function(e) {
+                                                    if(!this.value()) this.value(1);
+                                                }
+                                            </text>
+                                    ).Spin(
+                                            @<text>
+                                                function(e) {
+                                                    if(!this.value()) this.value(1);
+                                                }
+                                            </text>
+                                    )
+                                )
+                            )
+                        </div>
+                    
+                        <div class="col-md-8 col-xs-8">
+                            <button class="atb-add g-butt-primary g-butt-lg"
+                                    data-price="@mainPrice.ToString("N2")"
+                                    data-productid="@pe.Reference"
+                                    data-partno="@pe.PartNo"
+                                    data-imageurl="@pe.ImageUrl"
+                                    data-desc="@pe.Description">
+                                Add to Basket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                @if (ViewBag.BasketCount > 0)
+                {
+                    hideBasketCount = "";
+                }
+                <div class="g-fs-sm g-m-t-10 g-m-b-10 g-i text-center @hideBasketCount">
+                    <div class="row visible-xs visible-sm g-m-0">
+                        <div class="col-md-4 col-xs-4 g-bc-tt g-fc-st g-b-1-i">
+                            <span class="atb-count">@ViewBag.BasketCount</span> in Basket
+                        </div>
+                        <div class="col-md-8 col-xs-8 g-bc-tt g-b-1-i">
+                            <a class="second" href="~/checkout/">Checkout</a>
+                        </div>
+                    </div>
+                    <div class="hidden-sm hidden-xs">
+                        <span class="atb-count">@ViewBag.BasketCount</span> in Basket | <a href="~/checkout/"> Checkout</a>
+                    </div>
+                </div>
+
+                @if (pe.CrossSellProductID != 0 && !Model.PpcSuppress)
+                {
+                    <div class="g-m-t-15 g-m-b-10">
+                        <div class="g-bc-note g-b-1-p clearfix">
+                            <div class="g-h-60 g-bc-s pull-left">
+                                <a class="g-h-100p g-lh-60" href="~/@pe.CrossSellProductURL">
+                                    <img src="@pe.CrossSellImage" alt="@pe.Description" class="g-va-m g-w-60 g-p-5"/>
+                                </a>
+                            </div>
+                            <div class="pull-left g-p-10 g-h-60">
+                                <div>
+                                    <a class="primary" href="~/@pe.CrossSellProductURL">
+                                        @if (pe.BrandFlag.Equals(BrandFlag.Original))
+                                        {
+                                            <span>Compatible Alternative</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Original Alternative</span>
+                                        }
+                                    </a>
+                                </div>
+                                <div class="">
+                                    <strong>&pound;@crossSellPrice.ToString("#,###,##0.00")</strong> <span class="g-fc-tt g-fs-sm">@mainPriceVAT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="visible-xs visible-sm">
+        @RenderBuyMore(pe, mainPrice, mainB1Price, mainB2Price, subB1Price, subB2Price, subPriceVAT)
+    </div>
+
+    @{ 
+        if (Model.SecondaryXSellList.Count > 0)
+        {
+            Model.MiniProductEntries = Model.SecondaryXSellList;
+            ViewBag.MiniProductEntryTitle = "Usually bought together";
+            Html.RenderPartial("~/Views/Product/MiniProductEntry.cshtml", Model);
+        }
+
+        if (Model.PrinterSupplies.Count > 0)
+        {
+            Model.MiniProductEntries = Model.PrinterSupplies;
+            ViewBag.MiniProductEntryTitle = "Supplies for this printer";
+            Html.RenderPartial("~/Views/Product/MiniProductEntry.cshtml", Model);
+        }
+    }
+
+    <hr class="g-m-tb-20"/>
+
+    <!-- Product Details -->
+    <h2 id="special-offer-scrollto">Product Details</h2>
+    @if (pe.ProductNotes != "")
+    {
+        <div class="g-m-t-10 g-m-b-20 clearfix">
+            @Html.Raw(pe.ProductNotes)
+        </div>
+    }
+
+    <div class="prd-details g-b-1-p g-bc-s">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="g-p-tb-5">
+                    <strong>Product Specification</strong>
+                </div>
+            </div>
+        </div>
+
+        @{ Html.RenderPartial("~/Views/Product/Specification.cshtml", Model); }
+    </div>
+
+    <div class="visible-xs visible-sm">
+        <hr class="g-m-tb-20"/>
+        @RenderCompatiblePrinters(pe)
+    </div>
+
+    @{
+        if (Model.Product.SpecLine6 == "Paper" || Model.Product.SpecLine6 == "Printer" || Model.Product.SpecLine6 == "Stationery"
+            || Model.Product.SpecLine6 == "Audio Visual" || Model.Product.SpecLine6 == "")
+        {
+            <div class="flix-data">
+                <hr class="g-m-t-40 g-m-b-20"/>
+                <h2>Additional Information</h2>
+                <div id="flix-data" class="g-b-1-p g-bc-s"></div>
+            </div>
+        }
+
+        if (Model.FeeFoList.Count > 0)
+        {
+            Html.RenderPartial("~/Views/Product/Reviews.cshtml", Model);
+        }
+
+        Html.RenderPartial("~/Views/Product/QandA.cshtml", Model.ProductQA);
+    }
+
+    <div class="g-m-t-60">
+        @{
+            Html.RenderPartial("~/Views/Shared/LiveChat.cshtml", Model);
+        }
+    </div>
+</div>
+
+<!-- Right Hand Column -->
+<div class="col-md-3 restrict-images">
+    @if (isConsumable)
+    //@if (Model.Product.Type != "Printers" && Model.Product.Type != "Paper" && Model.Product.Type != "Stationery")
+    {
+        if (pe.BrandFlag.Equals(BrandFlag.Original))
+        {
+            <div class="g-m-t-20">
+                @(pe.OEMSaleIsApplicable && isConsumable ? Html.RawFromDict(Model.SaleData, "ProductMarketingOEM", null, "hidden-xs hidden-sm") : Html.RawFromDict(Model.ProductData, "ProductMarketing1Orig", null, "hidden-xs hidden-sm"))
+            </div>
+        }
+        else
+        {
+            <div class="g-m-t-20">
+                @(pe.CompatibleSaleIsApplicable && isConsumable ? @Html.RawFromDict(Model.SaleData, "ProductMarketingCompatible", null, "hidden-xs hidden-sm") : @Html.RawFromDict(Model.ProductData, "ProductMarketing1Compat", null, "hidden-xs hidden-sm"))
+            </div>
+        }
+    }
+    else
+    {
+        <div class="g-m-t-20">
+            @(Model.IsStationerySaleActive && pe.IsStationerySaleItem ? @Html.RawFromDict(Model.SaleData, "ProductMarketingStationery", null, "hidden-xs hidden-sm") : @Html.RawFromDict(Model.ProductData, "ProductMarketing3", null, "hidden-xs hidden-sm"))
+        </div>
+    }
+
+    <div class="hidden-xs hidden-sm">
+        @RenderBuyMore(pe, mainPrice, mainB1Price, mainB2Price, subB1Price, subB2Price, subPriceVAT)
+        <hr class="g-m-tb-20"/>
+        @RenderCompatiblePrinters(pe)
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+@{
+    Html.RenderPartial("~/Views/Product/ImageModal.cshtml", Model.ImageList);
+}
+
+@section scripts {
+    @if (Model.Product.Type == "Paper" || Model.Product.Type == "Printers" || Model.Product.Type == "Stationery" || Model.Product.SpecLine6 == "")
+    {
+        <script id="flixinpage" type="text/javascript" src="//media.flixfacts.com/js/loader.js" data-flix-distributor="@Model.ProductData["FlixDataSiteId"]" data-flix-language="EN"
+                data-flix-brand="@Model.Product.Brand" data-flix-mpn="@Model.Product.PartNo" data-flix-ean="" data-flix-sku="" data-flix-button="flix-minisite" data-flix-inpage="flix-data"
+                data-flix-button-image="/Content/Images/1pxTrans.png" data-flix-fallback-language="" data-flix-price="">
+        </script>
+    }
+}
+
+@section AddScript
+{
+    @{
+        Html.RenderPartial("~/Views/Product/JSTracking.cshtml", Model);
+    }
+}
+
+@helper RenderBuyMore(ProductEntry pe, decimal mainPrice, decimal mainB1Price, decimal mainB2Price, decimal subB1Price, decimal subB2Price, string subPriceVAT)
+{
+if ((mainPrice != mainB1Price && mainPrice != mainB2Price) && (mainB1Price != 0 || mainB2Price != 0))
+{
+        <hr class="g-m-tb-20" />
+        <div class="clearfix">
+            <h2 class="pull-left">Buy More &amp; Save</h2>
+        </div>
+        <div class="g-bc-s g-b-1-p">
+            <div class="g-p-10">
+                <strong>Multibuy Discounts</strong>
+            </div>
+            <hr/>
+            <div class="g-p-10">
+
+                @{
+                    var sBreakQty2 = (pe.BreakQty1 + 1).ToString("#0");
+                    var sBreakQty3 = (pe.BreakQty2 + 1).ToString("#0") + "+";
+
+                    if (pe.BreakQty1 + 1 < pe.BreakQty2)
+                    {
+                        sBreakQty2 = sBreakQty2 + "+";
+                    }
+                }
+
+                <div class="row">
+                    <div class="col-xs-2">@sBreakQty2</div>
+                    <div class="col-xs-4">&pound;@mainB1Price.ToString("#,###,##0.00")</div>
+                    <div class="col-xs-6 g-fc-tt">
+                        (&pound;@subB1Price.ToString("#,###,##0.00") <span class="g-fs-sm">@subPriceVAT)</span>
+                    </div>
+                </div>
+                <div class="row g-m-t-10">
+                    <div class="col-xs-2">@sBreakQty3</div>
+                    <div class="col-xs-4">&pound;@mainB2Price.ToString("#,###,##0.00")</div>
+                    <div class="col-xs-6 g-fc-tt">
+                        (&pound;@subB2Price.ToString("#,###,##0.00") <span class="g-fs-sm">@subPriceVAT)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+@helper RenderCompatiblePrinters(ProductEntry pe)
+{
+    if (pe.Type == "Toner" || pe.Type == "Ink" || pe.Type == "Franking" || pe.Type == "Solid Ink")
+    {
+        <div class="clearfix">
+            <h2 class="pull-left">Works in these printers</h2>
+        </div>
+        <div class="g-bc-s g-b-1-p">
+            <div class="g-p-10">
+                <strong>Guaranteed to work in the following</strong>
+            </div>
+            <hr/>
+            <div class="g-p-10">
+                <div class="moreLess" data-num-items="25" data-buttclass="g-butt-100p" data-scroll-offset="80">
+                    @foreach (ExtdSelectListItem sli in Model.ModelList)
+                    {
+                        var addatt = HtmlHelper.AnonymousObjectToHtmlAttributes(sli.Data);
+                        string ctype = addatt.First(x => x.Key == "data-ctype").Value.ToString();
+                        <div class="g-p-b-10">
+                            <a class="primary" href="/model/@sli.Text.Replace(" ", "-")-@ctype.Replace(" ", "-")/">@sli.Text</a>
+                        </div>
+                    }                 
+                </div>
+            </div>            
+        </div>
+    }
+}

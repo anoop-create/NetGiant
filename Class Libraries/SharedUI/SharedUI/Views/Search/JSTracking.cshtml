@@ -1,0 +1,38 @@
+﻿@using BusinessLogic.ViewModels;
+
+@model SearchViewModel
+
+@{
+    int equipcount = Model.Results.Count(x => x.ItemType == "Equipment");
+    int prodcount = Model.Results.Count(x => x.ItemType == "Product");
+    if (equipcount == 0 && prodcount == 0)
+    {
+        <text>
+            _gaq.push(['_trackEvent', 'Site Search', 'No Results', '@ViewBag.Term']);
+        </text>
+    }
+    if (equipcount == 0)
+    {
+        <text>
+            _gaq.push(['_trackEvent', 'Site Search', 'No Results Equipment', '@ViewBag.Term']);
+        </text>
+    }
+    if (equipcount > 7)
+    {
+        <text>
+            _gaq.push(['_trackEvent', 'Site Search', 'Equipment8', '@ViewBag.Term']);
+        </text>
+    }
+    if (prodcount == 0)
+    {
+        <text>
+            _gaq.push(['_trackEvent', 'Site Search', 'No Results Product', '@ViewBag.Term']);
+        </text>
+    }
+    if (prodcount > 9)
+    {
+        <text>
+            _gaq.push(['_trackEvent', 'Site Search', 'Products10', '@ViewBag.Term']);
+        </text>
+    }
+}

@@ -1,0 +1,313 @@
+﻿@using System.Configuration
+@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using DataAccess.EntityFramework
+@using SharedUI.Models;
+@using Kendo.Mvc.UI
+@using VmVoucherType = VMerchantWrapper.Entities.VoucherType
+
+@model CheckoutViewModel
+
+@if (Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery > 0)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <hr class="g-m-b-10 hidden-xs hidden-sm"/>
+            <div class="row g-fw-b">
+                <div class="col-md-8 g-flex-vcenter-md">
+                    <div class="pull-left">
+                        Items <span class="g-fc-s">(<span class="basketQuantity">@Model.BasketTotals.Quantity.ToString("##0")</span>)</span>
+                    </div>
+                    <div class="g-m-l-a g-p-r-10 hidden-xs hidden-sm pull-right">Price</div>
+                </div>
+                <div class="col-md-4 g-flex-vcenter-md hidden-xs hidden-sm">
+                    <div class="g-m-l-10 text-center pull-left">
+                        Quantity
+                    </div>
+                    <div class="g-m-l-a g-p-r-20 hidden-xs hidden-sm pull-right">Sub-Total</div>
+                </div>
+            </div>
+
+            <div id="basketSummary" class="basketSummaryContainer">
+                @{
+                    foreach (BasketContents bc in Model.BasketContents)
+                    {
+                        if (!bc.IsDelivery && !bc.IsVoucher)
+                        {
+                            string neg = bc.IsAdminDiscount ? "-" : "";
+                            List<int> noStock = new List<int> { 2, 3, 4, 8, 11 }; // Availability codes which indicate 0 stock
+                            if (noStock.Contains(bc.Availability))
+                            {
+                                Model.CheckoutDetails.ZeroStock = true;
+                            }
+                            if (bc.Availability == 10)
+                            {
+                                Model.CheckoutDetails.IsSpecialOrder = true;
+                            }
+                            decimal subt = bc.PriceEx * bc.Quantity;
+
+                            <hr class="g-m-tb-10"/>
+                            <div class="row basket-entry g-m-tb-10 clearfix atb-entry" data-productid="@bc.StockRef">
+                                <div class="col-md-8 clearfix">
+                                    <div class="basket-element g-m-t-5">
+                                        <a class="primary" href="@bc.ProductUrl">
+                                            <img class="g-b-1-p" src="@bc.ImageUrl" alt="@bc.Description" onerror="this.src = '@ConfigurationManager.AppSettings["CDN"]/Images/noimage.jpg';">
+                                        </a>
+                                    </div>
+                                    <div class="g-m-l-10-md g-m-t-10 g-w-280 basket-element">
+
+                                        <div class="">
+                                            <a class="primary" href="@bc.ProductUrl">@bc.Description</a>
+                                        </div>
+                                        <div class="g-fs-sm g-m-t-5">
+                                            <strong>Product Code:</strong> @bc.PartNo
+                                        </div>
+                                        <div class="text-center g-m-t-10 g-fs-sm g-lh-20 g-w-235 hidden-xs hidden-sm">@Html.ProductAvailability(bc.Availability, Convert.ToBoolean(Model.CommonData["DeliveryDateIsOverridden"].ToString()))</div>
+                                    </div>
+                                    <div class="g-m-l-a xg-p-r-20 g-m-t-40 basket-element be-Price pull-right">@neg@string.Format("{0:C}", bc.PriceEx)</div>
+                                    <div class="atb-add g-d-n"
+                                         data-price="0"
+                                         data-productid="@bc.StockRef"
+                                         data-partno="@bc.PartNo"
+                                         data-imageurl="@bc.ImageUrl"
+                                         data-desc="@bc.Description">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="g-m-l-10-md g-m-t-30 text-center pull-left">
+                                        @if (!bc.IsFreeGift)
+                                        {
+                                            <div class="g-w-78 g-h-40">
+                                                @(Html.Kendo().NumericTextBox<int>()
+                                                      .Format("#")
+                                                      .Name("qty-" + bc.StockRef)
+                                                      .Value(int.Parse(bc.Quantity.ToString()))
+                                                      .Placeholder("Enter quantity")
+                                                      .HtmlAttributes(new {style = "width: 100%; height: 34px", @class = "atb-qty"})
+                                                      .Min(1)
+                                                      .Max(1000)
+                                                      .Events(events => events
+                                                          .Change(
+                                                              @<text>
+                                                                  function(e) {
+                                                                  changeBasketQty("@bc.StockRef", e.sender._value);
+                                                                  }
+                                                               </text>
+                                                          ).Spin(
+                                                              @<text>
+                                                                  function(e) {
+                                                                  changeBasketQty("@bc.StockRef", e.sender._value);
+                                                                  }
+                                                               </text>
+                                                          ))
+                                                      )
+
+                                            </div>
+                                            <div class="delete g-m-t-10 g-fs-sm g-fc-nm g-i g-cur-p" data-productid="@bc.StockRef">
+                                                Remove
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="g-m-l-a g-m-t-40 g-p-r-20 hidden-xs hidden-sm text-right">
+                                        <div>@neg@string.Format("{0:C}", subt)</div>
+                                        @{
+                                            if (Session["V_Voucher"] != null)
+                                            {
+                                                VoucherPromo vp = (VoucherPromo) Session["V_Voucher"];
+                                                if (bc.IsVoucherQualifyingItem && vp.VoucherTypeFk == (int) VmVoucherType.Percentage)
+                                                {
+                                                    <div class="g-m-t-20 g-fs-sm g-fc-pm g-i g-cur-p">
+                                                        Voucher Applied
+                                                    </div>
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                    <hr class="g-m-tb-10"/>
+                }
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="basket-voucher col-md-8">
+            @if ((Model.CheckoutDetails.ZeroStock || Model.CheckoutDetails.IsSpecialOrder) && !Convert.ToBoolean(Session["U_IsPortalUser"]))
+            {
+                Dictionary<string, string> replacements = new Dictionary<string, string>();
+                <div class="g-bc-note g-b-1-p g-p-10 g-m-t-10 g-w-345">@(Html.RawFromDict(Model.CheckoutData, "ZeroStock", replacements))</div>
+            }
+            
+            @if (!Model.BasketContents.Exists(x => x.IsAdminDiscount))
+            {
+                if (Session["B_VoucherCode"].ToSafeString() != "")
+                 {
+                     <div class="g-fc-secondary g-m-t-10">
+                         <strong>Voucher code</strong>
+                     </div>
+                     <div id="voucher-msg" class="g-m-t-10">
+                         <span>Voucher <strong>@Session["B_VoucherCode"].ToSafeString()</strong> has been recognised </span>
+                         <span>
+                             <a class="remove-voucher">[Remove]</a>
+                         </span>
+                     </div>
+                    if (!string.IsNullOrEmpty(ViewBag.VoucherMessage))
+                    {
+                        <div class="g-d-ib">
+                            <div class="error-message g-m-t-10">
+                                <i class="fa fa-exclamation-triangle g-fs-20 g-p-r-10"></i>
+                                <p class="g-m-0 g-d-i g-p-r-10">
+                                    @Html.Raw(ViewBag.VoucherMessage)
+                                </p>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                     <div class="g-fc-secondary g-m-t-10">
+                         <strong>Add a voucher code</strong>
+                     </div>
+                     <div class="bkt-voucher input-group g-m-t-10 g-w-345">
+                         <input id="voucher-code" class="form-control g-h-40 pull-left" placeholder="Enter Voucher Code ..." type="text">
+                         <span class="input-group-btn">
+                             <button id="apply-voucher" class="g-butt-secondary g-butt-lg g-fs-n" type="button">Apply Voucher</button>
+                         </span>
+                     </div>
+                    <div class="g-d-ib">
+                        <div class="error-message g-d-n g-m-t-10">
+                            <i class="fa fa-exclamation-triangle g-fs-20 g-p-r-10"></i>
+                            <p class="g-m-0 g-d-i g-p-r-10"></p>
+                        </div>
+                    </div>
+                }
+            }
+            @if (Convert.ToBoolean(Session["U_IsPortalUser"]))
+            {
+                if (String.IsNullOrEmpty(Session["B_VoucherCode"] as string))
+                {
+                    <hr class="g-m-t-60 g-m-b-20"/>
+                    <div class="g-fc-secondary g-m-t-10">
+                        <strong>Administrator Discount Inc Vat</strong>
+                    </div>
+                    <div class="atb-entry bkt-discount input-group g-m-t-10 g-w-345">
+                        <span class="input-group-addon g-br-0 g-fc-tt g-b-n g-bc-s" style="border-right: 1px solid #cccccc !important;">-&pound;</span>
+                        <input id="admin-discount" class="form-control g-h-40 pull-left" placeholder="Enter discount ..." type="number">
+                        <span class="input-group-btn">
+                            <button id="apply-discount" class="g-butt-secondary g-butt-lg g-fs-n" type="button">Apply Discount</button>
+                            <button id="discount-atb" class="atb-add g-d-n"
+                                    data-vatm="@Model.VatMultiplier"
+                                    data-productid="4957"
+                                    data-partno=""
+                                    data-price=""
+                                    data-admin-discount="true">
+                            </button>
+                        </span>
+                    </div>
+                }
+                <div id="discount-msg" class="g-m-t-10">
+                    @if (Model.BasketContents.Exists(x => x.IsAdminDiscount))
+                    {
+                        <span class="g-p-l-5">Admistrator discount has been applied to this order</span>
+                    }
+                    <span id="admn-clear-basket" class="g-p-l-5">
+                        <a class="primary g-i" title="Clear all items from the basket">[Clear All Products]</a>
+                    </span>
+                </div>
+            }
+        </div>
+        <div class="col-md-4">
+            <div class="g-m-t-10 clearfix">
+                <div class="pull-left">
+                    <strong>Delivery</strong>
+                </div>
+                <div class="pull-right g-p-r-20">
+                    @if (Model.BasketTotals.Delivery == 0)
+                    {
+                        @:FREE
+                    }
+                    else
+                    {
+                        @Html.Raw("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Delivery)))
+                    }
+                </div>
+            </div>
+            <div class="g-m-t-10 clearfix">
+                <div class="pull-left">
+                    <strong>Sub Total</strong>
+                </div>
+                <div class="pull-right g-p-r-20">&pound;@string.Format("{0:N2}", Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery)</div>
+            </div>
+            <div class="g-m-t-10 clearfix">
+                <div class="pull-left">
+                    <strong>VAT</strong>
+                </div>
+                <div class="pull-right g-p-r-20">&pound;@string.Format("{0:N2}", Model.BasketTotals.Vat + Model.BasketTotals.VoucherVat)</div>
+            </div>
+            
+            <div class="@(ViewBag.HideVoucher ? "g-d-n" : "")">
+                <hr class="g-m-tb-10" />
+                <div id="voucherTotal" class="g-m-t-10 clearfix g-lh-40">
+                    <div class="pull-left">
+                        <strong>Voucher</strong>
+                    </div>
+                    <div class="pull-right g-p-r-20 g-i g-fc-pm">
+                        <span id="voucherValue">
+                            @if (Model.BasketTotals.Voucher == 0)
+                            {
+                                @:FREE GIFT
+                            }
+                            else
+                            {
+                                @((Model.BasketTotals.Voucher < 0 ? "-" : ""))
+                                @Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher)) + " (inc VAT)"))
+                            }
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="g-m-tb-10" />
+            <div class="g-m-t-10 clearfix g-lh-40">
+                <div class="pull-left">
+                    <strong>Grand Total</strong>
+                </div>
+                <div class="pull-right g-fs-lg g-p-r-20">
+                    <strong>
+                        <span>&pound;@string.Format("{0:N2}", Model.BasketTotals.GrandTotalIncVat)</span>
+                    </strong>
+                </div>
+            </div>
+
+            <button type="button" class="checkout-button btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-right" title="Checkout">Proceed to Checkout</button>
+            <form id="co-form" method="post" action="~/Checkout/Stage1/">
+                @*@Html.AntiForgeryToken()*@
+                @Html.HiddenFor(x => x.CheckoutDetails.IsNewCustomer)
+                @Html.HiddenFor(x => x.CheckoutDetails.Email)
+                @Html.HiddenFor(x => x.CheckoutDetails.Password)
+                @Html.HiddenFor(x => x.CheckoutDetails.ZeroStock)
+            </form>
+
+            @if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
+            {
+                <div id="paypal-button" class="g-m-t-20"></div>
+                <form id="paypal-form" action="/checkout/stage3/" method="post">
+                    <input type="hidden" name="PayPalPaid" id="PayPalPaid" value="true" />
+                </form>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <span>Your basket is currently empty, @Html.ActionLink("continue shopping", "Index", "Home")</span>
+        </div>
+    </div>
+}

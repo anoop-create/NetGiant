@@ -1,0 +1,131 @@
+﻿@using System.Configuration;
+@using CommonUI.Models;
+@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using System.Web.Optimization
+@using Kendo.Mvc.UI
+
+@model CommonViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <title>@Html.RawFromDict(Model.MetaData, "Title")</title>
+    <meta name="description" content="@Html.RawFromDict(Model.MetaData, "Description")">
+    <meta name="msvalidate.01" content="25C06F8BDF2376F495D44F19998FAE5F">
+    @if (ConfigurationManager.AppSettings["Environment"] != "Live")
+    {
+        // Ensure google will not index beta site pages
+        <meta name="robots" content="noindex, nofollow" />
+    }
+
+    <meta property="og:title" content="@Html.RawFromDict(Model.MetaData, "Title")">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="@ConfigurationManager.AppSettings["CDN"]/images/soc-logo.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://@Model.DomainNameTrunc@Request.Url.PathAndQuery">
+    <meta property="og:site_name" content="@Html.RawFromDict(Model.CommonData, "SiteName")">
+    <meta property="og:description" content="@Html.RawFromDict(Model.MetaData, "Description")">
+    <meta name="twitter:title" content="@Html.RawFromDict(Model.MetaData, "Title")">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="@Html.RawFromDict(Model.MetaData, "Description")">
+    <meta name="twitter:image" content="@ConfigurationManager.AppSettings["CDN"]/images/soc-logo.jpg">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Asap:400,400i,700,700i&amp;display=swap">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="https://@Model.DomainNameTrunc/touch-icon-iphone.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://@Model.DomainNameTrunc/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://@Model.DomainNameTrunc/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://@Model.DomainNameTrunc/touch-icon-ipad-retina.png">
+
+    <link rel="manifest" href="/Content/manifest.json">
+
+    <link href="@Html.RawFromDict(Model.CommonData, "GooglePlusPage")" rel="publisher">
+    @Html.RawFromDict(Model.CommonData, "HtmlHeaderExtras")
+    @{
+        Dictionary<string, string> replacements = new Dictionary<string, string>();
+        replacements.Add("[Aggregate-Rating]", Model.AggregateRating);
+    }
+
+    @Styles.Render("~/Content/cssBundle.css")
+    @RenderSection("AddTags", required: false)
+    @Scripts.Render("~/bundles/jqueryBundle.js")
+    @if (ConfigurationManager.AppSettings["ChatIsOn"] == "True")
+    {
+        <script type="text/javascript" src="https://@(Html.RawFromDict(Model.CommonData, "DomainName"))data/static-files/cpy_sfliveagent.js" defer></script>
+    }
+    <script type="text/javascript">
+        @{
+            Html.RenderPartial("~/Views/Shared/JSTrackingAllHdr.cshtml", Model);
+        }
+    </script>
+
+</head>
+
+<body class="g-ps-r @(Model.IsStationerySaleActive || Model.IsOEMSaleActive || Model.IsCompatibleSaleActive ? "saleIsActive" : "")">
+    @{
+        Html.RenderPartial("~/Views/Shared/Header.cshtml");
+    }
+
+    @RenderBody()
+
+    @{
+        Html.RenderPartial("~/Views/Shared/Footer.cshtml");
+    }
+
+    @if (!Authentication.IsFullyAuthenticated())
+    {
+        Html.RenderPartial("~/Views/MyAccount/SignIn.cshtml");
+    }
+    <input type="hidden" id="SearchApplication" value="@(ConfigurationManager.AppSettings["SearchApplication"] == "SLI" ? "1" : "0")" />
+
+    @if (!Model.IsMobile)
+    {
+        @Scripts.Render("~/bundles/bootstrapBundle.js")
+    }
+    else
+    {
+        @Scripts.Render("~/bundles/bootstrapBundleM.js")
+    }
+    @Scripts.Render("~/bundles/jqueryvalBundle.js")
+    @RenderSection("scripts", required: false)
+    @if (!Model.IsMobile)
+    {
+        <script src="https://apis.google.com/js/platform.js?onload=renderBadge" defer></script>
+    }
+    @if (ConfigurationManager.AppSettings["SearchApplication"] == "SLI")
+    {
+        <script type="text/javascript" src="https://@(ConfigurationManager.AppSettings["SLIDomain"])/autocomplete/rac-resources-@(ConfigurationManager.AppSettings["WebsiteShortCode"])/sli-rac.config.js" defer></script>
+    }
+    <script type="text/javascript">
+        @{
+            Html.RenderPartial("~/Views/Shared/JSTrackingAll.cshtml", Model);
+            Html.RenderPartial("~/Views/Shared/JSTrackingStandard.cshtml", Model);
+            <text>
+                @Html.RawFromDict(Model.CommonData, "MessageAndRedirect")
+            </text>
+        }
+    </script>
+
+    @RenderSection("AddScript", required: false)
+
+    <script type="application/ld+json">
+        @RenderSection("StructuredData", required: false)
+    </script>
+
+    @Html.Kendo().DeferredScripts()
+
+    <!--[if lt IE 9]>
+        <script type="text/javascript">
+            alert('@ConfigurationManager.AppSettings["UnsupportedBrowser"]');
+        </script>
+    <![endif]-->
+
+    @{ string siteName = string.Join("-", Utilities.SplitCamelCase(Utilities.GetItemFromDict(Model.CommonData, "ShortSiteName"))).ToLower(); }
+    <script type="text/javascript" src="https://api.feefo.com/api/javascript/@siteName" async></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+﻿@using System.Configuration
+@using SharedUI.Models
+@using BusinessLogic.ViewModels
+@using System.Web.Optimization
+
+@model CommonViewModel
+@{
+    Layout = null;
+    string srch = "";
+    bool pco = true;
+    if (Session["P_SearchTerm"] != null)
+    {
+        srch = Session["P_SearchTerm"].ToString();
+        Session.Remove("P_SearchTerm");
+    }
+    if (Session["P_Postcode"] != null)
+    {
+        pco = Convert.ToBoolean(Session["P_Postcode"].ToString());
+        Session.Remove("P_Postcode");
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <title>@Html.RawFromDict(Model.CommonData, "SiteName")</title>
+    <meta name="description" content="Debug @Html.RawFromDict(Model.CommonData, "SiteName")">
+    <meta name="msvalidate.01" content="25C06F8BDF2376F495D44F19998FAE5F">
+    <meta name="robots" content="noindex, nofollow">
+
+    @Styles.Render("~/Content/portalcssBundle.css")
+    @RenderSection("AddTags", required: false)
+    @Scripts.Render("~/bundles/jqueryBundle.js")
+    @Scripts.Render("~/bundles/portalhdrjsBundle.js")
+    @RenderSection("HeaderScripts", required: false)
+
+</head>
+<body class="g-ps-r">
+<div class="g-w-200 g-p-10" style="background-color: #333; height: 100vh; float: left;">
+    <span class="g-fc-st g-fs-lg g-m-t-10">Customer Search</span>
+    <div class="panel-group g-m-t-20" role="tab" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="collapsed g-fc-st" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+            <i class="fa fa-link g-p-r-10"></i>
+            Quick Links
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+            </div>
+        </div>
+        <div class="g-m-t-20">
+            <a href="/portal/reset/" class="second g-fc-st" role="button">
+                <i class="fa fa-refresh g-p-r-10"></i>
+                Reset Portal
+            </a>
+        </div>
+        <div class="g-fc-st g-m-t-20" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fa fa-user-plus g-p-r-10"></i>
+            New Customer
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+            <div class="panel-body">
+                <li><a class="second" href="@(ViewBag.UrlPrefix == "" ? "" : ViewBag.UrlPrefix + "tonergiant.co.uk")/portal/Authenticate?userId=">Tonergiant.co.uk</a></li>
+                <li><a class="second" href="@(ViewBag.UrlPrefix == "" ? "" : ViewBag.UrlPrefix + "cartridgemonkey.com")/portal/Authenticate?userId=">Cartridgemonkey.com</a></li>
+                <li><a class="second" href="@(ViewBag.UrlPrefix == "" ? "" : ViewBag.UrlPrefix + "netgiant.com")/portal/Authenticate?userId=">Netgiant.com</a></li>
+</div>
+        </div>
+        <div class="g-fc-st g-m-t-20" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+            <i class="fa fa-id-card g-p-r-10"></i>
+            Vouchers
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree">
+            <div class="panel-body">
+                <li><a class="second" href="/portal/customervoucherlist/customer">Customer Vouchers</a></li>
+                <li><a class="second" href="/portal/customervoucherlist/promo">Promo Vouchers</a></li>
+                <li><a class="second" href="/portal/addvoucher">Add Cust Voucher</a></li>
+                <li><a class="second" href="/portal/deletevoucher">Delete Cust Voucher</a></li>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="">
+    <div class="g-bc-p g-p-20" style="width: auto; margin-left: 200px;">
+        <div class="form-inline">
+            <div class="form-group">
+                <div class="input-group" style="width: 500px;">
+                    <input id="customer-search" type="text" value="@srch" class="form-control g-fs-sm" placeholder="Search customer details">
+                    <span id="search-button" class="input-group-addon g-bc-primary g-fc-st g-br-0 g-cur-p" style="border-color: #006699;">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </div>
+                <span class="checkbox checkbox-success">
+                    <input type="checkbox" id="postcodeOnly" @(pco ? "checked=\"checked\"" : "")/>
+                    <label></label>
+                    <span class="g-fs-xs">Postcode Only</span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="g-of-h g-bc-p">
+        @RenderBody()
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/portaljsBundle.js")
+@RenderSection("scripts", required: false)
+@Scripts.Render("~/bundles/jqueryvalBundle.js")
+</body>
+</html>

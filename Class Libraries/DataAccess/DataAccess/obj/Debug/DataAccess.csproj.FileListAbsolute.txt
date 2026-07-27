@@ -1,0 +1,14 @@
+C:\Anoop\AllProject\NetGiant Ecommerce\Class Libraries\DataAccess\DataAccess\obj\Debug\DataAccess.csproj.AssemblyReference.cache
+C:\Anoop\AllProject\NetGiant Ecommerce\Class Libraries\DataAccess\DataAccess\obj\Debug\DataAccess.csproj.CoreCompileInputs.cache
+C:\Anoop\AllProject\NetGiant Ecommerce\Class Libraries\DataAccess\DataAccess\bin\Debug\DataAccess.dll.config
+C:\Anoop\AllProject\NetGiant Ecommerce\Class Libraries\DataAccess\DataAccess\bin\Debug\DataAccess.dll
+C:\Anoop\AllProject\NetGiant Ecommerce\Class Libraries\DataAccess\DataAccess\bin\Debug\DataAccess.pdb
+C:\Anoop\AllProject\NetGiant Ecommerce\Class Libraries\DataAccess\DataAccess\bin\Debug\EntityFramework.dll
+C:\Anoop\AllProject\NetGiant Ecommerce\Class Libraries\DataAccess\DataAccess\bin\Debug\EntityFramework.SqlServer.dll
+C:\Anoop\AllProject\NetGiant Ecommerce\Class Libraries\DataAccess\DataAccess\bin\Debug\Newtonsoft.Json.dll
+C:\Anoop\AllProject\NetGiant Ecommerce\Class Libraries\DataAccess\DataAccess\bin\Debug\EntityFramework.xml
+C:\Anoop\AllProject\NetGiant Ecommerce\Class Libraries\DataAccess\DataAccess\bin\Debug\EntityFramework.SqlServer.xml
+C:\Anoop\AllProject\NetGiant Ecommerce\Class Libraries\DataAccess\DataAccess\bin\Debug\Newtonsoft.Json.xml
+C:\Anoop\AllProject\NetGiant Ecommerce\Class Libraries\DataAccess\DataAccess\obj\Debug\DataAccess.csproj.Up2Date
+C:\Anoop\AllProject\NetGiant Ecommerce\Class Libraries\DataAccess\DataAccess\obj\Debug\DataAccess.dll
+C:\Anoop\AllProject\NetGiant Ecommerce\Class Libraries\DataAccess\DataAccess\obj\Debug\DataAccess.pdb

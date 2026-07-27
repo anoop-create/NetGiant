@@ -1,0 +1,28 @@
+﻿@using BusinessLogic;
+@using SharedUI.Models;
+
+@{
+    var bt = (BasketTotals)Session["B_BasketTotals"];
+    Tuple<string, decimal> summPrice = Utilities.SetPrice(bt.TotalIncVat, bt.TotalExcVat);
+}
+<div id="basket" class="navbar-toggle offcanvas-toggle collapsed pull-left" type="button" data-toggle="offcanvas-open" data-target="#utility-bar" aria-expanded="false">
+    <div class="header g-flex-vcenter" data-label="View Basket">
+        <span class="sr-only">Toggle Basket</span>
+        <img class="msp_basket" src="~/Content/Images/1pxTrans.png" />
+        <span class="g-fs-lg g-p-l-20">Basket</span>
+    </div>
+    <div class="content clearfix">
+        <a class="btn g-butt-second-reg g-butt-100p g-m-t-10" href="~/checkout/" role="button">Checkout/Edit Basket</a>
+        <div class="g-m-t-10 text-center g-fs-n">
+            <strong><span class="basketQuantity">@bt.Quantity</span></strong> Items | Subtotal <strong>&pound;<span class="basketTotal">@((summPrice.Item2 - bt.Delivery).ToString("#,###,##0.00"))</span></strong> <span class="g-fc-st g-fs-sm">@summPrice.Item1</span>
+        </div>
+
+        <div id="basketSummary"></div>
+        @Html.Raw(Session["B_BasketSummary"].ToSafeString())
+
+        <div class="keep">
+            <div class="message g-d-n">*Not all entries are shown</div>
+            <a class="btn g-butt-second-reg g-butt-100p g-m-t-10" href="/checkout/" role="button">Checkout/Edit Basket</a>
+        </div>
+    </div>
+</div>

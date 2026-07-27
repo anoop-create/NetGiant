@@ -1,0 +1,94 @@
+﻿@using SharedUI.Models;
+@using BusinessLogic.ViewModels;
+
+@model CommonViewModel
+
+<footer class="text-left g-p-b-20">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="newsletter-container text-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6 col-xs-12 text-left g-m-t-3">
+                                @Html.RawFromDict(Model.CommonData, "FooterBannerMsg")
+                            </div>
+                            <div class="hidden-md hidden-lg col-xs-12 g-m-t-10"></div>
+                            <div class="col-md-6 col-xs-12">
+                                @using (Ajax.BeginForm("NewsletterSignUp", "Misc", null, new AjaxOptions { HttpMethod = "POST", OnComplete = "newsletterSignUpComplete", OnFailure = "logAjaxFormError" }, new { id = "newsletter-signup" }))
+                                {
+                                    <div class="input-group g-w-100p pull-right">
+
+                                        @Html.AntiForgeryToken()
+                                        <input id="newsletter-email" name="email" type="email" placeholder="Email Address" class="form-control pull-right" data-val="true" data-val-required="is required" aria-label="newsletter email">
+                                        <span class="input-group-btn">
+                                            <button class="g-butt-primary g-butt-lg g-fs-n" type="submit">Sign Up</button>
+                                        </span>
+                                    </div>
+                                }
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row quick-links">
+            <div class="container g-p-t-30">
+                <div class="row">
+                    <div class="col-xs-6 col-md-5ths text-center">
+                        @Html.RawFromDict(Model.CommonData, "FooterList1")
+                    </div>
+                    <div class="col-xs-6 col-md-5ths text-center">
+                        @Html.RawFromDict(Model.CommonData, "FooterList2")
+                    </div>
+                    <div class="col-xs-6 col-md-5ths text-center">
+                        @Html.RawFromDict(Model.CommonData, "FooterList3")
+                    </div>
+                    <div class="col-xs-6 col-md-5ths text-center">
+                        @Html.RawFromDict(Model.CommonData, "FooterList4")
+                    </div>
+                    <div class="col-md-5ths hidden-xs text-center">
+                        @{
+                            Dictionary<string, string> replacements = new Dictionary<string, string>();
+                            replacements.Add("[Review-Score]", Html.RawFromDict(Model.FeeFoScore, "FiveStar").ToString());
+                            replacements.Add("[Review-Count]", Html.RawFromDict(Model.FeeFoScore, "Count").ToString());
+                        }
+                        @(Html.RawFromDict(Model.CommonData, "FooterReviews", replacements))
+                    </div>
+                </div>
+                <hr />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="container">
+                <div class="col-xs-12 col-sm-8 payment-container text-center">
+                    @Html.RawFromDict(Model.CommonData, "FooterCreditCards")
+                </div>
+                <div class="col-xs-12 visible-xs g-m-t-10 g-p-0">
+                    <hr>
+                </div>
+                <div class="col-xs-12 col-sm-4 social-container text-center">
+                    @Html.RawFromDict(Model.CommonData, "FooterSocial")
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container">
+                <hr />
+            </div>
+        </div>
+        <div class="row legal-text text-center">
+            <div class="container">
+                <div class="row">
+                    @{
+                        replacements = new Dictionary<string, string>();
+                        replacements.Add("[Year]", DateTime.Now.Year.ToString());
+                    }
+                    @(Html.RawFromDict(Model.CommonData, "FooterCopyright", replacements))
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+

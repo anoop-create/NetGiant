@@ -1,0 +1,56 @@
+﻿@using System.Configuration
+@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+@using System.Data;
+
+@model CommonViewModel
+
+<div id="quick-order" class="navbar-toggle offcanvas-toggle collapsed pull-left" type="button" data-toggle="offcanvas-open" data-target="#utility-bar" aria-expanded="false">
+    <div class="header g-flex-vcenter" data-label="Quick Reorder">
+        <span class="sr-only">Toggle Quick Reorder</span>
+        <img class="msp_quickreorder" src="~/Content/Images/1pxTrans.png" />
+        <span class="g-fs-lg g-p-l-20">Quick Reorder</span>
+    </div>
+    <div class="content clearfix">
+        @{
+            if (Session["U_RecentlyOrdered"] != null)
+            {
+                DataTable dt = (DataTable)Session["U_RecentlyOrdered"];
+                foreach (DataRow dr in dt.Rows)
+                {
+                    <hr class="g-m-tb-10" />
+                        <div class="quickreorder-entry g-m-t-10 clearfix g-flex-vcenter product-id-@dr["ProductID"].ToString()">
+                            <div class="pull-left">
+                                <img src="/Content/Images/1pxTrans.png" class="deferImage" data-original="@dr["ImageURL"].ToString()" alt="@dr["Description"].ToString()" />
+                            </div>
+                            <div class="atb-entry g-m-l-10 g-fs-sm">
+                                <div class="">@dr["Description"].ToString()</div>
+                                <button class="atb-add btn g-butt-second-reg g-butt-xl g-m-t-10"
+                                        data-price="0"
+                                        data-productid="@dr["ProductReference"].ToSafeString()"
+                                        data-partno="@dr["PartNo"].ToSafeString()"
+                                        data-imageurl="@dr["ImageURL"].ToSafeString()"
+                                        data-desc="@dr["Description"].ToSafeString()">
+                                    Add to Basket
+                                </button>
+                            </div>
+                        </div>
+                }
+                <div class="keep g-m-t-10">
+                    <div class="message">*More entries in My Account</div>
+                    <a class="btn g-butt-second-reg g-butt-100p g-m-t-10" href="/MyAccount/Index/QuickReorder" role="button">View All</a>
+                </div>
+            }
+            else
+            {
+                <hr class="g-m-tb-10" />
+                    <div>@(Authentication.IsNotAuthenticated() ? "Please login to see your recently ordered products" : "You don't currently have any recently ordered products")</div>
+            }
+        }
+
+        <hr class="g-m-tb-10" />
+    </div>
+</div>
+
+

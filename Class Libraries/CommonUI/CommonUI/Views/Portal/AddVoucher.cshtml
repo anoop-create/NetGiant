@@ -1,0 +1,210 @@
+﻿@using System.Configuration
+@using BusinessLogic
+@using BusinessLogic.ViewModels
+@using Kendo.Mvc.UI
+@using CommonUI.Models;
+
+@model PortalViewModel
+
+@{
+    Layout = "~/Views/Shared/_Portal.cshtml";
+    //HtmlHelper.ClientValidationEnabled = false;
+}
+
+<div class="g-fs-lg g-p-l-20 g-p-t-10 g-p-b-10 g-bc-s g-m-b-20 g-b-1-p">
+    Add Customer Voucher
+</div>
+
+<div class="g-m-l-20 g-m-r-20 g-inp-md">
+    @using (Ajax.BeginForm("AddVoucher", 
+        "Portal", 
+        null, 
+        new AjaxOptions { HttpMethod = "POST", OnComplete = "addVoucherComplete", OnFailure = "logAjaxFormError" }))
+    {
+        @Html.HiddenFor(m => m.Voucher.VoucherTypeFk, new { @Value = "1" })
+        @Html.HiddenFor(m => m.Voucher.StockRef, new { @Value = ConfigurationManager.AppSettings["CustomerVoucherStockRef"] })
+        @Html.HiddenFor(m => m.Voucher.MinBasketValue, new { @Value = "0" })
+        @Html.HiddenFor(m => m.Voucher.MinQualValue, new { @Value = "0" })
+        @Html.HiddenFor(m => m.Voucher.IsGlobal, new { @Value = "True" })
+        @Html.HiddenFor(m => m.Voucher.IsUsed, new { @Value = "False" })
+        @Html.HiddenFor(m => m.Voucher.IsSingleUse, new { @Value = "True" })
+        @*@Html.AntiForgeryToken()*@
+
+        <div class="g-m-t-20">SELECT WEBSITE</div>
+        @Html.DropDownListFor(m => m.Voucher.WebsiteFk, Model.Sites, "Select Website", new { @class = "selectpicker g-m-t-5", size = "auto", data_size = "4", data_val = "true", data_val_required = "Please select a website" })
+        @Html.CustomValidationMessage(m => m.Voucher.WebsiteFk, "", new { @class = "text-danger" })
+
+        <div class="g-inp-md g-m-t-20">ACCOUNT NUMBER</div>
+        <div class="form-group g-m-t-5">
+            @Html.TextBoxFor(m => m.Voucher.AccountNumber, new { @class = "form-control", placeholder = "Account Number", data_val = "true", data_val_required = "Please enter an account number" })
+            @Html.CustomValidationMessage(m => m.Voucher.AccountNumber, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="g-inp-md g-m-t-20">VOUCHER CODE</div>
+        <div class="form-group g-m-t-5">
+            @Html.TextBoxFor(m => m.Voucher.VoucherCode, new { @class = "form-control", @readonly = "readonly", placeholder = "Voucher Code", data_val = "true", data_val_required = "Please enter a voucher code" })
+            @Html.CustomValidationMessage(m => m.Voucher.VoucherCode, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="g-inp-md g-m-t-20">DESCRIPTION</div>
+        <div class="form-group g-m-t-5">
+            @Html.TextBoxFor(m => m.Voucher.Description, new { @class = "form-control", placeholder = "Description", data_val = "true", data_val_required = "Please enter a description" })
+            @Html.CustomValidationMessage(m => m.Voucher.Description, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="g-inp-md g-m-t-20">VALID FROM</div>
+        <div class="form-group g-m-t-5">
+            @{ Html.EnableClientValidation(false); }
+            @( Html.Kendo().DatePickerFor(m => m.Voucher.ValidFrom)
+                  .Min(DateTime.Now)
+                  .Culture("en-GB")
+                  .Format("dd/MM/yyyy")
+                  .ParseFormats(new List<string>() { "dd/MM/yyyy" })
+                  .Deferred()
+            )
+            @{ Html.EnableClientValidation(true); }
+            <div>
+                @Html.CustomValidationMessage(m => m.Voucher.ValidFrom, "", new { @class = "text-danger", style = "width: 500px" })
+            </div>
+        </div>
+
+        <div class="g-inp-md g-m-t-20">VALID TO</div>
+        <div class="form-group g-m-t-5">
+            @{ Html.EnableClientValidation(false); }
+            @(Html.Kendo().DatePickerFor(m => m.Voucher.ValidTo)
+                .Min(DateTime.Now)
+                .Culture("en-GB")
+                .Format("dd/MM/yyyy")
+                .ParseFormats(new List<string>() { "dd/MM/yyyy" })
+                .Deferred()
+            )
+            @{ Html.EnableClientValidation(true); }
+            <div>
+                @Html.CustomValidationMessage(m => m.Voucher.ValidTo, "", new { @class = "text-danger", style = "width: 500px" })
+            </div>
+        </div>
+
+        <div class="g-inp-md g-m-t-20">AMOUNT</div>
+        <div class="form-group g-m-t-5">
+            @Html.TextBoxFor(m => m.Voucher.Amount, new { @class = "form-control", placeholder = "Amount", data_val = "true", data_val_required = "Please enter an amount" })
+            @Html.CustomValidationMessage(m => m.Voucher.Amount, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group g-m-t-10">
+            <div class="checkbox checkbox-success">
+                @Html.CheckBoxFor(m => m.Voucher.SendEmail)
+                <label for="SendEmail">Send Email</label>
+            </div>
+        </div>
+
+        <div id="email" class="g-d-n">
+            <div class="g-inp-md g-m-t-20">EMAIL ADDRESS</div>
+            <div class="form-group g-m-t-5">
+                @Html.TextBoxFor(m => m.Voucher.Email, new { @class = "form-control", placeholder = "Email Address", data_val = "false" })
+                @Html.CustomValidationMessage(m => m.Voucher.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <input type="submit" value="ADD VOUCHER" class="g-butt-secondary g-w-250 g-m-t-20 g-m-b-40" />
+    }
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $('#Voucher_ValidFrom').removeAttr('required')
+                .removeAttr('data-val-date')
+                .removeAttr('data-val-required')
+                .attr('data-val', 'false');
+            $('#Voucher_ValidTo').removeAttr('required')
+                .removeAttr('data-val-date')
+                .removeAttr('data-val-required')
+                .attr('data-val', 'false');
+            $("form").kendoValidator();
+            $("form").validate({
+                ignore: "#Voucher_ValidFrom, #Voucher_ValidTo"
+            });
+
+            $('#Voucher_ValidFrom').change(function () {
+                var endPicker = $("#Voucher_ValidTo").data("kendoDatePicker");
+                var startDate = $(this).val();
+
+                if (startDate) {
+                    startDate = new Date(
+                        startDate.substr(6, 4),
+                        startDate.substr(3, 2) - 1,
+                        startDate.substr(0, 2),
+                        12,
+                        0,
+                        0);
+                    //startDate.setDate(startDate.getDate());
+                    endPicker.min(startDate);
+                }
+            });
+
+            $('#Voucher_ValidTo').change(function () {
+                var startPicker = $("#Voucher_ValidFrom").data("kendoDatePicker");
+                var endDate = $(this).val();
+
+                if (endDate) {
+                    endDate = new Date(
+                        endDate.substr(6, 4),
+                        endDate.substr(3, 2) - 1,
+                        endDate.substr(0, 2),
+                        12,
+                        0,
+                        0);
+                    //endDate.setDate(endDate.getDate() - 1);
+                    startPicker.max(endDate);
+                }
+            });
+
+            $(document).on('click',
+                '#Voucher_SendEmail',
+                function () {
+                    if ($('#Voucher_SendEmail:checked').length) {
+                        $('#Voucher_Email').attr('data-val', 'true');
+                        $('#Voucher_Email').attr('data_val_required', 'Please enter an email address');
+                        $('#email').removeClass('g-d-n');
+                    } else {
+                        $('#Voucher_Email').attr('data-val', 'false');
+                        $('#Voucher_Email').removeAttr('data_val_required');
+                        $('#email').addClass('g-d-n');
+                    }
+                    //$('#form0').removeData("validator");
+                    //$("#form0").kendoValidator();
+                    //$("#form0").validate({
+                    //    ignore: "#Voucher_ValidFrom, #Voucher_ValidTo"
+                    //});
+                    //$('#form0').removeData("validator");
+                    //$.validator.unobtrusive.parse("form0");
+                    //$('#form0').validate();
+                });
+        });
+
+        function addVoucherComplete(data) {
+            var x = data.responseJSON.savereturn.IsSuccess ? 'SUCCEEDED' : 'FAILED';
+            var y = data.responseJSON.savereturn.Message;
+            $.alert({
+                title: 'Add Customer Voucher',
+                content: 'The attempt to add the customer voucher ' + x + '. ' + y
+            });
+        }
+    </script>
+}
+
+@section HeaderScripts
+{
+    <script type="text/javascript">
+        kendo.culture("en-GB");
+    </script>
+    <style>
+        .field-validation-error {
+            margin-left: 0;
+            margin-top: 10px;
+            width: 300px;
+            text-align: left;
+        }
+    </style>
+}

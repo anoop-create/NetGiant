@@ -1,0 +1,145 @@
+﻿@using System.Configuration
+@using BusinessLogic
+@using CommonUI.Models;
+@using System.Collections.Generic;
+@using System.Linq;
+
+@model CheckoutDetails
+
+@{
+    string bgcolor = "";
+
+    var lbc = Utilities.LoadSession<List<BasketContents>>("B_BasketArray");
+    var bt = Utilities.LoadSession<BasketTotals>("B_BasketTotals");
+}
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="AXISTableText">
+    <tr>
+        <td valign="top" align="center" width="100%">
+            <table cellspacing="0" cellpadding="10" width="100%" style="font-family: arial, verdana, helvetica, sans-serif; font-size: 12px; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th width="20%" style="font-family: arial, verdana, helvetica, sans-serif; font-size: 12px; background-color: #F5F5F5; text-align: left;"><strong>SKU</strong></th>
+                        <th width="40%" style="font-family: arial, verdana, helvetica, sans-serif; font-size: 12px; background-color: #F5F5F5; text-align: left;"><strong>Description</strong></th>
+                        <th width="15%" style="font-family: arial, verdana, helvetica, sans-serif; font-size: 12px; background-color: #F5F5F5; text-align: right;"><strong>Qty</strong></th>
+                        <th width="25%" style="font-family: arial, verdana, helvetica, sans-serif; font-size: 12px; background-color: #F5F5F5; text-align: right;"><strong>Total</strong></th>
+                    </tr>
+                </thead>
+            </table>
+        </td>
+    </tr>
+</table>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="AXISTableText">
+    @foreach (var item in lbc)
+    {        
+        bgcolor = bgcolor == "FFFFFF" ? "F5F5F5" : "FFFFFF";
+        <tr style="background-color: #@bgcolor;">
+            @if (item.ItemType == BasketItemType.Item || item.ItemType == BasketItemType.AdminDiscount || item.ItemType == BasketItemType.CompatibleDiscount)
+            {
+            <td valign="top" align="center" width="100%">
+                <table cellspacing="0" cellpadding="10" width="100%" style="font-family: arial, verdana, helvetica, sans-serif; font-size: 12px; border-collapse: collapse;">
+                    <tr>
+                        <td width="20%" style="font-family: arial, helvetica, sans-serif; font-size: 12px; text-align: left;">
+                            @item.PartNo
+                        </td>
+                        <td width="40%" style="font-family: arial, helvetica, sans-serif; font-size: 12px; text-align: left;">
+                            @item.Description
+                        </td>
+                        <td width="15%" style="font-family: arial, helvetica, sans-serif; font-size: 12px; text-align: right;">
+                            @item.Quantity
+                        </td>
+                        <td width="25%" style="font-family: arial, helvetica, sans-serif; font-size: 12px; text-align: right;">
+                            £@Math.Round(Math.Round(item.PriceInc, 2) * item.Quantity / Convert.ToDecimal(ConfigurationManager.AppSettings["VatMultiplier"]), 2).ToString("0.00")
+                        </td>
+                    </tr>
+                    <tr style="line-height: 5px; ">
+                        @Html.ProductAvailability(item.Availability)
+                    </tr>
+                </table>
+            </td>
+            }
+        </tr>
+    }
+
+    @{
+        var voucher = lbc.FirstOrDefault(x => x.ItemType == BasketItemType.Voucher);
+        var delivery = lbc.FirstOrDefault(x => x.ItemType == BasketItemType.Delivery);
+    }
+
+    @if (voucher != null)
+    {
+        <tr>
+            <td valign="top" align="center" width="100%">
+                <table cellspacing="0" cellpadding="10" width="100%" style="font-family: arial, verdana, helvetica, sans-serif; font-size: 12px; border-collapse: collapse;">
+                    <tr>
+                        <td width="75%" colspan="4" style="font-family: arial, helvetica, sans-serif; font-size: 12px; text-align: right; border-top: 1px solid #A4B2C0;"><strong>Voucher</strong></td>
+                        <td width="25%" style="font-family: arial, helvetica, sans-serif; font-size: 12px; text-align: right; vertical-align: middle; border-top: 1px solid #A4B2C0;"><strong>£@Math.Round(voucher.PriceEx, 2).ToString("0.00")</strong></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top" align="center" width="100%">
+                <table cellspacing="0" cellpadding="10" width="100%" style="font-family: arial, verdana, helvetica, sans-serif; font-size: 12px; border-collapse: collapse;">
+                    <tr>
+                        <td width="75%" colspan="4" style="font-family: arial, helvetica, sans-serif; font-size: 12px; text-align: right;"><strong>@delivery.Description</strong></td>
+                        <td width="25%" style="font-family: arial, helvetica, sans-serif; font-size: 12px; text-align: right; vertical-align: middle;"><strong>£@Math.Round(delivery.PriceEx, 2).ToString("0.00")</strong></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    }
+    else
+    {
+        <tr>
+            <td valign="top" align="center" width="100%">
+                <table cellspacing="0" cellpadding="10" width="100%" style="font-family: arial, verdana, helvetica, sans-serif; font-size: 12px; border-collapse: collapse;">
+                    <tr>
+                        <td width="75%" colspan="4" style="font-family: arial, helvetica, sans-serif; font-size: 12px; text-align: right;"><strong>@delivery.Description</strong></td>
+                        <td width="25%" style="font-family: arial, helvetica, sans-serif; font-size: 12px; text-align: right; vertical-align: middle;"><strong>£@Math.Round(delivery.PriceEx, 2).ToString("0.00")</strong></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    }
+
+    <tr>
+        <td valign="top" align="center" width="100%">
+            <table cellspacing="0" cellpadding="10" width="100%" style="font-family: arial, verdana, helvetica, sans-serif; font-size: 12px; border-collapse: collapse;">
+                <tr>
+                    <td width="75%" colspan="4" style="font-family: arial, helvetica, sans-serif; font-size: 12px; text-align: right; border-top: 1px solid #A4B2C0;"><strong>Subtotal</strong></td>
+                    <td width="25%" style="font-family: arial, helvetica, sans-serif; font-size: 12px; text-align: right; vertical-align: middle; border-top: 1px solid #A4B2C0;"><strong>£@Math.Round(bt.GrandTotalExcVat, 2).ToString("0.00")</strong></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" align="center" width="100%">
+            <table cellspacing="0" cellpadding="10" width="100%" style="font-family: arial, verdana, helvetica, sans-serif; font-size: 12px; border-collapse: collapse;">
+                <tr>
+                    <td width="75%" colspan="4" style="font-family: arial, helvetica, sans-serif; font-size: 12px; text-align: right;"><strong>VAT</strong></td>
+                    <td width="25%" style="font-family: arial, helvetica, sans-serif; font-size: 12px; text-align: right; vertical-align: middle;"><strong>£@Math.Round(bt.Vat, 2).ToString("0.00")</strong></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" align="center" width="100%">
+            <table cellspacing="0" cellpadding="10" width="100%" style="font-family: arial, verdana, helvetica, sans-serif; font-size: 12px; border-collapse: collapse;">
+                <tr>
+                    <td width="75%" colspan="4" style="font-family: arial, helvetica, sans-serif; font-size: 14px; text-align: right; border-top: 1px solid #A4B2C0;"><strong>Order total</strong></td>
+                    <td width="25%" class="order-total" style="font-family: arial, helvetica, sans-serif; font-size: 14px; text-align: right; vertical-align: middle; border-top: 1px solid #A4B2C0;"><strong>£@Math.Round(bt.GrandTotalIncVat, 2).ToString("0.00")</strong></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+@if (Model.PaymentMethod == "Phone" || Model.PaymentMethod == "BACS")
+{
+    <p style="font-family:arial, verdana, helvetica, sans-serif;font-size:12px;text-align:left;">
+        <font face="Arial, sans-serif">**Please note this order will not be dispatched until payment has been made.**</font>
+        <o:p></o:p>
+    </p>
+}
+

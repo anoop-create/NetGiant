@@ -1,0 +1,26 @@
+﻿@using CommonUI.Models;
+@using BusinessLogic.ViewModels;
+
+@model CommonViewModel
+
+<hr class="g-m-t-60 g-m-b-20" />
+<div class="clearfix">
+    <div class="pull-left-lg g-fs-lg text-center">
+        @{
+            Dictionary<string, string> replacements = new Dictionary<string, string>();
+            replacements.Add("[Tel-No]", Html.RawFromDict(Model.CommonData, "TelephoneNumber").ToString());
+        }
+        @(Html.RawFromDict(Model.CommonData, "LiveChatBanner", replacements))
+    </div>
+    <div class="pull-right-lg text-center">
+        <button id="liveagent_button_online2" class="g-butt-secondary g-butt-lg" title="Live Chat is Available" onclick="liveagent.startChat('@Html.RawFromDict(Model.CommonData, "LiveChatID")')" style="display: none;">
+            <i class="fa fa-commenting-o fa-lg g-p-r-10"></i>
+            Live Chat
+        </button>
+        <button disabled="disabled" id="liveagent_button_offline2" class="g-butt-primary disabled g-butt-lg g-op-40p g-cur-n" title="Live Chat is Offline" style="display: none;">
+            <i class="fa fa-commenting-o fa-lg g-p-r-10"></i>
+            Live Chat
+        </button>
+    </div>
+</div>
+<hr class="g-m-t-20" />

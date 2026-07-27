@@ -1,0 +1,29 @@
+﻿@using DataAccess.EntityFramework;
+@using BusinessLogic;
+
+@model List<deliveryService>
+
+@{
+    BasketTotals bt = (BasketTotals)HttpContext.Current.Session["B_BasketTotals"];
+
+    foreach (deliveryService ds in Model)
+    {
+        string selected = bt.Delivery == ds.Price ? "checked=\"checked\"" : "";
+                <div class="checkbox checkbox-success g-m-0 g-p-b-10 g-b-b-1">
+                    @*@Html.RadioButtonFor(m => m.CheckoutDetails.DeliveryServiceId, ds.DeliveryServiceId.ToString(), new { @class = "g-h-30" })*@
+                    <input id="CheckoutDetails_DeliveryServiceId_@ds.DeliveryServiceId.ToString()"  name="CheckoutDetails.DeliveryServiceId" class="delivery-method" value="@ds.DeliveryServiceId.ToString()" type="radio" data-delmeth="@ds.DeliveryMethod.ToString()" @selected>
+                    <label for="CheckoutDetails_DeliveryServiceId_@ds.DeliveryServiceId.ToString()">
+                        <strong><span class="service-name">@ds.ServiceName</span> &pound;@ds.Price.ToString("#,###,##0.00")</strong><span class="g-fc-tt g-fs-sm"> ex VAT</span>
+                    </label>
+                    <div class="g-fc-s g-m-t-5 g-p-l-25 g-m-r-20 g-p-l-20-sm">
+                        <strong>
+                            @(
+    ds.InfoMessage
+        .Replace("[Standard-Delivery-Date]", Session["D_StandardDeliveryDay"].ToString() + " " + Session["D_StandardDeliveryMonthDay"].ToString() + " " + ((DateTime) Session["D_StandardDeliveryDate"]).ToString("MMMM yyyy"))
+        .Replace("[Saturday-Delivery-Date]", "Saturday " + Session["D_SaturdayDeliveryDate"])
+                                  )
+                        </strong>
+                    </div>
+                </div>
+    }
+}

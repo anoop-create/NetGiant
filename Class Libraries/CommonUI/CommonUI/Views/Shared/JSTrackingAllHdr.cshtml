@@ -1,0 +1,65 @@
+﻿@using BusinessLogic.ViewModels;
+@using CommonUI.Models;
+@using System.Configuration;
+
+@model CommonViewModel
+
+@{
+    int websiteId = int.Parse(ConfigurationManager.AppSettings["WebsiteId"].ToString());
+    bool isLive = ConfigurationManager.AppSettings["Environment"] == "Live";
+
+    string clarityId = "";
+    string pwId = "";
+    string pwSiteUrl = "";
+    switch (websiteId)
+    {
+        case 1:
+            {
+                clarityId = isLive ? "g8fh66rmo8" : "g8fhl7mmd2";
+                pwId = "00fa6d76-2981-462f-8a76-82615b6c4761";
+                pwSiteUrl = "https://tonergiant.piwik.pro/";
+                break;
+            }
+        case 2:
+            {
+                clarityId = isLive ? "g8eqxfc7j9" : "g8ev3wzauc";
+                break;
+            }
+    }
+
+    @Html.RawFromDict(Model.CommonData, "TrackingAllHeader");
+
+    // Piwik Pro Analytics
+    if (pwId != "")
+    {
+        <text>
+            var _paq = _paq || [];
+        </text>
+        if (Convert.ToBoolean(HttpContext.Current.Session["U_IsTradeCustomer"]))
+        {
+            <text>
+                _paq.push (["setCustomDimensionValue", 1, "Logged in - Trade pricing"]);
+            </text>
+        }
+        <text>
+            _paq.push(["trackPageView"]);
+            _paq.push(["enableLinkTracking"]);
+            (function() {
+            var u="@pwSiteUrl";
+            _paq.push(["setTrackerUrl", u+"ppms.php"]);
+            _paq.push(["setSiteId", "@pwId"]);
+            var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0];
+            g.type="text/javascript"; g.async=true; g.defer=true; g.src=u+"ppms.js"; s.parentNode.insertBefore(g,s);
+            })();
+        </text>
+    }
+
+    // Microsoft Clarity
+    <text>
+        (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "@clarityId");
+    </text>
+}

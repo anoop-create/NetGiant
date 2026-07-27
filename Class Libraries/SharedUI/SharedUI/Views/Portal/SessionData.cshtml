@@ -1,0 +1,61 @@
+﻿@using BusinessLogic.ViewModels;
+@using DataAccess.EntityFramework
+@using SharedUI.Models;
+
+@model CommonViewModel
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Variable Name</th>
+                <th>Variable Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Session.Contents.Count; i++)
+            {
+                <tr>
+                    <td class="g-w-78">@Session.Keys[i]</td>
+                    <td>
+                        @if (Session[i] != null)
+                        {
+                            if (Session[i].GetType().Namespace == "System")
+                            {
+                                <div style="width: 80%; word-wrap: break-word; overflow: auto;">
+                                    @if (Session.Keys[i] == "B_Basket")
+                                    {
+                                        @Html.DisplayBasketCookie(Session[i].ToSafeString())
+                                    }
+                                    else
+                                    {
+                                        @Session[i]
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                if (Session[i].GetType().AssemblyQualifiedName.Contains("BasketContents"))
+                                {
+                                    @Html.DisplayBasketContents((List<BusinessLogic.BasketContents>) Session[i])
+                                }
+                                if (Session[i].GetType().AssemblyQualifiedName.Contains("BasketTotals"))
+                                {
+                                    @Html.DisplayBasketTotals((BusinessLogic.BasketTotals) Session[i])
+                                }
+                                if (Session[i].GetType().AssemblyQualifiedName.Contains("CheckoutDetails"))
+                                {
+                                    @Html.DisplayCheckoutDetails((BusinessLogic.CheckoutDetails) Session[i])
+                                }
+                                if (Session[i].GetType().AssemblyQualifiedName.Contains("Voucher"))
+                                {
+                                    @Html.DisplayVoucherDetails((VoucherPromo) Session[i])
+                                }
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

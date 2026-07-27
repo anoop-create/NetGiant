@@ -1,0 +1,191 @@
+﻿@using BusinessLogic;
+@using BusinessLogic.ViewModels
+@using CommonUI.Models;
+@using Kendo.Mvc.UI
+@using System.Configuration;
+
+@model CheckoutViewModel
+
+@section AddTags
+{
+    @{
+        int sessionTimeout = (Session.Timeout > 1 ? Session.Timeout - 1 : 1) * 60;
+    }
+    <meta http-equiv="refresh" content="@sessionTimeout.ToString(); URL=/?pm=SessionExpired&sz=md">
+    <link rel="preconnect" href="https://www.paypal.com/">
+    <link rel="preconnect" href="https://www.paypalobjects.com/">
+    <link rel="canonical" href="https://@Model.DomainNameTrunc@Request.Url.AbsolutePath.ToLower()">
+}
+
+<section id="loadbg" class="" data-stellar-background-ratio="0.5" data-stellar-ratio="1" data-bgimg="@Html.RawFromDict(Model.CommonData, "FeatureBackground")">
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-md-12 comm-title-banner g-h-120 g-fc-st">
+                @if (!Model.IsMobile)
+                {
+                    <div class="bread-crumb hidden-xs hidden-sm">
+                        @foreach (KeyValuePair<string, string> bc in Model.BreadcrumbTrail)
+                        {
+                            <a class="second" href="/@bc.Value">@bc.Key</a>
+                            <i class="fa fa-chevron-right g-fs-xs-i"></i>
+                        }
+                    </div>
+                }
+                <div class="g-m-t-10">
+                    <div class="pull-left">
+                        <h1>
+                            <span class="">Your Basket</span>
+                        </h1>
+                        <div class="g-m-t-10">
+                            <i class="fa fa-reply"></i>
+                            <a class="second g-m-l-10 g-i" href="/">
+                                Continue Shopping
+                            </a>
+                        </div>
+                    </div>
+                    @if (!Model.IsMobile)
+                    {
+                        <div class="pull-right hidden-xs hidden-sm">
+                            @Html.ShowSaleInfoButton(Model.IsCompatibleSaleActive, Model.IsOEMSaleActive, Model.IsStationerySaleActive)
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="g-bc-p g-p-t-20 g-p-b-100">
+    <div class="container body-content g-ps-r">
+        <div class="row g-m-t-20">
+            <div class="col-md-12">
+                <div class="row">
+                    <!-- Left Hand Column -->
+                    <div class="col-md-9">
+                        <div id="vbBasketDetails">
+                            @{
+                                Html.RenderPartial("~/Views/Checkout/BasketDetails.cshtml", Model);
+                            }
+                        </div>
+
+                        <div class="g-bc-s g-b-1-p g-m-t-20 visible-xs visible-sm restrict-images vb-pay-methods">
+                            <div class="g-p-10">
+                                <strong>Payment Methods</strong>
+                            </div>
+                            <hr />
+                            <div class="g-p-10 text-center">
+                                @Html.Raw(Model.CheckoutData["PaymentMethods"].Replace("[newline]", "&#013;"))
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 g-m-t-60">
+                                @{
+                                    Html.RenderPartial("~/Views/Shared/LiveChat.cshtml", Model);
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Hand Column -->
+                    @if (!Model.IsMobile)
+                    {
+                        <div class="col-md-3 restrict-images">
+                            @Html.RawFromDict(Model.CheckoutData, "BasketMarketing1")
+
+                            <div class="g-m-t-20"></div>
+
+                            @Html.RawFromDict(Model.CheckoutData, "BasketMarketing2")
+
+                            @if (!Model.IsMobile)
+                            {
+                                <div class="g-bc-s g-b-1-p g-m-t-20 hidden-xs hidden-sm">
+                                    <div class="g-p-10">
+                                        <strong>Payment Options at Checkout</strong>
+                                    </div>
+                                    <hr />
+                                    <div class="g-p-10">
+                                        @Html.Raw(Model.CheckoutData["PaymentMethods"].Replace("[newline]", "&#013;"))
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<input hidden="hidden" class="IsInCheckout" />
+
+@{
+    if (Authentication.IsNotFullyAuthenticated())
+    {
+        Html.RenderPartial("~/Views/Checkout/Ident.cshtml", Model);
+    }
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).on('click',
+            '.checkout-button',
+            function () {
+                //if ($('.hdr-basket .basketTotal').html() == '0.00') {
+                //    return;
+                //}
+                if (checkSessionExists('C_IsInCheckout')) {
+                    launchPopup('IsInCheckout', 'popup', 'lg', '');
+                    return;
+                }
+                if ('@(Authentication.IsFullyAuthenticated())' == 'True') {
+                    // Authenticated
+                    $('#co-form').submit();
+                } else {
+                    // Not Authenticated - so ask to Login/Register
+                    $('#ident-modal').modal();
+                }
+            });
+
+        $(function () {
+            if (checkSessionExists('C_IsInCheckout')) {
+                $('.IsInCheckout').val('true');
+                $('#voucher-code, #apply-voucher').prop('disabled', true);
+            } else {
+                $('#voucher-code, #apply-voucher').prop('disabled', false);
+            }
+        });
+
+        $(window).on('unload', function () {
+            if ($('.paypal-checkout-sandbox').is(':visible') == true && $('.IsInCheckout').val() != 'true') {
+                setSession("C_IsInCheckout", null);
+            }
+        });
+
+    </script>
+    @if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
+    {
+        @*<script src="https://www.paypal.com/sdk/js?client-id=@(ConfigurationManager.AppSettings["PayPalClientId"])&currency=GBP&locale=en_GB&intent=authorize&debug=@(ConfigurationManager.AppSettings["Environment"] == "Live" ? "false" : "true")">*@
+        <script src="https://www.paypal.com/sdk/js?client-id=@(ConfigurationManager.AppSettings["PayPalClientId"])&currency=GBP&locale=en_GB&intent=authorize&debug=true">
+        </script>
+    }
+}
+
+@section AddScript
+{
+    @{
+        Html.RenderPartial("~/Views/Checkout/JSTracking.cshtml", Model);
+    }
+    @Scripts.Render("~/bundles/checkoutBundle.js")
+}
+
+@section StructuredData
+{
+    [
+    @Html.Raw(ViewBag.BreadcrumbJson)
+    ]
+}
+
+

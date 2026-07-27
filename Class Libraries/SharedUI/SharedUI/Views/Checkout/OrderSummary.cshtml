@@ -1,0 +1,123 @@
+﻿@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+
+@model CheckoutViewModel
+
+<div class="clearfix">
+    <div class="row">
+        <h2 class="pull-left col-md-12 col-lg-7 g-ws-nw">Order Summary</h2>
+        @if (ViewBag.AllowEdit)
+        {
+            <div class="col-md-12 col-lg-5">
+                <a href="~/checkout/" class="btn g-butt-second-reg g-butt-md-2 pull-right" role="button">Edit Basket</a>
+            </div>
+            <div class="col-md-12 g-m-t-10 visible-md"></div>
+        }
+    </div>
+</div>
+
+<div class="g-bc-s g-b-1-p">
+    <div class="g-p-10"><strong>Your Items <span class="g-fc-s">(@Model.BasketTotals.Quantity.ToString("##0"))</span></strong></div>
+    <hr />
+    @foreach (BasketContents bc in Model.BasketContents)
+    {
+        if (bc.ItemType == BasketItemType.Item || bc.ItemType == BasketItemType.AdminDiscount || bc.ItemType == BasketItemType.CompatibleDiscount)
+        {
+            string neg = (bc.ItemType == BasketItemType.AdminDiscount || bc.ItemType == BasketItemType.CompatibleDiscount) ? "-" : "";
+            <div class="g-p-10">
+                <div>@bc.Description</div>
+                <div class="g-m-t-5">Qty: <strong>@bc.Quantity.ToString("##0") | @neg@string.Format("{0:C}", bc.PriceEx)</strong> <span class="g-fc-tt g-fs-sm">ex VAT</span>
+                </div>
+            </div>
+            <hr/>
+        }
+    }
+    <div class="g-p-10">
+        <div class="clearfix g-m-t-10">
+            <div class="pull-left g-w-40p"><strong>Delivery</strong></div>
+            <div class="pull-right">
+                @if (Model.BasketTotals.Delivery == 0)
+                {
+                    @:FREE
+                }
+                else
+                {
+                    @Html.Raw("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Delivery)))
+                }
+            </div>
+        </div>
+        <div class="clearfix g-m-t-10">
+            <div class="pull-left g-w-40p"><strong>Sub-Total</strong></div>
+            <div class="pull-right">@string.Format("{0:C}", Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery)</div>
+        </div>
+        <div class="clearfix g-m-t-10">
+            <div class="pull-left g-w-40p"><strong>VAT</strong></div>
+            <div class="pull-right">@string.Format("{0:C}", Model.BasketTotals.Vat + Model.BasketTotals.VoucherVat)</div>
+        </div>
+    </div>
+    @if (ViewBag.HideVoucher == false)
+    {
+        <hr />
+        <div class="g-p-10">
+            <div class="clearfix">
+                <div class="pull-left g-w-40p"><strong>Voucher</strong></div>
+                <div class="pull-right g-i g-fc-pm">
+                    @if (Model.BasketTotals.Voucher == 0)
+                    {
+                        @:FREE GIFT
+                    }
+                    else
+                    {
+                        @((Model.BasketTotals.Voucher < 0 ? "-" : ""))
+                        @Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher)) + " (inc VAT)"))
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    <hr />
+    <div class="g-p-10">
+        <div class="clearfix g-m-t-10 g-flex-vcenter">
+            <div class="pull-left g-w-40p"><strong>Grand Total</strong></div>
+            <div class="pull-right g-fs-lg"><strong>@string.Format("{0:C}", Model.BasketTotals.GrandTotalIncVat)</strong> <span class="g-fc-tt g-fs-sm">inc VAT</span></div>
+        </div>
+    </div>
+</div>
+@if (ViewBag.Stage1 != "active")
+{
+    if (Model.CheckoutDetails.DeliveryAddress != null)
+    {
+        <div class="g-bc-s g-b-1-p g-m-t-10">
+            <div class="g-p-10"><strong>Delivering to</strong></div>
+            <hr />
+            <div class="g-p-10">
+                @if (Model.CheckoutDetails.Name != null)
+                {
+                    <div>@(Model.CheckoutDetails.RecipientName.Title + " " + Model.CheckoutDetails.RecipientName.Firstname + " " + Model.CheckoutDetails.RecipientName.Surname)</div>
+                }
+                <div id="summ-deladd-line1">@Model.CheckoutDetails.DeliveryAddress.Line1</div>
+                <div id="summ-deladd-line2">@Model.CheckoutDetails.DeliveryAddress.Line2</div>
+                <div id="summ-deladd-line3">@Model.CheckoutDetails.DeliveryAddress.Line3</div>
+                <div id="summ-deladd-line4">@Model.CheckoutDetails.DeliveryAddress.Line4</div>
+                <div id="summ-deladd-postcode">@Model.CheckoutDetails.DeliveryAddress.PostCode</div>
+            </div>
+        </div>
+
+        <div class="g-bc-s g-b-1-p g-m-t-10">
+            <div class="g-p-10"><strong>Billing Address</strong></div>
+            <hr />
+            <div class="g-p-10">
+                @if (Model.CheckoutDetails.Name != null)
+                {
+                    <div>@(Model.CheckoutDetails.Name.Title + " " + Model.CheckoutDetails.Name.Firstname + " " + Model.CheckoutDetails.Name.Surname)</div>
+                }
+                <div>@Model.CheckoutDetails.BillingAddress.Line1</div>
+                <div>@Model.CheckoutDetails.BillingAddress.Line2</div>
+                <div>@Model.CheckoutDetails.BillingAddress.Line3</div>
+                <div>@Model.CheckoutDetails.BillingAddress.Line4</div>
+                <div>@Model.CheckoutDetails.BillingAddress.PostCode</div>
+            </div>
+        </div>
+    }
+}

@@ -1,0 +1,48 @@
+﻿@using BusinessLogic
+@{
+    Layout = "~/Views/Shared/_Blank.cshtml";
+}
+
+@if (ViewBag.Action == 0) // Redirect to the banks 3D authorisation page
+{
+    string acsUrl = ((CheckoutDetails)Session["C_CheckoutDetails"]).OpayoChallengeAuthentication.acsUrl;
+    string creq = ((CheckoutDetails)Session["C_CheckoutDetails"]).OpayoChallengeAuthentication.cReq;
+    string transactionId = ((CheckoutDetails)Session["C_CheckoutDetails"]).OpayoChallengeAuthentication.transactionId;
+
+    <form class="g-d-n" action="@acsUrl" method="post">
+        <input type="hidden" name="creq" value="@creq" />
+        <input type="hidden" name="threeDSSessionData" value="@transactionId" />
+        <p>Please click button below to proceed to 3D secure.</p>
+        <input type="submit" value="Go" />
+    </form>
+    <script>
+        $(function () {
+            $('form').submit();
+        })
+    </script>
+}
+
+<script>
+    $(function () {
+    @if (ViewBag.Action == 1) // Authorisation success, breakout of the iframe
+    {
+        <text>
+            window.parent.location = "/Checkout/Stage3";
+        </text>
+    }
+
+        @if (ViewBag.Action == 2) // Authorisation failure, breakout of the iframe and show error
+    {
+        <text>
+            window.parent.location = '/checkout/?pm=CheckoutError&rpl=errormessage_@ViewBag.Message';
+        </text>
+    }
+
+        @if (ViewBag.Action == 3) // Authorisation Rejected, possible cancel or data entry error
+    {
+        <text>
+            window.parent.opayoBreakout('@ViewBag.Message');
+        </text>
+    }
+    })
+</script>

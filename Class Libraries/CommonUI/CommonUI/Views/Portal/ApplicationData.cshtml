@@ -1,0 +1,41 @@
+﻿@using BusinessLogic.ViewModels;
+@using CommonUI.Models;
+@using System.Configuration;
+
+@model CommonViewModel
+
+@Ajax.HtmlActionLink("<i class=\"fa fa-trash\"></i> Refresh App Variables",
+    "LoadAppVariables",
+    "Portal",
+    new
+    {
+    },
+    new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnComplete = "location.reload()"
+    },
+    new
+    {
+        @class = "g-m-l-10 g-p-5 form-delete btn btn-default btn-sm"
+    })
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Variable Name</th>
+            <th>Variable Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{HttpContext oc = HttpContext.Current;
+            foreach (var c in ConfigurationManager.AppSettings.AllKeys)
+            {
+                <tr>
+                    <td>@c</td>
+                    <td>@ConfigurationManager.AppSettings[c]</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

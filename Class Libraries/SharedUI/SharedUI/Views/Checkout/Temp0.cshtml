@@ -1,0 +1,65 @@
+﻿@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using SharedUI.Models;
+
+@model CheckoutViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutCheckout.cshtml";
+}
+
+<h2>Temp0</h2>
+
+<div class="g-m-tb-20">C_IsInCheckout: @Session["C_IsInCheckout"]</div>
+
+@using (Html.BeginForm("Temp1", "Checkout", FormMethod.Post, new {id = "co-temp0"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.PreviousPage, new {@Value = "Temp0"})
+
+    <button type="submit" class="g-butt-primary g-butt-xl g-m-tb-20">Go To Temp1</button>
+
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        var pageLoadEvent = 'onload' in window ? 'load' : 'pageshow';
+        var pageUnloadEvent = 'onunload' in window ? 'unload' : 'pagehide';
+
+        window.addEventListener(pageLoadEvent,
+            function() {
+                xstagePageLoaded();
+            });
+
+        //window.addEventListener('beforeunload',
+        //    function() {
+        //        stagePageUnloaded();
+        //    });
+
+        window.addEventListener(pageUnloadEvent,
+            function () {
+                xstagePageUnloaded();
+            });
+
+        function xstagePageLoaded() {
+            var inCheckout = checkSessionExists('C_IsInCheckout');
+
+            if (inCheckout != null) {
+                if (inCheckout == true) {
+                    $('.IsInCheckout').val('true');
+                    location.href = "/checkout?pm=IsInCheckout";
+                } else {
+                    setSession("C_IsInCheckout", true);
+                }
+            }
+        }
+
+        function xstagePageUnloaded() {
+            if ($('.IsInCheckout').val() != 'true') {
+                setSession("C_IsInCheckout", null);
+            }
+        }
+    </script>
+}
+

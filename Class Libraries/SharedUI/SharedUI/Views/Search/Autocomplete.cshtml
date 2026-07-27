@@ -1,0 +1,58 @@
+﻿@using System.Configuration
+@using BusinessLogic
+@using SharedUI.Models;
+@using BusinessLogic.ViewModels;
+
+@model SearchViewModel
+
+@if (Model.Results.Count > 0)
+{
+    foreach (var result in Model.Results)
+    {
+        string urlLink = "";
+        string description = "";
+        string imgUrl = "";
+        if (result.ItemType == "Product")
+        {
+            urlLink = result.ProductUrl;
+            description = result.FriendlyDescription;
+            imgUrl = result.ImageUrl.Contains("http://") || result.ImageUrl.Contains("https://") ? result.ImageUrl : ConfigurationManager.AppSettings["CDN"] + "/" + result.ImageUrl;
+        }
+        else if (result.ItemType == "Equipment")
+        {
+            urlLink = result.FriendlyModel != null && result.CartridgeType != null ? $"/model/{result.FriendlyModel.Replace(" ", "-")}-{result.CartridgeType.Replace(" ", "-").Replace("HP-Range", "Toner-Cartridges").ToLower()}" : "";
+            description = result.FriendlyModel;
+            imgUrl = ConfigurationManager.AppSettings["CDN"] + "/" + result.ImageUrl;
+        }
+        else if (result.ItemType == "Category")
+        {
+            urlLink = result.FriendlyModel != null ? string.Format("/{0}/{1}-{2}", result.ProductCount > 0 ? "products" : "catalogue", Utilities.CleanUrl(result.Model.Replace(" ", "-")), result.ItemId) : "";
+            description = result.FriendlyModel;
+            imgUrl = ConfigurationManager.AppSettings["CDN"] + "/Images/category-icons/" + Utilities.CleanUrl(result.FriendlyModel.ToLower()) + ".jpg";
+        }
+
+        <div class="g-m-tb-5 g-of-h" style="text-overflow: ellipsis; white-space: nowrap;">
+            <a class="primary g-d-b" href="@urlLink">
+                <img src="@imgUrl" alt="@result.FriendlyDescription" width="40"
+                     onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noimage.jpg';" class="g-d-b pull-left" />
+                <span class="g-m-l-10 g-lh-40">
+                    @Html.HighlightKeyWords(description, (string)ViewBag.Term, "search-highlight", false)
+                </span>
+                <span class="g-fc-s">
+                    @(result.ProductCount > 0 ? $"({result.ProductCount} Products)" : "")
+                </span>
+            </a>
+        </div>
+    }
+
+    <div class="text-center g-va-m">
+        <a class="secondary g-d-b g-butt-second-reg g-butt-100p" href="/search-results?keyword=@Model.SearchTerm" style="height: 100%; line-height: 40px;">Show All Results</a>
+    </div>
+}
+else
+{
+    <div class="text-center g-p-t-10">
+        No results found
+    </div>
+}
+

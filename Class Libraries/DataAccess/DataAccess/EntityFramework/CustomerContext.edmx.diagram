@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ddc3183de61447a4b4f6c0663c0dfb90" Name="Diagram1">
+        <EntityTypeShape EntityType="CustomerDataModel.Account" Width="1.5" PointX="7.5" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CustomerDataModel.Customer" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CustomerDataModel.LookupTypeCust" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CustomerDataModel.WebsiteView" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="CustomerDataModel.FK_Account_Customer" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CustomerDataModel.Billing" Width="1.5" PointX="7.5" PointY="10" />
+        <AssociationConnector Association="CustomerDataModel.FK_Billing_Customer" />
+        <EntityTypeShape EntityType="CustomerDataModel.LookupCust" Width="1.5" PointX="3" PointY="4.25" />
+        <AssociationConnector Association="CustomerDataModel.FK_Account_Lookup" />
+        <AssociationConnector Association="CustomerDataModel.FK_Account_Lookup1" />
+        <AssociationConnector Association="CustomerDataModel.FK_Account_Lookup2" />
+        <AssociationConnector Association="CustomerDataModel.FK_Account_Lookup3" />
+        <AssociationConnector Association="CustomerDataModel.FK_Account_Lookup4" />
+        <AssociationConnector Association="CustomerDataModel.FK_Customer_Lookup" />
+        <AssociationConnector Association="CustomerDataModel.FK_Lookup_LookupType" />
+        <EntityTypeShape EntityType="CustomerDataModel.MailingList" Width="1.5" PointX="3.375" PointY="0.75" />
+        <AssociationConnector Association="CustomerDataModel.FK_Account_Lookup5" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

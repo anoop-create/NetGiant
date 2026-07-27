@@ -1,0 +1,252 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+.basket-status {
+    margin-top: 15px;
+}
+
+.stock-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+    .stock-status.in-stock {
+        color: #28a745;
+    }
+
+    .stock-status.back-order {
+        color: #f39c12;
+    }
+
+.delivery-status {
+    margin-top: 6px;
+    padding-left: 24px;
+    font-size: 13px;
+    color: #666;
+}
+
+.delivery-date {
+    margin-top: 2px;
+    font-weight: 600;
+    color: #222;
+}
+
+.basket-qty-wrapper {
+    margin-top: 20px;
+}
+
+.qty-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+}
+
+.basket-qty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    width: 140px;
+    height: 42px;
+}
+
+.qty-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: #f8f8f8;
+    cursor: pointer;
+    transition: .2s;
+}
+
+    .qty-btn:hover {
+        background: #ececec;
+    }
+
+    .qty-btn:disabled {
+        opacity: .45;
+        cursor: not-allowed;
+    }
+
+.qty-input {
+    width: 60px;
+    border: none;
+    text-align: center;
+    font-weight: 600;
+    background: #fff;
+}
+
+.basket-remove-container {
+    margin-top: 15px;
+}
+
+.basket-remove {
+    background: none;
+    border: none;
+    color: #d61f26;
+    padding: 0;
+    font-size: 14px;
+}
+
+    .basket-remove:hover {
+        text-decoration: underline;
+    }
+.switch-save-card {
+    margin-top: 20px;
+    border: 1px solid #dcdcdc;
+    border-left: 5px solid #007b5f;
+    border-radius: 8px;
+    padding: 18px;
+    background: #fafafa;
+}
+
+.switch-badge {
+    display: inline-block;
+    background: #007b5f;
+    color: #fff;
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.switch-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.switch-text {
+    color: #666;
+    font-size: 13px;
+}
+
+.switch-price {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.switch-saving {
+    color: #28a745;
+    font-weight: 600;
+    margin-top: 6px;
+}
+.switch-product-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.switch-price {
+    margin-top: 6px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+    .switch-price small {
+        display: block;
+        font-size: 12px;
+        color: #777;
+        font-weight: 400;
+    }
+
+.switch-saving-label {
+    font-size: 12px;
+    color: #666;
+}
+
+.switch-saving {
+    color: #28a745;
+    font-size: 18px;
+    font-weight: 700;
+}
+/* ===========================
+   Switch & Save
+=========================== */
+
+.switch-save-card {
+    margin-top: 20px;
+    padding: 20px;
+    border: 2px solid #d5007f; /* Brand magenta */
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+.switch-save-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.switch-heading {
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+}
+
+.switch-product-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 12px 0;
+    color: #222;
+}
+
+.switch-price {
+    font-size: 22px;
+    font-weight: 700;
+    color: #222;
+}
+
+    .switch-price small {
+        display: block;
+        margin-top: 4px;
+        font-size: 12px;
+        font-weight: 400;
+        color: #777;
+    }
+
+.switch-saving {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0a8a43;
+}
+
+.switch-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+    .switch-footer .btn {
+        min-width: 170px;
+    }

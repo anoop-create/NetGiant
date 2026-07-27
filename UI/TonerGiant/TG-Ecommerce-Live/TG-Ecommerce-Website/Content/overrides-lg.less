@@ -1,0 +1,125 @@
+﻿@media (min-width: 1200px) {
+
+    // Bootstrap Extensions
+    .col-lg-5ths {
+        width: 20%;
+        float: left;
+    }
+
+    // Bootstrap Overrides
+    .navbar-inverse {
+        .navbar-nav > li {
+            > div {
+                width: 1141px;
+            }
+        }
+    }
+
+    //Home Page Related
+    .hm-brandWizardEntry {
+
+        &:nth-child(6n) {
+            margin-right: 21.75px;
+        }
+
+        &:nth-child(8n) {
+            margin-right: -15px;
+        }
+    }
+
+    .pull-right-lg {
+        float: right;
+    }
+
+    .pull-left-lg {
+        float: left;
+    }
+
+    //Wizard Related
+    .wiz-brandWizardEntry {
+
+        &:nth-child(5n) {
+            margin-right: 21.75px;
+        }
+
+        &:nth-child(6n) {
+            margin-right: -15px;
+        }
+    }
+
+    .wiz-widget.home {
+        width: 480px;
+        height: 380px;
+        margin: 50px 0;
+        padding: 30px 50px;
+
+        > div {
+            padding-bottom: 20px;
+        }
+
+        #wiz-find {
+            margin-left: 52px;
+            width: 280px;
+            height: 50px;
+        }
+
+        .bootstrap-select {
+            width: 300px !important;
+            padding-left: 20px;
+        }
+    }
+
+    .wiz-widget.equip {
+
+        > div > div > div:last-of-type {
+            padding-bottom: 0;
+        }
+
+        button[data-toggle="dropdown"] {
+            width: 280px;
+            height: 40px;
+        }
+
+        .bootstrap-select {
+            width: 280px !important;
+            padding-left: 20px;
+
+            .dropdown-menu {
+                left: 20px;
+            }
+        }
+
+        #wiz-find {
+            margin-left: 50px;
+        }
+    }
+
+    .wiz-manufacturer-image {
+        left: 265px;
+        pointer-events: none;
+        position: absolute;
+        top: 2px;
+        z-index: 2;
+
+        > img {
+            height: 35px;
+        }
+    }  
+
+    .prd-main-entry .prd-entry-col1 {
+        width: 280px;
+    }
+
+    // Checkout
+    .co-paym {
+        > div > .co-paym-button {
+            margin-bottom: 0;
+        }
+    }
+
+    // Kendo
+    .k-dropdown {
+        width: 280px;
+        margin-left: 20px;
+    }
+}

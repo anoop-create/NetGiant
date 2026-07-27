@@ -1,0 +1,225 @@
+﻿@using BusinessLogic.ViewModels;
+@using CommonUI.Models;
+@using System.Configuration;
+
+@model CommonViewModel
+
+@{
+    int websiteId = int.Parse(ConfigurationManager.AppSettings["WebsiteId"].ToString());
+    bool isLive = ConfigurationManager.AppSettings["Environment"] == "Live";
+    string affiliateWindowId = "";
+    string gaId1 = "";
+    string gaId2 = "";
+    string gaId3 = "";
+    string gaId4 = "";
+    string enzuzoId = "";
+    string bingId = "";
+
+    switch (websiteId)
+    {
+        case 1:
+            {
+                affiliateWindowId = "5500";
+                //gaId1 = "UA-1727271-1";
+                gaId1 = "G-GZKG9F1FJY";
+                gaId2 = "AW-1062996651";
+                gaId3 = "AW-1004936566";
+                enzuzoId = isLive ? "bd25b4f2-2c85-11ef-98b0-4b623bf18ab5" : "dea3faec-2a3e-11ef-8547-0f6e0acaaee8";
+                bingId = "4017809";
+                break;
+            }
+        case 2:
+            {
+                affiliateWindowId = "808";
+                //gaId1 = "UA-788128-1";
+                gaId1 = "G-7ZFRCQQQDW";
+                gaId2 = "AW-1054433765";
+                enzuzoId = isLive ? "b4e8c2b6-2c85-11ef-a6ab-dba17df34050" : "ada94336-2c85-11ef-932d-2b7d097b0cca";
+                break;
+            }
+            //case 3:
+            //    {
+            //        affiliateWindowId = "6704";
+            //        gaId1 = "UA-49671214-1";
+            //        break;
+            //    }
+    }
+
+    // Enzuzo
+    <text>
+        loadScript('https://app.enzuzo.com/apps/enzuzo/static/js/__enzuzo-cookiebar.js?uuid=@enzuzoId', function() { });
+    </text>
+
+    // Affiliate Window
+    if (!Convert.ToBoolean(HttpContext.Current.Session["U_IsPortalUser"]))
+    {
+        <text>
+            //var awin_url = 'https://www.dwin1.com/@(affiliateWindowId).js';
+            var awin_url = 'https://@(Html.RawFromDict(Model.CommonData, "DomainName"))data/static-files/cpy_affilliatewindow.js';
+            deferScriptLoad("script", awin_url);
+        </text>
+    }
+
+    // Google Analytics
+    <text>
+        loadScript('https://www.googletagmanager.com/gtag/js?id=@gaId1', function() { });
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    </text>
+    if (@gaId1 != "")
+    {
+        <text>
+            gtag('config', '@gaId1');
+        </text>
+    }
+    if (@gaId2 != "")
+    {
+        <text>
+            gtag('config', '@gaId2');
+        </text>
+    }
+    if (@gaId3 != "")
+    {
+        <text>
+            gtag('config', '@gaId3');
+        </text>
+    }
+    if (@gaId4 != "")
+    {
+        <text>
+            gtag('config', '@gaId4');
+        </text>
+    }
+
+    //Bing Tracking
+    @*if (bingId != "")
+    {
+        <text>
+                (function (w, d, t, r, u) {
+                    var f, n, i;
+                    w[u] = w[u] || [], f = function () {
+                        var o = { ti: "@(bingId)", enableAutoSpaTracking: true };
+                        o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad")
+                    }, n = d.createElement(t), n.src = r, n.async = 1, n.onload = n.onreadystatechange =
+                        function () {
+                            var s = this.readyState;
+                            s && s !== "loaded" && s !== "complete" ||
+                                (f(), n.onload = n.onreadystatechange = null)
+                        }, i = d.getElementsByTagName(t)[0], i.parentNode.insertBefore(n, i)
+                })(window, document, "script", "//bat.bing.com/bat.js", "uetq");
+
+                window.uetq = window.uetq || [];
+                window.uetq.push('consent', 'default', {
+                'ad_storage': 'denied'
+                });
+        </text>
+    }*@
+
+
+    // Checkout/ViewBasket
+    if (Html.Controller() == "checkout" && Html.Action() == "viewbasket")
+    {
+        <text>
+            $(document).on('click', '.atb-replace', function (event) {
+            gtag("event", "select_content", {
+            content_type: "Compatible Switch",
+            });
+            });
+        </text>
+    }
+
+    if ((Html.Controller() == "home" && Html.Action() == "index") || (Html.Controller() == "equipment" && Html.Action() == "printerwizard"))
+    {
+        <text>
+            // Track Wizard Action
+            $('.wiz-widget').on('change', '#wiz-manufacturer', function(event) {
+            var manuId = $('#wiz-manufacturer').val() == "" ? 0 : $('#wiz-manufacturer').val();
+            if (manuId != 0) {
+            gtag("event", "select_content", {
+            content_type: "Printer Wizard Manufacturer",
+            item_id: $('#wiz-manufacturer').prev().find('.k-input').html()
+            });
+            }
+            });
+            $('.wiz-widget').on('change', '#wiz-family', function(event) {
+            var familyId = $('#wiz-family').val() == "" ? 0 : $('#wiz-family').val();
+            if (familyId != 0) {
+            gtag("event", "select_content", {
+            content_type: "Printer Wizard Family",
+            item_id: $('#wiz-family').prev().find('.k-input').html()
+            });
+            }
+            });
+            $('.wiz-widget').on('change', '#wiz-equipment', function(event) {
+            var equipId = $('#wiz-equipment').val() == "" ? 0 : $('#wiz-equipment').val();
+            if (equipId != 0) {
+            gtag("event", "select_content", {
+            content_type: "Printer Wizard Model",
+            item_id: $('#wiz-equipment').prev().find('.k-input').html()
+            });
+            }
+            });;
+        </text>
+    }
+
+    <text>
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+        function _goog_id() {
+        var id, a, c = document.cookie.split('; ');
+        for(i in c){a = c[i].split('=');if(a[0]=='_ga'){id = a[1].split('.')[2];}}
+        return id || 'unknown';
+        }
+
+        function deferScriptLoad(fileType, fileAddress, fileOptions, fileInsert) {
+        if (window.attachEvent) {
+        // If the browser supports attachEvent (e.g. IE)
+        window.attachEvent("onload",
+        function () { async_load(fileType, fileAddress, fileOptions, fileInsert); });
+        } else {
+        // If the browser does not support attachEvent (e.g. FireFox)
+        window.addEventListener("load",
+        function () { async_load(fileType, fileAddress, fileOptions, fileInsert); },
+        false);
+        }
+        }
+
+        function async_load(fileType, fileAddress, fileOptions, fileInsert) {
+        //The code block being created (e.g. script or link)
+        var s = document.createElement(fileType);
+        //Finds the tag in the page and places the new code block before it
+        var x = document.getElementsByTagName(fileType)[0];
+        if (fileType == "link") {
+        //If the file type is link (stylesheet)
+        //Set the type, rel, href and media attributes of the code block
+        s.type = "text/css";
+        s.rel = "stylesheet";
+        s.href = fileAddress;
+        s.media = "print";
+        x.parentNode.insertBefore(s, x);
+        } else if (fileType == "script") {
+        //If the file type is script
+        //Set the type, async (only supported by HTML5) and src attributes of the code block
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = fileAddress;
+        x.parentNode.insertBefore(s, x);
+        } else if (fileType == "img") {
+        //If the file type is img
+        //Set the type, async (only supported by HTML5) and src attributes of the code block
+        s.src = fileAddress;
+        for (var prop in fileOptions) {
+        s[prop] = fileOptions[prop];
+        }
+        x = document.getElementById(fileInsert);
+        x.appendChild(s);
+        }
+        }
+    </text>
+}
