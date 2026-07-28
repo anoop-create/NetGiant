@@ -1,0 +1,121 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce;
+@model OpenRangeImagesViewModel
+
+@{
+    ViewBag.Title = "Product Image / Specification Analysis";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    @using (Html.BeginForm("ExportImageSpec", "Ecommerce", FormMethod.Post, new { @id = "ExportForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("kendoData")
+    }
+    <input type="submit" class="btn btn-success g-m-b-5 download" value="Export to CSV" />
+    <div class="g-p-b-10">
+        @Html.DropDownListFor(m => m.SiteId, Model.WebsiteNameList, new { @class = "form-control g-smallCell g-m-r-10" })
+    </div>
+    <div><strong>Pimberly Analysis</strong>: Total Products (excluding Own Brand): @Model.ActiveProductCount.ToString() | Product Match Count: @Model.ProductMatchCount.ToString() | Image Match Count: @Model.ImageMatchCount.ToString() </div>
+</div>
+
+@(Html.Kendo().Grid<OpenRangeImagesViewModel.Telerik>()
+        .HtmlAttributes(new { @class = "pointer-rows" })
+        .Name("pimberlyImagesGrid")
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("OpenRangeImages_Read", "Ecommerce")
+                .Data("selectSite")
+            )
+            .PageSize(200)
+            //.Sort(sort => sort
+            //    .Add(x => x.Timestamp).Descending())
+            )
+        .Columns(columns =>
+        {
+            columns.Bound(x => x.PartNumber).Title("Part No.").Width(90)
+                .ClientTemplate("<a href=\"http://www.tonergiant.co.uk#:Url#\" target=\"_blank\">#:PartNumber#</a>")
+                .HeaderHtmlAttributes(new { title = "Part Number" });
+            columns.Bound(x => x.Manufacturer).Title("Manufacturer").Width(100)
+                .HeaderHtmlAttributes(new { title = "Manufacturer" });
+            columns.Bound(x => x.Description).Title("Description").Width(200)
+                .HeaderHtmlAttributes(new { title = "Description" });
+            //columns.Bound(x => x.ORId).Title("OpenRange ID").Width(100)
+            //    .HeaderHtmlAttributes(new { title = "OpenRange ID" });
+            columns.Bound(x => x.HasSpec).Title("Has Spec").Width(80)
+                .HeaderHtmlAttributes(new { title = "Has Specification" });
+            columns.Bound(x => x.PMSMainImages).Title("PMS Main Images")
+                .HeaderHtmlAttributes(new { title = "PMS Main Images" })
+                .ClientTemplate("#= PMSMainImages #");
+            columns.Bound(x => x.PMSThumbImages).Title("PMS Thumb Images")
+                .HeaderHtmlAttributes(new { title = "PMS Thumb Images" })
+                .ClientTemplate("#= PMSThumbImages #");
+            columns.Bound(x => x.PIMImages).Title("Pimb. Images")
+               .HeaderHtmlAttributes(new { title = "Pimberly Images" })
+               .ClientTemplate("#= PIMImages #");
+        })
+        .Pageable(pager => pager.Refresh(true))
+        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable
+            .AllowUnsort(true))
+        .Groupable()
+        .Scrollable()
+        .Filterable(ftb => ftb
+            .Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .Excel(excel => excel
+            .AllPages(true)
+            .FileName("Grid Export")
+            .Filterable(true)
+            .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+        .NoRecords("There are no items to display")
+//.Events(events => events.Change("Grid_OnRowSelect").DataBound("saveGridFilters"))
+//.Selectable()
+)
+
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Product Image</h4>
+            </div>
+            <div class="modal-body"><img src="" width="100%" /></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        function selectSite() {
+            return {
+                site: $("#SiteId").val()
+            }
+        }
+
+        $(document).on('change', '#SiteId', function (e) {
+            location.replace('../OpenRangeImagesIndex/' + $('#SiteId').val());
+        });
+
+        $('#imageModal').on('show.bs.modal', function (e) {
+            $('.modal-body img').prop('src', $(e.relatedTarget).attr('src'));
+        })
+
+        $(document).on('click', '.download', function (e) {
+            var view = $("#pimberlyImagesGrid").data("kendoGrid").dataSource.view();
+            $('#kendoData').val(encodeURIComponent(JSON.stringify(view)));
+            $('#ExportForm').submit();
+        });
+
+    </script>
+}
+
+
+

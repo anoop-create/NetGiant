@@ -1,0 +1,50 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Admin.BatchProgram;
+@model BatchProgramViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutEmpty.cshtml";
+    ViewBag.Title = "Batch Log Details";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    <div class="g-a-c g-b-1dg">Command: @Model.BatchLogEntry.Command</div>
+</div>
+
+@(Html.Kendo().Grid<TelerikBatchLogDetail>()
+    .HtmlAttributes(new { @class = "pointer-rows" })
+    .Name("BatchLogDetailGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.Id).Title("Id").Hidden().Width(70);
+        columns.Bound(x => x.DateTime).Title("Date").Format("{0:dd/MM/yyyy HH:mm:ss}").Width(150);
+        columns.Bound(x => x.Message).Title("Message").Encoded(false);
+        columns.Bound(x => x.ErrorCode).Title("Error Code").Width(150);
+    })
+    .Pageable(pager => pager.Refresh(true))
+    .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+    .Sortable(sortable => sortable.AllowUnsort(true))
+    .Scrollable()
+    .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+    .ColumnMenu()
+    .Resizable(resize => resize.Columns(true))
+    .Reorderable(reorder => reorder.Columns(true))
+    .NoRecords("There are no logs to display")
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(x => x.Action("BatchLogDetail_Read", "BatchProgram", new { id = Model.BatchLogId }))
+        .PageSize(200)
+    )
+    //.Events(e => e.DataBound("saveGridFilters"))
+)
+
+@section scripts
+{
+    <script type="text/javascript">
+        //window.onload = location.reload();
+    </script>
+}
+
+
+

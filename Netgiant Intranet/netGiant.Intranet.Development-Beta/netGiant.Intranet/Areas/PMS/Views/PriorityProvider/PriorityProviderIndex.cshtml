@@ -1,0 +1,52 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model PriorityProviderViewModel
+
+@{
+    ViewBag.Title = "Priority Provider";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h3>@ViewBag.Title</h3>
+
+        @(Html.Kendo().Grid<PriorityProviderViewModel.TelerikPriorityProvider>()
+        .HtmlAttributes(new { @class = "pointer-rows" })
+        .Name("UsersGrid")
+        .Columns(columns =>
+        {
+        columns
+            .Bound(x => x.ID)
+            .Title("ID")
+            .Width("20%")
+            .HeaderHtmlAttributes(new { title = "ID", style = "text-align: center;" });
+        columns
+            .Bound(x => x.Provider)
+            .Title("Provider")
+            .Width("40%")
+            .HeaderHtmlAttributes(new { title = "Provider", style = "text-align: center;" });
+        columns
+            .Bound(x => x.Manufacturer)
+            .Title("Manufacturer")
+            .Width("40%")
+            .HeaderHtmlAttributes(new { title = "Manufacturerxx", style = "text-align: center;" });
+        }
+        )
+            .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+            .ColumnMenu()
+            .Sortable(sortable => sortable.AllowUnsort(true))
+            .Resizable(resize => resize.Columns(true))
+            .Reorderable(reorder => reorder.Columns(true))
+            .NoRecords("There are no items to display")
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(x => x.Action("PriorityProviderAjax", "PriorityProvider"))
+                .PageSize(50)
+                )
+       )
+    </div>
+</div>
+
+
+
+

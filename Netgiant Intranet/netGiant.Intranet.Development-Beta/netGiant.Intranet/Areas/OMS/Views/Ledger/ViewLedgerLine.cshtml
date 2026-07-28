@@ -1,0 +1,182 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.OMS
+@using PagedList.Mvc;
+@using Kendo.Mvc.UI;
+
+@model LedgerViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody productFieldTabs">
+        <h4>
+            Ledger Line Detail - LR@(Model.LedgerLine.LedgerFk.ToString("D8"))
+        </h4>
+
+        @if (Request["Edit"] == "No")
+        {
+            <a href="@(Url.Action("ViewLedger/" + Model.LedgerLine.LedgerFk.ToString(), "Ledger"))" class="btn btn-default">
+                Return
+            </a>
+        }
+        else
+        {
+            @Html.ActionLink(
+                "Edit Ledger Line",
+                "EditLedgerLine/" + Model.LedgerLine.LedgerLineId,
+                "Ledger",
+                null,
+                new { @class = "btn btn-default" })
+
+            <a href="@(Url.Action("EditLedger/" + Model.LedgerLine.LedgerFk.ToString(), "Ledger"))#LedgerLinesTab" class="btn btn-default">
+                Return
+            </a>
+        }
+
+
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Dates</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Year/Period:</div><div class="col-lg-3"><b>@(Model.LedgerLine.Year.ToString("D4") + "/" + Model.LedgerLine.Period.ToString("D2"))</b>&nbsp;</div>
+                <div class="col-lg-3">Date Invoiced:</div><div class="col-lg-3">
+                    <b>
+                        @(Model.LedgerLine.DateInvoiced.ToString("dd/MM/yyyy"))
+                    </b>&nbsp;
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>References</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Ledger ID:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.LedgerLine.LedgerFk)</b>&nbsp;</div>
+                <div class="col-lg-3">Product ID:</div><div class="col-lg-3">
+                    <b>
+                        @(Model.LedgerLine.product == null ? " - " : Model.LedgerLine.product.partNo)
+                    </b>&nbsp;
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Ledger Details</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Ledger Line Transaction Type:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.LedgerLine.LedgerLineTransType)</b>&nbsp;</div>
+                <div class="col-lg-3">Product Group ID:</div><div class="col-lg-3">
+                    <b>
+                        @(Model.LedgerLine.product == null ? " - " : Model.LedgerLine.product.partNo)
+                    </b>&nbsp;
+                </div>
+                <div class="col-lg-3">Axis Stock Reference:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.LedgerLine.AxisStockReference)</b>&nbsp;</div>
+                <div class="col-lg-3">Nominal Account:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.LedgerLine.NominalAccount)</b>&nbsp;</div>
+                <div class="col-lg-3">Sales Group:</div><div class="col-lg-3">
+                    <b>
+                        @(Model.LedgerLine.salesAreaGroup == null ? " - " : Model.LedgerLine.salesAreaGroup.salesAreaGroupName)
+                    </b>&nbsp;
+                </div>
+
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Amounts</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Quantity Ordered:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Html.DisplayFor(x => x.LedgerLine.QuantityOrdered)
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Quantity Credited:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Html.DisplayFor(x => x.LedgerLine.QuantityCredited)
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+
+                <div class="col-lg-3">Quantity Outstanding:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Html.DisplayFor(x => x.LedgerLine.QuantityOutstanding)
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Unit Price:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Model.LedgerLine.UnitPrice.ToString("N")
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+
+                <div class="col-lg-3">Nett:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Model.LedgerLine.Nett.ToString("N")
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Vat:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Model.LedgerLine.Vat.ToString("N")
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+
+                <div class="col-lg-3">Cost Of Sales:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Model.LedgerLine.CostOfSales.ToString("N")
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">VAT Rate:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Html.DisplayFor(x => x.LedgerLine.VatRate)
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+
+                <div class="col-lg-3">VAT Code:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Html.DisplayFor(x => x.LedgerLine.VatCode)
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Description:</div>
+                <div class="col-lg-3">
+                    <b>
+                        @Html.DisplayFor(x => x.LedgerLine.Description)
+                    </b>
+                </div>
+
+                <div class="col-lg-3">Country Of Despatch:</div>
+                <div class="col-lg-3 text-right">
+                    <b>
+                        @Html.DisplayFor(x => x.LedgerLine.CountryOfDespatch)
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">&nbsp;</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        &nbsp;
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Flags</legend>
+            <div class=" g-m-t-10 row">
+            </div>
+            <div class=" g-m-t-10 row">
+            </div>
+        </fieldset>
+    </div>
+</div>
+

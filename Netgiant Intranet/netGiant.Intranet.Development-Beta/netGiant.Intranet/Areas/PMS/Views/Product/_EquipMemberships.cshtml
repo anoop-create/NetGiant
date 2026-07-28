@@ -1,0 +1,53 @@
+﻿@using netGiant.Intranet.DataLayer.NetgiantMasterData;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<eqProductMembership>
+
+@Html.Hidden("PageCount", Model.PageCount)
+@Html.Hidden("PageNumber", Model.PageNumber)
+@Html.Hidden("PageSize", Model.PageSize)
+@Html.Hidden("ProductMemDataURL", Url.Action("EquipMemberships", "Product"))
+@Html.Hidden("ProductMemDeleteURL", Url.Action("DeleteMembership", "Product"))
+
+<div>
+    @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+    {
+        @Html.ActionLink("Create New", "CreateEquipMembership", "Product", new { id = ViewBag.ProductId }, null)
+    }
+
+    <span class="g-f-r">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</span>
+    @Html.Hidden("PageCount", Model.PageCount)
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            <a href="#" class="tableHeaderSort" value="equipment">Equipment</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="manufacturer">Manufacturer</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th class="g-w-10p"></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(m => item.eqEquipment.description)</td>
+            <td>@Html.DisplayFor(m => item.eqEquipment.manufacturer.manufacturerName)</td>
+            <td>
+                @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+                {
+                    <a class="deleteProductRelationship" href="#" value="@item.eqProductMembershipID" equipId="@item.eqEquipmentFK">Delete</a>
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+<div id="eqMembershipPaging" style="text-align:center;">
+    @Html.PagedListPager(Model, m => "#")
+</div>

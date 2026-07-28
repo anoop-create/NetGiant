@@ -1,0 +1,236 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Ensures optimal rendering on mobile devices. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- Optimal Internet Explorer compatibility -->
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-2.1.1.min.js"></script>
+</head>
+
+<body>
+    <h1 style="text-align: center">PayPal Ecommerce Test Page</h1>
+    @*Beta TG*@
+    <script src="https://www.paypal.com/sdk/js?client-id=AXMhgyTTWykWuNUlM0S-QXukKpSbNTH_DdAf6iizSMnk_2jewfBeuSOJX6PQnrdxeUQrNLJB4dGOj91C&intent=authorize&currency=GBP&debug=true&locale=en_GB">
+    </script>
+
+
+    @*Live NG*@
+    @*<script src="https://www.paypal.com/sdk/js?client-id=AYtakgVcKF1qU-B4950VZSP9sVhKUJICebdjOS9EIYx7c1EIrQ2K495R9zaNE4mGg1m2AlTOkR3b4Ii4&intent=authorize&currency=GBP&debug=true&locale=en_GB">
+    </script>*@
+    @*Live CM*@
+    @*<script src="https://www.paypal.com/sdk/js?client-id=AQTclui8qPICj2pvaI4kGJQXseQaphMb9Ztt9HJzkHDoCM1MzZ0qJhK58up93ZAqJA1cOHaVG0R9jTau&intent=authorize&currency=GBP&debug=true&locale=en_GB">
+    </script>*@
+    @*Live TG*@
+    @*<script src="https://www.paypal.com/sdk/js?client-id=AS9nuEYJAWWf6c4QzOWVlTo-IO8IjT-0BGfVO6VmbaiDMYN9vIkfD35iY_vIJc6Ayl5MnHoRqtKMIGmm&intent=authorize&currency=GBP&debug=true&locale=en_GB">
+    </script>*@
+
+
+    <div style="margin: auto; width: 60%;">
+        <div>Here's what will appear on the BASKET page ...</div>
+        <div id="paypal-button-container1" style="margin: auto; width: 60%; border: 3px solid red; padding: 10px; "></div>
+    </div>
+
+    <div style="margin: auto; width: 60%;">
+        <div class="g-m-t-20">Here's what will appear on the STAGE 2 page ...</div>
+        <div style="border: 3px solid red; height: 820px;">
+            <img src="~/Content/images/hdr.jpg" width="100%" />
+            <div>
+                <div id="paypal-button-container2" class="g-f-l" style="margin: auto; width: 60%; padding: 10px; "></div>
+                <img src="~/Content/images/side.jpg" class="g-f-l" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Add the checkout buttons, set up the order and approve the order -->
+    <script>
+        paypal.Buttons({
+            fundingSource: paypal.FUNDING.PAYPAL,
+            style: {
+                layout: 'vertical'
+                , shape: 'rect'
+                , label: 'checkout'
+            },
+            createOrder: function (data, actions) {
+                return actions.order.create({
+                    intent: "AUTHORIZE",
+                    purchase_units: [{
+                        amount: {
+                            value: '0.01'
+                        }
+                    }],
+                    payment_initiator: 'CUSTOMER'
+                });
+            },
+            onApprove: function (data, actions) {
+                return actions.order.authorize().then(function (details) {
+                    var detailsJson = JSON.stringify(details);
+                    $.ajax({
+                        url: '/Test/PayPalCapture',
+                        method: 'POST',
+                        dataType: 'json',
+                        async: false,
+                        cache: false,
+                        data: {
+                            trans: detailsJson
+                        },
+                        success: function (data) {
+                            if (data.IsSuccess) {
+                                alert('Success.');
+                            } else {
+                                alert('Not Success');
+                            }
+                        },
+                        error: function (xhr, textStatus, thrownError) {
+                            alert('Application eror');
+                        }
+                    });
+                });
+            },
+            onCancel: function (data) {
+                alert('You decided to cancel the operation.');
+            },
+            onError: function (err) {
+                alert('Paypal eror');
+            }
+        }).render('#paypal-button-container1');
+
+
+
+
+
+        //paypal.Buttons({
+        //    fundingSource: paypal.FUNDING.PAYPAL,
+        //    style: {
+        //        layout: 'vertical'
+        //        , shape: 'rect'
+        //        , label: 'checkout'
+        //    },
+        //    createOrder: function (data, actions) {
+        //        return actions.order.create({
+        //            intent: "CAPTURE",
+        //            purchase_units: [{
+        //                amount: {
+        //                    value: '43.78'
+        //                }
+        //            }],
+        //            payment_initiator: 'CUSTOMER'
+        //        });
+        //    },
+        //    onApprove: function (data, actions) {
+        //        // This function captures the funds from the transaction.
+        //        return actions.order.capture().then(function (details) {
+        //            // This function shows a transaction success message to your buyer.
+        //            var detailsJson = JSON.stringify(details);
+        //            $.ajax({
+        //                url: '/Test/PayPalAuthorise',
+        //                method: 'POST',
+        //                dataType: 'json',
+        //                async: false,
+        //                cache: false,
+        //                data: {
+        //                    details: detailsJson,
+        //                    paymentid: details.id, // details.purchase_units[0].payments.captures[0].id,
+        //                    payerid: details.payer.payer_id,
+        //                    paypaltype: 'viewBasket'
+        //                },
+        //                success: function (data) {
+        //                    if (data.savereturn.IsSuccess) {
+        //                        alert('Success.');
+        //                    } else {
+        //                        alert('Not Success');
+        //                    }
+        //                },
+        //                error: function (xhr, textStatus, thrownError) {
+        //                    alert('Application eror');
+        //                }
+        //            });
+        //        });
+        //    },
+        //    onCancel: function (data) {
+        //        alert('You decided to cancel the operation.');
+        //    },
+        //    onError: function (err) {
+        //        alert('Paypal eror');
+        //    }
+        //}).render('#paypal-button-container1'); // Display payment options on your web page
+
+
+        paypal.Buttons({
+            fundingSource: paypal.FUNDING.CARD,
+            style: {
+                //    layout: 'vertical'
+                shape: 'rect'
+            },
+            createOrder: function (data, actions) {
+                return actions.order.create({
+                    payer: {
+                        email_address: 'joseph.bloggs@gmail.com'
+                        , name: {
+                            given_name: 'Joseph',
+                            surname: 'Bloggs'
+                        }
+                        , phone: {
+                            phone_type: 'MOBILE',
+                            phone_number: {
+                                national_number: '07561378833'
+                            }
+                        }
+                        , address: {
+                            address_line_1: 'NetGiant Ltd',
+                            address_line_2: '61 Gibfield Park Avenue',
+                            admin_area_2: 'Atherton',
+                            admin_area_1: 'Greater Manchester',
+                            postal_code: 'M235HR',
+                            country_code: 'GB'
+                        }
+                    },
+                    purchase_units: [{
+                        reference_id: 'TFE3R',
+                        amount: {
+                            value: '46.51'
+                        }
+                    }],
+                    application_context: {
+                        shipping_preference: 'NO_SHIPPING'
+                        , user_action: 'CONTINUE'
+                    },
+                    onShippingChange: function (data, actions) {
+                        return actions.resolve();
+                    },
+                    payment_initiator: 'CUSTOMER'
+                });
+            },
+            onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {
+                    alert('Transaction completed by ' + details.payer.name.given_name + ' ' + details.payer.name.surname + '. At this point you will be transfered to Checkout - Stage 3');
+                });
+            },
+            onInit: function (data, actions) {
+                //actions.
+            },
+            onCancel: function (data) {
+                alert('You decided to cancel the operation. At this point you will remain at Stage 2.');
+            }
+        }).render(
+            //    {
+            //    styles: {
+            //        'input': {
+            //            'font-size': '16pt',
+            //            'color': '#3A3A3A'
+            //        },
+            //        '.number': {
+            //            'font-family': 'monospace'
+            //        },
+            //        '.valid': {
+            //            'color': 'green'
+            //        }
+            //    }
+            //},
+            '#paypal-button-container2'); // Display payment options on your web page
+    </script>
+</body>
+</html>

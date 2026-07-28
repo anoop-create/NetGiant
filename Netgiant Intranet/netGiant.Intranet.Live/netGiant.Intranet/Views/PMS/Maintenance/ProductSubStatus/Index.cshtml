@@ -1,0 +1,75 @@
+﻿@*@using netGiant.Intranet.DataLayer;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<productSubStatus>
+
+@{
+    ViewBag.Title = "Product Sub Status";
+}
+
+<div class="productSubStatus_placeHolder">
+    <div class="placeHolderHeading gl_textType2b">Product Management System &raquo; @ViewBag.Title<hr /></div>
+    <div class="placeHolderBody">
+
+        <div id="productSubStatusToggler" class="toggler">
+            <div id="effect" class="ui-widget-content ui-corner-all">
+                <h3 class="ui-widget-header ui-corner-all"></h3>
+            </div>
+        </div>
+
+        <h3>@ViewBag.Title Details</h3>
+
+        @Html.Hidden("CreateProductSubStatusURL", Url.Action("Create", "ProductSubStatus"))
+        @Html.Hidden("DeleteProductSubStatusURL", Url.Action("Delete", "ProductSubStatus"))
+        @Html.Hidden("PageCount", Model.PageCount)
+        @Html.Hidden("PageNumber", Model.PageNumber)
+        @Html.Hidden("PageSize", Model.PageSize)
+
+        <div style="padding-bottom: 20px">
+            <select id="productSubStatusSearchBy" class="searchBy g-f-l form-control g-smallCell" style="margin-right:10px" >
+                <option selected="selected" value="name">Search by name</option>
+            </select>
+            <div>
+                @Html.TextBox("SearchSubStatus", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line", @type = "text" })
+                <a id="lnkSearchSubStatus" href="#" class="btn btn-default g-f-l" title="Empty search returns all records">Search</a>
+            </div>
+        </div>
+        <br />
+
+        <div>
+            <a href="#" id="lnkNewProductSubStatus" value="0" title="New">Create New</a>
+            <span class="g-f-r">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</span>
+        </div>
+
+        <table class="table">
+            <tr>
+                <th>
+                    Product Sub Status Name
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.productSubStatusName)
+                    </td>
+                    <td>
+                        <a href="#" class="lnkProductSubStatusEdit" value="@item.productSubStatusID" title="Edit">Edit</a> |
+                        <a href="#" class="lnkProductSubStatusDelete" value="@item.productSubStatusID" title="Delete">Delete</a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <br />
+        <div id="productSubStatusPaging" style="text-align:center;">
+            @Html.PagedListPager(Model, p => "#")
+        </div>
+
+        <div id="productSubStatusDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+
+        </div>
+
+    </div>
+</div>*@

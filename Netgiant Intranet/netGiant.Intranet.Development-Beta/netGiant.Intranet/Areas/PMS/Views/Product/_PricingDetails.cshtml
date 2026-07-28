@@ -1,0 +1,61 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product;
+@using netGiant.Intranet.DataLayer.NetgiantMasterData;
+@model ProductDetailViewModel
+
+@{
+    var prd = Model.ProductDetail;
+    var af = prd.AxisFields;
+}
+
+<div class="g-p-t-10">
+    <fieldset class="g-b-1dg">
+        <legend>Price Details</legend>
+        <div class="g-w-100p">
+            @foreach (websiteInventory wi in prd.websiteInventory)
+            {
+                var prc = wi.productPrice.OrderByDescending(d => d.dateLastUpdated).FirstOrDefault();
+                string websiteName = Model.Websites.Where(w => w.Value == wi.websiteFK.ToString()).FirstOrDefault().Text;
+                <fieldset class="g-m-t-10 g-b-1dg g-w-20p g-f-l">
+                    <legend>@Html.Raw(websiteName)</legend>
+                    <table class="table noHeader">
+                        <tr>
+                            <td class="g-w-40p">Product Price</td>
+                            <td class="g-w-30p">@Html.Raw(prc != null ? "£" + string.Format("{0:N2}", prc.price) + " ex" : "None")</td>
+                            <td class="g-w-30p">@Html.Raw(prc != null ? "£" + string.Format("{0:N2}", prc.priceIncVat) + " inc" : "None")</td>
+                        </tr>
+                        <tr>
+                            <td class="g-w-40p">Cost Price</td>
+                            <td class="g-w-30p">@Html.Raw(prc != null ? "£" + string.Format("{0:N2}", prc.cheapestCostPrice) + " ex" : "None")</td>
+                            <td class="g-w-30p"></td>
+                        </tr>
+                        <tr>
+                            <td class="g-w-40p">Base Price</td>
+                            <td class="g-w-30p">@Html.Raw(prc != null ? "£" + string.Format("{0:N2}", prc.basePrice) + " ex" : "None")</td>
+                            <td class="g-w-30p"></td>
+                        </tr>
+                        <tr>
+                            <td class="g-w-40p">Trade Price</td>
+                            <td class="g-w-30p">@Html.Raw(prc != null ? "£" + string.Format("{0:N2}", prc.tradePrice) + " ex" : "None")</td>
+                            <td class="g-w-30p">@Html.Raw(prc != null ? "£" + string.Format("{0:N2}", prc.tradePriceIncVat) + " inc" : "None")</td>
+                        </tr>
+                    </table>
+                </fieldset>
+            }
+        </div>
+        @if (Model.ProductDetail.productItemTypeFK == 1 || Model.ProductDetail.productItemTypeFK == 3)
+        {
+            <div class="g-f-l">
+                <fieldset class="g-m-t-10 g-b-1dg">
+                    <legend>Suppliers</legend>
+                    @{Html.RenderPartial("_ProductSupplierData", Model);}
+                </fieldset>
+            </div>
+        }
+        <div class="g-f-l g-w-50p">
+            <fieldset class="g-m-t-10 g-b-1dg">
+                <legend>Competitors</legend>
+                @{Html.RenderPartial("_ProductCompetitorData", Model.ProductCompetitors);}
+            </fieldset>
+        </div>
+    </fieldset>
+</div>

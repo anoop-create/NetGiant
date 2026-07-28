@@ -1,0 +1,333 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1CFF9D16-890D-471E-8A7D-37B2485EE063}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>netGiant.Intranet.DataLayer</RootNamespace>
+    <AssemblyName>netGiant.Intranet.DataLayer</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="actionLink.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetRole.cs">
+      <DependentUpon>membershipContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUser.cs">
+      <DependentUpon>membershipContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserClaim.cs">
+      <DependentUpon>membershipContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserLogin.cs">
+      <DependentUpon>membershipContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AXISGroups.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="axisPricingHistory.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AXISQueue.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AXISQueueDetails.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="categoryAttribute.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="categoryCode.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dataSupplier.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ds_product.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="eqEquipment.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="eqFamily.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="eqFamilyMembership.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="eqProductMembership.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fieldMapping.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fieldName.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fieldSection.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fieldSubSection.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fieldType.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fieldValue.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="filterableAttribute.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ftpDetails.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetProductPrices_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetProductSuppliers_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="manufacturer.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="membershipContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>membershipContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="membershipContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>membershipContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="membershipContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>membershipContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="MetaData\GlobalMetaData.cs" />
+    <Compile Include="MetaData\PMS\Equipment\EquipmentMetaData.cs" />
+    <Compile Include="MetaData\PMS\Maintenance\AXISGroupsMetaData.cs" />
+    <Compile Include="MetaData\PMS\Maintenance\CategoryCodeMetaData.cs" />
+    <Compile Include="MetaData\PMS\Maintenance\actionLinkMetaData.cs" />
+    <Compile Include="MetaData\PMS\Maintenance\DataSupplierMetaData.cs" />
+    <Compile Include="MetaData\PMS\Maintenance\FileterableAttributeMetaData.cs" />
+    <Compile Include="MetaData\PMS\Maintenance\ManufacturerMetaData.cs" />
+    <Compile Include="MetaData\PMS\Maintenance\overrideTypeMetaData.cs" />
+    <Compile Include="MetaData\PMS\Pricing\PriceRuleMetaData.cs" />
+    <Compile Include="MetaData\PMS\Product\ProductOverrideMetaData.cs" />
+    <Compile Include="MetaData\PMS\Product\ProductPriceMetaData.cs" />
+    <Compile Include="MetaData\PMS\Product\WebsiteInventoryMetaData.cs" />
+    <Compile Include="MetaData\PMS\Provider\FieldMappingMetaData.cs" />
+    <Compile Include="MetaData\PMS\Provider\FtpDetailMetaData.cs" />
+    <Compile Include="MetaData\PMS\Product\ProductMetaData.cs" />
+    <Compile Include="MetaData\PMS\Provider\MfpnExtensionsMetaData.cs" />
+    <Compile Include="MetaData\PMS\Provider\ProviderMetaData.cs" />
+    <Compile Include="MetaData\PMS\Provider\ProviderTypeMetaData.cs" />
+    <Compile Include="MetaData\PMS\Maintenance\ProductGroupMetaData.cs" />
+    <Compile Include="MetaData\PMS\Maintenance\productStatusMetaData.cs" />
+    <Compile Include="MetaData\PMS\Maintenance\productSubStatusMetaData.cs" />
+    <Compile Include="MetaData\PMS\Maintenance\ProductTypeMetaData.cs" />
+    <Compile Include="MetaData\PMS\Provider\SkuMappingMetaData.cs" />
+    <Compile Include="MetaData\PMS\Provider\SupplierManuMappingMetaData.cs" />
+    <Compile Include="MetaData\QA\QAMetaData.cs" />
+    <Compile Include="MetaData\PMS\Maintenance\SalesAreaGroupMetaData.cs" />
+    <Compile Include="MetaData\PMS\Maintenance\websiteMetaData.cs" />
+    <Compile Include="mfpnExtensions.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductSupplierModel.cs" />
+    <Compile Include="ngmdContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ngmdContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ngmdContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ngmdContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ngmdContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="overrideType.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="potentialNewProducts.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PriceCompView.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="priceRule.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="priceRuleBand.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="priceRuleType.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="product.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="productGroup.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="productOverride.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="productPrice.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="productStatus.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="productType.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="provider.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="providerInventory.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="providerPrice.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="providerType.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="qa_EmailSent.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="qa_Granularity.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="qa_Main.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="qa_WebsiteMapping.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="salesAreaGroup.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="skuMapping.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="supplierManuMapping.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UnwantedProducts.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Website.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="websiteInventory.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="ngmdContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ngmdContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <EntityDeploy Include="membershipContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>membershipContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="membershipContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>membershipContext.edmx</DependentUpon>
+      <LastGenOutput>membershipContext.Context.cs</LastGenOutput>
+    </None>
+    <None Include="membershipContext.edmx.diagram">
+      <DependentUpon>membershipContext.edmx</DependentUpon>
+    </None>
+    <None Include="membershipContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>membershipContext.edmx</DependentUpon>
+      <LastGenOutput>membershipContext.cs</LastGenOutput>
+    </None>
+    <None Include="ngmdContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ngmdContext.edmx</DependentUpon>
+      <LastGenOutput>ngmdContext.Context.cs</LastGenOutput>
+    </None>
+    <None Include="ngmdContext.edmx.diagram">
+      <DependentUpon>ngmdContext.edmx</DependentUpon>
+    </None>
+    <None Include="ngmdContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ngmdContext.edmx</DependentUpon>
+      <LastGenOutput>ngmdContext.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

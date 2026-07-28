@@ -1,0 +1,81 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@model LookupViewModel
+
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-12 col-md-12 row-height-fix">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                <a href="@Url.Action("Index", "Lookup")" class="grey">
+                    Lookups
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Add Lookup
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-push-2">
+            @Html.ValidationSummary()
+            @using (Ajax.BeginForm("Create", "Lookup", new AjaxOptions { HttpMethod = "POST", OnComplete = "addComplete", OnBegin = "beginPost" }, new { id = "mainRuleForm" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row page-form">
+                    <div class="container-fluid">
+                        <h4>Lookup Entry</h4>
+                        <div class="row">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="A descriptive name for your Lookup." data-helpsid="2" data-helpeid="2"></i>
+                                Lookup Name
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.LookupEntry.LookupName)
+                                @Html.EditorFor(x => x.LookupEntry.LookupName)
+                            </div>
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The type of Lookup." data-helpsid="2" data-helpeid="2"></i>
+                                Lookup Type
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.LookupEntry.LookupTypeFK)
+                                @Html.DropDownListFor(x => x.LookupEntry.LookupTypeFK, Model.LookupTypes, "Select...", new { @class = "selectpicker", size = "auto", data_size = "5" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="pull-left form-message">
+                            <i class="fa fa-spinner fa-pulse" style="display: none"></i>
+                            <span></span>
+                        </div>
+
+                        <button class="pull-right g-m-r-10 g-cur-p form-cancel btn btn-default btn-sm">
+                            <i class="fa fa-times"></i> Cancel
+                        </button>
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
+                            <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Save" name="action:Save">
+                                <i class="fa fa-floppy-o"></i> Save
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+
+
+

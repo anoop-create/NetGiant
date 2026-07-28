@@ -1,0 +1,124 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.OMS;
+@model OrderViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody productFieldTabs">
+        <h4>
+            Order Line Detail - @("OR" + Model.OrderLine.OrderFk.ToString("D7"))
+        </h4>
+
+        @if (Request["Edit"] == "No")
+        {
+            <a href="@(Url.Action("ViewOrder/" + Model.OrderLine.OrderFk.ToString(), "Order"))" class="btn btn-default">
+                Return
+            </a>
+        }
+        else
+        {
+            @Html.ActionLink(
+                "Edit Order Line",
+                "EditOrderLine/" + Model.OrderLine.OrderLineId,
+                "Order",
+                null,
+                new { @class = "btn btn-default" })
+
+            <a href="@(Url.Action("EditOrder/" + Model.OrderLine.OrderFk.ToString(), "Order"))#OrderLinesTab" class="btn btn-default">
+                Return
+            </a>
+        }
+
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>References</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Order Id:</div><div class="col-lg-3"><b>@("AC" + Model.OrderLine.OrderFk.ToString("D7"))</b>&nbsp;</div>
+                <div class="col-lg-3">Product:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.OrderLine.product.partNo)</b>&nbsp;</div>
+                <div class="col-lg-3">Sales Group:</div><div class="col-lg-3">
+                    <b>
+                        @(Model.OrderLine.salesAreaGroup == null ? " - " : Model.OrderLine.salesAreaGroup.salesAreaGroupName)
+                    </b>&nbsp;
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Line Details</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Line No.:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Html.DisplayFor(x => x.OrderLine.LineNo)
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Description:</div>
+                <div class="col-lg-3">
+                    <b>
+                        @Html.DisplayFor(x => x.OrderLine.Description)
+                    </b>
+                </div>
+
+                <div class="col-lg-3">Due Date:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @(Model.OrderLine.DueDate.ToString("dd/MM/yyyy"))
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Unit Price:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Model.OrderLine.UnitPrice.ToString("N")
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+
+                <div class="col-lg-3">Nett:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Model.OrderLine.Nett.ToString("N")
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Vat:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Model.OrderLine.Vat.ToString("N")
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+
+                <div class="col-lg-3">VatRate:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Html.DisplayFor(x => x.OrderLine.VatRate)
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Quantity Ordered:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Html.DisplayFor(x => x.OrderLine.QuantityOrdered)
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Flags</legend>
+            <div class=" g-m-t-10 row">
+            </div>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Is Voucher:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.OrderLine.IsVoucher)</b></div>
+                <div class="col-lg-3">Is Delivery:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.OrderLine.IsDelivery)</b></div>
+                <div class="col-lg-3">Is Assembly:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.OrderLine.IsAssembly)</b></div>
+            </div>
+        </fieldset>
+
+    </div>
+</div>
+
+
+

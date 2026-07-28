@@ -1,0 +1,163 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model ProductItemTypeViewModel
+
+@{
+    ViewBag.Title = "Product Item Type";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h3>@ViewBag.Title</h3>
+
+        @Html.Hidden("ProductItemTypeDataURL", Url.Action("ProductitemTypeData", "ProductItemType"))
+        @Html.Hidden("DeleteProductItemTypeURL", Url.Action("Delete", "ProductItemType"))
+        @Html.Hidden("ProductItemTypeList", Model.ProductItemTypeList.Count)
+
+        <div class="g-m-b-5">
+            <select id="ProductItemTypeSearchBy" class="searchBy g-f-l form-control g-smallCell g-m-r-10">
+                <option selected="selected" value="id">Search by ID</option>
+                <option value="name">Search by Name</option>
+            </select>
+
+            <div class="g-f-l">
+                @Html.TextBox("SearchProductItemTypes", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10" })
+                <a id="lnkSearchProductItemTypes" href="#" class="btn btn-default g-m-r-10" title="Empty search returns all records">Search</a>
+                <img src="~/Content/images/loader/ajax-loader-whiteBG.gif" alt="" class="g-d-n" id="slProductItemType" />
+            </div>
+
+            @Html.ActionLink("Reset", "ProductItemTypeIndex", "ProductItemType", null, new { @class = "btn btn-default" })
+        </div>
+
+        <div class="g-c-b">
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+            {
+                @Html.ActionLink("Create New", "Create", "ProductItemType", new { id = 0 }, null)
+            }
+            else
+            {
+                @Html.Raw("&nbsp");
+            }
+            <span class="g-f-r"><span id="ProductItemTypeCount" class="g-fw-b">@Model.ProductItemTypeListCount </span><span>Product Item Types Found</span></span>
+        </div>
+
+        <table class="table" id="tableSetting">
+            <tr>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="id">ProductItemType ID</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="name">ProductItemType Name</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                </th>
+            </tr>
+            @{Html.RenderAction("ProductItemTypeList", "ProductItemType", new { Model = Model.ProductItemTypeList });}
+        </table>
+
+        <div id="ProductItemTypeDeleteDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+            Are you sure you want to delete this Product Item Type?
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        if ($('#ProductItemTypeList').val() < 50) {
+            noMoreData = true;
+        }
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            blockNumber = 1;
+            GetProductItemTypeSettings(true);
+            return false;
+        });
+
+        $(document).on("click", "#lnkSearchProductItemTypes", function (event) {
+            blockNumber = 1;
+            GetProductItemTypeSettings(true);
+            return false;
+        });
+
+        $("#SearchProductItemTypes").keypress(function (event) {
+            if (event.which == 13) {
+                blockNumber = 1;
+                GetProductItemTypeSettings(true);
+            }
+        });
+
+        $(document).on("change", "#ProductItemTypeSearchBy", function (event) {
+            setupOptionsArray();
+            blockNumber = 1;
+            GetProductItemTypeSettings(true);
+        });
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() > $('#scrollBottomContainer').offset().top
+                && !noMoreData && !inProgress) {
+                GetProductItemTypeSettings(false);
+            }
+            return false;
+        });
+
+        $(document).on('click', '.lnkDeleteProductItemType', function () {
+            setupOptionsArrayDelete($(this).attr('value'));
+            ajaxDeleteInfiniteScroll('#ProductItemTypeDeleteDialog', $('#DeleteProductItemTypeURL').val(), $(this).attr('value'),
+                '#configurationSettingPartialView', optionsArray, $("#activeSortType"), $("#activeSortDir"),
+                true, '#tableSetting tr:gt(0)', '#ProductItemTypeCount', '#tableSetting tbody');
+            return false;
+        });
+
+        function GetProductItemTypeSettings(clearTable) {
+            setupOptionsArray();
+            InfiniteScroll($('#ProductItemTypeDataURL').val(),
+                optionsArray,
+                clearTable,
+                '#tableSetting tr:gt(0)',
+                '#ProductItemTypeCount',
+                '#tableSetting tbody',
+                $("#activeSortType"),
+                $("#activeSortDir"));
+        }
+
+        function setupOptionsArray() {
+            optionsArray = new Array();
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[0] = sortType + sortDir;
+            } else {
+                optionsArray[0] = '';
+            }
+
+            optionsArray[1] = $("#SearchProductItemTypes").val(); //SearchTerm
+            optionsArray[2] = $("#ProductItemTypeSearchBy").val(); //SearchBy
+        }
+
+        function setupOptionsArrayDelete(id) {
+            optionsArray = new Array();
+            optionsArray[0] = id;
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[1] = sortType + sortDir;
+            } else {
+                optionsArray[1] = '';
+            }
+
+            optionsArray[1] = $("#SearchCartridgeTypes").val(); //SearchTerm
+            optionsArray[2] = $("#CartridgeTypeSearchBy").val(); //SearchBy
+        }
+    </script>
+}

@@ -1,0 +1,34 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using System.Web.Mvc;
+@using System.Web.Mvc.Html;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Shared;
+@model CommonViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>netGiant Intranet - @ViewBag.Title</title>
+
+    @Styles.Render("~/Content/cssBundle.css")
+    @RenderSection("AddTags", required: false)
+
+    <link rel="icon" type="image/png" href="~Content/images/favicon.png" />
+
+    @Scripts.Render("~/bundles/jqueryBundle.js")
+</head>
+<body>
+    <div class="bodyContents">
+         @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/bootstrapBundle.js")
+    @Scripts.Render("~/bundles/jqueryuiBundle.js")
+    @Scripts.Render("~/bundles/jqueryvalBundle.js")
+    @Scripts.Render("~/bundles/customBundle.js")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

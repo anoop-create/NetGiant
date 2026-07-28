@@ -1,0 +1,143 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.OMS
+@using PagedList.Mvc;
+@using Kendo.Mvc.UI;
+
+@model LedgerViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody productFieldTabs">
+        <h4>
+            Ledger Detail - LG@(Model.Ledger.LedgerId.ToString("D8"))
+        </h4>
+
+        <span class="g-m-l-20">
+            @Html.ActionLink("Edit Ledger", "EditLedger/" + Model.Ledger.LedgerId.ToString(), "Ledger", null, new { @class = "btn btn-default" })
+        </span>
+
+
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Dates</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Year/Period:</div><div class="col-lg-3"><b>@(Model.Ledger.Year.ToString("D4") + "/" + Model.Ledger.Period.ToString("D2"))</b>&nbsp;</div>
+                <div class="col-lg-3">Date Ordered:</div><div class="col-lg-3"><b>@Model.Ledger.DateOrdered.ToString("dd/MM/yyyy")</b>&nbsp;</div>
+                <div class="col-lg-3">Date Invoiced:</div><div class="col-lg-3"><b>@Model.Ledger.DateInvoiced.ToString("dd/MM/yyyy")</b>&nbsp;</div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>References</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Order ID:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Ledger.OrderFk)</b>&nbsp;</div>
+                <div class="col-lg-3">Account Name:</div><div class="col-lg-3"><b>@(Model.Ledger.Order == null ? " - " : Model.Ledger.Order.Contact.Account.ShortName)</b>&nbsp;</div>
+                <div class="col-lg-3">Supplier:</div><div class="col-lg-3"><b>@(Model.Ledger.provider == null ? " - " : Model.Ledger.provider.providerName)</b>&nbsp;</div>
+                <div class="col-lg-3">Purchase Order ID:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Ledger.PurchaseOrderFk)</b>&nbsp;</div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Ledger Details</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Ledger Type:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Ledger.LedgerType)</b>&nbsp;</div>
+                <div class="col-lg-3">Ledger Trans Type:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Ledger.LedgerTransType)</b>&nbsp;</div>
+                <div class="col-lg-3">Customer Group:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Ledger.CustomerGroup)</b>&nbsp;</div>
+                <div class="col-lg-3">Supplier Group:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Ledger.SupplierGroup)</b>&nbsp;</div>
+                <div class="col-lg-3">Order Source Code:</div><div class="col-lg-3">
+                    <b>
+                        @(Model.Ledger.OrderSource == null ? " - " : Model.Ledger.OrderSource.Description)
+                    </b>&nbsp;
+                </div>
+                <div class="col-lg-3">Nominal Group Code:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Ledger.NominalGroupCode)</b>&nbsp;</div>
+                <div class="col-lg-3">Axis UID:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Ledger.AxisUid)</b>&nbsp;</div>
+                <div class="col-lg-3">Last Updated By:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Ledger.LastUpdatedBy)</b>&nbsp;</div>
+                <div class="col-lg-3">Description:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Ledger.Description)</b>&nbsp;</div>
+                <div class="col-lg-3">Description 2:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Ledger.Description2)</b>&nbsp;</div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Amounts</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Nett:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Model.Ledger.Nett.ToString("N")
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Vat:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Model.Ledger.Vat.ToString("N")
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+
+                <div class="col-lg-3">Cost:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Model.Ledger.Cost.ToString("N")
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Credit Charge:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Model.Ledger.CreditCharge.ToString("N")
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Flags</legend>
+            <div class=" g-m-t-10 row">
+            </div>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Is Exported To Sage:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Ledger.IsExportedToSage)</b></div>
+            </div>
+        </fieldset>
+
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Ledger Entry Lines</legend>
+            <table class="table g-bc-w">
+                <tr>
+                    <th>Date Invoiced</th>
+                    <th>Year Period</th>
+                    <th>Part No</th>
+                    <th>Transaction Type</th>
+                    <th>Record Type</th>
+                    <th>Description</th>
+                    <th>Quantity Ordered</th>
+                    <th>Quantity Credited</th>
+                    <th>Quantity Outstanding</th>
+                    <th>Unit Price</th>
+                    <th>Vat</th>
+                    <th>Nett</th>
+                    <th></th>
+                </tr>
+                @foreach (var ll in Model.LedgerLineList)
+                {
+                    <tr>
+                        <td>@ll.DateInvoiced.ToString("dd/MM/yyyy")</td>
+                        <td>@(ll.Year.ToString() + "/" + ll.Period.ToString())</td>
+                        <td>@ll.PartNo</td>
+                        <td>@ll.LedgerLineTransType</td>
+                        <td>@ll.LedgerType</td>
+                        <td>@ll.Description.ToString()</td>
+                        <td>@ll.QuantityOrdered.ToString()</td>
+                        <td>@ll.QuantityCredited.ToString()</td>
+                        <td>@ll.QuantityOutstanding.ToString()</td>
+                        <td>@ll.UnitPrice.ToString("N")</td>
+                        <td>@ll.Vat.ToString("N")</td>
+                        <td>@(ll.Nett.HasValue ? ll.Nett.Value.ToString("N") : " - ")</td>
+                        <td><a href="../ViewLedgerLine/@ll.Id.ToString()?Edit=No">View</a></td>
+                    </tr>
+                }
+            </table>
+        </fieldset>
+    </div>
+</div>
+
+

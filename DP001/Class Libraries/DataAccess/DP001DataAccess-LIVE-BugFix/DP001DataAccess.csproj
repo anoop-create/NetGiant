@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4AB79006-51A0-49C1-9D91-099F600D010B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DP001DataAccess</RootNamespace>
+    <AssemblyName>DP001DataAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ExpressiveAnnotations, Version=2.3.7.0, Culture=neutral, PublicKeyToken=d3e372f3c1e83cec, processorArchitecture=MSIL">
+      <HintPath>..\..\..\UI\Website-BETA\packages\ExpressiveAnnotations.2.6.7\lib\net45\ExpressiveAnnotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ExpressiveAnnotations.MvcUnobtrusive, Version=2.4.5.0, Culture=neutral, PublicKeyToken=d3e372f3c1e83cec, processorArchitecture=MSIL">
+      <HintPath>..\..\..\UI\Website-BETA\packages\ExpressiveAnnotations.2.6.7\lib\net45\ExpressiveAnnotations.MvcUnobtrusive.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\UI\Website-BETA\packages\Microsoft.ApplicationInsights.2.1.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Batch\DP001Batch-BETA\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Batch\DP001Batch\packages\Microsoft.Data.Edm.5.6.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Batch\DP001Batch\packages\Microsoft.Data.OData.5.6.4\lib\net40\Microsoft.Data.OData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Batch\DP001Batch\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Batch\DP001Batch-BETA\packages\WindowsAzure.Storage.7.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\Batch\DP001Batch\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Renci.SshNet">
+      <HintPath>..\..\..\UI\Website-BETA\packages\SSH.NET.2013.4.7\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Json">
+      <HintPath>..\..\..\Batch\DP001Batch-BETA\packages\System.Json.4.0.20126.16343\lib\net40\System.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.FtpClient">
+      <HintPath>..\..\..\Batch\DP001Batch-BETA\packages\System.Net.FtpClient.1.0.5824.34026\lib\net40\System.Net.FtpClient.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Batch\DP001Batch\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entities\APISetting.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Brand.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Channel.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Competitor.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\CompetitorInventory.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Contract.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\DP001Context.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DP001Context.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\DP001Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\DP001Context.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DP001Context.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\FieldMapping.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\FTPSetting.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\GetDashboardData_Result.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\GetProductPriceRules_Result.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\GetSuggestedSupplierMappings_Result.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Log.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Lookup.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\LookupType.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\MapBrandCategory.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\NoLockInterceptor.cs" />
+    <Compile Include="Entities\PriceHistory.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\PriceRule.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\PriceStaging.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\ProductCategory.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\ProductInventory.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\SapASetting.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Schedule.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\SKUMapping.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\SKUMappingDismissal.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Supplier.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\SupplierBrandMatching.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\SupplierInventory.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\SupplierMfpnMatching.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\TenantAudit.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\TenantSetting.cs">
+      <DependentUpon>DP001Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions\ChannelExtensions.cs" />
+    <Compile Include="Extensions\FieldMappingExtensions.cs" />
+    <Compile Include="Extensions\LogExtensions.cs" />
+    <Compile Include="Extensions\PriceRuleExtensions.cs" />
+    <Compile Include="Extensions\BrandExtensions.cs" />
+    <Compile Include="Extensions\CompetitorInventoryExtensions.cs" />
+    <Compile Include="Extensions\FtpSettingExtensions.cs" />
+    <Compile Include="Extensions\ProductCategoryExtensions.cs" />
+    <Compile Include="Extensions\ProductInventoryExtensions.cs" />
+    <Compile Include="Extensions\ScheduleExtensions.cs" />
+    <Compile Include="Extensions\SKUMappingExtensions.cs" />
+    <Compile Include="Extensions\SupplierExtensions.cs" />
+    <Compile Include="Extensions\SupplierInventoryExtensions.cs" />
+    <Compile Include="Extensions\TenantAuditExtensions.cs" />
+    <Compile Include="Extensions\TenantExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Api.cs" />
+    <Compile Include="Utilities\AzureFunctions.cs" />
+    <Compile Include="Utilities\CommonDataFunctions.cs" />
+    <Compile Include="Utilities\Csv.cs" />
+    <Compile Include="Utilities\Ftp.cs" />
+    <Compile Include="Utilities\SQL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <EntityDeploy Include="Entities\DP001Context.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DP001Context.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Entities\DP001Context.edmx.diagram">
+      <DependentUpon>DP001Context.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Entities\DP001Context.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DP001Context.edmx</DependentUpon>
+      <LastGenOutput>DP001Context.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Entities\DP001Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DP001Context.edmx</DependentUpon>
+      <LastGenOutput>DP001Context.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

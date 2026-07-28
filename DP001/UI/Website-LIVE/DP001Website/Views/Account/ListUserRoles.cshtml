@@ -1,0 +1,123 @@
+﻿@using DP001Website.Models;
+@using Microsoft.AspNet.Identity.EntityFramework;
+
+@model UserRoleViewModel
+
+@Html.Hidden("RoleDeleteURL", Url.Action("DeleteUserRole", "Account"))
+@Html.Hidden("UpdateCheckboxesURL", Url.Action("UpdateProductCheckboxes", "Export"))
+
+@{
+    ViewBag.Title = "User Roles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                User Roles
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-push-2">
+            <div class="row page-form">
+                <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="" data-helpsid="2" data-helpeid="2"></i> Main Contact</h4>
+                @using (Html.BeginForm("CreateUserRoles", "Account"))
+                {
+                    <div class="form-horizontal page-form">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(m => m.Email)
+                        <div class="container-fluid g-m-b-20">
+                            <div class="row">
+                                @{ Html.RenderPartial("~/Views/Account/UserRolesCheckboxes.cshtml", Model); }
+                            </div>
+                        </div>
+
+                        <div class="container-fluid g-m-b-20">
+                            <div class="row">
+                                <div class="form-actions">
+                                    <div class="pull-left form-message">
+                                        <i class="fa fa-spinner fa-pulse" style="display: none"></i>
+                                        <span></span>
+                                    </div>
+
+                                    @Html.HtmlActionLink("<i class=\"fa fa-times\"></i> Cancel",
+                                    "ListUsers",
+                                    "Account",
+                                    new { },
+                                    new
+                                    {
+                                        @class = "pull-right g-m-r-10 form-delete btn btn-default btn-sm"
+                                    })
+                                    <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Save" name="action:Save">
+                                        <i class="fa fa-floppy-o"></i> Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@*<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h2>@ViewBag.Title</h2>
+        <h4>List all the roles for @Model.Email</h4>
+        <hr />
+
+        @using (Html.BeginForm("CreateUserRoles", "Account"))
+        { 
+            @Html.HiddenFor(m => m.Email)
+            <div id="userRolesContainer">
+                @{ Html.RenderPartial("~/Views/Account/UserRolesCheckboxes.cshtml", Model); }
+            </div>
+
+    <div class="g-m-t-20">
+        <input type="submit" id="btnSaveUserRoles" value="Save Roles" class="btn btn-default" />
+    </div>
+        }  
+        <div class="g-m-t-20">
+            @Html.ActionLink("Users", "ListUsers", "Account", null, new { @class = "btn btn-default" })
+        </div>  
+
+        <div id="roRoleDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+            Are you sure ?
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+    </div>
+</div>*@
+
+@section Scripts {
+    <script type="text/javascript">
+        var optionsArray;
+
+        $(document).on("click", ".lnkDeleteRole", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete("#roRoleDialog", $("#RoleDeleteURL").val(), $(this).attr("value"),
+                "#roDataPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+            return false;
+        });
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value"); //Role Name
+        }
+
+    </script>
+}

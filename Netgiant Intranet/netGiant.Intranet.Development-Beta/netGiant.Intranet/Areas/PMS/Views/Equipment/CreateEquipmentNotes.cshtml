@@ -1,0 +1,161 @@
+﻿@using System.Configuration;
+@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model EquipmentNotesViewModel
+
+@{
+    ViewBag.Title = "Create Equipment Note";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h4>@ViewBag.Title</h4>
+        <div class="form-horizontal">
+            @using (Html.BeginForm("SaveEquipmentNotes", "Equipment"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                @Html.HiddenFor(x => x.EquipmentNotes.equipmentNotesID)
+                @Html.HiddenFor(x => x.EquipmentNotes.note)
+                @Html.Hidden("GetModelsURL", Url.Action("GetModels", "Ecommerce").Replace("PMS/", ""))
+                @Html.Hidden("aModelName", Model.EquipmentNotes.eqEquipment != null ? Model.EquipmentNotes.eqEquipment.description : "")
+
+                <div class="form-group">
+                    @Html.Label("Website", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.EquipmentNotes.websiteFK, Model.WebsiteNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        @Html.ValidationMessageFor(model => model.EquipmentNotes.Website.WebsiteName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div id="scpModel">
+                    <div class="form-group">
+                        @Html.Label("Equipment", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <select id="aModel"></select>
+                            @Html.HiddenFor(m => m.EquipmentNotes.eqEquipmentFK, new { @class = "hiddenValue" })
+                            @Html.ValidationMessageFor(m => m.EquipmentNotes.eqEquipmentFK, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Detail", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(model => model.EquipmentNotes.isDetail, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Entry Content", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+
+                        @{
+                            string weburl = Model.EquipmentNotes.Website != null ? Model.EquipmentNotes.Website.WebURL : "www.tonergiant.co.uk";
+
+                            if (ConfigurationManager.AppSettings["Environment"] != "Live")
+                            {
+                                weburl.Replace("www", "beta");
+                            }
+
+                            var bootstrapCss = (Request.Headers["X-FORWARDED-PROTO"] ?? Request.Url.Scheme) + "://" + weburl + "/Content/bootstrap.css";
+                            var fontAwesomeCss = (Request.Headers["X-FORWARDED-PROTO"] ?? Request.Url.Scheme) + "://" + weburl + "/Content/font-awesome.css";
+                            var siteCss = (Request.Headers["X-FORWARDED-PROTO"] ?? Request.Url.Scheme) + "://" + weburl + "/Content/site.less";
+                        }
+
+                        @(Html.Kendo().Editor()
+                                      .Name("content")
+                                      .HtmlAttributes(new { style = "height:440px;", @class = "kendoEditor" })
+                                      .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                                      .Encode(false)
+                                      .Serialization(s => s
+                                          .Semantic(false)
+                                          .Scripts(true)
+                                          .Custom("formatHtml"))
+                                      .Tools(tool => tool
+                                          .FontColor()
+                                          .BackColor()
+                                          .FontSize()
+                                          .ViewHtml()
+                                      )
+                                      .Value(Model.EquipmentNotes.note)
+                                      .StyleSheets(css => css
+                                          .Add(Url.Content(bootstrapCss))
+                                          .Add(Url.Content(fontAwesomeCss))
+                                          .Add(Url.Content(siteCss))
+                                      )
+                        )
+                    </div>
+                    @Html.ValidationMessageFor(model => model.EquipmentNotes.note, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveEquipmentNotes" value="Save" class="btn btn-default" title="Save" />
+                        @Html.ActionLink("Cancel", "EquipmentNotesIndex", "Equipment", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/Scripts/html5-tidy.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.kendoEditor').data("kendoEditor").wrapper.show();
+
+            @*$(document).on('change',
+                '#ManufacturerId',
+                function (event) {
+                    manuId = $('#ManufacturerId').val() === "" ? 0 : $('#ManufacturerId').val();
+
+                    $.ajax({
+                        url: '@Url.Action("ChangeManufacturer", "Equipment")',
+                        dataType: 'json',
+                        traditional: true,
+                        type: 'POST',
+                        cache: false,
+                        data: {
+                            manufacturerId: manuId
+                        },
+                        async: false,
+                        success: function (data) {
+                            $('#EquipmentNotes_eqEquipmentFK').empty();
+                            $('#EquipmentNotes_eqEquipmentFK').append('<option>Select Equipment</option>');
+                            $.each(data.equiplist,
+                                function (i, equip) {
+                                    $('#EquipmentNotes_eqEquipmentFK').append('<option value="' + equip.Value + '">' + equip.Text + '</option>');
+                                });
+                        }
+                    });
+                });*@
+
+            setupComboBox($('#GetModelsURL').val());
+            $('#aModel').combobox();
+            if ($('#EquipmentNotes_eqEquipmentFK').val() > 0) {
+                $('#aModel').closest('.form-group').find('.custom-combobox-input').val($('#aModelName').val());
+            }
+        });
+
+        function formatHtml(html) {
+            var showBodyOnly = true;
+            var options = {
+                "indent": "auto",
+                "indent-spaces": 4,
+                "wrap": 200,
+                "output-xml": false,
+                "quote-nbsp": false,
+                "show-body-only": showBodyOnly,
+                "quote-ampersand": false,
+                "uppercase-tags": false,
+                "uppercase-attributes": false,
+                "drop-font-tags": false,
+                "tidy-mark": false,
+                "drop-empty-paras": false,
+                "drop-empty-elements": false
+            }
+            @if (Model.EquipmentNotes.note != null && (Model.EquipmentNotes.note.Length < 6 || !Model.EquipmentNotes.note.TrimStart().Substring(0, 6).Contains("<style")))
+            {
+                @:return tidy_html5(html, options);
+            }
+        }
+    </script>
+}

@@ -1,0 +1,24 @@
+﻿@model netGiant.Intranet.DataLayer.deliveryLookup
+
+<tr>
+    @using (Html.BeginCollectionItem("DeliveryZone.deliveryLookup"))
+    {
+        <td width="350">
+            @Model.deliveryService.ServiceName
+            @Html.HiddenFor(x => x.deliveryService.ServiceName)
+            @Html.HiddenFor(x => x.DeliveryLookupId)
+            @Html.HiddenFor(x => x.DeliveryServiceFK)
+            @Html.HiddenFor(x => x.DeliveryZoneFK)
+            @Html.HiddenFor(x => x.IsActive)
+        </td>
+        <td>
+            @Html.TextBoxFor(x => x.Sequence, new { style = "width: 50px; text-align: center;" })
+        </td>
+        <td>
+            <a href="#" class="removeService g-m-l-50">Remove</a>
+        </td>
+    }
+</tr>
+
+
+

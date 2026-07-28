@@ -1,0 +1,74 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model FieldMappingsViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var fileType = Model.FtpSetting.Lookup.LookupName;
+}
+
+<h2>Edit Field Mappings</h2>
+
+@using (Html.BeginForm("Update", "FieldMappings"))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.FtpSetting.FTPSettingsID)
+    @Html.HiddenFor(x => x.FtpSetting.FieldMapping.FTPSettingsFK)
+    <table>
+        <tr>
+            <td style="padding: 5px;">Brand</td>
+            <td style="padding: 5px;">@Html.EditorFor(x => x.FtpSetting.FieldMapping.Brand)</td>
+        </tr>
+        <tr>
+            <td style="padding: 5px;">Manufacturer Part No</td>
+            <td style="padding: 5px;">@Html.EditorFor(x => x.FtpSetting.FieldMapping.ManufacturerPartNo)</td>
+        </tr>
+        @if (fileType == "Supplier Inventory")
+        {
+            <tr>
+                <td style="padding: 5px;">Stock Quantity</td>
+                <td style="padding: 5px;">@Html.EditorFor(x => x.FtpSetting.FieldMapping.StockQuantity)</td>
+            </tr>
+        }
+        @if (fileType != "Product Inventory")
+        {
+            <tr>
+                <td style="padding: 5px;">Price</td>
+                <td style="padding: 5px;">@Html.EditorFor(x => x.FtpSetting.FieldMapping.Price)</td>
+            </tr>
+        }
+        @if (fileType == "Product Inventory")
+        {
+            <tr>
+                <td style="padding: 5px;">Description</td>
+                <td style="padding: 5px;">@Html.EditorFor(x => x.FtpSetting.FieldMapping.Description)</td>
+            </tr>
+            <tr>
+                <td style="padding: 5px;">Client Product Id</td>
+                <td style="padding: 5px;">@Html.EditorFor(x => x.FtpSetting.FieldMapping.ClientProductID)</td>
+            </tr>
+            <tr>
+                <td style="padding: 5px;">Linked Manufacturer</td>
+                <td style="padding: 5px;">@Html.EditorFor(x => x.FtpSetting.FieldMapping.LnKdManufacturer)</td>
+            </tr>
+            <tr>
+                <td style="padding: 5px;">Linked MFPN</td>
+                <td style="padding: 5px;">@Html.EditorFor(x => x.FtpSetting.FieldMapping.LnKdManufacturerPartNo)</td>
+            </tr>
+            <tr>
+                <td style="padding: 5px;">Product Category</td>
+                <td style="padding: 5px;">@Html.EditorFor(x => x.FtpSetting.FieldMapping.ProductCategory)</td>
+            </tr>
+        }
+        @if (fileType == "Competitor Inventory")
+        {
+            <tr>
+                <td style="padding: 5px;">Competitor</td>
+                <td style="padding: 5px;">@Html.EditorFor(x => x.FtpSetting.FieldMapping.Competitor)</td>
+            </tr>
+        }
+    </table>
+
+    <div><input type="submit" value="Save" /></div>
+    <div>@Html.ActionLink("Cancel", "Index", new { id = Model.FtpSetting.FTPSettingsID })</div>
+}

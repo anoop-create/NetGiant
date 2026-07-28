@@ -1,0 +1,174 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.OMS;
+@model AccViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody productFieldTabs">
+        <h4>
+            Account Detail - @("AC" + Model.Account.AccountId.ToString("D7")), @Model.Account.AxisNo, @Model.Account.Name
+        </h4>
+
+        <span class="g-m-l-20">
+            @Html.ActionLink("Edit Account", "EditAccount/" + Model.Account.AccountId.ToString(), "Acc", null, new { @class = "btn btn-default" })
+        </span>
+
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>General</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Account Id:</div><div class="col-lg-3"><b>@("AC" + Model.Account.AccountId.ToString("D7"))</b>&nbsp;</div>
+                <div class="col-lg-3">Account Type:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.AccountType)</b>&nbsp;</div>
+                <div class="col-lg-3">Account Status:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.AccountStatus)</b>&nbsp;</div>
+                <div class="col-lg-3">Payment Method:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.PaymentMethod)</b>&nbsp;</div>
+                <div class="col-lg-3">Website:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.WebsiteName)</b>&nbsp;</div>
+                <div class="col-lg-3">Customer Group:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.CustomerGroup)</b>&nbsp;</div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Customer Details</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Name:</div><div class="col-lg-3"><b>@Model.Account.Name</b>&nbsp;</div>
+                <div class="col-lg-3">Date Opened</div><div class="col-lg-1"><b>@Model.Account.DateOpened.ToString("dd/MM/yyyy")</b></div><div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Short Name:</div><div class="col-lg-3"><b>@Model.Account.ShortName</b>&nbsp;</div>
+                <div class="col-lg-3">Date Last Transaction</div><div class="col-lg-1"><b>@(Model.Account.DateLastTransaction.HasValue ? Model.Account.DateLastTransaction.Value.ToString("dd/MM/yyyy") : " - ")</b></div><div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Axis Number:</div><div class="col-lg-3"><b>@Model.Account.AxisNo</b>&nbsp;</div>
+                <div class="col-lg-3">Date Last Updated</div><div class="col-lg-1"><b>@Model.Account.DateLastUpdated.ToString("dd/MM/yyyy")</b></div><div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Credit Status:</div><div class="col-lg-1"><b>@Html.DisplayFor(x => x.Account.CreditStatus)</b></div><div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Order Source:</div><div class="col-lg-3"><b>@Model.Account.OrderSource</b>&nbsp;</div>
+                <div class="col-lg-3">Country Code:</div><div class="col-lg-3"><b>@Model.Account.CountryCode</b>&nbsp;</div>
+            </div>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Notes:</div><div class="col-lg-9"><b>@Html.Raw(Model.Account.CustomerNotes)</b>&nbsp;</div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Primary Contact</legend>
+            <div class=" g-m-t-10 row">
+                @{
+                    string nm = Model.Account.Contacts.FirstOrDefault(x => x.IsPrimaryContact).Title + " " +
+                        Model.Account.Contacts.FirstOrDefault(x => x.IsPrimaryContact).FirstName + " " +
+                        Model.Account.Contacts.FirstOrDefault(x => x.IsPrimaryContact).LastName;
+                }
+                <div class="col-lg-3">Name:</div><div class="col-lg-3"><b>@nm</b>&nbsp;</div>
+                <div class="col-lg-3">Telephone Number:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.Contacts.FirstOrDefault(y => y.IsPrimaryContact).TelephoneNumber)</b>&nbsp;</div>
+                <div class="col-lg-3">Email:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.Contacts.FirstOrDefault(y => y.IsPrimaryContact).Email)</b>&nbsp;</div>
+                <div class="col-lg-3">Fax Number:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.Contacts.FirstOrDefault(y => y.IsPrimaryContact).FaxNumber)</b>&nbsp;</div>
+                <div class="col-lg-6">&nbsp;</div>
+                <div class="col-lg-3">Extension Number:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.Contacts.FirstOrDefault(y => y.IsPrimaryContact).ExtensionNumber)</b>&nbsp;</div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Flags</legend>
+            <div class=" g-m-t-10 row">
+            </div>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Is Order Entry Allowed:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.IsOrderEntryAllowed)</b></div>
+                <div class="col-lg-3">Is Note Status Urgent:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.IsNoteStatusUrgent)</b></div>
+                <div class="col-lg-3">Is Ebusiness Account:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.IsEbusinessAccount)</b></div>
+                <div class="col-lg-3">Is Cash With Order:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.IsCashwithOrder)</b></div>
+                <div class="col-lg-3">Credit Checking Is Suppressed:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.CreditCheckingIsSuppressed)</b></div>
+                <div class="col-lg-3">Is Exported To Sage:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.IsExportedToSage)</b></div>
+                <div class="col-lg-3">Is On Hold:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.IsOnHold)</b></div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Credit Details</legend>
+            @if (Model.Account.CreditAccounts.FirstOrDefault() != null)
+            {
+                <div class="g-m-t-10 row">
+                    <div class="col-lg-3">Date Opened:</div><div class="col-lg-3"><b>@Model.Account.CreditAccounts.FirstOrDefault().DateOpened.ToString("dd/MM/yyyy")</b>&nbsp;</div>
+                    <div class="col-lg-3">VAT Number:</div><div class="col-lg-3"><b>@Model.Account.CreditAccounts.FirstOrDefault().VatNumber</b>&nbsp;</div>
+                    <div class="col-lg-3">Sage Nominal Account:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.CreditAccounts.FirstOrDefault().SageNominalAccount)</b>&nbsp;</div>
+                    <div class="col-lg-3">Company Registration Number:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.CreditAccounts.FirstOrDefault().CompanyRegistrationNumber)</b>&nbsp;</div>
+                    <div class="col-lg-3">Payment Due Day:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.CreditAccounts.FirstOrDefault().PaymentDueDay)</b>&nbsp;</div>
+                    <div class="col-lg-3">Payment Due Month:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.CreditAccounts.FirstOrDefault().PaymentDueMonth)</b>&nbsp;</div>
+                    <div class="col-lg-3">Credit Limit:</div><div class="col-lg-1 text-right"><b>@Model.Account.CreditAccounts.FirstOrDefault().CreditLimit.ToString("N")</b></div><div class="col-lg-2">&nbsp;</div>
+                    <div class="col-lg-3">Credit Term Is Day Of Month:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Account.CreditAccounts.FirstOrDefault().CreditTermsIsDayOfMonth)</b></div>
+                </div>
+                <div class="g-m-t-10 row">
+                    <div class="col-lg-3">Current Balance:</div><div class="col-lg-1 text-right"><b>@Model.Account.CreditAccounts.FirstOrDefault().CurrentBalance.ToString("N")</b></div><div class="col-lg-2">&nbsp;</div>
+                    <div class="col-lg-3">Turnover YTD:</div><div class="col-lg-1 text-right"><b>@Model.Account.CreditAccounts.FirstOrDefault().TurnoverYtd.ToString("N")</b></div><div class="col-lg-2">&nbsp;</div>
+                    <div class="col-lg-3">Turnover Last Year:</div><div class="col-lg-1 text-right"><b>@Model.Account.CreditAccounts.FirstOrDefault().TurnoverLastYear.ToString("N")</b></div><div class="col-lg-2">&nbsp;</div>
+                    <div class="col-lg-3">Turnover This Period:</div><div class="col-lg-1 text-right"><b>@Model.Account.CreditAccounts.FirstOrDefault().TurnoverThisPeriod.ToString("N")</b></div><div class="col-lg-2">&nbsp;</div>
+                    <div class="col-lg-3">Sales YTD:</div><div class="col-lg-1 text-right"><b>@Model.Account.CreditAccounts.FirstOrDefault().SalesYtd.ToString("N")</b></div><div class="col-lg-2">&nbsp;</div>
+                    <div class="col-lg-3">Sales This Period:</div><div class="col-lg-1 text-right"><b>@Model.Account.CreditAccounts.FirstOrDefault().SalesThisPeriod.ToString("N")</b></div><div class="col-lg-2">&nbsp;</div>
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col-lg-12">No Credit Account Details</div>
+                </div>
+            }
+        </fieldset>
+
+
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Contacts</legend>
+            <table class="table g-bc-w">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Tel No.</th>
+                    <th>Extn. No.</th>
+                    <th>Date Joined</th>
+                    <th>Primary Contact</th>
+                    <th></th>
+                </tr>
+                @foreach (var cl in Model.ContactList)
+                {
+                    <tr>
+                        <td>@cl.FirstName.ToString() @cl.LastName.ToString()</td>
+                        <td>@cl.Email.ToString()</td>
+                        <td>@cl.TelephoneNumber.ToString()</td>
+                        <td>@cl.ExtensionNumber.ToString()</td>
+                        <td>@(cl.DateJoined.HasValue ? cl.DateJoined.Value.ToString("dd/MM/yyyy") : " - ")</td>
+                        <td>@cl.PrimaryContact.ToString()</td>
+                        <td>
+                            <a href="@(Url.Action("ViewContact/" + cl.ContactId.ToString(), "Acc"))?Edit=No">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </fieldset>
+
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Adresses</legend>
+            <table class="table g-bc-w">
+                <tr>
+                    <th>Type</th>
+                    <th>Line 1</th>
+                    <th>Line 2</th>
+                    <th>Line 3</th>
+                    <th>Line 4</th>
+                    <th>Line 5</th>
+                    <th>Postcode</th>
+                    <th></th>
+                </tr>
+                @foreach (var al in Model.AddressList)
+                {
+                    <tr>
+                        <td>@al.AddressType.ToString()</td>
+                        <td>@al.Line1.ToString()</td>
+                        <td>@al.Line2.ToString()</td>
+                        <td>@al.Line3.ToString()</td>
+                        <td>@al.Line4.ToString()</td>
+                        <td>@al.Line5.ToString()</td>
+                        <td>@al.Postcode.ToString()</td>
+                        <td>
+                            <a href="@(Url.Action("ViewAddress/" + al.AddressId.ToString(), "Acc"))?Edit=No">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </fieldset>
+
+    </div>
+</div>
+

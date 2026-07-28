@@ -1,0 +1,65 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance
+@model GoogleProductCategoryViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Google Product Categories";
+}
+
+<div class="placeHolder g-m-b--20">
+    <h4 class="text-center">@ViewBag.Title</h4>
+</div>
+
+@if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+{
+    @Html.ActionLink("Create New", "Create", "GoogleProductCategory", new { id = 0 }, new { @title = "Create new website inventory", @class = "g-p-10" })
+}
+
+@(Html.Kendo().Grid<TelerikGoogleProductCategory>()
+                        .HtmlAttributes(new { @class = "pointer-rows" })
+                        .Name("GoogleProductCategoryGrid")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(x => x.ProductCode).Title("Product Code").Width("150px");
+                            columns.Bound(x => x.Description).Title("Product Code Description");
+                            columns.Bound(x => x.Id).ClientTemplate(
+                                    "<a href=\"Create/#:Id#\">Edit</a>" +
+                                    "|<a href=\"##\" class=\"lnkGoogleProductCategoryDelete\" value=\"#:Id#\" title=\"Delete\">Delete</a>"
+                                    ).Width("136px").Filterable(false).Sortable(false).Groupable(false).Title("");
+                        })
+                        .Pageable(pager => pager.Refresh(true))
+                        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+                        .Sortable(sortable => sortable.AllowUnsort(true))
+                        .Groupable()
+                        .Scrollable()
+                        .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+                        .ColumnMenu()
+                        .Resizable(resize => resize.Columns(true))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .NoRecords("There are no Google product categories to display")
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .Read(x => x.Action("GoogleProductCategory_Read", "GoogleProductCategory"))
+                            .PageSize(200)
+                        )
+                        .Events(e => e.DataBound("saveGridFilters"))
+)
+
+<script type="text/javascript">
+    $(function () {
+        $(document).on('click', '.lnkGoogleProductCategoryDelete', function (e) {
+            var rowid = $(this).attr('value');
+            e.preventDefault();
+            $.confirm({
+                title: 'Google Product Category',
+                content: 'Are you sure you want to delete this Google product category?',
+                buttons: {
+                    Yes: function () {
+                        deleteGridRow('@Url.Action("Delete", "GoogleProductCategory")/', { id: rowid });
+                    },
+                    No: function () { }
+                }
+            });
+        });
+    });
+</script>

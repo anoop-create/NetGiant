@@ -1,0 +1,66 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product;
+@model ProductDetailViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Equipment Membership";
+    ViewBag.SubTitle = "Create";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title &#45; @Model.ProductDetail.productName</h4>
+        <br />
+
+        @Html.Hidden("GetModelsURL", Url.Action("GetModels", "Ecommerce").Replace("PMS/", ""));
+
+        @using (Html.BeginForm("SaveMembership", "Product", new { id = Model.ProductDetail.productID, parent = (string)TempData["ParentAction"] }))
+        {
+            <div class="form-horizontal">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.ProductDetail.productID)
+
+                <div id="scpModel">
+                    <div class="form-group">
+                        @Html.Label("Model", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <select id="aModel"></select>
+                            @Html.HiddenFor(m => m.EquipmentId, new { @class = "hiddenValue" })
+                            @Html.ValidationMessageFor(m => m.EquipmentId, "", new { @class = "text-danger g-m-l-50" })
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                    @Html.Label("Select Equipment", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.EquipmentId, Model.AllEquipment, "Select...", new { @class = "form-control g-largeCell" })
+                    </div>
+                </div>*@
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="btnSaveProduct" value="Save" class="btn btn-default" />
+                        @Html.ActionLink("Cancel", (string)TempData["ParentAction"], new { id = Model.ProductDetail.productID }, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="~/Scripts/html5-tidy.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            setupComboBox($('#GetModelsURL').val());
+            $('#aModel').combobox();
+            if ($('#EquipmentId').val() > 0) {
+                $('#aModel').closest('.form-group').find('.custom-combobox-input').val($('#aModelName').val());
+            }
+        });
+    </script>
+}

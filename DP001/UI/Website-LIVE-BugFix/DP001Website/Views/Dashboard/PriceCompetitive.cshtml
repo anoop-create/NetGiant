@@ -1,0 +1,38 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model DashboardViewModel.Dash1
+
+<div class="col-md-12 col-lg-4 dashlet-chart pull-right">
+    <div class="g-bg-white row g-b-1-lg">
+        <div class="col-xs-12">
+            <div class="g-p-l-20 text-left">
+                <i class="fa fa-question-circle-o fa-lg help-popup g-m-r-10" data-toggle="tooltip" title="This chart shows the percentage of products that are within optimal price margins, those that are set too high to be competitive and those that are set too low where your margin could be set higher and still remain competitive." data-helpsid="2" data-helpeid="2"></i>
+                <span class="g-fw-b dashlet-title" id="pcTitle">Price Competitiveness Report (All Products)</span>
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-header dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-sliders fa-lg g-m-r-20"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li class="help-popup" data-toggle="tooltip" title="Show values based on all your product inventory data.">
+                            <div class="radio radio-success radio-single g-m-l-10">
+                                <input id="pcSwitch1" type="radio" aria-label="Single radio One" checked name="pcSwitch" value="all">
+                                <label for="pcSwitch1">All Products</label>
+                            </div>
+                        </li>
+                        <li class="help-popup" data-toggle="tooltip" title="Show values based on all your key line inventory data only.">
+                            <div class="radio radio-success radio-single g-m-l-10">
+                                <input id="pcSwitch2" type="radio" aria-label="Single radio Two" name="pcSwitch" value="key">
+                                <label for="pcSwitch2">Key Lines</label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pull-left col-xs-12 g-bt-1-lg">
+                <div class="clearfix">
+                    <div id="chart4" class="pie-chart"></div>
+                    <div id="chart5" class="pie-chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

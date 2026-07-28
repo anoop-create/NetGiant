@@ -1,0 +1,604 @@
+﻿@using System.Configuration
+@using DP001BusinessLogic;
+@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models
+@model SalesHistoryViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                @if (Model.ReportConfiguration != null)
+                {
+                    <a href="/SalesHistory/Index/" class="grey">Sales History</a>
+                    <i class="fa fa-chevron-right"></i>
+                    <span id="reportName">@Model.ReportConfiguration.Name</span>
+                }
+                else
+                {
+                    @:<span id="reportName">Sales History</span>
+                }
+
+            </h1>
+        </div>
+
+        <div class="col-xs-7 col-md-4 col-lg-3 row-height-fix flex-right">
+            <div class="btn-group g-m-r-10 hidden-xs">
+                <label><b>Summarize Data By:</b></label>
+            </div>
+            <div class="btn-group g-m-r-10 hidden-xs bootstrap-select-container">
+                @Html.EnumDropDownListFor(x => x.SummarizeSalesHistoryBy, null, new { @class = "selectpicker" })
+            </div>
+        </div>
+
+        <div class="btn-group g-m-r-10 hidden-xs ">
+            <label><b>Group:</b></label>
+        </div>
+        <div class="btn-group g-m-r-10 hidden-xs bootstrap-select-container">
+            @Html.EnumDropDownListFor(x => x.GroupSalesHistoryBy, null, new { @class = "selectpicker" })
+        </div>
+
+        <div class="btn-group g-m-r-10 hidden-xs">
+            <label><b>From:</b></label>
+        </div>
+        <div class="btn-group g-m-r-10 hidden-xs dateDayContainer hide">
+            @(Html.Kendo().DatePicker()
+                  .Name("dateFromDay")
+                  .Value(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddDays(-1))
+                  .HtmlAttributes(new { style = "width: 100%" })
+                  .Events(e => e.Change("FromChange"))
+                  .Format("dd/MM/yyyy")
+                  )
+        </div>
+        <div class="btn-group g-m-r-10 hidden-xs bootstrap-select-container dateMonthContainer">
+            @Html.DropDownListFor(x => x.DateFrom, Model.MonthsFrom, null, new { @class = "selectpicker" })
+        </div>
+        <div class="btn-group g-m-r-10 hidden-xs bootstrap-select-container dateYearContainer hide">
+            @Html.DropDownList("DateFromYear", Model.YearsFrom, null, new { @class = "selectpicker" })
+        </div>
+        <div class="btn-group g-m-r-10 hidden-xs">
+            <label><b>To:</b></label>
+        </div>
+        <div class="btn-group g-m-r-10 hidden-xs dateDayContainer hide">
+            @(Html.Kendo().DatePicker()
+                  .Name("dateToDay")
+                  .Value(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddDays(-1))
+                  .HtmlAttributes(new { style = "width: 100%" })
+                  .Events(e => e.Change("ToChange"))
+                  .Format("dd/MM/yyyy")
+                  )
+        </div>
+        <div class="btn-group g-m-r-10 hidden-xs bootstrap-select-container dateMonthContainer">
+            @Html.DropDownListFor(x => x.DateTo, Model.MonthsTo, null, new { @class = "selectpicker" })
+        </div>
+        <div class="btn-group g-m-r-10 hidden-xs bootstrap-select-container dateYearContainer hide">
+            @Html.DropDownList("DateToYear", Model.YearsTo, null, new { @class = "selectpicker" })
+        </div>
+        <div class="col-xs-7 col-md-4 col-lg-4 row-height-fix flex-right">
+            <div class="btn-group g-m-r-10">
+                <label><b>Load Report</b></label>
+            </div>
+            <div class="btn-group bootstrap-select-container g-m-r-10">
+                @Html.DropDownListExtended("ReportConfiguration_ConfigurationValue",
+                Model.ReportConfigList,
+                new { @class = "reportSelectPicker selectpicker" },
+                Model.ReportConfiguration != null ? Model.ReportConfiguration.ConfigurationValue : "",
+                "Default (All)")
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-sliders fa-lg"></i>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <ul class="dropdown-menu g-p-10">
+                    <li class="g-fw-b">Sales History Options</li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation">
+                        @Html.HtmlActionLink("<i class=\"fa fa-times\"></i> Reset Filters", "Index", "SalesHistory", null, new { onclick = "clearGridFilters();" })
+                    </li>
+                    <li role="presentation" id="saveChangesContainer" class="@(!Model.UserCanModify ? "hide" : "")">
+                    <a href="#" id="saveChanges"><i class="fa fa-floppy-o"></i> Save Changes</a>
+                </li>
+
+                    <li role="presentation">
+                        <a id="saveReportPopup" href="#"><i class="fa fa-floppy-o"></i> Save New Custom Report</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="@Url.Action("Manage", "Reports")"><i class="fa fa-cogs"></i> Manage Custom Reports</a>
+                    </li>
+                    @*<li role="presentation">
+                        <a href="@Url.Action("Export", "Reports", new { filter = "~", sort = "~", columns = "~" })" id="exportToExcel"><i class="fa fa-upload"></i> Export Inventory</a>
+                    </li>*@
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (Model.ReportConfiguration == null)
+{
+    @(Html.Kendo().Grid<SalesHistoryViewModel.Telerik>()
+          .Name("salesHistoryGrid")
+          .DataSource(dataSource => dataSource
+              .Ajax()
+              .Read(read => read.Action("Index_Read", "SalesHistory").Data("getAdditionalFilters"))
+              .PageSize(200)
+              .Group(g =>
+              {
+                  switch (Model.SummarizeSalesHistoryBy)
+                  {
+                      case CrudSalesHistory.SummarizeBy.Day:
+                          g.Add(p => p.Day);
+                          break;
+                      case CrudSalesHistory.SummarizeBy.Year:
+                          g.Add(p => p.Year);
+                          break;
+                      default:
+                          g.Add(p => p.Month);
+                          break;
+                  }
+              })
+          )
+          .Columns(columns =>
+          {
+              columns.Bound(sales => sales.PartNumber).Width(130).Title("Part Number");
+              columns.Bound(sales => sales.ClientProductId).Width(80).Title("Prod ID");
+              columns.Bound(sales => sales.Month).Width(150).Title("Date").ClientTemplate("#= kendo.toString(kendo.parseDate(Month, 'yyyy-MM-dd'), 'MMMM yyyy') #").ClientGroupHeaderTemplate("#= kendo.toString(kendo.parseDate(value, 'yyyy-MM-dd'), 'MMMM yyyy') #");
+              columns.Bound(sales => sales.Day).Width(150).Title("Date").ClientTemplate("#= kendo.toString(kendo.parseDate(Day, 'yyyy-MM-dd'), 'dd MMMM yyyy') #").ClientGroupHeaderTemplate("#= kendo.toString(kendo.parseDate(value, 'yyyy-MM-dd'), 'dd MMMM yyyy') #").Hidden(true);
+              columns.Bound(sales => sales.Year).Width(80).Title("Date").ClientTemplate("#= kendo.toString(kendo.parseDate(Year, 'yyyy-MM-dd'), 'yyyy') #").ClientGroupHeaderTemplate("#= kendo.toString(kendo.parseDate(value, 'yyyy-MM-dd'), 'yyyy') #").Hidden(true);
+              columns.Bound(sales => sales.ProductDescription).Width(300).Title("Product Name");
+              columns.Bound(sales => sales.BrandName).Width(150).Title("Brand");
+              columns.Bound(sales => sales.CategoryName).Width(200).Title("Category");
+              columns.Bound(sales => sales.RuleName).Width(200).Title("Rule Name");
+              columns.Bound(sales => sales.Quantity).Width(100).Title("Quantity");
+              columns.Bound(sales => sales.AverageCostPrice).Width(150).Title("Avg. Cost Price").Format("{0: #,##.00}");
+              columns.Bound(sales => sales.AveragePrice).Width(150).Title("Avg. Sell Price").Format("{0: #,##.00}");
+              columns.Bound(sales => sales.TotalSalesValue).Width(150).Title("Total Sales").Format("{0: #,##.00}");
+              columns.Bound(sales => sales.AverageGrossMarginValue).Width(150).Title("Total Gross Margin").Format("{0: #,##.00}");
+              columns.Bound(sales => sales.AverageGrossMarginPercent).Width(150).Title("Avg. Gross Margin %").Format("{0:0.00}%");
+              //columns.Bound(sales => sales.Month).Title("Month").ClientGroupHeaderTemplate("#= kendo.toString(kendo.parseDate(value, 'yyyy-MM-dd'), 'MMMM yyyy') #").Hidden(true);
+              //columns.Bound(sales => sales.Day).Title("Day").ClientGroupHeaderTemplate("#= kendo.toString(kendo.parseDate(value, 'yyyy-MM-dd'), 'dd MMMM yyyy') #").Hidden(true);
+              //columns.Bound(sales => sales.Year).Title("Year").ClientGroupHeaderTemplate("#= kendo.toString(kendo.parseDate(value, 'yyyy-MM-dd'), 'yyyy') #").Hidden(true);
+          })
+          .Pageable(pager => pager.Refresh(true))
+          .Pageable(pager => pager.PageSizes(new List<int> {150, 100, 50, 20}))
+          .Sortable(sortable => sortable
+              .AllowUnsort(true))
+          .Scrollable()
+          .Filterable(ftb => ftb
+              .Mode(GridFilterMode.Menu))
+          .ColumnMenu()
+          .Resizable(resize => resize.Columns(true))
+          .Reorderable(reorder => reorder.Columns(true))
+          .ToolBar(tools => tools.Excel())
+          .ToolBar(tools => tools.Pdf())
+          .Pdf(pdf => pdf
+              .FileName("Grid Export")
+              .Scale(0.8)
+              .Landscape()
+              .RepeatHeaders())
+          .Excel(excel => excel
+              //.AllPages(true)
+              .FileName("Grid Export")
+              .Filterable(true)
+              .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+          .NoRecords("There are no items to display")
+          )
+}
+else
+{
+    <div id="loading" class="text-center g-m-t-40">
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+    </div>
+    <div id="grid"></div>
+}
+
+<!-- Modal -->
+@{ Html.RenderPartial("~/Views/Reports/SaveNewReportModal.cshtml", Model.ReportSecurityList); }
+
+@Html.Hidden("ReportConfigId", Model.ReportConfiguration?.ReportConfigurationId)
+
+@section scripts {
+    <script type="text/javascript">
+
+        $(function () {
+            $('#loading').remove();
+            @if (Model.ReportConfiguration != null)
+            {
+                <text>
+
+                    var jsonExtendedConfig = @Html.Raw(Model.ReportConfiguration.ExtendedConfiguration);
+                    $("#SummarizeSalesHistoryBy option").filter(function () { return $(this).text() == jsonExtendedConfig.summarizeBy; }).prop('selected', true);
+                    $("#GroupSalesHistoryBy option").filter(function () { return $(this).text() == jsonExtendedConfig.groupBy; }).prop('selected', true);
+
+                    if (jsonExtendedConfig.summarizeBy == "Day") {
+                        $("#dateFromDay").data("kendoDatePicker").value(jsonExtendedConfig.dateFrom);
+                        $("#dateToDay").data("kendoDatePicker").value(jsonExtendedConfig.dateTo);
+                    } else {
+                        $("#DateFrom option").filter(function () { return $(this).text() == jsonExtendedConfig.dateFrom; }).prop('selected', true);
+                        $("#DateTo option").filter(function() { return $(this).text() == jsonExtendedConfig.dateTo; }).prop('selected', true);
+                    }
+
+                    $("#salesHistoryGrid").kendoGrid({
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    data: getAdditionalFilters()
+                                }
+                            }
+                        }
+                    });
+
+                    var grid = $("#salesHistoryGrid").data("kendoGrid");
+                    grid.bind("dataBound", grid_dataBound);
+
+                    var config = @Html.Raw(Model.ReportConfiguration.ConfigurationValue);
+                    setupGridFilters(config);
+                    grid.setOptions(config);
+                    grid.dataSource.read(getAdditionalFilters());
+
+                    setGridHeaderTitleTags();
+                    resizeGrid();
+
+                    showHideCalendars();
+                </text>
+            }
+            else
+            {
+                <text>
+                    var grid = $("#salesHistoryGrid").data("kendoGrid");
+                    grid.bind("dataBound", grid_dataBound);
+                </text>
+            }
+
+
+            $(document).on("change", "#SummarizeSalesHistoryBy, #GroupSalesHistoryBy", function () {
+                var summarizeBy = $("#SummarizeSalesHistoryBy").val();
+                var summarizeByText = $("#SummarizeSalesHistoryBy option:selected").text();
+                var groupBy = $("#GroupSalesHistoryBy").val();
+                var selectorFrom, selectorTo = '';
+                var dateFrom;
+                var dateTo;
+
+                switch (summarizeByText) {
+                case "Day":
+                    selectorFrom = "#dateFromDay";
+                    selectorTo = "#dateToDay";
+                    dateFrom = convertDate($(selectorFrom).data("kendoDatePicker").value());
+                    dateTo = convertDate($(selectorTo).data("kendoDatePicker").value());
+                    break;
+                case "Month":
+                    selectorFrom = "#DateFrom";
+                    selectorTo = "#DateTo";
+                    dateFrom = $(selectorFrom).val();
+                    dateTo = $(selectorTo).val();
+                    break;
+                case "Year":
+                    selectorFrom = "#DateFromYear";
+                    selectorTo = "#DateToYear";
+                    dateFrom = $(selectorFrom).val();
+                    dateTo = $(selectorTo).val();
+                    break;
+                }
+
+                var grid = $("#salesHistoryGrid").data("kendoGrid");
+                grid.dataSource._group[0].field = $("#SummarizeSalesHistoryBy option:selected").text();
+                grid.dataSource.read({ summarizeBy: summarizeBy, dateFrom: dateFrom, dateTo: dateTo, groupBy: groupBy });
+                showHideColumns(grid);
+
+                showHideCalendars();
+
+            });
+
+            $(document).on('change', '#DateFrom, #DateTo, #DateFromYear, #DateToYear', function () {
+                ChangeDate();
+            });
+
+            $("#saveReportPopup").click(function () {
+                $('#saveReportModal').modal('show');
+
+                return false;
+            });
+
+            $("#saveReport").click(function (e) {
+                e.preventDefault();
+                var reportDescription = $("#reportDescription").val();
+                var reportSecurity = $("#Security").val();
+
+                var extendedConfig = {};
+                var summarizeBy = $("#SummarizeSalesHistoryBy option:selected").text();
+                var dateFrom;
+                var dateTo;
+
+                switch (summarizeBy) {
+                    case "Day":
+                        dateFrom = convertDate2($("#dateFromDay").data("kendoDatePicker").value());
+                        dateTo = convertDate2($("#dateToDay").data("kendoDatePicker").value());
+                        break;
+                    case "Month":
+                        dateFrom = $("#dateFrom").val();
+                        dateTo = $("#dateTo").val();
+                        break;
+                    case "Year":
+                        dateFrom = $("#dateFromYear").val();
+                        dateTo = $("#dateToYear").val();
+                        break;
+                }
+
+                extendedConfig["summarizeBy"] = $("#SummarizeSalesHistoryBy option:selected").text();
+                extendedConfig["groupBy"] = $("#GroupSalesHistoryBy option:selected").text();
+                extendedConfig["dateFrom"] = dateFrom;
+                extendedConfig["dateTo"] = dateTo;
+
+                saveNewReport(reportDescription, reportSecurity, JSON.stringify(grid.getOptions()), 'Sales History', '/SalesHistory/Index/', JSON.stringify(extendedConfig));
+            });
+
+            $("#ReportConfiguration_ConfigurationValue").change(function (e) {
+                e.preventDefault();
+
+                if (this.value) {
+                    var jsonExtendedConfig = $(this).find(':selected').data("extendedconfiguration");
+                    $("#SummarizeSalesHistoryBy option").filter(function () { return $(this).text() == jsonExtendedConfig.summarizeBy; }).prop('selected', true);
+                    $("#GroupSalesHistoryBy option").filter(function () { return $(this).text() == jsonExtendedConfig.groupBy; }).prop('selected', true);
+
+                    if (jsonExtendedConfig.summarizeBy == "Day") {
+                        $("#dateFromDay").data("kendoDatePicker").value(jsonExtendedConfig.dateFrom);
+                        $("#dateToDay").data("kendoDatePicker").value(jsonExtendedConfig.dateTo);
+                    } else {
+                        $("#DateFrom option").filter(function () { return $(this).text() == jsonExtendedConfig.dateFrom; }).prop('selected', true);
+                        $("#DateTo option").filter(function () { return $(this).text() == jsonExtendedConfig.dateTo; }).prop('selected', true);
+                    }
+
+                    $('.selectpicker').selectpicker('refresh');
+                }
+
+                grid.dataSource.filter({});
+                changeCurrentReport('/SalesHistory/Index/', this, grid);
+                grid.dataSource.read(getAdditionalFilters());
+                showHideCalendars();
+            });
+
+            $("#saveChanges").click(function (e) {
+                e.preventDefault();
+
+                var extendedConfig = {};
+                var summarizeBy = $("#SummarizeSalesHistoryBy option:selected").text();
+                var dateFrom;
+                var dateTo;
+                extendedConfig["summarizeBy"] = summarizeBy;
+
+                switch (summarizeBy) {
+                case "Day":
+                    dateFrom = convertDate2($("#dateFromDay").data("kendoDatePicker").value());
+                    dateTo = convertDate2($("#dateToDay").data("kendoDatePicker").value());
+                    break;
+                case "Month":
+                    dateFrom = $("#dateFrom").val();
+                    dateTo = $("#dateTo").val();
+                    break;
+                case "Year":
+                    dateFrom = $("#dateFromYear").val();
+                    dateTo = $("#dateToYear").val();
+                    break;
+                }
+
+                extendedConfig["groupBy"] = $("#GroupSalesHistoryBy option:selected").text();
+                extendedConfig["dateFrom"] = dateFrom;
+                extendedConfig["dateTo"] = dateTo;
+
+                saveReportChanges($('#ReportConfigId').val(), JSON.stringify(grid.getOptions()), JSON.stringify(extendedConfig));
+            });
+
+            function grid_dataBound(e) {
+                saveGridFilters();
+                updateFilterDropDowns();
+            }
+
+        });
+
+        function getAdditionalFilters() {
+
+            var summarizeBy = $("#SummarizeSalesHistoryBy option:selected").text();
+            var dateFrom;
+            var dateTo;
+
+            switch (summarizeBy) {
+                case "Day":
+                    selectorFrom = "#dateFromDay";
+                    selectorTo = "#dateToDay";
+                    dateFrom = convertDate($(selectorFrom).data("kendoDatePicker").value());
+                    dateTo = convertDate($(selectorTo).data("kendoDatePicker").value());
+                    break;
+                case "Month":
+                    selectorFrom = "#DateFrom";
+                    selectorTo = "#DateTo";
+                    dateFrom = $(selectorFrom).val();
+                    dateTo = $(selectorTo).val();
+                    break;
+                case "Year":
+                    selectorFrom = "#DateFromYear";
+                    selectorTo = "#DateToYear";
+                    dateFrom = $(selectorFrom).val();
+                    dateTo = $(selectorTo).val();
+                    break;
+            }
+
+            return {
+                summarizeBy: $("#SummarizeSalesHistoryBy").val(),
+                dateFrom: dateFrom,
+                dateTo: dateTo,
+                groupBy: $("#GroupSalesHistoryBy").val()
+            }
+        }
+
+        function FromChange() {
+            ChangeDate();
+            //var toPicker = $("#dateToDay").data("kendoDatePicker"),
+            //    fromDate = this.value();
+
+            //if (fromDate) {
+            //    fromDate = new Date(fromDate);
+            //    fromDate.setDate(fromDate.getDate() + 1);
+            //    toPicker.min(fromDate);
+            //}
+        }
+
+        function ToChange() {
+            ChangeDate();
+            //var fromPicker = $("#dateFromDay").data("kendoDatePicker"),
+            //    toDate = this.value();
+
+            //if (toDate) {
+            //    toDate = new Date(toDate);
+            //    toDate.setDate(toDate.getDate() - 1);
+            //    fromPicker.max(toDate);
+            //}
+        }
+
+        function ChangeDate() {
+            var summarizeBy = $("#SummarizeSalesHistoryBy").val();
+            var summarizeByText = $("#SummarizeSalesHistoryBy option:selected").text();
+            var groupBy = $("#GroupSalesHistoryBy").val();
+            var selectorFrom, selectorTo = '';
+            var dateFrom, dateTo;
+
+            switch (summarizeByText) {
+                case "Day":
+                    selectorFrom = "#dateFromDay";
+                    selectorTo = "#dateToDay";
+                    dateFrom = convertDate($(selectorFrom).data("kendoDatePicker").value());
+                    dateTo = convertDate($(selectorTo).data("kendoDatePicker").value());
+                    break;
+                case "Month":
+                    selectorFrom = "#DateFrom";
+                    selectorTo = "#DateTo";
+                    dateFrom = $(selectorFrom).val();
+                    dateTo = $(selectorTo).val();
+                    break;
+                case "Year":
+                    selectorFrom = "#DateFromYear";
+                    selectorTo = "#DateToYear";
+                    dateFrom = $(selectorFrom).val();
+                    dateTo = $(selectorTo).val();
+                    break;
+            }
+
+            var grid = $("#salesHistoryGrid").data("kendoGrid");
+            grid.dataSource._group[0].field = $("#SummarizeSalesHistoryBy option:selected").text();
+            grid.dataSource.read({ summarizeBy: summarizeBy, dateFrom: dateFrom, dateTo: dateTo, groupBy: groupBy });
+        }
+
+        function showHideColumns(grid) {
+            var groupByText = $("#GroupSalesHistoryBy option:selected").text();
+            if (groupByText == "Category") {
+                grid.hideColumn("BrandName");
+                grid.showColumn("CategoryName");
+                grid.hideColumn("ProductDescription");
+                grid.hideColumn("ClientProductId");
+                grid.hideColumn("PartNumber");
+                grid.hideColumn("RuleName");
+            }
+            else if (groupByText == "Brand") {
+                grid.showColumn("BrandName");
+                grid.hideColumn("CategoryName");
+                grid.hideColumn("ProductDescription");
+                grid.hideColumn("ClientProductId");
+                grid.hideColumn("PartNumber");
+                grid.hideColumn("RuleName");
+            }
+            else if (groupByText == "Rule") {
+                grid.hideColumn("BrandName");
+                grid.hideColumn("CategoryName");
+                grid.hideColumn("ProductDescription");
+                grid.hideColumn("ClientProductId");
+                grid.hideColumn("PartNumber");
+                grid.showColumn("RuleName");
+            }
+            else if (groupByText == "Category and Brand") {
+                grid.showColumn("BrandName");
+                grid.showColumn("CategoryName");
+                grid.hideColumn("ProductDescription");
+                grid.hideColumn("ClientProductId");
+                grid.hideColumn("PartNumber");
+                grid.hideColumn("RuleName");
+            }
+            else {
+                grid.showColumn("BrandName");
+                grid.showColumn("CategoryName");
+                grid.showColumn("ProductDescription");
+                grid.showColumn("ClientProductId");
+                grid.showColumn("PartNumber");
+                grid.showColumn("RuleName");
+            }
+
+            var summarizeByText = $("#SummarizeSalesHistoryBy option:selected").text();
+            if (summarizeByText == "Month") {
+                grid.showColumn("Month");
+                grid.hideColumn("Day");
+                grid.hideColumn("Year");
+            }
+            else if (summarizeByText == "Day") {
+                grid.hideColumn("Month");
+                grid.showColumn("Day");
+                grid.hideColumn("Year");
+            }
+            else if (summarizeByText == "Year") {
+                grid.hideColumn("Month");
+                grid.hideColumn("Day");
+                grid.showColumn("Year");
+            }
+        }
+
+        function convertDate(inputFormat) {
+            function pad(s) { return (s < 10) ? '0' + s : s; }
+            var d = new Date(inputFormat);
+
+            @if (ConfigurationManager.AppSettings["Environment"] == "Live")
+            {
+                <text>
+                    return [pad(d.getMonth() + 1), pad(d.getDate()), d.getFullYear()].join('/') + ' 12:00:00 AM';
+                </text>
+            }
+            else
+            {
+                <text>
+                    return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear()].join('/') + ' 12:00:00 AM';
+                </text>
+            }
+        }
+
+        function convertDate2(inputFormat) {
+            function pad(s) { return (s < 10) ? '0' + s : s; }
+            var d = new Date(inputFormat);
+            return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear()].join('/') + ' 12:00:00 AM';
+        }
+
+        function showHideCalendars() {
+            var summarizeByText = $("#SummarizeSalesHistoryBy option:selected").text();
+            if (summarizeByText == "Day") {
+                $('.dateDayContainer').removeClass('hide');
+                $('.dateMonthContainer').addClass('hide');
+                $('.dateYearContainer').addClass('hide');
+            } else if (summarizeByText == "Month") {
+                $('.dateDayContainer').addClass('hide');
+                $('.dateMonthContainer').removeClass('hide');
+                $('.dateYearContainer').addClass('hide');
+            } else {
+                $('.dateYearContainer').removeClass('hide');
+                $('.dateDayContainer').addClass('hide');
+                $('.dateMonthContainer').addClass('hide');
+            }
+        }
+    </script>
+}
+
+

@@ -1,0 +1,409 @@
+﻿@using System.Configuration
+@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model CMSViewModel
+
+@{
+    ViewBag.Title = "Create CMS Entry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h4>@ViewBag.Title</h4>
+        <div class="form-horizontal">
+
+            @Html.Hidden("GetSectionDropDownUrl", Url.Action("GetSectionDropDown", "CMS"))
+            @Html.Hidden("GetEntriesDropDownUrl", Url.Action("GetEntriesDropDown", "CMS"))
+
+            @using (Html.BeginForm("SaveEntry", "CMS"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                @Html.HiddenFor(x => x.CmsEntry.cmsEntryID)
+                @Html.HiddenFor(x => x.CmsEntry.cmsSection)
+
+                if (Model.CmsEntry.cmsEntryID == 0)
+                {
+                    <div class="form-group">
+                        @Html.Label("Website", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("CmsEntry_cmsSection_websiteFK", Model.WebsiteNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        @Html.Label("Website", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.CmsEntry.cmsSection.websiteFK, Model.WebsiteNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        </div>
+                    </div>
+                }
+                <div class="form-group">
+                    @Html.Label("Section Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div id="" class="col-md-10">
+                        @Html.DropDownListFor(m => m.CmsEntry.cmsSectionFK, Model.SectionNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10", disabled = "true" })
+                        @Html.ValidationMessageFor(model => model.CmsEntry.cmsSection.sectionName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Entry Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CmsEntry.entryName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.CmsEntry.entryName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Use Html Editor", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(model => model.CmsEntry.useHtmlEditor, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.CmsEntry.useHtmlEditor, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Entry Content", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        
+                        @{
+                            string bootstrapCss = "";
+                            string fontAwesomeCss = "";
+                            string siteCss = "";
+
+                            var machineConfig = ConfigurationManager.OpenMachineConfiguration();
+                            var envir = machineConfig.AppSettings.Settings["Environment"].Value;
+
+                            if (envir != "Live")
+                            {
+                                if (Model.CmsEntry.cmsEntryID > 0)
+                                {
+                                    switch (Model.CmsEntry.cmsSection.websiteFK)
+                                    {
+                                        case 1:
+                                            bootstrapCss = "http://beta.tonergiant.co.uk/Content/bootstrap.css";
+                                            fontAwesomeCss = "http://beta.tonergiant.co.uk/Content/font-awesome.css";
+                                            siteCss = "http://beta.tonergiant.co.uk/Content/site.less";
+                                            break;
+                                        case 2:
+                                            bootstrapCss = "http://beta.cartridgemonkey.com/Content/bootstrap.css";
+                                            fontAwesomeCss = "http://beta.cartridgemonkey.com/Content/font-awesome.css";
+                                            siteCss = "http://beta.cartridgemonkey.com/Content/site.less";
+                                            break;
+                                        case 3:
+                                            bootstrapCss = "http://beta.netgiant.com/Content/bootstrap.css";
+                                            fontAwesomeCss = "http://beta.netgiant.com/Content/font-awesome.css";
+                                            siteCss = "http://beta.netgiant.com/Content/site.less";
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    bootstrapCss = "http://beta.tonergiant.co.uk/Content/bootstrap.css";
+                                    fontAwesomeCss = "http://beta.tonergiant.co.uk/Content/font-awesome.css";
+                                    siteCss = "http://beta.tonergiant.co.uk/Content/site.less";
+                                }
+                            }
+                            else
+                            {
+                                if (Model.CmsEntry.cmsEntryID > 0)
+                                {
+                                    switch (Model.CmsEntry.cmsSection.websiteFK)
+                                    {
+                                        case 1:
+                                            bootstrapCss = "http://www.tonergiant.co.uk/Content/bootstrap.css";
+                                            fontAwesomeCss = "http://www.tonergiant.co.uk/Content/font-awesome.css";
+                                            siteCss = "http://www.tonergiant.co.uk/Content/site.less";
+                                            break;
+                                        case 2:
+                                            bootstrapCss = "http://www.cartridgemonkey.com/Content/bootstrap.css";
+                                            fontAwesomeCss = "http://www.cartridgemonkey.com/Content/font-awesome.css";
+                                            siteCss = "http://www.cartridgemonkey.com/Content/site.less";
+                                            break;
+                                        case 3:
+                                            bootstrapCss = "http://www.netgiant.com/Content/bootstrap.css";
+                                            fontAwesomeCss = "http://www.netgiant.com/Content/font-awesome.css";
+                                            siteCss = "http://www.netgiant.com/Content/site.less";
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    bootstrapCss = "http://www.tonergiant.co.uk/Content/bootstrap.css";
+                                    fontAwesomeCss = "http://www.tonergiant.co.uk/Content/font-awesome.css";
+                                    siteCss = "http://www.tonergiant.co.uk/Content/site.less";
+                                }
+                            }
+                        }
+                        
+                        @{
+                            //bool showHtmlEditor;
+                            //if (Model.CmsEntry.useHtmlEditor)
+                            //{
+                            //    if (Model.CmsEntry.cmsEntryID == 0 || Model.CmsEntry.cmsContent.Length < 6 || !Model.CmsEntry.cmsContent.TrimStart().Substring(0, 6).Contains("<style"))
+                            //    {
+                            //        showHtmlEditor = true;
+                            //    }
+                            //    else
+                            //    {
+                            //        showHtmlEditor = false;
+                            //    }
+                            //}
+                            //else
+                            //{
+                            //    showHtmlEditor = false;
+                            //}
+                        }
+                        
+                        @(Html.Kendo().Editor()
+                              .Name("content")
+                              .HtmlAttributes(new {style = "height:440px;", @class = "kendoEditor"})
+                              .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                              .Encode(false)
+                              .Serialization(s => s
+                                  .Semantic(false)
+                                  .Scripts(true)
+                                  .Custom("formatHtml"))
+                              .Tools(tool => tool
+                                  .FontColor()
+                                  .BackColor()
+                                  .FontSize()
+                                  .ViewHtml()
+                              )
+                              .Value(Model.CmsEntry.cmsContent)
+                              .StyleSheets(css => css
+                                  .Add(Url.Content(bootstrapCss))
+                                  .Add(Url.Content(fontAwesomeCss))
+                                  .Add(Url.Content(siteCss))
+                              )
+                              )
+                        
+                        @Html.TextArea("content", Model.CmsEntry.cmsContent, new { style = "height: 440px;", @class = "textArea" })
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.CmsEntry.cmsContent, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Meta Data", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CmsEntry.metaData, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.CmsEntry.metaData, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Activate Redirect", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(m => m.CmsEntry.redirectIsActive, new { @class = "g-f-l allowDisable" })
+                    </div>
+                </div>
+
+                <div id="redirect">
+                    <div class="form-group">
+                        @Html.Label("From", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.CmsEntry.redirectFrom, new { @class = "searchBox form-control g-smallCell g-f-l text-box single-line g-m-lr-10" })
+                            @Html.ValidationMessageFor(model => model.CmsEntry.redirectFrom, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Until", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.CmsEntry.redirectUntil, new { @class = "searchBox form-control g-smallCell g-f-l text-box single-line g-m-lr-10" })
+                            @Html.ValidationMessageFor(model => model.CmsEntry.redirectUntil, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Use Entry", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div id="" class="col-md-10">
+                            @Html.DropDownListFor(m => m.CmsEntry.redirectEntryId, Model.EntryNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10", disabled = "true" })
+                            @Html.ValidationMessageFor(model => model.CmsEntry.redirectEntryId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveCmsEntry" value="Save" class="btn btn-default" title="Save" />
+                        @Html.ActionLink("Cancel", "EntryIndex", "CMS", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/Scripts/html5-tidy.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("iframe").removeAttr("title");
+
+            $(document).on("change", "#CmsEntry_cmsSection_websiteFK", function (event) {
+                $.ajax({
+                    async: false,
+                    cache: false,
+                    type: "POST",
+                    url: $("#GetSectionDropDownUrl").val(),
+                    data: {
+                        websiteId: $('#CmsEntry_cmsSection_websiteFK').val(),
+                        timestamp: $.now()
+                    },
+                    success: function (data) {
+                        $('#CmsEntry_cmsSectionFK').empty().append(data.SectionHtml);
+                        $('#CmsEntry_cmsSectionFK').val($("#CmsEntry_cmsSectionFK option:first").val());
+                        showDd('#CmsEntry_cmsSectionFK');
+                    }
+                });
+            });
+
+            $(document).on("change", "#CmsEntry_cmsSectionFK", function (event) {
+                $.ajax({
+                    async: false,
+                    cache: false,
+                    type: "POST",
+                    url: $("#GetEntriesDropDownUrl").val(),
+                    data: {
+                        sectionId: $('#CmsEntry_cmsSectionFK').val(),
+                        timestamp: $.now()
+                    },
+                    success: function (data) {
+                        $('#CmsEntry_redirectEntryId').empty().append(data.EntriesHtml);
+                        $('#CmsEntry_redirectEntryId').val($("#CmsEntry_redirectEntryId option:first").val());
+                        showDd('#CmsEntry_redirectEntryId');
+                    }
+                });
+            });
+
+            $(document).on("change", "#CmsEntry_redirectIsActive", function (event) {
+                checkRedirectCheckbox();
+            });
+
+            checkRedirectCheckbox();
+            showDd('#CmsEntry_cmsSectionFK');
+            showDd('#CmsEntry_redirectEntryId');
+
+            $("#CmsEntry_redirectFrom, #CmsEntry_redirectUntil").datepicker({ dateFormat: 'dd/mm/yy' });
+
+
+        });
+
+        function checkRedirectCheckbox() {
+            if ($('#CmsEntry_redirectIsActive').is(':checked')) {
+                $('#redirect').show();
+            } else {
+                $('#redirect').hide();
+            }
+        }
+
+        function showDd(id) {
+            if ($(id).children('option').length > 1) {
+                $(id).prop('disabled', false);
+            } else {
+                $(id).prop('disabled', true);
+            }
+        }
+
+        $(function () {
+            $.validator.addMethod('date',
+                function (value, element) {
+                    if (this.optional(element)) {
+                        return true;
+                    }
+                    var ok = true;
+                    try {
+                        $.datepicker.parseDate('dd/mm/yy', value);
+                    }
+                    catch (err) {
+                        ok = false;
+                    }
+                    return ok;
+                });
+            $(".datefield").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+        });
+    </script>
+
+    <script>
+
+        var showBodyOnly = true;
+        @if (Model.CmsEntry.cmsContent != null && Model.CmsEntry.cmsContent.Contains("<!DOCTYPE"))
+            {
+                @:showBodyOnly = false;
+            }
+
+        options = {
+            "indent": "auto",
+            "indent-spaces": 2,
+            "wrap": 200,
+            "output-xml": false,
+            "quote-nbsp": false,
+            "show-body-only": showBodyOnly,
+            "quote-ampersand": false,
+            "uppercase-tags": false,
+            "uppercase-attributes": false,
+            "drop-font-tags": false,
+            "tidy-mark": false,
+            "drop-empty-paras": false,
+            "drop-empty-elements": false
+        }
+
+        $(function() {
+
+            var showHtmlEditor;
+            @if (Model.CmsEntry.useHtmlEditor)
+            {
+                if (Model.CmsEntry.cmsEntryID == 0 || Model.CmsEntry.cmsContent.Length < 6 || !Model.CmsEntry.cmsContent.TrimStart().Substring(0, 6).Contains("<style"))
+                {
+                    @:showHtmlEditor = true;
+                }
+                else
+                {
+                    @:showHtmlEditor = false;
+                }
+            }
+            else
+            {
+                @:showHtmlEditor = false;
+            }
+
+            if (showHtmlEditor) {
+                $('.kendoEditor').data("kendoEditor").wrapper.show();
+                $('.kendoEditor').removeAttr('disabled');
+                $('.textArea').hide();
+                $('.textArea').attr('disabled', 'disabled');
+            } else {
+                $('.kendoEditor').data("kendoEditor").wrapper.hide();
+                $('.kendoEditor').attr('disabled', 'disabled');
+                $('.textArea').show();
+                $('.textArea').removeAttr('disabled');
+            }
+
+            $(document).on('change',
+                '#CmsEntry_useHtmlEditor',
+                function() {
+                    var checked = $(this).is(':checked');
+                    if (checked) {
+                        // Show Kendo Editor
+                        $('.kendoEditor').data("kendoEditor").wrapper.show();
+                        $('.kendoEditor').removeAttr('disabled');
+                        $('.textArea').hide();
+                        $('.textArea').attr('disabled', 'disabled');
+                    } else {
+                        // Show Textarea
+                        $('.kendoEditor').data("kendoEditor").wrapper.hide();
+                        $('.kendoEditor').attr('disabled', 'disabled');
+                        $('.textArea').show();
+                        $('.textArea').removeAttr('disabled');
+                    }
+                });
+        });
+
+        function formatHtml(html) {
+            @if (Model.CmsEntry.cmsContent != null && (Model.CmsEntry.cmsContent.Length < 6 || !Model.CmsEntry.cmsContent.TrimStart().Substring(0, 6).Contains("<style")))
+            {
+                @:return tidy_html5(html, options);
+            }
+        }
+    </script>
+}
+

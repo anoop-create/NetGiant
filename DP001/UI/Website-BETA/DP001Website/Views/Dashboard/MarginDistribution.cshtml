@@ -1,0 +1,74 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Controllers;
+@model DashboardViewModel
+
+<div class="fa fa-spinner fa-pulse fa-3x fa-fw g-p-a spinner1"></div>
+<div class="col-md-12 col-lg-7 dashlet-chart g-m-b-10 initial-state">
+    <div class="g-bg-white g-b-1-lg">
+        <div class="col-xs-12">
+            <div class="g-p-l-20 text-left">
+                <i class="fa fa-question-circle-o fa-lg help-popup g-m-r-10" data-toggle="tooltip" title="This chart shows how many products are within a range of gross margin percentages, divided into ten groups between the minimum and maximum margin." data-helpsid="2" data-helpeid="2"></i>
+                <span class="g-fw-b dashlet-title">Margin Distribution by Decile</span>
+                <span class="g-fw-b dashlet-title pull-right g-m-r-20" id="mdCount"></span>
+            </div>
+            <div class="pull-left col-xs-12 g-bt-1-lg">
+                <div class="clearfix">
+                    @(Html.Kendo().Chart<MarginDistribution>()
+                        .Name("MarginDistributionChart")
+                        .HtmlAttributes(new { @style = "height: 460px;" })
+                        .Legend(legend => legend
+                            .Visible(false)
+                        )
+                        .DataSource(ds => ds.Read(read => read.Action("TelerikChartData", "Dashboard", new { brand = 0, category = 0, pricerule = 0, productgroup = 0, chart = "Margin" })))
+                        .SeriesColors(new string[] { "#01bc8c" })
+                        .Series(series =>
+                        {
+                            series.Column(model => model.Count)
+                                .Spacing(0.05)
+                                .Gap(0.05)
+                                .Labels(labels => labels
+                                    .Visible(true)
+                                    .Position(ChartBarLabelsPosition.OutsideEnd)
+                                    .Template("#=formatNumberWithCommas(value)#")
+                                    .Color("#01bc8c")
+                                    .Font("14px Arial,Helvetica,sans-serif"));
+                        })
+                        .CategoryAxis(axis => axis
+                            .Categories(model => model.CategoryLabel)
+                                .MajorGridLines(lines => lines.Visible(false))
+                            .Labels(labels => labels
+                                .Visible(true)
+                                .Font("12px Arial,Helvetica,sans-serif")
+                                .Color("#666"))
+                            .Title(title => title
+                                .Text("Gross Margin (%)")
+                                .Font("italic 14px Arial,Helvetica,sans-serif")
+                                .Padding(10))
+                        )
+                        .ValueAxis(axis => axis.Numeric()
+                            .Labels(labels => labels
+                                .Format("{0:N0}")
+                                .Font("12px Arial,Helvetica,sans-serif"))
+                            .Line(line => line.Visible(false))
+                            .Title(title => title
+                                .Text("No. of Products")
+                                .Font("italic 14px Arial,Helvetica,sans-serif"))
+                        )
+                        .Events(ev => ev
+                            .DataBound("onDataBoundMarginDistribution")
+                            .SeriesClick("onSeriesBarChartClick")
+                            .SeriesHover("onSeriesHover"))
+                        .Tooltip(tooltip => tooltip
+                            .Template("<div style='max-width: 200px; white-space: normal;'>There are #=dataItem.FormattedCount# products with a gross margin greater than or equal <br/> to #=dataItem.Start#% and less than #=dataItem.End#%, Click to view these products.</div>")
+                            .Visible(true)
+                            .Font("12px Arial,Helvetica,sans-serif")
+                            .Background("#006699")
+                            .Border(1, "#006699")
+                        )
+                    )
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

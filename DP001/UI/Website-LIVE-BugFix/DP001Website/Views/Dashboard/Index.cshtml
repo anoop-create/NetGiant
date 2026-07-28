@@ -1,0 +1,510 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@model DashboardViewModel
+
+@{
+    ViewBag.Title = "Dashboard";
+    ViewBag.BodyClass = "g-bg-lightgrey";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1>
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Dashboard
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="container-fluid">
+                <div class="row">
+                    @{
+                        Html.RenderPartial("InventoryTotals", Model.Counters);
+
+                        Html.RenderPartial("PriceRulesSummary", Model.Counters);
+
+                        Html.RenderPartial("ProductMappingSummary", Model.Counters);
+
+                        Html.RenderPartial("Schedule", Model);
+                    }
+                </div>
+                <div class="row">
+                    @{
+                        Html.RenderPartial("MarginDistribution", Model.Counters);
+
+                        Html.RenderPartial("PriceCompetitive", Model.Counters);
+
+                        //Html.RenderPartial("InventoryTotals", Model.Counters);
+
+                        //Html.RenderPartial("CategoryRanking", Model);
+
+                        //Html.RenderPartial("BrandRanking", Model);
+
+                        //Html.RenderPartial("PricingAnalysis", Model.Counters);
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        // 'current' version has a bug on mouseover of tooltips - hence use version 42
+        //google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.load('42', { 'packages': ['corechart'] });
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawCharts);
+
+        $(document).on('click', '#pcSwitch1', function () {
+            if ($(this).prop('checked', true)) {
+                $('#chart4').removeClass('hide');
+                $('#chart5').addClass('hide');
+                $('#pcTitle').html('Price Competitiveness Report (All Products)');
+            }
+            $(this).closest('.btn-group').removeClass('open');
+            $('.tooltip').hide();
+        })
+
+        $(document).on('click', '#pcSwitch2', function () {
+            if ($(this).prop('checked', true)) {
+                $('#chart4').addClass('hide');
+                $('#chart5').removeClass('hide');
+                $('#pcTitle').html('Price Competitiveness Report (Key Lines)');
+            }
+            $(this).closest('.btn-group').removeClass('open');
+            $('.tooltip').hide();
+        })               
+
+        //Chart control
+        function drawCharts() {
+            @*@{if (Model.CategoryRankList.Count > 0)
+        {
+        <text>
+            categoryRanking('chart1');
+            </text>
+        }
+        }
+            @{if (Model.BrandRankList.Count > 0)
+        {
+        <text>
+            brandRanking('chart3');
+            </text>
+        }
+        }*@
+            //pricingAnalysis('chart2');
+
+            priceCompetitive('chart4', 'all');
+            priceCompetitive('chart5', 'key');
+
+            marginDistribution('chart6', 'all');
+
+            if ($('#pcSwitch1').prop('checked')) {
+                $('#chart5').addClass('hide');
+            } else {
+                $('#chart4').addClass('hide');
+            }
+        }
+
+        @*function categoryRanking(htmlId) {
+
+            var data = google.visualization.arrayToDataTable([
+
+                ['Category', '', { type: 'string', role: 'tooltip' }, '', { type: 'string', role: 'tooltip' }, { role: 'style' }],
+
+@{
+                                    if (Model.CategoryRankList.Count > 0)
+                                    {
+                                        var last1 = Model.CategoryRankList.Last();
+                                        foreach (Tuple<string, int, int> tup in Model.CategoryRankList)
+                                        {
+                    <text>
+['@(tup.Item1)', @(tup.Item2), '@(tup.Item1): @(tup.Item2)%', @(100 - tup.Item2), '@(tup.Item1): @(tup.Item2)%', '#cccccc']
+</text>
+                                            if (tup.Item1 != last1.Item1)
+                                            {
+                            <text>,</text>
+                            }
+                                        }
+                                    }
+                                }
+            ]);
+
+            var options = {
+                animation: {
+                    startup: true,
+                    duration: 1000,
+                    easing: "out"
+                },
+                backgroundColor: "#eeeeee",
+                bar: {
+                    groupWidth: 15
+                },
+                colors: ['#000066', '#cccccc'],
+                hAxis: {
+                    baselineColor: "#eeeeee",
+                    textPosition: "none",
+                    gridlines: {
+                        color: '#eeeeee'
+                    }
+                },
+                height: 140,
+                isStacked: true,
+                legend: {
+                    position: "none"
+                },
+                theme: "maximized",
+                //tooltip: {
+                //    trigger: "none"
+                //},
+                width: 150,
+                vAxis: {
+                    baselineColor: "#eeeeee",
+                    textPosition: "none",
+                    gridlines: {
+                        color: '#eeeeee'
+                    }
+                }
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById(htmlId));
+            chart.draw(data, options);
+        }
+
+        function brandRanking(htmlId) {
+
+            var data = google.visualization.arrayToDataTable([
+
+                ['Category', '', { type: 'string', role: 'tooltip' }, '', { type: 'string', role: 'tooltip' }, { role: 'style' }],
+
+@{
+                                if (Model.BrandRankList.Count > 0)
+                                {
+                                    var last3 = Model.BrandRankList.Last();
+                                    foreach (Tuple<string, int, int> tup in Model.BrandRankList)
+                                    {
+                            <text>
+            ['@(tup.Item1)', @(tup.Item2), '@(tup.Item1): @(tup.Item2)%', @(100 - tup.Item2), '@(tup.Item1): @(tup.Item2)%', '#cccccc']
+            </text>
+                                        if (tup.Item1 != last3.Item1)
+                                        {
+                                <text>,</text>
+                            }
+                                    }
+                                }
+                            }
+            ]);
+
+            var options = {
+                animation: {
+                    startup: true,
+                    duration: 1000,
+                    easing: "out"
+                },
+                backgroundColor: "#eeeeee",
+                bar: {
+                    groupWidth: 15
+                },
+                colors: ['#000066', '#cccccc'],
+                hAxis: {
+                    baselineColor: "#eeeeee",
+                    textPosition: "none",
+                    gridlines: {
+                        color: '#eeeeee'
+                    }
+                },
+                height: 140,
+                isStacked: true,
+                legend: {
+                    position: "none"
+                },
+                theme: "maximized",
+                //tooltip: {
+                //    trigger: "none"
+                //},
+                width: 150,
+                vAxis: {
+                    baselineColor: "#eeeeee",
+                    textPosition: "none",
+                    gridlines: {
+                        color: '#eeeeee'
+                    }
+                }
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById(htmlId));
+            chart.draw(data, options);
+        }
+
+        function pricingAnalysis(htmlId) {
+
+            var data = google.visualization.arrayToDataTable([
+
+                [{ label: 'Inventory', type: 'string' }, { label: 'Percentage', type: 'number' }, { label: 'Count', type: 'number' }],
+
+    @{
+        var last2 = Model.PricingAnalysisList.Last();
+        foreach (Tuple<string, int, int> tup in Model.PricingAnalysisList)
+        {
+                <text>
+    ['@(tup.Item1)', @(tup.Item2), @(tup.Item3)]
+    </text>
+            if (tup.Item1 != last2.Item1)
+            {
+                    <text>,</text>
+            }
+        }
+                        }
+            ]);
+
+            var options = {
+                theme: "maximized",
+                backgroundColor: "#eeeeee",
+                width: 300,
+                height: 140,
+                pieHole: 0.3,
+                animation: {
+                    startup: true,
+                    duration: 1000,
+                    easing: "out"
+                },
+                legend: {
+                    alignment: "center",
+                    position: "left"
+                }
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById(htmlId));
+            chart.draw(data, options);
+        }*@
+
+        function priceCompetitive(htmlId, selection) {
+            var data;
+            if (selection == 'all') {
+                data = google.visualization.arrayToDataTable([
+
+                    //[{ label: 'Inventory', type: 'string' }, { label: 'Percentage', type: 'number' }, { label: 'Count', type: 'number' }],
+                    [{ label: 'Inventory', type: 'string' }, { label: 'Count', type: 'number' }, { role: 'tooltip', type: 'string' }],
+
+            @{
+                if (Model.PricingAnalysisList.Count > 0)
+                {
+                    var lastAll = Model.PricingAnalysisList.Last();
+                    foreach (Tuple<string, string, int> tup in Model.PricingAnalysisList)
+                    {
+                        <text>['@(tup.Item1)', @(tup.Item3), '@(tup.Item2)']</text>
+                        if (tup.Item1 != lastAll.Item1)
+                        {
+                            <text>,</text>
+                        }
+                    }
+                }
+                else
+                {
+                    <text>['No data', 1, 1]</text>
+                }
+            }
+            ]);
+            } else {
+                data = google.visualization.arrayToDataTable([
+
+                    [{ label: 'Inventory', type: 'string' }, { label: 'Percentage', type: 'number' }, { role: 'tooltip', type: 'string' }],
+
+            @{
+                if (Model.PricingAnalysisList.Count > 0)
+                {
+                    var lastKey = Model.PricingAnalysisListKey.Last();
+                    foreach (Tuple<string, string, int> tup in Model.PricingAnalysisListKey)
+                    {
+                        <text>['@(tup.Item1)', @(tup.Item3), '@(tup.Item2)']</text>
+                        if (tup.Item1 != lastKey.Item1)
+                        {
+                            <text>,</text>
+                        }
+                    }
+                }
+                else
+                {
+                    <text>['No data', 1, 1]</text>
+                }
+            }
+            ]);
+            }
+
+            var options = {
+                theme: "maximized",
+                backgroundColor: "#ffffff",
+                height: 350,
+                pieHole: 0.4,
+                pieSliceText: "value",
+                pieSliceTextStyle: {
+                    bold: "true"
+                },
+                animation: {
+                    startup: true,
+                    duration: 1000,
+                    easing: "out"
+                },
+                slices: [
+                    { color: "#418bca" },
+                    { color: "#ef6f6c" },
+                    { color: "#01bc8c" },
+                    { color: "#006699" },
+                    { color: "#f89a14" },
+                    { color: "#006699" }
+                ],
+                tooltip: {
+                    isHtml: "true",
+                    textStyle: {
+                        color: "#666666"
+                    },
+                    trigger: "focus"
+                },
+                legend: {
+                    position: "labeled",
+                    textStyle: {
+                        color: "#666666",
+                    }
+                }
+            };
+
+                function selectHandler() {
+                    var selectedItem = chart.getSelection()[0];
+                    if (selectedItem) {
+                        var segment = data.getValue(selectedItem.row, 0);
+                        switch (segment) {
+                            case "Sales Opportunity":
+                                location.href = "/Reports/Comparison?grid-filter=Lookup.LookupName__1__Minimum"
+                                break;
+                            case "Margin Opportunity":
+                                location.href = "/Reports/Comparison?grid-filter=Lookup.LookupName__1__Maximum"
+                                break;
+                            case "At desired margin":
+                                location.href = "/Reports/Comparison?grid-filter=Lookup.LookupName__1__Desired"
+                                break;
+                            case "Above desired margin":
+                                location.href = "/Reports/Comparison?grid-filter=Lookup.LookupName__1__Nudge Up"
+                                break;
+                            case "Below desired margin":
+                                location.href = "/Reports/Comparison?grid-filter=Lookup.LookupName__1__Nudge Down"
+                                break;
+                        }
+                    }
+                }
+                function setCursorPointer() {
+                    $('#' + htmlId).css('cursor', 'pointer')
+                }
+                function setCursorNormal() {
+                    $('#' + htmlId).css('cursor', 'default')
+                }
+
+                var chart = new google.visualization.PieChart(document.getElementById(htmlId));
+                google.visualization.events.addListener(chart, 'select', selectHandler);
+                google.visualization.events.addListener(chart, 'onmouseover', setCursorPointer);
+                google.visualization.events.addListener(chart, 'onmouseout', setCursorNormal);
+                chart.draw(data, options);
+            }
+
+            function marginDistribution(htmlId, selection) {
+                var data;
+                data = google.visualization.arrayToDataTable([
+
+                    [{ label: 'Range', type: 'string' }, { label: 'Count', type: 'number' }, { role: 'tooltip', type: 'string' }, { role: 'annotation', type: 'string' }],
+
+            @{
+                if (Model.MarginDistributionList.Count > 0)
+                {
+                    var last1All = Model.MarginDistributionList.Last();
+                    foreach (Tuple<string, int, string> tup in Model.MarginDistributionList)
+                    {
+                        <text>['@(tup.Item1)', @(tup.Item2), '@(tup.Item3)', '@(tup.Item2.ToString("N0"))']</text>
+                        if (tup.Item1 != last1All.Item1)
+                        {
+                        <text>,</text>
+                        }
+                    }
+                }
+                else
+                    {
+                        <text>['No data', 0, 'No data', 'No data']</text>
+                    }
+                }
+                ]);
+
+                var options = {
+                    animation: {
+                        startup: true,
+                        duration: 1000,
+                        easing: "none"
+                    },
+                    bar: { groupWidth: "98%" },
+                    bars: 'vertical',
+                    chartArea: {
+                        width: "90%",
+                        height: "80%",
+                        top: "10",
+                        left: "80"
+                    },
+                    colors: ["#01bc8c"],
+                    hAxis: {
+                        title: 'Gross Margin (%)',
+                        position: "out",
+                        gridlines: {
+                            count: 10,
+                            color: "#ffffff"
+                        }
+                    },
+                    height: 424,
+                    legend: "none",
+                    tooltip: {
+                        isHtml: "true",
+                        textStyle: {
+                            color: "#666666"
+                        }
+                    },
+                    vAxis: {
+                        title: 'No. of Products'
+                    }
+                };
+
+                function selectHandler() {
+                    var selectedItem = chart.getSelection()[0];
+                    if (selectedItem) {
+                        var segment = data.getValue(selectedItem.row, 0).split(' - ');
+                        location.href = "/Reports/Comparison?grid-filter=GrossMarginPercent__7__" + segment[0] + "&grid-filter=GrossMarginPercent__6__" + segment[1];
+                    }
+                }
+
+                function setCursorPointer() {
+                    $('#' + htmlId).css('cursor', 'pointer');
+                }
+                function setCursorNormal() {
+                    $('#' + htmlId).css('cursor', 'pointer');
+                }
+
+                var chart = new google.visualization.ColumnChart(document.getElementById(htmlId));
+                google.visualization.events.addListener(chart, 'select', selectHandler);
+                google.visualization.events.addListener(chart, 'onmouseover', setCursorPointer);
+                google.visualization.events.addListener(chart, 'onmouseout', setCursorNormal);
+                chart.draw(data, options);
+            }
+
+    </script>
+}
+
+
+
+

@@ -1,0 +1,65 @@
+﻿@model netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance.WebsiteViewModel
+
+@{
+    ViewBag.Title = "Website";
+    ViewBag.SubTitle = Model.web.WebsiteID > 0 ? "Edit" : "Create";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title</h4>
+
+        <div class="form-horizontal">
+
+            @using (Html.BeginForm("Save", "Websites", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.web.WebsiteID)
+
+                <div class="form-group">
+                    @Html.Label("Website Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.web.WebsiteName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.web.WebsiteName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Website URL", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.web.WebURL, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.web.WebURL, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Friendly Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.web.FriendlyName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.web.FriendlyName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                if (Model.web.WebsiteID > 0)
+                {
+                    <div class="form-group">
+                        @Html.Label("Date Last Updated", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.web.dateLastUpdate, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveWebsite" value="Save" class="btn btn-default" title="Save" />
+                        @Html.ActionLink("Cancel", "WebsiteIndex", "Websites", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>

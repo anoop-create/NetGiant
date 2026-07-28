@@ -1,0 +1,34 @@
+﻿@using netGiant.Intranet.DataLayer
+@using netGiant.Intranet.Models
+
+@{
+    int parentLinkID = Convert.ToInt16(@ViewData["parentLinkID"]);
+
+    using (ngmdEntities db = new ngmdEntities())
+    {
+        var parentLinks = (from a in db.actionLinks where a.actionLinkLevel == 2 && a.parentLevelID == parentLinkID && a.active select a).ToList();
+
+        var divIndex = 0;
+        foreach (var pl in parentLinks)
+        {
+            if (Helper.CheckUserIsInRoles(pl.roles))
+            {
+                <h3>@pl.actionLinkDesc</h3>
+            }
+
+            <div index="@divIndex">
+                @{
+            var sideBarLinks = db.actionLinks.Where(x => x.parentLevelID == pl.actionLinkID && x.actionLinkLevel == 3 && x.active).OrderBy(x => x.actionLinkDesc).ToList();
+            foreach (var sublink in sideBarLinks)
+            {
+                if (Helper.CheckUserIsInRoles(sublink.roles))
+                {
+                    @Html.SubActionLink(@sublink.actionLinkDesc, sublink.actionName, sublink.controllerName, parentLinkID)<br />
+                }
+            }
+                }
+            </div>
+            divIndex += 1;
+        }
+    }
+}

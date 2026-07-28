@@ -1,0 +1,26 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model PriceRuleViewModel
+
+<table>
+        @if (Model.PriceRuleEntry != null)
+        {
+            <tr>
+                <td width="200" colspan="2" class="g-ta-l">@Html.ActionLink("=> View Price Rule", "Edit", new { id = Model.PriceRuleEntry.PriceRuleID })</td>
+            </tr>
+            <tr>
+                <td width="200" colspan="2"><hr /></td>
+            </tr>
+            <tr>
+                <td width="100" class="text-left">Min Margin</td>
+                <td width="100" class="text-right">@Model.PriceRuleEntry.MinMarginMod.ToString("N2")%</td>
+            </tr>
+            <tr>
+                <td width="100" class="text-left">Max Margin</td>
+                <td width="100" class="text-right">@Model.PriceRuleEntry.MaxMarginMod.ToString("N2")%</td>
+            </tr>
+            <tr>
+                <td width="100" class="text-left">Beat Rate</td>
+                <td width="100" class="text-right">@Model.PriceRuleEntry.BeatRateMod.ToString("N2")%</td>
+            </tr>
+    }
+</table>

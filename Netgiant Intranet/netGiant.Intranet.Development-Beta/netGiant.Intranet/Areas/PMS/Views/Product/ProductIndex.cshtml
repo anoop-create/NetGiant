@@ -1,0 +1,142 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product;
+@using Kendo.Mvc.UI
+
+@model ProductViewModel
+
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">Product Details</h4>
+    @Html.RawFromDict(Model.IntranetData, "ProductIndexFilters")
+</div>
+
+@Html.Hidden("DeleteProductURL", Url.Action("DeleteProduct", "Product"))
+@Html.Hidden("ProductIndexDataURL", Url.Action("ProductIndexData", "Product"))
+@Html.Hidden("ProductPricesDataURL", Url.Action("ProductPrices", "Product"))
+
+@if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+{
+    @Html.ActionLink("Create New", "CreateProduct", "Product", new { id = 0 }, new { @title = "Create new product", @class = "g-p-10" })
+}
+
+@(Html.Kendo().Grid<ProductViewModel.TelerikProduct>()
+    .HtmlAttributes(new { @class = "pointer-rows" })
+    .Name("productGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.ProductName).Title("Product Name").Width("200px")
+            .HeaderHtmlAttributes(new { title = "Product Name", style = "text-align: center;" });
+        columns.Bound(x => x.PartNo).Title("Part No").Width("90px")
+            .HeaderHtmlAttributes(new { title = "Part No", style = "text-align: center;" });
+        columns.Bound(x => x.Manufacturer).Title("Manufacturer").Width("90px")
+            .HeaderHtmlAttributes(new { title = "Manufacturer", style = "text-align: center;" });
+        columns.Bound(x => x.ItemType).Title("Item Type").Width("90px")
+            .HeaderHtmlAttributes(new { title = "Item Type", style = "text-align: center;" });
+        columns.Bound(x => x.ProductStatus).Title("Product Status").Width("90px")
+            .HeaderHtmlAttributes(new { title = "Product Status", style = "text-align: center;" });
+        columns.Bound(x => x.ProductGroup).Title("Product Group").Width("90px")
+            .HeaderHtmlAttributes(new { title = "Product Group", style = "text-align: center;" });
+        columns.Bound(x => x.SalesAreaGroup).Title("Sales Area Group").Width("110px")
+            .HeaderHtmlAttributes(new { title = "Sales Area Group", style = "text-align: center;" });
+        columns.Bound(x => x.Stock).Title("Stock").Width("78px")
+            .HeaderHtmlAttributes(new { title = "Stock", style = "text-align: center;" });
+        columns.Bound(x => x.TGPrice).Title("TG Price").Width("95px")
+            .ClientTemplate("<a class=\"lnkPriceHistory\" href=\"##\" value=\"#:ProductId#\" p=\"#:PartNo#\" d=\"#:ProductName#\">#:(TGPrice == null) ? 'No Prices' : TGPrice#</a>")
+            .HeaderHtmlAttributes(new { title = "TG Price", style = "text-align: center;" });
+        columns.Bound(x => x.CMPrice).Title("CM Price").Width("95px")
+            .ClientTemplate("<a class=\"lnkPriceHistory\" href=\"##\" value=\"#:ProductId#\" p=\"#:PartNo#\" d=\"#:ProductName#\">#:(CMPrice == null) ? 'No Prices' : CMPrice#</a>")
+            .HeaderHtmlAttributes(new { title = "CM Price", style = "text-align: center;" });
+        columns.Bound(x => x.NGPrice).Title("NG Price").Width("95px")
+            .ClientTemplate("<a class=\"lnkPriceHistory\" href=\"##\" value=\"#:ProductId#\" p=\"#:PartNo#\" d=\"#:ProductName#\">#:(NGPrice == null) ? 'No Prices' : NGPrice#</a>")
+            .HeaderHtmlAttributes(new { title = "NG Price", style = "text-align: center;" });
+        columns.Bound(x => x.DataSupplier).Title("Data Supplier").Width("90px").Hidden(true)
+            .HeaderHtmlAttributes(new { title = "Data Supplier", style = "text-align: center;" });
+        columns.Bound(x => x.SupplierLastUpdate).Format("{0:dd/MM/yyyy HH:mm:ss}").Title("Supplier Last Update").Width("140px")
+            .HeaderHtmlAttributes(new { title = "Supplier Last Update", style = "text-align: center;" });
+        columns.Bound(x => x).Title("Untrusted Providers").Width("90px")
+            .ClientTemplate("<a skuCount=\"#:SkuCount#\" class=\"untrustedEditLink\" #=\"hidden =true\"# href=\"EditUntrustedProviders/#:ProductId#\">Edit</a>")
+            .HtmlAttributes(new { @class = "g-a-c" })
+            .HeaderHtmlAttributes(new { title = "Untrusted Providers", style = "text-align: center;" });;
+        columns.Bound(x => x.SecondaryCrossSellGroup).Title("Secondary Cross Sell Group").Width("90px")
+            .ClientTemplate("#:(SecondaryCrossSellGroup != 0) ? SecondaryCrossSellGroup : '' #")
+            .HeaderHtmlAttributes(new { title = "Secondary Cross Sell Group", style = "text-align: center;" });
+        columns.Bound(x => x.ProductId).ClientTemplate(
+            "<a href=\"Detail/#:ProductId#\">Details</a>" +
+            "|<a href=\"CreateProduct/#:ProductId#\">Edit</a>" +
+            "|<a href=\"##\" class=\"lnkProductDelete\" value=\"#:ProductId#\" title=\"Delete\">Delete</a>"
+            ).Width("136px").Title("").Filterable(false).Sortable(false).Groupable(false);
+    })
+    .Pageable(pager => pager.Refresh(true))
+    .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+    .Sortable(sortable => sortable.AllowUnsort(true))
+    .Groupable()
+    .Scrollable()
+    .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+    .ColumnMenu()
+    .Resizable(resize => resize.Columns(true))
+    .Reorderable(reorder => reorder.Columns(true))
+    .NoRecords("There are no products to display")
+    .DataSource(dataSource => dataSource
+    .Ajax()
+    .Read(x => x.Action("Product_Read", "Product"))
+    .Sort(s => s.Add(x => x.ProductName).Ascending())
+    .PageSize(200)
+    )
+    .Events(events => events.DataBound("ShowHideUntrustedLinks"))
+)
+
+<div id="productDeleteDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+    Are you sure you want to delete this product?
+</div>
+
+<div id="productPricesContainer" title="Price History"></div>
+
+<script type="text/javascript">
+    var optionsArray;
+
+    var ShowHideUntrustedLinks = function (e) {
+        $('.untrustedEditLink').each(function () {
+            if ($(this).attr('skuCount') >= 1) {
+                $(this).show();
+            }
+        });
+        saveGridFilters();
+    }
+
+    $(document).on("click", ".lnkProductDelete", function () {
+        setupOptionsArrayDelete($(this));
+        debugger;
+        ajaxDeleteTelerikRow(optionsArray, $('#DeleteProductURL').val(), '#productDeleteDialog');
+        return false;
+    });
+
+    $(document).on("click", ".lnkPriceHistory", function () {
+        var objParams = { productFK: $(this).attr("value") };
+
+        ajaxGet($("#ProductPricesDataURL").val(), "#productPricesContainer", objParams)
+        $("#productPricesContainer").dialog({
+            modal: true,
+            width: 1000,
+            title: "Price History - " + $(this).attr("p") + ", " + $(this).attr("d")
+        });
+
+        return false;
+    });
+
+    function setupOptionsArrayDelete(lnkDelete) {
+        optionsArray = new Array();
+        optionsArray[0] = lnkDelete.attr("value"); //ProductID
+        optionsArray[1] = 'telerik'; // obsolete
+        optionsArray[2] = ''; // obsolete
+        optionsArray[3] = ''; // obsolete
+        optionsArray[4] = 0; // obsolete
+        optionsArray[5] = 0; // obsolete
+        optionsArray[6] = 0; // obsolete
+        optionsArray[7] = 0; // obsolete
+    }
+
+</script>

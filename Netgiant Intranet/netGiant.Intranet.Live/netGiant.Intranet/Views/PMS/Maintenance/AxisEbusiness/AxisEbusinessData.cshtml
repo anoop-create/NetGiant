@@ -1,0 +1,27 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<AxisEbusiness>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(x => item.eBusinessRef)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.eBusinessCode)
+        </td>
+        <td>
+            @(item.AffiliateCommissionGroup ?? "-")
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.description)
+        </td>
+        <td>
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+            {
+                @Html.ActionLink("Edit", "Create", "AxisEBusiness", new { id = item.AxisEbusinessID }, null)
+                @Html.Raw(" | <a class=\"lnkDeleteGroup\" href=\"#\" value=\"" + item.AxisEbusinessID + "\">Delete</a>")
+            }
+        </td>
+    </tr>
+}

@@ -1,0 +1,18 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model ProductViewModel
+
+<table>
+@if (Model.PriceHistory != null)
+{
+
+    foreach (var history in Model.PriceHistory.OrderByDescending(x => x.Date))
+    {
+        <tr>
+            <td width="200" class="g-ta-l">@(string.Format("{0:N2}", history.Price))</td>
+            <td width="400" class="g-ta-l">@history.Date.ToString("dd/MM/yyyy - hh:mm tt")</td>
+        </tr>
+    }
+
+}
+</table>
+

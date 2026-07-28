@@ -1,0 +1,100 @@
+﻿@model netGiant.Intranet.BusinessLayer.ViewModels.PMS.Provider.ProviderViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Provider";
+    ViewBag.SubTitle = Model.prov.providerID > 0 ? "Edit" : "Create";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title</h4>
+
+        <div class="form-horizontal">
+
+            @using (Html.BeginForm("SaveProvider", "Provider", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.prov.providerID)
+                @Html.HiddenFor(m => m.prov.feedFileDateTime)
+
+                <div class="form-group">
+                    @Html.Label("Provider Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.prov.providerName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.prov.providerName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Provider Description", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.prov.providerDesc, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.prov.providerDesc, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Provider Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.prov.providerTypeFK, Model.allProviderTypes, "Select...", new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(model => model.prov.providerTypeFK, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Axis Ref", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.prov.axisSupplierRef, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.prov.axisSupplierRef, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Short Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.prov.shortName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.prov.shortName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Url", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.prov.url, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.prov.url, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Active", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(model => model.prov.active)
+                        @Html.ValidationMessageFor(model => model.prov.active, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                if (Model.prov.providerID > 0)
+                {
+                    <div class="form-group">
+                        @Html.Label("Date Last Updated", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.prov.dateLastUpdate, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveProvider" value="Save" class="btn btn-default" title="Save" />
+                        @Html.ActionLink("Cancel", "ProviderIndex", "Provider", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+
+            }
+        </div>
+
+    </div>
+</div>

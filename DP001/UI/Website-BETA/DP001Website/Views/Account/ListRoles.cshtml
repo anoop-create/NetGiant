@@ -1,0 +1,84 @@
+﻿@using DP001Website.Models;
+@using Microsoft.AspNet.Identity.EntityFramework;
+
+@model List<IdentityRole>
+
+@Html.Hidden("RoleDeleteURL", Url.Action("DeleteRole", "Account"))
+
+@{
+    ViewBag.Title = "Roles List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Roles
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-push-2">
+            <h4>Schedules</h4>
+            <section class="list-form table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Role Name</th>
+                            <th>ID</th>
+                            <th>Action</th>
+                            @*<th></th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{Html.RenderPartial("~/Views/Account/ListRoleData.cshtml", Model);}
+                    </tbody>
+
+                    <tfoot>
+                        <tr class="list-form-row" data-newurl="@(Url.Action("CreateRole", null, new {  }))">
+                            <td colspan="100%">
+                                @Html.HtmlActionLink("<i class=\"fa fa-plus\"></i> Add Role",
+                                    "CreateRole",
+                                    "Account",
+                                    new { },
+                                    new
+                                    {
+                                        @class = "pull-right g-m-tb-5 g-cur-p btn btn-default btn-sm"
+                                    })
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </section>
+        </div>
+    </div>
+    @*@Html.Hidden("editUrl", Url.Action("Edit"))*@
+    @Html.Hidden("newUrl", Url.Action("CreateRole"))
+</section>
+
+@section Scripts {
+    <script type="text/javascript">
+        var optionsArray;
+
+        $(document).on("click", ".lnkDeleteRole", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete("#roRoleDialog", $("#RoleDeleteURL").val(), $(this).attr("value"),
+                "#roDataPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+            return false;
+        });
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value"); //Role Name
+        }
+
+    </script>
+}

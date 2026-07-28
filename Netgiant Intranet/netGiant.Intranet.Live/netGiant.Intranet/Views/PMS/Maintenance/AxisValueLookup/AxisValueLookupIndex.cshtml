@@ -1,0 +1,185 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model AxisValueLookupViewModel
+
+@{
+    ViewBag.Title = "Axis Value Lookup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h3>@ViewBag.Title</h3>
+
+        @Html.Hidden("AxisValueLookupDataURL", Url.Action("AxisValueLookupData", "AxisValueLookup"))
+        @Html.Hidden("DeleteAxisValueLookupURL", Url.Action("Delete", "AxisValueLookup"))
+        @Html.Hidden("AxisValueLookupList", Model.AxisValueLookupList.Count)
+
+        <div class="g-m-b-5">
+            @Html.DropDownListFor(m => m.AxisValueLookup.AttributeNameDescription, Model.AttrNameList, "Search by Attribute Name", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+            <select id="AxisValueLookupSearchBy" class="searchBy g-f-l form-control g-smallCell g-m-r-10">
+                <option selected="selected" value="valueLookupID">Search by Axis ID</option>
+                <option value="attrValueID">Search by Attribute ID</option>
+                <option value="attrValueDescription">Search by Description</option>
+            </select>
+
+            <div class="g-f-l">
+                @Html.TextBox("SearchAxisValueLookup", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10" })
+                <a id="lnkSearchAxisValueLookup" href="#" class="btn btn-default g-m-r-10" title="Empty search returns all records">Search</a>
+                <img src="~/Content/images/loader/ajax-loader-whiteBG.gif" alt="" class="g-d-n" id="slAxisValueLookup" />
+            </div>
+
+            @Html.ActionLink("Reset", "AxisValueLookupIndex", "AxisValueLookup", null, new { @class = "btn btn-default" })
+        </div>
+
+        <div class="g-c-b">
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+            {
+                @Html.ActionLink("Create New", "Create", "AxisValueLookup", new { id = 0 }, null)
+            }
+            else
+            {
+                @Html.Raw("&nbsp");
+            }
+            <span class="g-f-r"><span id="AxisValueLookupCount" class="g-fw-b">@Model.AxisValueLookupListCount </span><span>Records Found</span></span>
+        </div>
+
+        <table class="table" id="tableSetting">
+            <tr>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="id">AxisValueLookup ID</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="typeName">AxisTypeName FK</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="attrName">AttrName FK</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="attrValue">AttrValue ID</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="atttrValueDescription">AttrValue Description</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                </th>
+            </tr>
+            @{Html.RenderAction("AxisValueLookupList", "AxisValueLookup", new { Model = Model.AxisValueLookupList });}
+        </table>
+
+        <div id="AxisValueLookupDeleteDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+            Are you sure you want to delete this AxisValueLookup Record?
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+    </div>
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        if ($('#AxisValueLookupList').val() < 50) {
+            noMoreData = true;
+        }
+
+        $(document).on("click", "#lnkSearchAxisValueLookup", function (event) {
+            blockNumber = 1;
+            GetAxisValueLookupSettings(true);
+            return false;
+        });
+
+        $("#SearchAxisValueLookup").keypress(function (event) {
+            if (event.which == 13) {
+                blockNumber = 1;
+                GetAxisValueLookupSettings(true);
+            }
+        });
+
+        $(document).on("change", "#AxisValueLookup_AttributeNameDescription", function (event) {
+            setupOptionsArray();
+            blockNumber = 1;
+            GetAxisValueLookupSettings(true);
+        });
+
+        $(document).on("change", "#AxisValueLookupSearchBy", function (event) {
+            setupOptionsArray();
+            blockNumber = 1;
+            GetAxisValueLookupSettings(true);
+        });
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() > $('#scrollBottomContainer').offset().top
+                && !noMoreData && !inProgress) {
+                GetAxisValueLookupSettings(false);
+            }
+            return false;
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            blockNumber = 1;
+            GetAxisValueLookupSettings(true);
+            return false;
+        });
+
+        $(document).on('click', '.lnkDeleteAxisValueLookup', function () {
+            setupOptionsArrayDelete($(this).attr('value'));
+            ajaxDeleteInfiniteScroll('#AxisValueLookupDeleteDialog', $('#DeleteAxisValueLookupURL').val(), $(this).attr('value'),
+                '#configurationSettingPartialView', optionsArray, $("#activeSortType"), $("#activeSortDir"),
+                true, '#tableSetting tr:gt(0)', '#AxisValueLookupCount', '#tableSetting tbody');
+            return false;
+        });
+
+        function GetAxisValueLookupSettings(clearTable) {
+            setupOptionsArray();
+            InfiniteScroll($('#AxisValueLookupDataURL').val(),
+                optionsArray,
+                clearTable,
+                '#tableSetting tr:gt(0)',
+                '#AxisValueLookupCount',
+                '#tableSetting tbody',
+                $("#activeSortType"),
+                $("#activeSortDir"));
+        }
+
+        function setupOptionsArray() {
+            optionsArray = new Array();
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[0] = sortType + sortDir;
+            } else {
+                optionsArray[0] = '';
+            }
+
+            optionsArray[1] = $("#SearchAxisValueLookup").val(); //SearchTerm
+            optionsArray[2] = $("#AxisValueLookupSearchBy").val(); //SearchBy
+            optionsArray[3] = $("#AxisValueLookup_AttributeNameDescription").val() || 0; //Search by Section
+        }
+
+        function setupOptionsArrayDelete(id) {
+            optionsArray = new Array();
+            optionsArray[0] = id;
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[1] = sortType + sortDir;
+            } else {
+                optionsArray[1] = '';
+            }
+
+            optionsArray[1] = $("#SearchAxisValueLookup").val(); //SearchTerm
+            optionsArray[2] = $("#AxisValueLookupSearchBy").val(); //SearchBy
+            optionsArray[3] = $("#AxisValueLookup_AttributeNameDescription").val() || 0; //Search by Section
+        }
+    </script>
+}

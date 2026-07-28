@@ -1,0 +1,154 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Reports;
+@using System.Globalization;
+@model ReportsViewModel
+
+@{
+    int websiteFK = ViewBag.website;
+    var siteName = "";
+    decimal grossProfitPercentage = 0;
+    decimal grossProfit = 0;
+    decimal orders = 0;
+    decimal sales = 0;
+    decimal totalGrossProfit = 0;
+    var backgroundCss = "wb_barColour1";
+    var backgroundCss2 = "wb_barColour3";
+    var stretchTarget = Convert.ToDecimal(Session["StretchTarget"].ToString() != "" ? Session["StretchTarget"] : 0);
+    var baseTarget = Convert.ToDecimal(Session["BaseTarget"].ToString() != "" ? Session["BaseTarget"] : 0);
+
+    switch (websiteFK)
+    {
+        case 1:
+            siteName = "TONERGIANT";
+            grossProfitPercentage = Model.TonergiantGrossProfitPercentage;
+            grossProfit = Model.TonergiantGrossProfit;
+            orders = Model.TonergiantOrders;
+            sales = Model.TonergiantSales;
+            totalGrossProfit = Math.Floor(Model.TotalGrossProfit);
+            break;
+        case 2:
+            siteName = "CARTRIDGE MONKEY";
+            grossProfitPercentage = Model.CartridgeMonkeyGrossProfitPercentage;
+            grossProfit = Model.CartridgeMonkeyGrossProfit;
+            orders = Model.CartridgeMonkeyOrders;
+            sales = Model.CartridgeMonkeySales;
+            totalGrossProfit = Math.Floor(Model.TotalGrossProfit);
+            break;
+        case 3:
+            siteName = "NETGIANT";
+            grossProfitPercentage = Model.NetgiantGrossProfitPercentage;
+            grossProfit = Model.NetgiantGrossProfit;
+            orders = Model.NetgiantOrders;
+            sales = Model.NetgiantSales;
+            totalGrossProfit = Math.Floor(Model.TotalGrossProfit);
+            break;
+        case 4:
+            siteName = "TOTALS";
+            grossProfitPercentage = Model.TotalGrossProfitPercentage;
+            grossProfit = Model.TotalGrossProfit;
+            orders = Model.TotalOrders;
+            sales = Model.TotalRevenue;
+            totalGrossProfit = Math.Floor(Model.TotalGrossProfit);
+            break;
+    }
+
+    var percentage = baseTarget > 0 ? totalGrossProfit / baseTarget * 100 : totalGrossProfit / 1 * 100; 
+    var difference = stretchTarget - baseTarget;
+    var stretchValueCurrent = totalGrossProfit - baseTarget;
+    var stretchPercent = difference > 0 ? stretchValueCurrent / difference * 100 : stretchValueCurrent / 1 * 100;
+
+    if (percentage >= 50 && percentage <= 79)
+    {
+        backgroundCss = "wb_barColour5";
+    }
+    
+    if(percentage > 79 && percentage <= 100)
+    {
+        backgroundCss = "wb_barColour6";
+    }
+    
+    if (totalGrossProfit >= baseTarget)
+    {
+        backgroundCss = "wb_barColour2";
+    }
+
+    if (totalGrossProfit >= stretchTarget)
+    {
+        backgroundCss2 = "wb_barColour4";
+        backgroundCss = "wb_barColour4";
+    }
+}
+
+@Html.Hidden("targetsURL", Url.Action("WallBoardTargets", "Reports"))
+
+@Html.ValidationSummary("", new { @class = "text-danger g-fs-2em" })
+
+<div id="wallBoardDynamicData">
+    <div class="wb_dynamicContainer">
+        <div class="g-f-l wb_leftContainer">
+            <div class="wb_SiteNameHeader">@siteName</div>
+            <div class="wb_dataContainer">
+                <div class="wb_dataText g-fc-bl g-a-c g-f-l">ORDERS</div>
+                <div class="wb_data g-f-l"><div class="g-fc-bl">@orders</div></div>
+                <div class="wb_arrow"></div>
+            </div>
+            <div class="wb_dataContainer">
+                <div class="wb_dataText g-a-c g-fc-bl g-f-l">SALES</div>
+                <div class="wb_data g-f-l"><div class="g-fc-bl">£@string.Format("{0:N0}", sales)</div></div>
+                <div class="wb_arrow"></div>
+            </div>
+            <div class="wb_dataContainer">
+                <div class="wb_dataText g-f-l g-fc-bl">GP</div>
+                <div class="wb_data g-f-l"><div class="g-fc-bl">£@string.Format("{0:N0}", Math.Floor(grossProfit))</div></div>
+                <div class="wb_arrow"></div>
+            </div>
+            <div class="wb_dataContainer">
+                <div class="wb_dataText g-f-l g-fc-bl">GP %</div>
+                <div class="wb_data g-f-l"><div class="g-fc-bl">@grossProfitPercentage%</div></div>
+                <div class="wb_arrow"></div>
+            </div>
+        </div>
+
+        <div class="wb_rightContainer g-f-r">
+            <div class="wb_graphHeader">TOTAL SALES
+                <div class="wb_arrow2"></div>
+            </div>
+            <div class="wb_graphContainer">
+                <div class="wb_graphLeftContainer g-f-l">
+                    <div class="wb_barChartStretchTargetContainer">
+                        <div class="wb_stretchTargetText">STRETCH</div>
+                        <div class="wb_stretchTargetData">£@string.Format("{0:N0}", stretchTarget)</div>
+                    </div>
+                    <div class="wb_barChartTargetContainer">
+                        <div class="wb_baseTargetText">BASE</div>
+                        <div class="wb_baseTargetData">£@string.Format("{0:N0}", baseTarget)</div>
+                        <div class="wb_gpText">GP TARGET</div>
+                    </div>
+                </div>
+                <div class="wb_graphRightContainer g-f-l">
+                    @if (totalGrossProfit >= baseTarget)
+                    {
+                        <div class="wb_barChartGPStretchContainer">
+                            <div class="wb_gpTodayStretch @backgroundCss2" style="height: @string.Format("{0:N0}", stretchPercent)%;"></div>
+                        </div>
+                    }
+                    <div class="wb_barChartGPContainer">
+                        <div class="wb_gpBar @backgroundCss" style="height: @string.Format("{0:N0}", percentage)%;">
+                            <div class="wb_gpText">GP TODAY</div>
+                            <div class="wb_gpTodayData">£@string.Format("{0:N0}", totalGrossProfit)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wb_graphFooter"></div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    if ($(".wb_gpBar").height() <= 120) {
+        $(".wb_gpTodayData").css("margin-top", "-120px");
+    }
+
+</script>

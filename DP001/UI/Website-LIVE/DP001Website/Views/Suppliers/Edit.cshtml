@@ -1,0 +1,108 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model SupplierViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Supplier</h2>
+
+@using (Html.BeginForm("Update", "Suppliers", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.SupplierEntry.SupplierID)
+
+    <section class="page-form table-responsive">
+        <table class="table table-hover">
+            <tbody>
+                <tr>
+                    <td>Supplier Name</td>
+                    <td>
+                        @Html.EditorFor(x => x.SupplierEntry.SupplierName)
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b><u>FTP Settings</u></b></td>
+                </tr>
+                <tr>
+                    <td>
+                        FTP Host
+                    </td>
+                    <td>
+                        @Html.EditorFor(x => x.SupplierEntry.FTPSetting.FTPServer)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        FTP Username
+                    </td>
+                    <td>
+                        @Html.EditorFor(x => x.SupplierEntry.FTPSetting.FTPUser)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        FTP Password
+                    </td>
+                    <td>
+                        @Html.EditorFor(x => x.SupplierEntry.FTPSetting.FTPPassword)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        FTP Path
+                    </td>
+                    <td>
+                        @Html.EditorFor(x => x.SupplierEntry.FTPSetting.FTPPath)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        FTP FileName
+                    </td>
+                    <td>
+                        @Html.EditorFor(x => x.SupplierEntry.FTPSetting.FTPFileName)
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b><u>Field Mappings</u></b></td>
+                </tr>
+                <tr>
+                    <td>
+                        Brand Column Name
+                    </td>
+                    <td>
+                        @Html.EditorFor(x => x.SupplierEntry.FTPSetting.FieldMapping.Brand)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Manufacturer Part No Column Name
+                    </td>
+                    <td>
+                        @Html.EditorFor(x => x.SupplierEntry.FTPSetting.FieldMapping.ManufacturerPartNo)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Stock Quantity Column Name
+                    </td>
+                    <td>
+                        @Html.EditorFor(x => x.SupplierEntry.FTPSetting.FieldMapping.StockQuantity)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Price Column Name
+                    </td>
+                    <td>
+                        @Html.EditorFor(x => x.SupplierEntry.FTPSetting.FieldMapping.Price)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <input type="submit" value="Save" />
+}

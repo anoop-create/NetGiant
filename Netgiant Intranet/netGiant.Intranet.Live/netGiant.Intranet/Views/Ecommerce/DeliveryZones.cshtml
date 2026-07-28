@@ -1,0 +1,108 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce;
+@model DeliveryConfigurationViewModel
+
+@{
+    ViewBag.Title = "Delivery Zones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+{
+    @Html.ActionLink("Create New", "NewDeliveryZone", "Ecommerce", null, new { @title = "Create new delivery zone" })
+}
+
+@(Html.Kendo().Grid<DeliveryConfigurationViewModel.TelerikDeliveryZone>()
+      .HtmlAttributes(new { @class = "pointer-rows" })
+      .Name("grid")
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Read(read => read.Action("DeliveryZones_Read", "Ecommerce"))
+          .PageSize(200)
+          .Sort(sort => sort
+              .Add(x => x.IsDefault).Descending())
+      )
+      .Columns(columns =>
+      {
+          columns.Bound(product => product.WebsiteName).Width(50).Title("Website").Filterable(fl => fl.UI("WebsiteFilter"));
+          columns.Bound(product => product.ZoneName).Title("Zone Name").Width(60);
+          columns.Bound(product => product.IsDefault).Title("Default").Width(50);
+          columns.Bound(product => product.ApplyVat).Title("Apply Vat").Width(50);
+          columns.Bound(product => product.Postcodes).Title("Postcodes").Width(200);
+          columns.Command(command => command.Custom("Delete").Click("deleteZone")).Width(50);
+      })
+      .Pageable(pager => pager.Refresh(true))
+      .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+      .Sortable(sortable => sortable
+          .AllowUnsort(true))
+      .Groupable()
+      .Scrollable()
+      .Filterable(ftb => ftb
+          .Mode(GridFilterMode.Menu)
+          .Extra(false))
+      .ColumnMenu()
+      .Resizable(resize => resize.Columns(true))
+      .Reorderable(reorder => reorder.Columns(true))
+      .Excel(excel => excel
+          .AllPages(true)
+          .FileName("Grid Export")
+          .Filterable(true))
+      .NoRecords("There are no items to display")
+      .Events(events => events.Change("Grid_OnRowSelect"))
+      .Selectable()
+      )
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+            resizeGrid();
+        });
+
+        function WebsiteFilter(element) {
+            element.kendoDropDownList({
+                dataSource: {
+                    transport: {
+                        read: "@Url.Action("GetWebsites", "SelectLists")"
+                    }
+                },
+                optionLabel: "--Select Value--"
+            });
+        }
+
+        var Grid_OnRowSelect = function (e) {
+            var data = this.dataItem(this.select());
+            window.location.href = '@Url.Action("EditDeliveryZone")/' + data.DeliveryZoneId;
+        }
+
+        function deleteZone(e) {
+            var data = this.dataItem($(e.currentTarget).closest("tr"));
+
+            $.confirm({
+                title: 'Delete Delivery Zone',
+                content: 'Are you sure you want to delete this delivery zone?',
+                confirm: function () {
+                    $.ajax({
+                        url: '@Url.Action("DeleteDeliveryZone", "Ecommerce")',
+                        method: 'POST',
+                        data: { id: data.DeliveryZoneId }
+                    }).done(function (data) {
+                        if (data.IsSuccess) {
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        } else {
+                            $.alert('Failed to delete. Error: ' + data.Message);
+                        }
+                    });
+                },
+                cancel: function () {
+
+                }
+            });
+
+            return false;
+        }
+
+    </script>
+}
+
+

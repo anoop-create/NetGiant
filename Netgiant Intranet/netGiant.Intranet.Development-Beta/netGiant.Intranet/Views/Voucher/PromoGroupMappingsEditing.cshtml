@@ -1,0 +1,159 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce.PromoVoucher;
+@using Kendo.Mvc.UI.Fluent;
+@model PromoGroupMappingDetailViewModel
+
+@Html.Hidden("DeletePromoGroupMappingURL", Url.Action("DeletePromoGroupMapping", "Voucher"))
+
+@(Html.Kendo().Grid<PromoGroupMappingDetailViewModel.TelerikGroupMappings>()
+    .HtmlAttributes(new { @class = "pointer-rows" })
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.CategoryId).Title("Category Id").Width("110px");
+        columns.Bound(x => x.CategoryName).Title("Category Name").Width("300px");
+        columns.Bound(x => x.VoucherPromoGroupMappingId).ClientTemplate(
+        "<a href=\"##\" class=\"lnkPromoGroupMappingDelete\" value=\"#:VoucherPromoGroupMappingId#\" title=\"Delete\">Delete</a>"
+        ).Title("").Sortable(false).Filterable(false);
+    })
+    .Pageable(pager => pager.Refresh(true))
+    .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+    .Sortable(sortable => sortable.AllowUnsort(true))
+    .Groupable(group => group.Enabled(false))
+    .Scrollable()
+    .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+    .ColumnMenu()
+    .Resizable(resize => resize.Columns(true))
+    .Reorderable(reorder => reorder.Columns(true))
+    .NoRecords("There are no promo mappings to display")
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(x => x.Action("ReadPromoGroupMappings", "Voucher", new { id = ViewBag.PromotionalVoucherGroupId }))
+        .Sort(s => s.Add(x => x.CategoryName).Ascending())
+        .PageSize(20)
+    )
+    .Selectable()
+)
+
+<!-- Modal -->
+<div class="modal fade" id="promotionalGroupMappingModal" tabindex="-1" role="dialog" aria-labelledby="promotionalGroupMapping">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Map Promotional Group to Category</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-md-4">Category Id:</div>
+                    <div class="col-md-8">
+                        <input type="text" maxlength="200" class="categoryIds form-control" readonly />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-4">Category Name:</div>
+                    <div class="col-md-8">
+                        <input type="text" maxlength="500" class="categoryNames form-control" readonly />
+                    </div>
+                </div>
+            </div>
+            <div id="categoryTree" class="g-b-1dg g-m-t-10">
+                <h4>Categories by hierarchy</h4>
+                @(
+                    Html.Kendo().TreeView()
+                        .Name("treeview")
+                        .Checkboxes(true)
+                        .Events(events => events
+                            .Check("onCheck"))
+                        .BindTo((IEnumerable<PromoGroupMappingDetailViewModel.TelerikCategoryTreeItem>)Model.CategoriesHierarchyTopLevel, (NavigationBindingFactory<TreeViewItem> mappings) =>
+                        {
+                            mappings.For<PromoGroupMappingDetailViewModel.TelerikCategoryTreeItem>(binding => binding.ItemDataBound((item, category) =>
+                            {
+                                item.Id = category.CategoryId.ToString();
+                                item.Text = category.CategoryName;
+                            })
+                            .Children(category => category.SubCategories));
+                        })
+                )
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btnCreatePromo">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="promoGroupMappingsDeleteDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+    Are you sure you want to delete this promo group mapping?
+</div>
+
+
+<script>
+    var optionsArray;
+
+    $(document).on("click", ".lnkPromoGroupMappingDelete", function () {
+        setupOptionsArrayDelete($(this));
+        ajaxDeleteTelerikRow(optionsArray, $('#DeletePromoGroupMappingURL').val(), '#promoGroupMappingsDeleteDialog');
+        return false;
+    });
+
+    function setupOptionsArrayDelete(lnkDelete) {
+        optionsArray = new Array();
+        optionsArray[0] = lnkDelete.attr("value"); //ValueTypeID
+        optionsArray[1] = 'telerik'; // obsolete
+        optionsArray[2] = ''; // obsolete
+        optionsArray[3] = ''; // obsolete
+        optionsArray[4] = 0; // obsolete
+        optionsArray[5] = 0; // obsolete
+        optionsArray[6] = 0; // obsolete
+        optionsArray[7] = 0; // obsolete
+    }
+
+    function onCheck(e) {
+        var treeview = $("#treeview").data("kendoTreeView");
+
+        // useful to keep in for future ref :)
+        //var checkedStatus = treeview.dataItem(e.node).checked; 
+        //$(".categoryId").val($(e.node).data("id"));
+        //$(".categoryName").val(this.text(e.node));
+
+        var topLevelCategories = treeview.dataSource.view();
+        var checkedCategories = getCheckedCategoriesRecursive(topLevelCategories);
+
+        var categoryIDs = "";
+        var categoryNames = "";
+        for (var i = 0; i < checkedCategories.length; i++) {
+            if (i > 0)
+            {
+                categoryIDs += ",";
+                categoryNames += ",";
+            }
+            categoryIDs += checkedCategories[i].id;
+            categoryNames += checkedCategories[i].text;
+        }
+
+        $(".categoryIds").val(categoryIDs);
+        $(".categoryNames").val(categoryNames);
+    }
+
+    function getCheckedCategoriesRecursive(categories) {
+        var ctgy, childCheckedCategories;
+        var checkedCategories = [];
+
+        for (var i = 0; i < categories.length; i++) {
+            ctgy = categories[i];
+            if (ctgy.checked) {
+                checkedCategories.push(ctgy);
+            }
+
+            if (ctgy.hasChildren) {
+                childCheckedCategories = getCheckedCategoriesRecursive(ctgy.children.view());
+                if (childCheckedCategories.length > 0) {
+                    checkedCategories = checkedCategories.concat(childCheckedCategories);
+                }
+            }
+
+        }
+        return checkedCategories;
+    }
+</script>

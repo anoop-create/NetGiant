@@ -1,0 +1,22 @@
+﻿@using DP001Website.Models;
+@using Microsoft.AspNet.Identity.EntityFramework;
+
+@model List<IdentityRole>
+
+    @foreach (IdentityRole role in Model)
+    {
+        <tr class="list-form-row" data-id="@role.Id">
+            <td style="padding: 5px;">
+                @Html.DisplayFor(m => role.Name)
+            </td>
+            <td style="padding: 5px;">
+                @Html.DisplayFor(m => role.Id)
+            </td>
+            <td>
+                <a class="lnkDeleteRole" href="@Url.Action("DeleteRole")/@(role.Name)" value="@role.Name">Delete</a>
+            </td>
+            @*<td width="40px">
+                <i class="fa fa-chevron-down" />
+            </td>*@
+        </tr>
+    }

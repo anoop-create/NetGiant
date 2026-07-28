@@ -1,0 +1,493 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PriceologyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Channel">
+          <Key>
+            <PropertyRef Name="ChannelID" />
+          </Key>
+          <Property Name="ChannelID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenantFK" Type="int" Nullable="false" />
+          <Property Name="ChannelName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="JobInProgress" Type="bit" Nullable="false" />
+          <Property Name="SLMinReviews" Type="int" />
+          <Property Name="SLMinRating" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SLActiveTypeFK" Type="int" />
+          <Property Name="OutputFileEmailAddress" Type="varchar" MaxLength="100" />
+          <Property Name="NotificationsEmailAddress" Type="varchar" MaxLength="100" />
+          <Property Name="RoundingGroupFK" Type="int" />
+          <Property Name="UseClientProductId" Type="bit" Nullable="false" />
+          <Property Name="CultureName" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobID" Type="int" />
+          <Property Name="TenantFK" Type="int" />
+          <Property Name="ChannelFK" Type="int" />
+          <Property Name="LogTypeFK" Type="int" Nullable="false" />
+          <Property Name="DateTime" Type="datetime" />
+          <Property Name="Entry" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Lookup">
+          <Key>
+            <PropertyRef Name="LookupID" />
+          </Key>
+          <Property Name="LookupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LookupTypeFK" Type="int" />
+          <Property Name="LookupName" Type="varchar" MaxLength="100" />
+          <Property Name="Sequence" Type="smallint" />
+        </EntityType>
+        <EntityType Name="LookupType">
+          <Key>
+            <PropertyRef Name="LookupTypeID" />
+          </Key>
+          <Property Name="LookupTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LookupTypeName" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="TenantSettings">
+          <Key>
+            <PropertyRef Name="TenantID" />
+          </Key>
+          <Property Name="TenantID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GatewayFK" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+          <Property Name="ContractFK" Type="int" Nullable="false" />
+          <Property Name="SystemUserID" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="ContactEmail" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ContactName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ContractExpiryDate" Type="datetime" />
+          <Property Name="VerboseLogging" Type="bit" Nullable="false" />
+          <Property Name="SupplierMatchLimit" Type="tinyint" Nullable="false" />
+          <Property Name="LastUsedChannelId" Type="int" />
+          <Property Name="AllowSalesHistory" Type="bit" Nullable="false" />
+          <Property Name="SalesHistory" Type="bit" Nullable="false" />
+          <Property Name="AllowCloneChannel" Type="bit" Nullable="false" />
+          <Property Name="CloneChannel" Type="bit" Nullable="false" />
+          <Property Name="AllowPriceRuleBanding" Type="bit" Nullable="false" />
+          <Property Name="PriceRuleBanding" Type="bit" Nullable="false" />
+          <Property Name="AllowMultipleSuppliers" Type="bit" Nullable="false" />
+          <Property Name="MultipleSuppliers" Type="bit" Nullable="false" />
+          <Property Name="AllowMultipleCalculationMethods" Type="bit" Nullable="false" />
+          <Property Name="MultipleCalculationMethods" Type="bit" Nullable="false" />
+          <Property Name="AllowProviderBrandExclusion" Type="bit" Nullable="false" />
+          <Property Name="ProviderBrandExclusion" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Channel_Lookup">
+          <End Role="Lookup" Type="Self.Lookup" Multiplicity="0..1" />
+          <End Role="Channel" Type="Self.Channel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lookup">
+              <PropertyRef Name="LookupID" />
+            </Principal>
+            <Dependent Role="Channel">
+              <PropertyRef Name="SLActiveTypeFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Channel_Lookup1">
+          <End Role="Lookup" Type="Self.Lookup" Multiplicity="0..1" />
+          <End Role="Channel" Type="Self.Channel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lookup">
+              <PropertyRef Name="LookupID" />
+            </Principal>
+            <Dependent Role="Channel">
+              <PropertyRef Name="RoundingGroupFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Channel_TenantSettings">
+          <End Role="TenantSettings" Type="Self.TenantSettings" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Channel" Type="Self.Channel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TenantSettings">
+              <PropertyRef Name="TenantID" />
+            </Principal>
+            <Dependent Role="Channel">
+              <PropertyRef Name="TenantFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Lookup">
+          <End Role="Lookup" Type="Self.Lookup" Multiplicity="1" />
+          <End Role="Log" Type="Self.Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lookup">
+              <PropertyRef Name="LookupID" />
+            </Principal>
+            <Dependent Role="Log">
+              <PropertyRef Name="LogTypeFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lookup_LookupType">
+          <End Role="LookupType" Type="Self.LookupType" Multiplicity="0..1" />
+          <End Role="Lookup" Type="Self.Lookup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LookupType">
+              <PropertyRef Name="LookupTypeID" />
+            </Principal>
+            <Dependent Role="Lookup">
+              <PropertyRef Name="LookupTypeFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TenantSettings_Lookup">
+          <End Role="Lookup" Type="Self.Lookup" Multiplicity="0..1" />
+          <End Role="TenantSettings" Type="Self.TenantSettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lookup">
+              <PropertyRef Name="LookupID" />
+            </Principal>
+            <Dependent Role="TenantSettings">
+              <PropertyRef Name="GatewayFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PriceologyModelStoreContainer">
+          <EntitySet Name="Channel" EntityType="Self.Channel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lookup" EntityType="Self.Lookup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LookupType" EntityType="Self.LookupType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TenantSettings" EntityType="Self.TenantSettings" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Channel_Lookup" Association="Self.FK_Channel_Lookup">
+            <End Role="Lookup" EntitySet="Lookup" />
+            <End Role="Channel" EntitySet="Channel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Channel_Lookup1" Association="Self.FK_Channel_Lookup1">
+            <End Role="Lookup" EntitySet="Lookup" />
+            <End Role="Channel" EntitySet="Channel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Channel_TenantSettings" Association="Self.FK_Channel_TenantSettings">
+            <End Role="TenantSettings" EntitySet="TenantSettings" />
+            <End Role="Channel" EntitySet="Channel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Lookup" Association="Self.FK_Log_Lookup">
+            <End Role="Lookup" EntitySet="Lookup" />
+            <End Role="Log" EntitySet="Log" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lookup_LookupType" Association="Self.FK_Lookup_LookupType">
+            <End Role="LookupType" EntitySet="LookupType" />
+            <End Role="Lookup" EntitySet="Lookup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TenantSettings_Lookup" Association="Self.FK_TenantSettings_Lookup">
+            <End Role="Lookup" EntitySet="Lookup" />
+            <End Role="TenantSettings" EntitySet="TenantSettings" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PriceologyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobID" Type="Int32" />
+          <Property Name="TenantFK" Type="Int32" />
+          <Property Name="ChannelFK" Type="Int32" />
+          <Property Name="LogTypeFK" Type="Int32" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Precision="3" />
+          <Property Name="Entry" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Lookup" Relationship="PriceologyModel.FK_Log_Lookup" FromRole="Log" ToRole="Lookup" />
+        </EntityType>
+        <EntityContainer Name="PriceologyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Logs" EntityType="Self.Log" />
+          <EntitySet Name="Channels" EntityType="PriceologyModel.Channel" />
+          <EntitySet Name="Lookups" EntityType="PriceologyModel.Lookup" />
+          <EntitySet Name="LookupTypes" EntityType="PriceologyModel.LookupType" />
+          <EntitySet Name="TenantSettings" EntityType="PriceologyModel.TenantSetting" />
+          <AssociationSet Name="FK_Channel_Lookup" Association="PriceologyModel.FK_Channel_Lookup">
+            <End Role="Lookup" EntitySet="Lookups" />
+            <End Role="Channel" EntitySet="Channels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Channel_Lookup1" Association="PriceologyModel.FK_Channel_Lookup1">
+            <End Role="Lookup" EntitySet="Lookups" />
+            <End Role="Channel" EntitySet="Channels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Channel_TenantSettings" Association="PriceologyModel.FK_Channel_TenantSettings">
+            <End Role="TenantSetting" EntitySet="TenantSettings" />
+            <End Role="Channel" EntitySet="Channels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Lookup" Association="PriceologyModel.FK_Log_Lookup">
+            <End Role="Lookup" EntitySet="Lookups" />
+            <End Role="Log" EntitySet="Logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lookup_LookupType" Association="PriceologyModel.FK_Lookup_LookupType">
+            <End Role="LookupType" EntitySet="LookupTypes" />
+            <End Role="Lookup" EntitySet="Lookups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TenantSettings_Lookup" Association="PriceologyModel.FK_TenantSettings_Lookup">
+            <End Role="Lookup" EntitySet="Lookups" />
+            <End Role="TenantSetting" EntitySet="TenantSettings" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Channel">
+          <Key>
+            <PropertyRef Name="ChannelID" />
+          </Key>
+          <Property Name="ChannelID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenantFK" Type="Int32" Nullable="false" />
+          <Property Name="ChannelName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="JobInProgress" Type="Boolean" Nullable="false" />
+          <Property Name="SLMinReviews" Type="Int32" />
+          <Property Name="SLMinRating" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SLActiveTypeFK" Type="Int32" />
+          <Property Name="OutputFileEmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NotificationsEmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RoundingGroupFK" Type="Int32" />
+          <Property Name="UseClientProductId" Type="Boolean" Nullable="false" />
+          <Property Name="CultureName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Lookup" Relationship="PriceologyModel.FK_Channel_Lookup" FromRole="Channel" ToRole="Lookup" />
+          <NavigationProperty Name="Lookup1" Relationship="PriceologyModel.FK_Channel_Lookup1" FromRole="Channel" ToRole="Lookup" />
+          <NavigationProperty Name="TenantSetting" Relationship="PriceologyModel.FK_Channel_TenantSettings" FromRole="Channel" ToRole="TenantSetting" />
+        </EntityType>
+        <EntityType Name="Lookup">
+          <Key>
+            <PropertyRef Name="LookupID" />
+          </Key>
+          <Property Name="LookupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LookupTypeFK" Type="Int32" />
+          <Property Name="LookupName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Sequence" Type="Int16" />
+          <NavigationProperty Name="Channels" Relationship="PriceologyModel.FK_Channel_Lookup" FromRole="Lookup" ToRole="Channel" />
+          <NavigationProperty Name="Channels1" Relationship="PriceologyModel.FK_Channel_Lookup1" FromRole="Lookup" ToRole="Channel" />
+          <NavigationProperty Name="Logs" Relationship="PriceologyModel.FK_Log_Lookup" FromRole="Lookup" ToRole="Log" />
+          <NavigationProperty Name="LookupType" Relationship="PriceologyModel.FK_Lookup_LookupType" FromRole="Lookup" ToRole="LookupType" />
+          <NavigationProperty Name="TenantSettings" Relationship="PriceologyModel.FK_TenantSettings_Lookup" FromRole="Lookup" ToRole="TenantSetting" />
+        </EntityType>
+        <EntityType Name="LookupType">
+          <Key>
+            <PropertyRef Name="LookupTypeID" />
+          </Key>
+          <Property Name="LookupTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LookupTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Lookups" Relationship="PriceologyModel.FK_Lookup_LookupType" FromRole="LookupType" ToRole="Lookup" />
+        </EntityType>
+        <EntityType Name="TenantSetting">
+          <Key>
+            <PropertyRef Name="TenantID" />
+          </Key>
+          <Property Name="TenantID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GatewayFK" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ContractFK" Type="Int32" Nullable="false" />
+          <Property Name="SystemUserID" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="ContactEmail" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ContactName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ContractExpiryDate" Type="DateTime" Precision="3" />
+          <Property Name="VerboseLogging" Type="Boolean" Nullable="false" />
+          <Property Name="SupplierMatchLimit" Type="Byte" Nullable="false" />
+          <Property Name="LastUsedChannelId" Type="Int32" />
+          <Property Name="AllowSalesHistory" Type="Boolean" Nullable="false" />
+          <Property Name="SalesHistory" Type="Boolean" Nullable="false" />
+          <Property Name="AllowCloneChannel" Type="Boolean" Nullable="false" />
+          <Property Name="CloneChannel" Type="Boolean" Nullable="false" />
+          <Property Name="AllowPriceRuleBanding" Type="Boolean" Nullable="false" />
+          <Property Name="PriceRuleBanding" Type="Boolean" Nullable="false" />
+          <Property Name="AllowMultipleSuppliers" Type="Boolean" Nullable="false" />
+          <Property Name="MultipleSuppliers" Type="Boolean" Nullable="false" />
+          <Property Name="AllowMultipleCalculationMethods" Type="Boolean" Nullable="false" />
+          <Property Name="MultipleCalculationMethods" Type="Boolean" Nullable="false" />
+          <Property Name="AllowProviderBrandExclusion" Type="Boolean" Nullable="false" />
+          <Property Name="ProviderBrandExclusion" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Channels" Relationship="PriceologyModel.FK_Channel_TenantSettings" FromRole="TenantSetting" ToRole="Channel" />
+          <NavigationProperty Name="Lookup" Relationship="PriceologyModel.FK_TenantSettings_Lookup" FromRole="TenantSetting" ToRole="Lookup" />
+        </EntityType>
+        <Association Name="FK_Channel_Lookup">
+          <End Type="PriceologyModel.Lookup" Role="Lookup" Multiplicity="0..1" />
+          <End Type="PriceologyModel.Channel" Role="Channel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lookup">
+              <PropertyRef Name="LookupID" />
+            </Principal>
+            <Dependent Role="Channel">
+              <PropertyRef Name="SLActiveTypeFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Channel_Lookup1">
+          <End Type="PriceologyModel.Lookup" Role="Lookup" Multiplicity="0..1" />
+          <End Type="PriceologyModel.Channel" Role="Channel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lookup">
+              <PropertyRef Name="LookupID" />
+            </Principal>
+            <Dependent Role="Channel">
+              <PropertyRef Name="RoundingGroupFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Channel_TenantSettings">
+          <End Type="PriceologyModel.TenantSetting" Role="TenantSetting" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PriceologyModel.Channel" Role="Channel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TenantSetting">
+              <PropertyRef Name="TenantID" />
+            </Principal>
+            <Dependent Role="Channel">
+              <PropertyRef Name="TenantFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Lookup">
+          <End Type="PriceologyModel.Lookup" Role="Lookup" Multiplicity="1" />
+          <End Type="PriceologyModel.Log" Role="Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lookup">
+              <PropertyRef Name="LookupID" />
+            </Principal>
+            <Dependent Role="Log">
+              <PropertyRef Name="LogTypeFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lookup_LookupType">
+          <End Type="PriceologyModel.LookupType" Role="LookupType" Multiplicity="0..1" />
+          <End Type="PriceologyModel.Lookup" Role="Lookup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LookupType">
+              <PropertyRef Name="LookupTypeID" />
+            </Principal>
+            <Dependent Role="Lookup">
+              <PropertyRef Name="LookupTypeFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TenantSettings_Lookup">
+          <End Type="PriceologyModel.Lookup" Role="Lookup" Multiplicity="0..1" />
+          <End Type="PriceologyModel.TenantSetting" Role="TenantSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lookup">
+              <PropertyRef Name="LookupID" />
+            </Principal>
+            <Dependent Role="TenantSetting">
+              <PropertyRef Name="GatewayFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PriceologyModelStoreContainer" CdmEntityContainer="PriceologyEntities">
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="PriceologyModel.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+                <ScalarProperty Name="TenantFK" ColumnName="TenantFK" />
+                <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+                <ScalarProperty Name="LogTypeFK" ColumnName="LogTypeFK" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="Entry" ColumnName="Entry" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Channels">
+            <EntityTypeMapping TypeName="PriceologyModel.Channel">
+              <MappingFragment StoreEntitySet="Channel">
+                <ScalarProperty Name="CultureName" ColumnName="CultureName" />
+                <ScalarProperty Name="UseClientProductId" ColumnName="UseClientProductId" />
+                <ScalarProperty Name="RoundingGroupFK" ColumnName="RoundingGroupFK" />
+                <ScalarProperty Name="NotificationsEmailAddress" ColumnName="NotificationsEmailAddress" />
+                <ScalarProperty Name="OutputFileEmailAddress" ColumnName="OutputFileEmailAddress" />
+                <ScalarProperty Name="SLActiveTypeFK" ColumnName="SLActiveTypeFK" />
+                <ScalarProperty Name="SLMinRating" ColumnName="SLMinRating" />
+                <ScalarProperty Name="SLMinReviews" ColumnName="SLMinReviews" />
+                <ScalarProperty Name="JobInProgress" ColumnName="JobInProgress" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ChannelName" ColumnName="ChannelName" />
+                <ScalarProperty Name="TenantFK" ColumnName="TenantFK" />
+                <ScalarProperty Name="ChannelID" ColumnName="ChannelID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lookups">
+            <EntityTypeMapping TypeName="PriceologyModel.Lookup">
+              <MappingFragment StoreEntitySet="Lookup">
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="LookupName" ColumnName="LookupName" />
+                <ScalarProperty Name="LookupTypeFK" ColumnName="LookupTypeFK" />
+                <ScalarProperty Name="LookupID" ColumnName="LookupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LookupTypes">
+            <EntityTypeMapping TypeName="PriceologyModel.LookupType">
+              <MappingFragment StoreEntitySet="LookupType">
+                <ScalarProperty Name="LookupTypeName" ColumnName="LookupTypeName" />
+                <ScalarProperty Name="LookupTypeID" ColumnName="LookupTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TenantSettings">
+            <EntityTypeMapping TypeName="PriceologyModel.TenantSetting">
+              <MappingFragment StoreEntitySet="TenantSettings">
+                <ScalarProperty Name="ProviderBrandExclusion" ColumnName="ProviderBrandExclusion" />
+                <ScalarProperty Name="AllowProviderBrandExclusion" ColumnName="AllowProviderBrandExclusion" />
+                <ScalarProperty Name="MultipleCalculationMethods" ColumnName="MultipleCalculationMethods" />
+                <ScalarProperty Name="AllowMultipleCalculationMethods" ColumnName="AllowMultipleCalculationMethods" />
+                <ScalarProperty Name="MultipleSuppliers" ColumnName="MultipleSuppliers" />
+                <ScalarProperty Name="AllowMultipleSuppliers" ColumnName="AllowMultipleSuppliers" />
+                <ScalarProperty Name="PriceRuleBanding" ColumnName="PriceRuleBanding" />
+                <ScalarProperty Name="AllowPriceRuleBanding" ColumnName="AllowPriceRuleBanding" />
+                <ScalarProperty Name="CloneChannel" ColumnName="CloneChannel" />
+                <ScalarProperty Name="AllowCloneChannel" ColumnName="AllowCloneChannel" />
+                <ScalarProperty Name="SalesHistory" ColumnName="SalesHistory" />
+                <ScalarProperty Name="AllowSalesHistory" ColumnName="AllowSalesHistory" />
+                <ScalarProperty Name="LastUsedChannelId" ColumnName="LastUsedChannelId" />
+                <ScalarProperty Name="SupplierMatchLimit" ColumnName="SupplierMatchLimit" />
+                <ScalarProperty Name="VerboseLogging" ColumnName="VerboseLogging" />
+                <ScalarProperty Name="ContractExpiryDate" ColumnName="ContractExpiryDate" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="ContactEmail" ColumnName="ContactEmail" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="SystemUserID" ColumnName="SystemUserID" />
+                <ScalarProperty Name="ContractFK" ColumnName="ContractFK" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="GatewayFK" ColumnName="GatewayFK" />
+                <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

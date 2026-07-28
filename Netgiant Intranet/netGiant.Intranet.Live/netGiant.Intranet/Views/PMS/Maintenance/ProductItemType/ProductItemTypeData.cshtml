@@ -1,0 +1,21 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<productItemType>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(x => item.productItemTypeID)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.productItemTypeName)
+        </td>
+        <td>
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+            {
+                @Html.ActionLink("Edit", "Create", "ProductItemType", new { id = item.productItemTypeID }, null)
+                @Html.Raw(" | <a class=\"lnkDeleteProductItemType\" href=\"#\" value=\"" + item.productItemTypeID + "\">Delete</a>")
+            }
+        </td>
+    </tr>
+}

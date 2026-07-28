@@ -1,0 +1,188 @@
+﻿@using netGiant.Intranet.DataLayer;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<providerInventory>
+
+@Html.Hidden("ProviderInventoryDataURL", Url.Action("ProviderInventoryData", "Provider"))
+@Html.Hidden("SetProductInterestURL", Url.Action("SetProductInterest", "Provider"))
+@Html.Hidden("ShowPriceDetailsURL", Url.Action("PriceDetails", "ProviderInventory"))
+@Html.Hidden("PageCount", Model.PageCount)
+@Html.Hidden("PageNumber", Model.PageNumber)
+@Html.Hidden("PageSize", Model.PageSize)
+@Html.Hidden("GetProvidersURL", Url.Action("GetProviderNames", "SelectLists"))
+@Html.Hidden("GetPricingURL", Url.Action("ProviderInventoryItemPrice", "Provider"))
+@Html.Hidden("ReinstateProductURL", Url.Action("ReinstateUnwantedProducts", "Provider"))
+@Html.Hidden("SetProviderUntrustedURL", Url.Action("SetUntrustedProvider", "Provider"))
+
+<div>
+    <span class="g-m-r-10">Showing <b>@Model.Count</b> out of <b>@Model.TotalItemCount</b> records</span>
+    <a id="lnkExport" class="piv_exportLink" href="#">Export</a>
+    <span class="g-f-r">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</span>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            <a href="#" class="tableHeaderSort" value="partNo">Part No</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="description">Description</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+            {
+                <a href="#" class="tableHeaderSort" value="untrusted">Untrusted</a>
+                <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+            }
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="quantity">Quantity</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="effectiveDate">Date Last Update</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="provider">Provider</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="providerPartNo">Provider Part No</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="manufacturer">Manufacturer</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="unspscCode">Code</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="unspscClass">Class</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="manuRef">Manu Ref</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="barcode">Barcode</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th class="g-a-c" style="white-space: nowrap;">
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+            {
+                @Html.Raw("<a id=\"lnkInterested\" class=\"lnkYes\" href=\"#\">Yes</a> |");
+                <a id="lnkNotInterested" class="lnkNo" href="#">No</a>
+            }
+            
+        </th>
+        @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+        {
+            <th><input type="checkbox" name="selectAll" id="chkSelectAll" title="select all" /></th>
+        }
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        bool isPotentialNew = false;
+        string rowClass = string.Empty;
+
+        if (item.potentialNewProduct == true && item.provider.providerTypeFK == 2)
+        {
+            isPotentialNew = true;
+            rowClass = "piv_rowBackgroundHighlight";
+        }
+        else if (item.provider.providerTypeFK == 1)
+        {
+            rowClass = "";
+        }
+
+        <tr class="@rowClass">
+            <td>
+                @Html.DisplayFor(modelItem => item.partNo)
+            </td>
+            <td class="pin_descriptionColWidth">
+                @Html.DisplayFor(m => item.description)
+            </td>
+            <td class="g-a-c">
+                @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+                {
+                   @Html.CheckBoxFor(m => item.untrustedProvider, new { @class = "untrustedChkBox", @piID = item.providerInventoryID });
+                }  
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dateLastUpdate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.provider.providerName)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.providerPartNo)
+            </td>
+            <td>
+                @if (item.manufacturer == null)
+                {
+                    @Html.Raw("Unknown");
+                }
+                else
+                {
+                    @Html.DisplayFor(m => item.manufacturer.manufacturerName)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.unspscCode)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.unspscClass)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.providerManuRef)
+            </td>
+            <td>
+                @Html.Raw("<a class=\"barcodeLink\" href=\"#\">" + item.barcode + "</a>")
+            </td>
+            <td>
+                <a class="lnkPriceHistory" href="#" value="@item.providerInventoryID" part="@item.partNo">
+                    @Html.Raw("£" + string.Format("{0:N2}", item.providerPrice.OrderByDescending(x => x.dateLastUpdate)
+                                                                .FirstOrDefault().price))
+                </a>
+            </td>
+            <td colspan="2" class="g-a-c">
+                @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+                {
+                    if (isPotentialNew == true && item.unwantedProduct == false)
+                    {
+                            <input type="checkbox" value="@item.providerInventoryID" class="chkInterested" />
+                    }
+                    else if (isPotentialNew == true && item.unwantedProduct == true)
+                    {
+                            <input type="checkbox" value="@item.providerInventoryID" class="lnkReinstateUnwanted" />
+                    }
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+
+<!--Paging-->
+<div id="providerInventoryPaging" style="text-align:center;">
+    @Html.PagedListPager(Model, p => "#")
+</div>
+
+@{
+    string infoBoxText = Convert.ToString(@TempData["InformationBoxFlag"]);
+    if (infoBoxText != string.Empty)
+    {
+        <div id="infoBoxFlag" class="g-d-n">@TempData["InformationBoxFlag"]</div>
+    }
+}

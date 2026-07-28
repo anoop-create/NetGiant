@@ -1,0 +1,79 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Admin
+@model ConfigurationSettingViewModel
+
+@{
+    ViewBag.Title = "Configuration Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    @Html.RawFromDict(Model.IntranetData, "ConfigurationSettingsFilters")
+</div>
+
+@if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+{
+    @Html.ActionLink("Create New", "Create", "ConfigurationSetting", new { id = 0 }, new { @title = "Create new configuration setting", @class = "g-p-10" })
+}
+
+@(Html.Kendo().Grid<ConfigurationSettingViewModel.TelerikConfigurationSetting>()
+    .HtmlAttributes(new { @class = "pointer-rows" })
+        .Name("configurationSettingsGrid")
+        .Columns(columns =>
+        {
+            columns.Bound(x => x.Section).Title("Section Name").Width("200px")
+                .HeaderHtmlAttributes(new { title = "Section Name", style = "text-align: center;" });
+            columns.Bound(x => x.Name).Title("Setting Name").Width("200px")
+                .HeaderHtmlAttributes(new { title = "Setting Name", style = "text-align: center;" });
+            columns.Bound(x => x.Website).Title("Website").Width("120px")
+                .HeaderHtmlAttributes(new { title = "Website", style = "text-align: center;" });
+            columns.Bound(x => x.Value).Title("Value")
+                .HeaderHtmlAttributes(new { title = "Value", style = "text-align: center;" });
+            columns.Bound(x => x.Description).Title("Description")
+                .HeaderHtmlAttributes(new { title = "Description", style = "text-align: center;" });
+            columns.Bound(x => x.DateLastUpdated).Title("Last Updated").Width("145px")
+                .Format("{0:dd/MM/yyyy HH:mm:ss}")
+                .HeaderHtmlAttributes(new { title = "Last Updated", style = "text-align: center;" });
+            columns.Bound(x => x.Id).ClientTemplate(
+                    "<a href=\"Create/#:Id#\">Edit</a>" +
+                    "|<a href=\"##\" class=\"lnkConfigurationSettingDelete\" value=\"#:Id#\" title=\"Delete\">Delete</a>"
+                    ).Width("100px").Title("").Filterable(false).Sortable(false).Groupable(false);
+        })
+        .Pageable(pager => pager.Refresh(true))
+        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable.AllowUnsort(true))
+        .Groupable()
+        .Scrollable()
+        .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .NoRecords("There are no configuration settings to display")
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(x => x.Action("ConfigurationSetting_Read", "ConfigurationSetting"))
+            .Sort(s => s.Add(x => x.Section).Ascending())
+            .PageSize(200)
+        )
+        .Events(e => e.DataBound("saveGridFilters"))
+)
+
+<script type="text/javascript">
+    $(function () {
+        $(document).on('click', '.lnkConfigurationSettingDelete', function (e) {
+            var rowid = $(this).attr('value');
+            e.preventDefault();
+            $.confirm({
+                title: 'Configuration Settings',
+                content: 'Are you sure you want to delete this configuration setting?',
+                buttons: {
+                    Yes: function () {
+                        deleteGridRow('@Url.Action("Delete", "ConfigurationSetting")/', { id: rowid });
+                    },
+                    No: function () { }
+                }
+            });
+        });
+    });
+</script>

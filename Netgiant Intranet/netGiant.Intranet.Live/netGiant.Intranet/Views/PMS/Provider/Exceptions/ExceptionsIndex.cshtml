@@ -1,0 +1,126 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Provider
+@model ProviderExceptionsViewModel
+
+@{
+    ViewBag.Title = "Provider Exceptions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+
+        <div class="g-m-b-20">
+            @Html.DropDownList("ddlWebsite", Model.AllWebsites, "Search by website", new { @class = "g-f-l form-control g-smallCell g-m-r-20" })
+            <select id="ddlCategory" class="searchBy g-f-l form-control g-smallCell g-m-r-20" disabled="disabled">
+                <option selected="selected">Search by category</option>
+            </select>
+            @Html.DropDownList("ddlManufacturer", Model.AllManufacturers, "Search by manufacturer", new { @class = "searchBy g-f-l form-control g-smallCell g-m-r-20" })
+            <select id="ddlReason" class="searchBy g-f-l form-control g-smallCell g-m-r-20">
+                <option>Search by reason</option>
+                <option value="priceFall">Price Fall</option>
+                <option value="priceRise">Price Rise</option>
+            </select>
+            
+            @Html.CheckBox("inStock", true)&nbsp;<label style="color: green;" class="g-m-r-20">Hide Out of Stock</label>
+            @Html.CheckBox("untrusted", true)&nbsp;<label style="color: green;" class="g-m-r-20">Hide Untrusted</label>
+            @Html.CheckBox("cheapest", false)&nbsp;<label style="color: green;">Show Cheapest</label>
+            @Html.ActionLink("Reset", "Exceptions", "Provider", null, new { @class = "btn btn-default g-m-l-10" })
+        </div>
+
+        <div id="exceptionsData">
+            @{ Html.RenderPartial("~/Views/PMS/Provider/Exceptions/ExceptionsData.cshtml", Model); }
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        var cheapest = false;
+
+        $(document).on("click", "#providerExceptionsPaging a", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            applyStandardPaging(event, 0);
+
+            return false;
+        });
+
+        $(document).on("click", "#cheapest", function (event) {
+            if ($('#cheapest').is(':checked')) {
+                cheapest = true;
+                setupSort($(this));
+                applyStandardPaging(event, 0);
+            }
+            else {
+                cheapest = false;
+                setupSort($(this));
+                applyStandardPaging(event, 0);
+            }      
+        });
+
+        $(document).on('change', '#ddlReason, #inStock, #untrusted, #ddlManufacturer, #ddlCategory', function (event) {
+            applyStandardPaging(event, 0);
+            return false;
+        });
+
+        $(document).on('change', '.chkBoxUntrusted', function (event) {
+            setupOptionsArrayPaging($(this).attr('class'), $(this).attr('value'), $(this).is(':checked'));
+            standardPaging(event, $(this).attr('class'), "#providerExceptionsPaging", $('#SetUntrustedURL').val(),
+                                    "#exceptionsData", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        });
+
+        $(document).on("change", "#ddlWebsite", function (event) {
+            if ($(this).val().length > 0) {
+                jsonPopulateDropDown($("#GetCategoryCodesURL").val() + '/' + $(this).val(), '#ddlCategory', 'category');
+            } else {
+                $("#ddlCategory").empty();
+                $("#ddlCategory").html('<option value="" selected="true">Search by category</option>');
+                $("#ddlCategory").attr('disabled', 'disabled');
+            }
+        });
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging(id);
+            standardPaging(event, id, "#providerExceptionsPaging", $('#ExceptionsDataURL').val(),
+                                    "#exceptionsData", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging(id, providerInvFK, checked) {
+            optionsArray = new Array();
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[0] = sortType + sortDir;
+            } else {
+                optionsArray[0] = '';
+            }
+
+            optionsArray[1] = $('#inStock').is(':checked');
+            optionsArray[2] = $("#ddlReason").val();
+            optionsArray[3] = $('#untrusted').is(':checked');
+            optionsArray[4] = parseInt($('#ddlManufacturer').val()) || 0;
+            optionsArray[5] = parseInt($('#ddlCategory').val()) || 0;
+            optionsArray[6] = cheapest;
+
+            if (id == 'chkBoxUntrusted') {
+                optionsArray[7] = providerInvFK;
+                optionsArray[8] = checked;
+            }
+
+        }
+
+    </script>
+}

@@ -1,0 +1,343 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Pricing;
+@model PricesViewModel
+
+@{
+    ViewBag.Title = "Price Comparison";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+
+        @Html.Hidden("PriceComparisonDataURL", Url.Action("PriceComparisonBreaksData", "Prices"))
+        @Html.Hidden("CompetitorsPricesURL", Url.Action("CompetitorPricingData", "Prices"))
+        @Html.Hidden("PriceCompCount", Model.PriceComparisonCount)
+        @Html.Hidden("ComponentsDataURL", Url.Action("GetAssemblyComponents", "Product"))
+        @Html.Hidden("GetCategoryCodesURL", Url.Action("GetCategoryCodes", "Prices"))
+
+        <div class="g-p-b-10">
+            @Html.DropDownListFor(m => m.selectedManufacturerID, Model.AllManufacturers, "Search By Manufacturer", new { @class = "form-control g-smallCell g-f-l g-m-r-10" })
+            @Html.DropDownListFor(m => m.selectedCategoryCodeID, Model.AllCategoryCodes, "Search By Category", new { @class = "form-control g-smallCell g-f-l g-m-r-10" })
+
+            @Html.Label("Price From", new { @class = "g-f-l pc_searchLabel" })
+            @Html.TextBox("priceFrom", null, new { @class = "form-control g-xSmallCell g-f-l text-box single-line g-m-r-10" })
+            @Html.Label("To", new { @class = "g-f-l pc_searchLabel" })
+            @Html.TextBox("priceTo", null, new { @class = "form-control g-xSmallCell g-f-l text-box single-line g-m-r-10" })
+
+            <select id="productSearchBy" class="searchBy g-f-l form-control g-smallCell" style="margin-right:10px">
+                <option selected="selected" value="partNo">Search by part no</option>
+                <option value="name">Search by name</option>
+            </select>
+
+            @Html.TextBox("SearchProduct", null, new { @class = "form-control g-mediumCell g-f-l text-box single-line g-m-r-10" })
+            <a id="lnkProductSearch" href="#" class="btn btn-default g-f-l" title="Empty search returns all records">Search</a>
+            @Html.ActionLink("Reset", "PriceComparisonBreaks", "Prices", null, new { @class = "btn btn-default g-m-l-10" })
+        </div>
+        <div class="g-c-b g-m-t-10 g-d-ib">
+            @Html.DropDownListFor(m => m.SelectedWebsiteFK, Model.AllWebsites, "Search By Website", new { @class = "form-control g-smallCell g-f-l g-m-r-10 triggerDataRefresh" })
+            @Html.DropDownListFor(m => m.SelectProductItemTypeFK, Model.AllProductItemType, "Search By Item Type", new { @class = "form-control g-smallCell g-f-l g-m-r-10 triggerDataRefresh" })
+            @Html.DropDownListFor(m => m.SelectedProductGroupFK, Model.AllProductGroups, "Search By product group", new { @class = "form-control g-smallCell g-f-l g-m-r-10 triggerDataRefresh" })
+            <div class="g-f-l g-b-r-1dg">
+                <input type="checkbox" id="chkInStock" checked="checked" class="triggerDataRefresh" />&nbsp;
+                <label style="color: green; padding-right: 10px;">In Stock Only</label>
+            </div>
+            <div class="g-f-l g-m-l-10 g-d-n">
+                <input type="checkbox" id="chk0Comp" checked="checked" class="triggerDataRefresh" />&nbsp;
+                <label style="color: green; padding-right: 10px;">0 Competitors</label>
+            </div>
+            <div class="g-f-l g-d-n">
+                <input type="checkbox" id="chk1Comp" checked="checked" class="triggerDataRefresh" />&nbsp;
+                <label style="color: green; padding-right: 10px;">1 Competitor</label>
+            </div>
+            <div class="g-f-l g-b-r-1dg g-d-n">
+                <input type="checkbox" id="chk2Comp" checked="checked" class="triggerDataRefresh" />&nbsp;
+                <label style="color: green; padding-right: 10px;">2+ Competitors</label>
+            </div>
+            <div class="g-f-l g-m-l-10 g-d-n">
+                <input type="checkbox" id="chkPMSBest" checked="checked" class="triggerDataRefresh" />&nbsp;
+                <label style="color: green; padding-right: 10px;">PMS Cheapest</label>
+            </div>
+            <div class="g-f-l g-d-n">
+                <input type="checkbox" id="chkCompBest" checked="checked" class="triggerDataRefresh" />&nbsp;
+                <label style="color: green; padding-right: 10px;">Competitor Cheapest</label>
+            </div>
+        </div>
+
+        <div>
+            &nbsp;
+            <span class="g-f-r"><span id="compCount" class="g-fw-b">@Model.PriceComparisonCount </span><span>Products Found</span></span>
+        </div>
+
+        <div id="priceComparisonDataPartialView">
+            <table id="tablePriceComp" class="table g-a-c">
+                <tr>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="partNo">Part No</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="website">Website</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="productName">Product Name</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="manufacturer">Manufacturer</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="category">Category</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="stock">Stock</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="costPrice">Cost Price</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="basePrice">Base Price</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="pmsPrice">Price</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="priceMargin">Margin</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="priceDiff">Diff.</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="break1">Break 1</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="break1Margin">Margin</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="break1Diff">Diff.</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="break2">Break 2</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="break2Margin">Margin</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="break2Diff">Diff.</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="breakPricingRule">Rule</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                </tr>
+                @{ Html.RenderAction("PriceComparisonBreaksList", "Prices", new { Model = Model.PriceComparison }); }
+            </table>
+</div>
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        if ($('#PriceCompCount').val() < 50) {
+            noMoreData = true;
+        }
+
+        $(document).on("click", "#lnkProductSearch", function (event) {
+            blockNumber = 1;
+            GetPriceComparison(event, $(this));
+            return false;
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            blockNumber = 1;
+            setupSort($(this));
+            GetPriceComparison(event, 0);
+
+            return false;
+        });
+
+        $(document).on('change', '#selectedManufacturerID', function (event) {
+            blockNumber = 1;
+            GetPriceComparison(event, 0);
+        });
+
+        $(document).on('change', '#selectedCategoryCodeID', function (event) {
+            blockNumber = 1;
+            GetPriceComparison(event, 0);
+        });
+
+        $(document).on('change', '#priceFrom, #priceTo', function (event) {
+            blockNumber = 1;
+            var el = $(this);
+            if (el.val().length > 0) {
+                if ($.isNumeric(el.val())) {
+                    el.val(Number(el.val()).toFixed(2));
+                    GetPriceComparison(event, 0);
+                } else {
+                    alert('Please enter a numeric value in the price fields');
+                }
+            } else {
+                GetPriceComparison(event, 0);
+            }
+        });
+
+        $(document).on('click', '.showCompetitors', function () {
+            var objParams = { partNo: $(this).attr("value") };
+
+            ajaxGet($("#CompetitorsPricesURL").val(), "#competitorsContainer", objParams)
+            $("#competitorsContainer").dialog({
+                modal: true,
+                width: 800
+            });
+
+            return false;
+        });
+
+        $(document).on('click', '.components', function () {
+            var objParams = { productFK: $(this).attr("value") };
+
+            ajaxGet($("#ComponentsDataURL").val(), "#componentsContainer", objParams)
+            $("#componentsContainer").dialog({
+                modal: true,
+                width: 1000
+            });
+
+            return false;
+        });
+
+        $('#SearchProduct').keypress(function (event) {
+            if (event.which == 13) {
+                blockNumber = 1;
+                GetPriceComparison(event);
+            }
+        });
+
+        $(document).on("change", ".triggerDataRefresh", function (event) {
+            blockNumber = 1;
+            GetPriceComparison(event, 0);
+        });
+
+        if ($('#historyPage').val() != '') {
+            $('#priceComparisonDataPartialView').html($('#historyPage').val());
+        }
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() > $('#scrollBottomContainer').offset().top
+                && !noMoreData && !inProgress) {
+                GetPriceComparison(false);
+            }
+            return false;
+        });
+
+        $(document).on("mouseup", ".sku", function (event) {
+            if (event.which === 3) {
+                var sku = $(this).text();
+                var win = window.open('http://www.cartridgesave.co.uk/' + sku, 'CartridgeSave');
+                if (win) {
+                    win.focus();
+                } else {
+                    alert('Please allow popups for this site');
+                }
+            }
+        });
+
+        $(document).on("change", "#SelectedWebsiteFK", function (event) {
+
+            if ($(this).val().length > 0) {
+                jsonPopulateDropDown($("#GetCategoryCodesURL").val() + '/' + $(this).val(), '#selectedCategoryCodeID', 'Category');
+            } else {
+                $("#selectedCategoryCodeID").empty();
+                $("#selectedCategoryCodeID").html('<option value="" selected="true">Search by category</option>');
+                $("#selectedCategoryCodeID").attr('disabled', 'disabled');
+            }
+
+        });
+
+        function GetPriceComparison(clearTable) {
+            setupOptionsArray();
+            InfiniteScroll($('#PriceComparisonDataURL').val(),
+                optionsArray,
+                clearTable,
+                '#tablePriceComp tr:gt(0)',
+                '#compCount',
+                '#tablePriceComp tbody',
+                $("#activeSortType"),
+                $("#activeSortDir"));
+        }
+
+        function setupOptionsArray() {
+            optionsArray = new Array();
+            optionsArray[0] = parseInt($("#selectedManufacturerID").val()) || 0; //Manufacturer
+            optionsArray[1] = parseInt($('#selectedCategoryCodeID').val()) || 0; //Category Code
+            optionsArray[2] = $('#productSearchBy').val(); //Search By
+            optionsArray[3] = $('#SearchProduct').val(); //Search Term
+            optionsArray[4] = $('#priceFrom').val() || 0;  //Price From
+            optionsArray[5] = $('#priceTo').val() || 0;  //Price To
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[6] = sortType + sortDir;
+            } else {
+                optionsArray[6] = '';
+            }
+
+            if ($("#chkInStock").is(":checked")) {
+                optionsArray[7] = true;
+            } else {
+                optionsArray[7] = false;
+            }
+
+            compKey = 0;
+            if ($("#chk0Comp").is(":checked")) {
+                compKey += 1;
+            }
+            if ($("#chk1Comp").is(":checked")) {
+                compKey += 10;
+            }
+            if ($("#chk2Comp").is(":checked")) {
+                compKey += 100;
+            }
+            optionsArray[8] = compKey;
+
+            bestKey = 0;
+            if ($("#chkPMSBest").is(":checked")) {
+                bestKey += 1;
+            }
+            if ($("#chkCompBest").is(":checked")) {
+                bestKey += 10;
+            }
+            optionsArray[9] = bestKey;
+
+            optionsArray[10] = parseInt($('#SelectProductItemTypeFK').val()) || 0; //Product Item Type FK
+            optionsArray[11] = parseInt($('#SelectedWebsiteFK').val()) || 0; //WebsiteFK
+            optionsArray[12] = parseInt($('#SelectedProductGroupFK').val()) || 0; //ProductGroupFK
+        }
+
+    </script>
+}

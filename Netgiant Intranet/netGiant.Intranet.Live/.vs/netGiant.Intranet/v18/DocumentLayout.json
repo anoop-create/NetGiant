@@ -1,0 +1,75 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Anoop\\AllProject\\Netgiant Intranet\\netGiant.Intranet.Live\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6671E29A-BFEB-4321-A7D0-68D812B1E035}|netGiant.Intranet.BusinessLayer\\netGiant.Intranet.BusinessLayer.csproj|c:\\anoop\\allproject\\netgiant intranet\\netgiant.intranet.live\\netgiant.intranet.businesslayer\\viewmodels\\orders\\sagepayviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6671E29A-BFEB-4321-A7D0-68D812B1E035}|netGiant.Intranet.BusinessLayer\\netGiant.Intranet.BusinessLayer.csproj|solutionrelative:netgiant.intranet.businesslayer\\viewmodels\\orders\\sagepayviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6671E29A-BFEB-4321-A7D0-68D812B1E035}|netGiant.Intranet.BusinessLayer\\netGiant.Intranet.BusinessLayer.csproj|c:\\anoop\\allproject\\netgiant intranet\\netgiant.intranet.live\\netgiant.intranet.businesslayer\\viewmodels\\ecommerce\\logviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6671E29A-BFEB-4321-A7D0-68D812B1E035}|netGiant.Intranet.BusinessLayer\\netGiant.Intranet.BusinessLayer.csproj|solutionrelative:netgiant.intranet.businesslayer\\viewmodels\\ecommerce\\logviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6671E29A-BFEB-4321-A7D0-68D812B1E035}|netGiant.Intranet.BusinessLayer\\netGiant.Intranet.BusinessLayer.csproj|c:\\anoop\\allproject\\netgiant intranet\\netgiant.intranet.live\\netgiant.intranet.businesslayer\\viewmodels\\ecommerce\\deliveryconfigurationviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6671E29A-BFEB-4321-A7D0-68D812B1E035}|netGiant.Intranet.BusinessLayer\\netGiant.Intranet.BusinessLayer.csproj|solutionrelative:netgiant.intranet.businesslayer\\viewmodels\\ecommerce\\deliveryconfigurationviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:11:0:{2456bd12-ecf7-4988-a4a6-67d49173f565}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SagePayViewModel.cs",
+              "DocumentMoniker": "C:\\Anoop\\AllProject\\Netgiant Intranet\\netGiant.Intranet.Live\\netgiant.Intranet.BusinessLayer\\ViewModels\\Orders\\SagePayViewModel.cs",
+              "RelativeDocumentMoniker": "netgiant.Intranet.BusinessLayer\\ViewModels\\Orders\\SagePayViewModel.cs",
+              "ToolTip": "C:\\Anoop\\AllProject\\Netgiant Intranet\\netGiant.Intranet.Live\\netgiant.Intranet.BusinessLayer\\ViewModels\\Orders\\SagePayViewModel.cs",
+              "RelativeToolTip": "netgiant.Intranet.BusinessLayer\\ViewModels\\Orders\\SagePayViewModel.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAiwCgAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-28T09:40:02.506Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "LogViewModel.cs",
+              "DocumentMoniker": "C:\\Anoop\\AllProject\\Netgiant Intranet\\netGiant.Intranet.Live\\netgiant.Intranet.BusinessLayer\\ViewModels\\Ecommerce\\LogViewModel.cs",
+              "RelativeDocumentMoniker": "netgiant.Intranet.BusinessLayer\\ViewModels\\Ecommerce\\LogViewModel.cs",
+              "ToolTip": "C:\\Anoop\\AllProject\\Netgiant Intranet\\netGiant.Intranet.Live\\netgiant.Intranet.BusinessLayer\\ViewModels\\Ecommerce\\LogViewModel.cs",
+              "RelativeToolTip": "netgiant.Intranet.BusinessLayer\\ViewModels\\Ecommerce\\LogViewModel.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAswBUAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-28T09:39:59.919Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DeliveryConfigurationViewModel.cs",
+              "DocumentMoniker": "C:\\Anoop\\AllProject\\Netgiant Intranet\\netGiant.Intranet.Live\\netgiant.Intranet.BusinessLayer\\ViewModels\\Ecommerce\\DeliveryConfigurationViewModel.cs",
+              "RelativeDocumentMoniker": "netgiant.Intranet.BusinessLayer\\ViewModels\\Ecommerce\\DeliveryConfigurationViewModel.cs",
+              "ToolTip": "C:\\Anoop\\AllProject\\Netgiant Intranet\\netGiant.Intranet.Live\\netgiant.Intranet.BusinessLayer\\ViewModels\\Ecommerce\\DeliveryConfigurationViewModel.cs",
+              "RelativeToolTip": "netgiant.Intranet.BusinessLayer\\ViewModels\\Ecommerce\\DeliveryConfigurationViewModel.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAWwBgAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-28T09:39:56.869Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+﻿@using netGiant.Intranet.DataLayer;
+@model List<priceRule>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@Html.DisplayFor(m => item.description)</td>
+        <td>@Html.DisplayFor(m => item.categoryCode.Website.FriendlyName)</td>
+        <td>@Html.DisplayFor(m => item.categoryCode.categoryCodeName)</td>
+        <td>@Html.DisplayFor(m => item.priceRuleType.ruleName)</td>
+        <td>@Html.DisplayFor(m => item.manufacturer.manufacturerName)</td>
+        @*<td>@Html.DisplayFor(m => item.productGroup.productGroupName)</td>*@
+        <td>@Html.DisplayFor(m => item.product.partNo)</td>
+        <td class="g-a-c">@Html.DisplayFor(m => item.useBanding)</td>
+        <td>
+            @if (item.useBanding == true)
+            {
+                <a class="useBandingDetails" value="@item.priceRuleID" href="#">View</a>
+            }
+        </td>
+        <td class="g-a-c">
+            @if (item.costUpliftIsPercent)
+            {
+                @Html.Raw(string.Format("{0:N2}", item.costUplift * 100) + " %")
+            }
+            else
+            {
+                @Html.Raw("£" + string.Format("{0:N2}", item.costUplift))
+            }
+        </td>
+        <td class="g-a-c">@Html.Raw(string.Format("{0:P2}", item.desiredMargin))</td>
+        <td class="g-a-c">@Html.Raw(string.Format("{0:P2}", item.minMargin))</td>
+        <td class="g-a-c">@Html.Raw(string.Format("{0:P2}", item.maxMargin))</td>
+        <td class="g-a-c">@Html.Raw(string.Format("{0:P2}", item.competitorsToBeat))</td>
+        <td class="g-a-c">@Html.Raw(string.Format("{0:P2}", item.nudge))</td>
+        <td class="g-a-c">
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+            {
+                @Html.ActionLink("Edit", "CreatePricingRule", "PricingRules", new { id = item.priceRuleID }, null);
+                @Html.Raw(" | <a class=\"lnkDeleteRule\" href=\"#\" value=\"" + item.priceRuleID + "\">Delete</a>");
+            }
+        </td>
+    </tr>
+}
+

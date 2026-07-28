@@ -1,0 +1,121 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce;
+@model InterimOrdersViewModel
+
+@{
+    ViewBag.Title = "Interim Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    @Html.RawFromDict(Model.IntranetData, "InterimOrdersFilters")
+</div>
+
+@(Html.Kendo().Grid<InterimOrdersViewModel.Telerik>()
+        .HtmlAttributes(new { @class = "pointer-rows" })
+        .Name("interimOrdersGrid")
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("InterimOrders_Read", "Ecommerce"))
+            .PageSize(200)
+            //.Filter(f => f.Add(x => x.IsOrdered).IsEqualTo(false))
+            .Sort(sort => sort
+                .Add(x => x.DateTime).Descending())
+            )
+        .Columns(columns =>
+        {
+            columns.Bound(x => x.Website).Title("Website").Width(80)
+                .HeaderHtmlAttributes(new { title = "Website", style = "text-align: center;" });
+            columns.Bound(x => x.DateTime).Title("Timestamp").Width(180)
+                .ClientTemplate("#= kendo.toString(kendo.parseDate(DateTime, 'yyyy-MM-dd'), 'dd/MM/yyyy (HH:mm:ss)') #")
+                .HeaderHtmlAttributes(new { title = "Timestamp", style = "text-align: center;" });
+            columns.Bound(x => x.InterimOrderType).Title("Interim Type").Width(100)
+                .HeaderHtmlAttributes(new { title = "Interim Type", style = "text-align: center;" });
+            columns.Bound(x => x.Name).Title("Name").Width(250)
+                .HeaderHtmlAttributes(new { title = "Name", style = "text-align: center;" });
+            columns.Bound(x => x.Reason).Title("Reason").Width(250)
+                .HeaderHtmlAttributes(new { title = "Reason", style = "text-align: center;" });
+            columns.Bound(x => x.Type).Title("Type").Width(100)
+                .HeaderHtmlAttributes(new { title = "Payment Type", style = "text-align: center;" });
+            columns.Bound(x => x.Amount).Title("Pymt. Amount").Width(200)
+                .HeaderHtmlAttributes(new { title = "Payment Amount", style = "text-align: center;" });
+            columns.Bound(x => x.IsOrdered).Title("Processed").Width(80)
+                .HeaderHtmlAttributes(new { title = "Is Processed", style = "text-align: center;" });
+            columns.Bound(x => x.Id).ClientTemplate(
+                        "<a href=\"InterimOrderCreateEntry/#:Id#\">Edit</a>"
+                        ).Width("136px").Title("").Filterable(false).Sortable(false).Groupable(false);
+        })
+        .Pageable(pager => pager.Refresh(true))
+        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable
+            .AllowUnsort(true))
+        .Scrollable()
+        .Filterable(ftb => ftb
+            .Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .Excel(excel => excel
+            .AllPages(true)
+            .FileName("Grid Export")
+            .Filterable(true)
+            .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+        .NoRecords("There are no items to display")
+        .Events(events => events.Change("Grid_OnRowSelect"))
+        .Events(events => events.DataBound("Grid_OnDataBound"))
+        .Selectable()
+)
+<!-- Modal -->
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 1500px;">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        var Grid_OnRowSelect = function (e) {
+            var griddata = this.dataItem(this.select());
+            $('#myModal').find('.modal-body').html('');
+            $.ajax({
+                url: '@Url.Action("GetInterimOrder", "Ecommerce")',
+                data: { id: griddata.Id }
+            }).done(function (data) {
+                $('#myModal').find('.modal-body').html(data);
+                $('#j1').html(JSON.stringify(JSON.parse(griddata.Json), null, 2));
+            });
+            $('#myModal').modal();
+
+        }
+
+        function Grid_OnDataBound() {
+            var grid = this;
+            var currentRecords = grid.dataSource.view();
+            for (var i = 0; i < currentRecords.length; i++) {
+                //currentRecords[i] is the current dataItem
+                if (currentRecords[i].IsOrdered == false) {
+                    grid.tbody.find("tr[data-uid='" + currentRecords[i].uid + "']").removeClass("k-alt").addClass("g-bc-r").addClass("g-fc-w");
+                } else {
+                    grid.tbody.find("tr[data-uid='" + currentRecords[i].uid + "'] > .cdelete").html("");
+                }
+            }
+            saveGridFilters();
+        }
+
+    </script>
+}
+

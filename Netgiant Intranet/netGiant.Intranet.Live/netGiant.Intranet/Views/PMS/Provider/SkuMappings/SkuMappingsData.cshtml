@@ -1,0 +1,90 @@
+﻿@using netGiant.Intranet.DataLayer;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<skuMapping>
+
+@Html.Hidden("SkuMappingsDataURL", Url.Action("SkuMappingsData", "Provider"))
+@Html.Hidden("DeleteSkuMappingURL", Url.Action("DeleteSkuMapping", "Provider"))
+@Html.Hidden("PageCount", Model.PageCount)
+@Html.Hidden("PageNumber", Model.PageNumber)
+@Html.Hidden("PageSize", Model.PageSize)
+
+<div>
+    @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+    {
+        @Html.ActionLink("Create New", "CreateSkuMapping", "Provider", new { id = 0 }, new { @title = "New" })
+    }
+    else
+    {
+        @Html.Raw("&nbsp");
+    }
+    <span class="g-f-r">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</span>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            <a href="#" class="tableHeaderSort" value="provider">Provider</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="providerPartNo">Provider Part No</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="ourPartNo">Our Part No</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="axisSupplierNo">Axis Supplier No.</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @if (item.provider == null)
+                {
+                    @Html.Raw("Unknown");
+                }
+                else
+                {
+                    @Html.DisplayFor(m => item.provider.providerName)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.providerInventory.providerPartNo)
+            </td>
+            <td>
+                @Html.DisplayFor(x => item.product.partNo)
+            </td>
+            <td>
+                @Html.DisplayFor(x => item.supplierNo)
+            </td>
+            <td>
+                @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+                {
+                    @Html.ActionLink("Edit", "CreateSkuMapping", "Provider", new { id = item.skuMappingID }, null);
+                    @Html.Raw(" | <a href=\"#\" class=\"lnkSkuMappingDelete\" value=\"" + @item.skuMappingID + "\" title=\"Delete Mapping\">Delete</a>");
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br/>
+
+<div id="skuMappingsPaging" style="text-align:center;">
+    @Html.PagedListPager(Model, p => "#")
+</div>
+
+@{
+    string infoBoxText = Convert.ToString(@TempData["InformationBoxFlag"]);
+    if (infoBoxText != string.Empty)
+    {
+        <div id="infoBoxFlag" class="g-d-n">@TempData["InformationBoxFlag"]</div>
+    }
+}

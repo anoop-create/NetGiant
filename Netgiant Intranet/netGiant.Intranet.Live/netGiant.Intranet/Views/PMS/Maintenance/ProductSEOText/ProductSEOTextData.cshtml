@@ -1,0 +1,68 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<productSEOText>
+
+
+@{ int num = 0; }
+
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(x => item.paragraphNo)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.entryNo)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.Website.WebsiteName)
+        </td>
+        <td class="g-a-c">
+            @Html.DisplayFor(x => item.productType.productTypeName)
+        </td>
+        <td class="g-a-c">
+            @if (item.isOwnBrand == true)
+            {
+                @Html.Raw("True");
+            }
+            else if (item.isOwnBrand == false)
+            {
+                @Html.Raw("False");
+            }
+            else if (item.isOwnBrand == null)
+            {
+                @Html.Raw("Both");
+            }
+        </td>
+        <td class="g-a-c">
+            @if (item.isAssembly == true)
+            {
+                @Html.Raw("Assembly");
+            }
+            else if (item.isAssembly == false)
+            {
+                @Html.Raw("Stock");
+            }
+            else if (item.isAssembly == null)
+            {
+                @Html.Raw("Both");
+            }
+        </td>
+        <td class="g-a-c">
+            @Html.CheckBox("maintenance" + num, item.isMaintenance == true ? true : false, new { htmlAttributes = new { @class = "form-control g-largeCell"}, @disabled = "disabled" })
+        </td>
+        <td class="g-w-50p">
+            @Html.DisplayFor(x => item.paragraphText)
+        </td>
+        <td class="g-a-c">
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin") || User.IsInRole("SEO"))
+            {
+                @Html.ActionLink("Edit", "Create", "ProductSEOText", new { id = item.productSEOTextID }, null)
+                @Html.Raw(" | <a class=\"lnkDeleteProductSEOText\" href=\"#\" value=\"" + item.productSEOTextID + "\">Delete</a>")
+            }
+        </td>
+    </tr>
+    
+    num++;
+}
+

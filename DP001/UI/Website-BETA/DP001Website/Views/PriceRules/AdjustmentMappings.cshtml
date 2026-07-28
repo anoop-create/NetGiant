@@ -1,0 +1,271 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001DataAccess.Entities;
+@model PriceRuleViewModel
+
+
+<div class="row">
+    <div class="col-md-2 form-name" style="justify-content: center;"></div>
+    <div class="col-md-3 form-name" style="justify-content: center;">
+        <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Enter a percentage adjustment that you wish to apply to the final calculated price." data-helpsid="2" data-helpeid="2"></i>
+        Adjustment (%)
+    </div>
+    <div class="col-md-3 form-name" style="justify-content: center;">
+        <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Enter a minimum margin to be respected for this adjustment." data-helpsid="2" data-helpeid="2"></i>
+        Minimum Margin (%)
+    </div>
+    <div class="col-md-3 form-name" style="justify-content: center;">
+        <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Enter a maximum margin to be respected for this adjustment." data-helpsid="2" data-helpeid="2"></i>
+        Maximum Margin (%)
+    </div>
+</div>
+
+
+@{
+    string fieldnumber = "";
+    foreach (CustomField cf in Model.AdjFieldList)
+    {
+        fieldnumber = cf.DBFieldName.Substring(cf.DBFieldName.Length - 1);
+
+        <div class="row">
+            <div class="col-md-2 form-name">
+                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="@cf.UserFieldName custom field." data-helpsid="2" data-helpeid="2"></i>
+                @cf.UserFieldName
+            </div>
+
+            <!-- Asjustment Field -->
+            <div class="col-md-3 form-value">
+                @switch (fieldnumber)
+                {
+                    case "1":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj1Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj1Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "2":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj2Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj2Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "3":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj3Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj3Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "4":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj4Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj4Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "5":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj5Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj5Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "6":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj6Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj6Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "7":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj7Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj7Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "8":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj8Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj8Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })                                  <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "9":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj9)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj9Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "0":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj10)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj10Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                }
+            </div>
+
+            <!-- Asjustment Min Margin -->
+            <div class="col-md-3 form-value">
+                @switch (fieldnumber)
+                {
+                    case "1":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin1Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin1Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "2":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin2Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin2Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "3":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin3Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin3Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "4":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin4Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin4Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "5":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin5Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin5Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "6":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin6Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin6Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "7":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin7Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin7Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "8":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin8Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin8Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "9":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin9Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin9Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "0":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin10Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin10Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                }
+            </div>
+
+            <!-- Asjustment Max Margin -->
+            <div class="col-md-3 form-value">
+                @switch (fieldnumber)
+                {
+                    case "1":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin1Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin1Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " max margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "2":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin2Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin2Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " max margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "3":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin3Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin3Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " max margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "4":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin4Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin4Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "5":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin5Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin5Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " max margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "6":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin6Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin6Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " max margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "7":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin7Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin7Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " max margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "8":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin8Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin8Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " max margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "9":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin9Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin9Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " max margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                    case "0":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin10Mod)
+                        <div class="input-group formatFocus">
+                            @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin10Mod, "{0:0.00}", new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " max margin field is required." })
+                            <div class="input-group-addon">%</div>
+                        </div>
+                        break;
+                }
+            </div>
+        </div>
+
+
+
+    }
+}
+
+

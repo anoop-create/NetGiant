@@ -1,0 +1,65 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product;
+@using netGiant.Intranet.DataLayer;
+@model ProductDetailViewModel
+
+<table class="table" id="tblproductSuppliers">
+    <tr>
+        <th>Provider ID</th>
+        <th>Provider Name</th>
+        <th>Provider Description</th>
+        <th>Supplier Reference</th>
+        <th>Supplier Part No</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Inventory Updated</th>
+        <th>Price Changed On</th>
+        <th>AXIS Supplier Ref</th>
+        <th>Barcode</th>
+        <th>Untrusted</th>
+        <th>Active</th>
+    </tr>
+
+    @foreach (var ps in Model.ProductDetail.skuMapping
+        .Where(x => x.providerInventory != null)
+        .OrderBy(x => x.providerInventory.providerPrice
+        .OrderByDescending(m => m.dateLastUpdate)
+        .FirstOrDefault().price))
+    {
+        bool? untrusted = ps.providerInventory.untrustedProvider;
+        string untrustedRow = "";
+        int loopCount = 0;
+
+        if (untrusted == true || ps.provider.active == false)
+        {
+            untrustedRow = "untrustedProvider";
+        }
+
+        bool priority = Model.PrioritySuppliers.Select(x => x.providerFK).Contains(ps.providerFK);
+        string priorityRow = "";
+        
+        if (priority)
+        {
+            priorityRow = "priorityProvider";
+        }
+        
+        <tr class="@untrustedRow @priorityRow">
+            <td>@Html.DisplayFor(m => ps.providerInventory.provider.providerID)</td>
+            <td class="g-mediumCell">@Html.DisplayFor(m => ps.providerInventory.provider.providerName)</td>
+            <td>@Html.DisplayFor(m => ps.providerInventory.description)</td>
+            <td class="g-smallCell">@Html.DisplayFor(m => ps.providerInventory.providerPartNo)</td>
+            <td>@Html.DisplayFor(m => ps.providerInventory.partNo)</td>
+            <td class="g-xSmallCell">
+                @Html.Raw("£" + string.Format("{0:N2}", ps.providerInventory.providerPrice.OrderByDescending(x => x.dateLastUpdate).FirstOrDefault().price))
+            </td>
+            <td align="center">@Html.DisplayFor(m => ps.providerInventory.quantity)</td>
+            <td class="g-a-c">@Html.DisplayFor(m => ps.providerInventory.dateLastUpdate)</td>
+            <td>@Html.DisplayFor(m => ps.providerInventory.providerPrice.OrderByDescending(x => x.dateLastUpdate).FirstOrDefault().dateLastUpdate)</td>
+            <td align="center">@Html.DisplayFor(m => ps.providerInventory.provider.axisSupplierRef)</td>
+            <td>@Html.Raw("<a class=\"barcodeLink\" href=\"#\">" + ps.providerInventory.barcode + "</a>")</td>
+            <td>@Html.CheckBox("chkBoxUntrusted" + loopCount, Convert.ToBoolean(ps.providerInventory.untrustedProvider), new { @disabled = "disabled" })</td>
+            <td>@Html.DisplayFor(m => ps.provider.active)</td>
+        </tr>
+        
+        loopCount++;
+    }
+</table>

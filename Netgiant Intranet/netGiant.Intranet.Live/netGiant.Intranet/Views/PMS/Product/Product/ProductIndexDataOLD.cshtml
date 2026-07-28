@@ -1,0 +1,145 @@
+﻿@using netGiant.Intranet.DataLayer;
+@using PagedList.Mvc;
+
+@model List<product>
+
+@*@Html.Hidden("PageCount", Model.PageCount)
+@Html.Hidden("PageNumber", Model.PageNumber)
+@Html.Hidden("PageSize", Model.PageSize)*@
+
+@*<div>
+    @Html.ActionLink("Create New", "CreateProduct", "Product", new { id = 0 }, new { @title = "Create new product" })
+    <span class="g-f-r">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</span>
+</div>*@
+
+<table id="tblProduct" class="table">
+    <tr>
+        <th class="g-mediumCell">
+            <a href="#" class="tableHeaderSort" value="productName">Product Name</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="partNo">Part No</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="unspsc">UNSPSC</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="manufacturer">Manufacturer</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="productStatus">Product Status</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="productGroup">Product Group</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="salesGroup">Sales Area Group</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="stock">Stock</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="price">Price</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="dataSupplier">Data Supplier</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(m => item.productName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.partNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UNSPSCCode)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.manufacturer.manufacturerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.productStatus.productStatusName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.productGroup.productGroupName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.salesAreaGroup.salesAreaGroupName)
+            </td>
+            <td>
+                @Html.Raw(item.supplierStock == null ? 0 : item.supplierStock)
+            </td>
+            <td>
+                @if (item.websiteInventory.FirstOrDefault() != null)
+                {
+                    <a class="lnkPriceHistory" href="#" value="@item.productID">
+
+                        @{IQueryable<websiteInventory> wi = item.websiteInventory.Where(x => x.websiteFK == 1).AsQueryable();
+
+                        string priceToDisplay = string.Empty;
+                        if (wi.Count() > 0)
+                        {
+                            IQueryable<productPrice> pp = wi.FirstOrDefault().productPrice.AsQueryable();
+                            if (pp.Count() > 0)
+                            {
+                                priceToDisplay = "£" + string.Format("{0:N2}", pp.OrderByDescending(m => m.productPriceID)
+                                                                    .FirstOrDefault().price);
+                            }
+                            else
+                            {
+                                priceToDisplay = "No Prices";
+                            }
+                        }
+                        else
+                        {
+                            priceToDisplay = "No Prices";
+                            
+                        }
+
+                        @Html.Raw(priceToDisplay)
+                        
+                        }
+                    </a>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dataSupplier.dataSupplierName)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Detail", "Product", new { id = item.productID }, null) |
+                @Html.ActionLink("Edit", "CreateProduct", "Product", new { id = item.productID }, null) |
+                <a href="#" class="lnkProductDelete" value="@item.productID" title="Delete @item.partNo">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+
+@*<div id="productPaging" style="text-align:center;">
+    @Html.PagedListPager(Model, p => "#")
+</div>*@
+
+@{
+    string infoBoxText = Convert.ToString(@TempData["InformationBoxFlag"]);
+    if (infoBoxText != string.Empty)
+    {
+        <div id="infoBoxFlag" class="g-d-n">@TempData["InformationBoxFlag"]</div>
+    }
+}

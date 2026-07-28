@@ -1,0 +1,431 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.CrMS;
+@model CreditAccountViewModel
+
+@{
+    ViewBag.Title = "Create Account";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h4>@ViewBag.Title</h4>
+        <div class="form-horizontal">
+
+            @using (Html.BeginForm("SaveAccount", "Customer"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                @Html.HiddenFor(x => x.AccountEntry.AccountId)
+                @Html.HiddenFor(x => x.AccountEntry.CustomerFk)
+                @Html.HiddenFor(x => x.AccountEntry.CustomerTypeId)
+                @Html.HiddenFor(x => x.CustomerEntry.AccountStatusId)
+                @Html.HiddenFor(x => x.CustomerEntry.CustomerId)
+                @Html.HiddenFor(x => x.BillingEntry.BillingId)
+                @Html.HiddenFor(x => x.BillingEntry.CustomerFk)
+                @Html.HiddenFor(x => x.AccountEntry.DateLastUpdated)
+                @Html.Hidden("returnToPage", Model.ReturnToPage)
+
+                <fieldset class="productFieldTabs g-b-1dg g-m-b-10">
+                    <legend>Notes</legend>
+                    <div class="row form-group g-a-c">
+                        <div class="col-md-12">
+                            @Html.TextAreaFor(m => m.AccountEntry.Notes, new { @class = "zform-control", @placeholder = "Enter account notes here", @style = "max-width:1000px;" })
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="productFieldTabs g-b-1dg g-m-t-10">
+                    <legend>Account Details</legend>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            @Html.Label("Trading Name", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.AccountEntry.TradingName, new { htmlAttributes = new { @class = "form-control g-mediumCell" } })
+                                @Html.ValidationMessageFor(m => m.AccountEntry.TradingName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            @Html.Label("Contact Name", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.AccountEntry.ContactName, new { htmlAttributes = new { @class = "form-control g-smallCell" } })
+                                @Html.ValidationMessageFor(m => m.AccountEntry.ContactName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            @Html.Label("Contact Email", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.AccountEntry.ContactEmailAddress, new { htmlAttributes = new { @class = "form-control g-mediumCell" } })
+                                @Html.ValidationMessageFor(m => m.AccountEntry.ContactEmailAddress, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            @Html.Label("Contact Telephone No", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.AccountEntry.ContactTelephoneNo, new { htmlAttributes = new { @class = "form-control g-smallCell" } })
+                                @Html.ValidationMessageFor(m => m.AccountEntry.ContactTelephoneNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            @Html.Label("Original Email", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.CustomerEntry.OriginalEmailAddress, new { htmlAttributes = new { @class = "form-control g-mediumCell" } })
+                                @Html.ValidationMessageFor(m => m.CustomerEntry.OriginalEmailAddress, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            @Html.Label("Account Number", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.CustomerEntry.AccountNumber, new { htmlAttributes = new { @class = "form-control g-smallCell" } })
+                                @Html.ValidationMessageFor(m => m.CustomerEntry.AccountNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            @Html.Label("Customer Type", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div id="" class="col-md-6">
+                                @Html.DropDownListFor(m => m.CustomerEntry.CustomerTypeId, Model.CustomerTypeList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                                @Html.ValidationMessageFor(m => m.CustomerEntry.CustomerTypeId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        @if (Model.AccountEntry.AccountId == 0)
+                        {
+                            <div class="col-md-6">
+                                @Html.Label("Website", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("CmsEntry_cmsSection_websiteFK", Model.WebsiteNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-6">
+                                @Html.Label("Website", htmlAttributes: new { @class = "control-label col-md-6" })
+                                <div class="col-md-6">
+                                    @Html.DropDownListFor(m => m.CustomerEntry.WebsiteFk, Model.WebsiteNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            @Html.Label("Organisation Type", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div id="" class="col-md-6">
+                                @Html.DropDownListFor(m => m.AccountEntry.OrganisationTypeId, Model.OrganisationTypeList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                                @Html.ValidationMessageFor(m => m.AccountEntry.OrganisationTypeId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            @Html.Label("Company Registration", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.AccountEntry.CompanyRegNo, new { htmlAttributes = new { @class = "form-control g-smallCell" } })
+                                @Html.ValidationMessageFor(m => m.AccountEntry.CompanyRegNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            @Html.Label("Sector", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div id="" class="col-md-6">
+                                @Html.DropDownListFor(m => m.AccountEntry.SectorId, Model.SectorList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                                @Html.ValidationMessageFor(m => m.AccountEntry.SectorId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            @Html.Label("VAT Number", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.AccountEntry.CompanyVatNo, new { htmlAttributes = new { @class = "form-control g-smallCell" } })
+                                @Html.ValidationMessageFor(m => m.AccountEntry.CompanyVatNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            @Html.Label("Total Staff Count", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div id="" class="col-md-6">
+                                @Html.DropDownListFor(m => m.AccountEntry.TotalStaffCountId, Model.StaffCountList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                                @Html.ValidationMessageFor(m => m.AccountEntry.TotalStaffCountId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            @Html.Label("Date of Application", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.AccountEntry.DateOfApplication, new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                                @Html.ValidationMessageFor(m => m.AccountEntry.DateOfApplication, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            @Html.Label("Order Staff Count", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div id="" class="col-md-6">
+                                @Html.DropDownListFor(m => m.AccountEntry.OrderStaffCountId, Model.StaffCountList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                                @Html.ValidationMessageFor(m => m.AccountEntry.OrderStaffCountId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            @Html.Label("Est. Monthly Spend", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.AccountEntry.EstMonthlySpend, new { htmlAttributes = new { @class = "form-control g-smallCell" } })
+                                @Html.ValidationMessageFor(m => m.AccountEntry.EstMonthlySpend, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.Label("Credit Limit", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.AccountEntry.CreditLimit, new { htmlAttributes = new { @class = "form-control g-smallCell" } })
+                                @Html.ValidationMessageFor(m => m.AccountEntry.CreditLimit, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            @Html.Label("First Order Ref", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div id="" class="col-md-6">
+                                @Html.EditorFor(m => m.AccountEntry.FirstOrderRef, new { htmlAttributes = new { @class = "form-control g-smallCell" } })
+                                @Html.ValidationMessageFor(m => m.AccountEntry.FirstOrderRef, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.Label("First Order Amount", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.AccountEntry.FirstOrderAmt, new { htmlAttributes = new { @class = "form-control g-smallCell" } })
+                                @Html.ValidationMessageFor(m => m.AccountEntry.FirstOrderAmt, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            @Html.Label("Number of Offices", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div id="" class="col-md-6">
+                                @Html.EditorFor(m => m.AccountEntry.NumberOffices, new { htmlAttributes = new { @class = "form-control g-smallCell" } })
+                                @Html.ValidationMessageFor(m => m.AccountEntry.NumberOffices, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.Label("Number of Printers", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.AccountEntry.NumberPrinters, new { htmlAttributes = new { @class = "form-control g-smallCell" } })
+                                @Html.ValidationMessageFor(m => m.AccountEntry.NumberPrinters, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            @Html.Label("Credit Account", htmlAttributes: new { @class = "control-label col-md-2 g-p-r-25" })
+                            <div class="col-md-3 g-m-l-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(m => m.AccountEntry.IsAccountCustomer)
+                                </div>
+                            </div>
+                            @Html.Label("Trade Account", htmlAttributes: new { @class = "control-label col-md-2 g-p-r-25" })
+                            <div class="col-md-3 g-m-l-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(m => m.AccountEntry.IsTradeCustomer)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            @Html.Label("Credit Account Status", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div id="" class="col-md-6">
+                                @Html.DropDownListFor(m => m.AccountEntry.StatusId, Model.AccountStatusList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            @Html.Label("Trade Account Status", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div id="" class="col-md-6">
+                                @Html.DropDownListFor(m => m.AccountEntry.TradeStatusId, Model.AccountStatusList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            @Html.Label("Acceptances", htmlAttributes: new { @class = "control-label col-md-2 g-p-r-25" })
+                            <div class="col-md-3 g-m-l-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(m => m.AccountEntry.AcceptStandardTerms)
+                                    @Html.LabelFor(m => m.AccountEntry.AcceptStandardTerms)
+                                </div>
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(m => m.AccountEntry.AcceptCreditTerms)
+                                    @Html.LabelFor(m => m.AccountEntry.AcceptCreditTerms)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="productFieldTabs g-b-1dg g-m-t-10">
+                    <legend>Billing Details</legend>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            @Html.Label("Contact Name", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.BillingEntry.ContactName, new { htmlAttributes = new { @class = "form-control g-mediumCell" } })
+                                @Html.ValidationMessageFor(m => m.BillingEntry.ContactName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.Label("Address Line 1", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.BillingEntry.AddressLine1, new { htmlAttributes = new { @class = "form-control g-mediumCell" } })
+                                @Html.ValidationMessageFor(m => m.BillingEntry.AddressLine1, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            @Html.Label("Email Address", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.BillingEntry.ContactEmailAddress, new { htmlAttributes = new { @class = "form-control g-mediumCell" } })
+                                @Html.ValidationMessageFor(m => m.BillingEntry.ContactEmailAddress, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.Label("Address Line 2", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.BillingEntry.AddressLine2, new { htmlAttributes = new { @class = "form-control g-mediumCell" } })
+                                @Html.ValidationMessageFor(m => m.BillingEntry.AddressLine2, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            @Html.Label("Telephone Number", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.BillingEntry.ContactTelephoneNo, new { htmlAttributes = new { @class = "form-control g-smallCell" } })
+                                @Html.ValidationMessageFor(m => m.BillingEntry.ContactTelephoneNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.Label("Address Line 3", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.BillingEntry.AddressLine3, new { htmlAttributes = new { @class = "form-control g-mediumCell" } })
+                                @Html.ValidationMessageFor(m => m.BillingEntry.AddressLine3, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            @Html.Label("Direct Debit", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-5 g-m-l-20">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(m => m.BillingEntry.DirectDebit)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.Label("Address Line 4", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.BillingEntry.AddressLine4, new { htmlAttributes = new { @class = "form-control g-mediumCell" } })
+                                @Html.ValidationMessageFor(m => m.BillingEntry.AddressLine4, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.Label("Address Line 5", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.BillingEntry.AddressLine5, new { htmlAttributes = new { @class = "form-control g-mediumCell" } })
+                                @Html.ValidationMessageFor(m => m.BillingEntry.AddressLine5, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.Label("Post Code", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.BillingEntry.PostCode, new { htmlAttributes = new { @class = "form-control g-smallCell" } })
+                                @Html.ValidationMessageFor(m => m.BillingEntry.PostCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.Label("Country", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(m => m.BillingEntry.Country, new { htmlAttributes = new { @class = "form-control g-smallCell" } })
+                                @Html.ValidationMessageFor(m => m.BillingEntry.Country, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="form-group g-m-t-10">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveAccount" value="Save" class="btn btn-default" title="Save" />
+                        @Html.ActionLink("Cancel", "AccountIndex", "Customer", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#AccountEntry_DateOfApplication").datepicker({ dateFormat: 'dd/mm/yy' });
+        });
+
+        $(function () {
+            $.validator.addMethod('date',
+                function (value, element) {
+                    if (this.optional(element)) {
+                        return true;
+                    }
+                    var ok = true;
+                    try {
+                        $.datepicker.parseDate('dd/mm/yy', value);
+                    }
+                    catch (err) {
+                        ok = false;
+                    }
+                    return ok;
+                });
+            $('#CustomerEntry_AccountStatusId').val($('#AccountEntry_StatusId').val());
+            $('#AccountEntry_CustomerTypeId').val($('#CustomerEntry_CustomerTypeId').val());
+            $(document).on("change",
+                "#AccountEntry_StatusId",
+                function () {
+                    $('#CustomerEntry_AccountStatusId').val($('#AccountEntry_StatusId').val());
+                });
+            $(document).on("change",
+                "#CustomerEntry_CustomerTypeId",
+                function () {
+                    $('#AccountEntry_CustomerTypeId').val($('#CustomerEntry_CustomerTypeId').val());
+                });
+        });
+    </script>
+}

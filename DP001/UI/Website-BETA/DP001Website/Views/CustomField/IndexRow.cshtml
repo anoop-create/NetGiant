@@ -1,0 +1,13 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model CustomFieldViewModel
+
+<td style="padding: 5px;">
+    @Html.DisplayFor(m => Model.CustomFieldEntry.UserFieldName)
+</td>
+<td style="padding: 5px;">
+    @Html.DisplayFor(m => Model.CustomFieldEntry.Lookup.LookupName)
+</td>
+<td width="40px">
+    <i class="fa fa-chevron-down" />
+</td>
+

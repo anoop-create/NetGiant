@@ -1,0 +1,20 @@
+﻿@using netGiant.Intranet.DataLayer;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<providerPrice>
+
+<table class="table">
+    <tr>
+        <th>Date Last Udpate</th>
+        <th>Price</th>
+        <th>Part No</th>
+    </tr>
+    @foreach (var item in Model.OrderByDescending(x => x.effectiveDate))
+    {
+        <tr>
+            <td>@item.dateLastUpdate</td>
+            <td>@Html.Raw("£" + string.Format("{0:N2}", item.price))</td>
+            <td>@item.providerInventory.partNo</td>
+        </tr>
+    }
+</table>
+

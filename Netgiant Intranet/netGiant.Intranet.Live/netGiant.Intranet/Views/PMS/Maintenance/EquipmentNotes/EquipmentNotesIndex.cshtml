@@ -1,0 +1,182 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model EquipmentNotesViewModel
+
+@{
+    ViewBag.Title = "Equipment Notes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h3>@ViewBag.Title</h3>
+
+        @Html.Hidden("EquipmentNotesDataURL", Url.Action("EquipmentNotesData", "EquipmentNotes"))
+        @Html.Hidden("DeleteEquipmentNotesURL", Url.Action("Delete", "EquipmentNotes"))
+        @Html.Hidden("EquipmentNotesList", Model.EquipmentNotesList.Count)
+
+        <div class="g-m-b-5">
+            @Html.DropDownListFor(m => m.EquipmentNotes.websiteFK, Model.WebsiteNameList, "Search by Website", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+            @Html.DropDownListFor(m => m.EquipmentNotes.eqEquipmentFK, Model.EquipmentNameList, "Search by Equipment", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+            <select id="EquipmentNotesSearchBy" class="searchBy g-f-l form-control g-smallCell g-m-r-10">
+                <option selected="selected" value="website">Search by Website</option>
+                <option value="equipment">Search by Equipment</option>
+                <option value="note">Search by Note</option>
+            </select>
+
+            <div class="g-f-l">
+                @Html.TextBox("SearchEquipmentNotes", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10" })
+                <a id="lnkSearchEquipmentNotes" href="#" class="btn btn-default g-m-r-10" title="Empty search returns all records">Search</a>
+                <img src="~/Content/images/loader/ajax-loader-whiteBG.gif" alt="" class="g-d-n" id="slAxisValueLookup" />
+            </div>
+            @Html.ActionLink("Reset", "EquipmentNotesIndex", "EquipmentNotes", null, new { @class = "btn btn-default" })
+        </div>
+
+        <div class="g-c-b">
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin") || User.IsInRole("SEO"))
+            {
+                @Html.ActionLink("Create New", "Create", "EquipmentNotes", new { id = 0 }, null)
+            }
+            else
+            {
+                @Html.Raw("&nbsp");
+            }
+            <span class="g-f-r"><span id="EquipmentNotesCount" class="g-fw-b">@Model.EquipmentNotesListCount </span><span>Equipment Notes Found</span></span>
+        </div>
+
+        <table class="table" id="tableSetting">
+            <tr>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="website">Website</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="equipment">Equipment</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th style="width: 60px">
+                    <a href="#" class="tableHeaderSort" value="isDetail">Detail</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="notes">Notes</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                </th>
+            </tr>
+            @{Html.RenderAction("EquipmentNotesList", "EquipmentNotes", new { Model = Model.EquipmentNotesList });}
+        </table>
+
+        <div id="EquipmentNotesDeleteDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+            Are you sure you want to delete this Equipment Note?
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        if ($('#EquipmentNotesList').val() < 50) {
+            noMoreData = true;
+        }
+
+        $(document).on("click", "#lnkSearchEquipmentNotes", function (event) {
+            blockNumber = 1;
+            GetEquipmentNoteSettings(true);
+            return false;
+        });
+
+        $("#SearchEquipmentNotes").keypress(function (event) {
+            if (event.which == 13) {
+                blockNumber = 1;
+                GetEquipmentNoteSettings(true);
+            }
+        });
+
+        $(document).on("change", "#EquipmentNotes_websiteFK, #EquipmentNotes_eqEquipmentFK", function (event) {
+            setupOptionsArray();
+            blockNumber = 1;
+            GetEquipmentNoteSettings(true);
+        });
+
+        $(document).on("change", "#EquipmentNotesSearchBy", function (event) {
+            setupOptionsArray();
+            blockNumber = 1;
+            GetEquipmentNoteSettings(true);
+        });
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() > $('#scrollBottomContainer').offset().top
+                && !noMoreData && !inProgress) {
+                GetEquipmentNoteSettings(false);
+            }
+            return false;
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            blockNumber = 1;
+            GetEquipmentNoteSettings(true);
+            return false;
+        });
+
+        $(document).on('click', '.lnkDeleteEquipmentNotes', function () {
+            setupOptionsArrayDelete($(this).attr('value'));
+            ajaxDeleteInfiniteScroll('#EquipmentNotesDeleteDialog', $('#DeleteEquipmentNotesURL').val(), $(this).attr('value'),
+                '#configurationSettingPartialView', optionsArray, $("#activeSortType"), $("#activeSortDir"),
+                true, '#tableSetting tr:gt(0)', '#EquipmentNotesCount', '#tableSetting tbody');
+            return false;
+        });
+
+        function GetEquipmentNoteSettings(clearTable) {
+            setupOptionsArray();
+            InfiniteScroll($('#EquipmentNotesDataURL').val(),
+                optionsArray,
+                clearTable,
+                '#tableSetting tr:gt(0)',
+                '#EquipmentNotesCount',
+                '#tableSetting tbody',
+                $("#activeSortType"),
+                $("#activeSortDir"));
+        }
+
+        function setupOptionsArray() {
+            optionsArray = new Array();
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[0] = sortType + sortDir;
+            } else {
+                optionsArray[0] = '';
+            }
+
+            optionsArray[1] = $("#SearchEquipmentNotes").val(); //SearchTerm
+            optionsArray[2] = $("#EquipmentNotesSearchBy").val(); //SearchBy
+            optionsArray[3] = $("#EquipmentNotes_websiteFK").val() || 0; //Search by Website
+            optionsArray[4] = $("#EquipmentNotes_eqEquipmentFK").val() || 0; //Search by Equipment
+        }
+
+        function setupOptionsArrayDelete(id) {
+            optionsArray = new Array();
+            optionsArray[0] = id;
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[1] = sortType + sortDir;
+            } else {
+                optionsArray[1] = '';
+            }
+
+            optionsArray[1] = $("#SearchEquipmentNotes").val(); //SearchTerm
+            optionsArray[2] = $("#EquipmentNotesSearchBy").val(); //SearchBy
+            optionsArray[3] = $("#EquipmentNotes_websiteFK").val() || 0; //Search by Website
+            optionsArray[4] = $("#EquipmentNotes_eqEquipmentFK").val() || 0; //Search by Equipment
+        }
+    </script>
+}

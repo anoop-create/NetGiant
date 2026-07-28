@@ -1,0 +1,84 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="NGS.UI.MasterPages.Main" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head runat="server">
+    <title>netGiant Intranet - <%: Page.Title %></title>
+    <link href="~/Contents/images/favicon.png" rel="shortcut icon" type="image/x-icon" />
+
+    <!-- Styles -->
+    <link href="../Contents/css/site.css" rel="stylesheet" type="text/css" />
+
+    <!-- Scripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../Scripts/jquery-1.10.2.min.js"></script>
+
+    <asp:ContentPlaceHolder ID="HeadContentPlaceHolder" runat="server"></asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server" class="form">
+        <ajaxToolKit:ToolkitScriptManager ID="sm1" runat="server" EnablePartialRendering="true" EnablePageMethods="true" AllowCustomErrorsRedirect="false">
+        </ajaxToolKit:ToolkitScriptManager>
+
+        <!-- Header -->
+        <div class="topHeader">
+            <div class="topHeaderLogo">
+                <img src="../../Contents/images/1pxTrans.png" alt="" title="" class="topHeaderLogoImage" />
+            </div>
+            <div class="menu gl_textType2b">
+                <ul>
+                    <li>
+                        <span>
+                            <asp:LinkButton ID="lnkQA" runat="server" Text="Questions & Answers" OnClick="lnkQA_Click" />
+                        </span>
+                    </li>
+                    <li>
+                        <span>
+                            <asp:LinkButton ID="lnkProducts" runat="server" Text="Products" OnClick="lnkProducts_Click" />
+                        </span>
+                    </li>
+                    <li>
+                        <span>
+                            <asp:LinkButton ID="lnkMembership" runat="server" Visible="false" Text="Membership" OnClick="lnkMembership_Click" />
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Body -->
+        <div class="bodyContents">
+            <div class="sideBar">
+                <div class="sideBar_User">
+                    <div class="userImage">
+                        <div class="userImageContent">
+                            <asp:Image ID="imgUser" runat="server" ImageUrl="~/Contents/images/1pxTrans.png" Width="70" Height="70" />
+                        </div>
+                    </div>
+                    <div class="user">
+                        <div class="userContent">
+                            <asp:Label ID="lblUser" runat="server" Font-Bold="true"></asp:Label>
+                            <div class="userLinks">
+                                <asp:HyperLink ID="hlMyProfile" runat="server" NavigateUrl="~/WebPages/MembershipUI/ChangePassword.aspx" Text="My Profile" 
+                                    Visible="false"></asp:HyperLink>
+                                <asp:LoginStatus runat="server" LogoutAction="RedirectToLoginPage" LogoutPageUrl="~/" 
+                                    OnLoggedOut="Unnamed_LoggedOut" />
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <asp:ContentPlaceHolder ID="UserContentPlaceHolder" runat="server"></asp:ContentPlaceHolder>
+                </div>
+                <asp:ContentPlaceHolder ID="SideBarMenuPlaceHolder" runat="server"></asp:ContentPlaceHolder>
+            </div>
+            <div class="contents">
+                <asp:ContentPlaceHolder ID="MainContentPlaceHolder" runat="server"></asp:ContentPlaceHolder>
+            </div>
+        </div>
+
+    </form>
+</body>
+
+</html>

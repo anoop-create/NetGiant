@@ -1,0 +1,94 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Review
+@using Kendo.Mvc.UI
+@using System.Data.Entity
+@model ReviewViewModel
+
+@{
+    ViewBag.Title = "Review Editor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4 class="text-center">Review Editor</h4>
+
+        <a class="btn btn-danger" onclick="ClearFilters()">Clear Filters</a>
+
+        @(Html.Kendo().Grid<ReviewViewModel.TelerikReview>()
+                .HtmlAttributes(new { @class = "pointer-rows" })
+                .Name("ReviewGrid")
+                .Columns(columns =>
+                {
+                    columns
+                        .Bound(x => x.FeefoFeedbackId)
+                        .Title("ID")
+                        .HeaderHtmlAttributes(new { style = "text-align: center;" });
+                    columns
+                        .Bound(x => x.FeedbackDate)
+                        .Title("Date")
+                        .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                        .ClientTemplate("#= kendo.toString(kendo.parseDate(FeedbackDate, 'yyyy-MM-dd'), 'dd/MM/yyyy') #");
+                    columns
+                        .Bound(x => x.ProductName)
+                        .Title("Product")
+                        .HeaderHtmlAttributes(new { style = "text-align:center;" });
+                    columns
+                        .Bound(x => x.PartNo)
+                        .Title("Part No")
+                        .HeaderHtmlAttributes(new { style = "text-align:center;" });
+                    columns
+                        .Bound(x => x.Rating)
+                        .Title("Rating")
+                        .HeaderHtmlAttributes(new { style = "text-align:center;" });
+                    columns
+                        .Bound(x => x.Comment)
+                        .Title("Review")
+                        .HeaderHtmlAttributes(new { style = "text-align:center;" });
+                    columns
+                        .Bound(x => x.Website)
+                        .Title("Website")
+                        .HeaderHtmlAttributes(new { style = "text-align:center;" });
+                    columns
+                        .Bound(x => x.IsHidden)
+                        .Title("Hidden?")
+                        .HeaderHtmlAttributes(new { style = "text-align:center;" });
+                    columns.Bound(x => x.FeefoFeedbackId)
+                        .ClientTemplate("<a href=\"Review/EditReview/#:FeefoFeedbackId#\">Edit</a>")
+                        .Title("Action")
+                        .Filterable(false)
+                        .Sortable(false)
+                        .Groupable(false);
+                })
+                .Pageable(pager => pager.Refresh(true))
+                .Pageable(pager => pager.PageSizes(new List<int>
+        { 150, 100, 50, 20 }))
+        .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Sortable(sortable => sortable.AllowUnsort(true))
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .NoRecords("There are no products to display")
+        .DataSource
+        (
+        dataSource => dataSource
+        .Ajax()
+        .Read(x => x.Action("ReviewDataAjax", "Review"))
+        .PageSize(50)
+        .Sort(s => { s.Add("FeefoFeedbackId").Descending(); })
+    )
+    .Events(e => e.DataBound("saveGridFilters"))
+    )
+    </div>
+</div>
+
+<script>
+
+    function ClearFilters() {
+        var MyDiv = $("#ReviewGrid")
+        var MyDataSource = MyDiv.data("kendoGrid").dataSource
+        MyDataSource.filter({})
+    }
+
+</script>
+

@@ -1,0 +1,47 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product;
+@model AXISQueueViewModel
+
+@{
+    ViewBag.Title = "AXIS Queue";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+</div>
+
+@(Html.Kendo().Grid<TelerikAxisQueueItem>()
+    .HtmlAttributes(new { @class = "pointer-rows" })
+    .Name("AxisQueueItemGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.EntityName).Title("Entity Name")
+            .HeaderHtmlAttributes(new { title = "Entity Name", style = "text-align: center;" });
+        columns.Bound(x => x.FieldName).Title("Field Name")
+            .HeaderHtmlAttributes(new { title = "Field Name", style = "text-align: center;" });
+        columns.Bound(x => x.CreatedDate).Format("{0:dd/MM/yyyy HH:mm:ss}").Title("Created Date")
+            .HeaderHtmlAttributes(new { title = "Created Date", style = "text-align: center;" });
+        columns.Bound(x => x.CompletedDate).Format("{0:dd/MM/yyyy HH:mm:ss}").Title("Completed Date")
+            .HeaderHtmlAttributes(new { title = "Completed Date", style = "text-align: center;" });
+        columns.Bound(x => x.Type).Title("Type")
+            .HeaderHtmlAttributes(new { title = "Type", style = "text-align: center;" });
+        columns.Bound(x => x.PartNo).Title("Part No")
+            .HeaderHtmlAttributes(new { title = "Part No", style = "text-align: center;" });
+    })
+    .Pageable(pager => pager.Refresh(true))
+    .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+    .Sortable(sortable => sortable.AllowUnsort(true))
+    .Groupable()
+    .Scrollable()
+    .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+    .ColumnMenu()
+    .Resizable(resize => resize.Columns(true))
+    .Reorderable(reorder => reorder.Columns(true))
+    .NoRecords("There are no axis queue items to display")
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(x => x.Action("AxisQueue_Read", "Product"))
+        .PageSize(200)
+    )
+    .Events(e => e.DataBound("saveGridFilters"))
+)

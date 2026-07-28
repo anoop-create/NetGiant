@@ -1,0 +1,513 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+      <title>Sage Pay - Keeping Money Moving</title><style type="text/css" media="screen">
+    @import url("../images/YourImages/vsp3.css");
+    </style><SCRIPT type="text/javascript" language="javascript">
+         	  
+         	  if (document.images) {
+         		 var cancel_btn = new Image()
+         		 cancel_btn.src = "../images/YourImages/cancel_btn.gif"
+         		 var cancel_over = new Image()
+         		 cancel_over.src = "../images/YourImages/cancel_over.gif"
+         		 var proceed_btn = new Image()
+         		 proceed_btn.src = "../images/YourImages/proceed_btn.gif"
+         		 var proceed_over = new Image()
+         		 proceed_over.src = "../images/YourImages/proceed_over.gif"
+         		 var submittedimg = new Image()
+         		 submittedimg.src = "../images/YourImages/submitted.gif"
+         		 var subsmallimg = new Image()
+         		 subsmallimg.src = "../images/YourImages/subsmall.gif"
+         		 }
+         	
+      </SCRIPT>
+      <SCRIPT type="text/javascript" language="javascript"
+              src="../images/sagepay/buttonscript.js"></SCRIPT>
+      <SCRIPT type="text/javascript"> 
+         	function showHide(obj){
+         		var curSel=obj.options[obj.selectedIndex].value
+         		var show=(document.all)? 'block' : 'table-row';
+         		if(curSel=='US'){ 
+         			document.getElementById('stateRow').style.display=show;
+         		}else{
+         			document.getElementById('stateRow').style.display="none";
+         		} 
+         	} 
+         	
+      </SCRIPT>
+   </head>
+   <body onload="showHide(document.getElementById('cardcountry'))">
+      <div id="pageWrapperLow">
+         <div class="sectionheader">Enter Card Details</div>
+         <div id="formCardDetails">
+            <div style="text-align: center; padding: 5px;"><span class="errortext"></span></div>
+            <form method="post" name="carddetails" id="carddetails"
+                  action="/gateway/service/carddetails">
+               <table class="formTable">
+                  <tr>
+                     <td class="label">Card Number<span class="errortext">*</span></td>
+                     <td class="data"><input name="cardnumber" size="30" autocomplete="off" /></td>
+                     <td class="info">(enter without spaces)</td>
+                  </tr>
+                  <tr>
+                     <td class="label">Firstname:<span class="errortext">*</span></td>
+                     <td class="data"><input name="cardfirstnames" size="30" maxlength="20" autocomplete="off"
+                               value="William" /></td>
+                     <td class="info">(name as it appears on card)</td>
+                  </tr>
+                  <tr>
+                     <td class="label">Surname:<span class="errortext">*</span></td>
+                     <td class="data"><input name="cardsurname" size="30" maxlength="20" autocomplete="off" value="Wonker" /></td>
+                     <td class="info" width="150">(name as it appears on card)</td>
+                  </tr>
+                  <tr>
+                     <td class="label">Valid From</td>
+                     <td class="data">Month:<select name="startmonth" size="1" style="width: 60px; margin-left: 3px;">
+                           <option value=""></option>
+                           <option xmlns="" value="01">01</option>
+                           <option xmlns="" value="02">02</option>
+                           <option xmlns="" value="03">03</option>
+                           <option xmlns="" value="04">04</option>
+                           <option xmlns="" value="05">05</option>
+                           <option xmlns="" value="06">06</option>
+                           <option xmlns="" value="07">07</option>
+                           <option xmlns="" value="08">08</option>
+                           <option xmlns="" value="09">09</option>
+                           <option xmlns="" value="10">10</option>
+                           <option xmlns="" value="11">11</option>
+                           <option xmlns="" value="12">12</option></select><span style="padding-left: 10px;">Year:<select name="startyear" size="1" style="width: 60px; margin-left: 3px;">
+                              <option value=""></option>
+                              <option xmlns="" value="93">1993</option>
+                              <option xmlns="" value="94">1994</option>
+                              <option xmlns="" value="95">1995</option>
+                              <option xmlns="" value="96">1996</option>
+                              <option xmlns="" value="97">1997</option>
+                              <option xmlns="" value="98">1998</option>
+                              <option xmlns="" value="99">1999</option>
+                              <option xmlns="" value="00">2000</option>
+                              <option xmlns="" value="01">2001</option>
+                              <option xmlns="" value="02">2002</option>
+                              <option xmlns="" value="03">2003</option>
+                              <option xmlns="" value="04">2004</option>
+                              <option xmlns="" value="05">2005</option>
+                              <option xmlns="" value="06">2006</option>
+                              <option xmlns="" value="07">2007</option>
+                              <option xmlns="" value="08">2008</option>
+                              <option xmlns="" value="09">2009</option>
+                              <option xmlns="" value="10">2010</option>
+                              <option xmlns="" value="11">2011</option>
+                              <option xmlns="" value="12">2012</option>
+                              <option xmlns="" value="13">2013</option></select></span></td>
+                     <td class="info">(if not present, leave blank)</td>
+                  </tr>
+                  <tr>
+                     <td class="label">Expiry date<span class="errortext">*</span></td>
+                     <td class="data" colspan="2">Month:<select name="expirymonth" size="1" style="width: 60px; margin-left: 4px;">
+                           <option value=""></option>
+                           <option xmlns="" value="01">01</option>
+                           <option xmlns="" value="02">02</option>
+                           <option xmlns="" value="03">03</option>
+                           <option xmlns="" value="04">04</option>
+                           <option xmlns="" value="05">05</option>
+                           <option xmlns="" value="06">06</option>
+                           <option xmlns="" value="07">07</option>
+                           <option xmlns="" value="08">08</option>
+                           <option xmlns="" value="09">09</option>
+                           <option xmlns="" value="10">10</option>
+                           <option xmlns="" value="11">11</option>
+                           <option xmlns="" value="12">12</option></select><span style="padding-left: 10px;">Year:<select name="expiryyear" size="1" style="width: 60px; margin-left: 4px;">
+                              <option value=""></option>
+                              <option xmlns="" value="13">2013</option>
+                              <option xmlns="" value="14">2014</option>
+                              <option xmlns="" value="15">2015</option>
+                              <option xmlns="" value="16">2016</option>
+                              <option xmlns="" value="17">2017</option>
+                              <option xmlns="" value="18">2018</option>
+                              <option xmlns="" value="19">2019</option>
+                              <option xmlns="" value="20">2020</option>
+                              <option xmlns="" value="21">2021</option>
+                              <option xmlns="" value="22">2022</option>
+                              <option xmlns="" value="23">2023</option>
+                              <option xmlns="" value="24">2024</option>
+                              <option xmlns="" value="25">2025</option>
+                              <option xmlns="" value="26">2026</option>
+                              <option xmlns="" value="27">2027</option>
+                              <option xmlns="" value="28">2028</option>
+                              <option xmlns="" value="29">2029</option>
+                              <option xmlns="" value="30">2030</option>
+                              <option xmlns="" value="31">2031</option>
+                              <option xmlns="" value="32">2032</option></select></span></td>
+                  </tr>
+                  <tr>
+                     <td class="label">Issue Number</td>
+                     <td class="data"><input size="2" maxlength="2" name="cardissue" style="width: 27px;" autocomplete="off" /></td>
+                     <td class="info">(switch/solo only, if not present leave blank)</td>
+                  </tr>
+                  <tr>
+                     <td class="label">Security Code<span class="errortext">*</span></td>
+                     <td class="data"><input size="5" maxlength="4" name="securitycode" style="width:50px;"
+                               autocomplete="off" /></td>
+                     <td class="info"></td>
+                  </tr>
+                  <tr>
+                     <td class="label">Billing Address Line 1<span class="errortext">*</span></td>
+                     <td class="data" colspan="2"><input size="30" maxlength="100" name="cardaddress" autocomplete="off"
+                               value="1 The Chocolate Factory" /></td>
+                  </tr>
+                  <tr>
+                     <td class="label">Billing Address Line 2<span class="errortext"></span></td>
+                     <td class="data" colspan="2"><input size="30" maxlength="100" name="cardaddress2" autocomplete="off"
+                               value="Bourbon Street" /></td>
+                  </tr>
+                  <tr>
+                     <td class="label">Billing City<span class="errortext">*</span></td>
+                     <td class="data" colspan="2"><input size="30" maxlength="40" name="cardcity" autocomplete="off" value="Wonker" /></td>
+                  </tr>
+                  <tr id="stateRow" style="display:none;">
+                     <td class="label">Billing State<span class="errortext">*</span></td>
+                     <td class="data" colspan="2"><select name="cardstate" size="1">
+                           <option value=""></option>
+                           <option xmlns="" value="AL">Alabama</option>
+                           <option xmlns="" value="AK">Alaska</option>
+                           <option xmlns="" value="AS">American Somoa</option>
+                           <option xmlns="" value="AZ">Arizona</option>
+                           <option xmlns="" value="AR">Arkansas</option>
+                           <option xmlns="" value="CA">California</option>
+                           <option xmlns="" value="CO">Colorado</option>
+                           <option xmlns="" value="CT">Connecticut</option>
+                           <option xmlns="" value="DE">Delaware</option>
+                           <option xmlns="" value="DC">District of Columbia</option>
+                           <option xmlns="" value="FL">Florida</option>
+                           <option xmlns="" value="GA">Georgia</option>
+                           <option xmlns="" value="HI">Hawaii</option>
+                           <option xmlns="" value="ID">Idaho</option>
+                           <option xmlns="" value="IL">Illinois</option>
+                           <option xmlns="" value="IN">Indiana</option>
+                           <option xmlns="" value="IA">Iowa</option>
+                           <option xmlns="" value="KS">Kansas</option>
+                           <option xmlns="" value="KY">Kentucky</option>
+                           <option xmlns="" value="LA">Louisiana</option>
+                           <option xmlns="" value="ME">Maine</option>
+                           <option xmlns="" value="MD">Maryland</option>
+                           <option xmlns="" value="MA">Massachusetts</option>
+                           <option xmlns="" value="MI">Michigan</option>
+                           <option xmlns="" value="MN">Minnesota</option>
+                           <option xmlns="" value="MS">Mississippi</option>
+                           <option xmlns="" value="MO">Missouri</option>
+                           <option xmlns="" value="MT">Montana</option>
+                           <option xmlns="" value="NE">Nebraska</option>
+                           <option xmlns="" value="NV">Nevada</option>
+                           <option xmlns="" value="NH">New Hampshire</option>
+                           <option xmlns="" value="NJ">New Jersey</option>
+                           <option xmlns="" value="NM">New Mexico</option>
+                           <option xmlns="" value="NY">New York</option>
+                           <option xmlns="" value="NC">North Carolina</option>
+                           <option xmlns="" value="ND">North Dakota</option>
+                           <option xmlns="" value="OH">Ohio</option>
+                           <option xmlns="" value="OK">Oklahoma</option>
+                           <option xmlns="" value="OR">Oregon</option>
+                           <option xmlns="" value="PA">Pennsylvania</option>
+                           <option xmlns="" value="RI">Rhode Island</option>
+                           <option xmlns="" value="SC">South Carolina</option>
+                           <option xmlns="" value="SD">South Dakota</option>
+                           <option xmlns="" value="TN">Tennessee</option>
+                           <option xmlns="" value="TX">Texas</option>
+                           <option xmlns="" value="UT">Utah</option>
+                           <option xmlns="" value="VT">Vermont</option>
+                           <option xmlns="" value="VA">Virginia</option>
+                           <option xmlns="" value="WA">Washington</option>
+                           <option xmlns="" value="WV">West Virginia</option>
+                           <option xmlns="" value="WI">Wisconsin</option>
+                           <option xmlns="" value="WY">Wyoming</option></select></td>
+                  </tr>
+                  <tr>
+                     <td class="label">Billing Country<span class="errortext">*</span></td>
+                     <td class="data" colspan="2"><select name="cardcountry" id="cardcountry" size="1" onchange="showHide(this)">
+                           <option xmlns="" value="AF">Afghanistan</option>
+                           <option xmlns="" value="AL">Albania</option>
+                           <option xmlns="" value="DZ">Algeria</option>
+                           <option xmlns="" value="AS">American Samoa</option>
+                           <option xmlns="" value="AD">Andorra</option>
+                           <option xmlns="" value="AO">Angola</option>
+                           <option xmlns="" value="AI">Anguilla</option>
+                           <option xmlns="" value="AQ">Antarctica</option>
+                           <option xmlns="" value="AG">Antigua and Barbuda</option>
+                           <option xmlns="" value="AR">Argentina</option>
+                           <option xmlns="" value="AM">Armenia</option>
+                           <option xmlns="" value="AW">Aruba</option>
+                           <option xmlns="" value="AU">Australia</option>
+                           <option xmlns="" value="AT">Austria</option>
+                           <option xmlns="" value="AZ">Azerbaijan</option>
+                           <option xmlns="" value="BS">Bahamas</option>
+                           <option xmlns="" value="BH">Bahrain</option>
+                           <option xmlns="" value="BD">Bangladesh</option>
+                           <option xmlns="" value="BB">Barbados</option>
+                           <option xmlns="" value="BY">Belarus</option>
+                           <option xmlns="" value="BE">Belgium</option>
+                           <option xmlns="" value="BZ">Belize</option>
+                           <option xmlns="" value="BJ">Benin</option>
+                           <option xmlns="" value="BM">Bermuda</option>
+                           <option xmlns="" value="BT">Bhutan</option>
+                           <option xmlns="" value="BO">Bolivia</option>
+                           <option xmlns="" value="BA">Bosnia and Herzegowina</option>
+                           <option xmlns="" value="BW">Botswana</option>
+                           <option xmlns="" value="BV">Bouvet Island</option>
+                           <option xmlns="" value="BR">Brazil</option>
+                           <option xmlns="" value="IO">British Indian Ocean Territory</option>
+                           <option xmlns="" value="BN">Brunei Darussalam</option>
+                           <option xmlns="" value="BG">Bulgaria</option>
+                           <option xmlns="" value="BF">Burkina faso</option>
+                           <option xmlns="" value="BI">Burundi</option>
+                           <option xmlns="" value="KH">Cambodia, Kindom of</option>
+                           <option xmlns="" value="CM">Cameroon</option>
+                           <option xmlns="" value="CA">Canada</option>
+                           <option xmlns="" value="CV">Cape verde</option>
+                           <option xmlns="" value="KY">Cayman islands</option>
+                           <option xmlns="" value="CF">Central African Republic</option>
+                           <option xmlns="" value="TD">Chad</option>
+                           <option xmlns="" value="CL">Chile</option>
+                           <option xmlns="" value="CN">China</option>
+                           <option xmlns="" value="CX">Christmas Island</option>
+                           <option xmlns="" value="CC">Cocos (keeling) Islands</option>
+                           <option xmlns="" value="CO">Colombia</option>
+                           <option xmlns="" value="KM">Comoros</option>
+                           <option xmlns="" value="CG">Congo</option>
+                           <option xmlns="" value="CD">Congo, The Democratic Republic of The</option>
+                           <option xmlns="" value="CK">Cook Islands</option>
+                           <option xmlns="" value="CR">Costa Rica</option>
+                           <option xmlns="" value="CI">Cote d'ivoire (Ivory Coast)</option>
+                           <option xmlns="" value="HR">Croatia (Hrvatska)</option>
+                           <option xmlns="" value="CU">Cuba</option>
+                           <option xmlns="" value="CY">Cyprus</option>
+                           <option xmlns="" value="CZ">Czech Republic</option>
+                           <option xmlns="" value="CS">Czechoslovakia (Officially deleted)</option>
+                           <option xmlns="" value="DK">Denmark</option>
+                           <option xmlns="" value="DJ">Djibouti</option>
+                           <option xmlns="" value="DM">Dominica</option>
+                           <option xmlns="" value="DO">Dominican Republic</option>
+                           <option xmlns="" value="TP">East Timor</option>
+                           <option xmlns="" value="EC">Ecuador</option>
+                           <option xmlns="" value="EG">Egypt</option>
+                           <option xmlns="" value="SV">El Salvador</option>
+                           <option xmlns="" value="GQ">Equatorial Guinea</option>
+                           <option xmlns="" value="ER">Eritrea</option>
+                           <option xmlns="" value="EE">Estonia</option>
+                           <option xmlns="" value="ET">Ethiopia</option>
+                           <option xmlns="" value="FK">Falkland Islands (Malvinas)</option>
+                           <option xmlns="" value="FO">Faroe Islands</option>
+                           <option xmlns="" value="FJ">Fiji</option>
+                           <option xmlns="" value="FI">Finland</option>
+                           <option xmlns="" value="FR">France</option>
+                           <option xmlns="" value="FX">France, metropolitan</option>
+                           <option xmlns="" value="GF">French Guiana</option>
+                           <option xmlns="" value="PF">French Polynesia</option>
+                           <option xmlns="" value="TF">French Southern Territories</option>
+                           <option xmlns="" value="GA">Gabon</option>
+                           <option xmlns="" value="GM">Gambia</option>
+                           <option xmlns="" value="GE">Georgia</option>
+                           <option xmlns="" value="DE">Germany</option>
+                           <option xmlns="" value="GH">Ghana</option>
+                           <option xmlns="" value="GI">Gibraltar</option>
+                           <option xmlns="" value="GR">Greece</option>
+                           <option xmlns="" value="GL">Greenland</option>
+                           <option xmlns="" value="GD">Grenada</option>
+                           <option xmlns="" value="GP">Guadeloupe</option>
+                           <option xmlns="" value="GU">Guam</option>
+                           <option xmlns="" value="GT">Guatemala</option>
+                           <option xmlns="" value="GG">Guernsey </option>
+                           <option xmlns="" value="GN">Guinea</option>
+                           <option xmlns="" value="GW">Guinea-Bissau</option>
+                           <option xmlns="" value="GY">Guyana</option>
+                           <option xmlns="" value="HT">Haiti</option>
+                           <option xmlns="" value="HM">Heard and MC Donald Islands</option>
+                           <option xmlns="" value="VA">Holy See (Vatican City State)</option>
+                           <option xmlns="" value="HN">Honduras</option>
+                           <option xmlns="" value="HK">Hong kong</option>
+                           <option xmlns="" value="HU">Hungary</option>
+                           <option xmlns="" value="IS">Iceland</option>
+                           <option xmlns="" value="IN">India</option>
+                           <option xmlns="" value="ID">Indonesia</option>
+                           <option xmlns="" value="IR">Iran</option>
+                           <option xmlns="" value="IQ">Iraq</option>
+                           <option xmlns="" value="IE">Ireland</option>
+                           <option xmlns="" value="IL">Israel</option>
+                           <option xmlns="" value="IT">Italy</option>
+                           <option xmlns="" value="JM">Jamaica</option>
+                           <option xmlns="" value="JP">Japan</option>
+                           <option xmlns="" value="JE">Jersey</option>
+                           <option xmlns="" value="JO">Jordan</option>
+                           <option xmlns="" value="KZ">Kazakhstan</option>
+                           <option xmlns="" value="KE">Kenya</option>
+                           <option xmlns="" value="KI">Kiribati</option>
+                           <option xmlns="" value="KP">Democratic People's Republic of Korea</option>
+                           <option xmlns="" value="KR">Republic of Korea</option>
+                           <option xmlns="" value="KW">Kuwait</option>
+                           <option xmlns="" value="KG">Kyrgyzstan (Kyrgyz Republic)</option>
+                           <option xmlns="" value="LA">Lao People's Democratic Republic</option>
+                           <option xmlns="" value="LV">Latvia</option>
+                           <option xmlns="" value="LB">Lebanon</option>
+                           <option xmlns="" value="LS">Lesotho</option>
+                           <option xmlns="" value="LR">Liberia</option>
+                           <option xmlns="" value="LY">Libyan Arab Jamahiriya</option>
+                           <option xmlns="" value="LI">Liechtenstein</option>
+                           <option xmlns="" value="LT">Lithuania</option>
+                           <option xmlns="" value="LU">Luxembourg</option>
+                           <option xmlns="" value="MO">Macau</option>
+                           <option xmlns="" value="MK">Macedonia, the former Yugoslav Republic of</option>
+                           <option xmlns="" value="MG">Madagascar, Replublic of</option>
+                           <option xmlns="" value="MW">Malawi</option>
+                           <option xmlns="" value="MY">Malaysia</option>
+                           <option xmlns="" value="MV">Maldives</option>
+                           <option xmlns="" value="ML">Mali</option>
+                           <option xmlns="" value="MT">Malta</option>
+                           <option xmlns="" value="MH">Marshall Islands</option>
+                           <option xmlns="" value="MQ">Martinique</option>
+                           <option xmlns="" value="MR">Mauritania</option>
+                           <option xmlns="" value="MU">Mauritius</option>
+                           <option xmlns="" value="YT">Mayotte</option>
+                           <option xmlns="" value="MX">Mexico</option>
+                           <option xmlns="" value="FM">Micronesia, Federated States of</option>
+                           <option xmlns="" value="MD">Moldova, Republic of</option>
+                           <option xmlns="" value="MC">Monaco</option>
+                           <option xmlns="" value="MN">Mongolia</option>
+                           <option xmlns="" value="MS">Montserrat</option>
+                           <option xmlns="" value="MA">Morocco</option>
+                           <option xmlns="" value="MZ">Mozambique</option>
+                           <option xmlns="" value="MM">Myanmar</option>
+                           <option xmlns="" value="NA">Namibia</option>
+                           <option xmlns="" value="NR">Nauru</option>
+                           <option xmlns="" value="NP">Nepal</option>
+                           <option xmlns="" value="NL">Netherlands</option>
+                           <option xmlns="" value="AN">Netherlands Antilles</option>
+                           <option xmlns="" value="NC">New Caledonia</option>
+                           <option xmlns="" value="NZ">New Zealand</option>
+                           <option xmlns="" value="NI">Nicaragua</option>
+                           <option xmlns="" value="NE">Niger</option>
+                           <option xmlns="" value="NG">Nigeria</option>
+                           <option xmlns="" value="NU">Niue</option>
+                           <option xmlns="" value="NF">Norfolk Island</option>
+                           <option xmlns="" value="MP">Northern Mariana Islands</option>
+                           <option xmlns="" value="NO">Norway</option>
+                           <option xmlns="" value="OM">Oman</option>
+                           <option xmlns="" value="PK">Pakistan</option>
+                           <option xmlns="" value="PW">Palau</option>
+                           <option xmlns="" value="PA">Panama</option>
+                           <option xmlns="" value="PG">Papua New Guinea</option>
+                           <option xmlns="" value="PY">Paraguay</option>
+                           <option xmlns="" value="PE">Peru</option>
+                           <option xmlns="" value="PH">Philippines</option>
+                           <option xmlns="" value="PN">Pitcairn</option>
+                           <option xmlns="" value="PL">Poland</option>
+                           <option xmlns="" value="PT">Portugal</option>
+                           <option xmlns="" value="PR">Puerto Rico</option>
+                           <option xmlns="" value="QA">Qatar</option>
+                           <option xmlns="" value="RE">Reunion</option>
+                           <option xmlns="" value="RO">Romania</option>
+                           <option xmlns="" value="RU">Russian Federation</option>
+                           <option xmlns="" value="RW">Rwanda</option>
+                           <option xmlns="" value="KN">Saint Kitts and Nevis</option>
+                           <option xmlns="" value="LC">Saint Lucia</option>
+                           <option xmlns="" value="VC">Saint Vincent and the Grenadines</option>
+                           <option xmlns="" value="WS">Samoa</option>
+                           <option xmlns="" value="SM">San Marino</option>
+                           <option xmlns="" value="ST">Sao Tome and Principe</option>
+                           <option xmlns="" value="SA">Saudi Arabia</option>
+                           <option xmlns="" value="SN">Senegal</option>
+                           <option xmlns="" value="RS">Serbia</option>
+                           <option xmlns="" value="SC">Seychelles</option>
+                           <option xmlns="" value="SL">Sierra Leone</option>
+                           <option xmlns="" value="SG">Singapore</option>
+                           <option xmlns="" value="SK">Slovakia (Slovak Republic)</option>
+                           <option xmlns="" value="SI">Slovenia</option>
+                           <option xmlns="" value="SB">Solomon Islands</option>
+                           <option xmlns="" value="SO">Somalia</option>
+                           <option xmlns="" value="ZA">South Africa</option>
+                           <option xmlns="" value="GS">South Georgia and the South Sandwich Sslands</option>
+                           <option xmlns="" value="SU">Soviet Union (See Russian Federation)</option>
+                           <option xmlns="" value="ES">Spain</option>
+                           <option xmlns="" value="LK">Sri Lanka</option>
+                           <option xmlns="" value="SH">St. Helena</option>
+                           <option xmlns="" value="PM">St. Pierre and Miquelon</option>
+                           <option xmlns="" value="SD">Sudan</option>
+                           <option xmlns="" value="SR">Suriname</option>
+                           <option xmlns="" value="SJ">Svalbard and Jan Mayen Islands</option>
+                           <option xmlns="" value="SZ">Swaziland</option>
+                           <option xmlns="" value="SE">Sweden</option>
+                           <option xmlns="" value="CH">Switzerland</option>
+                           <option xmlns="" value="SY">Syrian Arab Republic</option>
+                           <option xmlns="" value="TW">Taiwan, Province of China</option>
+                           <option xmlns="" value="TJ">Tajikistan</option>
+                           <option xmlns="" value="TZ">Tanzania, United Republic of</option>
+                           <option xmlns="" value="TH">Thailand</option>
+                           <option xmlns="" value="TG">Togo</option>
+                           <option xmlns="" value="TK">Tokelau</option>
+                           <option xmlns="" value="TO">Tonga</option>
+                           <option xmlns="" value="TT">Trinidad and Tobago</option>
+                           <option xmlns="" value="TN">Tunisia</option>
+                           <option xmlns="" value="TR">Turkey</option>
+                           <option xmlns="" value="TM">Turkmenistan</option>
+                           <option xmlns="" value="TC">Turks and Caicos Islands</option>
+                           <option xmlns="" value="TV">Tuvalu</option>
+                           <option xmlns="" value="UG">Uganda</option>
+                           <option xmlns="" value="UA">Ukraine</option>
+                           <option xmlns="" value="AE">United Arab Emirates</option>
+                           <option xmlns="" value="GB" selected="yes">United Kingdom</option>
+                           <option xmlns="" value="US">United States</option>
+                           <option xmlns="" value="UM">United States minor outlying islands</option>
+                           <option xmlns="" value="UY">Uruguay</option>
+                           <option xmlns="" value="UZ">Uzbekistan</option>
+                           <option xmlns="" value="VU">Vanuatu</option>
+                           <option xmlns="" value="VE">Venezuela</option>
+                           <option xmlns="" value="VN">Viet Nam</option>
+                           <option xmlns="" value="VG">Virgin Islands (british)</option>
+                           <option xmlns="" value="VI">Virgin Islands (U.S.)</option>
+                           <option xmlns="" value="WF">Wallis and Futuna Islands</option>
+                           <option xmlns="" value="EH">Western Sahara</option>
+                           <option xmlns="" value="YE">Yemen</option>
+                           <option xmlns="" value="YU">Yugoslavia</option>
+                           <option xmlns="" value="ZR">Zaire</option>
+                           <option xmlns="" value="ZM">Zambia</option>
+                           <option xmlns="" value="ZW">Zimbabwe</option></select></td>
+                  </tr>
+                  <tr>
+                     <td class="label">Billing Post Code<span class="errortext">*</span></td>
+                     <td class="data" colspan="2"><input size="5" maxlength="10" name="cardpostcode" value="W8T 5ON"
+                               style="height: 22px; width: 70px;" /></td>
+                  </tr>
+                  <tr>
+                     <td class="label">Gift Aid Details</td>
+                     <td class="data" colspan="2">I am a UK tax payer and would like <strong>Your lovely web site!</strong> to reclaim tax on this donation under the Gift Aid scheme.<br /><br />Please tick if you wish to donate your Tax to Gift Aid.<input name="giftaid" type="checkbox" value="yes" /></td>
+                  </tr>
+               </table><input name="action" type="hidden" value="proceed" /><input type="hidden" name="clickedButton" value="" /><a id="proceedButton" href="#" onmouseover="activate('proceed')"
+                  onmouseout="inactivate('proceed')"
+                  onclick="submitTheForm('carddetails','proceed');return false">
+                  <SCRIPT type="text/javascript" language="JavaScript1.2">
+                     document.write('<img border="0" name="proceed" src="');
+                     document.write('../images/YourImages/proceed_btn.gif');
+                     document.write('" alt="');
+                     document.write('Proceed');
+                     document.write('"/>');
+                     
+                  </SCRIPT></a><NOSCRIPT><input id="proceedButton" name="proceed" type="image"
+                         src="../images/YourImages/proceed_btn.gif"
+                         alt="Proceed" /></NOSCRIPT>
+            </form>
+            <form method="post" name="cancelpayment" id="cancelpayment"
+                  action="/gateway/service/cancellation"><input type="hidden" name="clickedButton" value="" /><a href="#" onmouseover="activate('cancel')" onmouseout="inactivate('cancel')"
+                  onclick="submitTheForm('cancelpayment','cancel');return false">
+                  <SCRIPT type="text/javascript" language="JavaScript">
+                     document.write('<img border="0" name="cancel" src="');
+                     document.write('../images/YourImages/cancel_btn.gif');
+                     document.write('" alt="');
+                     document.write('Cancel');
+                     document.write('"/>');
+                     
+                  </SCRIPT></a><NOSCRIPT><input name="cancel" type="image" src="../images/YourImages/cancel_btn.gif"
+                         alt="Cancel" /></NOSCRIPT>
+            </form>
+         </div>
+      </div>
+   </body>
+</html>

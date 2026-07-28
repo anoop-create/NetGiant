@@ -1,0 +1,107 @@
+﻿@model netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance.FieldSectionViewModel
+
+@{
+    ViewBag.Title = "Field Section";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title Details</h4>
+
+        <div style="padding-bottom: 20px">
+            <select id="fieldSectionSearchBy" class="searchBy g-f-l form-control g-smallCell" style="margin-right:10px">
+                <option selected="selected" value="name">Search by name</option>
+            </select>
+            <div>
+                @Html.TextBox("SearchFieldSection", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10", @type = "text" })
+                <a id="lnkSearchFieldSection" href="#" class="btn btn-default g-f-l" title="Empty search returns all records">Search</a>
+            </div>
+        </div>
+
+        <br />
+
+        <div id="fieldSectionData">
+            @{ Html.RenderPartial("~/Views/PMS/Maintenance/FieldSection/FieldSectionData.cshtml", Model.fieldSections);}
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        $(document).on("click", "#lnkSearchFieldSection, #fieldSectionPaging a", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $("#SearchFieldSection").keypress(function (event) {
+            if (event.which == 13) {
+                applyStandardPaging(event);
+            }
+        });
+
+        $(document).on("click", ".lnkFieldSectionDelete", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete('#fieldSectionDeleteDialog', $('#DeleteFieldSectionURL').val(), $(this).attr('value'),
+                '#fieldSectionData', optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            applyStandardPaging(event, 0);
+
+            return false;
+        });
+
+        if ($("#historyPage").val() != '') {
+            $('#fieldSectionData').html($("#historyPage").val());
+        }
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging();
+            standardPaging(event, id, "#fieldSectionPaging", $('#FieldSectionDataURL').val(),
+                                    "#fieldSectionData", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#SearchFieldSection").val(); //SearchTerm
+            optionsArray[1] = $("#fieldSectionSearchBy").val(); //SearchBy
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[2] = sortType + sortDir;
+            } else {
+                optionsArray[2] = '';
+            }
+        }
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value"); //ProductTypeID
+            optionsArray[1] = $("#SearchFieldSection").val(); //SearchTerm
+            optionsArray[2] = $("#fieldSectionSearchBy").val(); //SearchBy
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[3] = sortType + sortDir;
+            } else {
+                optionsArray[3] = '';
+            }
+        }
+
+    </script>
+}

@@ -1,0 +1,63 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001DataAccess.Entities;
+@model PriceRuleViewModel
+
+@{
+    string fieldnumber = "";
+    foreach (CustomField cf in Model.CustomFieldList)
+    {
+        fieldnumber = cf.DBFieldName.Substring(cf.DBFieldName.Length - 1);
+        <div class="col-md-2 form-name">
+            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Please enter the column heading that identifies the @cf.UserFieldName custom field." data-helpsid="2" data-helpeid="2"></i>
+            @cf.UserFieldName
+        </div>
+        <div class="col-md-4 form-value">
+            @switch (fieldnumber)
+            {
+                case "1":
+                    @Html.ValidationMessageFor(x => x.PriceRuleEntry.CustomRuleField1)
+                    @Html.TextBoxFor(x => x.PriceRuleEntry.CustomRuleField1, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                    break;
+                case "2":
+                    @Html.ValidationMessageFor(x => x.PriceRuleEntry.CustomRuleField2)
+                    @Html.TextBoxFor(x => x.PriceRuleEntry.CustomRuleField2, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                    break;
+                case "3":
+                    @Html.ValidationMessageFor(x => x.PriceRuleEntry.CustomRuleField3)
+                    @Html.TextBoxFor(x => x.PriceRuleEntry.CustomRuleField3, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                    break;
+                case "4":
+                    @Html.ValidationMessageFor(x => x.PriceRuleEntry.CustomRuleField4)
+                    @Html.TextBoxFor(x => x.PriceRuleEntry.CustomRuleField4, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                    break;
+                case "5":
+                    @Html.ValidationMessageFor(x => x.PriceRuleEntry.CustomRuleField5)
+                    @Html.TextBoxFor(x => x.PriceRuleEntry.CustomRuleField5, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                    break;
+                case "6":
+                    @Html.ValidationMessageFor(x => x.PriceRuleEntry.CustomRuleField6)
+                    @Html.TextBoxFor(x => x.PriceRuleEntry.CustomRuleField6, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                    break;
+                case "7":
+                    @Html.ValidationMessageFor(x => x.PriceRuleEntry.CustomRuleField7)
+                    @Html.TextBoxFor(x => x.PriceRuleEntry.CustomRuleField7, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                    break;
+                case "8":
+                    @Html.ValidationMessageFor(x => x.PriceRuleEntry.CustomRuleField8)
+                    @Html.TextBoxFor(x => x.PriceRuleEntry.CustomRuleField8, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                    break;
+                case "9":
+                    @Html.ValidationMessageFor(x => x.PriceRuleEntry.CustomRuleField9)
+                    @Html.TextBoxFor(x => x.PriceRuleEntry.CustomRuleField9, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                    break;
+                case "0":
+                    @Html.ValidationMessageFor(x => x.PriceRuleEntry.CustomRuleField10)
+                    @Html.TextBoxFor(x => x.PriceRuleEntry.CustomRuleField10, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                    break;
+            }
+        </div>
+
+
+    }
+}
+

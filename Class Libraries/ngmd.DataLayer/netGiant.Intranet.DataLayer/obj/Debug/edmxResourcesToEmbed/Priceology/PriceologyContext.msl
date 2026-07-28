@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="PriceologyModelStoreContainer" CdmEntityContainer="PriceologyEntities">
+    <EntitySetMapping Name="Logs">
+      <EntityTypeMapping TypeName="PriceologyModel.Log">
+        <MappingFragment StoreEntitySet="Log">
+          <ScalarProperty Name="LogID" ColumnName="LogID" />
+          <ScalarProperty Name="JobID" ColumnName="JobID" />
+          <ScalarProperty Name="TenantFK" ColumnName="TenantFK" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="LogTypeFK" ColumnName="LogTypeFK" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="Entry" ColumnName="Entry" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Channels">
+      <EntityTypeMapping TypeName="PriceologyModel.Channel">
+        <MappingFragment StoreEntitySet="Channel">
+          <ScalarProperty Name="CultureName" ColumnName="CultureName" />
+          <ScalarProperty Name="UseClientProductId" ColumnName="UseClientProductId" />
+          <ScalarProperty Name="RoundingGroupFK" ColumnName="RoundingGroupFK" />
+          <ScalarProperty Name="NotificationsEmailAddress" ColumnName="NotificationsEmailAddress" />
+          <ScalarProperty Name="OutputFileEmailAddress" ColumnName="OutputFileEmailAddress" />
+          <ScalarProperty Name="SLActiveTypeFK" ColumnName="SLActiveTypeFK" />
+          <ScalarProperty Name="SLMinRating" ColumnName="SLMinRating" />
+          <ScalarProperty Name="SLMinReviews" ColumnName="SLMinReviews" />
+          <ScalarProperty Name="JobInProgress" ColumnName="JobInProgress" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="ChannelName" ColumnName="ChannelName" />
+          <ScalarProperty Name="TenantFK" ColumnName="TenantFK" />
+          <ScalarProperty Name="ChannelID" ColumnName="ChannelID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Lookups">
+      <EntityTypeMapping TypeName="PriceologyModel.Lookup">
+        <MappingFragment StoreEntitySet="Lookup">
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="LookupName" ColumnName="LookupName" />
+          <ScalarProperty Name="LookupTypeFK" ColumnName="LookupTypeFK" />
+          <ScalarProperty Name="LookupID" ColumnName="LookupID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LookupTypes">
+      <EntityTypeMapping TypeName="PriceologyModel.LookupType">
+        <MappingFragment StoreEntitySet="LookupType">
+          <ScalarProperty Name="LookupTypeName" ColumnName="LookupTypeName" />
+          <ScalarProperty Name="LookupTypeID" ColumnName="LookupTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TenantSettings">
+      <EntityTypeMapping TypeName="PriceologyModel.TenantSetting">
+        <MappingFragment StoreEntitySet="TenantSettings">
+          <ScalarProperty Name="ProviderBrandExclusion" ColumnName="ProviderBrandExclusion" />
+          <ScalarProperty Name="AllowProviderBrandExclusion" ColumnName="AllowProviderBrandExclusion" />
+          <ScalarProperty Name="MultipleCalculationMethods" ColumnName="MultipleCalculationMethods" />
+          <ScalarProperty Name="AllowMultipleCalculationMethods" ColumnName="AllowMultipleCalculationMethods" />
+          <ScalarProperty Name="MultipleSuppliers" ColumnName="MultipleSuppliers" />
+          <ScalarProperty Name="AllowMultipleSuppliers" ColumnName="AllowMultipleSuppliers" />
+          <ScalarProperty Name="PriceRuleBanding" ColumnName="PriceRuleBanding" />
+          <ScalarProperty Name="AllowPriceRuleBanding" ColumnName="AllowPriceRuleBanding" />
+          <ScalarProperty Name="CloneChannel" ColumnName="CloneChannel" />
+          <ScalarProperty Name="AllowCloneChannel" ColumnName="AllowCloneChannel" />
+          <ScalarProperty Name="SalesHistory" ColumnName="SalesHistory" />
+          <ScalarProperty Name="AllowSalesHistory" ColumnName="AllowSalesHistory" />
+          <ScalarProperty Name="LastUsedChannelId" ColumnName="LastUsedChannelId" />
+          <ScalarProperty Name="SupplierMatchLimit" ColumnName="SupplierMatchLimit" />
+          <ScalarProperty Name="VerboseLogging" ColumnName="VerboseLogging" />
+          <ScalarProperty Name="ContractExpiryDate" ColumnName="ContractExpiryDate" />
+          <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+          <ScalarProperty Name="ContactEmail" ColumnName="ContactEmail" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="SystemUserID" ColumnName="SystemUserID" />
+          <ScalarProperty Name="ContractFK" ColumnName="ContractFK" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="GatewayFK" ColumnName="GatewayFK" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

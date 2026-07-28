@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DP001API", "DP001API\DP001API.csproj", "{43D3BB97-11CB-4EE7-B72F-40303E24CACD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DP001DataAccess", "..\..\Class Libraries\DataAccess\DP001DataAccess\DP001DataAccess.csproj", "{4AB79006-51A0-49C1-9D91-099F600D010B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DP001BusinessLogic", "..\..\Class Libraries\BusinessLogic\DP001BusinessLogic\DP001BusinessLogic.csproj", "{8BF76EE7-1091-47F2-8E6A-A989086F723C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{43D3BB97-11CB-4EE7-B72F-40303E24CACD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43D3BB97-11CB-4EE7-B72F-40303E24CACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43D3BB97-11CB-4EE7-B72F-40303E24CACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43D3BB97-11CB-4EE7-B72F-40303E24CACD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AB79006-51A0-49C1-9D91-099F600D010B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AB79006-51A0-49C1-9D91-099F600D010B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AB79006-51A0-49C1-9D91-099F600D010B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AB79006-51A0-49C1-9D91-099F600D010B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BF76EE7-1091-47F2-8E6A-A989086F723C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BF76EE7-1091-47F2-8E6A-A989086F723C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BF76EE7-1091-47F2-8E6A-A989086F723C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BF76EE7-1091-47F2-8E6A-A989086F723C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://netgiant.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = DP001API\\DP001API.csproj
+		SccProjectName1 = DP001API
+		SccLocalPath1 = DP001API
+		SccProjectUniqueName2 = ..\\..\\Class\u0020Libraries\\DataAccess\\DP001DataAccess\\DP001DataAccess.csproj
+		SccProjectName2 = ../../Class\u0020Libraries/DataAccess/DP001DataAccess
+		SccLocalPath2 = ..\\..\\Class\u0020Libraries\\DataAccess\\DP001DataAccess
+		SccProjectUniqueName3 = ..\\..\\Class\u0020Libraries\\BusinessLogic\\DP001BusinessLogic\\DP001BusinessLogic.csproj
+		SccProjectName3 = ../../Class\u0020Libraries/BusinessLogic/DP001BusinessLogic
+		SccLocalPath3 = ..\\..\\Class\u0020Libraries\\BusinessLogic\\DP001BusinessLogic
+	EndGlobalSection
+EndGlobal

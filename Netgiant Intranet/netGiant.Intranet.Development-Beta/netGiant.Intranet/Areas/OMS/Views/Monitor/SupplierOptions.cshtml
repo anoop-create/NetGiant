@@ -1,0 +1,109 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.OMS;
+@using System.Data;
+
+@model MonitorViewModel
+
+@if (Model.ProductDetails.Rows.Count > 0)
+{
+    string deliveryMethod = "";
+<section style="font-size: 11px">
+    <table class="table-striped g-bc-w">
+        <tr>
+            <th class="g-w-10p">Part No.</th>
+            <th class="g-w-30p">Description</th>
+            <th class="g-w-10p g-a-c">Quantity<br />Ordered</th>
+            <th class="g-w-10p g-p-r-25 g-a-r">Line<br />Value</th>
+            <th class="g-w-20p">Cheapest Supplier / Stock</th>
+            <th class="g-w-20p"></th>
+        </tr>
+        @foreach (DataRow row in Model.ProductDetails.Rows)
+        {
+            if (Convert.ToBoolean(row["IsDelivery"].ToString()))
+            {
+                deliveryMethod = row["DeliveryServiceName"].ToString();
+
+            }
+            int stock = int.Parse(row["SupplierStock"].ToString());
+            bool isDelivery = Convert.ToBoolean(row["IsDelivery"].ToString());
+            bool isAssembly = Convert.ToBoolean(row["IsAssembly"].ToString());
+            <tr>
+                <td class="g-w-10p g-p-r-5">@row["PartNo"].ToString()</td>
+                <td class="g-w-30p g-p-r-5">@row["Description"].ToString()</td>
+                <td class="g-w-10p g-p-r-25 g-a-r">@int.Parse(row["QuantityOrdered"].ToString()).ToString()</td>
+                <td class="g-w-10p g-p-r-25 g-a-r">@Convert.ToDecimal(row["LineValue"].ToString()).ToString()</td>
+                <td class="g-w-20p g-p-r-5">
+                    @{
+                        if (!isDelivery && !isAssembly)
+                        {
+                            if (stock == 0)
+                            {
+                                <span class="fa fa-times-circle g-fc-r"></span>
+                            }
+                            else
+                            {
+                                if (stock < 20)
+                                {
+                                    <span class="fa fa-circle g-fc-o"></span>
+                                    <span>@(row["SupplierStock"].ToString() + " at " + row["SupplierName"].ToString())</span>
+                                }
+                                else
+                                {
+
+                                    <span class="fa fa-check-circle g-fc-g"></span>
+                                    <span>@(row["SupplierStock"].ToString() + " at " + row["SupplierName"].ToString())</span>
+                                }
+                            }
+                        }
+                    }
+                </td>
+                <th class="g-w-20p"></th>
+            </tr>
+                        }
+    </table>
+
+    <div class="g-m-tb-10 g-a-c">Delivery Method: @deliveryMethod</div>
+
+    <div class="g-fw-b g-p-b-10">Available Suppliers</div>
+
+    <table class="table-striped g-bc-w">
+        <tr>
+            <th class="g-w-20p">Supplier Name</th>
+            <th class="g-w-10p">Category</th>
+            <th class="g-w-10p">Status</th>
+            <th class="g-w-10p">Order Value</th>
+            <th class="g-w-10p">Delivery Cost</th>
+            <th class="g-w-10p">Total Cost</th>
+            <th class="g-w-10p">Profit</th>
+            <th class="g-w-10p">vs Cheapest</th>
+            <th class="g-w-10p">Stock Level</th>
+        </tr>
+        @{
+                decimal cheapestTotal = 0;
+                bool isFullSupplier = Convert.ToBoolean(Model.SupplierDetails.Rows[0]["FullSupplier"].ToString());
+                if (isFullSupplier)
+                {
+                    cheapestTotal = Convert.ToDecimal(Model.SupplierDetails.Rows[0]["SupplierTotal"].ToString());
+                }
+
+                foreach (DataRow row in Model.SupplierDetails.Rows)
+                {
+                    decimal supplierTotal = Convert.ToDecimal(row["SupplierTotal"].ToString());
+                    decimal orderValue = Convert.ToDecimal(row["OrderValue"].ToString());
+                    decimal profit = orderValue - supplierTotal;
+                <tr>
+                    <td class="g-w-20p g-p-r-5">@row["SupplierName"].ToString()</td>
+                    <td class="g-w-10p g-p-r-5">@row["SupplierCategory"].ToString()</td>
+                    <td class="g-w-10p g-p-r-5">@row["SupplierStatus"].ToString()</td>
+                    <td class="g-w-10p g-p-r-25 g-a-r">@orderValue.ToString()</td>
+                    <td class="g-w-10p g-p-r-25 g-a-r"></td>
+                    <td class="g-w-10p g-p-r-25 g-a-r">@supplierTotal.ToString()</td>
+                    <td class="g-w-10p g-p-r-25 g-a-r">@profit.ToString()</td>
+                    <td class="g-w-10p g-p-r-25 g-a-r">@(isFullSupplier ? (supplierTotal - cheapestTotal).ToString() : "")</td>
+                    <td class="g-w-10p g-a-c">@(isFullSupplier ? Html.Raw("<span class=\"fa fa-check-circle g-fc-g\"></span>") : Html.Raw("<span class=\"fa fa-times-circle g-fc-r\"></span>"))</td>
+                </tr>
+            }
+        }
+    </table>
+</section>
+}

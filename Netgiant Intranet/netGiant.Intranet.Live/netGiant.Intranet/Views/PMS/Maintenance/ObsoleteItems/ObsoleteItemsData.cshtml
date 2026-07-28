@@ -1,0 +1,36 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<obsoleteItem>
+
+
+@{ int num = 0; }
+
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(x => item.Website.WebsiteName)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.stockReference)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.equipmentName)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.URL)
+        </td>
+        <td class="g-a-c">
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin") || User.IsInRole("SEO"))
+            {
+                @Html.ActionLink("Edit", "Create", "ObsoleteItems", new { id = item.obsoleteItemID }, null)
+                @Html.Raw(" | <a class=\"lnkDeleteObsoleteItem\" href=\"#\" value=\"" + item.obsoleteItemID + "\">Delete</a>")
+            }
+        </td>
+    </tr>
+
+    num++;
+}
+
+
+

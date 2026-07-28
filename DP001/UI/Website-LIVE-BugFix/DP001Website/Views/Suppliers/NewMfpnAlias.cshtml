@@ -1,0 +1,114 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model SupplierViewModel
+
+@{
+    ViewBag.Title = "New MfPN Match";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-12 col-md-12 row-height-fix">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                <a href="@Url.Action("MfpnAliases", "Suppliers")" class="grey">
+                    Supplier Part No. Aliases
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                New Part No. Alias
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-push-2">
+            <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Add Manufacturer Part No Alias settings" data-helpsid="2" data-helpeid="2"></i> General</h4>
+
+            @using (Ajax.BeginForm("CreateMfpnAlias", "Suppliers", new AjaxOptions { HttpMethod = "POST", OnComplete = "addComplete" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row page-form">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The brand name or reference" data-helpsid="2" data-helpeid="2"></i>
+                                Brand Name
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.SupplierMfpnMatchingEntry.BrandName)
+                                @Html.EditorFor(x => x.SupplierMfpnMatchingEntry.BrandName)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The additional term added to part numbers" data-helpsid="2" data-helpeid="2"></i>
+                                Match Term
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.SupplierMfpnMatchingEntry.MatchTerm)
+                                @Html.EditorFor(x => x.SupplierMfpnMatchingEntry.MatchTerm)
+                            </div>
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Where does the match term appear, prefix (before the part number) or suffix (after the part number)" data-helpsid="2" data-helpeid="2"></i>
+                                Type
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.SupplierMfpnMatchingEntry.TypeFK)
+                                @Html.DropDownListFor(x => x.SupplierMfpnMatchingEntry.TypeFK, Model.MatchTypes, new { @class = "selectpicker" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-actions">
+                                <div class="pull-left form-message">
+                                    <i class="fa fa-spinner fa-pulse" style="display: none"></i>
+                                    <span></span>
+                                </div>
+
+                                <button class="pull-right g-m-r-10 g-cur-p form-cancel btn btn-default btn-sm">
+                                    <i class="fa fa-times"></i> Cancel
+                                </button>
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Save" name="action:Save">
+                                        <i class="fa fa-floppy-o"></i> Save
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+            $(document).on('click', '.list-form-extra .form-cancel', function () {
+                window.location.href = '@Url.Action("MfpnAliases")';
+            })
+        })
+
+        $(document).on('click', '.form-cancel', function () {
+            window.location.href = '@Url.Action("MfpnAliases")';
+        })
+
+        function addComplete(data) {
+            $('.form-actions .form-message span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                window.location.href = '@Url.Action("MfpnAliases")';
+            }
+        }
+
+    </script>
+}
+

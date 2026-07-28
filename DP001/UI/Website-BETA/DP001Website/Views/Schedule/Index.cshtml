@@ -1,0 +1,208 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@model ScheduleViewModel
+
+@{
+    ViewBag.Title = "Maintain";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Schedules
+            </h1>
+        </div>
+
+        
+        <div class="col-xs-7 col-md-4 col-lg-3 row-height-fix flex-right">
+            <div class="notify">
+                <div class="text-center">
+                    <i class="fa fa-question-circle fa-inverse help-popup" data-toggle="tooltip" title="This is when your pricing rules are set to next run." data-helpsid="2" data-helpeid="2"></i>
+                    Next Scheduled Run
+                </div>
+                <div id="nextRunDate1" class="text-center">
+                    @Model.NextRunDate
+                </div>
+                <div id="nextRunDate2" class="text-center">
+                    Pricing In Progress
+                </div>
+            </div>
+            <div class="btn-group g-p-l-10">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-sliders fa-lg"></i>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <ul class="dropdown-menu g-p-10">
+                    <li class="g-fw-b">Schedule Options</li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation">
+                        @Ajax.HtmlActionLink("<i class=\"fa fa-refresh\"></i> Reprice Now <i id=\"repriceSpinner\" style=\"display: none\" class=\"fa fa-spinner fa-pulse\"></i>", "TriggerBatchProcess", "Shared",
+                                new
+                                {
+                                    process = "calculateprices",
+                                    channelId = Model.Channel.ChannelID.ToString(),
+                                    attributes = "t$calculateprices,tt$" + Model.Channel.TenantFK.ToString() + ",ch$" + Model.Channel.ChannelID.ToString(),
+                                    runImmediately = true
+                                },
+                                new AjaxOptions()
+                                {
+                                    HttpMethod = "POST",
+                                    OnComplete = "triggerComplete"
+                                },
+                                new { @class = "repriceBtn" })
+                    </li>
+                </ul>
+            </div>            
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-push-2">
+            <h4>Schedules</h4>
+            <section class="list-form table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Schedule Name</th>
+                            @*<th>Run Type</th>*@
+                            <th>Frequency</th>
+                            <th>Day</th>
+                            <th>Time</th>
+                            <th>Active</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var schedule in Model.ScheduleList)
+                        {
+                            <tr class="list-form-row" data-id="@schedule.ScheduleID">
+                                <td style="padding: 5px;">
+                                    @Html.DisplayFor(m => schedule.ScheduleName)
+                                </td>
+                                @*<td style="padding: 5px;">
+                                    @Html.DisplayFor(m => schedule.Lookup.LookupName)
+                                </td>*@
+                                <td style="padding: 5px;">
+                                    @Html.DisplayFor(m => schedule.Lookup1.LookupName)
+                                </td>
+                                <td style="padding: 5px;">
+                                    @if (schedule.Lookup1.LookupName == "Weekly")
+                                    {
+                                        @(schedule.DayOfWeek != null ? Enum.GetName(typeof(DayOfWeek), schedule.DayOfWeek) : "")
+                                    }
+                                </td>
+                                <td style="padding: 5px;">
+                                    @schedule.Time.ToString()
+                                </td>
+                                <td style="padding: 5px;">
+                                    @(schedule.IsActive == true ? "Yes" : "No")
+                                </td>
+                                <td width="40px">
+                                    <i class="fa fa-chevron-down" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                        <tfoot>
+                            <tr class="list-form-row" data-newurl="@(Url.Action("New", null, new {  }))">
+                                <td colspan="100%">
+                                    <button class="pull-right g-m-tb-5 g-cur-p btn btn-default btn-sm">
+                                        <i class="fa fa-plus"></i> Add Schedule
+                                    </button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                </table>
+            </section>
+        </div>
+    </div>
+    @Html.Hidden("editUrl", Url.Action("Edit"))
+    @Html.Hidden("newUrl", Url.Action("New"))
+</section>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+
+            checkJobInProgress('');
+
+            $(document).on('click', 'tbody .list-form-row', function () {
+                openDropForm(
+                    $(this),
+                    '.list-form-extra',
+                    $('#editUrl').val() + '/' + $(this).attr('data-id'),
+                    { timestamp: $.now() },
+                    true
+                );
+            })
+
+            $(document).on('click', 'tfoot .list-form-row', function () {
+                openDropForm(
+                    $(this),
+                    '.list-form-extra',
+                    $(this).attr('data-newurl'),
+                    { id: 0, timestamp: $.now() },
+                    true
+                )
+            })
+
+            $(document).on('click', '.list-form-extra .form-cancel', function () {
+                $('.list-form-extra').prev().trigger('click');
+            })
+
+            $(document).on('change', '#ScheduleEntry_FrequencyFK', function () {
+                $('#ScheduleEntry_FrequencyName').val($('#ScheduleEntry_FrequencyFK :selected').text());
+                if ($('#ScheduleEntry_FrequencyName').val() == 'Weekly') {
+                    $('#dayGroup').removeClass('hidden');
+                } else {
+                    $('#dayGroup').addClass('hidden');
+                }
+            });
+        })
+
+        function updateScheduleComplete(data) {
+            $('.form-actions .form-message span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                if (data.responseJSON.action != "Test") {
+                    $('.list-form-extra').prev().trigger('click');
+                    $('.list-form-row[data-id=' + data.responseJSON.id.toString() + ']').html(data.responseJSON.html);
+                }
+            }
+        }
+
+        function addScheduleComplete(data) {
+            $('.form-actions .form-message span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                if (data.responseJSON.action != "Test") {
+                    $('.list-form-extra').prev().trigger('click');
+                    $('.list-form-extra').closest('table').children('tbody').append(data.responseJSON.html);
+                }
+            }
+        }
+
+        function deleteScheduleComplete(data) {
+            //alert('f');
+            //alert(data.responseJSON.IsSuccess);
+            //$('.list-form-row[data-id=' + id + ']').trigger('click');
+            //$('.list-form-row[data-id=' + id + ']').closest('table').find('tfoot').show();
+            //$('.list-form-row[data-id=' + id + ']').remove();
+        }
+
+        function beginPost(id) {
+            $('.form-message .fa-spinner').show();
+        }
+
+    </script>
+}
+

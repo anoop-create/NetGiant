@@ -1,0 +1,40 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product;
+@model ProductDetailViewModel
+
+<table class="table">
+    <tr>
+        <th>Part No.</th>
+        <th>Description</th>
+        <th class="g-a-c">Stock</th>
+        <th class="g-a-c">Cost Price</th>
+        <th class="g-a-c">Base Price</th>
+    </tr>
+
+    @{double totalPrice = 0;
+      double? totalCost = 0;
+    foreach (var comp in Model.ProductDetail.assemblyComponent.OrderBy(x => x.product1.partNo))
+    {
+        var prodPrice = comp.product1.websiteInventory.Where(y => y.websiteFK == 1).FirstOrDefault();
+
+        <tr>
+            <td class="g-w-10p">
+                @Html.DisplayFor(x => comp.quantity) x
+                @Html.DisplayFor(x => comp.product1.partNo)
+            </td>
+            <td>@Html.DisplayFor(x => comp.product1.productName)</td>
+            <td class="g-a-c">@Html.DisplayFor(x => comp.product1.supplierStock)</td>
+            <td class="g-a-c">@Html.Raw("£" + string.Format("{0:N2}", prodPrice != null && prodPrice.productPrice.Count > 0 ? prodPrice.productPrice.OrderByDescending(y => y.productPriceID).FirstOrDefault().cheapestCostPrice : 0))</td>
+            <td class="g-a-c">@Html.Raw("£" + string.Format("{0:N2}", prodPrice != null && prodPrice.productPrice.Count > 0 ? prodPrice.productPrice.OrderByDescending(y => y.productPriceID).FirstOrDefault().price : 0))</td>
+        </tr>
+        totalPrice += prodPrice != null && prodPrice.productPrice.Count > 0 ? prodPrice.productPrice.OrderByDescending(y => y.productPriceID).FirstOrDefault().price : 0;
+        totalCost += prodPrice != null && prodPrice.productPrice.Count > 0 ? prodPrice.productPrice.OrderByDescending(y => y.productPriceID).FirstOrDefault().cheapestCostPrice : 0;
+    }
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="g-a-c">@Html.Raw("<span class='g-fw-b'>£" + string.Format("{0:N2}", totalCost) + "</span>")</td>
+        <td class="g-a-c">@Html.Raw("<span class='g-fw-b'>£" + string.Format("{0:N2}", totalPrice) + "</span>")</td>
+    </tr>
+    }
+</table>

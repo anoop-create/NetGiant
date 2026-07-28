@@ -1,0 +1,76 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@model CustomFieldViewModel
+
+<tr class="list-form-extra">
+    <td colspan="100%">
+        @using (Ajax.BeginForm("Update", "CustomField", new AjaxOptions { HttpMethod = "POST", OnComplete = "updateCustomFieldComplete", OnBegin = "beginPost('#customfield')" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.CustomFieldEntry.CustomFieldID)
+            @Html.HiddenFor(x => x.CustomFieldEntry.DBFieldName)
+            @Html.HiddenFor(x => x.CustomFieldEntry.CustFieldTypeFK)
+            @Html.HiddenFor(x => x.CustomFieldEntry.Lookup.LookupName)
+            @Html.HiddenFor(x => x.CustomFieldEntry.Lookup.LookupID)
+
+            <section class="page-form">
+                <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Details about your custom field." data-helpsid="2" data-helpeid="2"></i> Custom Field</h4>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="A descriptive name used to identify your custom field." data-helpsid="2" data-helpeid="2"></i>
+                            Custom Field Name
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.CustomFieldEntry.UserFieldName)
+                            @Html.EditorFor(x => x.CustomFieldEntry.UserFieldName)
+                        </div>
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Set what type of custom field this is." data-helpsid="2" data-helpeid="2"></i>
+                            Field Type
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.DropDownListFor(x => x.CustomFieldEntry.CustFieldTypeFK, Model.AllCustomFieldTypes, new { @class = "selectpicker", disabled = "disabled" })
+                        </div>
+                    </div>                    
+                </div>
+
+                <div class="form-actions">
+                    <div class="pull-left form-message">
+                        <i class="fa fa-spinner fa-pulse" style="display: none"></i>
+                        <span></span>
+                    </div>
+
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        @Ajax.HtmlActionLink("<i class=\"fa fa-trash\"></i> Delete",
+             "Delete",
+             "CustomField",
+             new { id = Model.CustomFieldEntry.CustomFieldID },
+             new AjaxOptions()
+             {
+                 HttpMethod = "DELETE",
+                 Confirm = "Are you sure you want to delete this custom field?",
+                 OnComplete = "deleteCustomFieldComplete"
+             },
+             new
+             {
+                 @class = "pull-right g-m-r-10 form-delete btn btn-default btn-sm"
+             })
+                    }
+                    <button type="button" class="pull-right g-m-r-10 g-cur-p form-cancel btn btn-default btn-sm cancel">
+                        <i class="fa fa-times"></i> Cancel
+                    </button>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Submit" name="action:Update">
+                            <i class="fa fa-floppy-o"></i> Save
+                        </button>
+                    }
+                </div>
+            </section>
+        }
+    </td>
+</tr>
+
+

@@ -1,0 +1,125 @@
+﻿@model DP001Website.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Registration";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-lg-6 col-lg-push-3 col-sm-8 col-sm-push-2 account-form vertical-align-center">
+            <h1>@ViewBag.Title</h1>
+
+            <div id="confirm" class="container-fluid stage@(Model.StageIndicator)">
+                <div class="register-stage clearfix">
+                    <div class="pull-left text-nowrap text-center">
+                        Details
+                        <div class="active"></div>
+                    </div>
+                    <div class="pull-left text-nowrap text-center">
+                        Select Product
+                        <div class="active"></div>
+                    </div>
+                    <div class="pull-left text-nowrap text-center">
+                        Payment
+                        <div class="active"></div>
+                    </div>
+                    <div class="pull-left text-nowrap text-center">
+                        Complete
+                        <div class="active"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <h4>Order Summary</h4>
+                </div>
+                <div class="row clearfix">
+                    <div class="col-md-6">
+                        <div class="form-name">Product Selected</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-value">Freemium License</div>
+                    </div>
+                </div>
+                <div class="row clearfix">
+                    <div class="col-md-6">
+                        <div class="form-name">Registered User</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-value">@Model.FirstName @Model.LastName</div>
+                    </div>
+                </div>
+                <div class="row clearfix">
+                    <div class="col-md-6">
+                        <div class="form-name">Registered Email Address</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-value">@Model.Email</div>
+                    </div>
+                </div>
+            </div>
+
+            @if (Model.ContractType != "Freemium")
+            {
+                <div class="container-fluid">
+                    <div class="row clearfix">
+                        <h4>Payment Summary</h4>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-md-6">
+                            <div class="form-name">Card Holder</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-value">@Model.FirstName @Model.LastName</div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-md-6">
+                            <div class="form-name">Payment Method</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-value">@Model.FirstName</div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-md-6">
+                            <div class="form-name">Payment Schedule</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-value">@Model.Email</div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-md-6">
+                            <div class="form-name">Cancellation</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-value">@Model.Email</div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-success">Go To My Area</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-success">Quickstart Wizard</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+
+        })
+    </script>
+}

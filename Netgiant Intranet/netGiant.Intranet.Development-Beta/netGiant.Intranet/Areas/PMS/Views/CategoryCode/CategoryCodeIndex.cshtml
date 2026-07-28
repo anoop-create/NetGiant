@@ -1,0 +1,90 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance
+@using PagedList.Mvc;
+@model CategoryCodeViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Category Code";
+}
+
+<div class="placeHolder g-m-b--20">
+    <h4 class="text-center">Category Code Details</h4>
+</div>
+
+@if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+{
+    @Html.ActionLink("Create New", "Create", "CategoryCode", new { id = 0 }, new { @title = "Create new category code", @class = "g-p-10" })
+}
+
+@(Html.Kendo().Grid<CategoryCodeViewModel.Telerik>()
+    .HtmlAttributes(new { @class = "pointer-rows" })
+    .Name("categoryCodeGrid")
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action("CategoryCode_Read", "CategoryCode"))
+        .PageSize(200)
+        .Sort(sort => sort
+            .Add(x => x.CategoryName).Ascending())
+    )
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.CategoryName).Title("Category Name").Width("110px");
+        columns.Bound(x => x.Id).Title("Id").Width("70px");
+        columns.Bound(x => x.AxisGroupNo).Title("AXIS Group No").Width("70px");
+        columns.Bound(x => x.ParentCategory).Title("Parent Category").Width("110px");
+        columns.Bound(x => x.Website).Title("Website").Width("90px");
+        columns.Bound(x => x.GoogleCategory).Title("Google Category").Width("250px");
+        columns.Bound(x => x.IsPrimary).Title("Primary").Width("60px");
+        columns.Bound(x => x.InSale).Title("Sale").Width("60px");
+        columns.Bound(x => x.InSitemap).Title("Sitemap").Width("60px");
+        columns.Bound(x => x.HasMeta).Title("Meta").Width("60px");
+        columns.Bound(x => x.Id).ClientTemplate(
+                "<a href=\"CategoryCode/Create/#:Id#\">Edit</a>" +
+                "|<a href=\"CategoryCode/CategoryAttributesIndex/#:Id#\">Filters</a>" +
+                //"|<a href=\"CategoryCode/OpenRangeAttributes/#:Id#\">Open Range</a>" +
+                "|<a href=\"##\" class=\"lnkCategoryDelete\" value=\"#:Id#\" title=\"Delete\">Delete</a>"
+                ).Width("200px").Title("Action").Filterable(false).Sortable(false).Groupable(false);
+    })
+    .Pageable(pager => pager.Refresh(true))
+    .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+    .Sortable(sortable => sortable
+        .AllowUnsort(true))
+    .Groupable()
+    .Scrollable()
+    .Filterable(ftb => ftb
+        .Mode(GridFilterMode.Menu))
+    .ColumnMenu()
+    .Resizable(resize => resize.Columns(true))
+    .Reorderable(reorder => reorder.Columns(true))
+    .Excel(excel => excel
+        .AllPages(true)
+        .FileName("Grid Export")
+        .Filterable(true)
+        .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+    .NoRecords("There are no items to display")
+    .Events(events => events.DataBound("saveGridFilters"))
+    .Selectable()
+)
+
+<div id="categoryCodeDeleteDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+    Are you sure you want to delete this category code?
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(document).on('click', '.lnkCategoryDelete', function (e) {
+            var rowid = $(this).attr('value');
+            e.preventDefault();
+            $.confirm({
+                title: 'Category Code',
+                content: 'Are you sure you want to delete this category code?',
+                buttons: {
+                    Yes: function () {
+                        deleteGridRow('@Url.Action("Delete", "CategoryCode")/', { id: rowid });
+                    },
+                    No: function () { }
+                }
+            });
+        });
+    });
+</script>

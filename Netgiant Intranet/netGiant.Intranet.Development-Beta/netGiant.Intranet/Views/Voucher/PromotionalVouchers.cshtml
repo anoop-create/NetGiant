@@ -1,0 +1,102 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce.PromoVoucher
+@model PromotionalVouchersViewModel
+
+@{
+    ViewBag.Title = "PromotionalVouchers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder g-m-b--20">
+    <h4 class="text-center">Promotional Vouchers</h4>
+</div>
+
+@Html.Hidden("DeletePromotionalVoucherURL", Url.Action("DeletePromotionalVoucher", "Voucher"))
+
+@if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+{
+    @Html.ActionLink("Create New", "CreatePromotionalVoucher", "Voucher", new { id = 0 }, new { @title = "Create new promotional voucher", @class = "g-p-10" })
+}
+
+@(Html.Kendo().Grid<PromotionalVouchersViewModel.TelerikPromotionalVouchers>()
+    .HtmlAttributes(new { @class = "pointer-rows" })
+    .Name("promoVouchersGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.PromotionalVoucherCode).Title("Code").Width("100px")
+            .HeaderHtmlAttributes(new { title = "Code", style = "text-align: center;" });
+        columns.Bound(x => x.PromotionalVoucherWebsite).Title("Website").Width("100px")
+            .HeaderHtmlAttributes(new { title = "Website", style = "text-align: center;" });
+        columns.Bound(x => x.PromotionalVoucherAccountNo).Title("Account No").Width("100px").Hidden(true)
+            .HeaderHtmlAttributes(new { title = "Account No", style = "text-align: center;" });
+        columns.Bound(x => x.PromotionalVoucherType).Title("Voucher Type").Width("100px")
+            .HeaderHtmlAttributes(new { title = "Voucher Type", style = "text-align: center;" });
+        columns.Bound(x => x.PromotionalVoucherDescription).Title("Description").Width("150px")
+            .HeaderHtmlAttributes(new { title = "Description", style = "text-align: center;" });
+        columns.Bound(x => x.PromotionalVoucherPromoGroup).Title("Promo Group").Width("150px")
+            .HeaderHtmlAttributes(new { title = "Promo Group", style = "text-align: center;" });
+        columns.Bound(x => x.PromotionalVoucherValidFrom).Format("{0:dd/MM/yyyy}").Title("From").Width("90px")
+            .HeaderHtmlAttributes(new { title = "From", style = "text-align: center;" });
+        columns.Bound(x => x.PromotionalVoucherValidTo).Format("{0:dd/MM/yyyy}").Title("To").Width("90px")
+            .HeaderHtmlAttributes(new { title = "To", style = "text-align: center;" });
+        columns.Bound(x => x.PromotionalVoucherMinBasketValue).Title("Min Basket Value").Width("90px").Format("{0:0.00}")
+            .HeaderHtmlAttributes(new { title = "Min Basket Value", style = "text-align: center;" });
+        columns.Bound(x => x.PromotionalVoucherAmount).Title("Amount").Width("80px").Format("{0:0.00}")
+            .HeaderHtmlAttributes(new { title = "Amount", style = "text-align: center;" });
+        columns.Bound(x => x.PromotionalVoucherPercentage).Title("Percentage").Width("80px").Format("{0:0.00}")
+            .HeaderHtmlAttributes(new { title = "Percentage", style = "text-align: center;" });
+        columns.Bound(x => x.PromotionalVoucherIsGlobal).Title("Global").Width("80px")
+            .HeaderHtmlAttributes(new { title = "Global", style = "text-align: center;" });
+        columns.Bound(x => x.PromotionalVoucherIsSingleUse).Title("Single Use").Width("80px")
+            .HeaderHtmlAttributes(new { title = "Single Use", style = "text-align: center;" });
+        columns.Bound(x => x.PromotionalVoucherIsUsed).Title("Used").HeaderHtmlAttributes(new { title = "Used", style = "text-align: center;" }).Width("80px")
+            .HeaderHtmlAttributes(new { title = "Used", style = "text-align: center;" });
+        columns.Bound(x => x.PromotionalVoucherForGeneralUse).Title("Gen. Use").Width("80px")
+            .HeaderHtmlAttributes(new { title = "Gen. Use", style = "text-align: center;" });
+        columns.Bound(x => x.PromotionalVoucherId).ClientTemplate(
+                "<a href=\"DetailPromotionalVoucher/#:PromotionalVoucherId#\">Details</a>" +
+                "|<a href=\"CreatePromotionalVoucher/#:PromotionalVoucherId#\">Edit</a>" +
+                "|<a href=\"##\" class=\"lnkEntryDelete\" value=\"#:PromotionalVoucherId#\">Delete</a>"
+                ).Width("136px").Title("").Filterable(false).Sortable(false).Groupable(false);
+    })
+    .Pageable(pager => pager.Refresh(true))
+    .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+    .Sortable(sortable => sortable.AllowUnsort(true))
+    .Groupable()
+    .Scrollable()
+    .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+    .ColumnMenu()
+    .Resizable(resize => resize.Columns(true))
+    .Reorderable(reorder => reorder.Columns(true))
+    .NoRecords("There are no promotional vouchers to display")
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(x => x.Action("ReadPromotionalVouchers", "Voucher"))
+        .Sort(s => s.Add(x => x.PromotionalVoucherValidFrom).Descending())
+        .Filter(f => f.Add(x => x.PromotionalVoucherIsUsed).IsEqualTo(false))
+        .PageSize(200)
+    )
+    .Events(e => e.DataBound("saveGridFilters"))
+)
+
+<div id="vEntryDeleteDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+    Are you sure you want to delete this voucher?
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(document).on('click', '.lnkEntryDelete', function (e) {
+            var rowid = $(this).attr('value');
+            e.preventDefault();
+            $.confirm({
+                title: 'Vouchers',
+                content: 'Are you sure you want to delete this voucher?',
+                buttons: {
+                    Yes: function () {
+                        deleteGridRow('@Url.Action("Delete", "Voucher")/', { id: rowid });
+                    },
+                    No: function () { }
+                }
+            });
+        });
+    });
+</script>

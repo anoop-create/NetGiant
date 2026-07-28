@@ -1,0 +1,41 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<ds_productView>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.Raw(string.Format("{0:0}", item.prodID))
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.partno)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.manufacturer)
+        </td>
+        <td>
+            @if (item.dataSupplierID == 1)
+            {
+                <span>Open Range</span>
+            } 
+            else if(item.dataSupplierID == 2)
+            {
+                <span>CNet</span>
+            }
+            else if(item.dataSupplierID == 5)
+            {
+                <span>NetGiant</span>
+            }
+            else 
+            {
+                @Html.DisplayFor(x => item.dataSupplierID)
+            }
+        </td>
+        <td class="g-w-50p">
+            @Html.DisplayFor(x => item.model)
+        </td>
+        <td class="g-a-c">
+            @Html.ActionLink("View Details", "DataSupplierLookupDetails", "DataSupplierLookup", new { id = item.prodID }, null)
+        </td>
+    </tr>
+}

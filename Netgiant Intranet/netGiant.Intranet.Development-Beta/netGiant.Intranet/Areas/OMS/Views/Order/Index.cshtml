@@ -1,0 +1,109 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.OMS
+@using PagedList.Mvc;
+@using Kendo.Mvc.UI;
+@model OrderViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="placeHolder">
+    <h4 class="text-center">Orders</h4>
+</div>
+
+<div class="g-m-b-5 telerik-filter" data-gridname="OrderGrid">
+    <button class="btn btn-danger" onclick="ClearFilters()">Clear Filters</button>
+
+    @*<a class="btn btn-default" data-script="grid.dataSource.filter({field: 'PaymentMethod',operator: 'eq',value: 'On Account'});">Credit Accounts</a>*@
+</div>
+
+@(Html.Kendo().Grid<OrderViewModel.TelerikOrder>()
+            .HtmlAttributes(new { @class = "pointer-rows" })
+            .Name("OrderGrid")
+            .Columns(columns =>
+            {
+                columns.Bound(x => x.IntOrderNo).Title("SO Ref")
+                    .HeaderHtmlAttributes(new { title = "SO Ref", style = "text-align: center;" });
+                columns.Bound(x => x.CustOrderNo).Title("Cust Ref")
+                    .HeaderHtmlAttributes(new { title = "Cust Ref", style = "text-align: center;" });
+                columns.Bound(x => x.OrderedBy)
+                    .Title("Ordered By")
+                    .HeaderHtmlAttributes(new { title = "Ordered By", style = "text-align: center;" })
+                    .ClientTemplate(
+                        "<a href=\"Acc/ViewAccount/#:AccountId#\">#:OrderedBy#</a>"
+                    );
+                columns.Bound(x => x.OrderedFor).Title("Ordered For")
+                    .HeaderHtmlAttributes(new { title = "Ordered For", style = "text-align: center;" });
+                columns.Bound(x => x.DateOrdered).Title("Ordered")
+                    .ClientTemplate("#= kendo.toString(kendo.parseDate(DateOrdered, 'yyyy-MM-dd'), 'dd/MM/yyyy') #")
+                    .HeaderHtmlAttributes(new { title = "Date Ordered", style = "text-align: center;" });
+                columns.Bound(x => x.DateReceived).Title("Received")
+                    .ClientTemplate("#= kendo.toString(kendo.parseDate(DateReceived, 'yyyy-MM-dd'), 'dd/MM/yyyy') #")
+                    .HeaderHtmlAttributes(new { title = "Date Received", style = "text-align: center;" });
+                columns.Bound(x => x.DueDate).Title("Due Date")
+                    .ClientTemplate("#= kendo.toString(kendo.parseDate(DueDate, 'yyyy-MM-dd'), 'dd/MM/yyyy') #")
+                    .HeaderHtmlAttributes(new { title = "Due Date", style = "text-align: center;" });
+                columns.Bound(x => x.DateCompleted).Title("Completed")
+                    .ClientTemplate("#= kendo.toString(kendo.parseDate(DateCompleted, 'yyyy-MM-dd'), 'dd/MM/yyyy') #")
+                    .HeaderHtmlAttributes(new { title = "Date Completed", style = "text-align: center;" });
+                columns.Bound(x => x.Nett)
+                    .Format("{0: #,##.00}")
+                    .Title("Nett")
+                    .HtmlAttributes(new { style = "text-align: right;" })
+                    .HeaderHtmlAttributes(new { title = "Nett", style = "text-align: center;" });
+                columns.Bound(x => x.Cost)
+                    .Title("Cost")
+                    .HtmlAttributes(new { style = "text-align: right;" })
+                    .HeaderHtmlAttributes(new { title = "Cost", style = "text-align: center;" });
+                columns.Bound(x => x.Id)
+                    .ClientTemplate(
+                        "<a href=\"Order/ViewOrder/#:Id#\">View</a> | " +
+                        "<a onclick=\"GoToPurchaseOrders(#:Id#)\">Purchase Orders</a>"
+                        )
+                    .Title("Action")
+                    .Filterable(false)
+                    .Sortable(false)
+                    .Groupable(false)
+                    .Width(170)
+                    .HeaderHtmlAttributes(new { title = "Action", style = "text-align: center;" }); ;
+            })
+            .Pageable(pager => pager.Refresh(true))
+            .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+            .Sortable(sortable => sortable.AllowUnsort(true))
+            .Scrollable()
+            .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+            .ColumnMenu()
+            .Resizable(resize => resize.Columns(true))
+            .Reorderable(reorder => reorder.Columns(true))
+            .NoRecords("There are no orders to display")
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(x => x.Action("Order_Read", "Order", (RouteValueDictionary)ViewBag.Query))
+                .PageSize(200)
+                .Sort(sort => sort
+                    .Add(x => x.DateOrdered).Descending())
+                )
+            .Events(e => e.DataBound("saveGridFilters"))
+            )
+
+)
+
+<script>
+    function ClearFilters() {
+        document.cookie = "OrderSearchString=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;"
+        document.cookie = "OrderAccountFk=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;"
+
+        var MyDiv = $("#OrderGrid")
+        var MyDataSource = MyDiv.data("kendoGrid").dataSource
+        MyDataSource.filter({})
+    }
+
+    function GoToPurchaseOrders(OrderNumber) {
+        document.cookie = "PurchaseOrderOrderFk=" + OrderNumber + "; path=/"
+
+        window.location.href = "PurchaseOrder";
+    }
+</script>
+
+
+

@@ -1,0 +1,320 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using System.Text.Json;
+@using System.Web.Mvc;
+@using System.Web.Mvc.Html;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Shared;
+@model CommonViewModel
+
+@{
+    string manifest = "";
+    if (Model.PwaSettings.IsPwa)
+    {
+        var manifestObject = new
+        {
+            name = Model.PwaSettings.Description,
+            short_name = Model.PwaSettings.Description,
+            start_url = Model.PwaSettings.StartUrl,
+            scope = Model.PwaSettings.Scope,
+            display = "standalone",
+            background_color = "#ffffff",
+            theme_color = "#000000",
+            description = Model.PwaSettings.Description,
+            icons = new[]
+            {
+                new
+                {
+                    src = Model.PwaSettings.Root + "/Content/images/favicon-192.png",
+                    sizes = "192x192",
+                    type = "image/png"
+                },
+                new
+                {
+                    src = Model.PwaSettings.Root + "/Content/images/favicon-512.png",
+                    sizes = "512x512",
+                    type = "image/png"
+                }
+            }
+        };
+        manifest = JsonSerializer.Serialize(manifestObject);
+    }
+    string encodedManifest = HttpUtility.UrlEncode(manifest);
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>netGiant Intranet - @ViewBag.Title</title>
+
+    @Styles.Render("~/Content/cssBundle.css")
+    @RenderSection("AddTags", required: false)
+
+    <link rel="icon" type="image/png" href="~/Content/images/favicon.png" />
+    <link rel="preload" href="~/Content/images/light_wool.png" as="image" fetchpriority="high">
+    <link rel="preload" href="~/Content/images/IntranetSprite.png" as="image" fetchpriority="high">
+    @if (Model.PwaSettings.IsPwa)
+    {
+        <link rel="manifest" href='data:application/manifest+json,@encodedManifest' />
+        <meta name="theme-color" content="#000000">
+        <meta name="mobile-web-app-capable" content="yes">
+
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('@(Model.PwaSettings.Root)/Scripts/serviceworker.js')
+                    .then(registration => {
+                        console.log('Service Worker registered:', registration.scope);
+                })
+                .catch(error => {
+                    console.error('Service Worker registration failed:', error);
+                });
+            }
+        </script>
+    }
+
+    @Scripts.Render("~/bundles/jqueryBundle.js")
+</head>
+<body>
+    <div class="topHeader">
+        <div class="topHeaderLogo">
+            <a href="@Url.Action("DefaultAction", "Account", new { area = ""})">
+                <img src="~/Content/Images/1pxTrans.png" alt="" title="" class="topHeaderLogoImage" />
+            </a>
+        </div>
+        <div class="menu g-fc-w g-fs-1_2em g-fw-b g-f-l" id="mainMenu">
+            <ul>
+                @{
+                    string controllerName = ViewContext.RouteData.Values["Controller"].ToString();
+                    string actionName = ViewContext.RouteData.Values["Action"].ToString();
+
+                    var selectedActionLinkId = 0;
+                    var parentLink = Model.AllMenu.Where(x => x.controllerName == controllerName && x.actionName == actionName).OrderByDescending(x => x.parentLevelID).FirstOrDefault();
+
+                    if (parentLink == null)
+                    {
+                        parentLink = Model.AllMenu.Where(x => x.controllerName == controllerName).OrderByDescending(o => o.parentLevelID).FirstOrDefault();
+                    }
+                    if (parentLink == null)
+                    {
+                        parentLink = Model.AllMenu.OrderByDescending(o => o.parentLevelID).FirstOrDefault();
+                    }
+
+                    if (parentLink != null && parentLink.parentLevelID > 0)
+                    {
+                        var mid = Model.AllMenu.FirstOrDefault(x => x.actionLinkID == parentLink.parentLevelID).parentLevelID;
+                        selectedActionLinkId = mid;
+                    }
+                    else
+                    {
+                        selectedActionLinkId = parentLink.actionLinkID;
+                    }
+
+                    foreach (var link in Model.MainMenu)
+                    {
+                        <li>
+                            @{
+                                if (Helper.CheckUserIsInRoles(link.roles))
+                                {
+                                    if (link.actionLinkID == selectedActionLinkId)
+                                    {
+                                        @Html.ParentActionLink(link.actionLinkDesc, link.actionName, link.controllerName)
+                                    }
+                                    else
+                                    {
+                                        if (string.IsNullOrEmpty(link.actionLinkURL))
+                                        {
+                                            var area = link.area ?? "";
+                                            @Html.ActionLink(link.actionLinkDesc, link.actionName, link.controllerName, new { area = area }, null)
+                                        }
+                                        else
+                                        {
+                                            <a href="@link.actionLinkURL">@link.actionLinkDesc</a>
+                                        }
+                                    }
+                                }
+                            }
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+        <div class="menu pwa g-d-n g-fc-w g-fs-1_2em g-fw-b g-f-l" id="pwaMenu">
+            @*<ul>
+                    <li>@Html.ParentActionLink("KPI", "KPI", "Reports")</li>
+                    <li>@Html.ParentActionLink("WallBoard", "Wallboard", "Reports")</li>
+                </ul>*@
+        </div>
+    </div>
+
+    <!-- Body -->
+    <div class="bodyContents">
+
+        @ViewData["parentLinkID1"]
+
+        <!--Sidebar-->
+        <div class="sideBar">
+            <div class="sideBar_User">
+                <div class="userImage">
+                    <div class="userImageContent">
+                        @if (!string.IsNullOrEmpty(User.Identity.Name))
+                        {
+                            string user = User.Identity.Name.Split('@')[0];
+                            string path = string.Format("~/Content/images/users/{0}.jpg", user);
+
+                            if (File.Exists(Server.MapPath(path)))
+                            {
+                                <img src="@Url.Content(path)" alt="" style="width:65px;height:65px;" />
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="user">
+                    <div class="userContent">
+                        @Html.Partial("_LoginPartial")
+                    </div>
+                </div>
+            </div>
+
+            <div id="accordion">
+                @{
+                    int parentLinkId = selectedActionLinkId;
+
+                    var parentLinks = Model.SideMenu.Where(w => w.actionLinkLevel == 2 && w.parentLevelID == parentLinkId).ToList();
+
+                    for (int i = 0; i < parentLinks.Count; i++)
+                    {
+                        if (Helper.CheckUserIsInRoles(parentLinks[i].roles))
+                        {
+                            <h3>@parentLinks[i].actionLinkDesc</h3>
+                        }
+
+                        <div index="@i">
+                            @{
+                                var sidebarlinks = Model.SideMenu
+                                                        .Where(w => w.parentLevelID == parentLinks[i].actionLinkID && w.actionLinkLevel == 3)
+                                                        .OrderBy(o => o.actionLinkDesc)
+                                                        .ToList();
+
+                                foreach (var sub in sidebarlinks)
+                                {
+                                    if (Helper.CheckUserIsInRoles(sub.roles))
+                                    {
+                                        @Html.SubActionLink(sub.actionLinkDesc, sub.actionName, sub.controllerName, parentLinkId) <br />
+                                    }
+                                }
+                            }
+                        </div>
+                    }
+                }
+            </div>
+
+            <div class="sideBarFooter">
+                Copyright &copy; @DateTime.Now.Year NetGiant
+            </div>
+        </div>
+
+        <!--Mobile Navigation-->
+
+        <div class="mobile-nav">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mobile-menu" aria-expanded="false">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="@Url.Action("DefaultAction", "Account")">
+                            <img src="~/Content/Images/1pxTrans.png" alt="" title="" class="topHeaderLogoImage" />
+                        </a>
+                    </div>
+                    <div class="collapse navbar-collapse g-vh-100-50 g-bc-p" id="mobile-menu">
+                        <ul class="nav navbar-nav g-vh-100-50">
+                            @foreach (var link in Model.MainMenu)
+                            {
+                                if (Helper.CheckUserIsInRoles(link.roles))
+                                {
+                                    var hasChild = Model.SideMenu.Where(w => w.parentLevelID == link.actionLinkID);
+
+                                    <li class="g-m-tb-10 mobile-menu-item" data-action-link-id="@link.actionLinkID" data-menu-default="@(hasChild.Count() == 0 ? true : false)">
+                                        <a href="@(hasChild.Count() == 0 ? Url.Action(link.actionName, link.controllerName, new { @area = link.area ?? "" }) : "#")">
+                                            <div class="row">
+                                                <div class="col-xs-10 col-sm-10 col-md-10">
+                                                    <div class="mobile-menu-item-title">@link.actionLinkDesc</div>
+                                                </div>
+                                                <div class="col-xs-2 col-sm-2 col-md-2">
+                                                    @Html.Raw(hasChild.Count() == 0 ? "" : "<span class=\"glyphicon glyphicon-menu-right g-m-l--5\" aria-hidden=\"true\"></span>")
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                }
+                            }
+                            <li>
+                                <a href="javascript:document.getElementById('logoutForm').submit()" title="Log off">Log off</a>
+                            </li>
+
+                        </ul>
+
+                        @foreach (var link in Model.MainMenu)
+                        {
+                            var items = Model.SideMenu.Where(w => w.parentLevelID == link.actionLinkID);
+
+                            if (items != null && items.Count() > 0)
+                            {
+                                <ul class="nav navbar-nav g-vh-100-50 g-d-n" data-sub-menu="@link.actionLinkID">
+                                    <li class="g-m-tb-10 mobile-sub-menu-item">
+                                        <div class="mobile-menu-back">
+                                            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Back
+                                        </div>
+                                    </li>
+                                    @foreach (var sitem in items)
+                                    {
+                                        <li class="g-m-tb-10 mobile-sub-menu-item">
+                                            <div class="row mobile-menu-toggle">
+                                                <div class="col-xs-10 col-sm-10 col-md-10">
+                                                    <div class="mobile-menu-item-title">@sitem.actionLinkDesc</div>
+                                                </div>
+                                                <div class="col-xs-2 col-sm-2 col-md-2">
+                                                    <span class="glyphicon glyphicon-menu-down g-m-l--5" aria-hidden="true"></span>
+                                                </div>
+                                            </div>
+
+                                            @{
+                                                var sublinks = Model.SideMenu.Where(w => w.parentLevelID == sitem.actionLinkID);
+                                                var count = 0;
+                                                <ul class="g-d-n mobile-menu-actions">
+                                                    @foreach (var slink in sublinks)
+                                                    {
+                                                        <li><a href="@Url.Action(slink.actionName, slink.controllerName, new { @area = link.area ?? "" })">@slink.actionLinkDesc</a></li>
+                                                        count++;
+                                                    }
+                                                </ul>
+                                            }
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        }
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!--Body-->
+        <div class="contents">
+            @RenderBody()
+        </div>
+    </div>
+    <div id="scrollBottomContainer"></div>
+    <div id="goToTop" class="g-d-n">Top</div>
+    <div id="popup-container"></div>
+
+    @Scripts.Render("~/bundles/bootstrapBundle.js")
+    @Scripts.Render("~/bundles/jqueryuiBundle.js")
+    @Scripts.Render("~/bundles/jqueryvalBundle.js")
+    @Scripts.Render("~/bundles/customBundle.js")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

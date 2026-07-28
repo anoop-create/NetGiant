@@ -1,0 +1,314 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Export
+@using netGiant.Intranet.DataLayer;
+@model ExportProductViewModel
+
+@{
+    ViewBag.Title = "Export Product Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+
+        @Html.Hidden("GetCategoryCodesURL", Url.Action("GetCategoryCodes", "SelectLists"))
+        @Html.Hidden("UpdateProductCountURL", Url.Action("UpdateProductCount", "Export"))
+
+        <div>
+
+            @Html.DropDownList("ddlWebsite", Model.AllWebsites, "Export by website",
+                                    new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+
+            <select id="ddlCategorySearch" class="searchBy g-f-l form-control g-smallCell g-m-r-10">
+                <option selected="selected">Export by category</option>
+            </select>
+
+            @Html.DropDownList("ddlManufacturer", Model.AllManufacturers, "Export by manufacturer",
+                                    new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+
+            @Html.DropDownList("ddlStatus", Model.AllProductStatuses, "Export by status",
+                                    new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+
+            @Html.DropDownList("ddlGroup", Model.AllProductGroups, "Export by group",
+                                    new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+
+        </div>
+
+        <div class="g-c-b g-p-t-10">
+            @Html.DropDownList("ddlSalesArea", Model.AllSalesAreaGroups, "Export by sales area",
+                                    new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+
+            @Html.DropDownList("ddlDataSupplier", Model.AllDataSuppliers, "Export by data supplier",
+                                    new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+
+            <select id="ddlSearchBy" class="searchBy g-f-l form-control g-smallCell" style="margin-right:10px">
+                <option selected="selected" value="partNo">Export by part no</option>
+                <option value="name">Export by name</option>
+            </select>
+
+            @Html.TextBox("tbSearchTerm", null, new { @class = "form-control g-smallCell g-f-l text-box single-line g-m-r-10" })
+            @Html.ActionLink("Reset", "Product", "Export", null, new { @class = "btn btn-default" })
+
+        </div>
+
+        <div class="g-c-b g-p-t-10">
+            @using (Html.BeginForm("ExportProduct", "Export"))
+            {
+                @Html.AntiForgeryToken();
+                @Html.HiddenFor(m => m.SelectedProductStatusFK)
+                @Html.HiddenFor(m => m.SelectedWebsiteFK)
+                @Html.HiddenFor(m => m.SelectedProductGroupFK)
+                @Html.HiddenFor(m => m.SelectedSalesAreaGroupFK)
+                @Html.HiddenFor(m => m.SelectedDataSupplierFK)
+                @Html.HiddenFor(m => m.SelectedCategoryCodeFK)
+                @Html.HiddenFor(m => m.SelectedManufacturerFK)
+                @Html.HiddenFor(m => m.SearchBy)
+                @Html.HiddenFor(m => m.SearchTerm)
+                @Html.HiddenFor(m => m.ExProductGroupById)
+                @Html.HiddenFor(m => m.ExSalesAreaGroupById)
+                @Html.HiddenFor(m => m.ExAttributesById)
+
+                <div id="exportCheckboxesContainer">
+                    @{ Html.RenderPartial("~/Views/PMS/Export/ExportCheckboxes.cshtml", Model); }
+                </div>
+
+                <div class="g-m-t-20">
+                    <input type="submit" id="btnExportProduct" value="Export to CSV" class="btn btn-default" />
+                    @Html.Label(Model.ProductCount.ToString(), new { @id = "lblProductCount" })<span> products will be exported</span>
+                </div>
+            }
+
+            <div id="exportByIdDialogue" class="g-d-n" title="Export By Settings"></div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        setDefaults();
+
+        $(document).on('change', '#ddlWebsite, #ddlStatus, #ddlGroup, #ddlSalesArea, ' +
+                            '#ddlDataSupplier, #ddlCategorySearch, #ddlManufacturer, #ddlSearchBy, ' +
+                            '#tbSearchTerm', function () {
+                                var elem = $(this);
+
+                                switch (elem.attr('id')) {
+                                    case 'ddlStatus':
+                                        $('#SelectedProductStatusFK').val(elem.val());
+                                        break;
+                                    case 'ddlWebsite':
+                                        $('#SelectedWebsiteFK').val(elem.val());
+                                        break;
+                                    case 'ddlGroup':
+                                        $('#SelectedProductGroupFK').val(elem.val());
+                                        break;
+                                    case 'ddlSalesArea':
+                                        $('#SelectedSalesAreaGroupFK').val(elem.val());
+                                        break;
+                                    case 'ddlDataSupplier':
+                                        $('#SelectedDataSupplierFK').val(elem.val());
+                                        break;
+                                    case 'ddlCategorySearch':
+                                        $('#SelectedCategoryCodeFK').val(elem.val());
+                                        break;
+                                    case 'ddlManufacturer':
+                                        $('#SelectedManufacturerFK').val(elem.val());
+                                        break;
+                                    case 'ddlSearchBy':
+                                        $('#SearchBy').val(elem.val());
+                                        break;
+                                    case 'tbSearchTerm':
+                                        $('#SearchTerm').val(elem.val());
+                                        break;
+                                }
+
+                                GetProductCount();
+                            });
+
+        $(document).on("change", "#ddlWebsite", function (event) {
+            var objParams = { websiteFK: $('#SelectedWebsiteFK').val() == '' ? 0 : $('#SelectedWebsiteFK').val() };
+            getCheckboxes($('#UpdateCheckboxesURL').val(), '#exportCheckboxesContainer', objParams);
+
+            PopulateCategoryCodes($(this).val());
+        });
+
+        $(document).on('click', '#productFieldsSelectAll, #axisFieldsSelectAll', function () {
+
+            var entityName = '';
+            if ($(this).attr('id').indexOf('product') != -1) {
+                entityName = 'allProds';
+            } else {
+                entityName = 'allAttrs';
+            }
+
+            if ($(this).is(':checked')) {
+                $($(this).attr('value') + ' input[type=checkbox]').each(function () {
+                    setExportByIdSettings(entityName, true)
+                    $(this).prop('checked', true);
+                });
+            } else {
+                $($(this).attr('value') + ' input[type=checkbox]').each(function () {
+                    setExportByIdSettings(entityName, false)
+                    $(this).prop('checked', false);
+                });
+            }
+        });
+
+        $(document).on('change', 'input[value="productGroupFK"], ' +
+                                    'input[value="salesAreaGroupFK"], ' +
+                                    'input[value^="attr"]',
+        function () {
+            var counter = 0;
+            var entityName = $(this).attr('value').substr(0, 4);
+
+            if (entityName == 'attr') {
+                $('input[value^="attr"]').each(function () { if ($(this).is(':checked')) { counter++ } });
+            }
+
+            if ((counter == 1 && entityName == 'attr') || (entityName != 'attr' && counter == 0)) {
+                setExportByIdSettings($(this).attr('value'), true);
+            } else {
+                setExportByIdSettings($(this).attr('value'), false);
+            }
+        });
+
+        function PopulateCategoryCodes(ddlValue) {
+            if (ddlValue > 0) {
+                jsonPopulateDropDown($("#GetCategoryCodesURL").val() + '/' + ddlValue, '#ddlCategorySearch', 'category');
+            } else {
+                $("#ddlCategorySearch").empty();
+                $("#ddlCategorySearch").html('<option value="" selected="true">Export by category</option>');
+                $("#ddlCategorySearch").attr('disabled', 'disabled');
+            }
+        }
+
+        function setDefaults() {
+            $('#ddlWebsite').val(1);
+            $('#SelectedWebsiteFK').val(1);
+            $('#SearchBy').val('partNo');
+            $('input[type=checkbox][value=partNo], input[type=checkbox][value=manufacturerFK]')
+                                            .prop('checked', true);
+            PopulateCategoryCodes(1);
+        }
+
+        function GetProductCount() {
+            var optionsArray = new Array();
+            optionsArray[0] = parseInt($('#SelectedWebsiteFK').val()) || 0;
+            optionsArray[1] = parseInt($('#SelectedCategoryCodeFK').val()) || 0;
+            optionsArray[2] = parseInt($('#SelectedProductStatusFK').val()) || 0;
+            optionsArray[3] = parseInt($('#SelectedProductGroupFK').val()) || 0;
+            optionsArray[4] = parseInt($('#SelectedSalesAreaGroupFK').val()) || 0;
+            optionsArray[5] = parseInt($('#SelectedDataSupplierFK').val()) || 0;
+            optionsArray[6] = parseInt($('#SelectedManufacturerFK').val()) || 0;
+            optionsArray[7] = $('#SearchBy').val();
+            optionsArray[8] = $('#SearchTerm').val();
+
+            var objParams = { optionsArray: optionsArray };
+            ajaxGet($('#UpdateProductCountURL').val(), "#lblProductCount", objParams);
+        }
+
+        function getCheckboxes(url, resultContainer, obj) {
+
+            $.ajax({
+                url: url,
+                dataType: 'html',
+                traditional: true,
+                type: 'GET',
+                data: obj,
+                async: false,
+                cache: false,
+                success: function (data) {
+                    $('' + resultContainer + '').empty();
+                    $('' + resultContainer + '').html(data);
+                    $('input[type=checkbox][value=partNo], input[type=checkbox][value=manufacturerFK]')
+                                            .prop('checked', true);
+                }
+            });
+
+        }
+
+        function setExportByIdSettings(entityName, value) {
+
+            var attrLookup = entityName.substr(0, 4);
+
+            if (attrLookup == 'attr')
+                entityName = 'attr';
+
+            setDialogueQuestion(entityName);
+
+            if (value == true) {
+                $('#exportByIdDialogue').dialog({
+                    resizable: false,
+                    width: 600,
+                    modal: true,
+                    buttons: {
+                        "Number": function () {
+                            updateExportByIdFields(entityName, true)
+                            $(this).dialog("close");
+                        },
+                        "Description": function () {
+                            updateExportByIdFields(entityName, false)
+                            $(this).dialog("close");
+                        }
+                    }
+                })
+            } else {
+                updateExportByIdFields(entityName, value)
+            }
+        }
+
+        function updateExportByIdFields(entityName, value) {
+            var hiddenFieldId = '';
+            switch (entityName) {
+                case 'productGroupFK':
+                    hiddenFieldId = 'ExProductGroupById';
+                    break;
+                case 'salesAreaGroupFK':
+                    hiddenFieldId = 'ExSalesAreaGroupById';
+                    break;
+                case 'attr':
+                    hiddenFieldId = 'ExAttributesById';
+                    break;
+                case 'allProds':
+                    hiddenFieldId = 'ExProductGroupById, #ExSalesAreaGroupById';
+                    break;
+                case 'allAttrs':
+                    hiddenFieldId = 'ExAttributesById';
+                    break;
+            }
+
+            $('#' + hiddenFieldId).val(value);
+        }
+
+        function setDialogueQuestion(entityName) {
+
+            var desc = '';
+
+            switch (entityName) {
+                case 'productGroupFK':
+                    desc = 'product group';
+                    break;
+                case 'salesAreaGroupFK':
+                    desc = 'sales area group';
+                    break;
+                case 'attr':
+                    desc = 'attribute';
+                    break;
+                case 'allProds':
+                    desc = 'product group and sales area group';
+                    break;
+                case 'allAttrs':
+                    desc = 'attributes';
+                    break;
+            }
+
+            $('#exportByIdDialogue').text('Would you like to export ' + desc + ' by description or number?');
+        }
+
+    </script>
+}
+
+

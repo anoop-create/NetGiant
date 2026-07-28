@@ -1,0 +1,21 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model ReportConfigurationViewModel
+
+<td style="padding: 5px; min-width: 500px;">
+    <a href="@Model.ReportConfig.BaseUrl@Model.ReportConfig.ReportConfigurationId" class="reportLink">@Model.ReportConfig.Name</a>
+</td>
+<td style="padding: 5px;">
+    @Html.DisplayFor(m => m.ReportConfig.Lookup.LookupName)
+</td>
+<td style="padding: 5px;">
+    @Html.DisplayFor(m => m.ReportConfig.DateLastUpdated)
+</td>
+<td style="padding: 5px;">
+    @Html.DisplayFor(m => m.ReportConfig.Owner)
+</td>
+<td width="40px">
+    <i class="fa fa-chevron-down" />
+</td>
+
+
+

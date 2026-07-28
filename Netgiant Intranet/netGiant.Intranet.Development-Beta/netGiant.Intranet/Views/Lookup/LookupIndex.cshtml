@@ -1,0 +1,142 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.CrMS;
+
+@model LookupViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">Lookup Details</h4>
+    @Html.RawFromDict(Model.IntranetData, "LookupIndexFilters")
+</div>
+
+@if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+{
+    <a class="lnk g-cur-p" data-url="@Url.Action("CreateLookup", "Lookup")?scope=0&isPopup=true&id=0">Create New</a>
+}
+
+@(Html.Kendo().Grid<LookupViewModel.TelerikL>
+    ()
+    .HtmlAttributes(new { @class = "pointer-rows" })
+    .Name("lookupGrid")
+    .DataSource(dataSource => dataSource
+    .Ajax()
+    .Sort(x =>
+    {
+    x.Add(y => y.LookupScope).Ascending();
+    x.Add(y => y.TypeName).Ascending();
+    x.Add(y => y.Sequence).Ascending();
+    })
+    .Read(read => read.Action("Lookup_Read", "Lookup"))
+    .PageSize(200)
+    )
+    .Columns(columns =>
+    {
+    columns.Bound(x => x.LookupScope).Title("Scope").Width("200px")
+        .HeaderHtmlAttributes(new { title = "Scope", style = "text-align: center;" });
+    columns.Bound(x => x.TypeName).Title("Lookup Type")
+        .HeaderHtmlAttributes(new { title = "Lookup Type", style = "text-align: center;" });
+    columns.Bound(x => x.Name).Title("Lookup Name")
+        .HeaderHtmlAttributes(new { title = "Lookup Name", style = "text-align: center;" });
+    columns.Bound(x => x.LookupId).Title("LookupId").Width("120px")
+        .HeaderHtmlAttributes(new { title = "LookupId", style = "text-align: center;" });
+    columns.Bound(x => x.AltLookupId).Title("AltLookupId").Width("120px")
+        .HeaderHtmlAttributes(new { title = "AltLookupId", style = "text-align: center;" });
+    columns.Bound(x => x.Sequence).Title("Sequence").Width("120px")
+        .HeaderHtmlAttributes(new { title = "Sequence", style = "text-align: center;" });
+    columns.Bound(x => x.LookupId).ClientTemplate(
+    "<a class=\"lnk\" data-url=\"" + Url.Action("UpdateLookup", "Lookup") + "?scope=#:LookupScope#&isPopup=true&id=#:LookupId#\">Edit</a>" +
+    "|<a href=\"##\" class=\"lnkEntryDelete\" value=\"#:LookupId#\" data-scope=\"#:LookupScope#\" title=\"Delete\">Delete</a>"
+    ).Width("125px").Title("").Filterable(false).Sortable(false).Groupable(false);
+    })
+    .Pageable(pager => pager.Refresh(true))
+    .Pageable(pager => pager.PageSizes(new List<int>
+        { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable
+        .AllowUnsort(true))
+        .Groupable()
+        .Scrollable()
+        .Filterable(ftb => ftb
+        .Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .Excel(excel => excel
+        .AllPages(true)
+        .FileName("Grid Export")
+        .Filterable(true)
+        .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+        .NoRecords("There are no items to display")
+        .Events(events => events.DataBound("saveGridFilters"))
+        .Selectable()
+)
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 1000px;">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button id="close-modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(document).on('click', '.lnkEntryDelete', function (e) {
+            var rowid = $(this).attr('value');
+            var scope = $(this).attr('data-scope');
+            e.preventDefault();
+            $.confirm({
+                title: 'Lookup Entries',
+                content: 'Are you sure you want to delete this entry?',
+                buttons: {
+                    Yes: function () {
+                        deleteGridRow('@Url.Action("DeleteLookup", "Lookup")/', { id: rowid, scope: scope });
+                    },
+                    No: function () { }
+                }
+            });
+        });
+
+        $(document).on("click", ".lnk", function () {
+            var url = $(this).attr('data-url');
+            $('#myModal').find('.modal-body').html('');
+            $.ajax({
+                url: url
+            }).done(function (data) {
+                $('#myModal').find('.modal-body').html(data);
+                addDatePicker();
+            });
+            $('#myModal').modal();
+        });
+    });
+
+    function ajaxReturn(data) {
+        var response = data.responseJSON;
+        $.confirm({
+            title: response.type,
+            content: response.savereturn.Message,
+            animation: 'zoom',
+            buttons: {
+                OK: function () {
+                    $('#close-modal').click();
+                    $('.k-grid').data('kendoGrid').dataSource.read();
+                    $('.k-grid').data('kendoGrid').refresh();
+                }
+            }
+        });
+
+        return false;
+    }
+</script>
+

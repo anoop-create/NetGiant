@@ -1,0 +1,2154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DP001Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="DP001Entities" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="GetDashboardData" ReturnType="Collection(DP001Model.GetDashboardData_Result)">
+      <Parameter Name="ChannelID" Mode="In" Type="Int32" />
+      <Parameter Name="BrandID" Mode="In" Type="Int32" />
+      <Parameter Name="ProductCategoryID" Mode="In" Type="Int32" />
+      <Parameter Name="PriceRuleID" Mode="In" Type="Int32" />
+      <Parameter Name="IsKeyLine" Mode="In" Type="Boolean" />
+      <Parameter Name="GetChartData" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteTenantInventories">
+      <Parameter Name="ChannelID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SetSkuMappings">
+      <Parameter Name="ChannelID" Mode="In" Type="Int32" />
+      <Parameter Name="processStartTime" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <EntitySet Name="APISettings" EntityType="DP001Model.APISetting" />
+    <EntitySet Name="Brands" EntityType="DP001Model.Brand" />
+    <EntitySet Name="Competitors" EntityType="DP001Model.Competitor" />
+    <EntitySet Name="Contracts" EntityType="DP001Model.Contract" />
+    <EntitySet Name="Logs" EntityType="DP001Model.Log" />
+    <EntitySet Name="Lookups" EntityType="DP001Model.Lookup" />
+    <EntitySet Name="LookupTypes" EntityType="DP001Model.LookupType" />
+    <EntitySet Name="PriceHistories" EntityType="DP001Model.PriceHistory" />
+    <EntitySet Name="ProductCategories" EntityType="DP001Model.ProductCategory" />
+    <EntitySet Name="ProductInventories" EntityType="DP001Model.ProductInventory" />
+    <EntitySet Name="SapASettings" EntityType="DP001Model.SapASetting" />
+    <EntitySet Name="SKUMappingDismissals" EntityType="DP001Model.SKUMappingDismissal" />
+    <EntitySet Name="Suppliers" EntityType="DP001Model.Supplier" />
+    <EntitySet Name="SupplierInventories" EntityType="DP001Model.SupplierInventory" />
+    <AssociationSet Name="FK_SAPAnywhere_Lookup" Association="DP001Model.FK_SAPAnywhere_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="APISetting" EntitySet="APISettings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductInventory_Brand" Association="DP001Model.FK_ProductInventory_Brand">
+      <End Role="Brand" EntitySet="Brands" />
+      <End Role="ProductInventory" EntitySet="ProductInventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductInventory_Brand1" Association="DP001Model.FK_ProductInventory_Brand1">
+      <End Role="Brand" EntitySet="Brands" />
+      <End Role="ProductInventory" EntitySet="ProductInventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SupplierInventory_Brand" Association="DP001Model.FK_SupplierInventory_Brand">
+      <End Role="Brand" EntitySet="Brands" />
+      <End Role="SupplierInventory" EntitySet="SupplierInventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Log_Lookup" Association="DP001Model.FK_Log_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="Log" EntitySet="Logs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Lookup_LookupType" Association="DP001Model.FK_Lookup_LookupType">
+      <End Role="LookupType" EntitySet="LookupTypes" />
+      <End Role="Lookup" EntitySet="Lookups" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductInventory_Lookup" Association="DP001Model.FK_ProductInventory_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="ProductInventory" EntitySet="ProductInventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductInventory_ProductCategory" Association="DP001Model.FK_ProductInventory_ProductCategory">
+      <End Role="ProductCategory" EntitySet="ProductCategories" />
+      <End Role="ProductInventory" EntitySet="ProductInventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SupplierInventory_ProductInventory" Association="DP001Model.FK_SupplierInventory_ProductInventory">
+      <End Role="ProductInventory" EntitySet="ProductInventories" />
+      <End Role="SupplierInventory" EntitySet="SupplierInventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SupplierInventory_Supplier" Association="DP001Model.FK_SupplierInventory_Supplier">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="SupplierInventory" EntitySet="SupplierInventories" />
+    </AssociationSet>
+    <EntitySet Name="SKUMappings" EntityType="DP001Model.SKUMapping" />
+    <AssociationSet Name="FK_SKUMapping_Manufacturer" Association="DP001Model.FK_SKUMapping_Manufacturer">
+      <End Role="Brand" EntitySet="Brands" />
+      <End Role="SKUMapping" EntitySet="SKUMappings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SKUMapping_Lookup" Association="DP001Model.FK_SKUMapping_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="SKUMapping" EntitySet="SKUMappings" />
+    </AssociationSet>
+    <EntitySet Name="PriceStagings" EntityType="DP001Model.PriceStaging" />
+    <AssociationSet Name="FK_PriceStaging_Lookup" Association="DP001Model.FK_PriceStaging_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="PriceStaging" EntitySet="PriceStagings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PriceStaging_ProductInventory" Association="DP001Model.FK_PriceStaging_ProductInventory">
+      <End Role="ProductInventory" EntitySet="ProductInventories" />
+      <End Role="PriceStaging" EntitySet="PriceStagings" />
+    </AssociationSet>
+    <FunctionImport Name="DeletePriceStagingEntries">
+      <Parameter Name="channelFK" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="CompetitorInventories" EntityType="DP001Model.CompetitorInventory" />
+    <AssociationSet Name="FK_CompetitorInventory_Brand" Association="DP001Model.FK_CompetitorInventory_Brand">
+      <End Role="Competitor" EntitySet="Competitors" />
+      <End Role="CompetitorInventory" EntitySet="CompetitorInventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CompetitorInventory_Competitor" Association="DP001Model.FK_CompetitorInventory_Competitor">
+      <End Role="Competitor" EntitySet="Competitors" />
+      <End Role="CompetitorInventory" EntitySet="CompetitorInventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CompetitorInventory_ProductInventory" Association="DP001Model.FK_CompetitorInventory_ProductInventory">
+      <End Role="ProductInventory" EntitySet="ProductInventories" />
+      <End Role="CompetitorInventory" EntitySet="CompetitorInventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductInventory_ProductInventory" Association="DP001Model.FK_ProductInventory_ProductInventory">
+      <End Role="ProductInventory" EntitySet="ProductInventories" />
+      <End Role="ProductInventory1" EntitySet="ProductInventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CompetitorInventory_Brand1" Association="DP001Model.FK_CompetitorInventory_Brand1">
+      <End Role="Brand" EntitySet="Brands" />
+      <End Role="CompetitorInventory" EntitySet="CompetitorInventories" />
+    </AssociationSet>
+    <EntitySet Name="SupplierBrandMatchings" EntityType="DP001Model.SupplierBrandMatching" />
+    <EntitySet Name="SupplierMfpnMatchings" EntityType="DP001Model.SupplierMfpnMatching" />
+    <AssociationSet Name="FK_SupplierMfpnMatching_Lookup1" Association="DP001Model.FK_SupplierMfpnMatching_Lookup1">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="SupplierMfpnMatching" EntitySet="SupplierMfpnMatchings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SupplierBrandMatching_Supplier" Association="DP001Model.FK_SupplierBrandMatching_Supplier">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="SupplierBrandMatching" EntitySet="SupplierBrandMatchings" />
+    </AssociationSet>
+    <FunctionImport Name="GetSuggestedSupplierMappings" ReturnType="Collection(DP001Model.GetSuggestedSupplierMappings_Result)">
+      <Parameter Name="ChannelFK" Mode="In" Type="Int32" />
+      <Parameter Name="Mfpn" Mode="In" Type="String" />
+      <Parameter Name="BrandFK" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="TenantAudits" EntityType="DP001Model.TenantAudit" />
+    <FunctionImport Name="DeleteChannel">
+      <Parameter Name="ChannelID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteFtpSetting">
+      <Parameter Name="FtpSettingID" Mode="In" Type="Int32" />
+      <Parameter Name="FileType" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteTenant">
+      <Parameter Name="TenantID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="MapBrandCategories" EntityType="DP001Model.MapBrandCategory" />
+    <AssociationSet Name="FK_MapBrandCategory_Brand" Association="DP001Model.FK_MapBrandCategory_Brand">
+      <End Role="Brand" EntitySet="Brands" />
+      <End Role="MapBrandCategory" EntitySet="MapBrandCategories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MapBrandCategory_MapBrandCategory" Association="DP001Model.FK_MapBrandCategory_MapBrandCategory">
+      <End Role="ProductCategory" EntitySet="ProductCategories" />
+      <End Role="MapBrandCategory" EntitySet="MapBrandCategories" />
+    </AssociationSet>
+    <EntitySet Name="FieldMappings" EntityType="DP001Model.FieldMapping" />
+    <FunctionImport Name="SetPriceRuleProductCounts">
+      <Parameter Name="ChannelFK" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="CustomFields" EntityType="DP001Model.CustomField" />
+    <AssociationSet Name="FK_CustomField_Lookup" Association="DP001Model.FK_CustomField_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="CustomField" EntitySet="CustomFields" />
+    </AssociationSet>
+    <EntitySet Name="PriceRules" EntityType="DP001Model.PriceRule" />
+    <AssociationSet Name="FK_PriceRule_Brand" Association="DP001Model.FK_PriceRule_Brand">
+      <End Role="Brand" EntitySet="Brands" />
+      <End Role="PriceRule" EntitySet="PriceRules" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PriceRule_Lookup" Association="DP001Model.FK_PriceRule_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="PriceRule" EntitySet="PriceRules" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PriceRule_Lookup1" Association="DP001Model.FK_PriceRule_Lookup1">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="PriceRule" EntitySet="PriceRules" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PriceRule_Lookup2" Association="DP001Model.FK_PriceRule_Lookup2">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="PriceRule" EntitySet="PriceRules" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PriceRule_ProductCategory" Association="DP001Model.FK_PriceRule_ProductCategory">
+      <End Role="ProductCategory" EntitySet="ProductCategories" />
+      <End Role="PriceRule" EntitySet="PriceRules" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PriceRule_ProductInventory" Association="DP001Model.FK_PriceRule_ProductInventory">
+      <End Role="ProductInventory" EntitySet="ProductInventories" />
+      <End Role="PriceRule" EntitySet="PriceRules" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PriceStaging_PriceRule" Association="DP001Model.FK_PriceStaging_PriceRule">
+      <End Role="PriceRule" EntitySet="PriceRules" />
+      <End Role="PriceStaging" EntitySet="PriceStagings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductInventory_PriceRule" Association="DP001Model.FK_ProductInventory_PriceRule">
+      <End Role="PriceRule" EntitySet="PriceRules" />
+      <End Role="ProductInventory" EntitySet="ProductInventories" />
+    </AssociationSet>
+    <FunctionImport Name="GetProductPriceRules" ReturnType="Collection(DP001Model.GetProductPriceRules_Result)">
+      <Parameter Name="ChannelID" Mode="In" Type="Int32" />
+      <Parameter Name="Method" Mode="In" Type="String" />
+      <Parameter Name="TestMode" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="GetCustomProductPriceRules" ReturnType="Collection(DP001Model.GetProductPriceRules_Result)">
+      <Parameter Name="ChannelID" Mode="In" Type="Int32" />
+      <Parameter Name="TestMode" Mode="In" Type="Boolean" />
+      <Parameter Name="Method" Mode="In" Type="String" />
+      <Parameter Name="BandOperatorField" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetClientData" ReturnType="Collection(DP001Model.GetClientData_Result)" />
+    <AssociationSet Name="FK_Competitor_Lookup" Association="DP001Model.FK_Competitor_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="Competitor" EntitySet="Competitors" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CompetitorInventory_Lookup" Association="DP001Model.FK_CompetitorInventory_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="CompetitorInventory" EntitySet="CompetitorInventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductInventory_Lookup1" Association="DP001Model.FK_ProductInventory_Lookup1">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="ProductInventory" EntitySet="ProductInventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SupplierInventory_Lookup" Association="DP001Model.FK_SupplierInventory_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="SupplierInventory" EntitySet="SupplierInventories" />
+    </AssociationSet>
+    <EntitySet Name="TenantLookups" EntityType="DP001Model.TenantLookup" />
+    <AssociationSet Name="FK_TenantLookup_Lookup" Association="DP001Model.FK_TenantLookup_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="TenantLookup" EntitySet="TenantLookups" />
+    </AssociationSet>
+    <EntitySet Name="ReportConfigurations" EntityType="DP001Model.ReportConfiguration" />
+    <AssociationSet Name="FK_ReportConfiguration_Lookup" Association="DP001Model.FK_ReportConfiguration_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="ReportConfiguration" EntitySet="ReportConfigurations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReportConfiguration_Lookup1" Association="DP001Model.FK_ReportConfiguration_Lookup1">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="ReportConfiguration" EntitySet="ReportConfigurations" />
+    </AssociationSet>
+    <FunctionImport Name="SetSalesHistoryMappings">
+      <Parameter Name="ChannelFk" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="Schedules" EntityType="DP001Model.Schedule" />
+    <AssociationSet Name="FK_Schedule_Lookup" Association="DP001Model.FK_Schedule_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="Schedule" EntitySet="Schedules" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Schedule_Lookup1" Association="DP001Model.FK_Schedule_Lookup1">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="Schedule" EntitySet="Schedules" />
+    </AssociationSet>
+    <EntitySet Name="SalesHistories" EntityType="DP001Model.SalesHistory" />
+    <AssociationSet Name="FK_SalesHistory_SalesHistory" Association="DP001Model.FK_SalesHistory_SalesHistory">
+      <End Role="ProductInventory" EntitySet="ProductInventories" />
+      <End Role="SalesHistory" EntitySet="SalesHistories" />
+    </AssociationSet>
+    <EntitySet Name="FTPSettings" EntityType="DP001Model.FTPSetting" />
+    <AssociationSet Name="FK_FieldMappings_FTPSettings" Association="DP001Model.FK_FieldMappings_FTPSettings">
+      <End Role="FTPSetting" EntitySet="FTPSettings" />
+      <End Role="FieldMapping" EntitySet="FieldMappings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FTPSettings_Lookup" Association="DP001Model.FK_FTPSettings_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="FTPSetting" EntitySet="FTPSettings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FTPSettings_Lookup1" Association="DP001Model.FK_FTPSettings_Lookup1">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="FTPSetting" EntitySet="FTPSettings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Supplier_FTPSettings" Association="DP001Model.FK_Supplier_FTPSettings">
+      <End Role="FTPSetting" EntitySet="FTPSettings" />
+      <End Role="Supplier" EntitySet="Suppliers" />
+    </AssociationSet>
+    <EntitySet Name="Channels" EntityType="DP001Model.Channel" />
+    <AssociationSet Name="FK_Brand_Channel" Association="DP001Model.FK_Brand_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="Brand" EntitySet="Brands" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Channel_Lookup" Association="DP001Model.FK_Channel_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="Channel" EntitySet="Channels" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Channel_Lookup1" Association="DP001Model.FK_Channel_Lookup1">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="Channel" EntitySet="Channels" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Competitor_Channel" Association="DP001Model.FK_Competitor_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="Competitor" EntitySet="Competitors" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CompetitorInventory_Channel" Association="DP001Model.FK_CompetitorInventory_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="CompetitorInventory" EntitySet="CompetitorInventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomField_Channel" Association="DP001Model.FK_CustomField_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="CustomField" EntitySet="CustomFields" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FTPSettings_Channel" Association="DP001Model.FK_FTPSettings_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="FTPSetting" EntitySet="FTPSettings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PriceHistory_Channel" Association="DP001Model.FK_PriceHistory_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="PriceHistory" EntitySet="PriceHistories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PriceRule_Channel" Association="DP001Model.FK_PriceRule_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="PriceRule" EntitySet="PriceRules" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PriceStaging_Channel" Association="DP001Model.FK_PriceStaging_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="PriceStaging" EntitySet="PriceStagings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductCategory_Channel" Association="DP001Model.FK_ProductCategory_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="ProductCategory" EntitySet="ProductCategories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductInventory_Channel" Association="DP001Model.FK_ProductInventory_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="ProductInventory" EntitySet="ProductInventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SalesHistory_Channel" Association="DP001Model.FK_SalesHistory_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="SalesHistory" EntitySet="SalesHistories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Schedule_Channel" Association="DP001Model.FK_Schedule_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="Schedule" EntitySet="Schedules" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SKUMapping_Channel" Association="DP001Model.FK_SKUMapping_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="SKUMapping" EntitySet="SKUMappings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SKUMappingDismissal_Channel" Association="DP001Model.FK_SKUMappingDismissal_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="SKUMappingDismissal" EntitySet="SKUMappingDismissals" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Supplier_Channel" Association="DP001Model.FK_Supplier_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="Supplier" EntitySet="Suppliers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SupplierInventory_Channel" Association="DP001Model.FK_SupplierInventory_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="SupplierInventory" EntitySet="SupplierInventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SupplierMfpnMatching_Channel" Association="DP001Model.FK_SupplierMfpnMatching_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="SupplierMfpnMatching" EntitySet="SupplierMfpnMatchings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TenantAudit_Channel" Association="DP001Model.FK_TenantAudit_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="TenantAudit" EntitySet="TenantAudits" />
+    </AssociationSet>
+    <EntitySet Name="ProviderExclusions" EntityType="DP001Model.ProviderExclusion" />
+    <AssociationSet Name="FK_ProviderExclusion_Channel" Association="DP001Model.FK_ProviderExclusion_Channel">
+      <End Role="Channel" EntitySet="Channels" />
+      <End Role="ProviderExclusion" EntitySet="ProviderExclusions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProviderExclusion_Lookup" Association="DP001Model.FK_ProviderExclusion_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="ProviderExclusion" EntitySet="ProviderExclusions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProviderExclusion_Lookup1" Association="DP001Model.FK_ProviderExclusion_Lookup1">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="ProviderExclusion" EntitySet="ProviderExclusions" />
+    </AssociationSet>
+    <FunctionImport Name="GetSalesHistoryData" IsComposable="true" ReturnType="Collection(DP001Model.GetSalesHistoryData_Result)">
+      <Parameter Name="DateFrom" Mode="In" Type="DateTime" />
+      <Parameter Name="DateTo" Mode="In" Type="DateTime" />
+      <Parameter Name="ChannelFK" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="TenantSettings" EntityType="DP001Model.TenantSetting" />
+    <AssociationSet Name="FK_Channel_TenantSettings" Association="DP001Model.FK_Channel_TenantSettings">
+      <End Role="TenantSetting" EntitySet="TenantSettings" />
+      <End Role="Channel" EntitySet="Channels" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TenantSettings_Contract" Association="DP001Model.FK_TenantSettings_Contract">
+      <End Role="Contract" EntitySet="Contracts" />
+      <End Role="TenantSetting" EntitySet="TenantSettings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TenantSettings_Lookup" Association="DP001Model.FK_TenantSettings_Lookup">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="TenantSetting" EntitySet="TenantSettings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReportConfiguration_TenantSettings" Association="DP001Model.FK_ReportConfiguration_TenantSettings">
+      <End Role="TenantSetting" EntitySet="TenantSettings" />
+      <End Role="ReportConfiguration" EntitySet="ReportConfigurations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SapASettings_TenantSettings" Association="DP001Model.FK_SapASettings_TenantSettings">
+      <End Role="TenantSetting" EntitySet="TenantSettings" />
+      <End Role="SapASetting" EntitySet="SapASettings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TenantLookup_TenantSettings" Association="DP001Model.FK_TenantLookup_TenantSettings">
+      <End Role="TenantSetting" EntitySet="TenantSettings" />
+      <End Role="TenantLookup" EntitySet="TenantLookups" />
+    </AssociationSet>
+  </EntityContainer>
+  <ComplexType Name="GetDashboardData_Result">
+    <Property Type="Int32" Name="ProductInventoryCount" Nullable="true" />
+    <Property Type="Int32" Name="SupplierInventoryCount" Nullable="true" />
+    <Property Type="Int32" Name="CompetitorInventoryCount" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="APISetting">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="GatewayFK" Type="Int32" />
+    <Property Name="ApiAuthMethod" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ApiAuthURL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="ApiRequestURL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="ApiClientID" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="ApiSecret" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="ApiRefreshToken" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Lookup" Relationship="DP001Model.FK_SAPAnywhere_Lookup" FromRole="APISetting" ToRole="Lookup" />
+  </EntityType>
+  <EntityType Name="Brand">
+    <Key>
+      <PropertyRef Name="BrandID" />
+    </Key>
+    <Property Name="BrandID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelFK" Type="Int32" Nullable="false" />
+    <Property Name="BrandName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ProductInventories" Relationship="DP001Model.FK_ProductInventory_Brand" FromRole="Brand" ToRole="ProductInventory" />
+    <NavigationProperty Name="ProductInventories1" Relationship="DP001Model.FK_ProductInventory_Brand1" FromRole="Brand" ToRole="ProductInventory" />
+    <NavigationProperty Name="SupplierInventories" Relationship="DP001Model.FK_SupplierInventory_Brand" FromRole="Brand" ToRole="SupplierInventory" />
+    <NavigationProperty Name="SKUMappings" Relationship="DP001Model.FK_SKUMapping_Manufacturer" FromRole="Brand" ToRole="SKUMapping" />
+    <NavigationProperty Name="CompetitorInventories" Relationship="DP001Model.FK_CompetitorInventory_Brand1" FromRole="Brand" ToRole="CompetitorInventory" />
+    <NavigationProperty Name="MapBrandCategories" Relationship="DP001Model.FK_MapBrandCategory_Brand" FromRole="Brand" ToRole="MapBrandCategory" />
+    <NavigationProperty Name="PriceRules" Relationship="DP001Model.FK_PriceRule_Brand" FromRole="Brand" ToRole="PriceRule" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_Brand_Channel" FromRole="Brand" ToRole="Channel" />
+  </EntityType>
+  <EntityType Name="Competitor">
+    <Key>
+      <PropertyRef Name="CompetitorID" />
+    </Key>
+    <Property Name="CompetitorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelFK" Type="Int32" Nullable="false" />
+    <Property Name="CompetitorName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ReviewTotal" Type="Int32" />
+    <Property Name="ReviewRating" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="CompetitorInventories" Relationship="DP001Model.FK_CompetitorInventory_Brand" FromRole="Competitor" ToRole="CompetitorInventory" />
+    <NavigationProperty Name="CompetitorInventories1" Relationship="DP001Model.FK_CompetitorInventory_Competitor" FromRole="Competitor" ToRole="CompetitorInventory" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="DateLastUpdated" Type="DateTime" Precision="3" />
+    <Property Name="StatusFK" Type="Int32" />
+    <NavigationProperty Name="Lookup" Relationship="DP001Model.FK_Competitor_Lookup" FromRole="Competitor" ToRole="Lookup" />
+    <Property Name="ProductMatchCount" Type="Int32" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_Competitor_Channel" FromRole="Competitor" ToRole="Channel" />
+  </EntityType>
+  <EntityType Name="Contract">
+    <Key>
+      <PropertyRef Name="ContractID" />
+    </Key>
+    <Property Name="ContractID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="InventoryCount" Type="Int32" Nullable="false" />
+    <Property Name="PriceRuleCount" Type="Int32" Nullable="false" />
+    <Property Name="ScheduleCount" Type="Int32" Nullable="false" />
+    <Property Name="ChannelLimit" Type="Int32" Nullable="false" />
+    <Property Name="UserLimit" Type="Int32" Nullable="false" />
+    <Property Name="SalesHistory" Type="Boolean" Nullable="false" />
+    <Property Name="CloneChannel" Type="Boolean" Nullable="false" />
+    <Property Name="PriceRuleBanding" Type="Boolean" Nullable="false" />
+    <Property Name="MultipleSuppliers" Type="Boolean" Nullable="false" />
+    <Property Name="MultipleCalculationMethod" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="TenantSettings" Relationship="DP001Model.FK_TenantSettings_Contract" FromRole="Contract" ToRole="TenantSetting" />
+  </EntityType>
+  <EntityType Name="Log">
+    <Key>
+      <PropertyRef Name="LogID" />
+    </Key>
+    <Property Name="LogID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="JobID" Type="Int32" />
+    <Property Name="TenantFK" Type="Int32" />
+    <Property Name="ChannelFK" Type="Int32" />
+    <Property Name="LogTypeFK" Type="Int32" Nullable="false" />
+    <Property Name="DateTime" Type="DateTime" Precision="3" />
+    <Property Name="Entry" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Lookup" Relationship="DP001Model.FK_Log_Lookup" FromRole="Log" ToRole="Lookup" />
+  </EntityType>
+  <EntityType Name="Lookup">
+    <Key>
+      <PropertyRef Name="LookupID" />
+    </Key>
+    <Property Name="LookupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LookupTypeFK" Type="Int32" />
+    <Property Name="LookupName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="APISettings" Relationship="DP001Model.FK_SAPAnywhere_Lookup" FromRole="Lookup" ToRole="APISetting" />
+    <NavigationProperty Name="Logs" Relationship="DP001Model.FK_Log_Lookup" FromRole="Lookup" ToRole="Log" />
+    <NavigationProperty Name="LookupType" Relationship="DP001Model.FK_Lookup_LookupType" FromRole="Lookup" ToRole="LookupType" />
+    <NavigationProperty Name="ProductInventories" Relationship="DP001Model.FK_ProductInventory_Lookup" FromRole="Lookup" ToRole="ProductInventory" />
+    <NavigationProperty Name="SKUMappings" Relationship="DP001Model.FK_SKUMapping_Lookup" FromRole="Lookup" ToRole="SKUMapping" />
+    <NavigationProperty Name="PriceStagings" Relationship="DP001Model.FK_PriceStaging_Lookup" FromRole="Lookup" ToRole="PriceStaging" />
+    <NavigationProperty Name="SupplierMfpnMatchings" Relationship="DP001Model.FK_SupplierMfpnMatching_Lookup1" FromRole="Lookup" ToRole="SupplierMfpnMatching" />
+    <NavigationProperty Name="CustomFields" Relationship="DP001Model.FK_CustomField_Lookup" FromRole="Lookup" ToRole="CustomField" />
+    <NavigationProperty Name="PriceRules" Relationship="DP001Model.FK_PriceRule_Lookup" FromRole="Lookup" ToRole="PriceRule" />
+    <NavigationProperty Name="PriceRules1" Relationship="DP001Model.FK_PriceRule_Lookup1" FromRole="Lookup" ToRole="PriceRule" />
+    <NavigationProperty Name="PriceRules2" Relationship="DP001Model.FK_PriceRule_Lookup2" FromRole="Lookup" ToRole="PriceRule" />
+    <NavigationProperty Name="Competitors" Relationship="DP001Model.FK_Competitor_Lookup" FromRole="Lookup" ToRole="Competitor" />
+    <NavigationProperty Name="CompetitorInventories" Relationship="DP001Model.FK_CompetitorInventory_Lookup" FromRole="Lookup" ToRole="CompetitorInventory" />
+    <NavigationProperty Name="ProductInventories1" Relationship="DP001Model.FK_ProductInventory_Lookup1" FromRole="Lookup" ToRole="ProductInventory" />
+    <NavigationProperty Name="SupplierInventories" Relationship="DP001Model.FK_SupplierInventory_Lookup" FromRole="Lookup" ToRole="SupplierInventory" />
+    <NavigationProperty Name="TenantLookups" Relationship="DP001Model.FK_TenantLookup_Lookup" FromRole="Lookup" ToRole="TenantLookup" />
+    <Property Name="Sequence" Type="Int16" />
+    <NavigationProperty Name="ReportConfigurations" Relationship="DP001Model.FK_ReportConfiguration_Lookup" FromRole="Lookup" ToRole="ReportConfiguration" />
+    <NavigationProperty Name="ReportConfigurations1" Relationship="DP001Model.FK_ReportConfiguration_Lookup1" FromRole="Lookup" ToRole="ReportConfiguration" />
+    <NavigationProperty Name="Schedules" Relationship="DP001Model.FK_Schedule_Lookup" FromRole="Lookup" ToRole="Schedule" />
+    <NavigationProperty Name="Schedules1" Relationship="DP001Model.FK_Schedule_Lookup1" FromRole="Lookup" ToRole="Schedule" />
+    <NavigationProperty Name="FTPSettings" Relationship="DP001Model.FK_FTPSettings_Lookup" FromRole="Lookup" ToRole="FTPSetting" />
+    <NavigationProperty Name="FTPSettings1" Relationship="DP001Model.FK_FTPSettings_Lookup1" FromRole="Lookup" ToRole="FTPSetting" />
+    <NavigationProperty Name="Channels" Relationship="DP001Model.FK_Channel_Lookup" FromRole="Lookup" ToRole="Channel" />
+    <NavigationProperty Name="Channels1" Relationship="DP001Model.FK_Channel_Lookup1" FromRole="Lookup" ToRole="Channel" />
+    <NavigationProperty Name="ProviderExclusions" Relationship="DP001Model.FK_ProviderExclusion_Lookup" FromRole="Lookup" ToRole="ProviderExclusion" />
+    <NavigationProperty Name="ProviderExclusions1" Relationship="DP001Model.FK_ProviderExclusion_Lookup1" FromRole="Lookup" ToRole="ProviderExclusion" />
+    <NavigationProperty Name="TenantSettings" Relationship="DP001Model.FK_TenantSettings_Lookup" FromRole="Lookup" ToRole="TenantSetting" />
+  </EntityType>
+  <EntityType Name="LookupType">
+    <Key>
+      <PropertyRef Name="LookupTypeID" />
+    </Key>
+    <Property Name="LookupTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LookupTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Lookups" Relationship="DP001Model.FK_Lookup_LookupType" FromRole="LookupType" ToRole="Lookup" />
+  </EntityType>
+  <EntityType Name="PriceHistory">
+    <Key>
+      <PropertyRef Name="PriceHistoryID" />
+    </Key>
+    <Property Name="PriceHistoryID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelFK" Type="Int32" Nullable="false" />
+    <Property Name="ClientProductID" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_PriceHistory_Channel" FromRole="PriceHistory" ToRole="Channel" />
+  </EntityType>
+  <EntityType Name="ProductCategory">
+    <Key>
+      <PropertyRef Name="ProductCategoryID" />
+    </Key>
+    <Property Name="ProductCategoryID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelFK" Type="Int32" Nullable="false" />
+    <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ProductInventories" Relationship="DP001Model.FK_ProductInventory_ProductCategory" FromRole="ProductCategory" ToRole="ProductInventory" />
+    <NavigationProperty Name="MapBrandCategories" Relationship="DP001Model.FK_MapBrandCategory_MapBrandCategory" FromRole="ProductCategory" ToRole="MapBrandCategory" />
+    <NavigationProperty Name="PriceRules" Relationship="DP001Model.FK_PriceRule_ProductCategory" FromRole="ProductCategory" ToRole="PriceRule" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_ProductCategory_Channel" FromRole="ProductCategory" ToRole="Channel" />
+  </EntityType>
+  <EntityType Name="ProductInventory">
+    <Key>
+      <PropertyRef Name="ProductInventoryID" />
+    </Key>
+    <Property Name="ProductInventoryID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelFK" Type="Int32" Nullable="false" />
+    <Property Name="BrandFK" Type="Int32" Nullable="false" />
+    <Property Name="ManufacturerPartNo" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="ClientProductID" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="LnkdBrandFK" Type="Int32" />
+    <Property Name="LnkdManufacturerPartNo" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="ProductCategoryFK" Type="Int64" />
+    <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AltPrice1" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice2" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice3" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice4" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice5" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice6" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice7" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice8" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice9" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice10" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PriceRuleFK" Type="Int32" />
+    <Property Name="CalculationOutcome" Type="Int32" />
+    <Property Name="BeatRateNumber" Type="Int32" Nullable="false" />
+    <Property Name="StockQuantity" Type="Int32" />
+    <Property Name="CheapestCostPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CheapestCompetitorPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="GrossMarginPercent" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="GrossMarginValue" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CompetitorDifference" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="Brand" Relationship="DP001Model.FK_ProductInventory_Brand" FromRole="ProductInventory" ToRole="Brand" />
+    <NavigationProperty Name="Brand1" Relationship="DP001Model.FK_ProductInventory_Brand1" FromRole="ProductInventory" ToRole="Brand" />
+    <NavigationProperty Name="Lookup" Relationship="DP001Model.FK_ProductInventory_Lookup" FromRole="ProductInventory" ToRole="Lookup" />
+    <NavigationProperty Name="ProductCategory" Relationship="DP001Model.FK_ProductInventory_ProductCategory" FromRole="ProductInventory" ToRole="ProductCategory" />
+    <NavigationProperty Name="SupplierInventories" Relationship="DP001Model.FK_SupplierInventory_ProductInventory" FromRole="ProductInventory" ToRole="SupplierInventory" />
+    <NavigationProperty Name="PriceStaging" Relationship="DP001Model.FK_PriceStaging_ProductInventory" FromRole="ProductInventory" ToRole="PriceStaging" />
+    <NavigationProperty Name="CompetitorInventories" Relationship="DP001Model.FK_CompetitorInventory_ProductInventory" FromRole="ProductInventory" ToRole="CompetitorInventory" />
+    <NavigationProperty Name="ProductInventory1" Relationship="DP001Model.FK_ProductInventory_ProductInventory" FromRole="ProductInventory" ToRole="ProductInventory1" />
+    <NavigationProperty Name="ProductInventory2" Relationship="DP001Model.FK_ProductInventory_ProductInventory" FromRole="ProductInventory1" ToRole="ProductInventory" />
+    <Property Name="DateLastUpdated" Type="DateTime" Precision="3" />
+    <Property Name="MaximumPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="MinimumPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="DesiredPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="IsKeyLine" Type="Boolean" />
+    <Property Name="CompetitorCount" Type="Int16" />
+    <Property Name="SupplierCount" Type="Int16" />
+    <Property Name="DatePriceChanged" Type="DateTime" Precision="3" />
+    <Property Name="CustomProductField1" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CustomProductField2" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CustomProductField3" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CustomProductField4" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CustomProductField5" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CustomProductField6" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CustomProductField7" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CustomProductField8" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CustomProductField9" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CustomProductField10" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="PriceRules" Relationship="DP001Model.FK_PriceRule_ProductInventory" FromRole="ProductInventory" ToRole="PriceRule" />
+    <NavigationProperty Name="PriceRule" Relationship="DP001Model.FK_ProductInventory_PriceRule" FromRole="ProductInventory" ToRole="PriceRule" />
+    <Property Name="VariantOf" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BeatenCompetitorPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="StatusFK" Type="Int32" />
+    <NavigationProperty Name="Lookup1" Relationship="DP001Model.FK_ProductInventory_Lookup1" FromRole="ProductInventory" ToRole="Lookup" />
+    <Property Name="TargetMarginPercent" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="SalesHistories" Relationship="DP001Model.FK_SalesHistory_SalesHistory" FromRole="ProductInventory" ToRole="SalesHistory" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_ProductInventory_Channel" FromRole="ProductInventory" ToRole="Channel" />
+    <Property Name="CompetitivePosition" Type="Int32" />
+  </EntityType>
+  <EntityType Name="SapASetting">
+    <Key>
+      <PropertyRef Name="SapASettingsID" />
+    </Key>
+    <Property Name="SapASettingsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantFK" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="TenantSetting" Relationship="DP001Model.FK_SapASettings_TenantSettings" FromRole="SapASetting" ToRole="TenantSetting" />
+  </EntityType>
+  <EntityType Name="SKUMappingDismissal">
+    <Key>
+      <PropertyRef Name="SKUMappingDismissalID" />
+    </Key>
+    <Property Name="SKUMappingDismissalID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelFK" Type="Int32" Nullable="false" />
+    <Property Name="FileTypeFK" Type="Int32" Nullable="false" />
+    <Property Name="InventoryFK" Type="Int64" Nullable="false" />
+    <Property Name="ManufacturerPartNo" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="BrandFK" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_SKUMappingDismissal_Channel" FromRole="SKUMappingDismissal" ToRole="Channel" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="SupplierID" />
+    </Key>
+    <Property Name="SupplierID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelFK" Type="Int32" Nullable="false" />
+    <Property Name="FTPSettingsFK" Type="Int32" />
+    <Property Name="SupplierName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="SupplierInventories" Relationship="DP001Model.FK_SupplierInventory_Supplier" FromRole="Supplier" ToRole="SupplierInventory" />
+    <NavigationProperty Name="SupplierBrandMatchings" Relationship="DP001Model.FK_SupplierBrandMatching_Supplier" FromRole="Supplier" ToRole="SupplierBrandMatching" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="FTPSetting" Relationship="DP001Model.FK_Supplier_FTPSettings" FromRole="Supplier" ToRole="FTPSetting" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_Supplier_Channel" FromRole="Supplier" ToRole="Channel" />
+  </EntityType>
+  <EntityType Name="SupplierInventory">
+    <Key>
+      <PropertyRef Name="SupplierInventoryID" />
+    </Key>
+    <Property Name="SupplierInventoryID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelFK" Type="Int32" Nullable="false" />
+    <Property Name="SupplierFK" Type="Int32" Nullable="false" />
+    <Property Name="BrandFK" Type="Int32" Nullable="false" />
+    <Property Name="ManufacturerPartNo" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="StockQuantity" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="ProductInventoryFK" Type="Int64" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Dismiss" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Brand" Relationship="DP001Model.FK_SupplierInventory_Brand" FromRole="SupplierInventory" ToRole="Brand" />
+    <NavigationProperty Name="ProductInventory" Relationship="DP001Model.FK_SupplierInventory_ProductInventory" FromRole="SupplierInventory" ToRole="ProductInventory" />
+    <NavigationProperty Name="Supplier" Relationship="DP001Model.FK_SupplierInventory_Supplier" FromRole="SupplierInventory" ToRole="Supplier" />
+    <Property Name="DateLastUpdated" Type="DateTime" Precision="3" />
+    <Property Name="OriginalBrand" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ClientProductID" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="StatusFK" Type="Int32" />
+    <NavigationProperty Name="Lookup" Relationship="DP001Model.FK_SupplierInventory_Lookup" FromRole="SupplierInventory" ToRole="Lookup" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_SupplierInventory_Channel" FromRole="SupplierInventory" ToRole="Channel" />
+  </EntityType>
+  <Association Name="FK_SAPAnywhere_Lookup">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="0..1" />
+    <End Type="DP001Model.APISetting" Role="APISetting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="APISetting">
+        <PropertyRef Name="GatewayFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductInventory_Brand">
+    <End Type="DP001Model.Brand" Role="Brand" Multiplicity="1" />
+    <End Type="DP001Model.ProductInventory" Role="ProductInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Brand">
+        <PropertyRef Name="BrandID" />
+      </Principal>
+      <Dependent Role="ProductInventory">
+        <PropertyRef Name="BrandFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductInventory_Brand1">
+    <End Type="DP001Model.Brand" Role="Brand" Multiplicity="0..1" />
+    <End Type="DP001Model.ProductInventory" Role="ProductInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Brand">
+        <PropertyRef Name="BrandID" />
+      </Principal>
+      <Dependent Role="ProductInventory">
+        <PropertyRef Name="LnkdBrandFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SupplierInventory_Brand">
+    <End Type="DP001Model.Brand" Role="Brand" Multiplicity="1" />
+    <End Type="DP001Model.SupplierInventory" Role="SupplierInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Brand">
+        <PropertyRef Name="BrandID" />
+      </Principal>
+      <Dependent Role="SupplierInventory">
+        <PropertyRef Name="BrandFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Log_Lookup">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="1" />
+    <End Type="DP001Model.Log" Role="Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="Log">
+        <PropertyRef Name="LogTypeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Lookup_LookupType">
+    <End Type="DP001Model.LookupType" Role="LookupType" Multiplicity="0..1" />
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LookupType">
+        <PropertyRef Name="LookupTypeID" />
+      </Principal>
+      <Dependent Role="Lookup">
+        <PropertyRef Name="LookupTypeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductInventory_Lookup">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="0..1" />
+    <End Type="DP001Model.ProductInventory" Role="ProductInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="ProductInventory">
+        <PropertyRef Name="CalculationOutcome" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductInventory_ProductCategory">
+    <End Type="DP001Model.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
+    <End Type="DP001Model.ProductInventory" Role="ProductInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductCategory">
+        <PropertyRef Name="ProductCategoryID" />
+      </Principal>
+      <Dependent Role="ProductInventory">
+        <PropertyRef Name="ProductCategoryFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SupplierInventory_ProductInventory">
+    <End Type="DP001Model.ProductInventory" Role="ProductInventory" Multiplicity="0..1" />
+    <End Type="DP001Model.SupplierInventory" Role="SupplierInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductInventory">
+        <PropertyRef Name="ProductInventoryID" />
+      </Principal>
+      <Dependent Role="SupplierInventory">
+        <PropertyRef Name="ProductInventoryFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SupplierInventory_Supplier">
+    <End Type="DP001Model.Supplier" Role="Supplier" Multiplicity="1" />
+    <End Type="DP001Model.SupplierInventory" Role="SupplierInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="SupplierID" />
+      </Principal>
+      <Dependent Role="SupplierInventory">
+        <PropertyRef Name="SupplierFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="SKUMapping">
+    <Key>
+      <PropertyRef Name="SKUMappingID" />
+    </Key>
+    <Property Name="SKUMappingID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelFK" Type="Int32" Nullable="false" />
+    <Property Name="BrandFK" Type="Int32" Nullable="false" />
+    <Property Name="SKUMapFrom" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="SKUMapTo" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="FileTypeFK" Type="Int32" Nullable="false" />
+    <Property Name="InventoryFK" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Brand" Relationship="DP001Model.FK_SKUMapping_Manufacturer" FromRole="SKUMapping" ToRole="Brand" />
+    <NavigationProperty Name="Lookup" Relationship="DP001Model.FK_SKUMapping_Lookup" FromRole="SKUMapping" ToRole="Lookup" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_SKUMapping_Channel" FromRole="SKUMapping" ToRole="Channel" />
+  </EntityType>
+  <Association Name="FK_SKUMapping_Manufacturer">
+    <End Type="DP001Model.Brand" Role="Brand" Multiplicity="1" />
+    <End Type="DP001Model.SKUMapping" Role="SKUMapping" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Brand">
+        <PropertyRef Name="BrandID" />
+      </Principal>
+      <Dependent Role="SKUMapping">
+        <PropertyRef Name="BrandFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SKUMapping_Lookup">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="1" />
+    <End Type="DP001Model.SKUMapping" Role="SKUMapping" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="SKUMapping">
+        <PropertyRef Name="FileTypeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="PriceStaging">
+    <Key>
+      <PropertyRef Name="ProductInventoryFK" />
+    </Key>
+    <Property Name="ProductInventoryFK" Type="Int64" Nullable="false" />
+    <Property Name="ChannelFK" Type="Int32" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice1" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice2" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice3" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice4" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice5" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice6" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice7" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice8" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice9" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AltPrice10" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PriceRuleFK" Type="Int32" />
+    <Property Name="CalculationOutcome" Type="Int32" />
+    <Property Name="BeatRateNumber" Type="Int32" />
+    <Property Name="StockQuantity" Type="Int32" />
+    <Property Name="CheapestCostPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CheapestCompetitorPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="GrossMarginPercent" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="GrossMarginValue" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CompetitorDifference" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="Lookup" Relationship="DP001Model.FK_PriceStaging_Lookup" FromRole="PriceStaging" ToRole="Lookup" />
+    <NavigationProperty Name="ProductInventory" Relationship="DP001Model.FK_PriceStaging_ProductInventory" FromRole="PriceStaging" ToRole="ProductInventory" />
+    <Property Name="CurrentPriceDifference" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="PriceRule" Relationship="DP001Model.FK_PriceStaging_PriceRule" FromRole="PriceStaging" ToRole="PriceRule" />
+    <Property Name="BeatenCompetitorPrice" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_PriceStaging_Channel" FromRole="PriceStaging" ToRole="Channel" />
+  </EntityType>
+  <Association Name="FK_PriceStaging_Lookup">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="0..1" />
+    <End Type="DP001Model.PriceStaging" Role="PriceStaging" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="PriceStaging">
+        <PropertyRef Name="CalculationOutcome" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PriceStaging_ProductInventory">
+    <End Type="DP001Model.ProductInventory" Role="ProductInventory" Multiplicity="1" />
+    <End Type="DP001Model.PriceStaging" Role="PriceStaging" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="ProductInventory">
+        <PropertyRef Name="ProductInventoryID" />
+      </Principal>
+      <Dependent Role="PriceStaging">
+        <PropertyRef Name="ProductInventoryFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="CompetitorInventory">
+    <Key>
+      <PropertyRef Name="CompetitorInventoryID" />
+    </Key>
+    <Property Name="CompetitorInventoryID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelFK" Type="Int32" Nullable="false" />
+    <Property Name="CompetitorFK" Type="Int32" Nullable="false" />
+    <Property Name="BrandFK" Type="Int32" Nullable="false" />
+    <Property Name="ManufacturerPartNo" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="ProductInventoryFK" Type="Int64" />
+    <Property Name="Dismiss" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Competitor" Relationship="DP001Model.FK_CompetitorInventory_Brand" FromRole="CompetitorInventory" ToRole="Competitor" />
+    <NavigationProperty Name="Competitor1" Relationship="DP001Model.FK_CompetitorInventory_Competitor" FromRole="CompetitorInventory" ToRole="Competitor" />
+    <NavigationProperty Name="ProductInventory" Relationship="DP001Model.FK_CompetitorInventory_ProductInventory" FromRole="CompetitorInventory" ToRole="ProductInventory" />
+    <NavigationProperty Name="Brand" Relationship="DP001Model.FK_CompetitorInventory_Brand1" FromRole="CompetitorInventory" ToRole="Brand" />
+    <Property Name="DateLastUpdated" Type="DateTime" Precision="3" />
+    <Property Name="OriginalBrand" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ClientProductID" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="StatusFK" Type="Int32" />
+    <NavigationProperty Name="Lookup" Relationship="DP001Model.FK_CompetitorInventory_Lookup" FromRole="CompetitorInventory" ToRole="Lookup" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_CompetitorInventory_Channel" FromRole="CompetitorInventory" ToRole="Channel" />
+  </EntityType>
+  <Association Name="FK_CompetitorInventory_Brand">
+    <End Type="DP001Model.Competitor" Role="Competitor" Multiplicity="1" />
+    <End Type="DP001Model.CompetitorInventory" Role="CompetitorInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Competitor">
+        <PropertyRef Name="CompetitorID" />
+      </Principal>
+      <Dependent Role="CompetitorInventory">
+        <PropertyRef Name="CompetitorFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CompetitorInventory_Competitor">
+    <End Type="DP001Model.Competitor" Role="Competitor" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DP001Model.CompetitorInventory" Role="CompetitorInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Competitor">
+        <PropertyRef Name="CompetitorID" />
+      </Principal>
+      <Dependent Role="CompetitorInventory">
+        <PropertyRef Name="CompetitorFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CompetitorInventory_ProductInventory">
+    <End Type="DP001Model.ProductInventory" Role="ProductInventory" Multiplicity="0..1" />
+    <End Type="DP001Model.CompetitorInventory" Role="CompetitorInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductInventory">
+        <PropertyRef Name="ProductInventoryID" />
+      </Principal>
+      <Dependent Role="CompetitorInventory">
+        <PropertyRef Name="ProductInventoryFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductInventory_ProductInventory">
+    <End Type="DP001Model.ProductInventory" Role="ProductInventory" Multiplicity="1" />
+    <End Type="DP001Model.ProductInventory" Role="ProductInventory1" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="ProductInventory">
+        <PropertyRef Name="ProductInventoryID" />
+      </Principal>
+      <Dependent Role="ProductInventory1">
+        <PropertyRef Name="ProductInventoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CompetitorInventory_Brand1">
+    <End Type="DP001Model.Brand" Role="Brand" Multiplicity="1" />
+    <End Type="DP001Model.CompetitorInventory" Role="CompetitorInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Brand">
+        <PropertyRef Name="BrandID" />
+      </Principal>
+      <Dependent Role="CompetitorInventory">
+        <PropertyRef Name="BrandFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="SupplierBrandMatching">
+    <Key>
+      <PropertyRef Name="SupplierBrandMatchingID" />
+    </Key>
+    <Property Name="SupplierBrandMatchingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SupplierFK" Type="Int32" Nullable="false" />
+    <Property Name="Reference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BrandName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Supplier" Relationship="DP001Model.FK_SupplierBrandMatching_Supplier" FromRole="SupplierBrandMatching" ToRole="Supplier" />
+  </EntityType>
+  <EntityType Name="SupplierMfpnMatching">
+    <Key>
+      <PropertyRef Name="SupplierMfpnMatchingID" />
+    </Key>
+    <Property Name="SupplierMfpnMatchingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelFK" Type="Int32" Nullable="false" />
+    <Property Name="BrandName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="MatchTerm" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="TypeFK" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Lookup" Relationship="DP001Model.FK_SupplierMfpnMatching_Lookup1" FromRole="SupplierMfpnMatching" ToRole="Lookup" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_SupplierMfpnMatching_Channel" FromRole="SupplierMfpnMatching" ToRole="Channel" />
+  </EntityType>
+  <Association Name="FK_SupplierMfpnMatching_Lookup1">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="1" />
+    <End Type="DP001Model.SupplierMfpnMatching" Role="SupplierMfpnMatching" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="SupplierMfpnMatching">
+        <PropertyRef Name="TypeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SupplierBrandMatching_Supplier">
+    <End Type="DP001Model.Supplier" Role="Supplier" Multiplicity="1" />
+    <End Type="DP001Model.SupplierBrandMatching" Role="SupplierBrandMatching" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="SupplierID" />
+      </Principal>
+      <Dependent Role="SupplierBrandMatching">
+        <PropertyRef Name="SupplierFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="GetSuggestedSupplierMappings_Result">
+    <Property Type="Int64" Name="SupplierInventoryID" Nullable="false" />
+    <Property Type="Int32" Name="ChannelFK" Nullable="false" />
+    <Property Type="Int32" Name="SupplierFK" Nullable="false" />
+    <Property Type="Int32" Name="BrandFK" Nullable="false" />
+    <Property Type="String" Name="ManufacturerPartNo" Nullable="false" MaxLength="45" />
+    <Property Type="Int32" Name="StockQuantity" Nullable="false" />
+    <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
+    <Property Type="Int64" Name="ProductInventoryFK" Nullable="true" />
+    <Property Type="String" Name="Description" Nullable="true" MaxLength="200" />
+    <Property Type="Boolean" Name="Dismiss" Nullable="false" />
+    <Property Type="String" Name="BrandName" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="SupplierName" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <EntityType Name="TenantAudit">
+    <Key>
+      <PropertyRef Name="TenantAuditID" />
+    </Key>
+    <Property Name="TenantAuditID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelFK" Type="Int32" Nullable="false" />
+    <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ObjectName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="OldValues" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="NewValues" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Type" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_TenantAudit_Channel" FromRole="TenantAudit" ToRole="Channel" />
+  </EntityType>
+  <EntityType Name="MapBrandCategory">
+    <Key>
+      <PropertyRef Name="MapBrandCategoryID" />
+    </Key>
+    <Property Name="MapBrandCategoryID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BrandFK" Type="Int32" Nullable="false" />
+    <Property Name="ProductCategoryFK" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="Brand" Relationship="DP001Model.FK_MapBrandCategory_Brand" FromRole="MapBrandCategory" ToRole="Brand" />
+    <NavigationProperty Name="ProductCategory" Relationship="DP001Model.FK_MapBrandCategory_MapBrandCategory" FromRole="MapBrandCategory" ToRole="ProductCategory" />
+  </EntityType>
+  <Association Name="FK_MapBrandCategory_Brand">
+    <End Type="DP001Model.Brand" Role="Brand" Multiplicity="1" />
+    <End Type="DP001Model.MapBrandCategory" Role="MapBrandCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Brand">
+        <PropertyRef Name="BrandID" />
+      </Principal>
+      <Dependent Role="MapBrandCategory">
+        <PropertyRef Name="BrandFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MapBrandCategory_MapBrandCategory">
+    <End Type="DP001Model.ProductCategory" Role="ProductCategory" Multiplicity="1" />
+    <End Type="DP001Model.MapBrandCategory" Role="MapBrandCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductCategory">
+        <PropertyRef Name="ProductCategoryID" />
+      </Principal>
+      <Dependent Role="MapBrandCategory">
+        <PropertyRef Name="ProductCategoryFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="FieldMapping">
+    <Key>
+      <PropertyRef Name="FTPSettingsFK" />
+    </Key>
+    <Property Name="FTPSettingsFK" Type="Int32" Nullable="false" />
+    <Property Name="Brand" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ManufacturerPartNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="StockQuantity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Price" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ClientProductID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LnKdManufacturer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LnKdManufacturerPartNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ProductCategory" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Competitor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="IsKeyLine" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="CustomField1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CustomField2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CustomField3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CustomField4" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CustomField5" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CustomField6" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CustomField7" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CustomField8" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CustomField9" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CustomField10" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="VariantOf" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Quantity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Period" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Price2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="FTPSetting" Relationship="DP001Model.FK_FieldMappings_FTPSettings" FromRole="FieldMapping" ToRole="FTPSetting" />
+  </EntityType>
+  <EntityType Name="CustomField">
+    <Key>
+      <PropertyRef Name="CustomFieldID" />
+    </Key>
+    <Property Name="CustomFieldID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelFK" Type="Int32" Nullable="false" />
+    <Property Name="CustFieldTypeFK" Type="Int32" Nullable="false" />
+    <Property Name="DBFieldName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UserFieldName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Lookup" Relationship="DP001Model.FK_CustomField_Lookup" FromRole="CustomField" ToRole="Lookup" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_CustomField_Channel" FromRole="CustomField" ToRole="Channel" />
+  </EntityType>
+  <Association Name="FK_CustomField_Lookup">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="1" />
+    <End Type="DP001Model.CustomField" Role="CustomField" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="CustomField">
+        <PropertyRef Name="CustFieldTypeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="PriceRule">
+    <Key>
+      <PropertyRef Name="PriceRuleID" />
+    </Key>
+    <Property Name="PriceRuleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelFK" Type="Int32" Nullable="false" />
+    <Property Name="RuleName" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="RuleTypeFK" Type="Int32" Nullable="false" />
+    <Property Name="BrandFK" Type="Int32" />
+    <Property Name="ProductInventoryFK" Type="Int64" />
+    <Property Name="ProductCategoryFK" Type="Int64" />
+    <Property Name="MethodFK" Type="Int32" Nullable="false" />
+    <Property Name="IsBanding" Type="Boolean" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="IsTest" Type="Boolean" Nullable="false" />
+    <Property Name="BandName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="BandStart" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="BandEnd" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="UpliftIsPc" Type="Boolean" Nullable="false" />
+    <Property Name="CostUplift" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="MarginsArePc" Type="Boolean" Nullable="false" />
+    <Property Name="DesiredMargin" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+    <Property Name="MinMargin" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+    <Property Name="MaxMargin" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+    <Property Name="BeatRate" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+    <Property Name="Nudge" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="FixedPriceOverride" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AltPriceAdj1" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+    <Property Name="AltPriceAdj2" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+    <Property Name="AltPriceAdj3" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+    <Property Name="AltPriceAdj4" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+    <Property Name="AltPriceAdj5" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+    <Property Name="AltPriceAdj6" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+    <Property Name="AltPriceAdj7" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+    <Property Name="AltPriceAdj8" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+    <Property Name="AltPriceAdj9" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+    <Property Name="AltPriceAdj10" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+    <Property Name="CompatDiscount" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+    <Property Name="ProductCount" Type="Int32" Nullable="false" />
+    <Property Name="AboveCounter" Type="Int32" Nullable="false" />
+    <Property Name="BelowCounter" Type="Int32" Nullable="false" />
+    <Property Name="MaxCounter" Type="Int32" Nullable="false" />
+    <Property Name="MinCounter" Type="Int32" Nullable="false" />
+    <Property Name="RoundingGroupFK" Type="Int32" />
+    <Property Name="AdjMinMargin1" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMaxMargin1" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMinMargin2" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMaxMargin2" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMinMargin3" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMaxMargin3" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMinMargin4" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMaxMargin4" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMinMargin5" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMaxMargin5" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMinMargin6" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMaxMargin6" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMinMargin7" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMaxMargin7" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMinMargin8" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMaxMargin8" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMinMargin9" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMaxMargin9" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMinMargin10" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="AdjMaxMargin10" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="CustomRuleField1" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="CustomRuleField2" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="CustomRuleField3" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="CustomRuleField4" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="CustomRuleField5" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="CustomRuleField6" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="CustomRuleField7" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="CustomRuleField8" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="CustomRuleField9" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="CustomRuleField10" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <NavigationProperty Name="Brand" Relationship="DP001Model.FK_PriceRule_Brand" FromRole="PriceRule" ToRole="Brand" />
+    <NavigationProperty Name="Lookup" Relationship="DP001Model.FK_PriceRule_Lookup" FromRole="PriceRule" ToRole="Lookup" />
+    <NavigationProperty Name="Lookup1" Relationship="DP001Model.FK_PriceRule_Lookup1" FromRole="PriceRule" ToRole="Lookup" />
+    <NavigationProperty Name="Lookup2" Relationship="DP001Model.FK_PriceRule_Lookup2" FromRole="PriceRule" ToRole="Lookup" />
+    <NavigationProperty Name="ProductCategory" Relationship="DP001Model.FK_PriceRule_ProductCategory" FromRole="PriceRule" ToRole="ProductCategory" />
+    <NavigationProperty Name="ProductInventory" Relationship="DP001Model.FK_PriceRule_ProductInventory" FromRole="PriceRule" ToRole="ProductInventory" />
+    <NavigationProperty Name="PriceStagings" Relationship="DP001Model.FK_PriceStaging_PriceRule" FromRole="PriceRule" ToRole="PriceStaging" />
+    <NavigationProperty Name="ProductInventories" Relationship="DP001Model.FK_ProductInventory_PriceRule" FromRole="PriceRule" ToRole="ProductInventory" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_PriceRule_Channel" FromRole="PriceRule" ToRole="Channel" />
+  </EntityType>
+  <Association Name="FK_PriceRule_Brand">
+    <End Type="DP001Model.Brand" Role="Brand" Multiplicity="0..1" />
+    <End Type="DP001Model.PriceRule" Role="PriceRule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Brand">
+        <PropertyRef Name="BrandID" />
+      </Principal>
+      <Dependent Role="PriceRule">
+        <PropertyRef Name="BrandFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PriceRule_Lookup">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="1" />
+    <End Type="DP001Model.PriceRule" Role="PriceRule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="PriceRule">
+        <PropertyRef Name="MethodFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PriceRule_Lookup1">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="1" />
+    <End Type="DP001Model.PriceRule" Role="PriceRule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="PriceRule">
+        <PropertyRef Name="RuleTypeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PriceRule_Lookup2">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="0..1" />
+    <End Type="DP001Model.PriceRule" Role="PriceRule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="PriceRule">
+        <PropertyRef Name="RoundingGroupFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PriceRule_ProductCategory">
+    <End Type="DP001Model.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
+    <End Type="DP001Model.PriceRule" Role="PriceRule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductCategory">
+        <PropertyRef Name="ProductCategoryID" />
+      </Principal>
+      <Dependent Role="PriceRule">
+        <PropertyRef Name="ProductCategoryFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PriceRule_ProductInventory">
+    <End Type="DP001Model.ProductInventory" Role="ProductInventory" Multiplicity="0..1" />
+    <End Type="DP001Model.PriceRule" Role="PriceRule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductInventory">
+        <PropertyRef Name="ProductInventoryID" />
+      </Principal>
+      <Dependent Role="PriceRule">
+        <PropertyRef Name="ProductInventoryFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PriceStaging_PriceRule">
+    <End Type="DP001Model.PriceRule" Role="PriceRule" Multiplicity="0..1" />
+    <End Type="DP001Model.PriceStaging" Role="PriceStaging" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PriceRule">
+        <PropertyRef Name="PriceRuleID" />
+      </Principal>
+      <Dependent Role="PriceStaging">
+        <PropertyRef Name="PriceRuleFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductInventory_PriceRule">
+    <End Type="DP001Model.PriceRule" Role="PriceRule" Multiplicity="0..1" />
+    <End Type="DP001Model.ProductInventory" Role="ProductInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PriceRule">
+        <PropertyRef Name="PriceRuleID" />
+      </Principal>
+      <Dependent Role="ProductInventory">
+        <PropertyRef Name="PriceRuleFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="GetProductPriceRules_Result">
+    <Property Type="Int32" Name="PriceRuleFK" Nullable="true" />
+    <Property Type="Int64" Name="ProductInventoryID" Nullable="false" />
+    <Property Type="Int32" Name="ChannelFK" Nullable="false" />
+    <Property Type="String" Name="RuleName" Nullable="false" MaxLength="45" />
+    <Property Type="Int32" Name="RuleTypeFK" Nullable="false" />
+    <Property Type="String" Name="MethodName" Nullable="false" MaxLength="50" />
+    <Property Type="Boolean" Name="UpliftIsPercent" Nullable="false" />
+    <Property Type="Decimal" Name="CostUplift" Nullable="false" Precision="19" />
+    <Property Type="Boolean" Name="MarginsArePercent" Nullable="false" />
+    <Property Type="Decimal" Name="DesiredMargin" Nullable="false" Precision="10" />
+    <Property Type="Decimal" Name="MinMargin" Nullable="false" Precision="10" />
+    <Property Type="Decimal" Name="MaxMargin" Nullable="false" Precision="10" />
+    <Property Type="Decimal" Name="BeatRate" Nullable="false" Precision="10" />
+    <Property Type="Decimal" Name="Nudge" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="FixedPriceOverride" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AltPriceAdj1" Nullable="false" Precision="10" />
+    <Property Type="Decimal" Name="AltPriceAdj2" Nullable="false" Precision="10" />
+    <Property Type="Decimal" Name="AltPriceAdj3" Nullable="false" Precision="10" />
+    <Property Type="Decimal" Name="AltPriceAdj4" Nullable="false" Precision="10" />
+    <Property Type="Decimal" Name="AltPriceAdj5" Nullable="false" Precision="10" />
+    <Property Type="Decimal" Name="AltPriceAdj6" Nullable="false" Precision="10" />
+    <Property Type="Decimal" Name="AltPriceAdj7" Nullable="false" Precision="10" />
+    <Property Type="Decimal" Name="AltPriceAdj8" Nullable="false" Precision="10" />
+    <Property Type="Decimal" Name="AltPriceAdj9" Nullable="false" Precision="10" />
+    <Property Type="Decimal" Name="AltPriceAdj10" Nullable="false" Precision="10" />
+    <Property Type="Decimal" Name="CostPrice" Nullable="false" Precision="10" />
+    <Property Type="Decimal" Name="BasePrice" Nullable="false" Precision="10" />
+    <Property Type="Boolean" Name="CostUpliftIsPercent" Nullable="false" />
+    <Property Type="Decimal" Name="CompatDiscount" Nullable="true" Precision="10" />
+    <Property Type="Int32" Name="StockQuantity" Nullable="true" />
+    <Property Type="String" Name="RoundingGroup" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="AdjMinMargin1" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMaxMargin1" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMinMargin2" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMaxMargin2" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMinMargin3" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMaxMargin3" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMinMargin4" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMaxMargin4" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMinMargin5" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMaxMargin5" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMinMargin6" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMaxMargin6" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMinMargin7" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMaxMargin7" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMinMargin8" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMaxMargin8" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMinMargin9" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMaxMargin9" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMinMargin10" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="AdjMaxMargin10" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="CustomRuleField1" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="CustomRuleField2" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="CustomRuleField3" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="CustomRuleField4" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="CustomRuleField5" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="CustomRuleField6" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="CustomRuleField7" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="CustomRuleField8" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="CustomRuleField9" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="CustomRuleField10" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="CustomProductField1" Nullable="true" Precision="19" />
+    <Property Type="Decimal" Name="CustomProductField2" Nullable="true" Precision="19" />
+    <Property Type="Decimal" Name="CustomProductField3" Nullable="true" Precision="19" />
+    <Property Type="Decimal" Name="CustomProductField4" Nullable="true" Precision="19" />
+    <Property Type="Decimal" Name="CustomProductField5" Nullable="true" Precision="19" />
+    <Property Type="Decimal" Name="CustomProductField6" Nullable="true" Precision="19" />
+    <Property Type="Decimal" Name="CustomProductField7" Nullable="true" Precision="19" />
+    <Property Type="Decimal" Name="CustomProductField8" Nullable="true" Precision="19" />
+    <Property Type="Decimal" Name="CustomProductField9" Nullable="true" Precision="19" />
+    <Property Type="Decimal" Name="CustomProductField10" Nullable="true" Precision="19" />
+    <Property Type="String" Name="VariantOf" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Competitors" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetClientData_Result">
+    <Property Type="String" Name="ClientName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Email" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="ChannelLimit" Nullable="false" />
+    <Property Type="Int32" Name="InventoryLimit" Nullable="false" />
+    <Property Type="Int32" Name="PriceRuleLimit" Nullable="false" />
+    <Property Type="Int32" Name="UserLimit" Nullable="false" />
+    <Property Type="Int32" Name="ScheduleLimit" Nullable="false" />
+    <Property Type="Int32" Name="ProductInventoryCount" Nullable="true" />
+    <Property Type="Int32" Name="ChannelCount" Nullable="true" />
+    <Property Type="Int32" Name="PriceRuleCount" Nullable="true" />
+    <Property Type="Int32" Name="UserCount" Nullable="true" />
+  </ComplexType>
+  <Association Name="FK_Competitor_Lookup">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="0..1" />
+    <End Type="DP001Model.Competitor" Role="Competitor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="Competitor">
+        <PropertyRef Name="StatusFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CompetitorInventory_Lookup">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="0..1" />
+    <End Type="DP001Model.CompetitorInventory" Role="CompetitorInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="CompetitorInventory">
+        <PropertyRef Name="StatusFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductInventory_Lookup1">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="0..1" />
+    <End Type="DP001Model.ProductInventory" Role="ProductInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="ProductInventory">
+        <PropertyRef Name="StatusFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SupplierInventory_Lookup">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="0..1" />
+    <End Type="DP001Model.SupplierInventory" Role="SupplierInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="SupplierInventory">
+        <PropertyRef Name="StatusFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="TenantLookup">
+    <Key>
+      <PropertyRef Name="TenantLookupID" />
+    </Key>
+    <Property Name="TenantLookupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantFK" Type="Int32" Nullable="false" />
+    <Property Name="LookupFK" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Lookup" Relationship="DP001Model.FK_TenantLookup_Lookup" FromRole="TenantLookup" ToRole="Lookup" />
+    <NavigationProperty Name="TenantSetting" Relationship="DP001Model.FK_TenantLookup_TenantSettings" FromRole="TenantLookup" ToRole="TenantSetting" />
+  </EntityType>
+  <Association Name="FK_TenantLookup_Lookup">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="1" />
+    <End Type="DP001Model.TenantLookup" Role="TenantLookup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="TenantLookup">
+        <PropertyRef Name="LookupFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ReportConfiguration">
+    <Key>
+      <PropertyRef Name="ReportConfigurationId" />
+    </Key>
+    <Property Name="ReportConfigurationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ConfigurationValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SecurityFk" Type="Int32" Nullable="false" />
+    <Property Name="TenantFk" Type="Int32" />
+    <Property Name="AreaFk" Type="Int32" />
+    <Property Name="BaseUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="DateLastUpdated" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Lookup" Relationship="DP001Model.FK_ReportConfiguration_Lookup" FromRole="ReportConfiguration" ToRole="Lookup" />
+    <NavigationProperty Name="Lookup1" Relationship="DP001Model.FK_ReportConfiguration_Lookup1" FromRole="ReportConfiguration" ToRole="Lookup" />
+    <Property Name="ExtendedConfiguration" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="TenantSetting" Relationship="DP001Model.FK_ReportConfiguration_TenantSettings" FromRole="ReportConfiguration" ToRole="TenantSetting" />
+  </EntityType>
+  <Association Name="FK_ReportConfiguration_Lookup">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="1" />
+    <End Type="DP001Model.ReportConfiguration" Role="ReportConfiguration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="ReportConfiguration">
+        <PropertyRef Name="SecurityFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReportConfiguration_Lookup1">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="0..1" />
+    <End Type="DP001Model.ReportConfiguration" Role="ReportConfiguration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="ReportConfiguration">
+        <PropertyRef Name="AreaFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Schedule">
+    <Key>
+      <PropertyRef Name="ScheduleID" />
+    </Key>
+    <Property Name="ScheduleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelFK" Type="Int32" Nullable="false" />
+    <Property Name="ScheduleName" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="RunTypeFK" Type="Int32" Nullable="false" />
+    <Property Name="FrequencyFK" Type="Int32" Nullable="false" />
+    <Property Name="DayOfWeek" Type="Int32" />
+    <Property Name="Time" Type="Time" Precision="7" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Lookup" Relationship="DP001Model.FK_Schedule_Lookup" FromRole="Schedule" ToRole="Lookup" />
+    <NavigationProperty Name="Lookup1" Relationship="DP001Model.FK_Schedule_Lookup1" FromRole="Schedule" ToRole="Lookup" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_Schedule_Channel" FromRole="Schedule" ToRole="Channel" />
+  </EntityType>
+  <Association Name="FK_Schedule_Lookup">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="1" />
+    <End Type="DP001Model.Schedule" Role="Schedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="Schedule">
+        <PropertyRef Name="RunTypeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Schedule_Lookup1">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="1" />
+    <End Type="DP001Model.Schedule" Role="Schedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="Schedule">
+        <PropertyRef Name="FrequencyFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="SalesHistory">
+    <Key>
+      <PropertyRef Name="SalesHistoryId" />
+    </Key>
+    <Property Name="SalesHistoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelFk" Type="Int32" Nullable="false" />
+    <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ClientProductId" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="AverageCostPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AveragePrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="ProductInventoryFk" Type="Int64" />
+    <Property Name="Day" Type="DateTime" Precision="3" />
+    <Property Name="Month" Type="DateTime" Precision="3" />
+    <Property Name="Year" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="ProductInventory" Relationship="DP001Model.FK_SalesHistory_SalesHistory" FromRole="SalesHistory" ToRole="ProductInventory" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_SalesHistory_Channel" FromRole="SalesHistory" ToRole="Channel" />
+  </EntityType>
+  <Association Name="FK_SalesHistory_SalesHistory">
+    <End Type="DP001Model.ProductInventory" Role="ProductInventory" Multiplicity="0..1" />
+    <End Type="DP001Model.SalesHistory" Role="SalesHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductInventory">
+        <PropertyRef Name="ProductInventoryID" />
+      </Principal>
+      <Dependent Role="SalesHistory">
+        <PropertyRef Name="ProductInventoryFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="FTPSetting">
+    <Key>
+      <PropertyRef Name="FTPSettingsID" />
+    </Key>
+    <Property Name="FTPSettingsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelFK" Type="Int32" Nullable="false" />
+    <Property Name="FileTypeFK" Type="Int32" Nullable="false" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="FTPServer" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="FTPUser" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="FTPPassword" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="FTPPath" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="FTPFileName" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="FTPSummaryFileName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="FTPZipFileName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="UseSkuuudleLite" Type="Boolean" Nullable="false" />
+    <Property Name="FTPProtocolFK" Type="Int32" Nullable="false" />
+    <Property Name="FileCreated" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="FieldMapping" Relationship="DP001Model.FK_FieldMappings_FTPSettings" FromRole="FTPSetting" ToRole="FieldMapping" />
+    <NavigationProperty Name="Lookup" Relationship="DP001Model.FK_FTPSettings_Lookup" FromRole="FTPSetting" ToRole="Lookup" />
+    <NavigationProperty Name="Lookup1" Relationship="DP001Model.FK_FTPSettings_Lookup1" FromRole="FTPSetting" ToRole="Lookup" />
+    <NavigationProperty Name="Suppliers" Relationship="DP001Model.FK_Supplier_FTPSettings" FromRole="FTPSetting" ToRole="Supplier" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_FTPSettings_Channel" FromRole="FTPSetting" ToRole="Channel" />
+  </EntityType>
+  <Association Name="FK_FieldMappings_FTPSettings">
+    <End Type="DP001Model.FTPSetting" Role="FTPSetting" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DP001Model.FieldMapping" Role="FieldMapping" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="FTPSetting">
+        <PropertyRef Name="FTPSettingsID" />
+      </Principal>
+      <Dependent Role="FieldMapping">
+        <PropertyRef Name="FTPSettingsFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FTPSettings_Lookup">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="1" />
+    <End Type="DP001Model.FTPSetting" Role="FTPSetting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="FTPSetting">
+        <PropertyRef Name="FileTypeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FTPSettings_Lookup1">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="1" />
+    <End Type="DP001Model.FTPSetting" Role="FTPSetting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="FTPSetting">
+        <PropertyRef Name="FTPProtocolFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Supplier_FTPSettings">
+    <End Type="DP001Model.FTPSetting" Role="FTPSetting" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DP001Model.Supplier" Role="Supplier" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FTPSetting">
+        <PropertyRef Name="FTPSettingsID" />
+      </Principal>
+      <Dependent Role="Supplier">
+        <PropertyRef Name="FTPSettingsFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Channel">
+    <Key>
+      <PropertyRef Name="ChannelID" />
+    </Key>
+    <Property Name="ChannelID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantFK" Type="Int32" Nullable="false" />
+    <Property Name="ChannelName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="JobInProgress" Type="Boolean" Nullable="false" />
+    <Property Name="SLMinReviews" Type="Int32" />
+    <Property Name="SLMinRating" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="SLActiveTypeFK" Type="Int32" />
+    <Property Name="OutputFileEmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="NotificationsEmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="RoundingGroupFK" Type="Int32" />
+    <Property Name="UseClientProductId" Type="Boolean" Nullable="false" />
+    <Property Name="CultureName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Brands" Relationship="DP001Model.FK_Brand_Channel" FromRole="Channel" ToRole="Brand" />
+    <NavigationProperty Name="Lookup" Relationship="DP001Model.FK_Channel_Lookup" FromRole="Channel" ToRole="Lookup" />
+    <NavigationProperty Name="Lookup1" Relationship="DP001Model.FK_Channel_Lookup1" FromRole="Channel" ToRole="Lookup" />
+    <NavigationProperty Name="Competitors" Relationship="DP001Model.FK_Competitor_Channel" FromRole="Channel" ToRole="Competitor" />
+    <NavigationProperty Name="CompetitorInventories" Relationship="DP001Model.FK_CompetitorInventory_Channel" FromRole="Channel" ToRole="CompetitorInventory" />
+    <NavigationProperty Name="CustomFields" Relationship="DP001Model.FK_CustomField_Channel" FromRole="Channel" ToRole="CustomField" />
+    <NavigationProperty Name="FTPSettings" Relationship="DP001Model.FK_FTPSettings_Channel" FromRole="Channel" ToRole="FTPSetting" />
+    <NavigationProperty Name="PriceHistories" Relationship="DP001Model.FK_PriceHistory_Channel" FromRole="Channel" ToRole="PriceHistory" />
+    <NavigationProperty Name="PriceRules" Relationship="DP001Model.FK_PriceRule_Channel" FromRole="Channel" ToRole="PriceRule" />
+    <NavigationProperty Name="PriceStagings" Relationship="DP001Model.FK_PriceStaging_Channel" FromRole="Channel" ToRole="PriceStaging" />
+    <NavigationProperty Name="ProductCategories" Relationship="DP001Model.FK_ProductCategory_Channel" FromRole="Channel" ToRole="ProductCategory" />
+    <NavigationProperty Name="ProductInventories" Relationship="DP001Model.FK_ProductInventory_Channel" FromRole="Channel" ToRole="ProductInventory" />
+    <NavigationProperty Name="SalesHistories" Relationship="DP001Model.FK_SalesHistory_Channel" FromRole="Channel" ToRole="SalesHistory" />
+    <NavigationProperty Name="Schedules" Relationship="DP001Model.FK_Schedule_Channel" FromRole="Channel" ToRole="Schedule" />
+    <NavigationProperty Name="SKUMappings" Relationship="DP001Model.FK_SKUMapping_Channel" FromRole="Channel" ToRole="SKUMapping" />
+    <NavigationProperty Name="SKUMappingDismissals" Relationship="DP001Model.FK_SKUMappingDismissal_Channel" FromRole="Channel" ToRole="SKUMappingDismissal" />
+    <NavigationProperty Name="Suppliers" Relationship="DP001Model.FK_Supplier_Channel" FromRole="Channel" ToRole="Supplier" />
+    <NavigationProperty Name="SupplierInventories" Relationship="DP001Model.FK_SupplierInventory_Channel" FromRole="Channel" ToRole="SupplierInventory" />
+    <NavigationProperty Name="SupplierMfpnMatchings" Relationship="DP001Model.FK_SupplierMfpnMatching_Channel" FromRole="Channel" ToRole="SupplierMfpnMatching" />
+    <NavigationProperty Name="TenantAudits" Relationship="DP001Model.FK_TenantAudit_Channel" FromRole="Channel" ToRole="TenantAudit" />
+    <NavigationProperty Name="ProviderExclusions" Relationship="DP001Model.FK_ProviderExclusion_Channel" FromRole="Channel" ToRole="ProviderExclusion" />
+    <NavigationProperty Name="TenantSetting" Relationship="DP001Model.FK_Channel_TenantSettings" FromRole="Channel" ToRole="TenantSetting" />
+  </EntityType>
+  <Association Name="FK_Brand_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DP001Model.Brand" Role="Brand" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="Brand">
+        <PropertyRef Name="ChannelFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Channel_Lookup">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="0..1" />
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="Channel">
+        <PropertyRef Name="SLActiveTypeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Channel_Lookup1">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="0..1" />
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="Channel">
+        <PropertyRef Name="RoundingGroupFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Competitor_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DP001Model.Competitor" Role="Competitor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="Competitor">
+        <PropertyRef Name="ChannelFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CompetitorInventory_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="1" />
+    <End Type="DP001Model.CompetitorInventory" Role="CompetitorInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="CompetitorInventory">
+        <PropertyRef Name="ChannelFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CustomField_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="1" />
+    <End Type="DP001Model.CustomField" Role="CustomField" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="CustomField">
+        <PropertyRef Name="ChannelFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FTPSettings_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="1" />
+    <End Type="DP001Model.FTPSetting" Role="FTPSetting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="FTPSetting">
+        <PropertyRef Name="ChannelFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PriceHistory_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DP001Model.PriceHistory" Role="PriceHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="PriceHistory">
+        <PropertyRef Name="ChannelFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PriceRule_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DP001Model.PriceRule" Role="PriceRule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="PriceRule">
+        <PropertyRef Name="ChannelFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PriceStaging_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DP001Model.PriceStaging" Role="PriceStaging" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="PriceStaging">
+        <PropertyRef Name="ChannelFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductCategory_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DP001Model.ProductCategory" Role="ProductCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="ProductCategory">
+        <PropertyRef Name="ChannelFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductInventory_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DP001Model.ProductInventory" Role="ProductInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="ProductInventory">
+        <PropertyRef Name="ChannelFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SalesHistory_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="1" />
+    <End Type="DP001Model.SalesHistory" Role="SalesHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="SalesHistory">
+        <PropertyRef Name="ChannelFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Schedule_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DP001Model.Schedule" Role="Schedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="Schedule">
+        <PropertyRef Name="ChannelFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SKUMapping_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DP001Model.SKUMapping" Role="SKUMapping" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="SKUMapping">
+        <PropertyRef Name="ChannelFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SKUMappingDismissal_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DP001Model.SKUMappingDismissal" Role="SKUMappingDismissal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="SKUMappingDismissal">
+        <PropertyRef Name="ChannelFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Supplier_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="1" />
+    <End Type="DP001Model.Supplier" Role="Supplier" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="Supplier">
+        <PropertyRef Name="ChannelFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SupplierInventory_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DP001Model.SupplierInventory" Role="SupplierInventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="SupplierInventory">
+        <PropertyRef Name="ChannelFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SupplierMfpnMatching_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="1" />
+    <End Type="DP001Model.SupplierMfpnMatching" Role="SupplierMfpnMatching" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="SupplierMfpnMatching">
+        <PropertyRef Name="ChannelFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TenantAudit_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="1" />
+    <End Type="DP001Model.TenantAudit" Role="TenantAudit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="TenantAudit">
+        <PropertyRef Name="ChannelFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ProviderExclusion">
+    <Key>
+      <PropertyRef Name="ProviderExclusionID" />
+    </Key>
+    <Property Name="ProviderExclusionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelFK" Type="Int32" Nullable="false" />
+    <Property Name="FileTypeFK" Type="Int32" Nullable="false" />
+    <Property Name="ProviderFK" Type="Int32" Nullable="false" />
+    <Property Name="BrandName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ManufacturerPartNo" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="ClientProductID" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="ExclusionTypeFk" Type="Int32" />
+    <NavigationProperty Name="Channel" Relationship="DP001Model.FK_ProviderExclusion_Channel" FromRole="ProviderExclusion" ToRole="Channel" />
+    <NavigationProperty Name="Lookup" Relationship="DP001Model.FK_ProviderExclusion_Lookup" FromRole="ProviderExclusion" ToRole="Lookup" />
+    <NavigationProperty Name="Lookup1" Relationship="DP001Model.FK_ProviderExclusion_Lookup1" FromRole="ProviderExclusion" ToRole="Lookup" />
+    <Property Name="Comment" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_ProviderExclusion_Channel">
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="1" />
+    <End Type="DP001Model.ProviderExclusion" Role="ProviderExclusion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channel">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="ProviderExclusion">
+        <PropertyRef Name="ChannelFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProviderExclusion_Lookup">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="1" />
+    <End Type="DP001Model.ProviderExclusion" Role="ProviderExclusion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="ProviderExclusion">
+        <PropertyRef Name="FileTypeFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProviderExclusion_Lookup1">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="0..1" />
+    <End Type="DP001Model.ProviderExclusion" Role="ProviderExclusion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="ProviderExclusion">
+        <PropertyRef Name="ExclusionTypeFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="GetSalesHistoryData_Result">
+    <Property Type="DateTime" Name="Day" Nullable="true" Precision="23" />
+    <Property Type="Int64" Name="SalesHistoryId" Nullable="true" />
+    <Property Type="String" Name="ManufacturerPartNo" Nullable="false" MaxLength="45" />
+    <Property Type="Int32" Name="Channel" Nullable="false" />
+    <Property Type="DateTime" Name="Start" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="End" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Qty" Nullable="false" />
+    <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Int64" Name="CategoryId" Nullable="false" />
+    <Property Type="String" Name="CategoryName" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="BrandId" Nullable="false" />
+    <Property Type="String" Name="BrandName" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="PriceRuleId" Nullable="true" />
+    <Property Type="String" Name="PriceRuleName" Nullable="true" MaxLength="45" />
+    <Property Type="DateTime" Name="Month" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="Year" Nullable="true" Precision="23" />
+    <Property Type="Decimal" Name="AverageCostPrice" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="AveragePrice" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Int64" Name="ProductInventoryId" Nullable="false" />
+    <Property Type="String" Name="ProductDescription" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="ClientProductId" Nullable="true" MaxLength="45" />
+  </ComplexType>
+  <EntityType Name="TenantSetting">
+    <Key>
+      <PropertyRef Name="TenantID" />
+    </Key>
+    <Property Name="TenantID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="GatewayFK" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ContractFK" Type="Int32" Nullable="false" />
+    <Property Name="SystemUserID" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="ContactEmail" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ContactName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ContractExpiryDate" Type="DateTime" Precision="3" />
+    <Property Name="VerboseLogging" Type="Boolean" Nullable="false" />
+    <Property Name="SupplierMatchLimit" Type="Byte" Nullable="false" />
+    <Property Name="LastUsedChannelId" Type="Int32" />
+    <Property Name="AllowSalesHistory" Type="Boolean" Nullable="false" />
+    <Property Name="SalesHistory" Type="Boolean" Nullable="false" />
+    <Property Name="AllowCloneChannel" Type="Boolean" Nullable="false" />
+    <Property Name="CloneChannel" Type="Boolean" Nullable="false" />
+    <Property Name="AllowPriceRuleBanding" Type="Boolean" Nullable="false" />
+    <Property Name="PriceRuleBanding" Type="Boolean" Nullable="false" />
+    <Property Name="AllowMultipleSuppliers" Type="Boolean" Nullable="false" />
+    <Property Name="MultipleSuppliers" Type="Boolean" Nullable="false" />
+    <Property Name="AllowMultipleCalculationMethods" Type="Boolean" Nullable="false" />
+    <Property Name="MultipleCalculationMethods" Type="Boolean" Nullable="false" />
+    <Property Name="AllowProviderBrandExclusion" Type="Boolean" Nullable="false" />
+    <Property Name="ProviderBrandExclusion" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Channels" Relationship="DP001Model.FK_Channel_TenantSettings" FromRole="TenantSetting" ToRole="Channel" />
+    <NavigationProperty Name="Contract" Relationship="DP001Model.FK_TenantSettings_Contract" FromRole="TenantSetting" ToRole="Contract" />
+    <NavigationProperty Name="Lookup" Relationship="DP001Model.FK_TenantSettings_Lookup" FromRole="TenantSetting" ToRole="Lookup" />
+    <NavigationProperty Name="ReportConfigurations" Relationship="DP001Model.FK_ReportConfiguration_TenantSettings" FromRole="TenantSetting" ToRole="ReportConfiguration" />
+    <NavigationProperty Name="SapASettings" Relationship="DP001Model.FK_SapASettings_TenantSettings" FromRole="TenantSetting" ToRole="SapASetting" />
+    <NavigationProperty Name="TenantLookups" Relationship="DP001Model.FK_TenantLookup_TenantSettings" FromRole="TenantSetting" ToRole="TenantLookup" />
+  </EntityType>
+  <Association Name="FK_Channel_TenantSettings">
+    <End Type="DP001Model.TenantSetting" Role="TenantSetting" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DP001Model.Channel" Role="Channel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TenantSetting">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="Channel">
+        <PropertyRef Name="TenantFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TenantSettings_Contract">
+    <End Type="DP001Model.Contract" Role="Contract" Multiplicity="1" />
+    <End Type="DP001Model.TenantSetting" Role="TenantSetting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contract">
+        <PropertyRef Name="ContractID" />
+      </Principal>
+      <Dependent Role="TenantSetting">
+        <PropertyRef Name="ContractFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TenantSettings_Lookup">
+    <End Type="DP001Model.Lookup" Role="Lookup" Multiplicity="0..1" />
+    <End Type="DP001Model.TenantSetting" Role="TenantSetting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="TenantSetting">
+        <PropertyRef Name="GatewayFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReportConfiguration_TenantSettings">
+    <End Type="DP001Model.TenantSetting" Role="TenantSetting" Multiplicity="0..1" />
+    <End Type="DP001Model.ReportConfiguration" Role="ReportConfiguration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TenantSetting">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ReportConfiguration">
+        <PropertyRef Name="TenantFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SapASettings_TenantSettings">
+    <End Type="DP001Model.TenantSetting" Role="TenantSetting" Multiplicity="1" />
+    <End Type="DP001Model.SapASetting" Role="SapASetting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TenantSetting">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="SapASetting">
+        <PropertyRef Name="TenantFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TenantLookup_TenantSettings">
+    <End Type="DP001Model.TenantSetting" Role="TenantSetting" Multiplicity="1" />
+    <End Type="DP001Model.TenantLookup" Role="TenantLookup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TenantSetting">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="TenantLookup">
+        <PropertyRef Name="TenantFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

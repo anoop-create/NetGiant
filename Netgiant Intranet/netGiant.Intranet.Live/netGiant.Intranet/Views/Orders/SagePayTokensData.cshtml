@@ -1,0 +1,29 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<SagePayTokens>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(x => item.account)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.email)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.uid)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.websiteID)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.token)
+        </td>
+        <td>
+            <a class="cardDetails" value="@item.id" href="#">Card Details</a>
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.timestamp)
+        </td>
+    </tr>
+}

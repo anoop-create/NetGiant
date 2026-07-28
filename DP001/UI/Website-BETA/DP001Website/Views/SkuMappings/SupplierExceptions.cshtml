@@ -1,0 +1,85 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@using GridMvc.Html;
+@model SkuMappingViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Supplier Exceptions
+            </h1>
+        </div>
+
+        <div class="col-xs-7 col-md-4 col-lg-3 row-height-fix flex-right">
+            <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-sliders fa-lg"></i>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <ul class="dropdown-menu g-p-10">
+                    <li class="g-fw-b">Report Options</li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation">
+                        @Html.HtmlActionLink("<i class=\"fa fa-times\"></i> Reset Filters", "SupplierExceptions", "SkuMappings", null, new { onclick = "clearGridFilters();" })
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@(Html.Kendo().Grid<SkuMappingViewModel.TelerikExceptions>()
+        .Name("supplierExceptionsGrid")
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("SupplierExceptions_Read", "SkuMappings"))
+            .PageSize(200)
+            )
+        .Columns(columns =>
+        {
+            columns.Bound(exception => exception.Description).Title("Product Description");
+            columns.Bound(exception => exception.BrandName).Title("Brand").Filterable(filterable => filterable.UI("brandFilter").Extra(false)).HeaderHtmlAttributes(new { data_url = "/SkuMappings/GetBrands/" });
+            columns.Bound(exception => exception.Mfpn).Title("Part Number");
+            columns.Bound(exception => exception.ProdId).Title("Prod ID");
+            columns.Bound(exception => exception.MappedCount).Title("Suppliers Mapped");
+        })
+        .Pageable(pager => pager.Refresh(true))
+        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable
+            .AllowUnsort(true))
+        .Groupable()
+        .Scrollable()
+        .Filterable(ftb => ftb
+            .Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .Events(events => events.Change("Grid_OnRowSelect").DataBound("saveGridFilters"))
+            .Selectable()
+        .NoRecords("There are no items to display"))
+)
+
+
+
+@section scripts {
+    <script type="text/javascript">
+
+        var Grid_OnRowSelect = function (e) {
+            var data = this.dataItem(this.select());
+            window.location.href = '@Url.Action("EditSupplierException")/' + data.ProductInventoryId;
+        }
+
+    </script>
+}
+

@@ -1,0 +1,166 @@
+﻿@using netGiant.Intranet.DataLayer;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Shared;
+@using PagedList.Mvc;
+@using netGiant.Intranet.Models;
+
+@model PagedList.IPagedList<qa_Main>
+
+@Html.Hidden("QAIndexDataURL", Url.Action("QAIndexData", "QA"))
+@Html.Hidden("DeleteQAURL", Url.Action("Delete", "QA"))
+@Html.Hidden("PageCount", Model.PageCount)
+@Html.Hidden("PageNumber", Model.PageNumber)
+@Html.Hidden("PageSize", Model.PageSize)
+
+<div>
+    @if (User.IsInRole("IntranetAdmin") || User.IsInRole("QAAdmin"))
+    {
+        @Html.ActionLink("Create New", "Create", "QA", new { id = 0 }, new { @title = "Create new question" })
+    }
+    else
+    {
+        @Html.Raw("&nbsp");
+    }
+    <span class="g-f-r">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</span>
+</div>
+
+<table class="table" id="qaIndexTable">
+    <tr>
+        <th style="width:48%">
+            <a href="#" class="tableHeaderSort" value="question">Question</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th class="g-a-c" width="110">
+            <a href="#" class="tableHeaderSort" value="partNo">Part No</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th class="g-a-c" width="110">
+            <a href="#" class="tableHeaderSort" value="equipment">Equipment</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th class="g-a-c" width="130">
+            <a href="#" class="tableHeaderSort" value="askedDate">Asked Date</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th class="g-a-c" width="130">
+            <a href="#" class="tableHeaderSort" value="repliedDate">Replied Date</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th class="g-a-c" width="100">
+            <a href="#" class="tableHeaderSort" value="repliedBy">Replied By</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th class="g-a-c" width="110">
+            <a href="#" class="tableHeaderSort" value="sourceWesbite">Source Website</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question)
+            </td>
+            <td align="center">
+                @{
+        string productURL = string.Empty;
+
+        if (item.SourceWebsiteID > 0 && item.ProductID > 0)
+        {
+            productURL = SharedFunctions.CleanupProductURL(item.product.productName + "-" + 
+                item.product.partNo + "-" + item.product.AxisFields.stockReference, item.SourceWebsiteID);
+
+            if (!string.IsNullOrEmpty(productURL))
+            {
+                <a target="_blank" href="@productURL" title="">@item.AltRef</a>
+            }
+            else
+            {
+                @Html.DisplayFor(m => item.product.partNo)
+            }
+        }
+        else
+        {
+            @Html.DisplayFor(m => item.product.partNo)
+        }
+                }
+
+            </td>
+            <td align="center">
+                @Html.DisplayFor(m => item.eqEquipment.description)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.AskedDate)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.RepliedDate)
+            </td>
+            <td align="center">
+                @using (membershipEntities db = new membershipEntities())
+                {
+                    AspNetUser user = db.AspNetUsers.FirstOrDefault(x => x.Id == item.UserFK);
+                    if (user != null)
+                    {
+                        string name = user.UserName.Split('@')[0].Split('.')[0];
+                        @Html.Raw(char.ToUpper(name[0]) + name.Substring(1))
+                    }
+                }
+            </td>
+            <td align="center">
+                @{
+        if (item.SourceWebsiteID > 0)
+        {
+            using (ngmdEntities db = new ngmdEntities())
+            {
+                string sourceWebsite = db.Websites.Find(item.SourceWebsiteID).WebsiteName;
+
+                switch (sourceWebsite)
+                {
+                    case "tonergiant":
+                        <img src="~/Content/images/TG-Favicon.jpg" alt="" title="@sourceWebsite" class="qa_WebsiteImage" />
+                        break;
+                    case "cartridgemonkey":
+                    <img src="~/Content/images/CM-Favicon.jpg" alt="" title="@sourceWebsite" class="qa_WebsiteImage" />
+                        break;
+                    case "netgiant":
+                    <img src="~/Content/images/NG-Favicon.jpg" alt="" title="@sourceWebsite" class="qa_WebsiteImage" />
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+                }
+            </td>
+            <td align="center">
+                @if (User.IsInRole("IntranetAdmin") || User.IsInRole("QAAdmin"))
+                {
+                    @Html.ActionLink("Edit", "Create", "QA", new { id = item.QuestionAnswerID }, new { @title = "Edit" });
+                    @Html.Raw(" | <a href=\"#\" class=\"lnkQADelete\" value=" + @item.QuestionAnswerID + " title=\"Delete\">Delete</a>");
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+
+<!--Paging-->
+<div id="qaPaging" style="text-align:center;">
+    @Html.PagedListPager(Model, p => "#")
+</div>
+
+<!--Delete Dialog-->
+<div id="qaDeleteDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+    Are you sure you want to delete this question?
+</div>
+
+@{
+    string infoBoxText = Convert.ToString(@TempData["InformationBoxFlag"]);
+    if (infoBoxText != string.Empty)
+    {
+        <div id="infoBoxFlag" class="g-d-n">@TempData["InformationBoxFlag"]</div>
+    }
+}

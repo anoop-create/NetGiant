@@ -1,0 +1,31 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model LogViewModel
+
+
+<h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="This is a list of errors, alerts and schedule information that has been recorded by the system." data-helpsid="2" data-helpeid="2"></i>Notifications (@Model.LogList.Count.ToString())</h4>
+<div class="g-fc-lightgrey">
+    <div class="col-xs-8 g-m-b-20">Description</div>
+    <div class="col-xs-4 g-m-b-20 text-center">Date &amp; Time Recorded</div>
+</div>
+
+@foreach (var log in Model.LogList)
+{
+    <div class="col-xs-8 g-m-t-10">
+
+        @switch (log.Lookup.LookupName)
+        {
+            case "Notification":
+                <i class="fa fa-times-circle fa-lg g-fc-red help-popup" data-toggle="tooltip" title="Action Required"></i>
+                break;
+            case "Suggestion":
+                <i class="fa fa-exclamation-circle fa-lg g-fc-amber help-popup" data-toggle="tooltip" title="Suggestion"></i>
+                break;
+            case "ScheduleInfo":
+                <i class="fa fa-clock-o fa-lg g-fc-green help-popup" data-toggle="tooltip" title="Schedule Information"></i>
+                break;
+        }
+        <span class="g-p-l-10">@log.Entry</span>
+    </div>
+    <div class="col-xs-4 text-center g-m-t-10">@Html.DisplayFor(x => log.DateTime)</div>
+}
+

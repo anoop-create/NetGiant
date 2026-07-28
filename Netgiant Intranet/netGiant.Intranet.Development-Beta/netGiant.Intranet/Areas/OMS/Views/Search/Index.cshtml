@@ -1,0 +1,95 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.OMS;
+@model SearchViewModel
+
+@{
+    ViewBag.Title = "OMS Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody productFieldTabs">
+        <h4>@ViewBag.Title</h4>
+
+        @using (Html.BeginForm("Search", "Search", FormMethod.Post, new { @id = "mainForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5">
+                        <fieldset class="g-b-1dg g-m-t-10 g-h-100">
+                            <legend>Order</legend>
+
+                            <div class="row form-group">
+                                <div class="col-md-10">
+                                    <div class="g-f-l g-p-t-5 g-p-r-5"></div>
+                                    <div class="g-f-l">
+                                        @Html.EditorFor(model => model.OrderSearchAll, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.OrderSearchAll, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="col-md-5">
+                        <fieldset class="g-b-1dg g-m-t-10 g-h-100">
+                            <legend>Account</legend>
+
+                            <div class="row form-group">
+                                <div class="col-md-10">
+                                    <div class="g-f-l g-p-t-5 g-p-r-5"></div>
+                                    <div class="g-f-l">
+                                        @Html.EditorFor(model =>model.AccountSearchAll, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.AccountSearchAll, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5">
+                        <fieldset class="g-b-1dg g-m-t-10 g-h-100">
+                            <legend>Purchase Orders</legend>
+
+                            <div class="row form-group">
+                                <div class="col-md-10">
+                                    <div class="g-f-l g-p-t-5 g-p-r-5"></div>
+                                    <div class="g-f-l">
+                                        @Html.EditorFor(model => model.PurchaseOrderSearchAll, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.PurchaseOrderSearchAll, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-5">
+                        <fieldset class="g-b-1dg g-m-t-10 g-h-100">
+                            <legend>Ledger Entries</legend>
+                            
+                            <div class="row form-group">
+                                <div class="col-md-10">
+                                    <div class="g-f-l g-p-t-5 g-p-r-5"></div>
+                                    <div class="g-f-l">
+                                        @Html.EditorFor(model => model.LedgerSearchAll, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.LedgerSearchAll, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10 g-m-t-5 g-a-r">
+                    <input type="submit" name="btnSearch" value="Search" class="btn btn-default" title="Save" id="btnSearch" />
+                </div>
+            </div>
+
+        }
+    </div>
+</div>

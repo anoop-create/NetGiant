@@ -1,0 +1,44 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Import.Equipment
+@model ImportEquipmentViewModel
+
+@{
+    ViewBag.Title = "Import Equipment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+        @{
+            string isModelStateValid = Convert.ToString(@TempData["ModelStateValid"]);
+            if (isModelStateValid != string.Empty && isModelStateValid.ToString() == "True")
+            {
+                <div id="modelStateValid" class="imp_successContainer">Successfully Imported Equipment</div>
+            }
+        }
+
+        @using (Html.BeginForm("ImportEquipment", "Import", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+        {
+            <div class="g-m-t-20">
+                @Html.Label("Please select a file to upload")
+            </div>
+
+            <div class="g-m-t-10">
+                <input type="file" id="uploadedFile" name="uploadedFile" />
+            </div>
+
+            <div class="g-m-t-20">
+                <input id="btnImport" type="submit" value="Import" class="btn btn-default" />
+            </div>
+        }
+
+        <div class="g-m-t-50">
+            @Html.ActionLink("Reset", "Equipment", "Import", null, new { @class = "btn btn-default", @id = "btnReset" })
+        </div>
+
+    </div>
+</div>

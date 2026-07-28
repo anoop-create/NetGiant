@@ -1,0 +1,43 @@
+﻿@using netGiant.Intranet.DataLayer.NetgiantMasterData;
+@model List<providerInventory>
+
+<table class="table" id="tblproductPrices">
+    <tr>
+        <th>Competitor</th>
+        <th>Part No.</th>
+        <th>Price</th>
+        <th>Date Last updated</th>
+        <th>Total Reviews</th>
+        <th>Review Rating</th>
+        <th>Active</th>
+    </tr>
+
+        @foreach (var pp in Model.OrderBy(x => x.providerPrice.OrderByDescending(n => n.dateLastUpdate).FirstOrDefault().price))
+    {
+        var inactiveClass = "";
+        if (!pp.provider.active)
+        {
+            inactiveClass = "untrustedProvider";
+        }
+
+            <tr class="@inactiveClass">
+                <td>@Html.DisplayFor(m => pp.provider.providerName)</td>
+                <td>@Html.DisplayFor(m => pp.partNo)</td>
+                <td>@Html.Raw("£" + string.Format("{0:N2}", pp.providerPrice.OrderByDescending(x => x.dateLastUpdate).FirstOrDefault().price))</td>
+                <td>@Html.DisplayFor(m => pp.dateLastUpdate)</td>
+                <td>@String.Format("{0:n0}", pp.provider.reviewTotal)</td>
+                <td>@Html.DisplayFor(m => pp.provider.reviewRating)</td>
+                <td>@Html.DisplayFor(m => pp.provider.active)</td>
+            </tr>
+    }
+
+    @if (Model.Count == 0)
+    {
+        <tr>
+            <td colspan="4">
+                @Html.Raw("No competitors were found for this part number")
+            </td>
+        </tr>
+    }
+
+</table>

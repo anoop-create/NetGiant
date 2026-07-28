@@ -1,0 +1,109 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Validation;
+@model ImageCheckViewModel
+
+@{
+    ViewBag.Title = "Missing Images";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="placeHolder">
+        <h4 class="text-center">@ViewBag.Title</h4>
+        @Html.RawFromDict(Model.IntranetData, "ImageCheckFilters")
+
+        @using (Html.BeginForm("ExportImageCheck", "Validation", FormMethod.Post, new { @id = "ExportForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("kendoData")
+        }
+
+        <input type="submit" class="btn btn-success g-m-t-5 download" value="Export to CSV" />
+    </div>
+
+@(Html.Kendo().Grid<ImageCheckViewModel.TelerikImageCheck>()
+        .HtmlAttributes(new { @class = "pointer-rows" })
+        .Name("ImageCheckGrid")
+        .Columns(columns =>
+        {
+            columns.Bound(x => x.EquipmentId).Title("Equipment ID").Width("200px").Hidden();
+            columns.Bound(x => x.WebsiteInventoryId).Title("Inventory ID").Width("200px").Hidden();
+            columns.Bound(x => x.Type).Title("Type").Width("200px");
+            columns.Bound(x => x.Website).Title("Website").Width("100px");
+            columns.Bound(x => x.PartNo).Title("PartNo").Width("200px");
+            columns.Bound(x => x.Name).Title("Description").Width("400px");
+            columns.Bound(x => x.WebsiteInventoryId).Title("Exclude").ClientTemplate(
+                "<input wiid=\"#:WebsiteInventoryId#\" eid=\"#:EquipmentId#\" class=\"excludeImageChkBox\" type=\"checkbox\"></input>"
+            ).HtmlAttributes(new { @class = "g-a-c" }).Width(120).Sortable(false).Filterable(false);
+            columns.Bound(x => x.EditLink).ClientTemplate(
+                    "<a href=\"#:EditLink#\" target=\"_blank\">Edit</a>"
+                    ).Width("136px").Title("").Filterable(false).Sortable(false).Groupable(false);
+        })
+        .Pageable(pager => pager.Refresh(true))
+        .Pageable(pager => pager.PageSizes(new List<int>
+    { 150, 100, 50, 20 }))
+    .Sortable(sortable => sortable.AllowUnsort(true))
+    .Groupable()
+    .Scrollable()
+    .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+    .ColumnMenu()
+    .Resizable(resize => resize.Columns(true))
+    .Reorderable(reorder => reorder.Columns(true))
+    .NoRecords("There are no products to display")
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(x => x.Action("ImageCheck_Read", "Validation"))
+        .PageSize(200)
+        .Sort(sort => sort
+                .Add(x => x.PartNo).Ascending())
+    )
+    .Events(e => e.DataBound("saveGridFilters"))
+)
+
+<script type="text/javascript">
+
+        $(document).on("click", ".excludeImageChkBox", function (e) {
+        var text = this.checked ? "activate" : "deactivate";
+
+        if (confirm("Are you sure you want to exclude this item?")) {
+            excludeImage($(this).attr('wiid'), $(this).attr('eid'));
+        } else {
+            $(this).prop("checked", !this.checked);
+        }
+        });
+
+        $(document).on('click', '.download', function (e) {
+            var view = $("#ImageCheckGrid").data("kendoGrid").dataSource.view();
+            $('#kendoData').val(encodeURIComponent(JSON.stringify(view)));
+            $('#ExportForm').submit();
+        });
+
+        function excludeImage(wiid, eid) {
+        $.ajax({
+            url: '@Url.Action("SetExcludedImage", "Validation")',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                websiteInventoryid: wiid,
+                equipmentId: eid
+            },
+            success: function (e) {
+                if (e.saveReturn.IsSuccess) {
+                    $("#ImageCheckGrid").data("kendoGrid").dataSource.read();
+                } else {
+                    $.alert({
+                        title: 'Error!',
+                        content: e.saveReturn.Message,
+                    });
+                }
+            },
+            error: function (e) {
+                $.alert({
+                    title: 'Error!',
+                    content: e.responseText,
+                });
+            }
+        });
+    }
+
+</script>
+

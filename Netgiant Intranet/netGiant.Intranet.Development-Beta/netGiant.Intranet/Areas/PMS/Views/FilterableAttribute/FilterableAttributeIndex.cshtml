@@ -1,0 +1,36 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model FilterableAttributeViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Filterable Attributes";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+</div>
+
+@(Html.Kendo().Grid<TelerikFilterableAttribute>()
+                    .HtmlAttributes(new { @class = "pointer-rows" })
+                    .Name("FilterableAttributeGrid")
+                    .Columns(columns =>
+                    {
+                        columns.Bound(x => x.Name).Title("Attribute Name");
+                    })
+                    .Pageable(pager => pager.Refresh(true))
+                    .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+                    .Sortable(sortable => sortable.AllowUnsort(true))
+                    .Groupable()
+                    .Scrollable()
+                    .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+                    .ColumnMenu()
+                    .Resizable(resize => resize.Columns(true))
+                    .Reorderable(reorder => reorder.Columns(true))
+                    .NoRecords("There are no filterable attributes to display")
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Read(x => x.Action("FilterableAttribute_Read", "FilterableAttribute"))
+                        .PageSize(200)
+                    )
+                    .Events(e => e.DataBound("saveGridFilters"))
+)

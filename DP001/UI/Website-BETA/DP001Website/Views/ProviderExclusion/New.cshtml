@@ -1,0 +1,274 @@
+﻿@using DP001BusinessLogic.ViewModels
+@using DP001Website.Models
+@model DP001BusinessLogic.ViewModels.ProviderExclusionViewModel
+
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-12 col-md-12 row-height-fix">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                <a href="@Url.Action("Index", "ProviderExclusion")" class="grey">
+                    Manage Exclusions
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Add Exclusion
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-push-2">
+            @Html.ValidationSummary()
+            @using (Ajax.BeginForm("CreateNewExclusion", "ProviderExclusion", new AjaxOptions { HttpMethod = "POST", OnComplete = "addComplete" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.ProviderExclusionEntry.ExclusionType, new { Value = Model.AllExclusionTypes[0].Text })
+                @Html.HiddenFor(x => x.ProviderExclusionEntry.FileTypeFK, new { Value = 36 })
+                @Html.HiddenFor(x => x.ProviderExclusionEntry.ChannelFK, new { Value = 85 })
+                @Html.HiddenFor(x => x.ProviderExclusionEntry.ProviderExclusionID, new { Value = 0 })
+                <div class="row page-form">
+                    <div class="container-fluid">
+                        <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The following details will determine your exclusion." data-helpsid="2" data-helpeid="2"></i> Exclusion</h4>
+                        <div class="row">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The competitor name, as it appears in the file." data-helpsid="2" data-helpeid="2"></i>
+                                Competitor Name
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @(Html.Kendo().ComboBox()
+                                      .Name("competitors")
+                                      .DataTextField("Des")
+                                      .DataValueField("Id")
+                                      .Placeholder("Select Competitor")
+                                      .HtmlAttributes(new { style = "width:100%; border: 0 !important;" })
+                                      .Filter("contains")
+                                      .AutoBind(false)
+                                      .MinLength(1)
+                                      .DataSource(source => source
+                                          .Read(read =>
+                                          {
+                                              read.Action("SearchCompetitors", "ProviderExclusion").Data("filterCompetitors");
+                                          })
+                                      )
+                                      .Events(ev => ev
+                                          .Select("competitorSelect"))
+                                )
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The type of Exclusion. For example, Brand exclusion." data-helpsid="2" data-helpeid="2"></i>
+                                Exlusion Type
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.ProviderExclusionEntry.ExclusionTypeFk)
+                                @Html.DropDownListFor(x => x.ProviderExclusionEntry.ExclusionTypeFk, Model.AllExclusionTypes, new { @class = "selectpicker" })
+                            </div>
+                        </div>
+                        <h4>Select Product to Exclude</h4>
+                        <div class="form-actions g-m-b-10">
+                            <div class="pull-left form-message">
+                                <i class="fa fa-spinner fa-pulse" style="display: none"></i>
+                                <span></span>
+                            </div>
+
+                            @if (User.IsInRole("Administrator"))
+                            {
+                                <button class="g-m-r-10 btn btn-default btn-sm excludeSelected" value="Save">
+                                    <i class="fa fa-minus-square-o"></i> Exclude Selected
+                                </button>
+                            }
+
+                            <a class="g-m-r-10 g-cur-p form-cancel btn btn-default btn-sm" href="@Url.Action("Index", "ProviderExclusion")">
+                                <i class="fa fa-times"></i> Cancel
+                            </a>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="brandExclusionsGrid">
+                                    @(Html.Kendo().Grid<CompetitorViewModel.TelerikCompetitorBrand>()
+                                          .Name("exclusionsGrid")
+                                          .DataSource(dataSource => dataSource
+                                              .Ajax()
+                                              .Read(read => read.Action("SearchBrands", "Competitors").Data("getAdditionalFilters"))
+                                              .PageSize(200)
+                                          )
+                                          .Columns(columns =>
+                                          {
+                                              columns.Bound(x => x.BrandName).Width(10).Title("").ClientTemplate("<div class=\"excludeBrand activateCompetitor checkbox checkbox-success #= IsExcluded ? \"hide\" : \"\" #\"><input class=\"check-box\" type=\"checkbox\" #= 1==11 ? \"checked=checked\" : \"\" # data-brandname=\"#= BrandName #\" /><label class=\"errmsg\"></label></div>").HeaderTemplate("<div class=\"selectAllBrands activateCompetitor checkbox checkbox-success\"><input class=\"check-box\" type=\"checkbox\" /><label class=\"errmsg\"></label></div>").Sortable(false);
+                                              columns.Bound(x => x.BrandName).Width(100).Title("Brand").ClientTemplate("<span #= IsExcluded ? \"class=grey\" : \"\" #>#= BrandName #</span>");
+                                              columns.Bound(x => x.CompetitorName).Width(100).Title("Competitor").ClientTemplate("<span #= IsExcluded ? \"class=grey\" : \"\" #>#= CompetitorName #</span>");
+                                          })
+                                          .Pageable(pager => pager.Refresh(true))
+                                          .Pageable(pager => pager.PageSizes(new List<object> { "all", 1000, 200, 20 }))
+                                          .Sortable(sortable => sortable
+                                              .AllowUnsort(true))
+                                          .Scrollable()
+                                          .Filterable(ftb => ftb
+                                              .Mode(GridFilterMode.Menu))
+                                          .ColumnMenu()
+                                          .Reorderable(reorder => reorder.Columns(true))
+                                          .NoRecords("Select a competitor above")
+                                    )
+                                </div>
+                                <div id="compEntryExclusionsGrid" class="g-d-n">
+                                    @(Html.Kendo().Grid<CompetitorViewModel.Telerik>()
+                                          .Name("entryExclusionsGrid")
+                                          .DataSource(dataSource => dataSource
+                                              .Ajax()
+                                              .Read(read => read.Action("SearchCompetitorEntries", "Competitors").Data("getAdditionalFilters"))
+                                              .PageSize(200)
+                                          )
+                                          .Columns(columns =>
+                                          {
+                                              columns.Bound(x => x.BrandName).Width(25).Title("").ClientTemplate("<div class=\"excludeBrand activateCompetitor checkbox checkbox-success #= IsExcluded ? \"hide\" : \"\" #\"><input class=\"check-box\" type=\"checkbox\" #= 1==11 ? \"checked=checked\" : \"\" # data-inventoryid=\"#= CompetitorInventoryId #\" /><label class=\"errmsg\"></label></div>").HeaderTemplate("<div class=\"selectAllBrands activateCompetitor checkbox checkbox-success\"><input class=\"check-box\" type=\"checkbox\" /><label class=\"errmsg\"></label></div>").Sortable(false);
+                                              columns.Bound(x => x.ClientProductId).Width(100).Title("Product ID").ClientTemplate("<span #= IsExcluded ? \"class=grey\" : \"\" #>#= ClientProductId #</span>");
+                                              columns.Bound(x => x.Description).Width(200).Title("Product Name").ClientTemplate("<span #= IsExcluded ? \"class=grey\" : \"\" #>#= Description #</span>");
+                                              columns.Bound(x => x.BrandName).Width(100).Title("Brand").ClientTemplate("<span #= IsExcluded ? \"class=grey\" : \"\" #>#= BrandName #</span>");
+                                              columns.Bound(x => x.Price).Width(100).Title("Price").ClientTemplate("<span #= IsExcluded ? \"class=grey\" : \"\" #>#= Price #</span>");
+                                              columns.Bound(x => x.DateLastUpdated).Width(100).Title("Date Updated").ClientTemplate("<span #= IsExcluded ? \"class=grey\" : \"\" #>#= kendo.toString(kendo.parseDate(DateLastUpdated, 'yyyy-MM-dd'), 'dd/MM/yyyy (HH:mm)') #</span>");
+                                          })
+                                          .Pageable(pager => pager.Refresh(true))
+                                          .Pageable(pager => pager.PageSizes(new List<object> { "all", 1000, 200, 20 }))
+                                          .Sortable(sortable => sortable
+                                              .AllowUnsort(true))
+                                          .Scrollable()
+                                          .Filterable(ftb => ftb
+                                              .Mode(GridFilterMode.Menu))
+                                          .ColumnMenu()
+                                          .Reorderable(reorder => reorder.Columns(true))
+                                          .NoRecords("Select a competitor above")
+                                    )
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <div class="pull-left form-message">
+                        <i class="fa fa-spinner fa-pulse" style="display: none"></i>
+                        <span></span>
+                    </div>
+
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <button class="g-m-r-10 btn btn-default btn-sm excludeSelected" value="Save">
+                            <i class="fa fa-minus-square-o"></i> Exclude Selected
+                        </button>
+                    }
+
+                    <a class="g-m-r-10 g-cur-p form-cancel btn btn-default btn-sm" href="@Url.Action("Index", "ProviderExclusion")">
+                        <i class="fa fa-times"></i> Cancel
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).on('change',
+            '#ProviderExclusionEntry_ExclusionTypeFk',
+            function() {
+                var grid = $("#exclusionsGrid").data("kendoGrid");
+                var grid2 = $("#entryExclusionsGrid").data("kendoGrid");
+
+                if ($('#ProviderExclusionEntry_ExclusionTypeFk option:selected').text() == 'Brand') {
+                    $('#compEntryExclusionsGrid').hide();
+                    $('#brandExclusionsGrid').show();
+                    grid.dataSource.read({ competitorFk: $("#competitors").data("kendoComboBox").value() || 0 });
+                } else {
+                    $('#compEntryExclusionsGrid').show();
+                    $('#brandExclusionsGrid').hide();
+                    grid2.dataSource.read({ competitorFk: $("#competitors").data("kendoComboBox").value() || 0 });
+                }
+            });
+
+        $(document).on('click',
+            '.selectAllBrands',
+            function () {
+                if ($(this).find('input').is(':checked')) {
+                    $('.excludeBrand').find('input').prop('checked', 'checked');
+                } else {
+                    $('.excludeBrand').find('input').removeAttr('checked');
+                } 
+            });
+
+        $(document).on('click',
+            '.excludeSelected',
+            function() {
+                var brandArray = [];
+                var inventoryIdsArray = [];
+
+                var exclusionType = $('#ProviderExclusionEntry_ExclusionTypeFk option:selected').text();
+                if (exclusionType == 'Brand') {
+                    $.each($('#exclusionsGrid .excludeBrand input:checked'),
+                        function() {
+                            brandArray.push($(this).data('brandname'));
+                        });
+                } else {
+                    $.each($('#entryExclusionsGrid .excludeBrand input:checked'),
+                        function () {
+                            inventoryIdsArray.push($(this).data('inventoryid'));
+                        });
+                }
+
+                $.ajax({
+                    url: '@Url.Action("CreateNewExclusion", "ProviderExclusion")',
+                    traditional: true,
+                    type: 'POST',
+                    data: {
+                        competitorId: $("#competitors").data("kendoComboBox").value(),
+                        brandNames: brandArray,
+                        exclusionTypeId: $('#ProviderExclusionEntry_ExclusionTypeFk').val(),
+                        inventoryIds: inventoryIdsArray
+                    },
+                    success: function(data) {
+                        if (data.isSuccess) {
+                            window.location.href = '@Url.Action("Index", "ProviderExclusion")';
+                        }
+                    }
+                });
+            });
+
+        function filterCompetitors() {
+            return {
+                term: $("#competitors").data("kendoComboBox").input.val()
+            };
+        }
+
+        function getAdditionalFilters() {
+            return {
+                competitorFk: $("#competitors").data("kendoComboBox").value() || 0
+            };
+        }
+
+        function competitorSelect(e) {
+            var dataItem = this.dataItem(e.item.index());
+            var grid = $("#exclusionsGrid").data("kendoGrid");
+            var grid2 = $("#entryExclusionsGrid").data("kendoGrid");
+            var exclusionType = $('#ProviderExclusionEntry_ExclusionTypeFk option:selected').text();
+
+            if (exclusionType == 'Brand') {
+                grid.dataSource.read({ competitorFk: dataItem.Id || 0 });
+            } else {
+                grid2.dataSource.read({ competitorFk: dataItem.Id || 0 });
+            }
+        }
+
+    </script>
+}

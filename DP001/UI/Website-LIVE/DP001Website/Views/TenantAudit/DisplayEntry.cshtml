@@ -1,0 +1,128 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@model TenantAuditViewModel
+
+@{
+    ViewBag.Title = "Display Entry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-12 col-md-12 row-height-fix">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                <a href="@Url.Action("Index", "TenantAudit")" class="grey">
+                    Audit Trail
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Audit Entry
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-push-2">
+            <div class="row page-form">
+                <h4>Key Fields</h4>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            Channel Name
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.DisplayFor(x => x.TenantAuditEntry.Channel.ChannelName)
+                        </div>
+                        <div class="col-md-2 form-name">
+                            Time Stamp
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.DisplayFor(x => x.TenantAuditEntry.Timestamp)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-name text-">
+                            User ID
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.DisplayFor(x => x.TenantAuditEntry.UserName)
+                        </div>
+                        <div class="col-md-2 form-name">
+                            Type
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.DisplayFor(x => x.TenantAuditEntry.TypeName)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            Object Name
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.DisplayFor(x => x.TenantAuditEntry.ObjectName)
+                        </div>
+                    </div>
+                </div>
+                <h4>Audit Entry</h4>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="col-md-4 form-name g-a-l g-fw-b text-left">Field Name</div>
+                            <div class="col-md-4 form-name g-a-l g-fw-b text-left">Old Value</div>
+                            <div class="col-md-4 form-name g-a-l g-fw-b text-left">New Value</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4 form-name g-a-l g-fw-b text-left">Field Name</div>
+                            <div class="col-md-4 form-name g-a-l g-fw-b text-left">Old Value</div>
+                            <div class="col-md-4 form-name g-a-l g-fw-b text-left">New Value</div>
+                        </div>
+                        @{
+                            int i = 0;
+                            foreach (string field in Model.FieldList)
+                            {
+                                <div class="col-md-6">
+                                    <div class="col-md-4 form-name g-a-l">
+                                        @field.Split('|')[0]
+                                    </div>
+                                    <div class="col-md-4 form-name g-a-l">
+                                        @if (Model.TenantAuditEntry.OldValues != "")
+                                        {
+                                            @Model.FromFieldList[i].Split('|')[1]
+                                        }
+                                    </div>
+                                    <div class="col-md-4 form-name g-a-l">
+                                        @if (Model.TenantAuditEntry.NewValues != "")
+                                        {
+                                            @Model.ToFieldList[i].Split('|')[1]
+                                        }
+                                    </div>
+                                </div>
+                                i = i + 1;
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        @*$(function () {
+
+        });*@
+
+    </script>
+}
+
+
+
+

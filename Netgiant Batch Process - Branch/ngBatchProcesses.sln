@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NGBP.BusinessLayer", "ngBatchProcesses\NGBP.BusinessLayer.csproj", "{34546D13-89BC-4FCD-8337-D8C896304A17}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1CFF9D16-890D-471E-8A7D-37B2485EE063} = {1CFF9D16-890D-471E-8A7D-37B2485EE063}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NGBP.DataAccessLayer", "NGB.DataAccessLayer\NGBP.DataAccessLayer.csproj", "{49F14B02-F310-4EF3-BD69-F8BF2CE1AFFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "netGiant.Intranet.DataLayer", "..\Class Libraries\ngmd.DataLayer\netGiant.Intranet.DataLayer\netGiant.Intranet.DataLayer.csproj", "{1CFF9D16-890D-471E-8A7D-37B2485EE063}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{34546D13-89BC-4FCD-8337-D8C896304A17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34546D13-89BC-4FCD-8337-D8C896304A17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34546D13-89BC-4FCD-8337-D8C896304A17}.Debug|x86.ActiveCfg = Debug|x86
+		{34546D13-89BC-4FCD-8337-D8C896304A17}.Debug|x86.Build.0 = Debug|x86
+		{34546D13-89BC-4FCD-8337-D8C896304A17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34546D13-89BC-4FCD-8337-D8C896304A17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34546D13-89BC-4FCD-8337-D8C896304A17}.Release|x86.ActiveCfg = Release|x86
+		{34546D13-89BC-4FCD-8337-D8C896304A17}.Release|x86.Build.0 = Release|x86
+		{49F14B02-F310-4EF3-BD69-F8BF2CE1AFFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49F14B02-F310-4EF3-BD69-F8BF2CE1AFFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49F14B02-F310-4EF3-BD69-F8BF2CE1AFFA}.Debug|x86.ActiveCfg = Debug|x86
+		{49F14B02-F310-4EF3-BD69-F8BF2CE1AFFA}.Debug|x86.Build.0 = Debug|x86
+		{49F14B02-F310-4EF3-BD69-F8BF2CE1AFFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49F14B02-F310-4EF3-BD69-F8BF2CE1AFFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49F14B02-F310-4EF3-BD69-F8BF2CE1AFFA}.Release|x86.ActiveCfg = Release|x86
+		{49F14B02-F310-4EF3-BD69-F8BF2CE1AFFA}.Release|x86.Build.0 = Release|x86
+		{1CFF9D16-890D-471E-8A7D-37B2485EE063}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CFF9D16-890D-471E-8A7D-37B2485EE063}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CFF9D16-890D-471E-8A7D-37B2485EE063}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1CFF9D16-890D-471E-8A7D-37B2485EE063}.Debug|x86.Build.0 = Debug|Any CPU
+		{1CFF9D16-890D-471E-8A7D-37B2485EE063}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CFF9D16-890D-471E-8A7D-37B2485EE063}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CFF9D16-890D-471E-8A7D-37B2485EE063}.Release|x86.ActiveCfg = Release|Any CPU
+		{1CFF9D16-890D-471E-8A7D-37B2485EE063}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {95BDBF88-B753-420D-B071-54ACBB937D52}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://netgiant.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = NGB.DataAccessLayer\\NGBP.DataAccessLayer.csproj
+		SccProjectName1 = NGB.DataAccessLayer
+		SccLocalPath1 = NGB.DataAccessLayer
+		SccProjectUniqueName2 = ngBatchProcesses\\NGBP.BusinessLayer.csproj
+		SccProjectName2 = ngBatchProcesses
+		SccLocalPath2 = ngBatchProcesses
+		SccProjectUniqueName3 = ..\\Class\u0020Libraries\\ngmd.DataLayer\\netGiant.Intranet.DataLayer\\netGiant.Intranet.DataLayer.csproj
+		SccProjectName3 = ../Class\u0020Libraries/ngmd.DataLayer/netGiant.Intranet.DataLayer
+		SccLocalPath3 = ..\\Class\u0020Libraries\\ngmd.DataLayer\\netGiant.Intranet.DataLayer
+	EndGlobalSection
+EndGlobal

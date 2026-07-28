@@ -1,0 +1,152 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Provider;
+@model ProviderViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Provider";
+    ViewBag.SubTitle = "Other Details";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle for @Model.prov.providerName</h4>
+
+        <div id="providerDetailstabs">
+            <ul>
+                <li><a href="#ftpDetails">Ftp Details</a></li>
+                <li><a href="#mappings">Mapping Details</a></li>
+            </ul>
+            <div id="ftpDetails">
+                <div class="form-horizontal">
+
+                    @Html.HiddenFor(m => m.hasRelevantFTPDetails)
+
+                    @if (Model.prov.ftpDetails.Count > 0)
+                    {
+                        foreach (var item in Model.prov.ftpDetails)
+                        {
+                            <div class="form-group">
+                                @Html.Label("Host", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => item.ftpHost, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("User", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => item.ftpUser, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Password", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => item.ftpPassword, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Folder", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => item.ftpFolder, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Filename", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => item.ftpFilename, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Provider", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => item.provider.providerName, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    @Html.ActionLink("Edit", "CreateFtpDetails", "Provider", new { id = item.ftpDetailID, selectedProviderID = Model.prov.providerID }, new { @title = "New", @class = "btn btn-default" })
+                                    @Html.ActionLink("Back To Providers", "ProviderIndex", "Provider", null, new { @class = "btn btn-default" })
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <span>@Model.prov.providerName does not have any FTP Details.</span>
+                        <div style="margin-top: 15px;">
+                            @Html.ActionLink("Create New FTP Details", "CreateFtpDetails", "Provider", new { id = 0, selectedProviderID = Model.prov.providerID }, new { @title = "New", @class = "btn btn-default" })
+                            @Html.ActionLink("Back To Providers", "ProviderIndex", "Provider", null, new { @title = "Providers", @class = "btn btn-default" })
+                        </div>
+                    }
+
+                </div>
+            </div>
+            <div id="mappings">
+
+                @if (Model.prov.fieldMapping.Count > 0)
+                {
+                    <table class="table">
+                        <tr>
+                            <th>PMS Field</th>
+                            <th>Provider's Field</th>
+                            <th>Provider</th>
+                        </tr>
+                        @foreach (var mapp in Model.prov.fieldMapping)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(m => mapp.fieldMappingTo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => mapp.fieldMappingWith)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => mapp.provider.providerName)
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    <br />
+                    <div>
+                        @if (Model.allPMSMappingFields.Count() > 0)
+                        { 
+                            @Html.ActionLink("Create New Mapping", "CreateFieldMapping", "Provider", new { id = 0, selectedProviderID = Model.prov.providerID }, new { @title = "New", @class = "btn btn-default", @id = "createMappingBtn" })
+                        }
+                        @Html.ActionLink("Back To Providers", "ProviderIndex", "Provider", null, new { @class = "btn btn-default" })
+                    </div>
+                }
+                else
+                {
+                    <span>@Model.prov.providerName does not have any field mapping.</span>
+                    <div style="margin-top: 15px;">
+                        @Html.ActionLink("Create New Mapping", "CreateFieldMapping", "Provider", new { id = 0, selectedProviderID = Model.prov.providerID }, new { @title = "New", @class = "btn btn-default", @id = "createMappingBtn" })
+                        @Html.ActionLink("Back To Providers", "ProviderIndex", "Provider", null, new { @title = "Providers", @class = "btn btn-default" })
+                    </div>
+                }
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="missingFtpDetails" class="g-d-n" title="Error Message">
+    Please create FTP details prior to creating field mappings. Thanks
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#providerDetailstabs").tabs();
+        });
+
+        $(document).on("click", "#createMappingBtn", function (e) {
+            if ($("#hasRelevantFTPDetails").val() == "False") {
+                $("#missingFtpDetails").dialog();
+                e.preventDefault();
+            }
+        });
+
+    </script>
+}

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="159705c62dbc46649e3a7d60ae82fe46" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="DP001Model.APISetting" Width="1.5" PointX="3" PointY="13.625" />
+        <EntityTypeShape EntityType="DP001Model.Brand" Width="1.5" PointX="7.5" PointY="4.5" />
+        <EntityTypeShape EntityType="DP001Model.Competitor" Width="1.5" PointX="7.5" PointY="19.75" />
+        <EntityTypeShape EntityType="DP001Model.Contract" Width="1.5" PointX="0.75" PointY="9" />
+        <EntityTypeShape EntityType="DP001Model.FTPSetting" Width="1.5" PointX="12.5" PointY="8" />
+        <EntityTypeShape EntityType="DP001Model.Log" Width="1.5" PointX="3" PointY="3.25" />
+        <EntityTypeShape EntityType="DP001Model.Lookup" Width="1.5" PointX="0.75" PointY="3" />
+        <EntityTypeShape EntityType="DP001Model.LookupType" Width="1.5" PointX="1.5" PointY="0.5" />
+        <EntityTypeShape EntityType="DP001Model.PriceHistory" Width="1.5" PointX="7.5" PointY="23.5" />
+        <EntityTypeShape EntityType="DP001Model.PriceRule" Width="1.5" PointX="9.75" PointY="11.375" />
+        <EntityTypeShape EntityType="DP001Model.ProductCategory" Width="1.5" PointX="7.5" PointY="26.375" />
+        <EntityTypeShape EntityType="DP001Model.ProductInventory" Width="1.5" PointX="15" PointY="15.375" />
+        <EntityTypeShape EntityType="DP001Model.SapASetting" Width="1.5" PointX="5.25" PointY="29.75" />
+        <EntityTypeShape EntityType="DP001Model.Schedule" Width="1.5" PointX="7.5" PointY="8.75" />
+        <EntityTypeShape EntityType="DP001Model.SKUMappingDismissal" Width="1.5" PointX="7.5" PointY="16.625" />
+        <EntityTypeShape EntityType="DP001Model.Supplier" Width="1.5" PointX="14.75" PointY="7" />
+        <EntityTypeShape EntityType="DP001Model.SupplierInventory" Width="1.5" PointX="20.25" PointY="10.125" />
+        <EntityTypeShape EntityType="DP001Model.TenantSetting" Width="1.5" PointX="3" PointY="8.25" />
+        <AssociationConnector Association="DP001Model.FK_SAPAnywhere_Lookup" />
+        <AssociationConnector Association="DP001Model.FK_PriceRule_Brand" />
+        <AssociationConnector Association="DP001Model.FK_ProductInventory_Brand" />
+        <AssociationConnector Association="DP001Model.FK_ProductInventory_Brand1" />
+        <AssociationConnector Association="DP001Model.FK_SupplierInventory_Brand" />
+        <AssociationConnector Association="DP001Model.FK_TenantSettings_Contract" />
+        <AssociationConnector Association="DP001Model.FK_FTPSettings_FTPSettings" />
+        <AssociationConnector Association="DP001Model.FK_FTPSettings_Lookup" />
+        <AssociationConnector Association="DP001Model.FK_Supplier_FTPSettings" />
+        <AssociationConnector Association="DP001Model.FK_Log_Lookup" />
+        <AssociationConnector Association="DP001Model.FK_Lookup_LookupType" />
+        <AssociationConnector Association="DP001Model.FK_PriceRule_Lookup" />
+        <AssociationConnector Association="DP001Model.FK_PriceRule_Lookup1" />
+        <AssociationConnector Association="DP001Model.FK_ProductInventory_Lookup" />
+        <AssociationConnector Association="DP001Model.FK_Schedule_Lookup" />
+        <AssociationConnector Association="DP001Model.FK_Schedule_Lookup1" />
+        <AssociationConnector Association="DP001Model.FK_TenantSettings_Lookup" />
+        <AssociationConnector Association="DP001Model.FK_PriceRule_ProductCategory" />
+        <AssociationConnector Association="DP001Model.FK_PriceRule_ProductInventory" />
+        <AssociationConnector Association="DP001Model.FK_ProductInventory_PriceRule" />
+        <AssociationConnector Association="DP001Model.FK_ProductInventory_ProductCategory" />
+        <AssociationConnector Association="DP001Model.FK_SupplierInventory_ProductInventory" />
+        <AssociationConnector Association="DP001Model.FK_SapASettings_TenantSettings" />
+        <AssociationConnector Association="DP001Model.FK_SupplierInventory_Supplier" />
+        <EntityTypeShape EntityType="DP001Model.SKUMapping" Width="1.5" PointX="9.75" PointY="7.625" />
+        <AssociationConnector Association="DP001Model.FK_SKUMapping_Manufacturer" />
+        <AssociationConnector Association="DP001Model.FK_SKUMapping_Lookup" />
+        <EntityTypeShape EntityType="DP001Model.PriceStaging" Width="1.5" PointX="17.25" PointY="13.25" />
+        <AssociationConnector Association="DP001Model.FK_PriceStaging_Lookup" />
+        <AssociationConnector Association="DP001Model.FK_PriceStaging_PriceRule" />
+        <AssociationConnector Association="DP001Model.FK_PriceStaging_ProductInventory" />
+        <EntityTypeShape EntityType="DP001Model.CompetitorInventory" Width="1.5" PointX="20.25" PointY="15.125" />
+        <AssociationConnector Association="DP001Model.FK_CompetitorInventory_Brand" />
+        <AssociationConnector Association="DP001Model.FK_CompetitorInventory_Competitor" />
+        <AssociationConnector Association="DP001Model.FK_CompetitorInventory_ProductInventory" />
+        <AssociationConnector Association="DP001Model.FK_ProductInventory_ProductInventory" />
+        <AssociationConnector Association="DP001Model.FK_CompetitorInventory_Brand1" />
+        <EntityTypeShape EntityType="DP001Model.SupplierBrandMatching" Width="1.5" PointX="17" PointY="7.25" />
+        <EntityTypeShape EntityType="DP001Model.SupplierMfpnMatching" Width="1.5" PointX="7.5" PointY="13.125" />
+        <AssociationConnector Association="DP001Model.FK_SupplierMfpnMatching_Lookup1" />
+        <AssociationConnector Association="DP001Model.FK_SupplierBrandMatching_Supplier" />
+        <EntityTypeShape EntityType="DP001Model.TenantAudit" Width="1.5" PointX="7.5" PointY="29.5" />
+        <EntityTypeShape EntityType="DP001Model.Channel" Width="1.5" PointX="5.25" PointY="6.875" />
+        <AssociationConnector Association="DP001Model.FK_Brand_Channel" />
+        <AssociationConnector Association="DP001Model.FK_Channel_Lookup" />
+        <AssociationConnector Association="DP001Model.FK_Channel_TenantSettings" />
+        <AssociationConnector Association="DP001Model.FK_Competitor_Channel" />
+        <AssociationConnector Association="DP001Model.FK_CompetitorInventory_Channel" />
+        <AssociationConnector Association="DP001Model.FK_FTPSettings_Channel" />
+        <AssociationConnector Association="DP001Model.FK_PriceHistory_Channel" />
+        <AssociationConnector Association="DP001Model.FK_PriceRule_Channel" />
+        <AssociationConnector Association="DP001Model.FK_PriceStaging_Channel" />
+        <AssociationConnector Association="DP001Model.FK_ProductCategory_Channel" />
+        <AssociationConnector Association="DP001Model.FK_ProductInventory_Channel" />
+        <AssociationConnector Association="DP001Model.FK_Schedule_Channel" />
+        <AssociationConnector Association="DP001Model.FK_SKUMapping_Channel" />
+        <AssociationConnector Association="DP001Model.FK_SKUMappingDismissal_Channel" />
+        <AssociationConnector Association="DP001Model.FK_Supplier_Channel" />
+        <AssociationConnector Association="DP001Model.FK_SupplierInventory_Channel" />
+        <AssociationConnector Association="DP001Model.FK_SupplierMfpnMatching_Channel" />
+        <AssociationConnector Association="DP001Model.FK_TenantAudit_Channel" />
+        <EntityTypeShape EntityType="DP001Model.MapBrandCategory" Width="1.5" PointX="12.75" PointY="15.625" />
+        <AssociationConnector Association="DP001Model.FK_MapBrandCategory_Brand" />
+        <AssociationConnector Association="DP001Model.FK_MapBrandCategory_MapBrandCategory" />
+        <EntityTypeShape EntityType="DP001Model.FieldMapping" Width="1.5" PointX="14.75" PointY="10.875" />
+        <AssociationConnector Association="DP001Model.FK_FieldMappings_FTPSettings" />
+        <AssociationConnector Association="DP001Model.FK_Channel_Lookup1" />
+        <AssociationConnector Association="DP001Model.FK_PriceRule_Lookup2" />
+        <AssociationConnector Association="DP001Model.FK_FTPSettings_Lookup1" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

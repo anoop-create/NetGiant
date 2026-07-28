@@ -1,0 +1,456 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@using DP001DataAccess.Entities;
+
+@model TenantSettingsViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var contractContainsInactiveFeatures = false;
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                My Account
+            </h1>
+        </div>
+
+        <div class="col-xs-7 col-md-4 col-lg-3 row-height-fix flex-right">
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-push-2">
+            <div class="row page-form">
+                <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Your contract agreement details" data-helpsid="2" data-helpeid="2"></i> Contract Information</h4>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The product you have purchased" data-helpsid="2" data-helpeid="2"></i>
+                            Contract Description
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.DisplayFor(x => x.Tenant.Contract.Description)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The total number of inventory products the system can hold under your current contract agreement" data-helpsid="2" data-helpeid="2"></i>
+                            Inventory Limit
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.DisplayFor(x => x.Tenant.Contract.InventoryCount)
+                        </div>
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The total number of price rules you can create under your current contract agreement" data-helpsid="2" data-helpeid="2"></i>
+                            Price Rule Limit
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.DisplayFor(x => x.Tenant.Contract.PriceRuleCount)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The total number of scheduled price rule runs you can setup under your current contract agreement" data-helpsid="2" data-helpeid="2"></i>
+                            Schedule Limit
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.DisplayFor(x => x.Tenant.Contract.ScheduleCount)
+                        </div>
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The number of channels that can be setup under your current contract agreement" data-helpsid="2" data-helpeid="2"></i>
+                            Channel Limit
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.DisplayFor(x => x.Tenant.Contract.ChannelLimit)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The number of users than can login under the current contract agreement" data-helpsid="2" data-helpeid="2"></i>
+                            User Limit
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.DisplayFor(x => x.Tenant.Contract.UserLimit)
+                        </div>
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The date when your contract expires" data-helpsid="2" data-helpeid="2"></i>
+                            Contract Expiry Date
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.DisplayFor(x => x.Tenant.ContractExpiryDate)
+                        </div>
+                    </div>
+                </div>
+
+                <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Details of the main contact or licence owner" data-helpsid="2" data-helpeid="2"></i> Main Contact</h4>
+                @Html.ValidationSummary()
+                @using (Ajax.BeginForm("Update", "TenantSettings", new AjaxOptions { HttpMethod = "POST", OnComplete = "updateComplete", OnBegin = "beginPost('#contact')" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x => x.Tenant.GatewayFK)
+                    @Html.HiddenFor(x => x.Tenant.ContractFK)
+                    @Html.HiddenFor(x => x.Tenant.SystemUserID)
+                    @Html.HiddenFor(x => x.Tenant.IsActive)
+                    @Html.HiddenFor(x => x.Tenant.ContractExpiryDate)
+                    @Html.HiddenFor(x => x.Tenant.VerboseLogging)
+                    @Html.HiddenFor(x => x.Tenant.SupplierMatchLimit)
+                    @Html.HiddenFor(x => x.Tenant.LastUsedChannelId)
+                    @Html.HiddenFor(x => x.Tenant.Description)
+                    <div class="container-fluid g-m-b-20">
+                        <div class="row">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The name of the main contact" data-helpsid="2" data-helpeid="2"></i>
+                                Contact Name
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.Tenant.ContactName)
+                                @Html.EditorFor(x => x.Tenant.ContactName)
+                            </div>
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The email address of the main contact" data-helpsid="2" data-helpeid="2"></i>
+                                Email Address
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.Tenant.ContactEmail)
+                                @Html.EditorFor(x => x.Tenant.ContactEmail)
+                            </div>
+                        </div>
+                    </div>
+                    <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Details of the main contact or licence owner" data-helpsid="2" data-helpeid="2"></i> Features</h4>
+                    <div class="container-fluid g-m-b-20">
+                        <div class="row">
+                            <div class="col-md-2 form-name">
+                                Sales History
+                            </div>
+                            <div class="col-md-1">
+                                <div class="switch g-m-b-10">
+                                    @if (Html.TenantPermisson("SalesHistory", TenantPermissonCheck.IsFeatureAllowed))
+                                    {
+                                        @Html.CheckBoxFor(x => x.Tenant.SalesHistory,
+                                            new
+                                            {
+                                                @class = "cmn-toggle cmn-toggle-round",
+                                                data_style = "ios",
+                                                data_size = "small",
+                                                data_onstyle = "success",
+                                                data_toggle = "toggle"
+                                            })                                        
+                                    }
+                                    else
+                                    {
+                                        @Html.CheckBoxFor(x => x.Tenant.SalesHistory,
+                                            new
+                                            {
+                                                @class = "cmn-toggle cmn-toggle-round",
+                                                data_style = "ios",
+                                                data_size = "small",
+                                                data_onstyle = "success",
+                                                data_toggle = "toggle",
+                                                disabled = "disabled"
+                                            })
+                                        contractContainsInactiveFeatures = true;
+                                    }
+                                    <label for="SalesHistory"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 form-name">
+                                Clone Channel
+                            </div>
+                            <div class="col-md-1">
+                                <div class="switch g-m-b-10">
+                                    @if (Html.TenantPermisson("CloneChannel", TenantPermissonCheck.IsFeatureAllowed))
+                                    {
+                                        @Html.CheckBoxFor(x => x.Tenant.CloneChannel,
+                                            new
+                                            {
+                                                @class = "cmn-toggle cmn-toggle-round",
+                                                data_style = "ios",
+                                                data_size = "small",
+                                                data_onstyle = "success",
+                                                data_toggle = "toggle"
+                                            })
+                                    }
+                                    else
+                                    {
+                                        @Html.CheckBoxFor(x => x.Tenant.CloneChannel,
+                                            new
+                                            {
+                                                @class = "cmn-toggle cmn-toggle-round",
+                                                data_style = "ios",
+                                                data_size = "small",
+                                                data_onstyle = "success",
+                                                data_toggle = "toggle",
+                                                disabled = "disabled"
+                                            })
+                                        contractContainsInactiveFeatures = true;
+                                    }
+                                    <label for="CloneChannel"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 form-name">
+                                Price Rule Banding
+                            </div>
+                            <div class="col-md-1">
+                                <div class="switch g-m-b-10">
+                                    @if (Html.TenantPermisson("PriceRuleBanding", TenantPermissonCheck.IsFeatureAllowed))
+                                    {
+                                        @Html.CheckBoxFor(x => x.Tenant.PriceRuleBanding,
+                                            new
+                                            {
+                                                @class = "cmn-toggle cmn-toggle-round",
+                                                data_style = "ios",
+                                                data_size = "small",
+                                                data_onstyle = "success",
+                                                data_toggle = "toggle"
+                                            })
+                                    }
+                                    else
+                                    {
+                                        @Html.CheckBoxFor(x => x.Tenant.PriceRuleBanding,
+                                            new
+                                            {
+                                                @class = "cmn-toggle cmn-toggle-round",
+                                                data_style = "ios",
+                                                data_size = "small",
+                                                data_onstyle = "success",
+                                                data_toggle = "toggle",
+                                                disabled = "disabled"
+                                            })
+                                        contractContainsInactiveFeatures = true;
+                                    }
+                                    <label for="PriceRuleBanding"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 form-name">
+                                Multiple Suppliers
+                            </div>
+                            <div class="col-md-1">
+                                <div class="switch g-m-b-10">
+                                    @if (Html.TenantPermisson("MultipleSuppliers", TenantPermissonCheck.IsFeatureAllowed))
+                                    {
+                                        @Html.CheckBoxFor(x => x.Tenant.MultipleSuppliers,
+                                            new
+                                            {
+                                                @class = "cmn-toggle cmn-toggle-round",
+                                                data_style = "ios",
+                                                data_size = "small",
+                                                data_onstyle = "success",
+                                                data_toggle = "toggle"
+                                            })
+                                    }
+                                    else
+                                    {
+                                        @Html.CheckBoxFor(x => x.Tenant.MultipleSuppliers,
+                                            new
+                                            {
+                                                @class = "cmn-toggle cmn-toggle-round",
+                                                data_style = "ios",
+                                                data_size = "small",
+                                                data_onstyle = "success",
+                                                data_toggle = "toggle",
+                                                disabled = "disabled"
+                                            })
+                                        contractContainsInactiveFeatures = true;
+                                    }
+                                    <label for="MultipleSuppliers"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 form-name">
+                                Multiple Calculation Method
+                            </div>
+                        <div class="col-md-1">
+                            <div class="switch g-m-b-10">
+                                @if (Html.TenantPermisson("MultipleCalculationMethods", TenantPermissonCheck.IsFeatureAllowed))
+                                {
+                                    @Html.CheckBoxFor(x => x.Tenant.MultipleCalculationMethods,
+                                        new
+                                        {
+                                            @class = "cmn-toggle cmn-toggle-round",
+                                            data_style = "ios",
+                                            data_size = "small",
+                                            data_onstyle = "success",
+                                            data_toggle = "toggle"
+                                        })
+                                }
+                                else
+                                {
+                                    @Html.CheckBoxFor(x => x.Tenant.MultipleCalculationMethods,
+                                        new
+                                        {
+                                            @class = "cmn-toggle cmn-toggle-round",
+                                            data_style = "ios",
+                                            data_size = "small",
+                                            data_onstyle = "success",
+                                            data_toggle = "toggle",
+                                            disabled = "disabled"
+                                        })
+                                    contractContainsInactiveFeatures = true;
+                                }
+                                <label for="MultipleCalculationMethods"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 form-name">
+                            Competitor Brand Exclusion
+                        </div>
+                        <div class="col-md-1">
+                            <div class="switch g-m-b-10">
+                                @if (Html.TenantPermisson("ProviderBrandExclusion", TenantPermissonCheck.IsFeatureAllowed))
+                                {
+                                    @Html.CheckBoxFor(x => x.Tenant.ProviderBrandExclusion,
+                                        new
+                                        {
+                                            @class = "cmn-toggle cmn-toggle-round",
+                                            data_style = "ios",
+                                            data_size = "small",
+                                            data_onstyle = "success",
+                                            data_toggle = "toggle"
+                                        })
+                                }
+                                else
+                                {
+                                    @Html.CheckBoxFor(x => x.Tenant.ProviderBrandExclusion,
+                                        new
+                                        {
+                                            @class = "cmn-toggle cmn-toggle-round",
+                                            data_style = "ios",
+                                            data_size = "small",
+                                            data_onstyle = "success",
+                                            data_toggle = "toggle",
+                                            disabled = "disabled"
+                                        })
+                                    contractContainsInactiveFeatures = true;
+                                }
+                                <label for="ProviderBrandExclusion"></label>
+                            </div>
+                        </div>
+                            <div class="col-md-12">
+                                @if (contractContainsInactiveFeatures)
+                                {
+                                    <div class="subscription-alert alert alert-warning hide">
+                                        You cannot activate some of the above features due to your subscription level. Please contact your account manager to arrange an upgrade.
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-fluid g-m-b-20">
+                        <div id="contact" class="row">
+                            <div class="form-actions">
+                                <div class="pull-left form-message">
+                                    <i class="fa fa-spinner fa-pulse" style="display: none"></i>
+                                    <span></span>
+                                </div>
+
+                                <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Submit" name="action:Update">
+                                    <i class="fa fa-floppy-o"></i> Save
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+
+            $(document).on('click', 'tbody .list-form-row', function () {
+                openDropForm(
+                    $(this),
+                    '.list-form-extra',
+                    $(this).closest('table').attr('data-url') + '/' + $(this).attr('data-id'),
+                    { timestamp: $.now() },
+                    true
+                );
+            })
+
+            $(document).on('click',
+                'tfoot .list-form-row',
+                function() {
+                    openDropForm(
+                        $(this),
+                        '.list-form-extra',
+                        $(this).attr('data-newurl'),
+                        {
+                            id: $(this).closest('table').find('tbody .list-form-row:first').attr('data-id'),
+                            timestamp: $.now()
+                        },
+                        true
+                    );
+                });
+
+            $(document).on('click',
+                '.list-form-extra .form-cancel',
+                function() {
+                    $('.list-form-extra').prev().trigger('click');
+                });
+
+            $(document).on('click',
+                '.switch',
+                function () {
+                    if ($(this).find('.cmn-toggle').is(':disabled')) {
+                        $('.subscription-alert').removeClass('hide');
+                    }
+                });
+        });
+
+        function addChannelComplete(data) {
+            $('#channel > .form-actions > .form-message span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                $('.list-form-extra').prev().trigger('click');
+                $('.list-form-extra').closest('table').children('tbody').append(data.responseJSON.html);
+                //location.reload();
+            }
+        }
+
+        function updateChannelComplete(data) {
+            $('#channel > .form-actions > .form-message span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                $('.list-form-extra').prev().trigger('click');
+                $('.list-form-row[data-id=' + data.responseJSON.id.toString() + ']').html(data.responseJSON.html);
+                //location.reload();
+            }
+            $('#channel .form-message .fa-spinner').hide();
+        }
+
+        function deleteChannelComplete(data) {
+            $('#channel > .form-actions > .form-message span').text(data.responseJSON.msg);
+            if (data.responseJSON.inProgress) {
+                $('.list-form-row[data-id=' + data.responseJSON.id + ']').trigger('click');
+                $('.list-form-row[data-id=' + data.responseJSON.id + ']').closest('table').find('tfoot').show();
+                confirm('The channel will be deleted in the next 24 hour period');
+            }
+            $('#channel .form-message .fa-spinner').hide();
+        }
+
+
+        function updateComplete(data) {
+            $('#contact > .form-actions > .form-message span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+
+            }
+            $('#contact .form-message .fa-spinner').hide();
+        }
+
+        function beginPost(id) {
+            $(id + ' .form-message .fa-spinner').show();
+        }
+    </script>
+}

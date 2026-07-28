@@ -1,0 +1,23 @@
+﻿@using netGiant.Intranet.DataLayer.NetgiantMasterData;
+@using HtmlHelpers.BeginCollectionItem;
+@model secondaryCategoryLookup
+
+<tr>
+    <td class="g-w-80p">
+        @Html.Raw("<span class=\"lblDesc\">" + Model.categoryCodeFK + " - " + Model.categoryCode.categoryCodeName + "</span>")
+    </td>
+    <td class="g-w-10p">
+        @{ var guid = (string)ViewBag.guid; }
+
+        @using (Html.BeginCollectionItem("prod.websiteInventory[" + guid + "].secondaryCategoryLookup"))
+        {
+            @Html.HiddenFor(m => m.categoryCodeFK)
+            @Html.HiddenFor(m => m.websiteInventoryFK)
+            @Html.HiddenFor(m => m.secondaryCategoryLookupID)
+        }
+    </td>
+    <td class="g-w-10p">
+        <a href="#" class="lnkDelete">Delete</a>
+    </td>
+</tr>
+

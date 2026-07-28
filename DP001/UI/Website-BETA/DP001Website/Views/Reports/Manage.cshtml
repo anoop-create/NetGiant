@@ -1,0 +1,143 @@
+﻿@using DP001DataAccess.Entities;
+@model DP001BusinessLogic.ViewModels.ReportConfigurationViewModel
+
+@{
+    ViewBag.Title = "Manage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Report Manager
+            </h1>
+        </div>
+    </div>
+</section>
+
+@RenderTable("Comparison Report", "Comparison")
+@RenderTable("Competitor Inventory Report", "Competitor")
+@RenderTable("Product Inventory Report", "Product")
+@RenderTable("Supplier Inventory Report", "Supplier")
+@RenderTable("Price Rules Report", "Price Rules")
+@RenderTable("Sales History Report", "Sales History")
+
+@helper RenderTable(string headingName, string area)
+{
+    <section class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-8 col-md-push-2">
+                <div class="row page-form">
+
+                    <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="" data-helpsid="2" data-helpeid="2"></i> @headingName</h4>
+                    <section class="list-form table-responsive">
+                        <table id="report" class="table table-hover report" data-url="@Url.Action("EditReportConfig", "Reports")">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Sharing</th>
+                                    <th>Date Modified</th>
+                                    <th>Owner</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            @if (Model.ReportConfigList.Count(x => x.Lookup1.LookupName == area) == 0)
+                            {
+                                <tbody>
+                                    <tr>
+                                        <td colspan="100%" style="padding: 5px;">
+                                            You don't have any @(headingName + "s") set up.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            }
+                            <tbody>
+                                @foreach (var report in Model.ReportConfigList.Where(x => x.Lookup1.LookupName == area))
+                                {
+                                    <tr class="@(report.Owner != Model.CurrentUserEmail ? "grey" : "list-form-row")" data-id="@report.ReportConfigurationId">
+                                        <td style="padding: 5px; min-width: 500px;">
+                                            <a href="@report.BaseUrl@report.ReportConfigurationId" class="reportLink">@report.Name</a>
+                                        </td>
+                                        <td style="padding: 5px;">
+                                            @Html.DisplayFor(m => report.Lookup.LookupName)
+                                        </td>
+                                        <td style="padding: 5px;">
+                                            @Html.DisplayFor(m => report.DateLastUpdated)
+                                        </td>
+                                        <td style="padding: 5px;">
+                                            @Html.DisplayFor(m => report.Owner)
+                                        </td>
+                                        <td width="40px">
+                                            <i class="fa fa-chevron-down" />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            $(document).on('click', 'tbody .list-form-row', function () {
+                openDropForm(
+                    $(this),
+                    '.list-form-extra',
+                    $(this).closest('table').attr('data-url') + '/' + $(this).attr('data-id'),
+                    { timestamp: $.now() },
+                    false
+                );
+            })
+
+            $(document).on('click', 'tbody .list-form-extra .form-cancel', function () {
+                $(this).closest('.list-form-extra').prev().trigger('click');
+            })
+
+            $(document).on('click', '.reportLink', function (e) {
+                e.stopPropagation();
+            });
+
+        });
+
+        function beginPost(id) {
+            $(id + ' .form-message .fa-spinner').show();
+        }
+
+        function updateReportComplete(data) {
+            $('.report .form-actions > .form-message > span').text(data.responseJSON.msg);
+            if (data.responseJSON.IsSuccess) {
+                $('.report .list-form-extra').prev().trigger('click');
+                $('.report .list-form-row[data-id=' + data.responseJSON.id.toString() + ']').html(data.responseJSON.html);
+            }
+            $('.report .form-message .fa-spinner').hide();
+        }
+
+        function deleteReportComplete(data) {
+            var currTable = $('.list-form-extra').closest('table');
+            currTable.find('.form-actions .form-message span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                currTable.find('.list-form-row[data-id=' + data.responseJSON.id + ']').trigger('click');
+                currTable.find('tfoot tr').show();
+                currTable.find('.form-message .fa-spinner').hide();
+                currTable.find('.list-form-row[data-id=' + data.responseJSON.id + ']').remove();
+            }
+        }
+
+    </script>
+
+}
+

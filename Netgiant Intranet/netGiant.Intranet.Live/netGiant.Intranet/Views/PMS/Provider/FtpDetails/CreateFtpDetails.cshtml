@@ -1,0 +1,137 @@
+﻿@model netGiant.Intranet.BusinessLayer.ViewModels.PMS.Provider.ProviderViewModel
+
+@{
+    ViewBag.Title = "Ftp Details";
+    ViewBag.SubTitle = Model.ftp.ftpDetailID > 0 ? "Edit" : "Create";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title</h4>
+
+        <div class="form-horizontal">
+
+            @using (Html.BeginForm("SaveFtpDetails", "Provider", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.ftp.ftpDetailID)
+                @Html.HiddenFor(m => m.selectedProviderID)
+                @Html.HiddenFor(m => m.hasIndexedMapping)
+
+                <div class="form-group">
+                    @Html.Label("Ftp Host", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ftp.ftpHost, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.ftp.ftpHost, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Ftp User", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ftp.ftpUser, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.ftp.ftpUser, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Ftp Password", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ftp.ftpPassword, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.ftp.ftpPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Ftp Folder", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ftp.ftpFolder, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.ftp.ftpFolder, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Ftp Filename", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ftp.ftpFilename, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.ftp.ftpFilename, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Ftp Zip Filename", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ftp.ftpZipFilename, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.ftp.ftpZipFilename, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Provider", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.ftp.providerFK, Model.allProviders, "Select...", new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(model => model.ftp.providerFK, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                if (Model.ftp.ftpDetailID > 0)
+                {
+                    <div class="form-group">
+                        @Html.Label("Date Last Updated", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ftp.dateLastUpdate, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group">
+                    @Html.Label("File has column Headers", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ftp.fileColumnHeader, new { htmlAttributes = new { @class = "" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveFtpDetails" value="Save" class="btn btn-default" title="Save" />
+                        @if (Model.selectedProviderID > 0)
+                        {
+                            @Html.ActionLink("Cancel", "ProviderDetails", "Provider", new { id = Model.selectedProviderID }, new { @class = "btn btn-default" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Cancel", "FtpDetailsIndex", "Provider", null, new { @class = "btn btn-default" })
+                        }
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+<div id="indexedMapping" title="Warning" class="g-d-n">
+    Indexed field mappings exists for the current provider. Please either remove or update these mappings based on the column headers.
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).on("change", "#ftp_fileColumnHeader", function () {
+            if ($(this).is(':checked') && $("#hasIndexedMapping").val() == "True") {
+                $("#indexedMapping").dialog();
+            }
+        });
+
+    </script>
+}
+
+@{
+    string infoBoxText = Convert.ToString(@TempData["InformationBoxFlag"]);
+    if (infoBoxText != string.Empty)
+    {
+        <div id="infoBoxFlag" class="g-d-n">@TempData["InformationBoxFlag"]</div>
+    }
+}

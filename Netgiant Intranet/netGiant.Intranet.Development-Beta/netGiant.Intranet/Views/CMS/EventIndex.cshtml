@@ -1,0 +1,171 @@
+﻿
+@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model CMSViewModel
+
+@{
+    ViewBag.Title = "CMS Events";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AddTags
+{
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet">
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    @Html.RawFromDict(Model.IntranetData, "EventFilters")
+</div>
+
+@Html.Hidden("DeleteEntryURL", Url.Action("DeleteEvent", "CMS"))
+
+@if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+{
+    <div class="g-m-l-10">
+        <a class="lnk g-cur-p" data-url="@Url.Action("CreateEvent", "CMS")/0">Create New Event</a>
+    </div>
+}
+
+@(Html.Kendo().Grid<CMSViewModel.TelerikEvent>()
+    .HtmlAttributes(new {@class = "pointer-rows g-m-t-10"})
+    .Name("EventGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.Website);
+        columns.Bound(x => x.Event).Title("Event");
+        columns.Bound(x => x.DateActivate).Title("Date Active").Format("{0:dd/MM/yyyy HH:mm:ss}").Width(250);
+        columns.Bound(x => x.DateInactive).Title("Date In-Active").Format("{0:dd/MM/yyyy HH:mm:ss}").Width(250);
+        columns.Bound(x => x.IsActive).Title("Currently Active").Width(200);
+        columns.Bound(x => x.Id).ClientTemplate(
+            "<a class=\"lnk g-cur-p\" data-url=\"" + Url.Action("CreateEvent", "CMS") + "/#:Id#\">Edit</a>" +
+            "|<a href=\"##\" class=\"lnkDelete g-cur-p\" value=\"#:Id#\" title=\"Delete\">Delete</a>"
+            ).Width("136px").Filterable(false).Sortable(false).Groupable(false).Title("Actions");
+    })
+    .Pageable(pager => pager.Refresh(true))
+    .Pageable(pager => pager.PageSizes(new List<int>
+    {150, 100, 50, 20}))
+    .Sortable(sortable => sortable.AllowUnsort(true))
+    .Scrollable()
+    .Groupable()
+    .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+    .ColumnMenu()
+    .Resizable(resize => resize.Columns(true))
+    .Reorderable(reorder => reorder.Columns(true))
+    .NoRecords("There is no data to display")
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(x => x.Action("Event_Read", "CMS"))
+        .Sort(sort =>
+        {
+            sort.Add(x => x.Website).Descending();
+            sort.Add(x => x.Event).Ascending();
+        })
+        .PageSize(200)
+    )
+    .Events(e => e.DataBound("onDataBind"))
+)
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 1000px;">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button id="close-modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(document).on('click', '.lnkDelete', function (e) {
+            var rowid = $(this).attr('value');
+            e.preventDefault();
+            $.confirm({
+                title: 'Delete Event',
+                content: 'Are you sure you want to delete this Event?<br />This action will also delete all Event Mappings associated with this Event.',
+                type: 'orange',
+                icon: 'fa fa-warning',
+                animation: 'zoom',
+                animateFromElement: false,
+                buttons: {
+                    Yes: function () {
+                        deleteGridRow('@Url.Action("DeleteEvent", "CMS")/', { id: rowid });
+                    },
+                    No: function () { }
+                }
+            });
+        });
+
+        $(document).on("click", ".lnk", function () {
+            var url = $(this).attr('data-url');
+            $('#myModal').find('.modal-body').empty();
+            $.ajax({
+                url: url
+            }).done(function (data) {
+                $('#myModal').find('.modal-body').html(data);
+                addDatePicker();
+            });
+            $('#myModal').modal();
+        });
+
+        $('#myModal').on('hidden.bs.modal', function (e) {
+            $('#myModal').find('.modal-body').empty();
+            $('.k-grid').data('kendoGrid').dataSource.read();
+            //$('.k-grid').data('kendoGrid').refresh();
+        });
+    });
+
+    function addDatePicker() {
+        // create DateTimePicker
+        $("#Event_DateActive, #Event_DateInactive").kendoDateTimePicker({
+            format: "yyyy/MM/dd hh:mm tt",
+            change: function () {
+                if ($(this)[0].element.context.id = 'Event_DateActive') {
+                    var startPicker = $("#Event_DateActive").data("kendoDateTimePicker");
+                    var endPicker = $("#Event_DateInactive").data("kendoDateTimePicker");
+                    var startDate = startPicker.value();
+                    if (startDate) {
+                        var newEndDate = new Date(startDate);
+                        newEndDate.setDate(newEndDate.getDate() + 1);
+                        endPicker.min(newEndDate);
+                        endPicker.value(newEndDate);
+                    }
+                }
+            }
+        });
+    }
+
+    function onDataBind() {
+        saveGridFilters();
+    }
+
+    function ajaxReturn(data) {
+        var response = data.responseJSON;
+        $.confirm({
+            title: response.type,
+            content: response.savereturn.Message,
+            type: response.savereturn.IsSuccess ? 'green' : 'red',
+            icon: response.savereturn.IsSuccess ? 'fa fa-check' : 'fa fa-warning',
+            animation: 'zoom',
+            animateFromElement: false,
+            buttons: {
+                OK: function () {
+                    if (response.savereturn.IsSuccess) {
+                        $('#close-modal').click();
+                    }
+                }
+            }
+        });
+        return false;
+    }
+</script>
+
+

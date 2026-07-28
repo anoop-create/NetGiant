@@ -1,0 +1,129 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using PagedList.Mvc;
+@using DP001Website.Models;
+@using GridMvc.Html;
+@model SupplierViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Supplier Inventory
+            </h1>
+        </div>
+
+        <div class="col-xs-7 col-md-4 col-lg-3 row-height-fix flex-right">
+            <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-sliders fa-lg"></i>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <ul class="dropdown-menu g-p-10">
+                    <li class="g-fw-b">Supplier Inventory Options</li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation">
+                        @Html.HtmlActionLink("<i class=\"fa fa-times\"></i> Reset Filters", "Inventory", "Suppliers", null, null)
+                    </li>
+                    <li role="presentation">
+                        @Html.HtmlActionLink("<i class=\"fa fa-upload\"></i> Export Supplier Products", "ExportToExcel", "Suppliers", null, null)
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+@Html.Grid(Model.InventoryList).Columns(columns =>
+{
+    columns.Add(o => o.ManufacturerPartNo)
+        .Titled("Part Number")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomTextFilterWidget");
+
+    columns.Add(o => o.ClientProductID)
+        .Titled("Client Product ID")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomTextFilterWidget");
+
+    columns.Add(o => o.Description)
+        .Titled("Supplier Description")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomTextFilterWidget");
+
+    columns.Add(o => o.ProductInventory.Description)
+        .RenderValueAs(x => Html.HtmlActionLink(x.ProductInventory != null ? x.ProductInventory.Description : "", "ProductDetail", "Products", new { id = x.ProductInventoryFK }, null))
+        .Titled("Product Name")
+        .Filterable(true)
+        .Sanitized(false)
+        .Encoded(false)
+        .SetFilterWidgetType("CustomTextFilterWidget");
+
+    columns.Add(o => o.Brand.BrandName)
+            .Titled("Brand")
+            .Filterable(true)
+            .SetFilterWidgetType("CustomBrandFilterWidget");
+
+    columns.Add(o => o.OriginalBrand)
+            .Titled("Supplier Brand Name")
+            .Filterable(true)
+            //.SetFilterWidgetType("CustomTextFilterWidget");
+            .SetFilterWidgetType("CustomSuppBrandFilterWidget");
+
+    columns.Add(o => o.StockQuantity)
+        .Titled("Quantity")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomNumberFilterWidget");
+
+    columns.Add(o => o.Price)
+        .RenderValueAs(x => x.Price.ToString("N2"))
+        .Titled("Price")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomNumberFilterWidget");
+
+    columns.Add(o => o.Supplier.SupplierName)
+        .Titled("Supplier")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomSupplierFilterWidget");
+
+    columns.Add(o => o.DateLastUpdated)
+        .Format("{0:dd/MM/yyyy (HH:mm)}")
+        .Titled("Date Updated");
+
+}).WithPaging(200).Sortable().Named("suppliersGrid").Selectable(false).WithMultipleFilters().WithGridItemsCount()
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            pageGrids.suppliersGrid.addFilterWidget(
+                new DropDownListWidget("CustomBrandFilterWidget", "brandList", "/Shared/GetBrandNames", "brand")
+            );
+
+            pageGrids.suppliersGrid.addFilterWidget(
+                new DropDownListWidget("CustomSuppBrandFilterWidget", "suppBrandList", "/Shared/GetSuppBrandNames", "brand")
+            );
+
+            pageGrids.suppliersGrid.addFilterWidget(
+                new DropDownListWidget("CustomSupplierFilterWidget", "supplierList", "/Shared/GetSupplierNames", "supplier")
+            );
+
+            pageGrids.suppliersGrid.addFilterWidget(
+                new TextWidget("CustomTextFilterWidget")
+            );
+
+            pageGrids.suppliersGrid.addFilterWidget(
+                new NumberWidget("CustomNumberFilterWidget")
+            );
+
+        });
+    </script>
+}
+

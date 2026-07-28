@@ -1,0 +1,42 @@
+﻿@model netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance.CategoryCodeViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Category Attributes";
+    ViewBag.SubTitle = "Add";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h3>@ViewBag.SubTitle @ViewBag.Title - @ViewBag.CategoryCodeName</h3>
+
+        @using (Html.BeginForm("SaveCategoryAttributes", "CategoryCode"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.categoryCodeID)
+            
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.Label("Filterable Attribute", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.filterableAttributeFK, Model.AllFilterableAtts, "Select...", new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(model => model.filterableAttributeFK, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="btnCategoryAttributesSave" value="Save" class="btn btn-default" />
+                        @Html.ActionLink("Cancel", "CategoryAttributesIndex", new { id = Model.categoryCodeID }, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+
+            </div>
+
+        }
+
+    </div>
+</div>

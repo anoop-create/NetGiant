@@ -1,0 +1,144 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.OMS
+@using PagedList.Mvc;
+@using Kendo.Mvc.UI;
+@model MonitorViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Sales Order Purchasing Monitor";
+}
+@section AddTags
+{
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet">
+    <style>
+        .k-grid {
+            font-size: 11px;
+        }
+    </style>
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    <div class="telerik-filter" data-gridname="sOPGrid">
+        <a class="btn btn-danger btn-sm" data-script="grid.dataSource.filter({});">Clear Filters</a>
+        <span class="btn btn-default btn-sm" onClick="window.location.reload();">Refresh</span>
+        @*<span class="popup btn btn-default btn-sm" data-popupname="CreateDirects" data-popupid="popupid">Create Directs</span>*@
+        <span class="popup-view btn btn-default btn-sm" data-url="@Url.Action("CreateDirects", "Monitor")" data-popupid="popupid">Create Directs</span>
+    </div>
+    <div class="g-fc-bl g-fs-0_8em g-a-r">(Count: <span id="counter"></span>)</div>
+</div>
+
+@(Html.Kendo().Grid<MonitorViewModel.TelerikSOP>()
+            .Name("sOPGrid")
+            .Columns(columns =>
+            {
+                columns.Bound(x => x.OrderId).Title("Order").Width("90px").ClientTemplate(
+                    "<a href=\"../Order/ViewOrder/#:OrderId#\">OR-#:kendo.toString(OrderId, '00000000.')#</a>")
+                    .HtmlAttributes(new { style = "text-align: center;" })
+                    .HeaderHtmlAttributes(new { title = "Order", style = "text-align: center;" });
+                columns.Bound(x => x.AccountId).Title("Account").Width("90px").ClientTemplate(
+                    "<a href=\"../Acc/ViewAccount/#:AccountId#\">AC-#:kendo.toString(AccountId, '00000000.')#</a>")
+                    .HtmlAttributes(new { style = "text-align: center;" })
+                    .HeaderHtmlAttributes(new { title = "Account", style = "text-align: center;" });
+                columns.Bound(x => x.AxisAccount).Title("Axis Account").Width("90px").ClientTemplate(
+                    "<a href=\"../Acc/ViewAccount/#:AccountId#\">#:AxisAccount#</a>")
+                    .HtmlAttributes(new { style = "text-align: center;" })
+                    .HeaderHtmlAttributes(new { title = "Axis Account", style = "text-align: center;" });
+                columns.Bound(x => x.Name).Title("Cust Name").Width("140px")
+                    .HeaderHtmlAttributes(new { title = "Cust Name", style = "text-align: center;" });
+                columns.Bound(x => x.ShortName).Title("Cust Short Name").Width("90px")
+                    .HeaderHtmlAttributes(new { title = "Cust Short Name", style = "text-align: center;" });
+                columns.Bound(x => x.OrderDate).Title("Order Date").Width("100px")
+                    .ClientTemplate("#= kendo.toString(kendo.parseDate(OrderDate, 'yyyy-MM-dd'), 'dd/MM/yyyy') #")
+                    .HtmlAttributes(new { style = "text-align: center;" })
+                    .HeaderHtmlAttributes(new { title = "Order Date", style = "text-align: center;" });
+                columns.Bound(x => x.Nett)
+                    .Format("{0: #,##.00}")
+                    .Title("Nett")
+                    .Width(80)
+                    .HtmlAttributes(new { style = "text-align: right;" })
+                    .HeaderHtmlAttributes(new { title = "Value", style = "text-align: center;" });
+                columns.Bound(x => x.OrderId).ClientTemplate(
+                    "<span class=\"btn btn-info btn-xs toggle-approve\" data-id=\"#:OrderId#\"><small>Unapprove</small></span>" +
+                    "&nbsp;<span class=\"btn btn-info btn-xs create-po\" data-id=\"#:OrderId#\" data-name=\"#:Name#\"><small>Create P.O.</small></span></div>"
+                    ).Title("Actions").Filterable(false).Sortable(false).Groupable(false);
+
+            })
+            .Pageable(pager => pager.Enabled(false))
+            .Scrollable(scroll => scroll.Enabled(true))
+            .Sortable(sortable => sortable.AllowUnsort(true))
+            .Scrollable()
+            .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+            .ColumnMenu()
+            .Resizable(resize => resize.Columns(true))
+            .Reorderable(reorder => reorder.Columns(true))
+            .NoRecords("There are no orders to display")
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(x => x.Action("SOP_Read", "Monitor", (RouteValueDictionary)ViewBag.Query))
+                .Sort(sort => sort
+                    .Add(x => x.OrderDate).Descending())
+                )
+            .Events(e => e.DataBound("Grid_OnDataBound"))
+)
+
+@Html.Hidden("ToggleApproveUrl", Url.Action("ToggleApprove", "Order"))
+@Html.Hidden("CreatePOUrl", Url.Action("CreatePO", "PurchaseOrder"))
+@Html.Hidden("CreateDirectsUrl", Url.Action("CreateDirects", "PurchaseOrder"))
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 1000px;">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <span class="g-fw-b">Sales Order: <span id="orderid"></span></span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        function Grid_OnDataBound() {
+            $('#counter').html($('#sOPGrid').data("kendoGrid").dataSource.data().length);
+
+            saveGridFilters();
+        }
+
+        $(document).on('click',
+            '.toggle-approve',
+            function () {
+                alert('Under development. OrderID: ' + $(this).attr('data-id'));
+                toggleOrderApprove($(this).attr('data-id'))
+            });
+        $(document).on('click',
+            '.create-po',
+            function () {
+                $('#myModal').find('.modal-body').html('');
+                $('#orderid').html($(this).attr('data-id') + ' ' + $(this).attr('data-name'));
+                $.ajax({
+                    url: '@Url.Action("GetSupplierOptions", "Monitor")',
+                    data: { id: $(this).attr('data-id') }
+                }).done(function (data) {
+                    $('#myModal').find('.modal-body').html(data);
+                });                
+                $('#myModal').modal();
+
+            });
+        $(document).on('click',
+            '.create-directs',
+            function () {
+                alert('Under development.');
+            });
+    </script>
+}
+
+

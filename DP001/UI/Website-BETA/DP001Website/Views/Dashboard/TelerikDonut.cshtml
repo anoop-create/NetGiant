@@ -1,0 +1,116 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Controllers;
+@model DashboardViewModel
+
+@{
+    ViewBag.Title = "TelerikDonut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Telerik Donut</h2>
+
+<div class="container-fluid">
+    <div class="row">
+        <span class="pull-left g-m-l-10 g-m-t-10"><em>Display data for</em></span>
+        <div class="btn-group g-m-l-10 g-b-1-lg g-br-5 g-m-t-10" role="group" aria-label="...">
+            <button type="button" class="btn btn-default">Brand</button>
+            <div class="btn-group" role="group">
+                @Html.DropDownListFor(x => x.Brands, Model.Brands, "All Brands", new { @class = "selectpicker", size = "auto", data_size = "8" })
+            </div>
+        </div>
+        <div class="btn-group g-m-l-10 g-b-1-lg g-br-5 g-m-t-10" role="group" aria-label="...">
+            <button type="button" class="btn btn-default">Category</button>
+            <div class="btn-group" role="group">
+                @Html.DropDownListFor(x => x.Categories, Model.Categories, null, new { @class = "selectpicker", size = "auto", data_size = "8" })
+            </div>
+        </div>
+        @Html.DropDownList("hiddenCategories", Model.Categories, null, new { @class = "hide", size = "auto", data_size = "8" })
+        <div class="btn-group g-m-l-10 g-b-1-lg g-br-5 g-m-t-10" role="group" aria-label="...">
+            <button type="button" class="btn btn-default">Price Rule</button>
+            <div class="btn-group" role="group">
+                @Html.DropDownListFor(x => x.PriceRules, Model.PriceRules, "All Price Rules", new { @class = "selectpicker", size = "auto", data_size = "8" })
+            </div>
+        </div>
+        <div class="btn-group g-m-l-10 g-b-1-lg g-br-5 g-m-t-10" role="group" aria-label="...">
+            <button type="button" class="btn btn-default">Product Group</button>
+            <div class="btn-group" role="group">
+                @Html.DropDownListFor(x => x.ProductGroups, Model.ProductGroups, "All Product Groups", new { @class = "selectpicker", size = "auto", data_size = "8" })
+            </div>
+        </div>
+        @*<button id="applyfilter" type="button" class="g-m-l-10 btn btn-default btn-sm g-m-t-10">
+            <i class="fa fa-check"></i> Apply Filter
+        </button>
+        <button id="clearfilter" type="button" class="g-m-l-10 btn btn-default btn-sm g-m-t-10">
+            <i class="fa fa-times"></i> Reset Filter
+        </button>*@
+    </div>
+</div>
+
+<br/>
+<br/>
+
+<div class="container" style="height: 500px;">
+    <div class="row">
+        <div>
+            @(Html.Kendo().Chart<PriceCompetitiveness>()
+                .Name("chart")
+                .Title("Price Competitiveness Report")
+                .Legend(legend => legend
+                    .Visible(false)
+                )
+                .DataSource(ds => ds.Read(read => read.Action("DonutData", "Dashboard", new { brand = 0, category = 0, pricerule = 0, productgroup = 0 })))
+                .SeriesColors(new string[] { "#9de219", "#90cc38", "#068c35", "#006634", "#004d38", "#033939" })
+                .Series(series =>
+                {
+                    series.Donut(
+                        model => model.Total,
+                        model => model.Description,
+                        null,
+                        model => model.Explode
+                    )
+                    .Labels(labels => labels
+                        .Visible(true)
+                        .Position(ChartPieLabelsPosition.OutsideEnd)
+                        .Template("#= category #: \n #= value#")
+                        .Background("transparent")
+                    );
+                })
+                .Events(ev => ev.DataBound("onDB"))
+
+                .Tooltip(tooltip => tooltip.
+                    Template("#= dataItem.LongDescription #").Visible(true)
+                )
+            )
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+
+        function onDB(e) {
+            var dataCount = e.sender.options.series[0].data.length;
+            e.sender.options.series[0].labels.visible = function (point) {
+                if (point.percentage < 0.04 && dataCount > 5) {
+                    return false
+                }
+                else { return point.value }
+            }
+        }
+
+        $(function () {
+            $(document).on('change', '#Brands, #Categories, #PriceRules, #ProductGroups', function () {
+                var chart = $("#chart").data("kendoChart");
+                var selectedBrand = $('#Brands').val() || 0;
+                var selectedCategory = $('#Categories').val() || 0;
+                var selectedPricerule = $('#PriceRules').val() || 0;
+                var selectedProductgroup = $('#ProductGroups').val() || 0;
+
+                chart.dataSource.read({ brand: selectedBrand, category: selectedCategory, pricerule: selectedPricerule, productgroup: selectedProductgroup });
+                chart.refresh();
+            });
+        });
+
+    </script>
+}
+

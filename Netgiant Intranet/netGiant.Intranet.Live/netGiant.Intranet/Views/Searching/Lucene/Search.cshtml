@@ -1,0 +1,41 @@
+﻿@model netGiant.Intranet.BusinessLayer.ViewModels.Searching.LuceneSearchViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Search</title>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm("SearchIndex", "Lucene"))
+        {
+            @Html.Label("Search Term ")
+            @Html.TextBoxFor(x => x.SearchTerm, new { style = "width: 500px;" })
+            <input type="submit" value="Search" />
+            <span>@Model.TimeTaken</span>
+        }
+    </div>
+
+    <div style="margin-top: 20px;">
+        <span><b>Product Results</b></span>
+        @foreach (var match in Model.ProductResults)
+        {
+            <div>@match</div>
+        }
+    </div>
+    <div style="margin-top: 20px;">
+        <span><b>Equipment Results</b></span>
+        @foreach (var match in Model.EquipResults)
+        {
+            <div>@match</div>
+        }
+    </div>
+
+</body>
+</html>

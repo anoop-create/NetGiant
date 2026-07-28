@@ -1,0 +1,116 @@
+﻿@model netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance.FieldSubSectionViewModel
+
+@{
+    ViewBag.Title = "Field Sub Section";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title Details</h4>
+
+        <div style="padding-bottom: 20px">
+            @Html.DropDownListFor(m => m.SelectedFieldSectionID, Model.allFieldSections, "Search By Field Section", new { @class = "form-control g-smallCell g-f-l g-m-r-10" })
+            <select id="fieldSubSectionSearchBy" class="searchBy g-f-l form-control g-smallCell" style="margin-right:10px">
+                <option selected="selected" value="name">Search by name</option>
+            </select>
+            <div>
+                @Html.TextBox("SearchFieldSubSection", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10", @type = "text" })
+                <a id="lnkSearchFieldSubSection" href="#" class="btn btn-default g-f-l" title="Empty search returns all records">Search</a>
+            </div>
+        </div>
+
+        <br />
+
+        <div id="fieldSubSectionData">
+            @{ Html.RenderPartial("~/Views/PMS/Maintenance/FieldSubSection/FieldSubSectionData.cshtml", Model.fieldSubSections);}
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        $(document).on("click", "#lnkSearchFieldSubSection, #fieldSubSectionPaging a", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $("#SearchFieldSubSection").keypress(function (event) {
+            if (event.which == 13) {
+                applyStandardPaging(event);
+            }
+        });
+
+        $(document).on("click", ".lnkFieldSubSectionDelete", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete('#fieldSubSectionDeleteDialog', $('#DeleteFieldSubSectionURL').val(), $(this).attr('value'),
+                '#fieldSubSectionData', optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            applyStandardPaging(event, 0);
+
+            return false;
+        });
+
+        if ($("#historyPage").val() != '') {
+            $('#fieldSubSectionData').html($("#historyPage").val());
+        }
+
+        $(document).on("change", "#SelectedFieldSectionID", function (event) {
+            applyStandardPaging(event, 0);
+        });
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging();
+            standardPaging(event, id, "#fieldSubSectionPaging", $('#FieldSubSectionDataURL').val(),
+                                    "#fieldSubSectionData", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#SearchFieldSubSection").val(); //SearchTerm
+            optionsArray[1] = $("#fieldSubSectionSearchBy").val(); //SearchBy
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[2] = sortType + sortDir;
+            } else {
+                optionsArray[2] = '';
+            }
+
+            optionsArray[3] = $("#SelectedFieldSectionID option:selected").val().length > 0 ? $("#SelectedFieldSectionID option:selected").val() : 0;
+        }
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value"); //ProductTypeID
+            optionsArray[1] = $("#SearchFieldSubSection").val(); //SearchTerm
+            optionsArray[2] = $("#fieldSubSectionSearchBy").val(); //SearchBy
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[3] = sortType + sortDir;
+            } else {
+                optionsArray[3] = '';
+            }
+
+            optionsArray[4] = $("#SelectedFieldSectionID option:selected").val().length > 0 ? $("#SelectedFieldSectionID option:selected").val() : 0;
+        }
+
+    </script>
+}

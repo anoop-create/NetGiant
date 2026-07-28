@@ -1,0 +1,81 @@
+﻿@model netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce.DeliveryConfigurationViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "New / Edit Delivery Configuration";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>
+            Delivery Supplier Code:
+            @(string.IsNullOrEmpty(Model.DeliverySupplierCode.providerItemCode) ? "New Item" : Model.DeliverySupplierCode.providerItemCode)
+        </h4>
+
+        @using (Html.BeginForm("NewEditDeliverySupplierCode", "Ecommerce", FormMethod.Post, new { id = "mainForm" }))
+        {
+            <div class="form-horizontal g-m-t-50">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(x => x.DeliverySupplierCode.deliverySupplierCodeId)
+
+                <div class="form-group">
+                    @Html.Label("Provider Item Code", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.DeliverySupplierCode.providerItemCode, new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(model => model.DeliverySupplierCode.providerItemCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Price", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.DeliverySupplierCode.price, new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(model => model.DeliverySupplierCode.price, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Service", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(
+                            model => model.DeliverySupplierCode.deliveryServiceFk,
+                            Model.DeliveryServiceDropDownList,
+                            "Select...",
+                            new { @class = "g-f-l form-control g-largeCell g-m-r-10" }
+                        )
+                        @Html.ValidationMessageFor(model => model.DeliverySupplierCode.deliveryServiceFk, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Provider", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(
+                            model => model.DeliverySupplierCode.providerFk,
+                            Model.ProviderDropDownList,
+                            "Select...",
+                            new { @class = "g-f-l form-control g-largeCell g-m-r-10" }
+                        )
+                        @Html.ValidationMessageFor(model => model.DeliverySupplierCode.providerFk, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10 g-m-t-50">
+                        <input type="submit" name="btnSaveDeliveryService" value="Save" class="btn btn-default" />
+                        @Html.ActionLink("Cancel", "DeliverySupplierCode", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10 g-m-t-50">
+                        @Html.ValidationMessage("AlreadyExists", "", new { @class = "text-danger", @style = "font-size:2em;"})
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

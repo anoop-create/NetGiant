@@ -1,0 +1,76 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce
+@model FraudCriteriaViewModel
+
+@{
+    ViewBag.Title = "Fraud Criteria";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder g-m-b--20">
+    <h4 class="text-center">@ViewBag.Title</h4>
+</div>
+
+@Html.Hidden("DeleteEntryURL", Url.Action("DeleteEntry", "CMS"))
+
+@if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+{
+    @Html.ActionLink("Create New", "CreateFraudCriteria", "Ecommerce", new { id = 0 }, new { @title = "Create new Fraud Criteria", @class = "g-p-10" })
+}
+
+@(Html.Kendo().Grid<FraudCriteriaViewModel.TelerikFraudCriteria>()
+            .HtmlAttributes(new { @class = "pointer-rows" })
+            .Name("fraudCriteriaGrid")
+            .Columns(columns =>
+            {
+                columns.Bound(x => x.DateLastUpdated).Title("Date Last Updated").Width("150px")
+                    .HeaderHtmlAttributes(new { title = "Date Last Updated", style = "text-align: center;" })
+                    .ClientTemplate("#= kendo.toString(kendo.parseDate(DateLastUpdated, 'yyyy-MM-dd'), 'dd/MM/yyyy HH:mm:ss') #");
+                columns.Bound(x => x.PostCode).Title("Postcode").Width("200px")
+                    .HeaderHtmlAttributes(new { title = "Postcode", style = "text-align: center;" });
+                columns.Bound(x => x.Id).ClientTemplate(
+                        "<a href=\"CreateFraudCriteria/#:Id#\">Edit</a>" +
+                        "|<a href=\"##\" class=\"lnkEntryDelete\" value=\"#:Id#\" title=\"Delete\">Delete</a>"
+                        ).Width("136px").Title("").Filterable(false).Sortable(false).Groupable(false);
+            })
+            .Pageable(pager => pager.Refresh(true))
+            .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+            .Sortable(sortable => sortable.AllowUnsort(true))
+            .Groupable()
+            .Scrollable()
+            .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+            .ColumnMenu()
+            .Resizable(resize => resize.Columns(true))
+            .Reorderable(reorder => reorder.Columns(true))
+            .NoRecords("There are no CMS entries to display")
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(x => x.Action("FraudCriteria_Read", "Ecommerce"))
+                .PageSize(200)
+                .Sort(sort => sort
+                    .Add(x => x.PostCode).Ascending())
+            )
+            .Events(e => e.DataBound("saveGridFilters"))
+)
+
+<div id="fraudCriteriaDeleteDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+    Are you sure you want to delete this entry?
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(document).on('click', '.lnkEntryDelete', function (e) {
+            var rowid = $(this).attr('value');
+            e.preventDefault();
+            $.confirm({
+                title: 'Fraud Criteria',
+                content: 'Are you sure you want to delete this criteria?',
+                buttons: {
+                    Yes: function () {
+                        deleteGridRow('@Url.Action("DeleteFraudCriteria", "Ecommerce")/', { id: rowid });
+                    },
+                    No: function () { }
+                }
+            });
+        });
+    });
+</script>

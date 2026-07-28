@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6671E29A-BFEB-4321-A7D0-68D812B1E035}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>netGiant.Intranet.BusinessLayer</RootNamespace>
+    <AssemblyName>netGiant.Intranet.BusinessLayer</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DynamicLibraries\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DynamicLibraries\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DynamicLibraries\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DynamicLibraries\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\CSVUtilities.cs" />
+    <Compile Include="Utilities\EmailUtilities.cs" />
+    <Compile Include="Utilities\FTPUtilities.cs" />
+    <Compile Include="ViewModels\Admin\AdminViewModel.cs" />
+    <Compile Include="ViewModels\Admin\BatchProgram\ScheduledTasksViewModel.cs" />
+    <Compile Include="ViewModels\Ecommerce\DeliveryConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\Ecommerce\LogViewModel.cs" />
+    <Compile Include="ViewModels\Orders\SagePayViewModel.cs" />
+    <Compile Include="ViewModels\PMS\DataSuppliers\DataSupplierLookupViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Export\ExportEquipmentViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Export\ExportProductViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Import\Equipment\ExtractData.cs" />
+    <Compile Include="ViewModels\PMS\Import\Equipment\ImportEquipmentViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Import\Equipment\SaveRecords.cs" />
+    <Compile Include="ViewModels\PMS\Import\PriceRule\ImportPriceRuleViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\AxisEBusinessViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\AxisValueLookupViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\CartridgeTypeViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\CMSViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\EquipmentNotesViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\GoogleProductCategoryViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\ManufacturerNotesViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\ObsoleteItemsViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\PriorityProviderViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\ProductItemTypeViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\ProductSEOTextViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Product\CategoryCodeAssignmentViewModel.cs" />
+    <Compile Include="ViewModels\Reports\CategoryCodeStructureViewModel.cs" />
+    <Compile Include="ViewModels\Reports\ReportsViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Equipment\EquipmentViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Import\Product\ExtractData.cs" />
+    <Compile Include="ViewModels\PMS\Import\ImportFields.cs" />
+    <Compile Include="ViewModels\PMS\Import\Product\ImportProductViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Import\Product\SaveRecords.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\CategoryCodeViewModel.cs" />
+    <Compile Include="ViewModels\Admin\ConfigurationSettingViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\DataSupplierViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\FieldNameViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\FieldSectionViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\FieldSubSectionViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\FieldTypeViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\FilterableAttributeViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\ManufacturersViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\ProductStatusViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\ProductTypeViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\SalesAreaGroupViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\WebsiteViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\OverrideTypeViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\ProductGroupViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Pricing\CategoryCodeDropDown.cs" />
+    <Compile Include="ViewModels\PMS\Pricing\PricesViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Pricing\PricingRulesViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Product\AXISQueueViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Product\CrossSellingLinkViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Product\ProductDetailViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Product\ProductOverrideViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Product\ProductFieldViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Product\ProductViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Product\WebsiteInventoryViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Provider\ProviderExceptionsViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Provider\ProviderViewModel.cs" />
+    <Compile Include="ViewModels\PMS\QA\QAViewModel.cs" />
+    <Compile Include="ViewModels\Shared\AXISFeedViewModel.cs" />
+    <Compile Include="ViewModels\Shared\HelperViewModel.cs" />
+    <Compile Include="ViewModels\Shared\SelectListViewModel.cs" />
+    <Compile Include="ViewModels\Shared\SharedFunctions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DynamicLibraries\EntityFramework.dll" />
+    <Content Include="DynamicLibraries\EntityFramework.SqlServer.dll" />
+    <Content Include="DynamicLibraries\PagedList.dll" />
+    <Content Include="DynamicLibraries\PagedList.Mvc.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Class Libraries\ngmd.DataLayer\netGiant.Intranet.DataLayer\netGiant.Intranet.DataLayer.csproj">
+      <Project>{1cff9d16-890d-471e-8a7d-37b2485ee063}</Project>
+      <Name>netGiant.Intranet.DataLayer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

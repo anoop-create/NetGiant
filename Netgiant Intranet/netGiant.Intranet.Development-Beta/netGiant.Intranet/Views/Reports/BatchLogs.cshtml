@@ -1,0 +1,76 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Reports;
+
+@model ReportsViewModel
+
+@{
+    ViewBag.Title = "Batch Log";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    @Html.RawFromDict(Model.IntranetData, "BatchLogsFilters")
+</div>
+
+@Html.Hidden("LogFileContentURL", Url.Action("ReadLog", "Reports"))
+
+@(Html.Kendo().Grid<ReportsViewModel.Telerik>()
+            .HtmlAttributes(new { @class = "pointer-rows" })
+            .Name("logGrid")
+            .Columns(columns =>
+            {
+                columns.Bound(x => x.ShortFilename).Title("Main Action").Width(300);
+                columns.Bound(x => x.Filename).Title("File");
+                columns.Bound(x => x.DateCreated).Title("Date").Width(200).ClientTemplate("#= kendo.toString(kendo.parseDate(DateCreated, 'yyyy-MM-dd'), 'dd/MM/yyyy (HH:mm:ss)') #");
+            })
+            .Pageable(pager => pager.Refresh(true))
+            .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+            .Sortable(sortable => sortable.AllowUnsort(true))
+            .Groupable()
+            .Scrollable()
+            .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+            .ColumnMenu()
+            .Resizable(resize => resize.Columns(true))
+            .Reorderable(reorder => reorder.Columns(true))
+            .NoRecords("There are no log entries to display")
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(x => x.Action("Log_Read", "Reports"))
+                .PageSize(200)
+            )
+            .Events(events => events
+                .Change("Grid_OnRowSelect")
+                .DataBound("saveGridFilters")
+            )
+            .Selectable()
+)
+
+<div id="logContentDialog" style="display:none;"></div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var Grid_OnRowSelect = function (e) {
+            var data = this.dataItem(this.select());
+            var filename = data.Filename;
+
+            showLog(filename);
+        }
+
+        function showLog(filename) {
+            var objParams = { logName: filename };
+            ajaxGet($('#LogFileContentURL').val(), '#logContentDialog', objParams);
+            $("#logContentDialog").dialog({
+                modal: true,
+                width: 1000,
+                height: 850,
+                title: "Log File - " + filename,
+                open: function () {
+                    $(this).scrollTop(0);
+                }
+            });
+        }
+
+    </script>
+}

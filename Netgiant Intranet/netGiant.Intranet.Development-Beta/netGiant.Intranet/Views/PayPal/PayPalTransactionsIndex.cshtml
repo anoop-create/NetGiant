@@ -1,0 +1,146 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Orders;
+@using System.Globalization;
+@model PayPalViewModel
+
+@{
+    ViewBag.Title = "PayPal Transactions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    @Html.RawFromDict(Model.IntranetData, "PayPalTransactionsFilters")
+
+    @using (Html.BeginForm("ExportTransactions", "PayPal", FormMethod.Post, new { @id = "ExportForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("kendoData")
+    }
+
+    <input type="submit" class="btn btn-success g-m-t-5 download" value="Export to CSV" />
+</div>
+
+@Html.Hidden("protxLinkURL", Url.Action("ProtxStringResponseData", "SagePay"))
+
+@(Html.Kendo().Grid<PayPalViewModel.TelerikPayPalTransaction>
+    ()
+    .HtmlAttributes(new { @class = "pointer-rows" })
+    .Name("payPalTransactionGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.Aut_DateTime).Title("DateTime").ClientTemplate("#= kendo.toString(kendo.parseDate(Aut_DateTime, 'yyyy-MM-dd'), 'dd/MM/yyyy HH:mm:ss') #").Width("80px").HeaderHtmlAttributes(new { title = "Date/Time", style = "text-align: center;" });
+        columns.Bound(x => x.Aut_Website).Title("Website").Width("40px").HeaderHtmlAttributes(new { title = "Website", style = "text-align: center;" });
+        columns.Bound(x => x.Aut_Amount).Title("Amt.").Width("40px")
+            .Format("{0:N2}")
+            .HtmlAttributes(new { style = "text-align: right;" })
+            .HeaderHtmlAttributes(new { title = "Amount", style = "text-align: center;" });
+        columns.Bound(x => x.Aut_Payee).Title("Cust.").Width("100px").HeaderHtmlAttributes(new { title = "Customer", style = "text-align: center;" });
+        columns.Bound(x => x.Cap_PPProtection).Title("Protection").Width("60px").HeaderHtmlAttributes(new { title = "Seller Protection", style = "text-align: center;" });
+        columns.Group(group => group
+            .Title("Authorisation")
+            .Columns(aut =>
+            {
+                aut.Bound(x => x.Aut_Action).Title("Action").Width("50px").HeaderHtmlAttributes(new { title = "Action", style = "text-align: center;" });
+                aut.Bound(x => x.Aut_Status).Title("Status").Width("50px").HeaderHtmlAttributes(new { title = "Status", style = "text-align: center;" });
+                aut.Bound(x => x.Aut_AuthId).Title("Auth. ID").Width("70px").HeaderHtmlAttributes(new { title = "Authorisation Id", style = "text-align: center;" });
+            })
+        );
+        columns.Group(group => group
+            .Title("Capture/Cancel")
+            .Columns(cap =>
+            {
+                cap.Bound(x => x.Cap_Action).Title("Action").Width("50px").HeaderHtmlAttributes(new { title = "Action", style = "text-align: center;" });
+                cap.Bound(x => x.Cap_Status).Title("Status").Width("50px").HeaderHtmlAttributes(new { title = "Status", style = "text-align: center;" });
+                cap.Bound(x => x.Cap_CapId).Title("Capt. ID").Width("70px").HeaderHtmlAttributes(new { title = "Capture Id", style = "text-align: center;" });
+            })
+        );
+    })
+    .Pageable(pager => pager.Refresh(true))
+    .Pageable(pager => pager.PageSizes(new List<int>
+        { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable.AllowUnsort(true))
+        .Scrollable()
+        .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .NoRecords("There are no PayPal transactions to display")
+        .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(x => x.Action("PayPalTransaction_Read", "PayPal"))
+        .Sort(s => s.Add(x => x.Aut_DateTime).Descending())
+        .PageSize(200)
+        )
+        .Events(events => events.Change("Grid_OnRowSelect"))
+        //.Events(e => e.DataBound("saveGridFilters"))
+        .Events(events => events.DataBound("Grid_OnDataBound"))
+        .Selectable()
+)
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 1500px;">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //$(document).on("click", ".protx_link", function () {
+    //    getprotxdata($("#protxLinkURL").val(), "#protxDialogue", $(this).attr("value"))
+    //    $("#protxDialogue").dialog({
+    //        modal: true,
+    //        width: 800
+    //    });
+    //    return false;
+    //});
+
+    var Grid_OnRowSelect = function (e) {
+        var griddata = this.dataItem(this.select());
+        $('#myModal').find('.modal-body').html('');
+        $.ajax({
+            url: '@Url.Action("GetPayPalTransaction", "PayPal")',
+            data: { id: griddata.Aut_AuthId }
+        }).done(function (data) {
+            $('#myModal').find('.modal-body').html(data);
+            $('#j1').html(JSON.stringify(JSON.parse(griddata.Aut_Response), null, 2));
+            $('#j2').html(JSON.stringify(JSON.parse(griddata.Cap_Response), null, 2));
+        });
+        $('#myModal').modal();
+
+    }
+
+    $(document).on('click', '.download', function (e) {
+        var view = $("#payPalTransactionGrid").data("kendoGrid").dataSource.view();
+        $('#kendoData').val(encodeURIComponent(JSON.stringify(view)));
+        $('#ExportForm').submit();
+    });
+
+    function Grid_OnDataBound() {
+        $("#payPalTransactionGrid tr.k-alt").removeClass("k-alt");
+
+        var grid = this;
+        var currentRecords = grid.dataSource.view();
+        for (var i = 0; i < currentRecords.length; i++) {
+            if (currentRecords[i].OrderIsPlaced == 'No') {
+                grid.tbody.find("tr[data-uid='" + currentRecords[i].uid + "']").removeClass("k-alt").addClass("g-bc-r").addClass("g-fc-w");
+            }
+            //if (currentRecords[i].Reg_IsPortal) {
+            //    grid.tbody.find("tr[data-uid='" + currentRecords[i].uid + "']").removeClass("k-alt").addClass("g-bc-g");
+            //}
+        }
+        saveGridFilters();
+    }
+</script>
+
+
+
+

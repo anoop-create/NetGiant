@@ -1,0 +1,76 @@
+﻿@using netGiant.Intranet.DataLayer
+@using PagedList.Mvc;
+@model PagedList.IPagedList<eqProductMembership>
+
+@Html.Hidden("PageCount", Model.PageCount)
+@Html.Hidden("PageNumber", Model.PageNumber)
+@Html.Hidden("PageSize", Model.PageSize)
+@Html.Hidden("EquipmentMemDataURL", Url.Action("EquipmentMemIndexData", "Equipment"))
+@Html.Hidden("EquipmentMemDeleteURL", Url.Action("DeleteMembership", "Equipment"))
+
+<div>
+    @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+    {
+        @Html.ActionLink("Create New", "CreateEquipMembership", "Equipment", new { id = ViewBag.eqEquipmentID }, null)
+    }
+    else
+    {
+        @Html.Raw("&nbsp");
+    }
+    <span class="g-f-r">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</span>
+    @Html.Hidden("PageCount", Model.PageCount)
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            <a href="#" class="tableHeaderSort" value="product">Product</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="altRef">Alt Ref</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="manufacturer">Manufacturer</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var rowClass = "";
+
+        if (item.product.productStatusFK != 1)
+        {
+            rowClass = "g-bc-r";
+        }      
+
+        <tr class="@rowClass">
+            <td>@Html.DisplayFor(m => item.product.productName)</td>
+            <td>@Html.DisplayFor(m => item.product.partNo)</td>
+            <td>@Html.DisplayFor(m => item .product.manufacturer.manufacturerName)</td>
+            <td>
+                @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+                {
+                    @Html.Raw("<a class=\"lnkDeleteMembership\" href=\"#\" value=" + @item.eqProductMembershipID + " equipID=" + @item.eqEquipment.eqEquipmentID + ">Delete</a>");
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+<div id="eqMembershipPaging" style="text-align:center;">
+    @Html.PagedListPager(Model, m => "#")
+</div>
+
+@{
+    string infoBoxText = Convert.ToString(@TempData["InformationBoxFlag"]);
+    if (infoBoxText != string.Empty)
+    {
+        <div id="infoBoxFlag" class="g-d-n">@TempData["InformationBoxFlag"]</div>
+    }
+}

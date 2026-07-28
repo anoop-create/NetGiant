@@ -1,0 +1,565 @@
+﻿body {
+    font-family:'Trebuchet MS';
+    font-size: 10pt;
+    color: #000000;
+    margin:0;
+    background:url('../images/BG2.jpg') no-repeat;
+}
+
+.topHeader {
+    width:100%;
+    height:70px;
+    background-color: #1A1A1A;
+}
+
+.topHeaderLogo {
+    height: 70px;
+    width: 170px;
+    float:left;
+}
+
+.topHeaderLogoImage {
+    background: url('../images/IntranetSprite.png') no-repeat 0 0;
+    width: 146px;
+    height: 66px;
+    background-position: 0px -88px;
+    margin: 0 0 0 15px;
+    display:block;
+    content: '';
+}
+
+/***********Menu**********/
+
+.menu {
+    width: 85%;
+    background: transparent;
+    padding: 5px 5px 5px 5px;
+    text-align:inherit;
+}
+
+.menu ul {
+    list-style-type:none;
+    padding: 25px 0 0 0;
+    margin:0;
+    color:#FFFFFF;
+}
+.menu li {
+    display:inline;
+    padding:0 0 0 20px;
+}
+
+.menu li a {
+    color:#ffffff;
+    text-decoration:none;
+}
+
+.menu li a:hover {
+    zoom: 1;
+    color:#C9CB43;
+    text-decoration:none;
+}
+
+.menu li .activeMenu {
+    color:#C9CB43;
+    text-decoration:none;
+}
+
+/**************Body Contents****************/
+.bodyContents {
+    min-width:100%;
+    height:100%;
+}
+
+.sideBar {
+    width: 170px;
+    min-height: 950px;
+    float:left;
+    background-color: #1A1A1A;
+}
+
+.sideBar_User {
+    background-color: #C9CB43;
+    height: 100px;
+    width:100%;
+}
+
+.userImageContent {
+    width:50%;
+    float:left;
+}
+
+.sideBar .sideBar_User .userImageContent {
+    background-color:#FFFFFF;
+    /*border:1px solid #1A1A1A;*/
+    height:75px;
+    width:75px;
+    margin:9px 1px 0 5px;
+    padding-left:5px;
+    padding-top:5px;
+    border-top-left-radius:5px;
+    border-top-right-radius:5px;
+    border-bottom-left-radius:5px;
+    border-bottom-right-radius:5px;
+}
+
+.user {
+    float:right;
+    width:48%;
+}
+
+.userContent {
+    margin:5px 3px 3px 3px;
+    height:87px;
+    width:75px;
+    position:relative;
+}
+.userContent .userLinks {
+    position:absolute;
+    bottom:0;
+    right:0;
+    padding-right:17px;
+}
+
+.userContent .userLinks a {
+    color:#1A1A1A;
+}
+
+.contents {
+    min-height: 950px;
+    background-color: #FFFFFF;
+    overflow:hidden;
+}
+
+.form {
+    margin:3%;
+}
+
+/***************SIDE BAR MENU*************/
+.sideBar_Menu {
+    width: 100%;
+    background: transparent;
+}
+
+.sideBar_Menu ul {
+    list-style-type:none;
+    padding: 20px 0 0 15px;
+    margin:0;
+    color:#FFFFFF;
+}
+
+.sideBar_Menu li {
+    display:list-item;
+    padding-bottom:10px;
+    text-decoration:none;
+    color:#FFFFFF;
+}
+
+.sideBar_Menu li a {
+    color:#ffffff;
+    text-decoration:none;
+}
+
+.active {
+    color:#C9CB43 !important;
+    text-decoration:none;
+}
+
+.sideBar_Menu li a:hover {
+    color:#C9CB43;
+    text-decoration:none;
+}
+/*Start of Global Positional Classes */
+.gl_alignCenter {
+    text-align: center;
+}
+.gl_alignLeft {
+    text-align: left;
+}
+.gl_alignRight {
+    text-align: right;
+}
+.gl_floatLeft {
+    float: left;
+}
+.gl_floatRight {
+    float: right;
+}
+.gl_hide {
+    display:none;
+}
+/**End of Global Positional Classes */
+
+/**Start of Global Tabular Classes */
+.gl_TabularContainer
+{
+border-collapse:collapse;
+}
+.gl_LargeCell, .gl_MediumCell, .gl_SmallCell {
+padding: 4px 5px;
+}
+.gl_LargeCell {
+    max-width:500px;
+    word-wrap:break-word;
+}
+
+/*End of Global Tabular Classes **********/
+
+/*Start of Global Border Classes **********/
+.gl_border1g, .gl_border1g th {
+border: 1px solid #E6E6E6;
+}
+/*End of Global Border Classes */
+
+/*Start of Global Text Classes */
+.gl_textType1a {        /* standard text on white background */
+    font-size: 1em;
+    color: #1A1A1A;
+}
+.gl_textType1b {        /* standard text emboldedned on white background */
+    font-size: 1em;
+    font-weight: bold;
+    color: #1A1A1A;
+}
+.gl_textType1c {        /* standard text in italics on white background */
+    font-size: 1em;
+    font-style: italic;
+    color: #1A1A1A;
+}
+.gl_textType2a {        /* standard menu text used on white background  */
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #1A1A1A;
+}
+.gl_textType2b {        /* standard menu text used in masthead  */
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+.gl_textType2c {        /* standard menu text used in sidebar  */
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #C9CB43;
+}
+.gl_textType3 {        /* titles  */
+    font-size: 2em;
+    font-weight: bold;
+    color: #C9CB43;
+}
+.gl_textType4 {        /* options, commands, actions  */
+    font-size: 0.8em;
+    font-style: italic;
+    color: #1A1A1A;
+}
+/*End of Global Text Classes */
+
+/*Start of Pop Up Classes */
+.Overlay { 
+  position:fixed; 
+  top:0px; 
+  bottom:0px; 
+  left:0px; 
+  right:0px;
+  padding:0; 
+  margin:0;
+  z-index:1000;
+}
+ 
+.PopUpPanel {  
+  position:absolute;
+  background-color: #1A1A1A;   
+  top:15%;
+  left:40%;
+  z-index:2001;
+  min-width:400px;
+  border:1px solid #FFFFFF;
+}
+
+.PopupTitleBar
+{
+    width:auto; 
+    height:32px; 
+    background-color:#C9CB43; 
+    padding:10px 0 0 10px; 
+    margin:0;
+}
+
+.PopupTitleBar:hover {
+    cursor:move;
+}
+
+.PopupTitle
+{
+    float:left; 
+    width:69%;
+    color: #1A1A1A;
+}
+
+.PopupTitleClose
+{
+    float:right; 
+    width:28%; 
+    text-align:right;
+    padding:5px 8px 0 0;
+}
+
+.PopupTitleCloseImage
+{
+    background: url('../images/IntranetSprite.png') no-repeat 0 0;
+    background-position: -190px -110px;
+    width:16px;
+    height:16px;
+    cursor:pointer;
+}
+
+.PopupContents
+{
+    padding: 30px 20px 0 20px;
+}
+
+.PopupTable tr
+{
+    display:block;
+    padding-bottom:20px;
+}
+
+.PopupTable th
+{
+    width: 130px;
+    text-align:left;
+    color:#FFFFFF;
+}
+/*End of Pop Up Classes */
+
+/*Start of Button Classes*/
+.qa_submitButton {
+    background:linear-gradient(#FFFFFF, #BFBFBF);
+    width:130px;
+    height:30px;
+}
+
+.qa_submitButton:hover {
+    background:linear-gradient(#BFBFBF, #BFBFBF);
+}
+/*End of Button Classes*/
+
+/*Start of Other Classes */
+.qa_placeHolder {
+    padding: 30px;
+}
+
+.qa_placeHolder hr {
+    border-color:#EEEEEE;
+    border-style: solid none none;
+    border-width: 1px 0 0;
+    height:0;
+    margin-bottom:10px;
+    margin-top:10px;
+    box-sizing:content-box;
+}
+
+.qa_placeHolderBody {
+    
+}
+
+.qa_placeHolderHeading {
+    color:#C9CB43;
+    padding-bottom: 30px;
+}
+
+.DeleteImage
+{
+    background: url('../images/IntranetSprite.png') no-repeat 0 0;
+    background-position: -230px -130px;
+    width:16px;
+    height:16px;
+    margin-top: 1px;
+}
+
+.EditImage
+{
+    background: url('../images/IntranetSprite.png') no-repeat 0 0;
+    background-position: -210px -130px;
+    width:16px;
+    height:16px;
+    margin-top: 1px;
+}
+
+.qa_CalandarImage
+{
+    background: url('../images/IntranetSprite.png') no-repeat 0 0;
+    background-position: -250px -130px;
+    width:16px;
+    height:16px;
+    margin-top: 1px;
+}
+/*End of Other Classes */
+
+/*Start of Calendar*/
+.cal_Theme1 .ajax__calendar_container {  
+    background-color: #e2e2e2;   
+    border:solid 1px #cccccc;  
+}  
+  
+.cal_Theme1 .ajax__calendar_header  {  
+    background-color: #ffffff;   
+    margin-bottom: 4px;  
+}  
+  
+.cal_Theme1 .ajax__calendar_title,  
+.cal_Theme1 .ajax__calendar_next,  
+.cal_Theme1 .ajax__calendar_prev    {  
+    color: #004080;   
+    padding-top: 3px;  
+}  
+  
+.cal_Theme1 .ajax__calendar_body    {  
+    background-color: #e9e9e9;   
+    border: solid 1px #cccccc;  
+}  
+  
+.cal_Theme1 .ajax__calendar_dayname {  
+    text-align:center;   
+    font-weight:bold;   
+    margin-bottom: 4px;   
+    margin-top: 2px;  
+}  
+  
+.cal_Theme1 .ajax__calendar_day {  
+    text-align:center;  
+}  
+  
+.cal_Theme1 .ajax__calendar_hover .ajax__calendar_day,  
+.cal_Theme1 .ajax__calendar_hover .ajax__calendar_month,  
+.cal_Theme1 .ajax__calendar_hover .ajax__calendar_year,  
+.cal_Theme1 .ajax__calendar_active  {  
+    color: #004080;   
+    font-weight: bold;   
+    background-color: #ffffff;  
+}  
+  
+.cal_Theme1 .ajax__calendar_today   {  
+    font-weight:bold;  
+}  
+  
+.cal_Theme1 .ajax__calendar_other,  
+.cal_Theme1 .ajax__calendar_hover .ajax__calendar_today,  
+.cal_Theme1 .ajax__calendar_hover .ajax__calendar_title {  
+    color: #bbbbbb;  
+} 
+
+.cal_Theme1 table tr {
+    padding-bottom: 0px !important;
+}
+/*End of Calendar*/
+
+/*Start of Loader*/
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: black;
+    z-index: 99;
+    opacity: 0.4;
+    filter: alpha(opacity=80);
+    -moz-opacity: 0.8;
+    min-height: 100%;
+    width: 100%;
+}
+.showProgress {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+    background: url('../images/loader.gif') no-repeat;
+    height:300px;
+    width:300px;
+    text-align:center;
+    line-height:300px;  
+}
+
+.showProgress span {
+    display:inline-block;
+    vertical-align:middle;
+    line-height:normal;
+}
+/*End of Loader*/
+
+/*Start of login form*/
+.login-label {
+    padding:17px 10px 10px 10px;
+    width:100px;
+}
+
+.login-label label {
+    text-align:right;
+}
+
+.login-input {
+    width:200px;
+    padding:5px 5px 5px 5px;
+}
+
+.login-input input[type=text] {
+    background-color:#FFFFFF;
+    border:1px solid #CCCCCC;
+    border-radius:4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    color: #555555;
+    display: block;
+    font-size: 14px;
+    height: 20px;
+    line-height: 1.42857;
+    padding: 6px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    vertical-align: middle;
+    width: 100%;
+}
+
+.login-checkbox {
+    text-align:right;
+}
+
+.login-submit {
+    margin-top: 10px;
+}
+
+.login-error {
+    color:#FF0000;
+}
+
+/*End of login form*/
+
+/*Start of Paging*/
+.paging, .paging td {
+    border: 1px solid #E6E6E6;
+}
+/*End of paging*/
+
+/*Start of Roles classes*/
+.roles {
+    width:100%;
+}
+.roles table {
+    width:50%;
+}
+.roles input[type=text] {
+    width: 45%;
+    background-color:#FFFFFF;
+    border:1px solid #CCCCCC;
+    border-radius:4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    color: #555555;
+    font-size: 14px;
+    height: 20px;
+    line-height: 1.42857;
+    padding: 6px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    vertical-align: middle;
+}
+.roles_List {
+    width: 350px;
+    height:450px;
+    margin: 0 0 10px 0;
+}
+/*End of Roes classes*/

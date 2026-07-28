@@ -1,0 +1,63 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<categoryCode>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(m => item.categoryCodeName)
+        </td>
+        <td>
+            @if (item.parentCategoryCodeID > 0)
+            {
+                using (ngmdEntities db = new ngmdEntities())
+                {
+                    @Html.Raw(db.categoryCode.FirstOrDefault(x => x.categoryCodeID == item.parentCategoryCodeID).categoryCodeName)
+                }
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Website.WebsiteName)
+        </td>
+        <td>
+            @Html.DisplayFor(m => item.AXISGroupNo)
+        </td>
+        <td>
+            @Html.CheckBox("isPrimary", item.isPrimary, new { disabled="disabled" })
+        </td>
+        <td class="g-w-30p">
+            @Html.DisplayFor(m => item.googleProductCategory.googleProductCategoryDescription)
+        </td>
+        <td>
+            @if (item.isPartOfSale == true) 
+            {
+                @Html.Raw("True");
+            }
+            else
+            {
+                @Html.Raw("False");
+            }
+        </td>
+        <td>
+            @if (item.isInSitemap == true)
+            {
+                @Html.Raw("True");
+            }
+            else
+            {
+                @Html.Raw("False");
+            }
+        </td>
+        <td>
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+            {
+                @Html.ActionLink("Edit", "Create", "CategoryCode", new { id = @item.categoryCodeID }, null);
+                @Html.Raw(" | ");
+                @Html.ActionLink("Attributes", "CategoryAttributesIndex", "CategoryCode", new { id = @item.categoryCodeID }, null);
+                @Html.Raw(" | <a href=\"#\" class=\"lnkCategoryCodeDelete\" value=" + @item.categoryCodeID + " title=\"Delete\">Delete</a>");
+            }
+        </td>
+    </tr>
+}
+
+

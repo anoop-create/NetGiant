@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A4320B62-8384-4903-9869-6910FBDF32A9}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NGS.UI</RootNamespace>
+    <AssemblyName>NGS.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=4.5.7.1213, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AjaxControlToolkit.7.1213\lib\45\AjaxControlToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="AjaxMin">
+      <HintPath>..\packages\AjaxMin.4.97.4951.28483\lib\net40\AjaxMin.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.Edm.5.2.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.OData.5.2.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.1.0.3, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WindowsAzure.Storage.2.1.0.3\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Spatial, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Spatial.5.2.0\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Contents\images\1pxTrans.png" />
+    <Content Include="Contents\images\BG2.jpg" />
+    <Content Include="Contents\images\CM-Favicon.jpg" />
+    <Content Include="Contents\images\favicon.png" />
+    <Content Include="Contents\images\IntranetSprite.png" />
+    <Content Include="Contents\images\loader.gif" />
+    <Content Include="Contents\images\NG-Favicon.jpg" />
+    <Content Include="Contents\images\TG-Favicon.jpg" />
+    <Content Include="Contents\images\users\atif.baig.jpg" />
+    <Content Include="Contents\images\users\Barry.jpg" />
+    <Content Include="Contents\images\users\connor.christian.jpg" />
+    <Content Include="Contents\images\users\daniel.whittaker.jpg" />
+    <Content Include="Contents\images\users\david.bailey.jpg" />
+    <Content Include="Contents\images\users\david.liggett.jpg" />
+    <Content Include="Contents\images\users\gary.flynn.jpg" />
+    <Content Include="Contents\images\users\gareth.marshall.jpg" />
+    <Content Include="Contents\images\users\geri.mcgurty.jpg" />
+    <Content Include="Contents\images\users\glen.dale.jpg" />
+    <Content Include="Contents\images\users\jo.flynn.jpg" />
+    <Content Include="Contents\images\users\julie.baxter.jpg" />
+    <Content Include="Contents\images\users\kat.fleming.jpg" />
+    <Content Include="Contents\images\users\lou.murray.jpg" />
+    <Content Include="Contents\images\users\michael.anyimba.jpg" />
+    <Content Include="Contents\images\users\paula.wood.jpg" />
+    <Content Include="Contents\images\users\richard.lee.jpg" />
+    <Content Include="Contents\images\users\stuart.deavall.jpg" />
+    <Content Include="Contents\images\users\tom.leeds.jpg" />
+    <Content Include="Contents\images\users\wendy.grimshaw.jpg" />
+    <Content Include="Global.asax" />
+    <Content Include="MasterPages\Main.Master" />
+    <Content Include="packages.config" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="EmailTemplates\QAMail.html" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="SQL\Proc ngmd.GetQASummary.sql" />
+    <Content Include="SQL\Proc [ngmd].[GetAllQuestionAnswers].sql" />
+    <Content Include="SQL\Proc [ngmd].[GetFilteredQASummary].sql" />
+    <Content Include="SQL\Proc [ngmd].[GetUnAnsweredQASummary].sql" />
+    <Content Include="SQL\Proc.[ngmd].[QAWebsites].sql" />
+    <Content Include="SQL\Tables QuestionAnswers.sql" />
+    <Content Include="WebPages\MembershipUI\Admin.aspx" />
+    <Content Include="WebPages\MembershipUI\ChangePassword.aspx" />
+    <Content Include="WebPages\MembershipUI\Login.aspx" />
+    <None Include="Properties\PublishProfiles\Q&amp;A.pubxml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Testing.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <Content Include="WebPages\MembershipUI\ManageRoles.aspx" />
+    <Content Include="WebPages\MembershipUI\Registration.aspx" />
+    <Content Include="WebPages\MembershipUI\UnAuthorised.aspx" />
+    <Content Include="WebPages\MembershipUI\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Contents\css\site.css" />
+    <Content Include="Contents\images\Background.jpg" />
+    <Content Include="SQL\Proc [ngmd].[SaveQuestionAnswer].sql" />
+    <Content Include="SQL\Proc [ngmd].[SearchQuestionAnswer].sql" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="WebPages\ProductsUI\Default.aspx" />
+    <Content Include="WebPages\QuestionAnswersUI\Default.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPages\Main.Master.cs">
+      <DependentUpon>Main.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPages\Main.Master.designer.cs">
+      <DependentUpon>Main.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebPages\GlobalPageClass.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebPages\MembershipUI\ChangePassword.aspx.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebPages\MembershipUI\ChangePassword.aspx.designer.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebPages\MembershipUI\ManageRoles.aspx.cs">
+      <DependentUpon>ManageRoles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebPages\MembershipUI\ManageRoles.aspx.designer.cs">
+      <DependentUpon>ManageRoles.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebPages\MembershipUI\Registration.aspx.cs">
+      <DependentUpon>Registration.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebPages\MembershipUI\Registration.aspx.designer.cs">
+      <DependentUpon>Registration.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebPages\MembershipUI\UnAuthorised.aspx.cs">
+      <DependentUpon>UnAuthorised.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebPages\MembershipUI\UnAuthorised.aspx.designer.cs">
+      <DependentUpon>UnAuthorised.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebPages\Models\QASummaryModel.cs" />
+    <Compile Include="WebPages\ProductsUI\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebPages\ProductsUI\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebPages\QuestionAnswersUI\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebPages\QuestionAnswersUI\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebPages\MembershipUI\Admin.aspx.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebPages\MembershipUI\Admin.aspx.designer.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebPages\MembershipUI\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebPages\MembershipUI\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NGS.BusinessLayer\NGS.BusinessLayer.csproj">
+      <Project>{a1916ef6-4049-4c6f-9c80-d6c14461634c}</Project>
+      <Name>NGS.BusinessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NGS.DataAccessLayer\NGS.DataAccessLayer.csproj">
+      <Project>{dbab3941-deca-4801-a5c1-efbd12160472}</Project>
+      <Name>NGS.DataAccessLayer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Readme\" />
+    <Folder Include="GlobalDependencies\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Testing|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>50763</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:50763/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

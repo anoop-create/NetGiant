@@ -1,0 +1,26 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Shared;
+@model CommonViewModel
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Variable Name</th>
+                <th>Variable Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Session.Contents.Count; i++)
+            {
+                <tr>
+                    <td class="g-w-78">@Session.Keys[i]</td>
+                    <td>
+                        <div style="width: 80%; word-wrap: break-word; overflow: auto;">
+                            @Session[i]
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

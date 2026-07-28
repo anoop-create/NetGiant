@@ -1,0 +1,101 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product
+@model CrossSellingLinkViewModel
+
+@{
+    ViewBag.Title = "Create Cross Selling Link";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Hidden("GetProductsURL", Url.Action("GetProducts", "CrossSellingLink"))
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+
+        @using (Html.BeginForm("Save", "CrossSellingLink", FormMethod.Post, new { @id = "mainForm" }))
+        {
+            @Html.HiddenFor(x => x.CrossSellingLink.crossSellingLinkID)
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.Label("A Product", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <select id="aProduct"></select>
+                        @Html.HiddenFor(m => m.CrossSellingLink.aProductFK, new { @class = "hiddenValue" })
+                        @Html.ValidationMessageFor(m => m.CrossSellingLink.aProductFK, "", new { @class = "text-danger g-m-l-50" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.Label("B Product", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <select id="bProduct"></select>
+                        @Html.HiddenFor(m => m.CrossSellingLink.bProductFK, new { @class = "hiddenValue" })
+                        @Html.ValidationMessageFor(m => m.CrossSellingLink.bProductFK, "", new { @class = "text-danger g-m-l-50" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.Label("Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.CrossSellingLink.crossSellingLinkTypeFK, Model.AllCrossSellingLinkTypes, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        @Html.ValidationMessageFor(m => m.CrossSellingLink.crossSellingLinkTypeFK, "", new { @class = "text-danger g-m-l-50" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.Label("Two Way Link", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(x => x.TwoWayLink)
+                    </div>
+                </div>
+            </div>
+
+            <input type="submit" name="btnSave" value="Save" class="btn btn-default" />
+            @Html.ActionLink("Cancel", "Links", "CrossSellingLink", null, new { @class = "btn btn-default" })
+        }
+
+        @if (Model.CrossSellingLink.product != null)
+        {
+            @Html.Hidden("aProductName", Model.CrossSellingLink.product.partNo + " - " + Model.CrossSellingLink.product.productName)
+        }
+
+        @if (Model.CrossSellingLink.product1 != null)
+        {
+            @Html.Hidden("bProductName", Model.CrossSellingLink.product1.partNo + " - " + Model.CrossSellingLink.product1.productName)
+        }
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            //This allows validation of hidden fields inside the form
+            $('#mainForm').validate().settings.ignore = [];
+
+            setupComboBox($('#GetProductsURL').val());
+
+        });
+
+        $(document).ready(function () {
+            $("#aProduct, #bProduct").combobox();
+
+            if ($('#CrossSellingLink_aProductFK').val() > 0) {
+                $('.custom-combobox-input:first').val($('#aProductName').val());
+            }
+            if ($('#CrossSellingLink_bProductFK').val() > 0) {
+                $('.custom-combobox-input:last').val($('#bProductName').val());
+            }
+        });
+
+    </script>
+}

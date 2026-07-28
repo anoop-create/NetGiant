@@ -1,0 +1,193 @@
+﻿@using System.Configuration;
+@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model ManufacturerNotesViewModel
+
+@{
+    ViewBag.Title = "Create Manufacturer Note";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h4>@ViewBag.Title</h4>
+        <div class="form-horizontal">
+            @using (Html.BeginForm("SaveManufacturerNotes", "Manufacturer"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                @Html.HiddenFor(x => x.ManufacturerNotes.manufacturerNotesID)
+
+                <div class="form-group">
+                    @Html.Label("Website", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.ManufacturerNotes.websiteFK, Model.WebsiteNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        @Html.ValidationMessageFor(model => model.ManufacturerNotes.Website.WebsiteName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Manufacturer", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.ManufacturerNotes.manufacturerFK, Model.ManufacturerNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        @Html.ValidationMessageFor(model => model.ManufacturerNotes.manufacturer.manufacturerName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("CartridgeType", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.ManufacturerNotes.eqCartridgeTypeFK, Model.CartridgeTypeNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        @Html.ValidationMessageFor(model => model.ManufacturerNotes.eqCartridgeTypeFK, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                string weburl = Model.ManufacturerNotes.Website != null ? Model.ManufacturerNotes.Website.WebURL : "www.tonergiant.co.uk";
+
+                if (ConfigurationManager.AppSettings["Environment"] != "Live")
+                {
+                    weburl.Replace("www", "beta");
+                }
+
+                var bootstrapCss = "http://" + weburl + "/Content/bootstrap.css";
+                var fontAwesomeCss = "http://" + weburl + "/Content/font-awesome.css";
+                var siteCss = "http://" + weburl + "/Content/site.less";
+
+                <div class="form-group">
+                    @Html.Label("Notes", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @(Html.Kendo().Editor()
+                                        .Name("note")
+                                        .HtmlAttributes(new { style = "height:440px;", @class = "kendoEditor" })
+                                        .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                                        .Encode(false)
+                                        .Serialization(s => s
+                                            .Semantic(false)
+                                            .Scripts(true)
+                                            .Custom("formatHtml"))
+                                        .Tools(tool => tool
+                                            .FontColor()
+                                            .BackColor()
+                                            .FontSize()
+                                            .ViewHtml()
+                                        )
+                                        .Value(Model.ManufacturerNotes.note)
+                                        .StyleSheets(css => css
+                                            .Add(Url.Content(bootstrapCss))
+                                            .Add(Url.Content(fontAwesomeCss))
+                                            .Add(Url.Content(siteCss))
+                                        )
+                        )
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ManufacturerNotes.note, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Priority Notes", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @(Html.Kendo().Editor()
+                                      .Name("priorityNote")
+                                      .HtmlAttributes(new { style = "height:440px;", @class = "kendoEditor" })
+                                      .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                                      .Encode(false)
+                                      .Serialization(s => s
+                                          .Semantic(false)
+                                          .Scripts(true)
+                                          .Custom("formatHtml"))
+                                      .Tools(tool => tool
+                                          .FontColor()
+                                          .BackColor()
+                                          .FontSize()
+                                          .ViewHtml()
+                                      )
+                                      .Value(Model.ManufacturerNotes.priorityNote)
+                                      .StyleSheets(css => css
+                                          .Add(Url.Content(bootstrapCss))
+                                          .Add(Url.Content(fontAwesomeCss))
+                                          .Add(Url.Content(siteCss))
+                                      )
+                        )
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ManufacturerNotes.priorityNote, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Secondary Notes", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @(Html.Kendo().Editor()
+                                      .Name("secondaryNote")
+                                      .HtmlAttributes(new { style = "height:440px;", @class = "kendoEditor" })
+                                      .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                                      .Encode(false)
+                                      .Serialization(s => s
+                                          .Semantic(false)
+                                          .Scripts(true)
+                                          .Custom("formatHtml"))
+                                      .Tools(tool => tool
+                                          .FontColor()
+                                          .BackColor()
+                                          .FontSize()
+                                          .ViewHtml()
+                                      )
+                                      .Value(Model.ManufacturerNotes.secondaryNote)
+                                      .StyleSheets(css => css
+                                          .Add(Url.Content(bootstrapCss))
+                                          .Add(Url.Content(fontAwesomeCss))
+                                          .Add(Url.Content(siteCss))
+                                      )
+                        )
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ManufacturerNotes.secondaryNote, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Meta Title", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(x => x.ManufacturerNotes.metaTitle, new { @class = "form-control g-largeCell-textArea", rows = 2 })
+                        @Html.ValidationMessageFor(model => model.ManufacturerNotes.metaTitle, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Meta Description", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(x => x.ManufacturerNotes.metaDescription, new { @class = "form-control g-largeCell-textArea", rows = 5 })
+                        @Html.ValidationMessageFor(model => model.ManufacturerNotes.metaDescription, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveEquipmentNotes" value="Save" class="btn btn-default" title="Save" />
+                        @Html.ActionLink("Cancel", "ManufacturerNotesIndex", "Manufacturer", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/Scripts/html5-tidy.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.kendoEditor').data("kendoEditor").wrapper.show();
+            $('.kendoEditor').removeAttr('disabled');
+        });
+
+        function formatHtml(html) {
+            var showBodyOnly = true;
+            var options = {
+                "indent": "auto",
+                "indent-spaces": 4,
+                "wrap": 200,
+                "output-xml": false,
+                "quote-nbsp": false,
+                "show-body-only": showBodyOnly,
+                "quote-ampersand": false,
+                "uppercase-tags": false,
+                "uppercase-attributes": false,
+                "drop-font-tags": false,
+                "tidy-mark": false,
+                "drop-empty-paras": false,
+                "drop-empty-elements": false
+            }
+            @if (Model.ManufacturerNotes.note != null && (Model.ManufacturerNotes.note.Length < 6 || !Model.ManufacturerNotes.note.TrimStart().Substring(0, 6).Contains("<style")))
+            {
+                @:return tidy_html5(html, options);
+            }
+        }
+    </script>
+}

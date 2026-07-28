@@ -1,0 +1,247 @@
+﻿@using GridMvc.Html;
+@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@model ReportsViewModel
+
+@{
+    ViewBag.Title = "Grid";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Price Rule Test Results
+            </h1>
+        </div>
+
+        <div class="col-xs-7 col-md-4 col-lg-3 row-height-fix flex-right">
+            <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-sliders fa-lg"></i>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <ul class="dropdown-menu g-p-10">
+                    <li class="g-fw-b">Report Options</li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation">
+                        @Html.HtmlActionLink("<i class=\"fa fa-times\"></i> Reset Filters", "ComparisonStaging", "Reports", null, null)
+                    </li>
+                    <li role="presentation">
+                        @Html.HtmlActionLink("<i class=\"fa fa-upload\"></i> Export Report", "ExportToExcelTestRules", "Reports", null, null)
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+@Html.Grid(Model.ProductsDM).Columns(columns =>
+{
+    columns.Add(o => o.Pi.ManufacturerPartNo)
+            .Sanitized(true)
+            .Titled("Mfpn")
+            .Filterable(true)
+            .SetFilterWidgetType("CustomTextFilterWidget");
+
+    columns.Add(o => o.Pi.ClientProductID)
+        .Titled("Prod ID")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomTextFilterWidget");
+
+    columns.Add(o => o.Pi.Description)
+            .RenderValueAs(x => Html.HtmlActionLink(x.Pi.Description, "ProductDetail", "Products", new { id = x.Pi.ProductInventoryID }, null))
+            .Titled("Description")
+            .Encoded(false)
+            .Sanitized(false)
+            .Filterable(true)
+            .SetFilterWidgetType("CustomTextFilterWidget");
+
+    if (Model.UsesVariantOf)
+    {
+        columns.Add(o => o.Vi.Description)
+            .RenderValueAs(x => x.Vi != null ? Html.HtmlActionLink(x.Vi.Description, "ProductDetail", "Products", new { id = x.Vi.ProductInventoryID }, null) : MvcHtmlString.Empty)
+            .Titled("Variant Of")
+            .Encoded(false)
+            .Sanitized(false)
+            .Filterable(true)
+            .SetFilterWidgetType("CustomTextFilterWidget");
+    }
+
+    columns.Add(o => o.Pi.ProductCategory.CategoryName)
+        .Titled("Category")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomCategoryFilterWidget");
+
+    columns.Add(o => o.Pi.Brand.BrandName)
+            .Titled("Brand")
+            .Filterable(true)
+            .SetFilterWidgetType("CustomBrandFilterWidget");
+
+    //columns.Add(o => o.Pi.StockQuantity)
+    //        .Titled("Stock")
+    //        .Filterable(true)
+    //        .SetFilterWidgetType("CustomNumberFilterWidget");
+
+    //columns.Add(o => o.Pi.SupplierCount)
+    //        .Titled("No. Suppliers")
+    //        .Filterable(true)
+    //        .SetFilterWidgetType("CustomNumberFilterWidget");
+
+    //columns.Add(o => o.Pi.CompetitorCount)
+    //        .RenderValueAs(o => Html.TooltipLink(o.Pi.CompetitorCount.ToString(),
+    //            new
+    //            {
+    //                data_id = o.Pi.ProductInventoryID,
+    //                data_toggle = "tooltip",
+    //                data_placement = "bottom",
+    //                data_unique_id = Guid.NewGuid()
+    //            },
+    //            o.Pi.CompetitorCount > 0))
+    //        .Encoded(false)
+    //        .Sanitized(false)
+    //        .Titled("No. Competitors")
+    //        .Filterable(true)
+    //        .SetFilterWidgetType("CustomNumberFilterWidget");
+
+    columns.Add(o => o.Pi.CheapestCostPrice)
+            .RenderValueAs(o => $"{o.Pi.CheapestCostPrice:N2}")
+            .Titled("Cost Price")
+            .Filterable(true)
+            .SetFilterWidgetType("CustomNumberFilterWidget");
+
+    //columns.Add(o => o.Pi.BeatenCompetitorPrice)
+    //        .RenderValueAs(o => $"{o.Pi.BeatenCompetitorPrice:N2}")
+    //        .Titled("Price to Beat")
+    //        .Filterable(true)
+    //        .SetFilterWidgetType("CustomNumberFilterWidget");
+
+    columns.Add(o => o.Pi.TargetMarginPercent)
+            .RenderValueAs(o => o.Pi.TargetMarginPercent != null ? $"{o.Pi.TargetMarginPercent:N2}" + "%" : "")
+            .Titled("Target Margin")
+            .Filterable(true)
+            .SetFilterWidgetType("CustomNumberFilterWidget");
+
+    columns.Add(o => o.Pi.Price)
+            .RenderValueAs(o => Html.TooltipLink($"{o.Pi.Price:N2}",
+                new
+                {
+                    data_id = o.Pi.ProductInventoryID,
+                    data_toggle = "tooltipZestPrice",
+                    data_placement = "bottom",
+                    data_unique_id = Guid.NewGuid()
+                },
+                o.Pi.Price > 0, "ZestPrice"))
+            .Titled("Current Price")
+            .Sanitized(false)
+            .Encoded(false)
+            .Filterable(true)
+            .SetFilterWidgetType("CustomNumberFilterWidget");
+
+    columns.Add(o => o.Pi.PriceStaging.Price)
+            .RenderValueAs(o => string.Format("{0:N2}", o.Pi.PriceStaging?.Price))
+            .Titled("New Price")
+            .Sanitized(false)
+            .Encoded(false)
+            .Filterable(true)
+            .SetFilterWidgetType("CustomNumberFilterWidget");
+
+    columns.Add(o => o.Pi.GrossMarginPercent)
+            .RenderValueAs(o => $"{(o.Pi.GrossMarginPercent ?? 0):N2}" + "% (" +
+                                $"{o.Pi.GrossMarginValue:N2}" + ")")
+            .Titled("Gross Margin")
+            .Filterable(true)
+            .SetFilterWidgetType("CustomNumberFilterWidget");
+
+    //columns.Add(o => o.Pi.CompetitorDifference)
+    //        .RenderValueAs(o => $"{o.Pi.CompetitorDifference:N2}")
+    //        .Titled("Difference")
+    //        .Filterable(true)
+    //        .SetFilterWidgetType("CustomNumberFilterWidget");
+
+    columns.Add(o => o.Pi.Lookup.LookupName)
+            .Titled("Outcome")
+            .Filterable(true)
+            .SetFilterWidgetType("CustomOutcomeFilterWidget");
+
+    if (HttpContext.Current.Request.Url.AbsoluteUri.Contains("PriceRule.RuleName__1__Null"))
+    {
+        columns.Add(o => o.Pi.ProductInventoryID, "PriceRule.RuleName")
+                .Titled("Rule Name")
+                .Filterable(true)
+                .SetFilterWidgetType("CustomRuleNameFilterWidget")
+                .RenderValueAs(o => "None");
+    }
+    else
+    {
+        columns.Add(o => o.Pi.PriceRule.RuleName)
+                .Titled("Rule Name")
+                .Filterable(true)
+                .SetFilterWidgetType("CustomRuleNameFilterWidget")
+                .Encoded(false)
+                .Sanitized(false)
+                .RenderValueAs(x => x.Pi.PriceRule == null
+                    ? MvcHtmlString.Create("None")
+                    : Html.TooltipActionLink(x.Pi.PriceRule.RuleName +
+                                (!string.IsNullOrEmpty(x.Pi.PriceRule.BandName) ? " - " + x.Pi.PriceRule.BandName : ""),
+                            "Edit",
+                            "PriceRules",
+                            new { id = x.Pi.PriceRule.PriceRuleID },
+                            new
+                            {
+                                data_id = x.Pi.PriceRule.PriceRuleID,
+                                data_toggle = "tooltipPriceRule",
+                                data_placement = "bottom",
+                                data_unique_id = Guid.NewGuid(),
+                                data_title = Html.HtmlMakePriceRuleTooltip(x.Pi.PriceRule),
+                                data_html = true
+                            },
+                            true));
+    }
+
+}).WithPaging(100).Sortable().Named("comparisonGrid").Selectable(false).WithMultipleFilters().WithGridItemsCount()
+
+@Html.Hidden("TooltipDataZestPriceUrl", Url.Action("PriceHistoryTooltipData", "Products"))
+@Html.Hidden("TooltipDataPriceRuleUrl", Url.Action("PriceRuleTooltipData", "PriceRules"))
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            pageGrids.comparisonGrid.addFilterWidget(
+                new DropDownListWidget("CustomBrandFilterWidget", "brandList", "/Shared/GetBrandNames", "brand")
+            );
+
+            pageGrids.comparisonGrid.addFilterWidget(
+                new DropDownListWidget("CustomCategoryFilterWidget", "categoryList", "/Shared/GetCategoryList", "category")
+            );
+
+            pageGrids.comparisonGrid.addFilterWidget(
+                new DropDownListWidget("CustomOutcomeFilterWidget", "outcomeList", "/Shared/GetCalculationOutcomes", "outcome")
+            );
+
+            pageGrids.comparisonGrid.addFilterWidget(
+                new DropDownListWidget("CustomRuleNameFilterWidget", "priceRuleNameList", "/Shared/GetPriceRuleNames", "rule name")
+            );
+
+            pageGrids.comparisonGrid.addFilterWidget(
+                new TextWidget("CustomTextFilterWidget")
+            );
+
+            pageGrids.comparisonGrid.addFilterWidget(
+                new NumberWidget("CustomNumberFilterWidget")
+            );
+
+            $('[data-toggle="tooltipZestPrice"]').click(function () { return false; });
+            $('[data-toggle="tooltipZestPrice"]').tooltip({ title: function () { return GetTooltipData($(this), $('#TooltipDataZestPriceUrl').val()) }, html: true });
+            $('[data-toggle="tooltipPriceRule"]').tooltip();
+
+            $('.grid-header-title > a:contains("Target Margin")').closest('th').attr('title', 'The Margin required to \nmatch the Price To Beat');
+            $('.grid-header-title > a:contains("Price to Beat")').closest('th').attr('title', 'The competitor price to beat based \non the Beat Rate for the Price Rule\nassociated with this product');
+        });
+    </script>
+}

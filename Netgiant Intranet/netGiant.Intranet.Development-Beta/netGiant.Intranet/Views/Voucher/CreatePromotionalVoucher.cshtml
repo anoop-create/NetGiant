@@ -1,0 +1,376 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce.PromoVoucher;
+@model PromotionalVouchersViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Promotional Voucher";
+    ViewBag.SubTitle = Model.pvouch.VoucherPromoId > 0 ? "Edit" : "Create";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title - @Model.pvouch.Description</h4>
+
+        <div class="form-horizontal">
+
+            @using (Ajax.BeginForm("SavePromotionalVoucher", "Voucher", new AjaxOptions { OnComplete = "savePromotionalVoucherComplete" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.pvouch.VoucherPromoId)
+
+                <fieldset class="g-m-t-20">
+                    <legend>Promotional Voucher Details</legend>
+
+                    <div class="form-group">
+                        @Html.Label("Website", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.pvouch.WebsiteFk, Model.AllWebsites, "Select...", new { @class = "form-control g-largeCell website-ddl" })
+                            @Html.ValidationMessageFor(m => m.pvouch.WebsiteFk, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Customer Voucher", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.CheckBoxFor(m => m.IsCustomerVoucher, new { @class = "customer-voucher" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Code", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.pvouch.VoucherCode, new { htmlAttributes = new { @class = "voucher-code form-control g-largeCell" } })
+                            @Html.ValidationMessageFor(m => m.pvouch.VoucherCode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Is Global", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10 g-p-t-5">
+                            @Html.CheckBoxFor(m => m.IsGlobal, new { @class = "is-global" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Is Used", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10 g-p-t-5">
+                            @Html.CheckBoxFor(m => m.IsUsed, new { @class = "is-used" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("For General Use", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10 g-p-t-5">
+                            @Html.CheckBoxFor(m => m.ForGeneralUse, new { @class = "for-general-use" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("For Single Use", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10 g-p-t-5">
+                            @Html.CheckBoxFor(m => m.IsSingleUse, new { @class = "is-single-use" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("For Customers", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10 g-p-t-5">
+                            @Html.CheckBoxFor(m => m.IsForCustomer, new { @class = "is-for-customer" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("For Trade", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10 g-p-t-5">
+                            @Html.CheckBoxFor(m => m.IsForTrade, new { @class = "is-for-trade" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Account No", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.pvouch.AccountNumber, new { htmlAttributes = new { @class = "account-no form-control g-largeCell" } })
+                            @Html.ValidationMessageFor(m => m.pvouch.AccountNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Description", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.pvouch.Description, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                            @Html.ValidationMessageFor(m => m.pvouch.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Promo Group", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.pvouch.VoucherPromoGroupFk, Model.AllVoucherPromoGroups, "Select...", new { @class = "form-control g-largeCell promo-groups" })
+                            @Html.ValidationMessageFor(m => m.pvouch.VoucherPromoGroupFk, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Voucher Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.pvouch.VoucherTypeFk, Model.AllVoucherTypes, "Select...", new { @class = "voucher-type form-control g-largeCell" })
+                            @Html.ValidationMessageFor(m => m.pvouch.VoucherTypeFk, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Valid From", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.pvouch.ValidFrom, "{0:dd/MM/yyyy hh:mm tt}")
+                            @Html.ValidationMessageFor(m => m.pvouch.ValidFrom, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Valid To", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.pvouch.ValidTo, "{0:dd/MM/yyyy hh:mm tt}")
+                            @Html.ValidationMessageFor(m => m.pvouch.ValidTo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Stock Ref", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.pvouch.StockRef, new { htmlAttributes = new { @class = "form-control g-largeCell stock-ref" } })
+                            @Html.ValidationMessageFor(m => m.pvouch.StockRef, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Min Basket Value", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.pvouch.MinBasketValue, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                            @Html.ValidationMessageFor(m => m.pvouch.MinBasketValue, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Min Qual Value", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.pvouch.MinQualValue, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                            @Html.ValidationMessageFor(m => m.pvouch.MinQualValue, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Amount", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.pvouch.Amount, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                            @Html.ValidationMessageFor(m => m.pvouch.Amount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Percentage", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.pvouch.Percentage, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                            @Html.ValidationMessageFor(m => m.pvouch.Percentage, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Gift Stock Ref", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.pvouch.GiftStockRef, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                            @Html.ValidationMessageFor(m => m.pvouch.GiftStockRef, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Multi Buy Qual No", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.pvouch.MultiBuyQualNo, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                            @Html.ValidationMessageFor(m => m.pvouch.MultiBuyQualNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Multi Buy No Discounted", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.pvouch.MultiBuyNoDiscounted, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                            @Html.ValidationMessageFor(m => m.pvouch.MultiBuyNoDiscounted, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="g-d-n email-section">
+                        <div class="form-group">
+                            @Html.Label("SendEmail", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.CheckBoxFor(m => m.SendEmail, new { @class = "send-email" })
+                            </div>
+                        </div>
+
+                        <div class="form-group customer-email-section g-d-n">
+                            @Html.Label("Customer Email", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(m => m.CustomerEmail, new { htmlAttributes = new { @class = "form-control g-largeCell customer-email" } })
+                                @Html.ValidationMessageFor(m => m.CustomerEmail, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                </fieldset>
+
+                <div class="form-group">
+                    <div class="col-md-10 g-m-t-10">
+                        <input type="submit" name="savePromotionalVoucher" value="Save" class="btn btn-default btnSaveVoucher" title="Save" />
+                        @Html.ActionLink("Cancel", "PromotionalVouchersIndex", "Voucher", null, new { @class = "btn btn-default" })
+                        @Html.ActionLink("Read Only", "DetailPromotionalVoucher", "Voucher", new { id = Model.pvouch.VoucherPromoId }, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            // create DateTimePicker from hidden HTML element
+            $("#pvouch_ValidFrom, #pvouch_ValidTo").kendoDateTimePicker({
+                format: "dd/MM/yyyy hh:mm tt"
+            });
+
+            if ($('.customer-voucher').is(':checked')) {
+                $('.account-no').prop('required', true);
+                $('.email-section').show();
+            }
+        });
+
+        $(document).on('click', '.lnkDelete', function () {
+            $(this).parent().parent().remove();
+            return false;
+        });
+
+        $(document).tooltip({
+            items: '*:not(.ui-dialog-titlebar-close)'
+        });
+
+        $(function () {
+            $.validator.addMethod('date',
+                function (value, element) {
+                    if (this.optional(element)) {
+                        return true;
+                    }
+                    var ok = true;
+                    try {
+                        $.datepicker.parseDate('dd/mm/yy', value);
+                    }
+                    catch (err) {
+                        ok = false;
+                    }
+                    return ok;
+                });
+            $(".datefield").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+        });
+
+        function savePromotionalVoucherComplete(data) {
+            if (data.responseJSON.saveReturn.IsSuccess) {
+                location.href = $('.customer-voucher').is(':checked') ? '@Url.Action("CustomerVouchersIndex", "Voucher")' : '@Url.Action("PromotionalVouchersIndex", "Voucher")';
+            }
+            else {
+                $.alert({
+                    title: 'Error!',
+                    content: data.responseJSON.saveReturn.Message
+                });
+            }
+        }
+
+        $(document).on('change', '.send-email', function () {
+
+            var customerEmailSection = $('.customer-email-section');
+
+            if ($(this).is(':checked')) {
+                customerEmailSection.show();
+            } else {
+                customerEmailSection.hide();
+            }
+        });
+
+        $(document).on('change', '.website-ddl', function () {
+            if (!this.value)
+                return;
+
+            $.ajax({
+                url: '@Url.Action("OnSelectWebsite", "Voucher")',
+                method: 'post',
+                dataType: 'json',
+                data: { id: this.value },
+                success: function (data) {
+                    var ddl = $('.promo-groups');
+                    ddl.empty();
+
+                    ddl.append('<option>Select...</option>');
+
+                    for (var i = 0; i < data.list.length; i++) {
+                        ddl.append('<option value="' + data.list[i].Value + '">' + data.list[i].Text + '</option>');
+                    }
+
+                    $('.stock-ref').val(data.stockRef);
+                },
+                error: function (ex) {
+                    $.alert({
+                        title: 'Error!',
+                        content: ex.responseText,
+                    });
+                }
+            });
+        });
+
+        $('.customer-voucher').change(function () {
+
+            if ($('.customer-voucher').is(':checked')) {
+                GenerateCustomerVoucher(function (voucher) {
+                    $('.voucher-code').val(voucher);
+                    $('.is-global').prop('checked', true);
+                    $('.is-single-use').prop('checked', true);
+                    $('.is-for-customer').prop('checked', false);
+                    $('.is-for-trade').prop('checked', false);
+                    $('.voucher-type').val("1");
+                    $('.account-no').prop('required', true);
+                    $('.promo-groups').find("option:contains('Global')").prop('selected', true);
+                    $('.email-section').show();
+                });
+            } else {
+                $('.voucher-code').val('');
+                $('.is-global').prop('checked', false);
+                $('.is-single-use').prop('checked', false);
+                $('.voucher-type option').prop("selected", false);
+                $('.promo-groups option').prop("selected", false);
+                $('.account-no').prop('required', false);
+                $('.email-section').hide();
+                $('.account-no')
+                    .removeClass('input-validation-error')
+                    .next()
+                    .removeClass('field-validation-error')
+                    .empty();
+            }
+        });
+
+        function GenerateCustomerVoucher(callback) {
+            $.ajax({
+                url: '@Url.Action("GenerateVoucherCode", "Voucher")',
+                method: 'get',
+                dataType: 'text',
+                success: function (code) {
+                    callback(code);
+                },
+                error: function (ex) {
+                    $.alert({
+                        title: 'Error!',
+                        content: ex.responseText,
+                    });
+                }
+            });
+        }
+    </script>
+}

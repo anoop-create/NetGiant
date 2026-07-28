@@ -1,0 +1,138 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<product>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(m => item.productName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.partNo)
+        </td>
+        <td>
+            @Html.DisplayFor(m => item.manufacturer.manufacturerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.productStatus.productStatusName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.productGroup.productGroupName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.salesAreaGroup.salesAreaGroupName)
+        </td>
+        <td>
+            @Html.Raw(item.supplierStock == null ? 0 : item.supplierStock)
+        </td>
+        <td>
+            @*@if (item.websiteInventory.FirstOrDefault() != null)
+            {*@
+                <a class="lnkPriceHistory" href="#" value="@item.productID" p="@item.partNo" d="@item.productName">
+
+                    @{IQueryable<websiteInventory> wi = item.websiteInventory.Where(x => x.websiteFK == 1).AsQueryable();
+
+                    string priceToDisplay = string.Empty;
+                    if (wi.Count() > 0)
+                    {
+                        IQueryable<productPrice> pp = wi.FirstOrDefault().productPrice.AsQueryable();
+                        if (pp.Count() > 0)
+                        {
+                            priceToDisplay = "£" + string.Format("{0:N2}", pp.OrderByDescending(m => m.productPriceID)
+                                                                .FirstOrDefault().price);
+                        }
+                        else
+                        {
+                            priceToDisplay = "No Prices";
+                        }
+                    }
+                    else
+                    {
+                        priceToDisplay = "No Prices";
+
+                    }
+
+                    @Html.Raw(priceToDisplay)
+
+                    }
+                </a>
+            @*}*@
+        </td>
+        <td>
+            <a class="lnkPriceHistory" href="#" value="@item.productID" p="@item.partNo" d="@item.productName">
+
+                @{IQueryable<websiteInventory> wi2 = item.websiteInventory.Where(x => x.websiteFK == 2).AsQueryable();
+
+                string priceToDisplay2 = string.Empty;
+                if (wi2.Count() > 0)
+                {
+                    IQueryable<productPrice> pp = wi2.FirstOrDefault().productPrice.AsQueryable();
+                    if (pp.Count() > 0)
+                    {
+                        priceToDisplay2 = "£" + string.Format("{0:N2}", pp.OrderByDescending(m => m.productPriceID)
+                                                            .FirstOrDefault().price);
+                    }
+                    else
+                    {
+                        priceToDisplay2 = "No Prices";
+                    }
+                }
+                else
+                {
+                    priceToDisplay2 = "No Prices";
+
+                }
+
+                @Html.Raw(priceToDisplay2)
+
+                }
+            </a>
+
+        </td>
+        <td>
+            <a class="lnkPriceHistory" href="#" value="@item.productID" p="@item.partNo" d="@item.productName">
+
+                @{IQueryable<websiteInventory> wi3 = item.websiteInventory.Where(x => x.websiteFK == 3).AsQueryable();
+
+                string priceToDisplay3 = string.Empty;
+                if (wi3.Count() > 0)
+                {
+                    IQueryable<productPrice> pp = wi3.FirstOrDefault().productPrice.AsQueryable();
+                    if (pp.Count() > 0)
+                    {
+                        priceToDisplay3 = "£" + string.Format("{0:N2}", pp.OrderByDescending(m => m.productPriceID)
+                                                            .FirstOrDefault().price);
+                    }
+                    else
+                    {
+                        priceToDisplay3 = "No Prices";
+                    }
+                }
+                else
+                {
+                    priceToDisplay3 = "No Prices";
+
+                }
+
+                @Html.Raw(priceToDisplay3)
+
+                }
+            </a>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dataSupplier.dataSupplierName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.supplierLastUpdate)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Detail", "Product", new { id = item.productID }, null)
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+            {
+                @Html.Raw(" | ");
+                @Html.ActionLink("Edit", "CreateProduct", "Product", new { id = item.productID }, null);
+                @Html.Raw(" | <a href=\"#\" class=\"lnkProductDelete\" value=\"" + item.productID + "\" title=\"Delete " + item.partNo + "\">Delete</a>");
+            }
+        </td>
+    </tr>
+}

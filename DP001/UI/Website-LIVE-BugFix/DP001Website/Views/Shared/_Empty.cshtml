@@ -1,0 +1,20 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>_Empty</title>
+    @Styles.Render("~/Content/css")
+    <link href="@Url.Content("~/Content/saas.css")" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    @RenderBody()
+
+    @Scripts.Render("~/bundles/alljs")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,106 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using PagedList.Mvc;
+@using GridMvc.Html;
+@using DP001Website.Models;
+@model ProviderExclusionViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                <a href="@Url.Action("Main", "TenantSettings")" class="grey">
+                    Main Settings
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Inventory Exclusions
+            </h1>
+        </div>
+
+    </div>
+</section>
+
+@Html.Grid(Model.ProviderExclusionList).Columns(columns =>
+{
+    columns.Add(o => o.Lookup.LookupName)
+            .Titled("Exclusion Type")
+            .Filterable(true)
+            .SetFilterWidgetType("CustomTextFilterWidget");
+
+    columns.Add(o => o.BrandName)
+            .Titled("Brand")
+            .Filterable(true)
+            .SetFilterWidgetType("CustomTextFilterWidget");
+
+    columns.Add(o => o.ClientProductID)
+        .Titled("Prod ID")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomTextFilterWidget");
+
+    columns.Add(o => o.ManufacturerPartNo)
+        .Titled("Part Number")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomTextFilterWidget");
+
+    columns.Add()
+        .Titled("Remove")
+        .Encoded(false)
+        .Sanitized(false)
+        .SetWidth(50)
+        .RenderValueAs(d => @<span class="fa fa-trash-o fa-lg invisible" style="cursor: pointer;"></span>);
+
+    columns.Add()
+            .Encoded(false)
+            .Sanitized(false)
+            .Css("hidden")
+            .RenderValueAs(x => Html.HiddenFor(y => x.ProviderExclusionID));
+
+}).WithPaging(200).Sortable().Named("providerExclusionGrid").Selectable(false).WithMultipleFilters().WithGridItemsCount()
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            $(document).on('click', 'tr.grid-row .fa-trash-o', function () {
+                var clickedItem = $(this);
+                $.confirm({
+                    title: 'Delete exclusion',
+                    content: 'Are you sure you want to delete this exclusion? If you proceed, this item will be reinstated in your inventory in the future.',
+                    confirm: function () {
+                        deleteExclusion(clickedItem.closest('tr.grid-row').find('#x_ProviderExclusionID').val());
+                    },
+                    cancel: function () {
+                        clickedItem.prop("checked", false);
+                    }
+                });
+            });
+
+            pageGrids.providerExclusionGrid.addFilterWidget(
+                new DropDownListWidget("CustomBrandFilterWidget", "brandList", "/Shared/GetBrandNames", "brand")
+            );
+
+            pageGrids.providerExclusionGrid.addFilterWidget(
+                new TextWidget("CustomTextFilterWidget")
+            );
+
+            pageGrids.providerExclusionGrid.addFilterWidget(
+                new NumberWidget("CustomNumberFilterWidget")
+            );
+
+            $('.grid-header-title > span:contains("Remove")').closest('th').attr('title', 'Click the trash bin\nto remove the exclusion');
+
+        });
+    </script>
+}
+
+
+
+
+

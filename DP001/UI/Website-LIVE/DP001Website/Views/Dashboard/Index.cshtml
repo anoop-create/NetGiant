@@ -1,0 +1,362 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@model DashboardViewModel
+
+@{
+    ViewBag.Title = "Dashboard";
+    ViewBag.BodyClass = "g-bg-lightgrey";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1>
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Dashboard
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="container-fluid">
+                <div class="row">
+                    @{
+                        Html.RenderPartial("InventoryTotals", Model.Counters);
+
+                        Html.RenderPartial("PriceRulesSummary", Model.Counters);
+
+                        Html.RenderPartial("ProductMappingSummary", Model.Counters);
+
+                        Html.RenderPartial("Schedule", Model);
+                    }
+                </div>
+            </div>
+            <hr class="g-m-b-0" />
+            <div class="container-fluid">
+                <div class="row dashdrop">
+                    <span class="pull-left g-m-l-10 g-m-t-10"><em>Display data for</em></span>
+                    <div class="btn-group g-m-l-10 g-b-1-lg g-br-5 g-m-t-10" role="group" aria-label="...">
+                        <button type="button" class="btn btn-default">Brand</button>
+                        <div class="btn-group" role="group">
+                            @Html.DropDownListFor(x => x.Brands, Model.Brands, "All Brands", new { @class = "selectpicker", size = "auto", data_size = "8" })
+                        </div>
+                    </div>
+                    <div class="btn-group g-m-l-10 g-b-1-lg g-br-5 g-m-t-10" role="group" aria-label="...">
+                        <button type="button" class="btn btn-default">Category</button>
+                        <div class="btn-group" role="group">
+                            @Html.DropDownListFor(x => x.Categories, Model.Categories, null, new { @class = "selectpicker", size = "auto", data_size = "8" })
+                        </div>
+                    </div>
+                    @Html.DropDownList("hiddenCategories", Model.Categories, null, new { @class = "hide", size = "auto", data_size = "8" })
+                    <div class="btn-group g-m-l-10 g-b-1-lg g-br-5 g-m-t-10" role="group" aria-label="...">
+                        <button type="button" class="btn btn-default">Price Rule</button>
+                        <div class="btn-group" role="group">
+                            @Html.DropDownListFor(x => x.PriceRules, Model.PriceRules, "All Price Rules", new { @class = "selectpicker", size = "auto", data_size = "8" })
+                        </div>
+                    </div>
+                    <div class="btn-group g-m-l-10 g-b-1-lg g-br-5 g-m-t-10" role="group" aria-label="...">
+                        <button type="button" class="btn btn-default">Product Group</button>
+                        <div class="btn-group" role="group">
+                            @Html.DropDownListFor(x => x.ProductGroups, Model.ProductGroups, "All Product Groups", new { @class = "selectpicker", size = "auto", data_size = "8" })
+                        </div>
+                    </div>
+                    <button id="applyfilter" type="button" class="g-m-l-10 btn btn-default btn-sm g-m-t-10">
+                        <i class="fa fa-check"></i> Apply Filter
+                    </button>
+                    <button id="clearfilter" type="button" class="g-m-l-10 btn btn-default btn-sm g-m-t-10">
+                        <i class="fa fa-times"></i> Reset Filter
+                    </button>
+                </div>
+                <div class="row charts">
+                    @{
+                        Html.RenderPartial("MarginDistribution", Model);
+
+                        Html.RenderPartial("PriceCompetitive", Model);
+
+                        //Html.RenderPartial("InventoryTotals", Model.Counters);
+
+                        //Html.RenderPartial("PricingAnalysis", Model.Counters);
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+        $(document).on('change', '#Brands', function () {
+            getCategories(($('#Brands').val() || 0), 0);
+        })        
+
+        $(document).on('click', '#applyfilter', function () {
+            getData();
+        })
+
+        $(document).on('click', '#clearfilter', function () {
+            getCategories(0, 0);
+            $('#Brands option:eq(0)').prop("selected", true);
+            $('#PriceRules option:eq(0)').prop("selected", true);
+            $('#ProductGroups option:eq(0)').prop("selected", true);
+            $('#Brands, #PriceRules, #ProductGroups').selectpicker('refresh');
+
+            getData();
+        })
+
+
+        // 'current' version has a bug on mouseover of tooltips - hence use version 42
+        //google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.load('42', { 'packages': ['corechart'] });
+
+        getData();
+
+        function getCategories(brandFk, categoryFk) {
+            if (brandFk == 0) {
+                $('#Categories').html($('#hiddenCategories').html());
+                $('#Categories').selectpicker('refresh');
+            } else {
+                $.ajax({
+                    async: false,
+                    cache: false,
+                    type: "POST",
+                    url: "/MapBrandCategory/GetCategories/",
+                    data: {
+                        "brandFK": ($('#Brands').val() || 0),
+                        "productCategoryFK": 0
+                    },
+                    success: function (data) {
+                        $('#Categories').empty().append(data.html);
+                        $('#Categories option:eq(0)').html("All Categories");
+                    }
+                });
+            }
+            $('#Categories').selectpicker('refresh');
+        }
+
+        function getData() {
+            $('.charts').fadeOut(1);
+            $.ajax({
+                async: false,
+                cache: false,
+                method: "POST",
+                url: "/Dashboard/GetFilteredCharts/",
+                data: {
+                    "brand": ($('#Brands').val() || 0),
+                    "category": ($('#Categories').val() || 0),
+                    "pricerule": ($('#PriceRules').val() || 0),
+                    "productgroup": ($('#ProductGroups').val() || 0),
+                    "getchartdata": 1,
+                    "timestamp": $.now()
+                },
+                success: function (data) {
+                    google.charts.setOnLoadCallback(function () {
+                        drawCharts(data);
+                    });
+                    $('#pcCount').html('(' + data.productCountPa + ' items)');
+                    $('#mdCount').html('(' + data.productCountMd + ' items)');
+                },
+                complete: function () {
+
+                    $('.dashdrop, .charts').fadeIn(1000);
+                }
+            })
+            
+        }
+
+        //Chart control
+        function drawCharts(data) {
+            priceCompetitive('chart4', data.pricingAnalysis);
+            marginDistribution('chart6', data.marginDistribution);
+        }
+
+        function priceCompetitive(htmlId, jsondata) {
+
+            var data = new google.visualization.DataTable(jsondata);
+
+            var options = {
+                theme: "maximized",
+                backgroundColor: "#ffffff",
+                height: 350,
+                pieHole: 0.4,
+                pieSliceText: "value",
+                pieSliceTextStyle: {
+                    bold: "true"
+                },
+                animation: {
+                    startup: true,
+                    duration: 1000,
+                    easing: "out"
+                },
+                slices: [
+                    { color: "#418bca" },
+                    { color: "#01bc8c" },
+                    { color: "#ef6f6c" },
+                    { color: "#006699" },
+                    { color: "#f89a14" }
+                ],
+                tooltip: {
+                    isHtml: "true",
+                    textStyle: {
+                        color: "#666666"
+                    },
+                    trigger: "focus"
+                },
+                legend: {
+                    position: "labeled",
+                    textStyle: {
+                        color: "#666666",
+                    }
+                }
+            };
+
+            function selectHandler() {
+                var filter = "";
+                var brand       = (($('#Brands').val() || 0) != 0) ? $("#Brands option:selected").text() : '';
+                var category    = (($('#Categories').val() || 0) != 0) ? $("#Categories option:selected").text() : '';
+                var pricerule = (($('#PriceRules').val() || 0) != 0) ? $("#PriceRules option:selected").text() : '';
+                var report = (($('#ProductGroups').val() || 0) == 0) ? 'Comparison' : 'KeyLines';
+
+                if (brand != '') {
+                    filter += "&grid-filter=Pi.Brand.BrandName__1__" + encodeURIComponent(brand);
+                }
+                if (category != '') {
+                    filter += "&grid-filter=Pi.ProductCategory.CategoryName__1__" + encodeURIComponent(category);
+                }
+                if (pricerule != '') {
+                    filter += "&grid-filter=Pi.PriceRule.RuleName__1__" + encodeURIComponent(pricerule);
+                }
+
+                var selectedItem = chart.getSelection()[0];
+                if (selectedItem) {
+                    var segment = data.getValue(selectedItem.row, 0);
+                    switch (segment) {
+                        case "Sales Opportunity":
+                            location.href = "/Reports/" + report + "?grid-filter=Pi.Lookup.LookupName__1__" + encodeURIComponent("Minimum") + filter;
+                            break;
+                        case "Margin Opportunity":
+                            location.href = "/Reports/" + report + "?grid-filter=Pi.Lookup.LookupName__1__" + encodeURIComponent("Maximum") + filter;
+                            break;
+                        case "At desired margin":
+                            location.href = "/Reports/" + report + "?grid-filter=Pi.Lookup.LookupName__1__" + encodeURIComponent("Desired") + filter;
+                            break;
+                        case "Above desired margin":
+                            location.href = "/Reports/" + report + "?grid-filter=Pi.Lookup.LookupName__1__" + encodeURIComponent("Nudge Up") + filter;
+                            break;
+                        case "Below desired margin":
+                            location.href = "/Reports/" + report + "?grid-filter=Pi.Lookup.LookupName__1__" + encodeURIComponent("Nudge Down") + filter;
+                            break;
+                        default:
+                            location.href = "/Reports/" + report + "?grid-filter=Pi.Lookup.LookupName__1__" + encodeURIComponent(segment) + filter;
+                            break;
+                    }
+                }
+            }
+            function setCursorPointer() {
+                $('#' + htmlId).css('cursor', 'pointer')
+            }
+            function setCursorNormal() {
+                $('#' + htmlId).css('cursor', 'default')
+            }
+
+            var chart = new google.visualization.PieChart(document.getElementById(htmlId));
+            google.visualization.events.addListener(chart, 'select', selectHandler);
+            google.visualization.events.addListener(chart, 'onmouseover', setCursorPointer);
+            google.visualization.events.addListener(chart, 'onmouseout', setCursorNormal);
+            chart.draw(data, options);
+        }
+
+        function marginDistribution(htmlId, jsondata) {
+
+            var data = new google.visualization.DataTable(jsondata);
+
+            var options = {
+                animation: {
+                    startup: true,
+                    duration: 1500,
+                    easing: "none"
+                },
+                bar: { groupWidth: "98%" },
+                bars: 'vertical',
+                chartArea: {
+                    width: "90%",
+                    height: "80%",
+                    top: "10",
+                    left: "80"
+                },
+                colors: ["#01bc8c"],
+                hAxis: {
+                    title: 'Gross Margin (%)',
+                    position: "out",
+                    gridlines: {
+                        count: 10,
+                        color: "#ffffff"
+                    }
+                },
+                height: 424,
+                legend: "none",
+                tooltip: {
+                    isHtml: "true",
+                    textStyle: {
+                        color: "#666666"
+                    }
+                },
+                vAxis: {
+                    title: 'No. of Products'
+                }
+            };
+
+            function selectHandler() {
+                var filter = "";
+                var brand = (($('#Brands').val() || 0) != 0) ? $("#Brands option:selected").text() : '';
+                var category = (($('#Categories').val() || 0) != 0) ? $("#Categories option:selected").text() : '';
+                var pricerule = (($('#PriceRules').val() || 0) != 0) ? $("#PriceRules option:selected").text() : '';
+                var report = (($('#ProductGroups').val() || 0) == 0) ? 'Comparison' : 'KeyLines';
+
+                if (brand != '') {
+                    filter += "&grid-filter=Pi.Brand.BrandName__1__" + encodeURIComponent(brand);
+                }
+                if (category != '') {
+                    filter += "&grid-filter=Pi.ProductCategory.CategoryName__1__" + encodeURIComponent(category);
+                }
+                if (pricerule != '') {
+                    filter += "&grid-filter=Pi.PriceRule.RuleName__1__" + encodeURIComponent(pricerule);
+                }
+
+                var selectedItem = chart.getSelection()[0];
+                if (selectedItem) {
+                    var segment = data.getValue(selectedItem.row, 0).split(' - ');
+                    location.href = "/Reports/" + report + "?grid-filter=Pi.GrossMarginPercent__7__" + segment[0] + "&grid-filter=Pi.GrossMarginPercent__6__" + segment[1] + filter;
+                }
+            }
+
+            function setCursorPointer() {
+                $('#' + htmlId).css('cursor', 'pointer');
+            }
+            function setCursorNormal() {
+                $('#' + htmlId).css('cursor', 'pointer');
+            }
+
+            var chart = new google.visualization.ColumnChart(document.getElementById(htmlId));
+            google.visualization.events.addListener(chart, 'select', selectHandler);
+            google.visualization.events.addListener(chart, 'onmouseover', setCursorPointer);
+            google.visualization.events.addListener(chart, 'onmouseout', setCursorNormal);
+            chart.draw(data, options);
+        }
+
+    </script>
+}
+
+
+
+

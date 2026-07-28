@@ -1,0 +1,67 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model AxisEBusinessViewModel
+
+@{
+    ViewBag.Title = "Create Axis eBusiness Group";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        @Html.ValidationSummary(false)
+
+        <h4>@ViewBag.Title</h4>
+
+        <div class="form-horizontal">
+            @using (Html.BeginForm("SaveAxisEBusiness", "Axis"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.AxisEBusinessGroup.AxisEbusinessID)
+
+                <div class="form-group">
+                    @Html.Label("eBusinessRef", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @if(Model.AxisEBusinessGroup.AxisEbusinessID > 0)
+                        {
+                            <div class="g-m-t-10">@Html.DisplayFor(model => model.AxisEBusinessGroup.eBusinessRef, new { htmlAttributes = new { @class = "form-control g-largeCell" } })</div>
+                            @Html.HiddenFor(x => x.AxisEBusinessGroup.eBusinessRef)
+                        }
+                        else
+                        {
+                            @Html.EditorFor(model => model.AxisEBusinessGroup.eBusinessRef, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        }
+                        @Html.ValidationMessageFor(model => model.AxisEBusinessGroup.eBusinessRef, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("eBusinessCode", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.AxisEBusinessGroup.eBusinessCode, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.AxisEBusinessGroup.eBusinessCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Affiliate Commission Group", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.AxisEBusinessGroup.AffiliateCommissionGroup, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.AxisEBusinessGroup.AffiliateCommissionGroup, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Description", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(x => x.AxisEBusinessGroup.description, new { @class = "form-control g-largeCell-textArea", rows = 5 })
+                        @Html.ValidationMessageFor(x => x.AxisEBusinessGroup.description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveSetting" value="Save" class="btn btn-default" title="Save" />
+                        @Html.ActionLink("Cancel", "AxisEBusinessIndex", "Axis", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

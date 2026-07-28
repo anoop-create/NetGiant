@@ -1,0 +1,55 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Controllers;
+@model DashboardViewModel
+
+<div class="fa fa-spinner fa-pulse fa-3x fa-fw g-p-a spinner2"></div>
+<div class="col-md-12 col-lg-5 dashlet-chart initial-state">
+    <div class="g-bg-white g-b-1-lg">
+        <div class="col-xs-12">
+            <div class="g-p-l-20 text-left">
+                <i class="fa fa-question-circle-o fa-lg help-popup g-m-r-10" data-toggle="tooltip" title="This chart shows the percentage of products that are within optimal price margins, those that are set too high to be competitive and those that are set too low where your margin could be set higher and still remain competitive." data-helpsid="2" data-helpeid="2"></i>
+                <span class="g-fw-b dashlet-title" id="pcTitle">Price Competitiveness Report</span>
+                <span class="g-fw-b dashlet-title pull-right g-m-r-20" id="pcCount"></span>
+             </div>
+            <div class="pull-left col-xs-12 g-bt-1-lg">
+                <div class="clearfix">
+                    <div class="g-m-t-40 hide g-p-a" id="noDataLabel" style="left: 45%; z-index: 100;">No Data</div>
+                    @(Html.Kendo().Chart<PriceCompetitiveness>()
+                        .Name("PriceCompetitiveChart")
+                        .HtmlAttributes(new { @style = "width: 100%; height: 460px;" })
+                        .Legend(legend => legend
+                            .Visible(false)
+                        )
+                        .DataSource(ds => ds.Read(read => read.Action("TelerikChartData", "Dashboard", new { brand = 0, category = 0, pricerule = 0, productgroup = 0, chart = "Competitive" })))
+                        .SeriesColors(new string[] { "#418bca", "#01bc8c", "#ef6f6c", "#006699", "#f89a14", "#0099c6", "#dd4477", "#66aa00", "#b82e2e", "#994499", "#cccccc", "#1e824c", "1ba39c", "a2ded0" })
+                        .Series(series =>
+                        {
+                            series.Donut(
+                                model => model.Total,
+                                model => model.Description,
+                                null
+                            )
+                            .Labels(labels => labels
+                                .Visible(true)
+                                .Position(ChartPieLabelsPosition.OutsideEnd)
+                                .Template("#= category # \n #= formatNumberWithCommas(value) # (#= (percentage * 100).toFixed(1)#%)")
+                                .Background("transparent")
+                                .Color("#666")
+                                .Font("12px Arial,Helvetica,sans-serif")
+                            );
+                        })
+                        .Events(ev => ev
+                            .DataBound("onDataBoundPriceCompetitiveness")
+                            .SeriesClick("onSeriesClick")
+                            .SeriesHover("onSeriesHover"))
+                        .Tooltip(tooltip => tooltip
+                            .Template("<div style='max-width: 200px; white-space: normal;'>#= addPercentage(formatNumberWithCommas(dataItem.LongDescription), (percentage * 100).toFixed(1)) #</div>")
+                            .Visible(true)
+                            .Font("12px Arial,Helvetica,sans-serif")
+                        )
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

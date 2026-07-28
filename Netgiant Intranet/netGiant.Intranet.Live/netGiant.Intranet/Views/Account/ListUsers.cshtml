@@ -1,0 +1,74 @@
+﻿@using netGiant.Intranet.Models;
+
+@model List<ApplicationUser>
+
+@Html.Hidden("UserDeleteURL", Url.Action("DeleteUser", "Account"))
+
+@{
+    ViewBag.Title = "User List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h2>@ViewBag.Title</h2>
+        <h4>List of all intranet users</h4>
+
+        <div>
+            @Html.ActionLink("Create New", "Register", "Account", null, null)
+        </div>
+
+
+        <table class="table">
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+
+            @foreach (ApplicationUser usr in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(m => usr.UserName)</td>
+                    <td>@Html.DisplayFor(m => usr.Email)</td>
+                    <td>
+                        @Html.ActionLink("Reset Password", "ResetPassword", "Account", new { email = usr.Email }, null) |
+                        @Html.ActionLink("Manage Roles", "ListUserRoles", "Account", new { email = usr.Email }, null) |
+                        <a href="#" class="lnkDeleteUser" value="@usr.Id">Delete User</a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+        @Html.Hidden("UserDeleteURL", Url.Action("DeleteUser", "Account"))
+        @Html.AntiForgeryToken()
+
+        <div id="roUserDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+            Are you sure ?
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+
+        $(document).on('click', '.lnkDeleteUser', function () {
+            var userId = $(this).attr('value');
+
+            $('#roUserDialog').dialog({
+                resizable: false,
+                width: 600,
+                modal: true,
+                buttons: {
+                    "Delete": function () {
+                        window.location = $('#UserDeleteURL').val() + "/" + userId;
+                    }
+                }
+            });
+        });
+
+    </script>
+}

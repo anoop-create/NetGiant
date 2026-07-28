@@ -1,0 +1,130 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using PagedList.Mvc;
+@using DP001Website.Models;
+@using GridMvc.Html;
+
+@model ProductViewModel
+
+@{
+    ViewBag.Title = "Inventory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Product Inventory
+            </h1>
+        </div>
+
+        <div class="col-xs-7 col-md-4 col-lg-3 row-height-fix flex-right">
+            <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-sliders fa-lg"></i>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <ul class="dropdown-menu g-p-10">
+                    <li class="g-fw-b">Product Inventory Options</li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation">
+                        @Html.HtmlActionLink("<i class=\"fa fa-times\"></i> Reset Filters", "Index", "Products", null, null)
+                    </li>
+                    <li role="presentation">
+                        @Html.HtmlActionLink("<i class=\"fa fa-upload\"></i> Export Products", "ExportToExcel", "Products", null, null)
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+@Html.Grid(Model.InventoryList).Columns(columns =>
+{
+    columns.Add(o => o.ManufacturerPartNo)
+        .Titled("Part Number")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomTextFilterWidget");
+
+    columns.Add(o => o.ClientProductID)
+        .Titled("Client Product ID")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomTextFilterWidget");
+
+    columns.Add(o => o.Description)
+    .RenderValueAs(x => Html.HtmlActionLink(x.Description, "ProductDetail", "Products", new { id = x.ProductInventoryID }, null))
+        .Encoded(false)
+        .Sanitized(false)
+        .Titled("Product Name")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomTextFilterWidget");
+
+    columns.Add(o => o.Brand.BrandName)
+        .Titled("Brand")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomBrandFilterWidget");
+
+    columns.Add(o => o.ProductCategory.CategoryName)
+        .Titled("Category")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomCategoryFilterWidget");
+
+    columns.Add(o => o.Price)
+        .RenderValueAs(o => Html.TooltipLink(string.Format("{0:N2}", o.Price),
+            new { data_id = o.ProductInventoryID,
+                data_toggle = "tooltip",
+                data_placement = "top",
+                data_unique_id = Guid.NewGuid()
+            },
+            o.Price > 0))
+        .Encoded(false)
+        .Sanitized(false)
+        .Titled("Price")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomNumberFilterWidget");
+
+    columns.Add(o => o.DateLastUpdated)
+        .Format("{0:dd/MM/yyyy (HH:mm)}")
+        .Titled("Date Updated");
+        //.Filterable(true);
+
+    columns.Add()
+            .Encoded(false)
+            .Sanitized(false)
+            .Css("hidden")
+            .RenderValueAs(x => Html.HiddenFor(y => x.ProductInventoryID));
+
+}).WithPaging(200).Sortable().Named("productsGrid").Selectable(false).WithMultipleFilters().WithGridItemsCount()
+
+@Html.Hidden("TooltipDataUrl", Url.Action("PriceHistoryTooltipData", "Products"))
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            pageGrids.productsGrid.addFilterWidget(
+                new DropDownListWidget("CustomBrandFilterWidget", "brandList", "/Shared/GetBrandNames", "brand")
+            );
+
+            pageGrids.productsGrid.addFilterWidget(
+                new DropDownListWidget("CustomCategoryFilterWidget", "categoryList", "/Shared/GetCategoryList", "category")
+            );
+
+            pageGrids.productsGrid.addFilterWidget(
+                new TextWidget("CustomTextFilterWidget")
+            );
+
+            pageGrids.productsGrid.addFilterWidget(
+                new NumberWidget("CustomNumberFilterWidget")
+            );
+
+        });
+
+        $('[data-toggle="tooltip"]').click(function () { return false; });
+        $('[data-toggle="tooltip"]').tooltip({ title: function () { return GetTooltipData($(this), $('#TooltipDataUrl').val()) }, html: true });
+
+    </script>
+}

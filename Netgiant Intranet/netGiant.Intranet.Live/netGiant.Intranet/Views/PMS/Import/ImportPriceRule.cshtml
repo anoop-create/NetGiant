@@ -1,0 +1,55 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Import;
+@model ImportPriceRuleViewModel
+
+@{
+    ViewBag.Title = "Import Price Rule";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+        @{
+            string isModelStateValid = Convert.ToString(@TempData["ModelStateValid"]);
+            if (isModelStateValid != string.Empty && isModelStateValid.ToString() == "True")
+            {
+                <div id="modelStateValid" class="imp_successContainer">Successfully Imported Price Rules</div>
+            }
+        }
+
+        @using (Html.BeginForm("ImportPriceRule", "Import", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+        {
+            <div class="g-m-t-20">
+                @Html.Label("Please select a file to upload")
+            </div>
+
+            <div class="g-m-t-10">
+                <input type="file" id="uploadedFile" name="uploadedFile" />
+            </div>
+
+            <div class="g-m-t-20">
+
+                <div class="g-m-t-20">
+                    @Html.Label("The selected website will determine which site price rules are assigned to.")
+                </div>
+
+                @Html.DropDownListFor(m => m.WebsiteFK, Model.AllWebsites, "Select Website",
+                                    new { @class = "form-control g-smallCell g-m-r-10" })
+                @Html.ValidationMessageFor(m => m.WebsiteFK)
+            </div>
+
+            <div class="g-m-t-20">
+                <input id="btnImport" type="submit" value="Import" class="btn btn-default" />
+            </div>
+        }
+
+        <div class="g-m-t-50">
+            @Html.ActionLink("Reset", "PriceRule", "Import", null, new { @class = "btn btn-default", @id = "btnReset" })
+        </div>
+
+    </div>
+</div>

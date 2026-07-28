@@ -1,0 +1,19 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model DashboardViewModel
+
+<div class="col-md-12 col-lg-4 dashlet-chart pull-right">
+    <div class="g-bg-white row g-b-1-lg">
+        <div class="col-xs-12">
+            <div class="g-p-l-20 text-left">
+                <i class="fa fa-question-circle-o fa-lg help-popup g-m-r-10" data-toggle="tooltip" title="This chart shows the percentage of products that are within optimal price margins, those that are set too high to be competitive and those that are set too low where your margin could be set higher and still remain competitive." data-helpsid="2" data-helpeid="2"></i>
+                <span class="g-fw-b dashlet-title" id="pcTitle">Price Competitiveness Report (All Products)</span>
+                <span class="g-fw-b dashlet-title pull-right g-m-r-20" id="pcCount"></span>
+             <div>
+            <div class="pull-left col-xs-12 g-bt-1-lg">
+                <div class="clearfix">
+                    <div id="chart4" class="pie-chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

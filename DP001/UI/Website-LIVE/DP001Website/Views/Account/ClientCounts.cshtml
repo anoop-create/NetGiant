@@ -1,0 +1,90 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using PagedList.Mvc;
+@using GridMvc.Html;
+@using DP001Website.Models;
+@model TenantSettingsViewModel
+
+@{
+    ViewBag.Title = "Client Counts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Client Counts
+            </h1>
+        </div>
+
+    </div>
+</section>
+
+@Html.Grid(Model.ClientCounts).Columns(columns =>
+{
+    columns.Add(o => o.ClientName)
+        .Titled("Client Name")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomTextFilterWidget");
+
+    columns.Add(o => o.Email)
+        .Titled("Email")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomTextFilterWidget");
+
+    columns.Add(o => o.ContractName)
+        .Titled("Contract Name")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomTextFilterWidget");
+
+    columns.Add(o => o.InventoryCount)
+        .Titled("Inventory Count")
+        .Encoded(false)
+        .Sanitized(false)
+        .RenderValueAs(o => "<span class=\"text-success\">" + o.InventoryCount.ToString("N0") + "</span> / <span class=\"text-danger\">" + o.InventoryLimit.ToString("N0") + "</span>");
+
+    columns.Add(o => o.PriceRuleCount)
+        .Titled("Price Rule Count")
+        .Encoded(false)
+        .Sanitized(false)
+        .RenderValueAs(o => "<span class=\"text-success\">" + o.PriceRuleCount.ToString("N0") + "</span> / <span class=\"text-danger\">" + o.PriceRuleLimit.ToString("N0") + "</span>");
+
+    columns.Add(o => o.ChannelCount)
+        .Titled("Channel Count")
+        .Encoded(false)
+        .Sanitized(false)
+        .RenderValueAs(o => "<span class=\"text-success\">" + o.ChannelCount.ToString("N0") + "</span> / <span class=\"text-danger\">" + o.ChannelLimit.ToString("N0") + "</span>");
+
+    columns.Add(o => o.ScheduleCount)
+        .Titled("Schedule Count")
+        .Encoded(false)
+        .Sanitized(false)
+        .RenderValueAs(o => "<span class=\"text-success\">" + o.ScheduleCount.ToString("N0") + "</span> / <span class=\"text-danger\">" + o.ScheduleLimit.ToString("N0") + "</span>");
+
+    columns.Add(o => o.UserCount)
+        .Titled("User Count")
+        .Encoded(false)
+        .Sanitized(false)
+        .RenderValueAs(o => "<span class=\"text-success\">" + o.UserCount.ToString("N0") + "</span> / <span class=\"text-danger\">" + o.UserLimit.ToString("N0") + "</span>");
+
+}).WithPaging(200).Sortable().Named("clientCountsGrid").Selectable(false).WithMultipleFilters().WithGridItemsCount()
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+
+            pageGrids.clientCountsGrid.addFilterWidget(
+                new TextWidget("CustomTextFilterWidget")
+            );
+
+            pageGrids.clientCountsGrid.addFilterWidget(
+                new NumberWidget("CustomNumberFilterWidget")
+            );
+        });
+    </script>
+}
+

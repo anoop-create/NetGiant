@@ -1,0 +1,112 @@
+﻿@model netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product.ProductFieldViewModel
+
+@{
+    ViewBag.Title = "Product Fields Summary - " + Model.SelectedPartNo + ", " + Model.SelectedProductTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+        @Html.HiddenFor(m => m.SelectedProductID)
+        @Html.HiddenFor(m => m.SelectedFieldSectionID)
+        @Html.HiddenFor(m => m.SelectedFieldSectionIndex)
+        @Html.Hidden("ProductFieldDataURL", Url.Action("ProductFieldsData", "ProductField"))
+        @Html.Hidden("EditProductFieldDataURL", Url.Action("EditProductFieldsData", "ProductField"))
+
+        <div id="ddWebsiteFields">
+            @Html.DropDownListFor(m => m.SelectedWebsiteID, Model.allWebistes, null, new { @class = "form-control g-smallCell", @id = "ddlWebsite" })
+        </div>
+
+        <div id="productFieldsData">
+            @{Html.RenderPartial("~/Views/PMS/Product/ProductFields/ProductFieldData.cshtml", Model);}
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" defer="defer">
+
+        var optionsArray;
+
+        $(document).ready(function () {
+
+            $(".divSection").masonry({
+                itemSelector: '.divSubSection',
+                gutterWidth: 20
+            });
+
+            $(".productFieldTabs").tabs();
+
+            if ($("#SelectedFieldSectionIndex").val() > -1) {
+                $(".productFieldTabs").tabs("option", "active", $("#SelectedFieldSectionIndex").val());
+            }
+        });
+
+        $(document).on("click", ".tabHeader", function () {
+            $("#SelectedFieldSectionID").val($(this).attr("value"));
+            $("#SelectedFieldSectionIndex").val($(".productFieldTabs").tabs('option', 'active'));
+        });
+
+        $(document).on("change", "#ddlWebsite", function () {
+            $("SelectedFieldSectionID").val($("#ddlWebsite option:selected").val());
+
+            setupOptionsArray();
+
+            $.ajax({
+                type: 'POST',
+                url: $("#ProductFieldDataURL").val(),
+                async: false,
+                cache: false,
+                dataType: 'html',
+                traditional: true,
+                data: { optionsArray: optionsArray, timestamp: $.now() },
+                success: function (data) {
+                    $('#productFieldsData').empty();
+                    $('#productFieldsData').html(data);
+
+                    $(".productFieldTabs").tabs();
+                    if ($("#SelectedFieldSectionIndex").val() > -1) {
+                        $(".productFieldTabs").tabs("option", "active", $("#SelectedFieldSectionIndex").val());
+                    }
+                }
+            });
+        });
+
+        $(document).on("click", ".editProductField", function () {
+            setupOptionsArray();
+            $.ajax({
+                type: 'POST',
+                url: $("#EditProductFieldDataURL").val(),
+                async: false,
+                cache: false,
+                dataType: 'html',
+                traditional: true,
+                data: { optionsArray: optionsArray, timestamp: $.now() },
+                success: function (data) {
+                    $('#productFieldsData').empty();
+                    $('#productFieldsData').html(data);
+
+                    $(".productFieldTabs").tabs();
+
+                    if ($("#SelectedFieldSectionIndex").val() > -1) {
+                        $(".productFieldTabs").tabs("option", "active", $("#SelectedFieldSectionIndex").val());
+                    }
+
+                    $(".productFieldTabs").tabs("disable");
+                }
+            });
+        });
+
+        function setupOptionsArray() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#SelectedProductID").val();
+            optionsArray[1] = $("#ddlWebsite option:selected").val();
+            optionsArray[2] = $("#SelectedFieldSectionID").val();
+            optionsArray[3] = $("#SelectedFieldSectionIndex").val();
+        }
+
+    </script>
+}

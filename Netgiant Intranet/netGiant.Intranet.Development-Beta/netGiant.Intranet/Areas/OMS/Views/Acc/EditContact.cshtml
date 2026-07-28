@@ -1,0 +1,126 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.OMS;
+@model AccViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.SubTitle = Model.Contact.ContactId > 0 ? "Edit" : "Create";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@(ViewBag.SubTitle) Contact</h4>
+
+        <div class="form-horizontal">
+            @using (Html.BeginForm("SaveContact", "Acc", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.HiddenFor(x => x.Contact.ContactId)
+                @Html.HiddenFor(x => x.Contact.AccountFk)
+
+                <div class="ContactTabs" style="background:none;">
+                    <ul>
+                        <li>
+                            <a href="#ContactDetails">Contact Details</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="ContactDetails">
+                    <fieldset class="g-m-t-20">
+                        <legend>Contact Details</legend>
+
+                        <div class="form-group">
+                            @Html.Label("Title", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Contact.Title, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                @Html.ValidationMessageFor(model => model.Contact.Title, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("First Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Contact.FirstName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                @Html.ValidationMessageFor(model => model.Contact.FirstName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Last Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Contact.LastName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                @Html.ValidationMessageFor(model => model.Contact.LastName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Email", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Contact.Email, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                @Html.ValidationMessageFor(model => model.Contact.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Telephone Number", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Contact.TelephoneNumber, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                @Html.ValidationMessageFor(model => model.Contact.TelephoneNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Fax Number", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Contact.FaxNumber, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                @Html.ValidationMessageFor(model => model.Contact.FaxNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Extension Number", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Contact.ExtensionNumber, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                @Html.ValidationMessageFor(model => model.Contact.ExtensionNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Contact Status", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(
+                                    model => model.Contact.ContactStatusFk,
+                                    Model.ContactStatusList,
+                                    "Select...",
+                                    new { @class = "g-f-l form-control g-smallCell g-m-r-10" }
+                                )
+                                @Html.ValidationMessageFor(model => model.Contact.ContactStatusFk, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="SaveContact" value="Save" class="btn btn-default" title="Save" />
+
+                        <a href="@(Url.Action("EditAccount/" + Model.Contact.AccountFk.ToString(), "Acc"))#AccountContactsTab" class="btn btn-default">
+                            Cancel
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $(".ContactTabs").tabs();
+    });
+
+</script>

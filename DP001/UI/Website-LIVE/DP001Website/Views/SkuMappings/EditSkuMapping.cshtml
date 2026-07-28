@@ -1,0 +1,162 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@model SkuMappingViewModel
+
+@{
+    ViewBag.Title = "EditSkuMapping";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                <a href="@Url.Action("Index", "SkuMappings")" class="grey">
+                    Product Mappings
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Edit Product Mapping
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-push-2">
+            <div class="row page-form">
+                <h4>Product Mapping</h4>
+                @using (Ajax.BeginForm("Update", "SkuMappings", new AjaxOptions { HttpMethod = "POST", OnComplete = "updateComplete" }, new { @class = "page-form" }))
+                {
+                    @Html.HiddenFor(x => x.SkuMappingRecord.Mapping.SKUMappingID)
+                    @Html.HiddenFor(x => x.SkuMappingRecord.Mapping.BrandFK)
+                    @Html.HiddenFor(x => x.SkuMappingRecord.Mapping.SKUMapFrom)
+                    @Html.HiddenFor(x => x.SkuMappingRecord.Mapping.SKUMapTo)
+                    @Html.HiddenFor(x => x.SkuMappingRecord.Mapping.FileTypeFK)
+                    @Html.HiddenFor(x => x.SkuMappingRecord.Mapping.InventoryFK)
+                    @Html.Hidden("BrandFK", Model.SkuMappingRecord.Mapping.BrandFK)
+                    @Html.AntiForgeryToken()
+                    <div class="container-fluid g-m-b-20">
+                        <div class="row">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The brand name or reference" data-helpsid="2" data-helpeid="2"></i>
+                                Brand
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.DisplayFor(x => x.SkuMappingRecord.Mapping.Brand.BrandName)
+                            </div>
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The source of the product information" data-helpsid="2" data-helpeid="2"></i>
+                                File Type
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.DisplayFor(x => x.SkuMappingRecord.Mapping.Lookup.LookupName)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The manufacturer part number as it appears in your inventory" data-helpsid="2" data-helpeid="2"></i>
+                                SKU Map From
+                            </div>
+                            <div class="col-md-4 form-value">
+                                <div>@(Model.SkuMappingRecord.Mapping.SKUMapFrom + " - " + (Model.SkuMappingRecord.Supplier != null ? Model.SkuMappingRecord.Supplier.Description : ""))</div>
+                            </div>
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The manufacturer part number as it appears in the feed" data-helpsid="2" data-helpeid="2"></i>
+                                SKU Map To
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.SkuMappingRecord.Mapping.ProductInventoryFK)
+                                @Html.AutoCompleteFor(x => x.SkuMappingRecord.Mapping.ProductInventoryFK, "FromAutoComplete", "Search", "Products", "autoCompleteSuccess",
+            Model.SkuMappingRecord.Mapping.ProductInventoryFK + " - " + Model.SkuMappingRecord.Product.Description)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+
+                        <div class="form-actions">
+                            <div class="pull-left form-message">
+                                <i class="fa fa-spinner fa-pulse" style="display: none"></i>
+                                <span></span>
+                            </div>
+
+                            @if (User.IsInRole("Administrator"))
+                            {
+                                @Ajax.HtmlActionLink("<i class=\"fa fa-trash\"></i> Delete",
+                                         "Delete",
+                                         "SkuMappings",
+                                         new { id = Model.SkuMappingRecord.Mapping.SKUMappingID,
+                                             invId = Model.SkuMappingRecord.Supplier != null ? 
+                                                    Model.SkuMappingRecord.Supplier.SupplierInventoryID : Model.SkuMappingRecord.Competitor.CompetitorInventoryID },
+                                         new AjaxOptions()
+                                         {
+                                             HttpMethod = "Delete",
+                                             Confirm = "Are you sure you want to delete this mapping?",
+                                             OnComplete = "deleteComplete",
+                                         },
+                                         new
+                                         {
+                                             @class = "pull-right g-m-r-10 form-delete btn btn-default btn-sm"
+                                         })
+                            }
+                            <button class="pull-right g-m-r-10 g-cur-p form-cancel btn btn-default btn-sm">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                            @if (User.IsInRole("Administrator"))
+                            {
+                                <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Save" name="action:Update">
+                                    <i class="fa fa-floppy-o"></i> Save
+                                </button>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        $(function () {
+            $(document).on('click', '.page-form .form-cancel', function () {
+                window.location.href = '@Url.Action("Index")';
+            })
+        });
+
+        function autoCompleteSuccess(data, response) {
+            var products = new Array();
+
+            for (var i = 0; i < data.length ; i++) {
+                products[i] = { label: data[i].Pn + ' - ' + data[i].Des, Id: data[i].Id };
+            }
+
+            return products;
+        }
+
+        function updateComplete(data) {
+            $('.form-actions .form-message span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                window.location.href = '@Url.Action("Index")';
+            }
+            $('.form-message .fa-spinner').hide();
+        }
+
+        function deleteComplete(data) {
+            $('.form-actions .form-message span').text(data.responseJSON.Msg);
+            if (data.responseJSON.IsSuccess) {
+                window.location.href = '@Url.Action("Index")';
+            }
+            $('.form-message .fa-spinner').hide();
+        }
+
+    </script>
+
+}

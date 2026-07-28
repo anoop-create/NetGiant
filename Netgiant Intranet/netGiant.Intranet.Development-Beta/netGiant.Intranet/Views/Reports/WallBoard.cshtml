@@ -1,0 +1,228 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Reports;
+@using System;
+@using System.Text.Json;
+@using System.Globalization;
+@model ReportsViewModel
+
+@{
+    Layout = null;
+
+    string manifest = "";
+    if (Model.PwaSettings.IsPwa)
+    {
+        var manifestObject = new
+        {
+            name = Model.PwaSettings.Description,
+            short_name = Model.PwaSettings.Description,
+            start_url = Model.PwaSettings.StartUrl,
+            scope = Model.PwaSettings.Scope,
+            display = "standalone",
+            background_color = "#ffffff",
+            theme_color = "#000000",
+            description = Model.PwaSettings.Description,
+            icons = new[]
+            {
+                new
+                {
+                    src = Model.PwaSettings.Root + "/Content/images/favicon-192.png",
+                    sizes = "192x192",
+                    type = "image/png"
+                },
+                new
+                {
+                    src = Model.PwaSettings.Root + "/Content/images/favicon-512.png",
+                    sizes = "512x512",
+                    type = "image/png"
+                }
+            }
+        };
+        manifest = JsonSerializer.Serialize(manifestObject);
+    }
+    string encodedManifest = HttpUtility.UrlEncode(manifest);
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>WallBoard</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/Site.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui.structure.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui.theme.min.css">
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+
+    @if (Model.PwaSettings.IsPwa)
+    {
+        <link rel="manifest" href='data:application/manifest+json,@encodedManifest' />
+        <meta name="theme-color" content="#000000">
+        <meta name="mobile-web-app-capable" content="yes">
+
+        <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('@(Model.PwaSettings.Root)/Scripts/serviceworker.js')
+                .then(registration => {
+                    console.log('Service Worker registered:', registration.scope);
+            })
+            .catch(error => {
+                console.error('Service Worker registration failed:', error);
+            });
+        }
+        </script>
+    }
+</head>
+<body class="wb_bodyOveride">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('../Scripts/serviceworker.js')
+                .then(registration => {
+                    console.log('Service Worker registered:', registration.scope);
+                })
+                .catch(error => {
+                    console.error('Service Worker registration failed:', error);
+                });
+        }
+    </script>
+    <div>
+        @Html.ValidationSummary("", new { @class = "text-danger g-fs-2em" })
+        @Html.Hidden("websiteFK", Url.Action("WallBoardData"))
+        @{Html.RenderPartial("_WallBoardData", Model);}
+    </div>
+
+    <div id="targetDialogue" class="g-d-n" title="Set Targets"></div>
+
+    <div class="g-ps-tr g-fc-w g-p-10">
+        <div class="play" style="display:block">
+            <i class="fa fa-pause fa-3x g-p-10 g-cur-p" aria-hidden="true"></i>
+        </div>
+        <div class="pause" style="display:none">
+            <i class="fa fa-refresh fa-3x g-p-10 g-cur-p" aria-hidden="true"></i>
+            <i class="fa fa-play fa-3x g-p-10 g-cur-p" aria-hidden="true"></i>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        var websiteFK = 1;
+        var currWebsiteFK = 1;
+        var targetsAreRevenue = @ViewBag.targetsAreRevenue.ToString().ToLower();
+        var timeoutId;
+
+        $(document).on("click", "#targetsUpdate", function () {
+            SetWallBoardTargets();
+            return false;
+        });
+
+        $(document).on("click", ".wb_rightContainer", function () {
+            GetWallBoardTargets($("#targetsURL").val(), "#targetDialogue", $(this).attr("value"))
+            $("#targetDialogue").dialog({
+                modal: true,
+                width: 500
+            });
+            return false;
+        });
+
+        $(document).on("click", ".fa-pause", function () {
+            $('.play').css('display', 'none');
+            $('.pause').css('display', 'block');
+            clearTimeout(timeoutId); // Cancel the timeout
+        });
+
+        $(document).on("click", ".fa-play", function () {
+            $('.play').css('display', 'block');
+            $('.pause').css('display', 'none');
+            wallBoardLoop(); // Restart the timeout
+        });
+
+        $(document).on("click", ".fa-refresh", function () {
+            ajaxGet($("#websiteFK").val(), "#wallBoardDynamicData", { website: currWebsiteFK, targetsAreRevenue: targetsAreRevenue });
+        });
+
+        function wallBoardLoop() {
+            timeoutId = setTimeout(function () {
+                websiteFK++;
+                currWebsiteFK = websiteFK;
+                var objParams = { website: websiteFK, targetsAreRevenue: targetsAreRevenue };
+                ajaxGet($("#websiteFK").val(), "#wallBoardDynamicData", objParams);
+                //websiteFK++;
+                if (websiteFK < 4) {
+                    wallBoardLoop();
+                } else {
+                    websiteFK = 0;
+                    wallBoardLoop();
+                }
+            }, 8000)
+        }
+        wallBoardLoop();
+
+        function ajaxGet(url, resultContainer, obj) {
+
+            $.ajax({
+                url: url,
+                dataType: 'html',
+                traditional: true,
+                type: 'GET',
+                data: obj,
+                async: false,
+                cache: false,
+                success: function (data) {
+                    $('' + resultContainer + '').empty();
+                    $('' + resultContainer + '').html(data);
+                }
+            });
+        }
+
+        function SetWallBoardTargets() {
+
+            optionsArray = new Array();
+
+            optionsArray[0] = $("#StretchTargetMonday").val();
+            optionsArray[1] = $("#BaseTargetMonday").val();
+            optionsArray[2] = $("#StretchTargetTuesday").val();
+            optionsArray[3] = $("#BaseTargetTuesday").val();
+            optionsArray[4] = $("#StretchTargetWednesday").val();
+            optionsArray[5] = $("#BaseTargetWednesday").val();
+            optionsArray[6] = $("#StretchTargetThursday").val();
+            optionsArray[7] = $("#BaseTargetThursday").val();
+            optionsArray[8] = $("#StretchTargetFriday").val();
+            optionsArray[9] = $("#BaseTargetFriday").val();
+            optionsArray[10] = $("#TargetsAreRevenue").prop('checked'); //targetsAreRevenue
+
+            $.ajax({
+                url: $("#setTargetsURL").attr("value"),
+                dataType: 'html',
+                traditional: true,
+                type: 'POST',
+                async: false,
+                cache: false,
+                data: { optionsArray: optionsArray },
+                success: function (data) {
+                    $("#targetDialogue").empty();
+                    $("#targetDialogue").html(data);
+                }
+            });
+        }
+
+        function GetWallBoardTargets(url, divPartialView, id) {
+
+            $.ajax({
+                url: url,
+                dataType: 'html',
+                traditional: true,
+                type: 'POST',
+                async: false,
+                cache: false,
+                success: function (data) {
+                    $('' + divPartialView + '').empty();
+                    $('' + divPartialView + '').html(data);
+                }
+            });
+
+        }
+    </script>
+</body>
+</html>
+

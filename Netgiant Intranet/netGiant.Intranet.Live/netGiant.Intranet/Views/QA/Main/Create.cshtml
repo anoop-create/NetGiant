@@ -1,0 +1,137 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.QA;
+@model QAViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Questions & Answers";
+    ViewBag.SubTitle = Model.QA.QuestionAnswerID > 0 ? "Edit" : "Create";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Subtitle Question &amp; Answer</h4>
+
+        <div class="form-horizontal" id="formQA">
+
+            @using (Html.BeginForm("Save", "QA", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.QA.QuestionAnswerID)
+                @Html.HiddenFor(m => m.QA.AskedDate)
+                @Html.HiddenFor(m => m.QA.RepliedDate)
+                @Html.HiddenFor(m => m.QA.ShowOnAllSites)
+                @Html.HiddenFor(m => m.QA.UserFK)
+                @Html.HiddenFor(m => m.QA.SourceWebsiteID)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.QA.Question, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(m => m.QA.Question, new { @class = "form-control", @rows = 3 })
+                        @Html.ValidationMessageFor(model => model.QA.Question, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.QA.Answer, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(m => m.QA.Answer, new { @class = "form-control", @rows = 3 })
+                        @Html.ValidationMessageFor(model => model.QA.Answer, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.QA.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.QA.Email, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.QA.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Show On Websites", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10" id="qaCheckBoxes">
+                        @Html.CheckBoxListFor(m => m.SelectedWebsiteIDs, m => m.AllWebsites, x => x.WebsiteID, x => x.FriendlyName, m => m.SelectedWebsites)
+                        <br />
+                        <span>
+                            <b>Note:</b> If any of the above webiste is not selected then the default setting is to show on all sites.
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Granularity", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.QA.GranularityFK, Model.AllGranularities, "Select...", new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(model => model.QA.GranularityFK, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Equipment", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.QA.eqEquipmentFK, Model.AllEquipment, "Select...", new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(model => model.QA.eqEquipmentFK, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                if (Model.QA.SourceWebsiteID > 0)
+                {
+                    <div class="form-group">
+                        @Html.Label("Source Website", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBox("txtWebsite", Model.AllWebsites.FirstOrDefault(x => x.WebsiteID == Model.QA.SourceWebsiteID).FriendlyName, new { @class = "form-control g-largeCell", @disabled = "disabled" })
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.QA.ProductID, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.QA.ProductID, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.QA.ProductID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.QA.AltRef, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.QA.AltRef, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.QA.AltRef, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                if (Model.QA.QuestionAnswerID > 0)
+                {
+                    <div class="form-group">
+                        @Html.Label("Date Last Updated", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.QA.dateLastUpdate, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                }
+
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveQA" value="Save" class="btn btn-default" title="Save" />
+                        @Html.ActionLink("Cancel", "Index", "QA", null, new { @class = "btn btn-default" })
+                        
+                        @if (!string.IsNullOrEmpty(Model.QA.Answer))
+                        {
+                            @Html.ActionLink("Send Customer Email", "SendCustomerAnsweredEmail", "QA", new { id = Model.QA.QuestionAnswerID }, new { @class = "btn btn-success g-m-l-50" })   
+                        }
+                    </div>
+                </div>
+            }
+
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+
+}

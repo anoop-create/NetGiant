@@ -1,0 +1,184 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using PagedList.Mvc;
+@using GridMvc.Html;
+@using DP001Website.Models;
+@model ProviderExclusionViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                <a href="@Url.Action("Main", "TenantSettings")" class="grey">
+                    Main Settings
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Manage Exclusions
+            </h1>
+        </div>
+        <div class="col-xs-7 col-md-4 col-lg-3 row-height-fix flex-right">
+
+            @if (Html.TenantPermisson("ProviderBrandExclusion", TenantPermissonCheck.IsFeatureOn))
+            {
+            <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-sliders fa-lg"></i>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <ul class="dropdown-menu g-p-10">
+                    <li class="g-fw-b">Exclusion Options</li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation">
+                        @Html.HtmlActionLink("<i class=\"fa fa-plus\"></i> Add Exclusion", "New", "ProviderExclusion", null, null)
+                    </li>
+                    <li role="presentation">
+                        <a id="deleteMultipleExclusions" class="grey" href="#"><i class="fa fa-trash"></i> Remove Selected Exclusions</a>
+                    </li>
+                </ul>
+            </div>
+            }
+        </div>
+    </div>
+</section>
+
+@(Html.Kendo().Grid<ProviderExclusionViewModel.Telerik>()
+            .Name("providerExclusionGrid")
+            .HtmlAttributes(new { @class = "pointer-rows" })
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(read => read.Action("Index_Read", "ProviderExclusion"))
+                .PageSize(200)
+                )
+            .Columns(columns =>
+            {
+                columns.Bound(x => x.BrandName).Width(30).Title("").ClientTemplate("<div class=\"exclusion activateCompetitor checkbox checkbox-success\"><input class=\"check-box\" type=\"checkbox\" data-exclusionid=\"#= ProviderExclusionId #\" /><label class=\"errmsg\"></label></div>").HeaderTemplate("<div class=\"selectAllBrands activateCompetitor checkbox checkbox-success\"><input class=\"check-box\" type=\"checkbox\" /><label class=\"errmsg\"></label></div>").Sortable(false);
+                columns.Bound(rule => rule.ExclusionLevel).Width(100).Title("Exclusion Type");
+                columns.Bound(rule => rule.ProviderName).Width(100).Title("Competitor Name");
+                columns.Bound(rule => rule.BrandName).Width(100).Title("Brand");
+                columns.Bound(rule => rule.ProdId).Width(100).Title("Prod ID");
+                columns.Bound(rule => rule.Mfpn).Width(100).Title("Part Number");
+                columns.Bound(rule => rule.Comment).Width(100).Title("Comment");
+                columns.Bound(rule => rule.Mfpn).Width(50).Title("Remove").ClientTemplate("<span class=\"fa fa-trash-o fa-lg invisible\" style=\"cursor: pointer; \"></span>");
+            })
+            .Pageable(pager => pager.Refresh(true))
+            .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+            .Sortable(sortable => sortable
+                .AllowUnsort(true))
+            .Groupable()
+            .Scrollable()
+            .Filterable(ftb => ftb
+                .Mode(GridFilterMode.Menu))
+            .ColumnMenu()
+            .Resizable(resize => resize.Columns(true))
+            .Reorderable(reorder => reorder.Columns(true))
+            .Excel(excel => excel
+                .AllPages(true)
+                .FileName("Grid Export")
+                .Filterable(true)
+                .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+            .NoRecords("There are no items to display")
+            .Events(events => events.Change("Grid_OnRowSelect").DataBound("saveGridFilters"))
+            .Selectable()
+)
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            var grid = $("#providerExclusionGrid").data("kendoGrid");
+            grid.table.on("mousedown", "tr .fa-trash-o", $.proxy(deleteEx, grid));
+        });
+
+        $(document).on('click',
+            '#deleteMultipleExclusions',
+            function () {
+
+                if (!$(this).hasClass('grey')) {
+                    var idArray = [];
+
+                    $.each($('#providerExclusionGrid .exclusion input:checked'),
+                        function () {
+                            idArray.push($(this).data('exclusionid'));
+                        });
+
+                    $.confirm({
+                        title: 'Delete exclusions',
+                        content:
+                        'Are you sure you want to delete the selected exclusions? If you proceed, these items will be reinstated in your inventory in the future.',
+                        confirm: function () {
+                            deleteMultipleExclusions(idArray);
+                        },
+                        cancel: function () {
+
+                        }
+                    });
+                }
+
+                return false;
+            });
+
+        $(document).on('click',
+            '.selectAllBrands',
+            function () {
+                if ($(this).find('input').is(':checked')) {
+                    $('.exclusion').find('input').prop('checked', 'checked');
+                } else {
+                    $('.exclusion').find('input').removeAttr('checked');
+                }
+
+                greyInOutDeleteMultiple();
+            });
+
+        $(document).on('click',
+            '.exclusion, .selectAllBrands',
+            function () {
+                greyInOutDeleteMultiple();
+            });
+
+        function greyInOutDeleteMultiple() {
+            if ($('#providerExclusionGrid .exclusion input:checked').length > 0) {
+                $('#deleteMultipleExclusions').removeClass('grey');
+            } else {
+                $('#deleteMultipleExclusions').addClass('grey');
+            }
+        }
+
+        function deleteEx(e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var grid = $("#providerExclusionGrid").data("kendoGrid");
+            var data = grid.dataItem($(e.target).closest("tr"));
+            var clickedItem = $(e.target).parent().parent();
+            $.confirm({
+                title: 'Delete exclusion',
+                content:
+                'Are you sure you want to delete this exclusion? If you proceed, this item will be reinstated in your inventory in the future.',
+                confirm: function () {
+                    deleteExclusion(data.ProviderExclusionId, clickedItem);
+                },
+                cancel: function () {
+                    clickedItem.prop("checked", false);
+                }
+            });
+        }
+
+        var Grid_OnRowSelect = function (e) {
+            var data = this.dataItem(this.select());
+            window.open('@Url.Action("Edit")/' + data.ProviderExclusionId, '_blank');
+        }
+
+    </script>
+}
+
+
+
+
+

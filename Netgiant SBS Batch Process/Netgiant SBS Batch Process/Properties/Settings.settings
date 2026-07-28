@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ngSBSBatchProcesses.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="LocalDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SQLServerFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Environment" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="smtpFrom" Type="System.String" Scope="User">
+      <Value Profile="(Default)">netgiantBatchProcesses@netgiant.com</Value>
+    </Setting>
+    <Setting Name="smtpTo" Type="System.String" Scope="User">
+      <Value Profile="(Default)">richard.lee@netgiant.com</Value>
+    </Setting>
+    <Setting Name="smtpPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">pffkjDrEEuXl78SwA7M9</Value>
+    </Setting>
+    <Setting Name="LogFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files (x86)\Netgiant\Batch Processes\Logs\</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

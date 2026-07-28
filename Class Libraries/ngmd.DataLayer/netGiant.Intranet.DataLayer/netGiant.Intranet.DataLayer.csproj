@@ -1,0 +1,716 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1CFF9D16-890D-471E-8A7D-37B2485EE063}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>netGiant.Intranet.DataLayer</RootNamespace>
+    <AssemblyName>netGiant.Intranet.DataLayer</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>false</RegisterForComInterop>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ExpressiveAnnotations, Version=2.7.4.0, Culture=neutral, PublicKeyToken=d3e372f3c1e83cec, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Netgiant Intranet\netGiant.Intranet.Development-Beta\packages\ExpressiveAnnotations.2.9.6\lib\net45\ExpressiveAnnotations.dll</HintPath>
+    </Reference>
+    <Reference Include="ExpressiveAnnotations.MvcUnobtrusive, Version=2.5.4.0, Culture=neutral, PublicKeyToken=d3e372f3c1e83cec, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Netgiant Intranet\netGiant.Intranet.Development-Beta\packages\ExpressiveAnnotations.2.9.6\lib\net45\ExpressiveAnnotations.MvcUnobtrusive.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Netgiant Batch Process\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Netgiant Intranet\netGiant.Intranet.Development-Beta\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Netgiant Batch Process\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Netgiant Batch Process\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Netgiant Batch Process\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Netgiant Batch Process\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Netgiant Batch Process\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Netgiant Batch Process\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CustomerData\Account.cs">
+      <DependentUpon>customerContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerData\Billing.cs">
+      <DependentUpon>customerContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerData\Lookup.cs">
+      <DependentUpon>customerContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerData\StagingMailingList.cs">
+      <DependentUpon>customerContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DiplomatReplacement\DREntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DREntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DiplomatReplacement\DREntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DREntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DiplomatReplacement\DREntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DREntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DiplomatReplacement\Ledger.cs">
+      <DependentUpon>DREntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DiplomatReplacement\LedgerLine.cs">
+      <DependentUpon>DREntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\actionLink.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\AmazonPayLog.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\assemblyComponent.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\AxisEbusiness.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\AxisEbusinessMapping.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\AxisFields.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\AxisFieldsAdditional.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\AXISGroups.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\AxisPriceView.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\axisPricingHistory.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\AXISQueue.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\AXISQueueDetails.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\AxisTypeLookup.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\AxisTypeName.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\AxisValueLookup.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\BackOrder.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\BackOrderItem.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\BatchLog.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\BatchLogDetail.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\CampaignTracking.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\categoryAttribute.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\categoryCode.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\cmsEntry.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\cmsSection.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\configurationSetting.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\crossSellingLink.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\dataSupplier.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\dataSupplierOverride.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\DeleteTable.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\deliveryLookup.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\deliveryService.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\deliverySupplierCode.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\deliveryZone.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\ds_attributeView.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\ds_productView.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\ds_searchableView.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\eqEquipment.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\eqFamily.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\eqFamilyMembership.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\eqProductMembership.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\equipmentNotes.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\Event.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\EventMapping.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\exportFieldLookup.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\Faq.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\favouritePrinter.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\feefoFeedback.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\fieldMapping.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\filterableAttribute.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\FraudCriteria.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\ftpDetails.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetPriceologyAssemblySupplierFeed_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetPriceologyCompetitorFeed_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetPriceologyProductFeed_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetPriceologySupplierFeed_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetProdGridData_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetProductPrices_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetProductSuppliers_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetQAList_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetSiteMapsData_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\googleProductCategory.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\IcImage.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\interimManufacturer.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\InterimOrder.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\JobStatus.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\Log.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\Lookup.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\LookupType.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\manufacturer.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\manufacturerNotes.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\MetaData\Ecommerce\DeliverySupplierCodeMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\Ecommerce\EventMappingMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\Ecommerce\EventMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\Ecommerce\FaqMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\OMS\Acc\AccMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\OMS\Acc\AddressMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\OMS\Acc\ContactMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\OMS\Acc\CreditAccountMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\OMS\Ledger\LedgerLineMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\OMS\Ledger\LedgerMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\OMS\Order\OrderMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Product\ProductImagesMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Review\ReviewMetaData.cs" />
+    <Compile Include="NetgiantMasterData\mfpnExtensions.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\ng_attributes.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\ng_features.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\ng_products.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\ng_searchables.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\obsoleteItem.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\OpayoLog.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\OrderTracking.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\pim_attributes.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\pim_mediaLinks.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\pim_products.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\potentialNewProducts.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\priorityProvider.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\product.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\productGroup.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\productImage.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\ProductImagesView.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\productPrice.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\promotionalGroup.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\provider.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\providerInventory.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\providerPrice.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\qa_EmailSent.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\qa_Granularity.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\qa_Main.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\qa_WebsiteMapping.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\richTempPaper.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\richTempPrinters.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\SagePayTokens.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\salesAreaGroup.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\SalesforceBatchJob.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\secondaryCategoryLookup.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\skuMapping.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\supplierManuMapping.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\unwantedProducts.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\VoucherPromo.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\VoucherPromoGroup.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\VoucherPromoGroupMapping.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\Website.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\websiteInventory.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMembership\AspNetRole.cs">
+      <DependentUpon>membershipContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMembership\AspNetUser.cs">
+      <DependentUpon>membershipContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMembership\AspNetUserClaim.cs">
+      <DependentUpon>membershipContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMembership\AspNetUserLogin.cs">
+      <DependentUpon>membershipContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerData\Customer.cs">
+      <DependentUpon>customerContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerData\customerContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>customerContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerData\customerContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>customerContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerData\customerContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>customerContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerData\LookupType.cs">
+      <DependentUpon>customerContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerData\MetaData\CrMS\AccountMetaData.cs" />
+    <Compile Include="CustomerData\MetaData\CrMS\BillingMetaData.cs" />
+    <Compile Include="CustomerData\MetaData\CrMS\CustomerMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\Ecommerce\DeliveryConfigurationMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\Ecommerce\VoucherMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Maintenance\CmsEntryMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Maintenance\CmsSectionMetaData.cs" />
+    <Compile Include="NoLockInterceptor.cs" />
+    <Compile Include="NetgiantMembership\membershipContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>membershipContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMembership\membershipContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>membershipContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMembership\membershipContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>membershipContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Equipment\EquipmentMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Maintenance\EquipmentNotesMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Maintenance\AXISGroupsMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Maintenance\AxisValueLookupMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Maintenance\CategoryCodeMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Maintenance\actionLinkMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Maintenance\DataSupplierMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Maintenance\FileterableAttributeMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Maintenance\ConfigurationSettingMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Maintenance\ManufacturerNotesMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Maintenance\ManufacturerMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Product\AxisFieldsAdditionalMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Product\AxisFieldsMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Product\CrossSellingLinkMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Product\ProductPriceMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Product\WebsiteInventoryMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Provider\FieldMappingMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Provider\FtpDetailMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Product\ProductMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Provider\MfpnExtensionsMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Provider\ProviderMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Maintenance\ProductGroupMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Provider\SkuMappingMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Provider\SupplierManuMappingMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\QA\QAMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Maintenance\SalesAreaGroupMetaData.cs" />
+    <Compile Include="NetgiantMasterData\MetaData\PMS\Maintenance\websiteMetaData.cs" />
+    <Compile Include="NetgiantMasterData\ngmdContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ngmdContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\ngmdContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\ngmdContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ngmdContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Priceology\Channel.cs">
+      <DependentUpon>PriceologyContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Priceology\Log.cs">
+      <DependentUpon>PriceologyContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Priceology\Lookup.cs">
+      <DependentUpon>PriceologyContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Priceology\LookupType.cs">
+      <DependentUpon>PriceologyContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Priceology\PriceologyContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PriceologyContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Priceology\PriceologyContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PriceologyContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Priceology\PriceologyContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PriceologyContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Priceology\TenantSetting.cs">
+      <DependentUpon>PriceologyContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CustomerData\WebsiteView.cs">
+      <DependentUpon>customerContext.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="NetgiantMasterData\ngmdContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ngmdContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="NetgiantMembership\membershipContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>membershipContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="CustomerData\customerContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>customerContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="CustomerData\customerContext.edmx.diagram">
+      <DependentUpon>customerContext.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="DiplomatReplacement\DREntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DREntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DiplomatReplacement\DREntities.edmx.diagram">
+      <DependentUpon>DREntities.edmx</DependentUpon>
+    </None>
+    <None Include="NetgiantMembership\membershipContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>membershipContext.edmx</DependentUpon>
+      <LastGenOutput>membershipContext.Context.cs</LastGenOutput>
+    </None>
+    <None Include="NetgiantMembership\membershipContext.edmx.diagram">
+      <DependentUpon>membershipContext.edmx</DependentUpon>
+    </None>
+    <None Include="NetgiantMembership\membershipContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>membershipContext.edmx</DependentUpon>
+      <LastGenOutput>membershipContext.cs</LastGenOutput>
+    </None>
+    <None Include="NetgiantMasterData\ngmdContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ngmdContext.edmx</DependentUpon>
+      <LastGenOutput>ngmdContext.Context.cs</LastGenOutput>
+    </None>
+    <None Include="NetgiantMasterData\ngmdContext.edmx.diagram">
+      <DependentUpon>ngmdContext.edmx</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="NetgiantMasterData\ngmdContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ngmdContext.edmx</DependentUpon>
+      <LastGenOutput>ngmdContext.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="Priceology\PriceologyContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>PriceologyContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Priceology\PriceologyContext.edmx.diagram">
+      <DependentUpon>PriceologyContext.edmx</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DiplomatReplacement\MetaData\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CustomerData\customerContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>customerContext.edmx</DependentUpon>
+      <LastGenOutput>customerContext.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="CustomerData\customerContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>customerContext.edmx</DependentUpon>
+      <LastGenOutput>customerContext.cs</LastGenOutput>
+    </Content>
+    <Content Include="DiplomatReplacement\DREntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DREntities.edmx</DependentUpon>
+      <LastGenOutput>DREntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DiplomatReplacement\DREntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DREntities.edmx</DependentUpon>
+      <LastGenOutput>DREntities.cs</LastGenOutput>
+    </Content>
+    <Content Include="Priceology\PriceologyContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PriceologyContext.edmx</DependentUpon>
+      <LastGenOutput>PriceologyContext.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Priceology\PriceologyContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PriceologyContext.edmx</DependentUpon>
+      <LastGenOutput>PriceologyContext.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

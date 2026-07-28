@@ -1,0 +1,9 @@
+﻿@using netGiant.Intranet.DataLayer.NetgiantMasterData;
+@model List<product>
+
+<input type="hidden" value="0" autofocus />
+
+@foreach (var prod in Model)
+{
+    <div>@Html.ActionLink(prod.partNo + " - " + prod.productName, "Detail", "Product", new { id = prod.productID }, new { target = "_blank" })</div>
+}

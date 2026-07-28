@@ -1,0 +1,80 @@
+﻿@using netGiant.Intranet.ViewModels;
+@using netGiant.Intranet.BusinessLayer.Models;
+@model ApplicationUserViewModel
+
+@Html.Hidden("UserDeleteURL", Url.Action("DeleteUser", "Account"))
+
+@{
+    ViewBag.Title = "User List";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h2>@ViewBag.Title</h2>
+        <h4>List of all intranet users</h4>
+
+        <div>
+            @Html.ActionLink("Create New", "Register", "Account", null, null)
+        </div>
+        @(Html.Kendo().Grid<ApplicationUserViewModel.TelerikUser>()
+            .HtmlAttributes(new { @class = "pointer-rows" })
+            .Name("UsersGrid")
+            .Columns(columns =>
+                {
+                    columns
+                        .Bound(x => x.UserName)
+                        .Title("User Name")
+                        .Width("40%")
+                        .HeaderHtmlAttributes(new { title = "User Name", style = "text-align: center;" });
+                    columns
+                        .Bound(x => x.Email)
+                        .Title("Email")
+                        .Width("40%")
+                        .HeaderHtmlAttributes(new { title = "Email", style = "text-align: center;" });
+                    columns
+                        .Bound(x => x.ID).ClientTemplate(
+                            "<a href=\"ResetPassword/?email=#=Email#\">Reset Password</a> | " +
+                            "<a href=\"ListUserRoles/?email=#=Email#\">Manage Roles</a> | " +
+                            "<a href=\"\\\\#\" class=\"lnkDeleteUser\" value=\"#:ID#\" title=\"Delete\">Delete</a>")
+                        .Width("20%")
+                        .HeaderHtmlAttributes(new { title = "Action", style = "text-align: center;" })
+                        .Title("Action")
+                        .Filterable(false)
+                        .Sortable(false)
+                        .Groupable(false);
+                }
+            )
+            .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+            .ColumnMenu()
+            .Sortable(sortable => sortable.AllowUnsort(true))
+            .Resizable(resize => resize.Columns(true))
+            .Reorderable(reorder => reorder.Columns(true))
+            .NoRecords("There are no users to display")
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(x => x.Action("ListUserDataAjax", "Account"))
+                .PageSize(50)
+                )
+            )
+
+        @Html.Hidden("UserDeleteURL", Url.Action("DeleteUser", "Account"))
+        @Html.AntiForgeryToken()
+
+        <div id="roUserDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+            Are you sure ?
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).on("click", ".lnkDeleteUser", function () {
+            optionsArray = new Array();
+            optionsArray[0] = $(this).attr("value")
+            ajaxDeleteTelerikRow(optionsArray, $('#UserDeleteURL').val(), '#roUserDialog')
+            return false;
+        });
+    </script>
+}

@@ -1,0 +1,64 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model DP001Website.Models.RegisterViewModel
+
+<div id="user-details" class="container-fluid stage@(Model.StageIndicator)">
+    <div class="register-stage clearfix row">
+        <div class="pull-left text-nowrap text-center">
+            Details
+            <div class="active"></div>
+        </div>
+        <div class="pull-left text-nowrap text-center">
+            Select Product
+            <div class="inactive"></div>
+        </div>
+        <div class="pull-left text-nowrap text-center">
+            Payment
+            <div class="inactive"></div>
+        </div>
+        <div class="pull-left text-nowrap text-center">
+            Complete
+            <div class="inactive"></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <i class="fa fa-asterisk"></i>
+        <div class="input-group">
+            @Html.LabelFor(m => m.FirstName, new { @class = "sr-only" })
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "First Name" })
+            <span class="input-group-btn" style="width:0px;"></span>
+            @Html.LabelFor(m => m.LastName, new { @class = "sr-only" })
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Last Name" })
+        </div>
+    </div>
+    <div class="form-group">
+        <i class="fa fa-asterisk"></i>
+        @Html.LabelFor(m => m.CompanyName, new { @class = "sr-only" })
+        @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control", placeholder = "Company Name" })
+    </div>
+    <div class="form-group">
+        <i class="fa fa-asterisk"></i>
+        @Html.LabelFor(m => m.Email, new { @class = "sr-only" })
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email Address" })
+    </div>
+    @if (Model.StageIndicator == 1)
+    {
+    <div class="form-group">
+        <i class="fa fa-asterisk"></i>
+        @Html.LabelFor(m => m.Password, new { @class = "sr-only" })
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+    </div>
+    <div class="form-group">
+        <i class="fa fa-asterisk"></i>
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "sr-only" })
+        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
+    </div>
+
+    }
+    else
+    {
+        @Html.HiddenFor(x => x.Password)
+        @Html.HiddenFor(x => x.ConfirmPassword)
+    }
+    @Html.HiddenFor(x => x.ContractType)
+</div>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7dcafcb892184d5eb05dd4ce5b394ac3" Name="Diagram1">
+        <EntityTypeShape EntityType="PriceologyModel.Log" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PriceologyModel.Channel" Width="1.5" PointX="7.375" PointY="6.625" />
+        <EntityTypeShape EntityType="PriceologyModel.Lookup" Width="1.5" PointX="2.875" PointY="0.875" />
+        <EntityTypeShape EntityType="PriceologyModel.LookupType" Width="1.5" PointX="3.625" PointY="5.5" />
+        <EntityTypeShape EntityType="PriceologyModel.TenantSetting" Width="1.5" PointX="5.125" PointY="10.375" />
+        <AssociationConnector Association="PriceologyModel.FK_Channel_Lookup" />
+        <AssociationConnector Association="PriceologyModel.FK_Channel_Lookup1" />
+        <AssociationConnector Association="PriceologyModel.FK_Channel_TenantSettings" />
+        <AssociationConnector Association="PriceologyModel.FK_Log_Lookup" />
+        <AssociationConnector Association="PriceologyModel.FK_Lookup_LookupType" />
+        <AssociationConnector Association="PriceologyModel.FK_TenantSettings_Lookup" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

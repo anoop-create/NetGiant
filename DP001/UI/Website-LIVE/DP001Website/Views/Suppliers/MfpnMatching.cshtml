@@ -1,0 +1,49 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using PagedList.Mvc;
+@using DP001Website.Models;
+@using GridMvc.Html;
+@model SupplierViewModel
+
+@{
+    ViewBag.Title = "BrandMatching";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Brand Matching
+            </h1>
+        </div>
+        <div class="col-xs-7 col-md-4 col-lg-3 row-height-fix flex-right">
+            <div>
+                @Html.ActionLink("Download File", "ExportToExcel", "Suppliers", null, new { @class = "btn btn-success downloadBtn g-m-r-20" })
+            </div>
+        </div>
+    </div>
+</section>
+
+@Html.Grid(Model.MfpnAliases).Columns(columns =>
+{
+    columns.Add(o => o.BrandName)
+        .Titled("Brand Name")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomBrandFilterWidget");
+
+    columns.Add(o => o.MatchTerm)
+        .Titled("Match Term")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomTextFilterWidget");
+
+    columns.Add(o => o.Lookup.LookupName)
+        .Titled("Type")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomBrandFilterWidget");
+
+}).WithPaging(200).Sortable().Named("brandMatchingGrid").SetRowCssClasses(x => "g-cur-p").Selectable(false).WithMultipleFilters()
+

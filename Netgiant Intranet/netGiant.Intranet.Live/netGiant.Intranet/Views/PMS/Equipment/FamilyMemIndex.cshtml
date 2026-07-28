@@ -1,0 +1,98 @@
+﻿@using netGiant.Intranet.DataLayer;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<eqFamilyMembership>
+
+@{
+    ViewBag.Title = "Equipment for Family: ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title@ViewBag.FamilyName</h4>
+
+        <div id="eqFamilyMappingPartialView">
+            @{Html.RenderPartial("~/Views/PMS/Equipment/FamilyMemData.cshtml", Model);}
+        </div>
+
+        @*@Html.ActionLink("<< Families", "FamiliesIndex", "Equipment", null, new { @class = "btn btn-default" })*@
+
+        <input id="hiddenFamilyID" type="hidden" value="@ViewBag.FamilyID" />
+
+        <div id="eqFamilyMappingDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+            Are you sure ?
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        $(document).on("click", "#eqFamilyMappingPaging a", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $(document).on("click", ".lnkDeleteFamilyMapping", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete("#eqFamilyMappingDialog", $("#FamilyMemDeleteURL").val(), $(this).attr("value"),
+                                "#eqFamilyMappingPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+            return false;
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            applyStandardPaging(event, 0);
+
+            return false;
+        });
+
+        if ($("#historyPage").val() != '') {
+            $('#eqFamilyMappingPartialView').html($("#historyPage").val());
+        }
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging();
+            standardPaging(event, id, "#eqFamilyMappingPaging", $("#FamilyMemDataURL").val(),
+                                    "#eqFamilyMappingPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#hiddenFamilyID").val(); //FamilyID
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[1] = sortType + sortDir;
+            } else {
+                optionsArray[1] = '';
+            }
+        }
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value"); //eqMappingID
+            optionsArray[1] = $("#hiddenFamilyID").val(); //FamilyID
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[2] = sortType + sortDir;
+            } else {
+                optionsArray[2] = '';
+            }
+        }
+
+    </script>
+}

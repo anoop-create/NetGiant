@@ -1,0 +1,32 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Export
+@using netGiant.Intranet.DataLayer;
+@model ExportProductViewModel
+
+@Html.Hidden("UpdateCheckboxesURL", Url.Action("UpdateProductCheckboxes", "Export"))
+
+<div class="g-p-t-10">
+    <span>@Html.Label("Product Fields", new { @class = "gl_textType2c" })</span>
+    <span>@Html.CheckBox("productFieldsSelectAll", false, new { @class = "g-m-lr-10-i", @value = "#productFieldsContainer" }) @Html.Label("Select All")</span>
+</div>
+<div id="productFieldsContainer">
+    @Html.CheckBoxListFor(model => model.PostedProductFields,
+                                             model => model.ExportProductFieldDictionary.OrderBy(x => x.Value),
+                                            entity => entity.Key,
+                                            entity => entity.Value,
+                                            model => false,
+                                            new MvcCheckBoxList.Model.HtmlListInfo(MvcCheckBoxList.Model.HtmlTag.vertical_columns, 2,
+                                                 new { @class = "exp_checkbox" }))
+</div>
+<div class="g-p-t-10">
+    <span>@Html.Label("Axis Fields", new { @class = "gl_textType2c" })</span>
+    <span>@Html.CheckBox("axisFieldsSelectAll", false, new { @class = "g-m-lr-10-i", @value = "#axisFieldsContainer" }) @Html.Label("Select All")</span>
+</div>
+<div id="axisFieldsContainer">
+    @Html.CheckBoxListFor(model => model.PostedAxisFields,
+                                            model => model.ExportAxisFieldsFieldDictionary.OrderBy(x => x.Value),
+                                            entity => entity.Key,
+                                            entity => entity.Value,
+                                            model => false,
+                                             new MvcCheckBoxList.Model.HtmlListInfo(MvcCheckBoxList.Model.HtmlTag.vertical_columns, 4,
+                                                  new { @class = "exp_checkbox" }))
+</div>

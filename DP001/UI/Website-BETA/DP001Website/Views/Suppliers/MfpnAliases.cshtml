@@ -1,0 +1,94 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using PagedList.Mvc;
+@using DP001Website.Models;
+@using GridMvc.Html;
+@model SupplierViewModel
+@{
+    ViewBag.Title = "Mfpn Aliases";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                <a href="@Url.Action("Main", "TenantSettings")" class="grey">
+                    Main Settings
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Supplier Part No. Aliases
+            </h1>
+        </div>
+
+
+        @if (User.IsInRole("Administrator"))
+        {
+            <div class="col-xs-7 col-md-4 col-lg-3 row-height-fix flex-right">
+                <div class="btn-group">
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-sliders fa-lg"></i>
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <ul class="dropdown-menu g-p-10">
+                        <li class="g-fw-b">MfPN Alias Options</li>
+                        <li role="presentation" class="divider"></li>
+                        <li role="presentation">
+                            @Html.HtmlActionLink("<i class=\"fa fa-times\"></i> Reset Filters", "MfpnAliases", "Suppliers", null, new { onclick = "clearGridFilters();" })
+                        </li>
+                        <li role="presentation">
+                            @Html.HtmlActionLink("<i class=\"fa fa-plus\"></i> Add Part No. Alias", "NewMfpnAlias", "Suppliers", null, null)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        }
+
+    </div>
+</section>
+
+@(Html.Kendo().Grid<SupplierViewModel.TelerikSupplierMfpnAliases>()
+        .Name("mfpnAliasesGrid")
+        .HtmlAttributes(new { @class = "pointer-rows" })
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("MfpnAliases_Read", "Suppliers"))
+            .PageSize(200)
+            )
+        .Columns(columns =>
+        {
+            columns.Bound(product => product.BrandName).Width(200).Title("Brand Name");
+            columns.Bound(product => product.MatchTerm).Width(200).Title("Match Term");
+            columns.Bound(product => product.Type).Width(200).Title("Type");
+        })
+        .Pageable(pager => pager.Refresh(true))
+        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable
+            .AllowUnsort(true))
+        .Groupable()
+        .Scrollable()
+        .Filterable(ftb => ftb
+            .Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .Events(events => events.Change("Grid_OnRowSelect").DataBound("saveGridFilters"))
+        .Selectable()
+        .NoRecords("There are no items to display")
+)
+
+@section scripts {
+    <script type="text/javascript">
+        var Grid_OnRowSelect = function (e) {
+            var data = this.dataItem(this.select());
+            window.location.href = '@Url.Action("EditMfpnAlias")/' + data.SupplierMfpnMatchingId;
+        }
+    </script>
+}
+
+
+
+

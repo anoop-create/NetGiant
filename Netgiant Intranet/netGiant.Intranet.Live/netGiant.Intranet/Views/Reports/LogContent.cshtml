@@ -1,0 +1,10 @@
+﻿@model string[]
+
+@foreach (var line in Model)
+{
+    <div>
+        @Html.Raw(line)
+    </div>
+}
+
+<input type="hidden" value="0" autofocus />

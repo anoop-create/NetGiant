@@ -1,0 +1,107 @@
+﻿@model netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance.ProductTypeViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Product Type";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title Details</h4>
+
+        <div style="padding-bottom: 20px">
+            <select id="productTypeSearchBy" class="searchBy g-f-l form-control g-smallCell" style="margin-right:10px" >
+                <option selected="selected" value="name">Search by name</option>
+            </select>
+            <div>
+                @Html.TextBox("SearchProductType", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10", @type = "text" })
+                <a id="lnkSearchProductType" href="#" class="btn btn-default g-f-l" title="Empty search returns all records">Search</a>
+            </div>
+        </div>
+
+        <br />
+
+        <div id="productTypeData">
+            @{ Html.RenderPartial("~/Views/PMS/Maintenance/ProductType/ProductTypeData.cshtml", Model.productTypes);}
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        $(document).on("click", "#lnkSearchProductType, #productTypePaging a", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $("#SearchProductType").keypress(function (event) {
+            if (event.which == 13) {
+                applyStandardPaging(event);
+            }
+        });
+
+        $(document).on("click", ".lnkProductTypeDelete", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete('#productTypeDeleteDialog', $('#DeleteProductTypeURL').val(), $(this).attr('value'),
+                '#productTypeData', optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            applyStandardPaging(event, 0);
+
+            return false;
+        });
+
+        if ($("#historyPage").val() != '') {
+            $('#productTypeData').html($("#historyPage").val());
+        }
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging();
+            standardPaging(event, id, "#productTypePaging", $('#ProductTypeDataURL').val(),
+                                    "#productTypeData", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#SearchProductType").val(); //SearchTerm
+            optionsArray[1] = $("#productTypeSearchBy").val(); //SearchBy
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[2] = sortType + sortDir;
+            } else {
+                optionsArray[2] = '';
+            }
+        }
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value"); //ProductTypeID
+            optionsArray[1] = $("#SearchProductType").val(); //SearchTerm
+            optionsArray[2] = $("#productTypeSearchBy").val(); //SearchBy
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[3] = sortType + sortDir;
+            } else {
+                optionsArray[3] = '';
+            }
+        }
+
+    </script>
+}

@@ -1,0 +1,24 @@
+﻿@using netGiant.Intranet.DataLayer
+@model SagePayTransactions
+
+
+<table class="table">
+    <tr>
+        <th>
+            <a href="#" class="tableHeaderSort" value="string">Protx_string</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="response">Protx_response</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+    </tr>
+    <tr>
+        <td>
+            @Html.Raw(HttpUtility.UrlDecode(Model.protx_string))
+        </td>
+        <td>
+            @Html.Raw(HttpUtility.UrlDecode(Model.protx_response))
+        </td>
+    </tr> 
+</table>

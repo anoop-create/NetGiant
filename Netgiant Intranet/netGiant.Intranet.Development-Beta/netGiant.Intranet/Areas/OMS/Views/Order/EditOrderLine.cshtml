@@ -1,0 +1,68 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.OMS;
+@model OrderViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.SubTitle = Model.OrderLine.OrderLineId > 0 ? "Edit" : "Create";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle OrderLine</h4>
+
+        <div class="form-horizontal">
+            @using (Html.BeginForm("SaveOrderLine", "Order", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.HiddenFor(x => x.OrderLine.OrderLineId)
+
+                <div class="OrderLineTabs" style="background:none;">
+                    <ul>
+                        <li>
+                            <a href="#OrderLineDetails">OrderLine Details</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="OrderLineDetails">
+                    <fieldset class="g-m-t-20">
+                        <legend>Order Line Details</legend>
+
+                        <div class="form-group">
+                            @Html.Label("Description", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.OrderLine.Description, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                @Html.ValidationMessageFor(model => model.OrderLine.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" name="SaveOrderLine" value="Save" class="btn btn-default" title="Save" />
+
+                            @Html.ActionLink(
+                            linkText: "Cancel",
+                            actionName: "ViewOrderLine",
+                            controllerName: "Order",
+                            routeValues: new { id = Model.OrderLine.OrderLineId },
+                            htmlAttributes: new { @class = "btn btn-default" }
+                            )
+                        </div>
+                    </div>
+                </div>
+             }
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $(".OrderLineTabs").tabs();
+    });
+
+</script>

@@ -1,0 +1,93 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product;
+@model ProductDetailViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Untrusted Providers";
+    ViewBag.SubTitle = "Edit";
+}
+
+<div class="placeHolder g-m-b--30">
+    <h4>@ViewBag.Title - @Model.ProductDetail.productName</h4>
+</div>
+
+@(Html.Kendo().Grid<TelerikProviderInventory>()
+    .HtmlAttributes(new { @class = "pointer-rows" })
+    .Name("untrustedProvidersGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.ProviderId).Title("Provider Id").Width("90px");
+        columns.Bound(x => x.ProviderName).Title("Provider Name").Width("90px");
+        columns.Bound(x => x.Description).Title("Provider Desc");
+        columns.Bound(x => x.SupplierReference).Title("Supplier Ref").Width("90px");
+        columns.Bound(x => x.PartNo).Title("Supplier Part No").Width("90px");
+        columns.Bound(x => x.Price).Title("Price").Width("90px");
+        columns.Bound(x => x.Quantity).Title("Quantity").Width("90px");
+        columns.Bound(x => x.InventoryUpdated).Format("{0:dd/MM/yyyy HH:mm:ss}").Title("Inventory Updated").Width("150px");
+        columns.Bound(x => x.PriceChangedOn).Format("{0:dd/MM/yyyy HH:mm:ss}").Title("Price Changed On").Width("150px");
+        columns.Bound(x => x.AxisSupplierRef).Title("Axis Supplier Ref").Width("90px");
+        columns.Bound(x => x.Barcode).Title("Barcode").Width("90px");
+        columns.Bound(x => x.Untrusted).Title("Untrusted").Width("90px").ClientTemplate(
+               "<input pid=\"#:ProviderInventoryId#\" class=\"untrustedChkBox\" type=\"checkbox\" #:Untrusted ? \"checked=checked\" : \"\"  # ></input>"
+                ).HtmlAttributes(new { @class = "g-a-c" });
+        columns.Bound(x => x.UntrustedAuto).Title("Untrusted Method").HtmlAttributes(new { @class = "g-a-c" }).Hidden(true).Width("90px");
+        columns.Bound(x => x.Active).Title("Active").Width("90px").ClientTemplate(
+                "<input pid=\"#:ProviderInventoryId#\" class=\"activeChkBox\" #=\"disabled=true\"# type=\"checkbox\" #:Active ? \"checked=checked\" : \"\" # ></input>"
+                ).HtmlAttributes(new { @class = "g-a-c" });
+    })
+    .Pageable(pager => pager.Refresh(true))
+    .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+    .Sortable(sortable => sortable.AllowUnsort(true))
+    .Groupable()
+    .Scrollable()
+    .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+    .ColumnMenu()
+    .Resizable(resize => resize.Columns(true))
+    .Reorderable(reorder => reorder.Columns(true))
+    .NoRecords("There are no products to display")
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(x => x.Action("Product_Inventory_Read", "Product", new { id = ViewBag.ProductId }))
+        //.Sort(s => s.Add(x => x.Code).Ascending()) // sort done in view model
+        .PageSize(200)
+       )
+    .Events(e => e.DataBound("saveGridFilters"))
+)
+
+<div class="form-group">
+    <div class="col-md-10 g-m-t-10">
+        @Html.ActionLink("Close", "ProductIndex", "Product", null, new { @class = "btn btn-default" })
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).tooltip({
+            items: '*:not(.ui-dialog-titlebar-close)'
+        });
+
+        $(document).on("click", ".untrustedChkBox", function (e) {
+            options = new Array();
+            options[0] = $(this).attr('pid');
+            options[1] = $(this).is(":checked");
+
+            $.ajax({
+                url: '@Url.Action("SetUntrustedProvider", "Product")',
+                type: 'POST',
+                data: { options: options },
+                async: false,
+                cache: false,
+                success: function (data) {
+                    if (options[1] == true) {
+                        alert('Provider set to untrusted');
+                    } else {
+                        alert('Provider set to trusted');
+                    }
+                    $("#grid").data("kendoGrid").dataSource.read();
+                }
+            })
+        });
+
+    </script>
+}

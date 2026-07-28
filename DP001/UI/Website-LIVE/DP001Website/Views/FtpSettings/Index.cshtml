@@ -1,0 +1,134 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@model FtpSettingViewModel
+
+@{
+    ViewBag.Title = "Maintain";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Feeds
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div id="ftpsetting" class="col-sm-12 col-md-8 col-md-push-2">
+            <h4>Suppliers</h4>
+            <section class="list-form table-responsive">
+                @{ 
+                    ViewBag.FeedType = "Supplier";
+                    Html.RenderPartial("FtpDetail", Model.FtpSettingList.Where(x => x.Lookup.LookupName == "Supplier Inventory").ToList());
+                 }
+            </section>
+
+            <h4>Products</h4>
+            <section class="list-form table-responsive">
+                @{
+                    ViewBag.FeedType = "Product";
+                    Html.RenderPartial("FtpDetail", Model.FtpSettingList.Where(x => x.Lookup.LookupName == "Product Inventory").ToList());
+                }
+            </section>
+
+            <h4>Competitors</h4>
+            <section class="list-form table-responsive">
+                @{
+                    ViewBag.FeedType = "Competitor";
+                    Html.RenderPartial("FtpDetail", Model.FtpSettingList.Where(x => x.Lookup.LookupName == "Competitor Inventory").ToList());
+                }
+            </section>
+
+            <h4>Output File</h4>
+            <section class="list-form table-responsive">
+                @{
+                    ViewBag.FeedType = "Output";
+                    Html.RenderPartial("FtpDetail", Model.FtpSettingList.Where(x => x.Lookup.LookupName == "Output Ftp File").ToList());
+                }
+            </section>
+        </div>
+    </div>
+    @Html.Hidden("editUrl", Url.Action("Edit"))
+    @Html.Hidden("newUrl", Url.Action("New"))
+</section>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+
+            $(document).on('click', 'tbody .list-form-row', function () {
+                openDropForm(
+                    $(this),
+                    '.list-form-extra',
+                    $('#editUrl').val() + '/' + $(this).attr('data-id'),
+                    { timestamp: $.now() },
+                    true
+                )
+            })
+
+            $(document).on('click', 'tfoot .list-form-row', function () {
+                openDropForm(
+                    $(this),
+                    '.list-form-extra',
+                    $(this).attr('data-newurl'),
+                    { id: 0, timestamp: $.now() },
+                    true
+                )
+            })
+
+            $(document).on('click', '.list-form-extra .form-cancel', function () {
+                $('.list-form-extra').prev().trigger('click');
+            })
+        })
+
+        function updateFtpComplete(data) {
+            $('.form-actions .form-message span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                if (data.responseJSON.action != "Test") {
+                    $('.list-form-extra').prev().trigger('click');
+                    $('.list-form-row[data-id=' + data.responseJSON.id.toString() + ']').html(data.responseJSON.html);
+                }
+            }
+            $('.form-message .fa-spinner').hide();
+        }
+
+        function addFtpComplete(data) {
+            $('.form-actions .form-message span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                if (data.responseJSON.action != "Test") {
+                    $('.list-form-extra').prev().trigger('click');
+                    $('.list-form-extra').closest('table').children('tbody').append(data.responseJSON.html);
+                }
+            }
+            $('.form-message .fa-spinner').hide();
+        }
+
+        function deleteFtpComplete(id) {
+            //$('.form-actions .form-message span').text(data.responseJSON.msg);
+            //if (data.responseJSON.isSuccess) {
+            //    if (data.responseJSON.action != "Test") {
+            $('.list-form-row[data-id=' + id + ']').trigger('click');
+            $('.list-form-row[data-id=' + id + ']').closest('table').find('tfoot tr').show();
+            $('.list-form-row[data-id=' + id + ']').remove();
+            $('.form-message .fa-spinner').hide();
+            //    }
+            //}
+        }
+
+        function beginPost(id) {
+            $('.form-message .fa-spinner').show();
+        }
+
+    </script>
+}

@@ -1,0 +1,138 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Admin;
+@model PriceologyViewModel
+
+@{
+    ViewBag.Title = "Priceology Log";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    @Html.RawFromDict(Model.IntranetData, "PriceologyLogFilters")
+
+    @using (Html.BeginForm("ExportLog", "Priceology", FormMethod.Post, new { @id = "ExportForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("kendoData")
+    }
+
+    <input type="submit" class="btn btn-success g-m-t-5 download" value="Export to CSV" />
+</div>
+
+@(Html.Kendo().Grid<TelerikLog>()
+        .HtmlAttributes(new { @class = "pointer-rows" })
+        .Name("PriceologyLogGrid")
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(x => x.Action("Log_Read", "Priceology"))
+            .PageSize(200)
+            .Sort(sort => sort
+                .Add(x => x.DateTime).Descending()
+            )
+        )
+        .Columns(columns =>
+        {
+            columns.Bound(x => x.JobId).Title("Job Id").Width(80)
+                .HeaderHtmlAttributes(new { title = "Job Id", style = "text-align: center;" });
+            columns.Bound(x => x.DateTime).Title("Date").Format("{0:dd/MM/yyyy HH:mm:ss}").Width(150)
+                .HeaderHtmlAttributes(new { title = "Date", style = "text-align: center;" });
+            columns.Bound(x => x.Tenant).Title("Tenant").Width(150)
+                .HeaderHtmlAttributes(new { title = "Tenant", style = "text-align: center;" });
+            columns.Bound(x => x.Channel).Title("Channel").Width(150)
+               .HeaderHtmlAttributes(new { title = "Channel", style = "text-align: center;" });
+            //columns.Bound(x => x.MessageCount).Title("Msg Count").Width(70)
+            //   .HeaderHtmlAttributes(new { title = "Message Count", style = "text-align: center;" });
+            columns.Bound(x => x.JobName).Title("Job Name").Width(150)
+               .HeaderHtmlAttributes(new { title = "Job Name", style = "text-align: center;" });
+        })
+        .Pageable(pager => pager.Refresh(true))
+        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable
+            .AllowUnsort(true))
+        .Groupable()
+        .Scrollable()
+        .Filterable(ftb => ftb
+            .Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .Excel(excel => excel
+            .AllPages(true)
+            .FileName("Grid Export")
+            .Filterable(true)
+            .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+        .NoRecords("There are no items to display")
+        .Events(events => events.Change("Grid_OnRowSelect"))
+        .Events(events => events.DataBound("Grid_OnDataBound"))
+        .Selectable()
+)
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 1500px;">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+
+                @Html.HiddenFor(m => m.LogEntry.JobID, new { id = "modal-log-id" })
+                <iframe src="" width="100%" height="600" scrolling="no"></iframe>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+            $('#myModal').on('shown.bs.modal', function (event) {
+                $('iframe').attr('src', 'LogDetail/' + $('#modal-log-id').val());
+            });
+        });
+
+        $('#log-grid').on('click', function () {
+            $('iframe').attr('src', 'LogDetail/' + $('#modal-log-id').val());
+        });
+
+        var Grid_OnRowSelect = function (e) {
+            var data = this.dataItem(this.select());
+            $('#modal-log-id').val(data.LogId);
+            //$('#dev-comments').val(data.Comments);
+            $('#myModal').modal();
+        }
+
+        function Grid_OnDataBound() {
+            $("#PriceologyLogGrid tr.k-alt").removeClass("k-alt");
+
+            var grid = this;
+            var currentRecords = grid.dataSource.view();
+            for (var i = 0; i < currentRecords.length; i++) {
+                //currentRecords[i] is the current dataItem
+                if (currentRecords[i].Status == 2) {
+                    grid.tbody.find("tr[data-uid='" + currentRecords[i].uid + "']").removeClass("k-alt").addClass("g-bc-o").addClass("g-fc-w");
+                }
+                if (currentRecords[i].Status == 1) {
+                    grid.tbody.find("tr[data-uid='" + currentRecords[i].uid + "']").removeClass("k-alt").addClass("g-bc-r").addClass("g-fc-w");
+                }
+            }
+            saveGridFilters();
+        }
+
+        $(document).on('click', '.download', function (e) {
+            var view = $("#PriceologyLogGrid").data("kendoGrid").dataSource.view();
+            $('#kendoData').val(encodeURIComponent(JSON.stringify(view)));
+            $('#ExportForm').submit();
+        });
+    </script>
+}
+
+
+

@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNet.Identity
+@using System.Globalization;
+
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", new { @area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        var rawUsername = User.Identity.GetUserName().Split('@');
+        string[] username = rawUsername[0].ToString().Split('.');
+
+        @Html.Raw("Welcome\n");
+        @*@Html.ActionLink((char.ToUpper(username[0][0]) + username[0].Substring(1) + ' ' + char.ToUpper(username[1][0]) + username[1].Substring(1)),
+            "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage", @style = "color:#333;" })*@
+        @Html.ActionLink(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(username[0].Replace(".", " ")),
+    "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage", @style = "color:#333;" })
+        <div class="userLinks">
+            <a href="javascript:document.getElementById('logoutForm').submit()" title="Log off">Log off</a>
+        </div>
+    }
+}
+else
+{
+    //DO NOT REMOVE THE FOLLOWING
+    @*<ul class="nav navbar-nav navbar-right">
+            <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+            <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        </ul>*@
+}

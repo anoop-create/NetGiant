@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8BF76EE7-1091-47F2-8E6A-A989086F723C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DP001BusinessLogic</RootNamespace>
+    <AssemblyName>DP001BusinessLogic</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.MappingAPI">
+      <HintPath>..\..\..\Batch\DP001Batch-BETA\packages\EntityFramework.MappingAPI.6.0.0.7\lib\net45\EntityFramework.MappingAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.0.5.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\..\..\UI\Website-BETA\packages\EPPlus.4.0.5\lib\net20\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentValidationNA">
+      <HintPath>..\..\..\UI\Website-BETA\packages\FluentValidationNA.1.2.16\lib\net40\FluentValidationNA.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.DataTable.Net.Wrapper">
+      <HintPath>..\..\..\Batch\DP001Batch-BETA\packages\Google.DataTable.Net.Wrapper.3.1.2.0\lib\Google.DataTable.Net.Wrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="GridMvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\UI\Website-BETA\packages\Grid.Mvc.3.0.0\lib\net40\GridMvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Kendo.Mvc, Version=2016.3.1118.545, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Telerik\UI for ASP.NET MVC R1 2017\wrappers\aspnetmvc\Binaries\Mvc5\Kendo.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Batch\DP001Batch-BETA\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.StorageClient">
+      <HintPath>..\..\..\..\..\Program Files\Microsoft SDKs\Windows Azure\.NET SDK\v2.3\ref\Microsoft.WindowsAzure.StorageClient.dll</HintPath>
+    </Reference>
+    <Reference Include="MoreLinq, Version=1.4.18916.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\..\..\UI\Website-BETA\packages\morelinq.1.4.0\lib\net35\MoreLinq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Batch\DP001Batch-BETA\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\..\..\UI\Website-BETA\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\..\..\UI\Website-BETA\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SendGrid, Version=9.29.2.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Batch\DP001Batch-BETA\packages\SendGrid.9.29.2\lib\net452\SendGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="SendGrid.SmtpApi, Version=1.3.1.0, Culture=neutral, PublicKeyToken=2ae73662c35d80e4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\UI\Website-BETA\packages\SendGrid.SmtpApi.1.3.1\lib\net40\SendGrid.SmtpApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StarkbankEcdsa, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b2e6337a5d77bfbc, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Batch\DP001Batch-BETA\packages\starkbank-ecdsa.1.3.3\lib\net452\StarkbankEcdsa.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Linq.Dynamic">
+      <HintPath>..\..\..\UI\Website-BETA\packages\System.Linq.Dynamic.Library.1.1.14\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\UI\Website-BETA\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Batch\DP001Batch-BETA\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Batch\DP001Batch-BETA\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Batch\DP001Batch-BETA\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Batch\DP001Batch-BETA\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Batch\DP001Batch-BETA\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Batch\DP001Batch-BETA\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CalculationHistory\LoadCalculationHistory.cs" />
+    <Compile Include="Channel\Channel.cs" />
+    <Compile Include="Channel\ChannelViewModel.cs" />
+    <Compile Include="Channel\CrudChannel.cs" />
+    <Compile Include="Competitor\CompetitorViewModel.cs" />
+    <Compile Include="Competitor\CrudCompetitorInventory.cs" />
+    <Compile Include="Competitor\CrudCompetitor.cs" />
+    <Compile Include="Brand\CrudBrand.cs" />
+    <Compile Include="CustomField\CrudCustomField.cs" />
+    <Compile Include="CustomField\CustomFieldViewModel.cs" />
+    <Compile Include="CustomRoutines\Ekm.cs" />
+    <Compile Include="CustomRoutines\NetGiant.cs" />
+    <Compile Include="CustomRoutines\Shared.cs" />
+    <Compile Include="CustomRoutines\StockInTheChannel.cs" />
+    <Compile Include="Dashboard\DashboardViewModel.cs" />
+    <Compile Include="FieldMappings\CrudFieldMappings.cs" />
+    <Compile Include="FieldMappings\FieldMappingsViewModel.cs" />
+    <Compile Include="FtpSetting\CrudFtpSetting.cs" />
+    <Compile Include="FtpSetting\FtpSettingViewModel.cs" />
+    <Compile Include="Log\CrudLog.cs" />
+    <Compile Include="Log\LogViewModel.cs" />
+    <Compile Include="Lookup\CrudLookup.cs" />
+    <Compile Include="Lookup\LookupViewModel.cs" />
+    <Compile Include="MapBrandCategory\CrudMapBrandCategory.cs" />
+    <Compile Include="Pricing\CopyPriceRule.cs" />
+    <Compile Include="Pricing\CrudPriceHistory.cs" />
+    <Compile Include="Pricing\CrudPriceRule.cs" />
+    <Compile Include="Pricing\CrudPriceStaging.cs" />
+    <Compile Include="Pricing\Engine.cs" />
+    <Compile Include="Pricing\PriceRuleViewModel.cs" />
+    <Compile Include="Pricing\RoundingGroups.cs" />
+    <Compile Include="Pricing\VerifyPrices.cs" />
+    <Compile Include="ProductCategory\CrudProductCategory.cs" />
+    <Compile Include="Product\CrudProductInventory.cs" />
+    <Compile Include="Product\ProductViewModel.cs" />
+    <Compile Include="ProviderExclusion\CrudProviderExclusion.cs" />
+    <Compile Include="ProviderExclusion\ProviderExclusionViewModel.cs" />
+    <Compile Include="Reports\ComparisonViewModel.cs" />
+    <Compile Include="Reports\CrudReportConfiguration.cs" />
+    <Compile Include="Reports\CrudReports.cs" />
+    <Compile Include="Reports\ReportConfigurationViewModel.cs" />
+    <Compile Include="SalesHistory\CrudSalesHistory.cs" />
+    <Compile Include="SalesHistory\LoadSalesHistory.cs" />
+    <Compile Include="SalesHistory\SalesHistoryViewModel.cs" />
+    <Compile Include="Schedule\CrudSchedule.cs" />
+    <Compile Include="Schedule\ScheduleViewModel.cs" />
+    <Compile Include="Shared\AzureFunctions.cs" />
+    <Compile Include="Shared\ExportUtilities.cs" />
+    <Compile Include="Shared\ExtensionMethods.cs" />
+    <Compile Include="Shared\Interfaces.cs" />
+    <Compile Include="Shared\SharedViewModel.cs" />
+    <Compile Include="SkuMapping\CrudSkuMapping.cs" />
+    <Compile Include="SkuMapping\SkuMappingViewModel.cs" />
+    <Compile Include="Supplier\CrudSupplier.cs" />
+    <Compile Include="Supplier\CrudSupplierBrandMatching.cs" />
+    <Compile Include="Supplier\CrudSupplierInventory.cs" />
+    <Compile Include="Supplier\CrudSupplierMfpnMatching.cs" />
+    <Compile Include="Supplier\SupplierViewModel.cs" />
+    <Compile Include="TenantAudit\CrudTenantAudit.cs" />
+    <Compile Include="TenantAudit\TenantAuditViewModel.cs" />
+    <Compile Include="Tenant\CrudTenant.cs" />
+    <Compile Include="Tenant\Tenant.cs" />
+    <Compile Include="Product\Inventories.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\CommonFunctions.cs" />
+    <Compile Include="Shared\Email.cs" />
+    <Compile Include="Tenant\TenantSettingsViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="Views\Shared\_Grid.cshtml" />
+    <None Include="Views\Shared\_GridPager.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Gridmvc.css" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Google.DataTable.Net.Wrapper.XML" />
+    <Content Include="Library\Kendo.Mvc.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Shared\EditorTemplates\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DataAccess\DP001DataAccess-BETA\DP001DataAccess.csproj">
+      <Project>{4ab79006-51a0-49c1-9d91-099f600d010b}</Project>
+      <Name>DP001DataAccess</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

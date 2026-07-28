@@ -1,0 +1,166 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.OMS
+@using PagedList.Mvc;
+@using Kendo.Mvc.UI;
+@model MonitorViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Sales Order Monitor";
+}
+@section AddTags
+{
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet">
+    <style>
+        .k-grid {
+            font-size: 11px;
+        }
+    </style>
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    <div class="telerik-filter" data-gridname="sOGrid">
+        <a class="btn btn-danger btn-sm" data-script="grid.dataSource.filter({});">Clear Filters</a>
+        <span class="btn btn-default btn-sm" onClick="window.location.reload();">Refresh</span>
+    </div>
+    <div class="g-fc-bl g-fs-0_8em g-a-r">(Count: <span id="counter"></span>)</div>
+</div>
+
+@(Html.Kendo().Grid<MonitorViewModel.TelerikSO>()
+            .Name("sOGrid")
+            .Columns(columns =>
+            {
+                columns.Bound(x => x.OrderId).Title("Order").Width("90px").ClientTemplate(
+                    "<a href=\"../Order/ViewOrder/#:OrderId#\">OR-#:kendo.toString(OrderId, '00000000.')#</a>")
+                    .HtmlAttributes(new { style = "text-align: center; vertical-align: top;" })
+                    .HeaderHtmlAttributes(new { title = "Order", style = "text-align: center;" });
+                columns.Bound(x => x.AccountId).Title("Account").Width("90px").ClientTemplate(
+                    "<a href=\"../Acc/ViewAccount/#:AccountId#\">AC-#:kendo.toString(AccountId, '00000000.')#</a>")
+                    .HtmlAttributes(new { style = "text-align: center; vertical-align: top;" })
+                    .HeaderHtmlAttributes(new { title = "Account", style = "text-align: center;" });
+                columns.Bound(x => x.AxisAccount).Title("Axis Account").Width("90px").ClientTemplate(
+                    "<a href=\"../Acc/ViewAccount/#:AccountId#\">#:AxisAccount#</a>")
+                    .HtmlAttributes(new { style = "text-align: center; vertical-align: top;" })
+                    .HeaderHtmlAttributes(new { title = "Axis Account", style = "text-align: center;" });
+                columns.Bound(x => x.HasStock).Title("Stock Available").Width("80px")
+                    .HeaderHtmlAttributes(new { title = "Stock Available", style = "text-align: center;" })
+                    .HtmlAttributes(new { style = "text-align: center; vertical-align: top;" })
+                    .ClientTemplate(
+                        "#if(HasStock == 1){#" +
+                        "<span class=\"fa fa-check-circle g-fc-g\"></span>" +
+                        "#}else{#" +
+                        "<span class=\"fa fa-times-circle g-fc-r\"></span>" +
+                        "#}#"
+                    );
+                columns.Bound(x => x.CustCreditHold).Title("Cust. On Hold").Width("80px")
+                    .HeaderHtmlAttributes(new { title = "Customer On Hold", style = "text-align: center;" })
+                    .HtmlAttributes(new { style = "text-align: center; vertical-align: top;" })
+                    .ClientTemplate(
+                        "#if(CustCreditHold == 0){#" +
+                        "<span class=\"fa fa-check-circle g-fc-g\"></span>" +
+                        "#}else{#" +
+                        "<span class=\"fa fa-times-circle g-fc-r\"></span>" +
+                        "#}#"
+                    );
+                columns.Bound(x => x.CustCreditHold).Title("Cust. Credit Exceed").Width("80px")
+                    .HeaderHtmlAttributes(new { title = "Customer Credit Exceed", style = "text-align: center;" })
+                    .HtmlAttributes(new { style = "text-align: center; vertical-align: top;" })
+                    .ClientTemplate(
+                        "#if(CustCreditExceed == 0){#" +
+                        "<span class=\"fa fa-check-circle g-fc-g\"></span>" +
+                        "#}else{#" +
+                        "<span class=\"fa fa-times-circle g-fc-r\"></span>" +
+                        "#}#"
+                    );
+                columns.Bound(x => x.CustTermsExceed).Title("Cust. Terms Exceed").Width("80px")
+                    .HeaderHtmlAttributes(new { title = "Customer Terms Exceed", style = "text-align: center;" })
+                    .HtmlAttributes(new { style = "text-align: center; vertical-align: top;" })
+                    .ClientTemplate(
+                        "#if(CustTermsExceed == 0){#" +
+                        "<span class=\"fa fa-check-circle g-fc-g\"></span>" +
+                        "#}else{#" +
+                        "<span class=\"fa fa-times-circle g-fc-r\"></span>" +
+                        "#}#"
+                    );
+                columns.Bound(x => x.Name).Title("Cust. Name").Width("140px")
+                    .HtmlAttributes(new { style = "vertical-align: top;" })
+                    .HeaderHtmlAttributes(new { title = "Customer Name", style = "text-align: center;" });
+                columns.Bound(x => x.ShortName).Title("Cust. Short Name").Width("100px")
+                    .HtmlAttributes(new { style = "vertical-align: top;" })
+                    .HeaderHtmlAttributes(new { title = "Customer Short Name", style = "text-align: center;" });
+                columns.Bound(x => x.OrderDate).Title("Order Date").Width("100px")
+                    .ClientTemplate("#= kendo.toString(kendo.parseDate(OrderDate, 'yyyy-MM-dd'), 'dd/MM/yyyy') #")
+                    .HtmlAttributes(new { style = "text-align: center; vertical-align: top;" })
+                    .HeaderHtmlAttributes(new { title = "Order Date", style = "text-align: center;" });
+                columns.Bound(x => x.CurrentBalance).Title("Current Balance").Width(80)
+                    .Format("{0: #,##.00}")
+                    .HtmlAttributes(new { style = "text-align: right; vertical-align: top;" })
+                    .HeaderHtmlAttributes(new { title = "Current Balance", style = "text-align: center;" });
+                columns.Bound(x => x.CreditLimit).Title("Credit Limit").Width(80)
+                    .HtmlAttributes(new { style = "text-align: right; vertical-align: top;" })
+                    .HeaderHtmlAttributes(new { title = "Credit Limit", style = "text-align: center;" })
+                    .ClientTemplate(
+                        "#if(CreditLimit == 0){#" +
+                        "N/A" +
+                        "#}else{" +
+                        "kendo.toString(CreditLimit, 'n2')" +
+                        "}#"
+                    );
+                columns.Template(x => x.Last3Orders).Title("Last 3 Orders").Width("240px")
+                    .HtmlAttributes(new { style = "vertical-align: top; padding: 0" })
+                    .HeaderHtmlAttributes(new { title = "Last 3 Orders", style = "text-align: center;" })
+                    .ClientTemplate("#= BuildSnapshot(data) #");
+                columns.Bound(x => x.OrderId)
+                .HtmlAttributes(new { style = "vertical-align: top;" })
+                .ClientTemplate(
+                    "<span class=\"btn btn-info btn-xs toggle-approve\" data-id=\"#:OrderId#\"><small>Approve</small></span>"
+                    ).Title("Actions").Filterable(false).Sortable(false).Groupable(false);
+
+            })
+            .Pageable(pager => pager.Enabled(false))
+            .Scrollable(scroll => scroll.Enabled(true))
+            .Sortable(sortable => sortable.AllowUnsort(true))
+            .Scrollable()
+            .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+            .ColumnMenu()
+            .Resizable(resize => resize.Columns(true))
+            .Reorderable(reorder => reorder.Columns(true))
+            .NoRecords("There are no orders to display")
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(x => x.Action("SO_Read", "Monitor", (RouteValueDictionary)ViewBag.Query))
+                .Sort(sort => sort
+                    .Add(x => x.OrderDate).Descending())
+                )
+            .Events(e => e.DataBound("Grid_OnDataBound"))
+)
+
+@Html.Hidden("ToggleApproveUrl", Url.Action("ToggleApprove", "Order"))
+@Html.Hidden("ViewOrderUrl", Url.Action("ViewOrder", "Order"))
+
+@section Scripts {
+    <script type="text/javascript">
+        function Grid_OnDataBound() {
+            $('#counter').html($('#sOGrid').data("kendoGrid").dataSource.data().length);
+
+            saveGridFilters();
+        }
+
+        function BuildSnapshot(data) {
+            var url = $('#ViewOrderUrl').val();
+            var html = '<table>'
+            $.each(data.Last3Orders, function (key, ss) {
+                html += '<tr><td class="g-a-r" style="width: 60px;">' + ss.Date + '</td><td style="width: 70px; border: 0"><a href="' + url + '/' + ss.OrderId + '">OR-' + String(ss.OrderId).padStart(8, '0') + '</a></td><td class="g-a-r" style="width: 50px; border: 0;">' + ss.Nett.toFixed(2) + '</td></tr>';
+            })
+            return html + '</table>';
+        }
+
+        $(document).on('click',
+            '.toggle-approve',
+            function () {
+                alert('Under development. OrderID: ' + $(this).attr('data-id'));
+                toggleOrderApprove($(this).attr('data-id'))
+            });
+    </script>
+}

@@ -1,0 +1,76 @@
+﻿@using netGiant.Intranet.DataLayer;
+@using PagedList.Mvc;
+@model List<websiteInventory>
+
+@foreach (var item in Model)
+{
+    productPrice pp = item.productPrice.OrderByDescending(x => x.productPriceID).FirstOrDefault();
+   
+    <tr>
+        <td>
+            @Html.ActionLink(item.product.partNo, "Detail/" + item.productFK, "Product", null, new { @class = "sku" })
+        </td>
+        <td>
+            @switch (item.websiteFK)
+            {
+                case 1:
+                    @Html.Raw("TG")
+                    break;
+                case 2:
+                @Html.Raw("CM")
+                    break;
+                case 3:
+                @Html.Raw("NG")
+                    break;
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(m => item.product.productName)
+        </td>
+        <td>
+            @Html.DisplayFor(m => item.product.manufacturer.manufacturerName)
+        </td>
+        <td>
+            @Html.DisplayFor(m => item.categoryCode.categoryCodeName)
+        </td>
+        <td>
+            @Html.Raw(item.product.supplierStock == null ? 0 : item.product.supplierStock)
+        </td>
+        <td>
+            @Html.Raw("£" + string.Format("{0:N2}", pp != null ? pp.cheapestCostPrice : 0))
+        </td>
+        <td>
+            @Html.Raw(pp != null ? pp.basePrice != null ? "£" + string.Format("{0:N2}", pp != null ? pp.basePrice : 0) : "" : "")
+        </td>
+        <td style="background-color: #bced91;">
+            @Html.Raw("£" + string.Format("{0:N2}", pp != null ? pp.price : 0))
+        </td>
+        <td style="background-color: #bced91;">
+            @Html.Raw(string.Format("{0:N2}", pp != null ? Math.Round((float)((pp.price - pp.cheapestCostPrice ?? 0) / pp.price) * 100, 2) : 0) + "%")
+        </td>
+        <td style="background-color: #bced91;">
+            @Html.Raw("£" + string.Format("{0:N2}", pp != null ? pp.price - pp.cheapestCostPrice : 0))
+        </td>
+        <td style="background-color: #C2F0FF;">
+            @Html.Raw("£" + string.Format("{0:N2}", pp != null ? pp.breakPrice1 : 0))
+        </td>
+        <td style="background-color: #C2F0FF;">
+            @Html.Raw(string.Format("{0:N2}", pp != null && pp.breakPrice1 != null ? Math.Round((float)((pp.breakPrice1 - pp.cheapestCostPrice ?? 0) / pp.breakPrice1) * 100, 2) : 0) + "%")
+        </td>
+        <td style="background-color: #C2F0FF;">
+            @Html.Raw("£" + string.Format("{0:N2}", pp != null ? pp.breakPrice1 - pp.cheapestCostPrice : 0))
+        </td>
+        <td style="background-color: #FFCCB2;">
+            @Html.Raw("£" + string.Format("{0:N2}", pp != null ? pp.breakPrice2 : 0))
+        </td>
+        <td style="background-color: #FFCCB2;">
+            @Html.Raw(string.Format("{0:N2}", pp != null && pp.breakPrice2 != null ? Math.Round((float)((pp.breakPrice2 - pp.cheapestCostPrice ?? 0) / pp.breakPrice2) * 100, 2) : 0) + "%")
+        </td>
+        <td style="background-color: #FFCCB2;">
+            @Html.Raw("£" + string.Format("{0:N2}", pp != null ? pp.breakPrice2 - pp.cheapestCostPrice : 0))
+        </td>
+        <td>
+            @Html.Raw(pp != null ? pp.breakPricingRule : "")
+        </td>
+    </tr>
+}

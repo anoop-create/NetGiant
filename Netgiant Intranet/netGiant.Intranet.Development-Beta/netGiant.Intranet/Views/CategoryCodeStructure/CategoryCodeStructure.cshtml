@@ -1,0 +1,97 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Reports;
+@model CategoryCodeStructureViewModel
+
+@{
+    ViewBag.Title = "Category Code Structure";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h2>@ViewBag.Title</h2>
+        <div class="g-m-b-5 g-f-l">
+            @Html.DropDownListFor(m => m.CategoryCode.websiteFK, Model.WebsiteNameList, "Select Website", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+        </div>
+        <div class="g-c-b" style="height: 20px;">
+            <div class="g-f-l"><b>(Website is a Required Field)</b></div>
+        </div>
+        <div class="g-c-b" style="height: 20px;">
+            <div class="g-f-l"><b>Key: AXIS Group No - Category Code Name - Products Count</b></div>
+        </div>
+
+        @Html.Hidden("CategoriesProductList", Url.Action("ProductList", "CategoryCodeStructure"))
+        @Html.Hidden("CategoryCodeDataURL", Url.Action("CategoryCodeData", "CategoryCodeStructure"))
+        <div class="g-w-100p g-f-l">
+            <table class="table" id="tableSetting">
+                <tr>
+                    <th>
+                        <a>Category 1st Level</a>
+                    </th>
+                    <th>
+                        <a>Category 2nd Level</a>
+                    </th>
+                    <th>
+                        <a>Category 3rd Level</a>
+                    </th>
+                    <th>
+                        <a>Category 4th Level</a>
+                    </th>
+                    <th>
+                        <a>Category 5th Level</a>
+                    </th>
+                    <th>
+                        <a>Category 6th Level</a>
+                    </th>
+                </tr>
+                @{Html.RenderAction("CategoryCodeList", "CategoryCodeStructure", new { Model = Model.CatList });}
+            </table>
+
+            <div id="categoryProductsDialog" class="confirmDialog" style="display:none;">
+                
+            </div>
+
+       </div>
+   </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).on("change", "#CategoryCode_websiteFK", function (event) {
+            setupOptionsArray();
+            blockNumber = 1;
+            GetCategoryCodeSettings(true);
+        });
+
+        $(document).on("click", ".showProducts", function () {
+            var objParams = { id: $(this).attr("value") };
+            ajaxGet($('#CategoriesProductList').val(), "#categoryProductsDialog", objParams);
+
+            $("#categoryProductsDialog").dialog({
+                modal: true,
+                width: 1000,
+                height: 850,
+                title: "Products in Category - " + $(this).prev().text() + ' ' + $(this).text()
+            });
+
+            return false;
+        });
+
+        function GetCategoryCodeSettings(clearTable) {
+            setupOptionsArray();
+            InfiniteScroll($('#CategoryCodeDataURL').val(),
+                optionsArray,
+                clearTable,
+                '#tableSetting tr:gt(0)',
+                '#ManufacturerNotesCount',
+                '#tableSetting tbody',
+                $("#activeSortType"),
+                $("#activeSortDir"));
+        }
+
+        function setupOptionsArray() {
+            optionsArray = new Array();
+
+            optionsArray[0] = $("#CategoryCode_websiteFK").val() || 0; //Search by Website
+
+        }
+    </script>
+}

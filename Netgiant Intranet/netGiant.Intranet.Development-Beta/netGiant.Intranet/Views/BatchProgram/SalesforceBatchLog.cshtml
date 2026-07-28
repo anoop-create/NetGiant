@@ -1,0 +1,103 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Admin.BatchProgram;
+@model BatchProgramViewModel
+
+@{
+    ViewBag.Title = "Salesforce Batch Log";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title (highlighted items have error)</h4>
+    @Html.RawFromDict(Model.IntranetData, "SfBatchLogFilters")
+</div>
+
+@(Html.Kendo().Grid<TelerikSfBatchLog>()
+        .HtmlAttributes(new { @class = "pointer-rows" })
+        .Name("SfBatchLogGrid")
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(x => x.Action("SfBatchLog_Read", "BatchProgram"))
+            .PageSize(200)
+            .Sort(sort => sort
+                .Add(x => x.DateCreated).Descending()
+            )
+        )
+        .Columns(columns =>
+        {
+            columns.Bound(x => x.JobId).Title("Job Id").Width(150)
+                .HeaderHtmlAttributes(new { title = "Job Id", style = "text-align: center;" });
+            columns.Bound(x => x.DateCreated).Title("Date Created").Format("{0:dd/MM/yyyy HH:mm:ss}").Width(150)
+                .HeaderHtmlAttributes(new { title = "Date Created", style = "text-align: center;" });
+            columns.Bound(x => x.Status).Title("Status").Width(150)
+                .HeaderHtmlAttributes(new { title = "Status", style = "text-align: center;" });
+            columns.Bound(x => x.Object).Title("Object").Width(120)
+                .HeaderHtmlAttributes(new { title = "Object", style = "text-align: center;" });
+            columns.Bound(x => x.Operation).Title("Op").Width(80)
+                .HeaderHtmlAttributes(new { title = "Operation", style = "text-align: center;" });
+            columns.Bound(x => x.BatchesCompleted).Title("Batches Complete").Width(130)
+                .HeaderHtmlAttributes(new { title = "Batches Complete", style = "text-align: center;" });
+            columns.Bound(x => x.BatchesFailed).Title("Batches Failed").Width(130)
+                .HeaderHtmlAttributes(new { title = "Batches Failed", style = "text-align: center;" });
+            columns.Bound(x => x.RecordsProcessed).Title("Records Processed").Width(130)
+                .HeaderHtmlAttributes(new { title = "Records Processed", style = "text-align: center;" });
+            columns.Bound(x => x.RecordsFailed).Title("Records Failed").Width(130)
+                .HeaderHtmlAttributes(new { title = "Records Failed", style = "text-align: center;" });
+            columns.Bound(x => x.HasError).Title("Error").Hidden().Width(130)
+                .HeaderHtmlAttributes(new { title = "Error", style = "text-align: center;" });
+        })
+        .RowAction(row =>
+        {
+            if (row.DataItem.HasError == true)
+                row.HtmlAttributes["style"] = "background:red";
+        })
+        .Pageable(pager => pager.Refresh(true))
+        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable
+            .AllowUnsort(true))
+        .Groupable()
+        .Scrollable()
+        .Filterable(ftb => ftb
+            .Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .Excel(excel => excel
+            .AllPages(true)
+            .FileName("Grid Export")
+            .Filterable(true)
+            .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+        .NoRecords("There are no items to display")
+        //.Events(events => events.Change("Grid_OnRowSelect"))
+        .Events(events => events.DataBound("Grid_OnDataBound"))
+        .Selectable()
+)
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        var Grid_OnRowSelect = function (e) {
+            var data = this.dataItem(this.select());
+            $('#modal-log-id').val(data.Id);
+            $('#dev-comments').val(data.Comments);
+            $('#myModal').modal();
+        }
+
+        function Grid_OnDataBound() {
+            $("#SfBatchLogGrid tr.k-alt").removeClass("k-alt");
+
+            var grid = this;
+            var currentRecords = grid.dataSource.view();
+            for (var i = 0; i < currentRecords.length; i++) {
+                //currentRecords[i] is the current dataItem
+                if (currentRecords[i].HasError) {
+                    grid.tbody.find("tr[data-uid='" + currentRecords[i].uid + "']").removeClass("k-alt").addClass("g-bc-r").addClass("g-fc-w");
+                }
+            }
+            saveGridFilters();
+        }
+
+    </script>
+}
+

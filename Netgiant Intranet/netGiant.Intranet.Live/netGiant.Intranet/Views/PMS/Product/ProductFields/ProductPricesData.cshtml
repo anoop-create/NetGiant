@@ -1,0 +1,19 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product;
+@model ProductFieldViewModel
+
+<table class="table" id="tblproductPrices">
+    <tr>
+        <th>Price</th>
+        <th>Website</th>
+        <th>Date Last updated</th>
+    </tr>
+
+    @foreach (var pp in Model.productPrices.OrderByDescending(m => m.DateLastUpdate))
+    {
+        <tr>
+            <td>@Html.Raw("£" + string.Format("{0:N2}", pp.Price))</td>
+            <td>@Html.DisplayFor(m => pp.WebsiteName)</td>
+            <td>@Html.DisplayFor(m => pp.DateLastUpdate)</td>
+        </tr>
+    }
+</table>

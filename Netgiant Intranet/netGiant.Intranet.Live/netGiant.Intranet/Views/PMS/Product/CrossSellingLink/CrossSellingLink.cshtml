@@ -1,0 +1,103 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product
+@model CrossSellingLinkViewModel
+
+@{
+    ViewBag.Title = "Cross Selling Link";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+
+        <div class="g-m-b-20">
+            @Html.DropDownList("ddlManufacturer", Model.AllManufacturers, "Search by manufacturer", new { @class = "searchBy g-f-l form-control g-smallCell g-m-r-10" })
+            <select id="ddlSearchBy" class="searchBy g-f-l form-control g-smallCell g-m-r-10">
+                <option value="partNo">Part No</option>
+                <option value="productName">Product Name</option>
+            </select>
+            @Html.TextBox("searchBox", null, new { @class = "form-control g-mediumCell g-f-l text-box single-line g-m-r-10" })
+            <input id="searchButton" type="button" value="Search" class="btn btn-default" />
+        </div>
+
+            <div id="crossSellingLinkPartialView">
+                @{ Html.RenderPartial("~/Views/PMS/Product/CrossSellingLink/CrossSellingLinkData.cshtml",
+                 Model.CrossSellingLinkList); }
+            </div>
+
+            <div id="crossSellingDeleteDialogue" class="g-d-n" title="Delete Cross Selling Link">
+                Are you sure you want to delelte this cross selling link?
+            </div>
+
+            <input type="hidden" id="activeSortType" />
+            <input type="hidden" id="activeSortDir" />
+            <input type="hidden" id="historyPage" />
+
+        </div>
+
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            applyStandardPaging(event, 0);
+
+            return false;
+        });
+
+        $(document).on("click", "#crossSellingLinkPaging a, #searchButton", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $("#searchBox").keypress(function (event) {
+            if (event.which == 13) {
+                applyStandardPaging(event, $(this));
+            }
+        });
+
+        $(document).on('change', '#ddlManufacturer', function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $(document).on('click', '.lnkDeleteCrossLink', function (event) {
+            setupOptionsArrayPaging();
+            optionsArray.push($(this).attr('value'));
+
+            ajaxDelete('#crossSellingDeleteDialogue', $('#CrossSellingLinkDeleteURL').val(),
+                $(this).attr('value'), '#crossSellingLinkPartialView', optionsArray,
+                $("#activeSortType"), $("#activeSortDir"));
+
+            return false;
+        });
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging(id);
+            standardPaging(event, id, "#crossSellingLinkPaging", $('#CrossSellingLinkDataURL').val(),
+                                    "#crossSellingLinkPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = parseInt($('#ddlManufacturer').val()) || 0;
+            optionsArray[1] = $('#ddlSearchBy').val();
+            optionsArray[2] = $('#searchBox').val();
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[3] = sortType + sortDir;
+            } else {
+                optionsArray[3] = '';
+            }
+        }
+
+    </script>
+}

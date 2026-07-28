@@ -1,0 +1,150 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce.PromoVoucher;
+@model PromoGroupMappingDetailViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Promo Group Mappings";
+    ViewBag.SubTitle = "Edit";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title - @Model.PromoGroup.GroupName</h4>
+
+        <div class="form-horizontal">
+
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+            {
+                <a class="g-p-10 g-cur-p" data-toggle="modal" data-target="#promotionalGroupMappingModal">Create New</a>
+            }
+
+            @{Html.RenderPartial("PromoGroupMappingsEditing");}
+
+            <div class="form-group">
+                <div class="col-md-10 g-m-t-10">
+                    @Html.ActionLink("Close", "PromotionalVoucherGroupsIndex", "Voucher", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    string infoBoxText = Convert.ToString(@TempData["InformationBoxFlag"]);
+    if (infoBoxText != string.Empty)
+    {
+        <div id="infoBoxFlag" class="g-d-n">@TempData["InformationBoxFlag"]</div>
+    }
+}
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            //This allows validation of hidden fields inside the form
+            $('#mainForm').validate().settings.ignore = [];
+
+            $.validator.methods.date = function (value, element) {
+                if ($.browser.webkit) {
+                    var d = new Date();
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                }
+                else {
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+                }
+            };
+        });
+
+        $('.btnCreatePromo').on('click', function () {
+            createPromotionalGroupMapping();
+        });
+
+        $('#promotionalGroupMappingModal').on('hide.bs.modal', function (e) {
+            $('.categoryIds').val('');
+            $('.categoryNames').val('');
+
+            $("#treeview input.k-checkbox").prop("checked", false).trigger("change");
+
+            var treeview = $("#treeview").data("kendoTreeView");
+            treeview.collapse(".k-item");
+        });
+
+        function deleteConfirm (id) {
+            if (confirm("Are you sure you want to delete this Promo Group Mapping?")) {
+                deletePromotionalGroupMapping(id);
+            }
+        }
+
+        function deletePromotionalGroupMapping(promoId) {
+            $.ajax({
+                url: '@Url.Action("DeletePromoGroupMapping", "Voucher")',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    id : promoId
+                },
+                success: function (e) {
+                    if (e.saveReturn.IsSuccess) {
+                        $("#grid").data("kendoGrid").dataSource.read();
+                    } else {
+                        $.alert({
+                            title: 'No can do!',
+                            content: 'Unable to delete Promotional Group Mapping.',
+                        });
+                    }
+                },
+                error: function (e) {
+                    $.alert({
+                        title: 'Error!',
+                        content: e.responseText,
+                    });
+                }
+            });
+        }
+
+        function createPromotionalGroupMapping() {
+            if (!$('.categoryIds').val() || !$('.categoryNames').val()) {
+                return false;
+            }
+
+            $.ajax({
+                url: '@Url.Action("CreatePromoGroupToCategoryMapping", "Voucher")',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    voucherGroupId: @ViewBag.PromotionalVoucherGroupId,
+                    categoryIds: $('.categoryIds').val()
+                },
+                success: function (e) {
+                    if (e.saveReturn.IsSuccess) {
+                        $("#grid").data("kendoGrid").dataSource.read();
+                        $('#promotionalGroupMappingModal').modal('hide');
+                    } else {
+                        $.alert({
+                            title: 'Error!',
+                            content: e.saveReturn.Message,
+                        });
+                    }
+                },
+                error: function (e) {
+                    $.alert({
+                        title: 'Error!',
+                        content: e.responseText,
+                    });
+                }
+            });
+        }
+
+        $(document).on('click', '.lnkDelete', function () {
+            $(this).parent().parent().remove();
+            return false;
+        });
+
+        $(document).tooltip({
+            items: '*:not(.ui-dialog-titlebar-close)'
+        });
+
+   </script>
+}

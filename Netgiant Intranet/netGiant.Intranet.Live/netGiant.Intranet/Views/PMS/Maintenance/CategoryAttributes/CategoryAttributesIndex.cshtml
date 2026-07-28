@@ -1,0 +1,98 @@
+﻿@using netGiant.Intranet.DataLayer
+@using PagedList.Mvc;
+@model PagedList.IPagedList<categoryAttribute>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Category Attributes";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title Details for - @ViewBag.CategoryCodeName</h4>
+
+        <input id="hiddenCatCodeID" type="hidden" value="@ViewBag.CategoryCodeID" />
+
+        <div id="categoryAttributesDataPartialView">
+            @{Html.RenderPartial("~/Views/PMS/Maintenance/CategoryAttributes/CategoryAttributesData.cshtml", Model);}
+        </div>
+
+        <div id="confirmRemoveDialog" title="Confirm Delete" style="display:none;">
+            Are you sure you want to delete ?
+        </div>
+
+        @*@Html.ActionLink("<< Categories", "Index", "CategoryCode", null, new { @class = "btn btn-default" })*@
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        $(document).on("click", "#categoryAttributesPaging a", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $(document).on("click", ".lnkDeleteCategoryAtt", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete("#confirmRemoveDialog", $("#CategoryAttsDeleteURL").val(), $(this).attr("value"),
+                                "#categoryAttributesDataPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+            return false;
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            applyStandardPaging(event, 0);
+
+            return false;
+        });
+
+        if ($("#historyPage").val() != '') {
+            $('#categoryAttributesDataPartialView').html($("#historyPage").val());
+        }
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging();
+            standardPaging(event, id, "#categoryAttributesPaging", $("#CategoryAttsDataURL").val(),
+                                    "#categoryAttributesDataPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#hiddenCatCodeID").val();//CategoryCodeID
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[1] = sortType + sortDir;
+            } else {
+                optionsArray[1] = '';
+            }
+        }
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value"); //CategoryAttributeID
+            optionsArray[1] = $("#hiddenCatCodeID").val();//CategoryCodeID
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[2] = sortType + sortDir;
+            } else {
+                optionsArray[2] = '';
+            }
+        }
+
+    </script>
+}

@@ -1,0 +1,75 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@model LogViewModel
+
+<section class="container-fluid">
+
+    @if (Model.ErrorLogList.Count > 0)
+    {
+        <div class="row page-form">
+            <h4>Latest @Model.ErrorLogList.Count Error Reports</h4>
+
+            @foreach (var log in Model.ErrorLogList)
+                {
+                <div class="g-m-t-10 clearfix">
+                    <div class="pull-left">
+                        <i class="fa fa-times-circle fa-lg g-fc-red"></i>
+                        <span class="g-p-l-10">@log.Entry</span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="g-p-l-10">@Html.DisplayFor(x => log.DateTime)</span>
+                    </div>
+                </div>
+            }
+
+        </div>
+    }
+
+    @if (Model.SuggestionLogList.Count > 0)
+    {
+        <div class="row page-form">
+            <h4>Latest @Model.SuggestionLogList.Count Suggested Actions</h4>
+
+            @foreach (var log in Model.SuggestionLogList)
+                {
+                <div class="g-m-t-10 clearfix">
+                    <div class="pull-left">
+                        <i class="fa fa-exclamation-circle fa-lg g-fc-amber"></i>
+                        <span class="g-p-l-10">@log.Entry</span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="g-p-l-10">@Html.DisplayFor(x => log.DateTime)</span>
+                    </div>
+                </div>
+            }
+
+        </div>
+    }
+
+    @if (Model.ScheduleLogList.Count > 0)
+    {
+        <div class="row page-form">
+            <h4>Latest @Model.ScheduleLogList.Count Schedule Notifications</h4>
+
+            @foreach (var log in Model.ScheduleLogList)
+                {
+                <div class="g-m-t-10 clearfix">
+                    <div class="pull-left">
+                        <i class="fa fa-clock-o fa-lg g-fc-green"></i>
+                        <span class="g-p-l-10">@log.Entry</span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="g-p-l-10">@Html.DisplayFor(x => log.DateTime)</span>
+                    </div>
+                </div>
+            }
+
+        </div>
+    }
+
+    <div class="row g-m-b-20">
+        <a href="@Url.Action("Index", "Log")" class="g-m-tb-5 btn btn-default btn-sm center-block" style="width: 190px">
+            <i class="fa fa-bell"></i> View All Notifications
+        </a>
+    </div>
+</section>

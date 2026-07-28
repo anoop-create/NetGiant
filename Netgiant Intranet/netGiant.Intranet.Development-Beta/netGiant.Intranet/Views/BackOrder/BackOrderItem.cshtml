@@ -1,0 +1,126 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Orders;
+@model BackOrderViewModel
+
+@{
+    ViewBag.Title = "Back Order Items";
+    Layout = "~/Views/Shared/_LayoutEmpty.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    <div class="g-a-c g-b-1dg">PO No.: @Model.BackOrderEntry.PurchaseOrderNumber</div>
+</div>
+
+@(Html.Kendo().Grid<TelerikBackOrderItem>
+    ()
+    .HtmlAttributes(new { @class = "pointer-rows" })
+    .Name("BackOrderItemGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.Id).Title("Id").Hidden().Width(70);
+        columns.Bound(x => x.ItemReference).Title("Item Reference").Width(90);
+        columns.Bound(x => x.SupplierItemReference).Title("Supplier Item Reference").Width(90);
+        columns.Bound(x => x.Description).Title("Description").Width(250);
+        columns.Bound(x => x.StockReplenishmentDate).Title("Replenishment Date").Format("{0:dd/MM/yyyy}").Width(110);
+        columns.Bound(x => x.QuantityOrdered).Title("Qty Ordered").Width(80);
+        columns.Bound(x => x.QuantitySupplied).Title("Qty Supplied").Width(80)
+            .ClientGroupFooterTemplate("<div class=\"g-a-r\">Sub Totals:</div>")
+            .ClientFooterTemplate("<div class=\"g-a-r\">Totals:</div>");
+        columns.Bound(x => x.CostValue).Title("Cost Value").Width(80)
+            .Format("{0:N2}")
+            .HtmlAttributes(new { style = "text-align: right;" })
+            .HeaderHtmlAttributes(new { title = "Total Cost Value", style = "text-align: center;" })
+            .FooterHtmlAttributes(new { style = "text-align: right;" })
+            .ClientGroupFooterTemplate("#=kendo.toString(sum, 'N2')#")
+            .ClientFooterTemplate("#=kendo.toString(sum, 'N2')#");
+        columns.Bound(x => x.SellValue).Title("Nett Value").Width(80)
+            .Format("{0:N2}")
+            .HtmlAttributes(new { style = "text-align: right;" })
+            .HeaderHtmlAttributes(new { title = "Total Nett Value", style = "text-align: center;" })
+            .FooterHtmlAttributes(new { style = "text-align: right;" })
+            .ClientGroupFooterTemplate("#=kendo.toString(sum, 'N2')#")
+            .ClientFooterTemplate("#=kendo.toString(sum, 'N2')#");
+        columns.Bound(x => x.Status).Title("Status").Width(80);
+
+        columns.Bound(x => x.Id).ClientTemplate("<a href=\"##\" class=\"switchStatus\" value=\"#:Id#\" title=\"Switch status\">" +
+            "#if(Status == \"Open\"){#" +
+            "Close" +
+            "#}else{#" +
+            "Re-Open" +
+            "#}#</a>"
+            ).Width("136px").Title("Actions").Filterable(false).Sortable(false).Groupable(false);
+    })
+    .Pageable(pager => pager.Refresh(true))
+    .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+    .Sortable(sortable => sortable.AllowUnsort(true))
+    .Scrollable()
+    .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+    .ColumnMenu()
+    .Resizable(resize => resize.Columns(true))
+    .Reorderable(reorder => reorder.Columns(true))
+    .NoRecords("There are no items to display")
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(x => x.Action("BackOrderItem_Read", "BackOrder", new { id = Model.BackOrderId }))
+        .PageSize(200)
+        .Aggregates(agg => {
+            agg.Add(f => f.CostValue).Sum();
+            agg.Add(f => f.SellValue).Sum();
+        })
+    )
+)
+
+@section scripts
+    {
+    <script type="text/javascript">
+
+        $(document).on('click', '.switchStatus', function (e) {
+            var rowid = $(this).attr('value');
+            e.preventDefault();
+            $.confirm({
+                title: 'Back Orders',
+                content: 'Are you sure you want to switch the status of this back order item?',
+                buttons: {
+                    Yes: function () {
+                        switchStatus('@Url.Action("SwitchLineStatus", "BackOrder")/', { id: rowid });
+                    },
+                    No: function () { }
+                }
+            });
+        });
+
+        function switchStatus(url, data) {
+            $('body').append('<div id="updatingContainer"></div>');
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (data) {
+                    if (data.saveReturn.IsSuccess) {
+                        $('.k-grid').data('kendoGrid').dataSource.read();
+                        $('.k-grid').data('kendoGrid').refresh();
+                    } else {
+                        $.alert({
+                            title: 'Error!',
+                            content: data.saveReturn.Message
+                        });
+                    }
+                },
+                error: function (e) {
+                    $.alert({
+                        title: 'Error!',
+                        content: e.responseText
+                    });
+                }
+            });
+
+            $('#updatingContainer').remove();
+        }
+
+    </script>
+}
+
+
+

@@ -1,0 +1,77 @@
+﻿@using netGiant.Intranet.ViewModels;
+@using Microsoft.AspNet.Identity.EntityFramework;
+@model ApplicationUserViewModel
+
+@Html.Hidden("RoleDeleteURL", Url.Action("DeleteRole", "Account"))
+
+@{
+    ViewBag.Title = "Roles List";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h2>@ViewBag.Title</h2>
+        <h4>List all the available roles on the intranet</h4>
+
+        <div>
+            @Html.ActionLink("Create New", "CreateRole", "Account", null, null)
+        </div>
+
+        <div>
+            @(Html.Kendo().Grid<ApplicationUserViewModel.TelerikRole>()
+            .HtmlAttributes(new { @class = "pointer-rows" })
+            .Name("RolesGrid")
+            .Columns(columns =>
+                {
+                    columns
+                        .Bound(x => x.Name)
+                        .Title("Role")
+                        .Width("40%")
+                        .HeaderHtmlAttributes(new { title = "Role", style = "text-align: center;" });
+                    columns
+                        .Bound(x => x.ID)
+                        .Title("ID")
+                        .Width("40%")
+                        .HeaderHtmlAttributes(new { title = "ID", style = "text-align: center;" });
+                    columns
+                        .Bound(x => x.Name).ClientTemplate(
+                            "<a href=\"\\\\#\" class=\"lnkDeleteRole\" value=\"#:Name#\" title=\"Delete\">Delete</a>")
+                        .Width("20%")
+                        .HeaderHtmlAttributes(new { title = "Action", style = "text-align: center;" })
+                        .Title("Action")
+                        .Filterable(false)
+                        .Sortable(false)
+                        .Groupable(false);
+                }
+            )
+            .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+            .ColumnMenu()
+            .Sortable(sortable => sortable.AllowUnsort(true))
+            .Resizable(resize => resize.Columns(true))
+            .Reorderable(reorder => reorder.Columns(true))
+            .NoRecords("There are no products to display")
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(x => x.Action("ListRoleDataAjax", "Account"))
+                .PageSize(50)
+                )
+            )
+        </div>
+
+        <div id="roRoleDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+            Are you sure ?
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).on("click", ".lnkDeleteRole", function () {
+            optionsArray = new Array();
+            optionsArray[0] = $(this).attr("value")
+            ajaxDeleteTelerikRow(optionsArray, $('#RoleDeleteURL').val(), '#roRoleDialog')
+            return false;
+        });
+    </script>
+}

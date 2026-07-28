@@ -1,0 +1,99 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product;
+@using netGiant.Intranet.DataLayer.NetgiantMasterData;
+@model ProductViewModel
+
+@Html.Label("Manufacturer : " + (Model.prod.manufacturer != null ? Model.prod.manufacturer.manufacturerName : ""))
+<br>
+
+@{ 
+    string currentID;
+    int currentIndex = 0;
+}
+@foreach (var webInv in Model.prod.websiteInventory.OrderBy(x => x.websiteFK))
+{
+    currentID = "imagesNotRequired" + currentIndex;
+    currentIndex += 1;
+    string fullImagesPath = Model.GetFullPathOfWebInventoryImages(webInv);
+
+<fieldset>
+    @{
+        string toDisplayInLegend = Model.AllWebsites.Where(x => x.WebsiteID == webInv.websiteFK).First().FriendlyName;
+
+        List<productImage> productImagesListForWebsiteInventory = webInv.productImage.ToList();
+
+        if (productImagesListForWebsiteInventory.Count() > 0)
+        {
+            int mainFullImagesCount = productImagesListForWebsiteInventory.Where(x => x.mainImage && !x.thumbnailImage).Count();
+            if (mainFullImagesCount > 1)
+            {
+                toDisplayInLegend += ", More than 1 main full image";
+            }
+            if (mainFullImagesCount == 0)
+            {
+                toDisplayInLegend += ", Missing a main full image";
+            }
+
+            int mainThumbnailImagesCount = productImagesListForWebsiteInventory.Where(x => x.mainImage && x.thumbnailImage).Count();
+            if (mainThumbnailImagesCount > 1)
+            {
+                toDisplayInLegend += ", More than 1 main thumbnail image";
+            }
+            if (mainThumbnailImagesCount == 0)
+            {
+                toDisplayInLegend += ", Missing a main thumbnail image";
+            }
+        }
+    }
+
+    <legend>@Html.Raw(toDisplayInLegend)</legend>
+
+    <div class="form-group">
+        @Html.Label("Images Not Required", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10 g-p-t-5">
+            @*@Html.CheckBoxFor(m => webInv.imageIsNotRequired, new { htmlAttributes = new { @class = "form-control g-largeCell" } })*@
+            @Html.CheckBoxFor(m => webInv.imageIsNotRequired, new { id = @currentID, Value = webInv.websiteFK, Name = "ImagesNotRequired", @class = "" })
+        </div>
+    </div>
+
+    <div>
+        @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+        {
+            @Html.ActionLink("Create New", "CreateProductImage", "Product", new { prodId = Model.prod.productID, webInvId = webInv.websiteInventoryID, id = 0 }, null)
+        }
+        else
+        {
+            @Html.Raw("&nbsp");
+        }
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>URL</th>
+            <th>IsMain</th>
+            <th>IsThumbnail</th>
+            <th>Preview</th>
+        </tr>
+
+        @foreach (var prdImage in webInv.productImage)
+        {
+            string fullProductImagePath = fullImagesPath + '/' + prdImage.URL;
+
+            <tr>
+                <td>@Html.Raw(prdImage.URL)</td>
+                <td>@Html.CheckBox("mainChecked", prdImage.mainImage, new { @disabled = "disabled" }) </td>
+                <td>@Html.CheckBox("thumbnailChecked", prdImage.thumbnailImage, new { @disabled = "disabled" }) </td>
+                <td><img src="@fullProductImagePath" style="height:25px" onerror="this.src = '../../../Content/Images/noimage.jpg';" /></td>
+
+                <td class="g-w-10p">
+                    @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+                    {
+                        @Html.ActionLink("Edit", "CreateProductImage", "Product", new { prodId = Model.prod.productID, webInvId = webInv.websiteInventoryID, id = prdImage.productImageID }, null);
+                        @Html.Raw(" | <a class=\"deleteProductImageURL\" href=\"#\" value=" + @prdImage.productImageID + ">Delete</a>");
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+
+</fieldset>
+}

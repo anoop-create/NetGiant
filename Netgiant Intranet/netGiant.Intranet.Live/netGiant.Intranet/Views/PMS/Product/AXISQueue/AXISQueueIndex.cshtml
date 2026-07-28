@@ -1,0 +1,89 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product;
+@model AXISQueueViewModel
+
+@{
+    ViewBag.Title = "AXIS Queue";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        @Html.Hidden("AXISQueueIndexDataURL", Url.Action("AXISQueueIndexData", "Product"))
+
+        <h4>@ViewBag.Title</h4>
+
+        <div style="padding-bottom: 20px;">
+            <select id="axisQueueSearchBy" class="searchBy g-f-l form-control g-smallCell" style="margin-right:10px;">
+                <option selected="selected" value="partNo">Search by part no</option>
+            </select>
+            <div>
+                @Html.TextBox("SearchAXISQueue", null, new { @class = "form-control g-mediumCell g-f-l text-box single-line g-m-r-10" })
+                <a id="lnkSearchAXISQueue" href="#" class="btn btn-default g-f-l" title="Emptry search returns all records">Search</a>
+            </div>
+        </div>
+        <br />
+        
+        <div id="axisQueuePartialView">
+            @{ Html.RenderPartial("~/Views/PMS/Product/AXISQueue/AXISQueueIndexData.cshtml", Model.listAXISQueueDetails); }
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+        @*@Html.ActionLink("Process Axis Queue", "StartProcessAxisQueue", "Product", null, new { @class = "btn btn-default" })*@
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        $(document).on("click", "#lnkSearchAXISQueue, #axisQueuePaging a", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $("#SearchAXISQueue").keypress(function (event) {
+            if (event.which == 13) {
+                applyStandardPaging(event);
+            }
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            applyStandardPaging(event, 0);
+
+            return false;
+        });
+
+        if ($("#historyPage").val() != '') {
+            $('#axisQueuePartialView').html($("#historyPage").val());
+        }
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging();
+            standardPaging(event, id, "#axisQueuePaging", $('#AXISQueueIndexDataURL').val(),
+                                    "#axisQueuePartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#SearchAXISQueue").val(); //SearchTerm
+            optionsArray[1] = $("#axisQueueSearchBy").val(); //SearchBy
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[2] = sortType + sortDir;
+            } else {
+                optionsArray[2] = '';
+            }
+        }
+
+    </script>
+}

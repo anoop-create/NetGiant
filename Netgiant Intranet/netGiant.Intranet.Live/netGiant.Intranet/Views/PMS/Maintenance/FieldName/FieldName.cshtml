@@ -1,0 +1,119 @@
+﻿@model netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance.FieldNameViewModel
+
+@{
+    ViewBag.Title = "Field Name";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title Details</h4>
+
+        <div style="padding-bottom: 20px">
+            @Html.DropDownListFor(m => m.selectedFieldSubSectionID, Model.allFieldSubSections, "Search By Field Sub Section", new { @class = "form-control g-smallCell g-f-l g-m-r-10" })
+            @Html.DropDownListFor(m => m.selectedFieldTypeID, Model.allFieldTypes, "Search By Field Types", new { @class = "form-control g-smallCell g-f-l g-m-r-10" })
+            <select id="fieldNameSearchBy" class="searchBy g-f-l form-control g-smallCell" style="margin-right:10px">
+                <option selected="selected" value="name">Search by field name</option>
+            </select>
+            <div>
+                @Html.TextBox("SearchFieldName", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10", @type = "text" })
+                <a id="lnkSearchFieldName" href="#" class="btn btn-default g-f-l" title="Empty search returns all records">Search</a>
+            </div>
+        </div>
+
+        <br />
+
+        <div id="fieldNameData">
+            @{ Html.RenderPartial("~/Views/PMS/Maintenance/FieldName/FieldNameData.cshtml", Model.fieldNames);}
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        $(document).on("click", "#lnkSearchFieldName, #fieldNamePaging a", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $("#SearchFieldName").keypress(function (event) {
+            if (event.which == 13) {
+                applyStandardPaging(event);
+            }
+        });
+
+        $(document).on("click", ".lnkFieldNameDelete", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete('#fieldNameDeleteDialog', $('#DeleteFieldNameURL').val(), $(this).attr('value'),
+                '#fieldNameData', optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            applyStandardPaging(event, 0);
+
+            return false;
+        });
+
+        if ($("#historyPage").val() != '') {
+            $('#fieldNameData').html($("#historyPage").val());
+        }
+
+        $(document).on("change", "#selectedFieldSubSectionID, #selectedFieldTypeID", function (event) {
+            applyStandardPaging(event, 0);
+        });
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging();
+            standardPaging(event, id, "#fieldNamePaging", $('#FieldNameDataURL').val(),
+                                    "#fieldNameData", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#SearchFieldName").val(); //SearchTerm
+            optionsArray[1] = $("#fieldNameSearchBy").val(); //SearchBy
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[2] = sortType + sortDir;
+            } else {
+                optionsArray[2] = '';
+            }
+
+            optionsArray[3] = $("#selectedFieldSubSectionID option:selected").val().length > 0 ? $("#selectedFieldSubSectionID option:selected").val() : 0;
+            optionsArray[4] = $("#selectedFieldTypeID option:selected").val().length > 0 ? $("#selectedFieldTypeID option:selected").val() : 0;
+        }
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value"); //ProductTypeID
+            optionsArray[1] = $("#SearchFieldName").val(); //SearchTerm
+            optionsArray[2] = $("#fieldNameSearchBy").val(); //SearchBy
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[3] = sortType + sortDir;
+            } else {
+                optionsArray[3] = '';
+            }
+
+            optionsArray[4] = $("#selectedFieldSubSectionID option:selected").val().length > 0 ? $("#selectedFieldSubSectionID option:selected").val() : 0;
+            optionsArray[5] = $("#selectedFieldTypeID option:selected").val().length > 0 ? $("#selectedFieldTypeID option:selected").val() : 0;
+        }
+
+    </script>
+}

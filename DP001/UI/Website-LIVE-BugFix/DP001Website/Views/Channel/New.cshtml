@@ -1,0 +1,97 @@
+﻿@using DP001BusinessLogic.ViewModels;
+
+@model TenantSettingsViewModel
+
+<tr class="list-form-extra">
+    <td colspan="100%">
+        @using (Ajax.BeginForm("Create", "Channel", new AjaxOptions { HttpMethod = "POST", OnComplete = "addChannelComplete", OnBegin = "beginPost('#channel')" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.ChannelEntry.ChannelID)
+            @Html.HiddenFor(x => x.ChannelEntry.SLActiveTypeFK)
+            @Html.HiddenFor(x => x.ChannelEntry.SLMinRating)
+            @Html.HiddenFor(x => x.ChannelEntry.SLMinReviews)
+
+            <section class="page-form table-responsive">
+                <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Add or modify channels" data-helpsid="2" data-helpeid="2"></i> Add Channel</h4>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The channel reference name" data-helpsid="2" data-helpeid="2"></i>
+                            Channel Name
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.ChannelEntry.ChannelName)
+                            @Html.EditorFor(x => x.ChannelEntry.ChannelName)
+                        </div>
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="This is the default rounding rule to apply to prices" data-helpsid="2" data-helpeid="2"></i>
+                            Rounding Rule
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.ChannelEntry.RoundingGroupFK)
+                            @Html.DropDownListFor(x => x.ChannelEntry.RoundingGroupFK, Model.RoundingGroups, "Select...", new { @class = "selectpicker" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="This is the email address used for sending the finished prices file" data-helpsid="2" data-helpeid="2"></i>
+                            Output Prices Email
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.ChannelEntry.OutputFileEmailAddress)
+                            @Html.EditorFor(x => x.ChannelEntry.OutputFileEmailAddress)
+                        </div>
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="This is the email address used for sending notifications to you about your Priceology setup" data-helpsid="2" data-helpeid="2"></i>
+                            Notifications Email
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.ChannelEntry.NotificationsEmailAddress)
+                            @Html.EditorFor(x => x.ChannelEntry.NotificationsEmailAddress)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Check to use Client Product ID to join up your inventories instead of using Manufacturer Part No." data-helpsid="2" data-helpeid="2"></i>
+                            Use Client Product ID As Key
+                        </div>
+                        <div class="col-md-4 form-value">
+                            <div class="checkbox checkbox-success">
+                                @Html.CheckBoxFor(x => x.ChannelEntry.UseClientProductId)
+                                <label for="UseClientProductId"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Activate/Deactive the channel" data-helpsid="2" data-helpeid="2"></i>
+                            Activate Channel
+                        </div>
+                        <div class="col-md-4 form-value">
+                            <div class="checkbox checkbox-success">
+                                @Html.CheckBoxFor(x => x.ChannelEntry.IsActive)
+                                <label for="IsActive"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <div class="pull-left form-message">
+                        <i class="fa fa-spinner fa-pulse" style="display: none" />
+                        <span></span>
+                    </div>
+
+                    <button type="button" class="pull-right g-m-r-10 g-cur-p form-cancel btn btn-default btn-sm cancel">
+                        <i class="fa fa-times"></i> Cancel
+                    </button>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Submit" name="action:Save">
+                            <i class="fa fa-floppy-o"></i> Save
+                        </button>
+                    }
+                </div>
+            </section>
+        }
+    </td>
+</tr>

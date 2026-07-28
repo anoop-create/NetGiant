@@ -1,0 +1,215 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance
+@using PagedList.Mvc;
+@model CategoryCodeViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Category Code";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <div id="categoryCodeToggler" class="toggler">
+            <div id="effect" class="ui-widget-content ui-corner-all">
+                <h3 class="ui-widget-header ui-corner-all"></h3>
+            </div>
+        </div>
+
+        <h4>@ViewBag.Title Details</h4>
+
+        <div style="padding-bottom: 20px">
+            @Html.DropDownListFor(m => m.catCode.websiteFK, Model.AllWebsites, "Search by website", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+            <select id="categoryCodeSearchBy" class="searchBy g-f-l form-control g-smallCell" style="margin-right:10px">
+                <option selected="selected" value="name">Search by name</option>
+                <option value="parentName">Search by parent name</option>
+                <option value="axisGroupNo">Search by Axis Group No</option>
+            </select>
+            <div>
+                @Html.TextBox("SearchCategoryCode", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10" })
+                <a id="lnkSearchCategoryCode" href="#" class="btn btn-default g-f-l" title="Empty search returns all records">Search</a>
+                <img src="~/Content/images/loader/ajax-loader-whiteBG.gif" alt="" class="g-d-n" id="slCategoryCode" />
+            </div>
+
+            @Html.ActionLink("Reset", "Index", "CategoryCode", null, new { @class = "btn btn-default g-m-l-10 g-f-l" })
+        </div>
+        <br />
+
+        <div>
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+            {
+                @Html.ActionLink("Create New", "Create", "CategoryCode", new { id = 0 }, null)
+            }
+            else
+            {
+                @Html.Raw("&nbsp");
+            }
+            <span class="g-f-r"><span id="catCodeCount" class="g-fw-b">@Model.categoryCodeCount </span><span>Categories Found</span></span>
+        </div>
+
+        <div id="categoryCodePartialView">
+            <table class="table" id="tblCategoryCode">
+                <tr>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="categoryCodeName">Category Code Name</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="parentCategoryName">Parent Category</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="website">Website</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="axisGroupNo">AXIS Group No</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="isPrimary">Primary</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="googleCategory">Google Category</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="sale">Sale</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="sitemap">Sitemap</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th></th>
+                </tr>
+                @{Html.RenderAction("IndexList", "CategoryCode", new { Model = Model.categoryCodesList });}
+            </table>
+        </div>
+
+        <div id="categoryCodeDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+            Are you sure you want to delete ?
+        </div>
+
+        @Html.Hidden("CategoryCodeDeleteURL", Url.Action("Delete", "CategoryCode"))
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+    </div>
+</div>
+
+@{
+    string infoBoxText = Convert.ToString(@TempData["InformationBoxFlag"]);
+    if (infoBoxText != string.Empty)
+    {
+        <div id="infoBoxFlag" class="g-d-n">@TempData["InformationBoxFlag"]</div>
+    }
+}
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        $(document).on("click", "#lnkSearchCategoryCode, #categoryCodePaging a", function (event) {
+            blockNumber = 1;
+            GetCategoryCodes(true);
+            return false;
+        });
+
+        $("#SearchCategoryCode").keypress(function (event) {
+            if (event.which == 13) {
+                blockNumber = 1;
+                GetCategoryCodes(true);
+            }
+        });
+
+        $(document).on("click", ".lnkCategoryCodeDelete", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete("#categoryCodeDialog", $("#CategoryCodeDeleteURL").val(), $(this).attr("value"),
+                                "#categoryCodePartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+            return false;
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            blockNumber = 1;
+            GetCategoryCodes(true);
+
+            return false;
+        });
+
+        $(document).on("change", "#catCode_websiteFK, #catCode_dataSupplierFK", function (event) {
+            blockNumber = 1;
+            GetCategoryCodes(true);
+        });
+
+        if ($("#historyPage").val() != '') {
+            $('#categoryCodePartialView').html($("#historyPage").val());
+        }
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() > $('#scrollBottomContainer').offset().top
+                && !noMoreData && !inProgress) {
+                GetCategoryCodes(false);
+            }
+            return false;
+        });
+
+        function GetCategoryCodes(clearTable) {
+            setupOptionsArrayPaging();
+            InfiniteScroll('@Url.Action("IndexData", "CategoryCode")',
+                optionsArray,
+                clearTable,
+                '#tblCategoryCode tr:gt(0)',
+                '#catCodeCount',
+                '#tblCategoryCode tbody',
+                $("#activeSortType"),
+                $("#activeSortDir"));
+        }
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging();
+            standardPaging(event, id, "#categoryCodePaging", $("#CategoryCodeDataURL").val(),
+                                    "#categoryCodePartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#SearchCategoryCode").val(); //SearchTerm
+            optionsArray[1] = $("#categoryCodeSearchBy").val(); //SearchBy
+            optionsArray[2] = $("#catCode_websiteFK").val() || 0; //Search by Website
+            optionsArray[3] = $("#catCode_dataSupplierFK").val() || 0; //Search by Data Supplier
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[4] = sortType + sortDir;
+            } else {
+                optionsArray[4] = '';
+            }
+        }
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value"); //AXISGroupID
+            optionsArray[1] = $("#categoryCodeSearchBy").val(); //SearchBy
+            optionsArray[2] = $("#SearchCategoryCode").val(); //SearchTerm
+            optionsArray[3] = $("#catCode_websiteFK").val() || 0; //Search by Website
+            optionsArray[4] = $("#catCode_dataSupplierFK").val() || 0; //Search by Data Supplier
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[5] = sortType + sortDir;
+            } else {
+                optionsArray[5] = '';
+            }
+        }
+
+    </script>
+}

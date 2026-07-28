@@ -1,0 +1,9 @@
+﻿{
+  "$schema": "http://schemastore.org/schemas/json/webjob-publish-settings.json",
+  "webJobName": "DP001Batch",
+  "startTime": null,
+  "endTime": null,
+  "jobRecurrenceFrequency": null,
+  "interval": null,
+  "runMode": "Continuous"
+}

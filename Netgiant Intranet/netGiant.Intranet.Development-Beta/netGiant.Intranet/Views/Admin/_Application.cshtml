@@ -1,0 +1,23 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Shared;
+@using System.Configuration;
+@model CommonViewModel
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Variable Name</th>
+            <th>Variable Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{HttpContext oc = HttpContext.Current;
+            foreach (var c in ConfigurationManager.AppSettings.AllKeys)
+            {
+                <tr>
+                    <td>@c</td>
+                    <td>@ConfigurationManager.AppSettings[c]</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

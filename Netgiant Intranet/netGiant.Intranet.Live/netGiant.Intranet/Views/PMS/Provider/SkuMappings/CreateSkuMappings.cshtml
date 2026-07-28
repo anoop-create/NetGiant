@@ -1,0 +1,57 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Provider
+@model ProviderViewModel
+@{
+    ViewBag.Title = "Sku Mapping";
+    ViewBag.SubTitle = Model.skuMap.providerFK > 0 ? "Edit" : "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title</h4>
+
+        <div class="form-horizontal">
+
+            @using (Html.BeginForm("SaveSkuMapping", "Provider", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.skuMap.skuMappingID)
+
+                <div class="form-group">
+                    @Html.Label("Provider", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.skuMap.providerFK, Model.allSuppliers, "Select...", new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(model => model.skuMap.providerFK, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Provider Part No", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.skuMap.providerPartNo, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.skuMap.providerPartNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Our Part No", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.skuMap.altRef, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.skuMap.altRef, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveProviderType" value="Save" class="btn btn-default" title="Save" />
+                        @Html.ActionLink("Cancel", "SkuMappings", "Provider", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+

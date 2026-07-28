@@ -1,0 +1,21 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Shared;
+@model CommonViewModel
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Cookie Name</th>
+            <th>Cookie Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Request.Cookies.Count; i++)
+        {
+            HttpCookie aCookie = Request.Cookies[i];
+            <tr>
+                <td>@aCookie.Name</td>
+                <td>@aCookie.Value</td>
+            </tr>
+        }
+    </tbody>
+</table>

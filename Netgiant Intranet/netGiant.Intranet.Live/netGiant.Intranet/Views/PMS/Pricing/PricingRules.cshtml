@@ -1,0 +1,301 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Pricing
+@model PricingRulesViewModel
+
+@{
+    ViewBag.Title = "Pricing Rules";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+
+        @Html.Hidden("PricingBandsURL", Url.Action("PricingBandsData", "PricingRules"))
+        @Html.Hidden("PricingRulesDataURL", Url.Action("PricingRulesData", "PricingRules"))
+        @Html.Hidden("GetCategoryCodesURL", Url.Action("GetCategoryCodes", "SelectLists"))
+        @Html.Hidden("DeletePriceRuleURL", Url.Action("DeletePricingRule", "PricingRules"))
+        @Html.Hidden("MoreDetailURL", Url.Action("GetPriceRuleMoreDetail", "PricingRules"))
+
+        <div>
+            @Html.DropDownList("selectedWebsiteFK", new SelectList(Model.allWebsites, "Value", "Text", Model.selectedWebsiteFK), "Search By website", new { @class = "form-control g-smallCell g-f-l g-m-r-10" })
+
+            <select id="ddlCategorySearch" class="searchBy g-f-l form-control g-smallCell g-m-r-10" disabled="disabled">
+                <option selected="selected">Search by category</option>
+            </select>
+
+            @Html.DropDownList("selectedRuleTypeFK", new SelectList(Model.allRuleTypes, "Value", "Text", Model.selectedRuleTypeFK), "Search By type", new { @class = "form-control g-smallCell g-f-l g-m-r-10" })
+
+            @Html.ActionLink("Reset Search", "ResetSearch", "PricingRules", null, new { @class = "btn btn-default" })
+        </div>
+        <br />
+
+        <div>
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+            {
+                @Html.ActionLink("Create New", "CreatePricingRule", "PricingRules", new { id = 0 }, new { @title = "New" })
+            }
+            else
+            {
+                @Html.Raw("&nbsp");
+            }
+            <span class="g-f-r"><span id="settingCount" class="g-fw-b">@Model.PriceRulesCount </span><span>Rules Found</span></span>
+        </div>
+
+        <div id="priceRulesPartialView">
+            <table id="priceRulesTable" class="table">
+                <tr>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="description">Description</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="website">Website</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="categoryCode">Category Code</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="ruleType">Rule Type</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="manufacturer">Manufacturer</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    @*<th>
+                        <a href="#" class="tableHeaderSort" value="productGroup">Product Group</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>*@
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="product">Product</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="banding">Banding</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th></th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="costUplift">Cost Uplift</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="desiredMargin">Desired Margin</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="minMargin">Min Margin</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="maxMargin">Max Margin</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="competitorsToBeat">CTB</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th class="g-a-c">
+                        <a href="#" class="tableHeaderSort" value="nudge">Nudge</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th></th>
+                </tr>
+                @{Html.RenderAction("PricingRuleList", "PricingRules", new { Model = Model.priceRuleList });}
+            </table>
+        </div>
+
+        @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+        {
+            @Html.ActionLink("Calculate Prices", "StartProcessCalculatePrices", "PricingRules", null, new { @class = "btn btn-default" })
+        }
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+        @Html.HiddenFor(m => m.selectedCategoryCodeFK)
+
+        <div id="priceRuleBandingDialogue" class="g-d-n" title="Price Rule Bandings"></div>
+        <div id="priceRuleDeleteDialogue" class="g-d-n" title="Delete Price Rule">
+            Are you sure you want to delelte this pricing rule ?
+        </div>
+
+    </div>
+</div>
+
+@{
+    string infoBoxText = Convert.ToString(@TempData["InformationBoxFlag"]);
+    if (infoBoxText != string.Empty)
+    {
+        <div id="infoBoxFlag" class="g-d-n">@TempData["InformationBoxFlag"]</div>
+    }
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        var selectedCatCodeFK = $("#selectedCategoryCodeFK").val();
+        var selectedWebsiteFK = $("#selectedWebsiteFK").val();
+
+        if (selectedWebsiteFK != 0) {
+            jsonPopulateDropDown($("#GetCategoryCodesURL").val() + '/' + $("#selectedWebsiteFK").val(),
+                                    '#ddlCategorySearch', 'category', selectedCatCodeFK);
+        }
+
+        $(document).on("click", ".useBandingDetails", function () {
+            getbands($("#PricingBandsURL").val(), "#priceRuleBandingDialogue", $(this).attr("value"))
+            $("#priceRuleBandingDialogue").dialog({
+                modal: true,
+                width: 800
+            });
+
+            return false;
+        });
+
+        $(document).on("change", "#selectedWebsiteFK", function (event) {
+
+            if ($(this).val().length > 0) {
+                jsonPopulateDropDown($("#GetCategoryCodesURL").val() + '/' + $(this).val(), '#ddlCategorySearch', 'category');
+            } else {
+                $("#ddlCategorySearch").empty();
+                $("#ddlCategorySearch").html('<option value="" selected="true">Search by category</option>');
+                $("#ddlCategorySearch").attr('disabled', 'disabled');
+            }
+
+            blockNumber = 1;
+            GetPriceRules(true);
+        });
+
+        $(document).on("change", "#ddlCategorySearch", function (event) {
+            blockNumber = 1;
+            GetPriceRules(true);
+        });
+
+        $(document).on("change", "#selectedRuleTypeFK", function (event) {
+            blockNumber = 1;
+            GetPriceRules(true);
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            blockNumber = 1;
+            GetPriceRules(true);
+
+            return false;
+        });
+
+        $(document).on("click", ".lnkDeleteRule", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDeleteInfiniteScroll('#priceRuleDeleteDialogue', $('#DeletePriceRuleURL').val(), $(this).attr('value'),
+                '#priceRulesPartialView', optionsArray, $("#activeSortType"), $("#activeSortDir"),
+                true, '#priceRulesTable tr:gt(0)', '#settingCount', '#priceRulesTable tbody');
+            return false;
+        });
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() > $('#scrollBottomContainer').offset().top
+                && !noMoreData && !inProgress) {
+                GetPriceRules(false);
+            }
+            return false;
+        });
+
+        $(document).on('click', '#priceRulesTable tr', function () {
+            var row = $(this);
+            var nextElem = row.next();
+
+            if (nextElem.hasClass('moreDetails')) {
+                nextElem.remove();
+                row.removeClass('selectedPriceRule');
+            } else {
+
+                $.ajax({
+                    type: 'POST',
+                    url: $('#MoreDetailURL').val(),
+                    traditional: true,
+                    data:
+                    {
+                        id: row.find('.lnkDeleteRule').attr('value'),
+                        timestamp: $.now()
+                    },
+                    success: function (data) {
+                        row.after(data);
+                        row.next().fadeIn();
+                        row.addClass('selectedPriceRule');
+                    }
+                });
+            }
+        });
+
+        function GetPriceRules(clearTable) {
+            setupOptionsArray();
+            InfiniteScroll($('#PricingRulesDataURL').val(),
+                optionsArray,
+                clearTable,
+                '#priceRulesTable tr:gt(0)',
+                '#settingCount',
+                '#priceRulesTable tbody',
+                $("#activeSortType"),
+                $("#activeSortDir"));
+        }
+
+        function setupOptionsArray() {
+            optionsArray = new Array();
+            optionsArray[0] = parseInt($("#selectedWebsiteFK").val()) || 0; //Website
+            optionsArray[1] = parseInt($('#ddlCategorySearch').val()) || 0; //Category Code
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[2] = sortType + sortDir;
+            } else {
+                optionsArray[2] = '';
+            }
+
+            optionsArray[3] = '';
+            optionsArray[4] = parseInt($("#selectedRuleTypeFK").val()) || 0; //Rule Type
+        }
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = parseInt($("#selectedWebsiteFK").val()) || 0; //Website
+            optionsArray[1] = parseInt($('#ddlCategorySearch').val()) || 0; //Category Code
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[2] = sortType + sortDir;
+            } else {
+                optionsArray[2] = '';
+            }
+
+            optionsArray[3] = lnkDelete.attr('value');
+            optionsArray[4] = parseInt($("#selectedRuleTypeFK").val()) || 0; //Rule Type
+        }
+
+        function getbands(url, divPartialView, id) {
+
+            $.ajax({
+                url: url,
+                dataType: 'html',
+                traditional: true,
+                type: 'POST',
+                data: { priceRuleID: id },
+                async: false,
+                cache: false,
+                success: function (data) {
+                    $('' + divPartialView + '').empty();
+                    $('' + divPartialView + '').html(data);
+                }
+            });
+
+        }
+
+    </script>
+}
+

@@ -1,0 +1,97 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce;
+@model FaqViewModel
+
+@{
+    ViewBag.Title = "Frequently Asked Questions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    @Html.RawFromDict(Model.IntranetData, "FaqFilters")
+</div>
+
+@Html.Hidden("DeleteEntryURL", Url.Action("DeleteFaq", "Ecommerce"))
+
+@if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+{
+    @Html.ActionLink("Create New", "CreateFaq", "Ecommerce", new { id = 0 }, new { @title = "Create new FAQ", @class = "g-p-10" })
+}
+
+@(Html.Kendo().Grid<FaqViewModel.TelerikFaq>()
+            .HtmlAttributes(new { @class = "pointer-rows" })
+            .Name("faqGrid")
+            .Columns(columns =>
+            {
+                columns.Bound(x => x.Website).Title("Website").Width("120px")
+                    .HeaderHtmlAttributes(new { title = "Website", style = "text-align: center;" });
+                columns.Bound(x => x.PageScope).Title("Page Scope").Width("120px")
+                    .HeaderHtmlAttributes(new { title = "Page", style = "text-align: center;" });
+                columns.Bound(x => x.CategoryScope).Title("Category").Width("120px")
+                    .HeaderHtmlAttributes(new { title = "Category Scope", style = "text-align: center;" });
+                columns.Bound(x => x.Priority).Title("Pty").Width("80px").HtmlAttributes(new { style = "text-align: right" })
+                    .HeaderHtmlAttributes(new { title = "Priority", style = "text-align: center;" });
+                columns.Bound(x => x.Question).Title("Question")
+                    .HeaderHtmlAttributes(new { title = "Question", style = "text-align: center;" });
+                columns.Bound(x => x.PartNumber).Title("Part Number").Width("90px")
+                    .HeaderHtmlAttributes(new { title = "Part Number", style = "text-align: center;" });
+                columns.Bound(x => x.Product).Title("Product").Width("180px")
+                    .HeaderHtmlAttributes(new { title = "Product", style = "text-align: center;" });
+                columns.Bound(x => x.Model).Title("Model").Width("180px")
+                    .HeaderHtmlAttributes(new { title = "Model", style = "text-align: center;" });
+                columns.Bound(x => x.Manufacturer).Title("Brand").Width("100px")
+                    .HeaderHtmlAttributes(new { title = "Brand", style = "text-align: center;" });
+                columns.Bound(x => x.CartridgeType).Title("Cartridge Type").Width("120px")
+                    .HeaderHtmlAttributes(new { title = "Cartridge Type", style = "text-align: center;" });
+                columns.Bound(x => x.GenerateSchema).Title("Schema").Width("80px")
+                    .HeaderHtmlAttributes(new { title = "Generate Schema", style = "text-align: center;" });
+                columns.Bound(x => x.IsActive).Title("Is Active").Width("80px")
+                    .HeaderHtmlAttributes(new { title = "Is Active", style = "text-align: center;" });
+                columns.Bound(x => x.Id).ClientTemplate(
+                        "<a href=\"CreateFaq/#:Id#\">Edit</a>" +
+                        "|<a href=\"##\" class=\"lnkEntryDelete\" value=\"#:Id#\" title=\"Delete\">Delete</a>"
+                        ).Width("136px").Title("").Filterable(false).Sortable(false).Groupable(false);
+            })
+            .Pageable(pager => pager.Refresh(true))
+            .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+            .Sortable(sortable => sortable.AllowUnsort(true))
+            .Groupable()
+            .Scrollable()
+            .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+            .ColumnMenu()
+            .Resizable(resize => resize.Columns(true))
+            .Reorderable(reorder => reorder.Columns(true))
+            .NoRecords("There are no FAQ's to display")
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(x => x.Action("Faq_Read", "Ecommerce"))
+                .Sort(s => s.Add(x => x.Id).Descending())
+                .PageSize(200)
+            )
+            .Events(e => e.DataBound("saveGridFilters"))
+)
+
+<div id="faqDeleteDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+    Are you sure you want to delete this entry?
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(document).on('click', '.lnkEntryDelete', function (e) {
+            var rowid = $(this).attr('value');
+            e.preventDefault();
+            $.confirm({
+                title: 'FAQ',
+                content: 'Are you sure you want to delete this entry?',
+                buttons: {
+                    Yes: function () {
+                        deleteGridRow('@Url.Action("DeleteFaq", "Ecommerce")/', { id: rowid });
+                    },
+                    No: function () { }
+                }
+            });
+        });
+    });
+</script>
+

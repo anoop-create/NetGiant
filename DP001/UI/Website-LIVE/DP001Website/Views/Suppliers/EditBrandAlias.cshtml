@@ -1,0 +1,137 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@model SupplierViewModel
+
+@{
+    ViewBag.Title = "Edit Brand Alias";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-12 col-md-12 row-height-fix">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                <a href="@Url.Action("BrandAliases", "Suppliers")" class="grey">
+                    Supplier Brand Aliases
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Edit Brand Alias
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-push-2">
+            <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Change Brand Alias settings" data-helpsid="2" data-helpeid="2"></i> General</h4>
+
+            @using (Ajax.BeginForm("UpdateBrandAlias", "Suppliers", new AjaxOptions { HttpMethod = "POST", OnComplete = "updateComplete" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.SupplierBrandMatchingEntry.SupplierBrandMatchingID)
+                <div class="row page-form">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The name of the supplier" data-helpsid="2" data-helpeid="2"></i>
+                                Supplier
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.SupplierBrandMatchingEntry.SupplierFK)
+                                @Html.DropDownListFor(x => x.SupplierBrandMatchingEntry.SupplierFK, Model.SupplierSelectList, "Select...", new { @class = "selectpicker" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The name of the brand (not case sensitive)" data-helpsid="2" data-helpeid="2"></i>
+                                Brand Name
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.SupplierBrandMatchingEntry.BrandName)
+                                @Html.EditorFor(x => x.SupplierBrandMatchingEntry.BrandName)
+                            </div>
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="A brand name in which it is otherwise known (not case sensitive)" data-helpsid="2" data-helpeid="2"></i>
+                                Alias
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.SupplierBrandMatchingEntry.Reference)
+                                @Html.EditorFor(x => x.SupplierBrandMatchingEntry.Reference)
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-actions">
+                                <div class="pull-left form-message">
+                                    <i class="fa fa-spinner fa-pulse" style="display: none"></i>
+                                    <span></span>
+                                </div>
+
+
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    @Ajax.HtmlActionLink("<i class=\"fa fa-trash\"></i> Delete",
+                                         "DeleteBrandAlias",
+                                         "Suppliers",
+                                         new { id = Model.SupplierBrandMatchingEntry.SupplierBrandMatchingID },
+                                         new AjaxOptions()
+                                         {
+                                             HttpMethod = "DELETE",
+                                             Confirm = "Are you sure you want to delete this brand alias?",
+                                             OnSuccess = "deleteComplete(" + Model.SupplierBrandMatchingEntry.SupplierBrandMatchingID.ToString() + ");"
+                                         },
+                                         new
+                                         {
+                                             @class = "pull-right g-m-r-10 form-delete btn btn-default btn-sm"
+                                         })
+                                }
+                                <button class="pull-right g-m-r-10 g-cur-p form-cancel btn btn-default btn-sm">
+                                    <i class="fa fa-times"></i> Cancel
+                                </button>
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Save" name="action:Update">
+                                        <i class="fa fa-floppy-o"></i> Save
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+            $(document).on('click', '.list-form-extra .form-cancel', function () {
+                window.location.href = '@Url.Action("BrandAliases")';
+            })
+        })
+
+        $(document).on('click', '.form-cancel', function () {
+            window.location.href = '@Url.Action("BrandAliases")';
+        })
+
+        function updateComplete(data) {
+            $('.form-actions .form-message span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                window.location.href = '@Url.Action("BrandAliases")';
+            }
+        }
+
+        function deleteComplete(id) {
+            window.location.href = '@Url.Action("BrandAliases")';
+        }
+
+    </script>
+}

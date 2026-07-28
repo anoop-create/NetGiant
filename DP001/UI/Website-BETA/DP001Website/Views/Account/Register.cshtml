@@ -1,0 +1,77 @@
+﻿@model DP001Website.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Registration";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    Model.ValidateFields = "false";
+}
+
+<section class="container-fluid">
+    <div class="row">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "", role = "form" }))
+        {
+            <div class="col-lg-6 col-lg-push-3 col-sm-8 col-sm-push-2 account-form vertical-align-center">
+                <h1>@ViewBag.Title</h1>
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.StageIndicator)
+
+                    @{
+                        if (Model.StageIndicator > 0)
+                        {
+                            Html.RenderPartial("UserDetails", Model);
+                        }
+
+                        if (Model.StageIndicator > 1)
+                        {
+                            Html.RenderPartial("SelectProduct", Model);
+                        }
+
+                        if (Model.StageIndicator > 2)
+                        {
+                            Html.RenderPartial("Payment", Model);
+                        }
+                    }
+                    <div class="container-fluid">
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <input type="submit" id="btn-progress" class="btn btn-success" value="Continue" />
+                        </div>
+                        <div class="row-height-fix full-center">
+                            <i class="fa fa-asterisk"></i>
+                            <span style="padding: 0 5px;">Marked fields are mandatory.</span>
+                            <div style="display: inline">
+                                <i class="fa fa-cc-mastercard fa-2x"></i>
+                                <i class="fa fa-cc-amex fa-2x"></i>
+                                <i class="fa fa-cc-visa fa-2x"></i>
+                                <i class="fa fa-cc-paypal fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    }
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(function () {
+            //$('#user-details').show();
+
+            //$(document).on('click', '#btn-progress', function () {
+            //    if ($('#payment').is(':visible')) {
+            //        $('form').submit();
+            //    }
+            //    if ($('#select-product').is(':visible')) {
+            //        $('#select-product').hide();
+            //        $('#payment').show();
+            //    }
+            //    if ($('#user-details').is(':visible')) {
+            //        $('#user-details').hide();
+            //        $('#select-product').show();
+            //    }
+            //})
+        })
+    </script>
+}

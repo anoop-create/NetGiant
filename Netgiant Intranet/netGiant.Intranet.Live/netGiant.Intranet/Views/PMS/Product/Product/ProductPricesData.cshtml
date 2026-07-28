@@ -1,0 +1,37 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<productPrice>
+
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>Website</th>
+            <th>Cost Price</th>
+            <th>Base Price</th>
+            <th>Price</th>
+            <th>Rule</th>
+            <th>Break 1</th>
+            <th>Break 2</th>
+            <th>Last Updated</th>
+        </tr>
+
+        @foreach (productPrice pr in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => pr.websiteInventory.Website.FriendlyName)</td>
+                <td>@Html.Raw((pr.cheapestCostPrice != null ? "£" : "") + string.Format("{0:N2}", pr.cheapestCostPrice))</td>
+                <td>@Html.Raw((pr.basePrice != null ? "£" : "") + string.Format("{0:N2}", pr.basePrice))</td>
+                <td class="g-fw-b g-fc-r">@Html.Raw(("£") + string.Format("{0:N2}", pr.price))</td>
+                <td>@Html.Raw(pr.pricingRule)</td>
+                <td>@Html.Raw((pr.breakPrice1 != null ? "£" : "") + string.Format("{0:N2}", pr.breakPrice1))</td>
+                <td>@Html.Raw((pr.breakPrice2 != null ? "£" : "") + string.Format("{0:N2}", pr.breakPrice2))</td>
+                <td>@Html.DisplayFor(modelItem => pr.dateLastUpdated)</td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    @Html.Raw("<span>There is no pricing history for this product</span>")
+}

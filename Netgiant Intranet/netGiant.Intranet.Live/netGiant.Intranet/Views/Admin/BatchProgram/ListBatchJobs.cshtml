@@ -1,0 +1,64 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Admin.BatchProgram
+@model ScheduledTasksViewModel
+
+@{
+    ViewBag.Title = "Batch Jobs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+
+        @Html.Hidden("RunJobURL", Url.Action("RunJob", "BatchProgram"))
+        @Html.Hidden("success")
+
+        @foreach (var task in Model.TaskList)
+        {
+            <div>
+                <a title="Run" class="btn btn-default g-m-t-10 g-m-b-10 runJob" href="#" 
+                   data-value="@task.Arguments" data-name="@task.Name">@task.Description</a>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).on('click', '.runJob', function() {
+            
+            var switchDesc = $(this).attr('data-name');
+            var objParams = { jobName: switchDesc, jobArguments: $(this).attr('data-value') };
+
+            $.ajax({
+                url: $('#RunJobURL').val(),
+                dataType: 'html',
+                traditional: true,
+                type: 'GET',
+                data: objParams,
+                async: false,
+                cache: false,
+                success: function (data) {
+
+                    var displayText = '';
+                    if (Boolean(data)) {
+                        displayText = 'Successfully started batch with switch - ' + switchDesc;
+                    } else {
+                        displayText = 'Failed to start batch with switch - ' + switchDesc;
+                    }
+
+                    $("body").append('<div id="informationContainer">' + displayText + '</div>');
+                    $("#informationContainer").slideDown(700).delay(1700).slideUp(700, function () {
+                        $("#informationContainer").remove();
+                    });
+                }
+            });
+
+            return false;
+        });
+
+    </script>
+}

@@ -1,0 +1,294 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@model SkuMappingViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                <a href="@Url.Action("SupplierExceptions", "SkuMappings")" class="grey">
+                    Supplier Exceptions
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Edit Product Mapping
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h4>Product Mapping Exception</h4>
+            <div class="list-form table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Product Name</th>
+                            <th>Product Brand</th>
+                            <th>Product Part Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Supplier</td>
+                            <td>@Model.SupplierException.Description</td>
+                            <td>@Model.SupplierException.Brand.BrandName</td>
+                            <td>@Model.SupplierException.ManufacturerPartNo</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="suggestedMappings">
+                <h4>Suggested Supplier Mappings</h4>
+
+                @using (Ajax.BeginForm("SaveSupplierException", "SkuMappings", new AjaxOptions { HttpMethod = "POST", OnComplete = "updateComplete", OnBegin = "beginPost" }))
+            {
+                    <div class="list-form table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Supplier Part Number</th>
+                                    <th>Supplier Description</th>
+                                    <th>Supplier Brand</th>
+                                    <th>Stock</th>
+                                    <th>Price</th>
+                                    <th>Map/Dismiss</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var currentSupplier = 0;
+                                    var loopCount = 0;
+                                    foreach (var mapping in Model.SuggestedSupplierMappings.OrderBy(x => x.Supplier.SupplierName))
+                                    {
+                                        if (mapping.SupplierFK != currentSupplier)
+                                        {
+                                            <tr>
+                                                <td class="g-bg-1" colspan="7"><b>@mapping.Supplier.SupplierName</b></td>
+                                            </tr>
+                                        }
+
+                                        <tr class="supplier @mapping.SupplierFK">
+                                            <td>@Html.DisplayFor(x => mapping.ManufacturerPartNo)</td>
+                                            <td>@Html.DisplayFor(x => mapping.Description)</td>
+                                            <td>@Html.DisplayFor(x => mapping.Brand.BrandName)</td>
+                                            <td>@Html.DisplayFor(x => mapping.StockQuantity)</td>
+                                            <td>@Html.DisplayFor(x => mapping.Price)</td>
+                                            <td>
+                                                <div class="radio radio-success">
+                                                    @Html.RadioButton("choose" + mapping.SupplierFK,
+                                                 mapping.ProductInventoryFK ?? 0,
+                                                 false,
+                                                 new { @class = "choose g-m-r-20" })
+                                                    @Html.Label("Map", new { @class = "g-m-r-20" })
+                                                </div>
+                                                <div class="radio radio-success">
+                                                    @Html.RadioButton("dismiss" + mapping.SupplierFK, false, new { @class = "dismiss" })
+                                                    @Html.Label("Dismiss")
+                                                </div>
+                                            </td>
+                                            <td>
+
+                                                @using (Html.BeginCollectionItem("SuggestedSupplierMappings"))
+                                                {
+                                                    @Html.Hidden("ProductInventoryFK", Model.SupplierException.ProductInventoryID, new { disabled = "disabled", @class = "invID" })
+                                                    @Html.Hidden("SupplierInventoryID", mapping.SupplierInventoryID, new { disabled = "disabled" })
+                                                    @Html.Hidden("SupplierFK", mapping.SupplierFK, new { disabled = "disabled" })
+                                                    @Html.Hidden("BrandFK", mapping.BrandFK, new { disabled = "disabled" })
+                                                    @Html.Hidden("ManufacturerPartNo", mapping.ManufacturerPartNo, new { disabled = "disabled" })
+                                                    @Html.Hidden("StockQuantity", mapping.StockQuantity, new { disabled = "disabled" })
+                                                    @Html.Hidden("Price", mapping.Price, new { disabled = "disabled" })
+                                                    @Html.Hidden("Description", mapping.Description, new { disabled = "disabled" })
+                                                    @Html.Hidden("Dismiss", false, new { @class = "hiddenDismiss", disabled = "disabled" })
+                                                }
+                                            </td>
+                                        </tr>
+
+                                        currentSupplier = mapping.SupplierFK;
+                                        loopCount++;
+                                    }
+                                    if (Model.SuggestedSupplierMappings.Count == 0)
+                                    {
+                                        <tr>
+                                            <td colspan="7">
+                                                No suggested mappings found, please add a manual mapping below
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                                    if (Model.SuggestedSupplierMappings.Count > 0)
+                                    {
+                                        <div class="form-actions">
+                                            <div class="pull-left form-message">
+                                                <i class="fa fa-spinner fa-pulse" style="display: none"></i>
+                                                <span></span>
+                                            </div>
+                                            <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Save">
+                                                <i class="fa fa-floppy-o"></i> Save
+                                            </button>
+                                        </div>
+                                    }
+
+                                    @Html.HiddenFor(x => x.SupplierException.ManufacturerPartNo)
+                                    @Html.HiddenFor(x => x.SupplierException.ProductInventoryID)
+                                    }
+
+            </div>
+
+            <h4>Manual Supplier Mapping</h4>
+
+            <div class="container-fluid g-m-b-20">
+                <div class="row">
+                    <div class="col-md-6 form-name">
+                        <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="If no suggestions appear above or the suggestions are not suitable, please enable manual mapping where you can search for the relevant product in your inventory." data-helpsid="2" data-helpeid="2"></i>
+                        Use Manual Mapping
+                    </div>
+                    <div class="col-md-6 form-value">
+                        <div class="switch">
+                            <input id="manual-toggle" class="cmn-toggle cmn-toggle-round" type="checkbox" data-toggle="toggle"
+                                   data-style="ios" data-size="small" data-onstyle="success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="manualMappingContainer" class="list-form table-responsive" style="display: none;">
+                @using (Ajax.BeginForm("SaveManualSupplierException", "SkuMappings", new AjaxOptions { HttpMethod = "POST", OnComplete = "updateComplete", OnBegin = "beginPost" }))
+                {
+                    <div class="list-form table-responsive">
+                        <table class="table manualMappingTable">
+                            <thead>
+                                <tr>
+                                    <th>Search for Supplier Product</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="input-group searchContainer">
+                                            @Html.AutoCompleteFor(x => x.SupplierInventoryFK, "ProductAutoComplete",
+"SearchInventory", "Suppliers", "autoCompleteSuccess", "")
+                                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="form-actions">
+                        <div class="pull-left form-message">
+                            <i class="fa fa-spinner fa-pulse" style="display: none"></i>
+                            <span></span>
+                        </div>
+
+                        @*<input type="submit" value="Save" />*@
+                        <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Save">
+                            <i class="fa fa-floppy-o"></i> Save
+                        </button>
+                    </div>
+
+                    @Html.HiddenFor(x => x.SupplierException.ProductInventoryID)
+                    @Html.Hidden("BrandFK", Model.SupplierException.BrandFK)
+                }
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+@section scripts{
+
+    <script type="text/javascript">
+        $(document).on('click', '.choose', function () {
+
+            var id = $(this).parent().parent().parent().attr("class").replace(' ', '.');
+            $('.' + id).find('input[type="hidden"]').attr('disabled', 'disabled');
+
+            if ($(this).is(':checked')) {
+                $(this).parent().parent().next().find('input[type="hidden"]').removeAttr('disabled');
+            } else {
+                $(this).parent().parent().next().find('input[type="hidden"]').attr('disabled', 'disabled');
+            }
+
+            $(this).parent().parent().find('.dismiss').prop('checked', false);
+        });
+
+        $(document).on('click', '.dismiss', function () {
+
+            var id = $(this).parent().parent().parent().attr("class").replace(' ', '.');
+            $('.' + id).find('input[type="hidden"]').attr('disabled', 'disabled');
+
+            if ($(this).is(':checked')) {
+                $(this).parent().parent().next().find('input[type="hidden"]').removeAttr('disabled');
+                $(this).parent().parent().next().find('.hiddenDismiss').val(true);
+                $(this).parent().parent().next().find('.invID').attr('disabled', 'disabled');
+            } else {
+                $(this).parent().parent().next().find('input[type="hidden"]').attr('disabled', 'disabled');
+                $(this).parent().parent().next().find('.hiddenDismiss').val(false);
+            }
+
+            $(this).parent().parent().find('.choose').prop('checked', false);
+        });
+
+        $('#manual-toggle').change(function () {
+            var checked = $(this).is(":checked");
+
+            if (checked) {
+                $('#manualMappingContainer').show();
+                $('#suggestedMappings').hide();
+            } else {
+                $('#manualMappingContainer').hide();
+                $('#suggestedMappings').show();
+            }
+        });
+
+        function autoCompleteSuccess(data, response) {
+            var products = new Array();
+
+            if (data.length == 0) {
+                return { label: "No items found, please try typing something else (minimum of 4 characters, please)", Id: 0 };
+            }
+
+            for (var i = 0; i < data.length ; i++) {
+                products[i] = { label: data[i].Sn + ' - ' + data[i].Pn + ' - ' + data[i].Des, Id: data[i].Id };
+            }
+
+            return products;
+        }
+
+        function updateComplete(data) {
+            if (data.responseJSON.isSuccess) {
+                window.location.href = '@Url.Action("Index")';
+            } else {
+                $('.form-actions .form-message span').text(data.responseJSON.msg);
+            }
+            $('.form-message .fa-spinner').hide();
+        }
+
+        function beginPost() {
+            $('.form-message .fa-spinner').show();
+        }
+
+    </script>
+
+}

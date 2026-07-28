@@ -1,0 +1,53 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Import
+@model JobStatusCommonViewModel
+
+@{
+    ViewBag.Title = "Import Status";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+</div>
+
+<div id="statuses" class="placeHolder"></div>
+
+<script type="text/javascript">
+    $(function () {
+        loadStatuses();
+    });
+
+    function loadStatuses() {
+        $.ajax({
+            method: 'GET',
+            url: '@Url.Action("GetStatus", "Import")'
+        }).done(function (data) {
+            var section = $('#statuses');
+            section.empty();
+
+            for (var i = 0; i < data.length; i++) {
+                section.append(
+                    "<div class='panel panel-default'>" +
+                        "<div class='panel-heading'>" +
+                            "<div class='row g-fw-b'>" +
+                                "<div class='col-md-6'>" +
+                                    "# " + data[i].Id + ": " + data[i].Title +
+                                "</div>" +
+                                "<div class='col-md-6 text-right'>" +
+                                    data[i].Date +
+                                "</div>" +
+                            "</div>" +
+                        "</div>" +
+                        "<div class='panel-body'>" +
+                            data[i].Message +
+                        "</div>" +
+                    "</div>"
+                );
+            }
+        });
+
+        setTimeout(function () {
+            loadStatuses();
+        }, 10000);
+    }
+</script>

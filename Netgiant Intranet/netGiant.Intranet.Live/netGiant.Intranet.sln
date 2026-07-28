@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "netGiant.Intranet", "netGiant.Intranet\netGiant.Intranet.csproj", "{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1CFF9D16-890D-471E-8A7D-37B2485EE063} = {1CFF9D16-890D-471E-8A7D-37B2485EE063}
+		{25CA62E7-5563-4F98-9BAC-851D6EA2C564} = {25CA62E7-5563-4F98-9BAC-851D6EA2C564}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "netGiant.Intranet.Tests", "netGiant.Intranet.Tests\netGiant.Intranet.Tests.csproj", "{25CA62E7-5563-4F98-9BAC-851D6EA2C564}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "netGiant.Intranet.BusinessLayer", "netGiant.Intranet.BusinessLayer\netGiant.Intranet.BusinessLayer.csproj", "{6671E29A-BFEB-4321-A7D0-68D812B1E035}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1CFF9D16-890D-471E-8A7D-37B2485EE063} = {1CFF9D16-890D-471E-8A7D-37B2485EE063}
+		{25CA62E7-5563-4F98-9BAC-851D6EA2C564} = {25CA62E7-5563-4F98-9BAC-851D6EA2C564}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "netGiant.Intranet.DataLayer", "..\..\Class Libraries\ngmd.DataLayer\netGiant.Intranet.DataLayer\netGiant.Intranet.DataLayer.csproj", "{1CFF9D16-890D-471E-8A7D-37B2485EE063}"
+	ProjectSection(ProjectDependencies) = postProject
+		{25CA62E7-5563-4F98-9BAC-851D6EA2C564} = {25CA62E7-5563-4F98-9BAC-851D6EA2C564}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25CA62E7-5563-4F98-9BAC-851D6EA2C564}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25CA62E7-5563-4F98-9BAC-851D6EA2C564}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25CA62E7-5563-4F98-9BAC-851D6EA2C564}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25CA62E7-5563-4F98-9BAC-851D6EA2C564}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6671E29A-BFEB-4321-A7D0-68D812B1E035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6671E29A-BFEB-4321-A7D0-68D812B1E035}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6671E29A-BFEB-4321-A7D0-68D812B1E035}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6671E29A-BFEB-4321-A7D0-68D812B1E035}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CFF9D16-890D-471E-8A7D-37B2485EE063}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CFF9D16-890D-471E-8A7D-37B2485EE063}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CFF9D16-890D-471E-8A7D-37B2485EE063}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CFF9D16-890D-471E-8A7D-37B2485EE063}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://netgiant.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = netGiant.Intranet.Tests\\netGiant.Intranet.Tests.csproj
+		SccProjectName1 = netGiant.Intranet.Tests
+		SccLocalPath1 = netGiant.Intranet.Tests
+		SccProjectUniqueName2 = netGiant.Intranet\\netGiant.Intranet.csproj
+		SccProjectName2 = netGiant.Intranet
+		SccLocalPath2 = netGiant.Intranet
+		SccProjectUniqueName3 = netGiant.Intranet.BusinessLayer\\netGiant.Intranet.BusinessLayer.csproj
+		SccProjectName3 = netGiant.Intranet.BusinessLayer
+		SccLocalPath3 = netGiant.Intranet.BusinessLayer
+		SccProjectUniqueName4 = ..\\..\\Class\u0020Libraries\\ngmd.DataLayer\\netGiant.Intranet.DataLayer\\netGiant.Intranet.DataLayer.csproj
+		SccProjectName4 = ../../Class\u0020Libraries/ngmd.DataLayer/netGiant.Intranet.DataLayer
+		SccLocalPath4 = ..\\..\\Class\u0020Libraries\\ngmd.DataLayer\\netGiant.Intranet.DataLayer
+	EndGlobalSection
+EndGlobal

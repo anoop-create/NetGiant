@@ -1,0 +1,54 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Admin;
+
+@model MenuViewModel
+
+@Html.Hidden("MenuDeleteURL", Url.Action("DeleteMenuItem", "Admin"))
+
+@{
+    ViewBag.Title = "Menu Items";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h2>@ViewBag.Title</h2>
+        <h4>List all the menu items used by the intranet</h4>
+
+        <div>
+            @Html.ActionLink("Create New", "CreateMenuItem", "Admin", null, null)
+        </div>
+
+        <div id="miDataPartialView">
+            @{Html.RenderPartial("~/Views/Admin/ListMenuItemsData.cshtml", Model.MenuItems);}
+        </div>
+
+        <div id="miDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+            Are you sure ?
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        var optionsArray;
+
+        $(document).on("click", ".lnkDeleteMenu", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete("#miDialog", $("#MenuDeleteURL").val(), $(this).attr("value"),
+                "#miDataPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+            return false;
+        });
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value"); //Menu Name
+        }
+
+    </script>
+}

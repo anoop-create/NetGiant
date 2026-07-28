@@ -1,0 +1,137 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using PagedList.Mvc;
+@using GridMvc.Html;
+@using DP001Website.Models;
+@model CompetitorViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                <a href="@Url.Action("Main", "TenantSettings")" class="grey">
+                    Main Settings
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Competitors
+            </h1>
+        </div>
+
+        <div class="col-xs-7 col-md-4 col-lg-3 row-height-fix flex-right">
+            <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-sliders fa-lg"></i>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <ul class="dropdown-menu g-p-10">
+                    <li class="g-fw-b">Competitor Options</li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation">
+                        @Html.HtmlActionLink("<i class=\"fa fa-times\"></i> Reset Filters", "Index", "Competitors", null, new { onclick = "clearGridFilters();" })
+                    </li>
+                    <li role="presentation">
+                        @Ajax.HtmlActionLink("<i class=\"fa fa-upload\"></i> Load Inventories <i id=\"repriceSpinner\" style=\"display: none\" class=\"fa fa-spinner fa-pulse\"></i>",
+                             "TriggerBatchProcess",
+                             "Shared",
+                             new
+                             {
+                                 process = "loadinventories",
+                                 channelId = ViewBag.channelId,
+                                 attributes = "t$loadinventories,tt$" + ViewBag.tenantID.ToString() + ",ch$" + ViewBag.channelId.ToString(),
+                                 runImmediately = true
+                             },
+                             new AjaxOptions()
+                             {
+                                 HttpMethod = "POST",
+                                 //OnComplete = "checkJobInProgress('', '#repriceSpinner'); $('.sub-menu .dropdown-toggle').trigger('click');"
+                                 OnComplete = "triggerComplete"
+                             },
+                             new
+                             {
+                                 @class = "repriceBtn"
+                             })
+                    </li>
+                    <li role="presentation">
+                        <a href="@Url.Action("ExportCompetitors", "Competitors", new { filter = "~", sort = "~", columns = "~" })" id="exportToExcel"><i class="fa fa-upload"></i> Export Competitors</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+@(Html.Kendo().Grid<CompetitorViewModel.TelerikCompetitor>()
+            .Name("competitorsGrid")
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(read => read.Action("Index_Read", "Competitors"))
+                .PageSize(200)
+                )
+            .Columns(columns =>
+            {
+                columns.Bound(rule => rule.CompetitorName).Width(200).Title("Competitor Name");
+                columns.Bound(rule => rule.NumberOfReviews).Width(150).Title("No. Of Reviews");
+                columns.Bound(rule => rule.AverageReviewRating).Width(170).Title("Avg. Review Rating");
+                columns.Bound(rule => rule.ProductMatches).Width(170).Title("Product Matches");
+                columns.Bound(rule => rule.Active).Width(100).Title("Active").ClientTemplate("<div class=\"activateCompetitor checkbox checkbox-success\"><input class=\"check-box\" type=\"checkbox\" #= Active ? \"checked=checked\" : \"\" # /><label class=\"errmsg\"></label></div>");
+            })
+            .Pageable(pager => pager.Refresh(true))
+            .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+            .Sortable(sortable => sortable
+                .AllowUnsort(true))
+            .Groupable()
+            .Scrollable()
+            .Filterable(ftb => ftb
+                .Mode(GridFilterMode.Menu))
+            .ColumnMenu()
+            .Resizable(resize => resize.Columns(true))
+            .Reorderable(reorder => reorder.Columns(true))
+            .Excel(excel => excel
+                .AllPages(true)
+                .FileName("Grid Export")
+                .Filterable(true)
+                .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+            .NoRecords("There are no items to display")
+            .Events(e => e.DataBound("saveGridFilters"))
+)        
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            
+            checkJobInProgress('');
+
+            $('.selectpicker').selectpicker();
+
+            $(document).on('click', '.activateCompetitor > .check-box', function (event) {
+                var grid = $("#competitorsGrid").data("kendoGrid");
+                var data = grid.dataItem($(event.target).closest("tr"));
+                var clickedItem = $(this).parent().parent();
+                $.ajax({
+                    async: false,
+                    cache: false,
+                    type: "POST",
+                    url: "@Url.Action("Activate")",
+                    data: {
+                        "competitorId": data.CompetitorId, //$(this).closest('tr.grid-row').find('#x_CompetitorID').val(),
+                        "isActive": $(this).is(':checked')
+                    },
+                    success: function (data) {
+                        if (!data.isSuccess) {
+                            clickedItem.closest('.activateCompetitor').find('.errmsg').html(data.html);
+                            clickedItem.prop("checked", !clickedItem.is(':checked'));
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

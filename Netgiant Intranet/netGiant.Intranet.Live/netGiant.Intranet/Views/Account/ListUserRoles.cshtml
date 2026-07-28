@@ -1,0 +1,63 @@
+﻿@using netGiant.Intranet.ViewModels;
+@using Microsoft.AspNet.Identity.EntityFramework;
+
+@model UserRoleViewModel
+
+@Html.Hidden("RoleDeleteURL", Url.Action("DeleteUserRole", "Account"))
+@Html.Hidden("UpdateCheckboxesURL", Url.Action("UpdateProductCheckboxes", "Export"))
+
+@{
+    ViewBag.Title = "User Roles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h2>@ViewBag.Title</h2>
+        <h4>List all the roles for @Model.Email</h4>
+        <hr />
+
+        @using (Html.BeginForm("CreateUserRoles", "Account"))
+        { 
+            @Html.HiddenFor(m => m.Email)
+            <div id="userRolesContainer">
+                @{ Html.RenderPartial("~/Views/Account/UserRolesCheckboxes.cshtml", Model); }
+            </div>
+
+    <div class="g-m-t-20">
+        <input type="submit" id="btnSaveUserRoles" value="Save Roles" class="btn btn-default" />
+    </div>
+        }  
+        <div class="g-m-t-20">
+            @Html.ActionLink("Users", "ListUsers", "Account", null, new { @class = "btn btn-default" })
+        </div>  
+
+        <div id="roRoleDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+            Are you sure ?
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        var optionsArray;
+
+        $(document).on("click", ".lnkDeleteRole", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete("#roRoleDialog", $("#RoleDeleteURL").val(), $(this).attr("value"),
+                "#roDataPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+            return false;
+        });
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value"); //Role Name
+        }
+
+    </script>
+}

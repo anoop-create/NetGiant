@@ -1,0 +1,183 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using PagedList.Mvc;
+@using DP001Website.Models;
+@using GridMvc.Html;
+@model SupplierViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                @if (Model.ReportConfiguration != null)
+                {
+                    <a href="/Suppliers/Inventory/" class="grey">Supplier Inventory</a>
+                    <i class="fa fa-chevron-right"></i>
+                    <span id="reportName">@Model.ReportConfiguration.Name</span>
+                }
+                else
+                {
+                    @:<span id="reportName">Supplier Inventory</span>
+                }
+</h1>
+        </div>
+
+        <div class="col-xs-7 col-md-4 col-lg-3 row-height-fix flex-right">
+            <div class="btn-group g-m-r-10">
+                <label><b>Load Report</b></label>
+            </div>
+            <div class="btn-group bootstrap-select-container g-m-r-10">
+                @Html.DropDownListExtended("ReportConfiguration_ConfigurationValue",
+                    Model.ReportConfigList,
+                    new { @class = "reportSelectPicker selectpicker" },
+                    Model.ReportConfiguration != null ? Model.ReportConfiguration.ConfigurationValue : "",
+                    "Default (All)")
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-sliders fa-lg"></i>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <ul class="dropdown-menu g-p-10">
+                    <li class="g-fw-b">Supplier Inventory Options</li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation">
+                        @Html.HtmlActionLink("<i class=\"fa fa-times\"></i> Reset Filters", "Inventory", "Suppliers", null, new { onclick = "clearGridFilters();" })
+                    </li>
+                    <li role="presentation" id="saveChangesContainer" class="@(!Model.UserCanModify ? "hide" : "")">
+                        <a href="#" id="saveChanges"><i class="fa fa-floppy-o"></i> Save Changes</a>
+                    </li>
+
+                    <li role="presentation">
+                        <a id="saveReportPopup" href="#"><i class="fa fa-floppy-o"></i> Save New Custom Report</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="@Url.Action("Manage", "Reports")"><i class="fa fa-cogs"></i> Manage Custom Reports</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="@Url.Action("Export", "Suppliers", new { filter = "~", sort = "~", columns = "~" })" id="exportToExcel"><i class="fa fa-upload"></i> Export Inventory</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (Model.ReportConfiguration == null)
+{
+    @(Html.Kendo().Grid<SupplierViewModel.Telerik>()
+        .Name("supplierInventoryGrid")
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("Inventory_Read", "Suppliers"))
+            .PageSize(200)
+            )
+        .Columns(columns =>
+        {
+            columns.Bound(supplier => supplier.ClientProductId).Width(100).Title("Prod ID");
+            columns.Bound(supplier => supplier.ProductName).Width(300).Title("Product Name").ClientTemplate(Html.ActionLink("#=ProductName#", "ProductDetail", "Products", new { id = "#=ProductInventoryId#" }, null).ToString());
+            columns.Bound(supplier => supplier.ManufacturerPartNo).Width(130).Title("Part Number");
+            columns.Bound(supplier => supplier.Description).Width(300).Title("Supplier Description");
+            //columns.Bound(supplier => supplier.BrandName).Width(100).Title("Brand").Filterable(filterable => filterable.UI("brandFilter").Extra(false)).HeaderHtmlAttributes(new { data_url = "/Suppliers/GetBrands/" });
+            columns.Bound(supplier => supplier.BrandName).Width(100).Title("Brand");
+            columns.Bound(supplier => supplier.SupplierBrandName).Width(180).Title("Supplier Brand Name");
+            columns.Bound(supplier => supplier.Quantity).Width(100).Title("Quantity");
+            columns.Bound(supplier => supplier.Price).Width(100).Title("Price").Format("{0: #,##.00}");
+            columns.Bound(supplier => supplier.SupplierName).Width(150).Title("Supplier").Filterable(filterable => filterable.UI("supplierFilter").Extra(false)).HeaderHtmlAttributes(new { data_url = "/Suppliers/GetSuppliers/" });
+            columns.Bound(supplier => supplier.DateLastUpdated).Width(160).Title("Date Updated").ClientTemplate("#= kendo.toString(kendo.parseDate(DateLastUpdated, 'yyyy-MM-dd'), 'dd/MM/yyyy (HH:mm)') #");
+        })
+        .Pageable(pager => pager.Refresh(true))
+        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable
+            .AllowUnsort(true))
+        .Groupable()
+        .Scrollable()
+        .Filterable(ftb => ftb
+            .Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .Excel(excel => excel
+            .AllPages(true)
+            .FileName("Grid Export")
+            .Filterable(true)
+            .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+        .NoRecords("There are no items to display")
+    )
+}
+else
+{
+    <div id="loading" class="text-center g-m-t-40">
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+    </div>
+    <div id="grid"></div>
+}
+
+<!-- Modal -->
+@{ Html.RenderPartial("~/Views/Reports/SaveNewReportModal.cshtml", Model.ReportSecurityList); }
+
+@Html.Hidden("ReportConfigId", Model.ReportConfiguration?.ReportConfigurationId)
+
+@section scripts {
+    <script type="text/javascript">
+
+        $(function () {
+            $('#loading').remove();
+            @if (Model.ReportConfiguration != null)
+            {
+                <text>
+                    $("#supplierInventoryGrid").kendoGrid();
+                    var grid = $("#supplierInventoryGrid").data("kendoGrid");
+                    grid.bind("dataBound", grid_dataBound);
+
+                    var config = @Html.Raw(Model.ReportConfiguration.ConfigurationValue);
+                    setupGridFilters(config);
+                    grid.setOptions(config);
+                    setGridHeaderTitleTags();
+                    resizeGrid();
+                </text>
+            }
+            else
+            {
+                <text>
+                    var grid = $("#supplierInventoryGrid").data("kendoGrid");
+                    grid.bind("dataBound", grid_dataBound);
+                </text>
+            }
+
+            $("#ReportConfiguration_ConfigurationValue").change(function (e) {
+                e.preventDefault();
+                changeCurrentReport('/Suppliers/Inventory/', this, grid);
+            });
+
+            $("#saveReportPopup").click(function () {
+                $('#saveReportModal').modal('show');
+            });
+
+            $("#saveReport").click(function (e) {
+                e.preventDefault();
+                var reportDescription = $("#reportDescription").val();
+                var reportSecurity = $("#Security").val();
+                saveNewReport(reportDescription, reportSecurity, JSON.stringify(grid.getOptions()), 'Supplier', '/Suppliers/Inventory/');
+            });
+
+            $("#saveChanges").click(function (e) {
+                e.preventDefault();
+                saveReportChanges($('#ReportConfigId').val(), JSON.stringify(grid.getOptions()));
+            });
+
+            function grid_dataBound(e) {
+                saveGridFilters();
+                updateFilterDropDowns();
+            }
+        });
+    </script>
+}

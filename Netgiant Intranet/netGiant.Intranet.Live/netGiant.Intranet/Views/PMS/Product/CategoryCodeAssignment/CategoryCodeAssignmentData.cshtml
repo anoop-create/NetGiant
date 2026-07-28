@@ -1,0 +1,49 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<websiteInventory>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(x => item.product.productName)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.categoryCode.categoryCodeName)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.product.partNo)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.Website.WebsiteName)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.product.manufacturer.manufacturerName)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.product.productStatus.productStatusName)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.product.productGroup.productGroupName)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.product.salesAreaGroup.salesAreaGroupName)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.product.dataSupplier.dataSupplierName)
+        </td>
+        @using (Html.BeginCollectionItem("InventoryIDs"))
+        {
+            <td>
+                <div class="PrimaryCategoryDisplay g-m-l-10">
+                    @Html.CheckBox("PrimaryChecked", false, new { @class = "PrimaryCategoryProduct g-m-lr-10-i" })
+                    @Html.Hidden("ID", item.websiteInventoryID)
+                </div>
+            </td>
+            <td>
+                <div class="SecondaryCategoryDisplay g-m-l-10">
+                    @Html.CheckBox("SecondaryChecked", false, new { @class = "SecondaryCategoryProduct g-m-lr-10-i", disabled = "disabled" })
+                </div>
+            </td>
+        }
+    </tr>
+}

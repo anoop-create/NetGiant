@@ -1,0 +1,155 @@
+﻿@using System.Configuration
+@using netGiant.Intranet.BusinessLayer.ViewModels.CrMS;
+@model CreditAccountViewModel
+
+@{
+    ViewBag.Title = "Create Account";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h4>@ViewBag.Title</h4>
+        <div class="form-horizontal">
+
+            <fieldset class="productFieldTabs g-b-1dg g-m-b-10">
+                <legend>Notes</legend>
+                <div class="row form-group">
+                    <div class="col-md-12 g-fw-b">@Html.DisplayFor(m => m.AccountEntry.Notes)</div>
+                </div>
+            </fieldset>
+
+            <fieldset class="productFieldTabs g-b-1dg g-m-t-10">
+                <legend>Account Details</legend>
+                <div class="row form-group">
+                    <div class="col-md-4"><div class="col-md-6 text-right">Trading Name:</div><div class="col-md-6">@Html.DisplayFor(m => m.AccountEntry.TradingName)</div></div>
+                    <div class="col-md-6"><div class="col-md-6 text-right">Contact Name:</div><div class="col-md-6">@Html.DisplayFor(m => m.AccountEntry.ContactName)</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4"><div class="col-md-6 text-right">Contact Email:</div><div class="col-md-6">@Html.DisplayFor(m => m.AccountEntry.ContactEmailAddress)</div></div>
+                    <div class="col-md-6"><div class="col-md-6 text-right">Contact Telephone No:</div><div class="col-md-6">@Html.DisplayFor(m => m.AccountEntry.ContactTelephoneNo)</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4"><div class="col-md-6 text-right">Original Email:</div><div class="col-md-6">@Html.DisplayFor(m => m.CustomerEntry.OriginalEmailAddress)</div></div>
+                    <div class="col-md-6"><div class="col-md-6 text-right">Account Number:</div><div class="col-md-6">@Html.DisplayFor(m => m.CustomerEntry.AccountNumber)</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4"><div class="col-md-6 text-right">Customer Type:</div><div class="col-md-6">@Model.CustomerType</div></div>
+                    <div class="col-md-6"><div class="col-md-6 text-right">Website:</div><div class="col-md-6">@Model.WebsiteName</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4"><div class="col-md-6 text-right">Organisation Type:</div><div class="col-md-6">@Model.OrganisationType</div></div>
+                    <div class="col-md-6"><div class="col-md-6 text-right">Company Registration:</div><div class="col-md-6">@Html.DisplayFor(m => m.AccountEntry.CompanyRegNo)</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4"><div class="col-md-6 text-right">Sector:</div><div class="col-md-6">@Model.Sector</div></div>
+                    <div class="col-md-6"><div class="col-md-6 text-right">VAT Number:</div><div class="col-md-6">@Html.DisplayFor(m => m.AccountEntry.CompanyVatNo)</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4"><div class="col-md-6 text-right">Total Staff Count:</div><div class="col-md-6">@Model.StaffCount</div></div>
+                    <div class="col-md-6"><div class="col-md-6 text-right">Date of Application:</div><div class="col-md-6">@Html.DisplayFor(m => m.AccountEntry.DateOfApplication)</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4"><div class="col-md-6 text-right">Order Staff Count:</div><div class="col-md-6">@Model.OrderCount</div></div>
+                    <div class="col-md-6"><div class="col-md-6 text-right">Monthly Spend:</div><div class="col-md-6">@Html.DisplayFor(m => m.AccountEntry.EstMonthlySpend)</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-6"><div class="col-md-6 text-right">Credit Limit:</div><div class="col-md-6">@Html.DisplayFor(m => m.AccountEntry.CreditLimit)</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4"><div class="col-md-6 text-right">First Order Ref:</div><div class="col-md-6">@Html.DisplayFor(m => m.AccountEntry.FirstOrderRef)</div></div>
+                    <div class="col-md-6"><div class="col-md-6 text-right">First Order Amount:</div><div class="col-md-6">@Html.DisplayFor(m => m.AccountEntry.FirstOrderAmt)</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4"><div class="col-md-6 text-right">Number of Offices:</div><div class="col-md-6">@Html.DisplayFor(m => m.AccountEntry.NumberOffices)</div></div>
+                    <div class="col-md-6"><div class="col-md-6 text-right">Number of Printers:</div><div class="col-md-6">@Html.DisplayFor(m => m.AccountEntry.NumberPrinters)</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        @Html.Label("Credit Account:", htmlAttributes: new { @class = "control-label col-md-2 g-p-r-25 g-fw-n" })
+                        <div class="col-md-3 g-m-l-10">
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(m => m.AccountEntry.IsAccountCustomer, new { disabled = true })
+                            </div>
+                        </div>
+                        @Html.Label("Trade Account:", htmlAttributes: new { @class = "control-label col-md-2 g-p-r-25 g-fw-n" })
+                        <div class="col-md-3 g-m-l-10">
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(m => m.AccountEntry.IsTradeCustomer, new { disabled = true })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4"><div class="col-md-6 text-right">Credit Account Status:</div><div class="col-md-6">@Model.AccountStatus</div></div>
+                    <div class="col-md-6"><div class="col-md-6 text-right">Trade Account Status:</div><div class="col-md-6">@Model.TradeAccountStatus</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4 g-fw-b"><div class="col-md-6 text-right">Date Last Updated:</div><div class="col-md-6">@Model.AccountEntry.DateLastUpdated</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        @Html.Label("Acceptances", htmlAttributes: new { @class = "control-label col-md-2 g-p-r-25" })
+                        <div class="col-md-3 g-m-l-10">
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(m => m.AccountEntry.AcceptStandardTerms, new { disabled = true })
+                                @Html.LabelFor(m => m.AccountEntry.AcceptStandardTerms)
+                            </div>
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(m => m.AccountEntry.AcceptCreditTerms, new { disabled = true })
+                                @Html.LabelFor(m => m.AccountEntry.AcceptCreditTerms)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="productFieldTabs g-b-1dg g-m-t-10">
+                <legend>Billing Details</legend>
+
+                <div class="row form-group">
+                    <div class="col-md-4"><div class="col-md-6 text-right">Contact Name:</div><div class="col-md-6">@Html.DisplayFor(m => m.BillingEntry.ContactName)</div></div>
+                    <div class="col-md-6"><div class="col-md-6 text-right">Address Line 1:</div><div class="col-md-6">@Html.DisplayFor(m => m.BillingEntry.AddressLine1)</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4"><div class="col-md-6 text-right">Email Address:</div><div class="col-md-6">@Html.DisplayFor(m => m.BillingEntry.ContactEmailAddress)</div></div>
+                    <div class="col-md-6"><div class="col-md-6 text-right">Address Line 2:</div><div class="col-md-6">@Html.DisplayFor(m => m.BillingEntry.AddressLine2)</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4"><div class="col-md-6 text-right">Telephone Number:</div><div class="col-md-6">@Html.DisplayFor(m => m.BillingEntry.ContactTelephoneNo)</div></div>
+                    <div class="col-md-6"><div class="col-md-6 text-right">Address Line 3:</div><div class="col-md-6">@Html.DisplayFor(m => m.BillingEntry.AddressLine3)</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4">
+                        @Html.Label("Direct Debit", htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-5 g-m-l-20">
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(m => m.BillingEntry.DirectDebit, new { disabled = true })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6"><div class="col-md-6 text-right">Address Line 4:</div><div class="col-md-6">@Html.DisplayFor(m => m.BillingEntry.AddressLine4)</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-6"><div class="col-md-6 text-right">Address Line 5:</div><div class="col-md-6">@Html.DisplayFor(m => m.BillingEntry.AddressLine5)</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-6"><div class="col-md-6 text-right">Post Code:</div><div class="col-md-6">@Html.DisplayFor(m => m.BillingEntry.PostCode)</div></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-6"><div class="col-md-6 text-right">Country:</div><div class="col-md-6">@Html.DisplayFor(m => m.BillingEntry.Country)</div></div>
+                </div>
+            </fieldset>
+
+            <div class="form-group g-m-t-10">
+                <div class="col-md-offset-2 col-md-10">
+                    @Html.ActionLink("Cancel", "AccountIndex", "Customer", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

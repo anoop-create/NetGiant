@@ -1,0 +1,36 @@
+﻿@using netGiant.Intranet.DataLayer;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<providerPrice>
+
+<div class="placeHolder">
+
+    <h4>Price History For @Model.FirstOrDefault().providerInventory.partNo</h4>
+
+    <div id="dialogPrice" title="Price Details">
+        <table class="table">
+            <tr>
+                <th>Date Last Update</th>
+                <th>Price</th>
+                <th>Part No</th>
+            </tr>
+            @foreach (var item in Model.OrderByDescending(x => x.effectiveDate))
+            {
+                <tr>
+                    <td>@item.dateLastUpdate</td>
+                    <td>@item.price</td>
+                    <td>@item.providerInventory.partNo</td>
+            </tr>
+            }
+        </table>
+        <br />
+
+        <!--Paging-->
+        <div id="providerInventoryPricePaging" style="text-align:center;">
+            @Html.PagedListPager(Model, p => "#")
+        </div>
+
+        <div>
+            @Html.ActionLink("Provider's Inventory", "ProviderInventoryIndex", "Provider", null, new { @class = "btn btn-default" })
+        </div>
+    </div>
+</div>

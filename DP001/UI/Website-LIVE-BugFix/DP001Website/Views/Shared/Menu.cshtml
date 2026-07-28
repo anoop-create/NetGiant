@@ -1,0 +1,101 @@
+﻿@model object
+
+@{
+    string menuType = ViewData.Eval("MenuType") as string;
+    string menuPosition = ViewData.Eval("MenuPosition") as string;
+    string currentItem = ViewData.Eval("CurrentItem") as string;
+
+    if (menuType == "Public")
+    {
+        if (menuPosition == "Left")
+        {
+            @*<li role="presentation"><a href="#">Features</a></li>
+            <li role="presentation"><a href="#">Prices</a></li>
+            <li role="presentation"><a href="#">Contact Us</a></li>*@
+        }
+        if (menuPosition == "Right")
+        {
+            <li role="presentation"><a href="#">Login</a></li>
+            @*<li role="presentation"><a href="#">Register</a></li>*@
+        }
+    }
+
+    if (menuType == "Authorised")
+    {
+        if (menuPosition == "Left")
+        {
+            <li class="@(currentItem == "dashboard" ? "active" : "")">
+                <a href="@Url.Action("Index", "dashboard")">Dashboard</a>
+            </li>
+
+            <li class="@(currentItem == "pricerules" ? "active" : "")">
+                <a href="@Url.Action("Index", "PriceRules")">Price Rules</a>
+            </li>
+
+            <li class="@(currentItem == "inventories" ? "active" : "")">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-header dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Inventories
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.Action("Index", "Products")">Product Inventory</a></li>
+                        <li><a href="@Url.Action("Inventory", "Suppliers")">Supplier Inventory</a></li>
+                        <li><a href="@Url.Action("Inventory", "Competitors")">Competitor Inventory</a></li>
+                    </ul>
+                </div>
+            </li>
+
+                        <li class="@(currentItem == "reports" ? "active" : "")">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-header dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Reports
+                                    <i class="fa fa-caret-down"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("Comparison", "Reports")">Comparison</a></li>
+                                    <li><a href="@Url.Action("Index", "TenantAudit")">Audit Trail</a></li>
+                                    <li><a href="@Url.Action("KeyLines", "Reports")">Key Lines</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="@(currentItem == "settings" ? "active" : "")">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-header dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Settings
+                                    <i class="fa fa-caret-down"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("Main", "TenantSettings")">Main Settings</a></li>
+                                    <li><a href="@Url.Action("Index", "SkuMappings")">Product Mappings</a></li>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        if (User.IsInRole("SuperAdmin"))
+                                        {
+                                            <li role="presentation" class="divider"></li>
+                                            <li><a href="@Url.Action("AdminIndex", "Log")">Error Log</a></li>
+                                            <li><a href="@Url.Action("ModifyTenant", "Account")">Change Tenant</a></li>
+                                            <li><a href="@Url.Action("ListUsers", "Account")">Manage Users</a></li>
+                                            <li><a href="@Url.Action("ListRoles", "Account")">Manage Roles</a></li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </li>
+        }
+        if (menuPosition == "Right")
+        {
+            <li><a href="@Url.Action("Index", "TenantSettings")">My Account</a></li>
+            <li><a href="@Url.Action("ChangeMyPassword", "Account")">Change Password</a></li>
+            <li>
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <a href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
+                }
+            </li>
+        }
+    }
+}
+

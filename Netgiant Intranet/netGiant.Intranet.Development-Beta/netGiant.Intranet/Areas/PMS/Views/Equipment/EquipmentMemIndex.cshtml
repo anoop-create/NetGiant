@@ -1,0 +1,97 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Equipment;
+@model EquipmentViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Equipment Membership - " + ViewBag.EquipName;
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+
+        <br />
+
+        <input id="hiddenEquipID" value="@ViewBag.eqEquipmentID" type="hidden"/>
+
+        <div id="membershipDataPartialView">
+            @{Html.RenderPartial("_EquipmentMemData", Model.EquipmentProductMembershipList);}
+        </div>
+
+        <div id="eqMembershipDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+            Are you sure ?
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        $(document).on("click", "#eqMembershipPaging a", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $(document).on("click", ".lnkDeleteMembership", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete("#eqMembershipDialog", $("#EquipmentMemDeleteURL").val(), $(this).attr("value"),
+                                "#membershipDataPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+            return false;
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            applyStandardPaging(event, 0);
+
+            return false;
+        });
+
+        if ($("#historyPage").val() != '') {
+            $('#membershipDataPartialView').html($("#historyPage").val());
+        }
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging();
+            standardPaging(event, id, "#eqMembershipPaging", $("#EquipmentMemDataURL").val(),
+                                    "#membershipDataPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#hiddenEquipID").val();
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[1] = sortType + sortDir;
+            } else {
+                optionsArray[1] = '';
+            }
+        }
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value"); //FamilyID
+            optionsArray[1] = $("#hiddenEquipID").val();
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[2] = sortType + sortDir;
+            } else {
+                optionsArray[2] = '';
+            }
+        }
+
+    </script>
+}

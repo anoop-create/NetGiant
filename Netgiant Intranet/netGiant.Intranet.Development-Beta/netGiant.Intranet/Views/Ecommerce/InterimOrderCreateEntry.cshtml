@@ -1,0 +1,47 @@
+﻿@using System.Configuration;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce;
+
+@model InterimOrdersViewModel
+
+@{
+    ViewBag.Title = "Edit Interim Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h4>@ViewBag.Title</h4>
+        <div class="form-horizontal">
+
+            @using (Html.BeginForm("InterimOrderSaveEntry", "Ecommerce"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                @Html.HiddenFor(x => x.InterimOrdersEntry.InterimOrderId)
+                @Html.HiddenFor(x => x.InterimOrdersEntry.InterimOrderTypeFk)
+                @Html.HiddenFor(x => x.InterimOrdersEntry.WebsiteFk)
+                @Html.HiddenFor(x => x.InterimOrdersEntry.DateTime)
+
+                <div class="form-group">
+                    @Html.Label("Is Ordered", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(model => model.InterimOrdersEntry.IsOrdered, new { @class = "g-f-l allowDisable" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("JSON (Take Care)", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.InterimOrdersEntry.Json, new { style = "height: 440px;", @class = "textArea" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveCmsEntry" value="Save" class="btn btn-default" title="Save" />
+                        @Html.ActionLink("Cancel", "InterimOrdersIndex", "Ecommerce", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

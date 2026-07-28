@@ -1,0 +1,420 @@
+﻿@using System.Configuration;
+@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model CMSViewModel
+
+@{
+    ViewBag.Title = "Create CMS Entry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AddTags
+{
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet">
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h4 class="g-m-l-20 g-p-t-20">@ViewBag.Title</h4>
+        <div class="form-horizontal g-m-l-20 g-m-r-20 g-b-1dg g-p-10">
+
+            @Html.Hidden("GetSectionDropDownUrl", Url.Action("GetSectionDropDown", "CMS"))
+            @Html.Hidden("GetEntriesDropDownUrl", Url.Action("GetEntriesDropDown", "CMS"))
+
+            @using (Html.BeginForm("SaveEntry", "CMS"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                @Html.HiddenFor(x => x.CMSEntry.cmsEntryID)
+                @Html.HiddenFor(x => x.CMSEntry.cmsSection)
+
+                if (Model.CMSEntry.cmsEntryID == 0)
+                {
+                    <div class="form-group">
+                        @Html.Label("Website", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("CMSEntry_cmsSection_websiteFK", Model.WebsiteNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        @Html.Label("Website", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.CMSEntry.cmsSection.websiteFK, Model.WebsiteNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        </div>
+                    </div>
+                }
+                <div class="form-group">
+                    @Html.Label("Section Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div id="" class="col-md-10">
+                        @Html.DropDownListFor(m => m.CMSEntry.cmsSectionFK, Model.SectionNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10", disabled = "true" })
+                        @Html.ValidationMessageFor(model => model.CMSEntry.cmsSection.sectionName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Group Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div id="" class="col-md-10">
+                        @Html.DropDownListFor(m => m.CMSEntry.cmsGroupFK, Model.GroupNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        @Html.ValidationMessageFor(model => model.CMSEntry.cmsGroupFK, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Entry Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CMSEntry.entryName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.CMSEntry.entryName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Use Html Editor", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(model => model.CMSEntry.useHtmlEditor, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.CMSEntry.useHtmlEditor, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Entry Content", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+
+                        @{
+                            string weburl = Model.CMSEntry.cmsSection == null ? "http://www.tonergiant.co.uk/" : "http://" + Model.CMSEntry.cmsSection.Website.WebURL;
+
+                            if (ConfigurationManager.AppSettings["Environment"] != "Live")
+                            {
+                                weburl.Replace("www", "beta");
+                            }
+
+                            var bootstrapCss = weburl + "/Content/bootstrap.css";
+                            var fontAwesomeCss = weburl + "/Content/font-awesome.css";
+                            var siteCss = weburl + "/Content/site.less";
+                        }
+
+                        @(Html.Kendo().Editor()
+                              .Name("content")
+                              .HtmlAttributes(new {style = "height:440px;", @class = "kendoEditor"})
+                              .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                              .Encode(false)
+                              .Serialization(s => s
+                                  .Semantic(false)
+                                  .Scripts(true)
+                                  .Custom("formatHtml"))
+                              .Tools(tool => tool
+                                  .FontColor()
+                                  .BackColor()
+                                  .FontSize()
+                                  .ViewHtml()
+                              )
+                              .Value(Model.CMSEntry.cmsContent)
+                              .StyleSheets(css => css
+                                  .Add(Url.Content(bootstrapCss))
+                                  .Add(Url.Content(fontAwesomeCss))
+                                  .Add(Url.Content(siteCss))
+                              )
+                          )
+
+                        @Html.TextArea("content", Model.CMSEntry.cmsContent, new { style = "height: 440px;", @class = "textArea" })
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.CMSEntry.cmsContent, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Meta Data", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CMSEntry.metaData, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.CMSEntry.metaData, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Notes", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @*@Html.TextArea("notes", Model.CMSEntry.notes, new { style = "height: 330px;", @class = "textArea" })*@
+                        @Html.TextAreaFor(model => model.CMSEntry.notes, new { @class = "textArea", @rows = "10" })
+                        @Html.ValidationMessageFor(model => model.CMSEntry.notes, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+ 
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveCmsEntry" value="Save" class="btn btn-default" title="Save" />
+                        @Html.ActionLink("Cancel", Session["ReturnAction"].ToString(), Session["ReturnController"].ToString(), null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            }
+        </div>
+
+        <h4 class="g-m-l-20 g-m-r-20 g-m-t-20">Event Mappings</h4>
+        <div class="g-b-1dg g-m-l-20 g-m-r-20  g-p-10 g-m-t-10 g-m-b-50">
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+            {
+                <div class="g-m-l-10">
+                    <a class="lnk g-cur-p" data-url="@Url.Action("CreateEventMapping", "CMS")/0?cmsEntryID=@Model.CMSEntry.cmsEntryID">Create New</a>
+                </div>
+            }
+            @(Html.Kendo().Grid<CMSViewModel.TelerikEventMapping>()
+                      .HtmlAttributes(new {@class = "pointer-rows"})
+                      .Name("EventMappingGrid")
+                      .Columns(columns =>
+                      {
+                          columns.Bound(x => x.Id).Title("ID");
+                          columns.Bound(x => x.MappedCmsEntry).Title("Mapped Entry");
+                          columns.Bound(x => x.Event).Title("Event");
+                          columns.Bound(x => x.DateActivate).Title("Date Active").Format("{0:dd/MM/yyyy HH:mm:ss}");
+                          columns.Bound(x => x.DateInactive).Title("Date InActive").Format("{0:dd/MM/yyyy HH:mm:ss}");
+                          columns.Bound(x => x.IsActive).Title("Currently Active");
+                          columns.Bound(x => x.Id).ClientTemplate(
+                            "<a class='lnk g-cur-p' data-url='" + Url.Action("CreateEventMapping", "CMS") + "/#:Id#?cmsEntryId=" + Model.CMSEntry.cmsEntryID + "'>Edit</a>" +
+                            "|<a href=\"##\" class=\"lnkDelete\" value=\"#:Id#\" title=\"Delete\">Delete</a>"
+                            ).Width("136px").Filterable(false).Sortable(false).Groupable(false).Title("Actions");
+                      })
+                      .Sortable(sortable => sortable.AllowUnsort(true))
+                      .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+                      .ColumnMenu()
+                      .Resizable(resize => resize.Columns(true))
+                      .Reorderable(reorder => reorder.Columns(true))
+                      .NoRecords("There are no field mappings to display")
+                      .DataSource(dataSource => dataSource
+                          .Ajax()
+                          .Read(x => x.Action("EventMapping_Read", "CMS", new {id = Model.CMSEntry.cmsEntryID}))
+                          .Sort(sort => sort
+                              .Add(x => x.Event).Ascending())
+                          .PageSize(200)
+                      )
+                      .Events(e => e.DataBound("saveGridFilters"))
+                      )
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 1000px;">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button id="close-modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/Scripts/html5-tidy.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("iframe").removeAttr("title");
+
+            $(document).on("change", "#CMSEntry_cmsSection_websiteFK", function (event) {
+                $.ajax({
+                    async: false,
+                    cache: false,
+                    type: "POST",
+                    url: $("#GetSectionDropDownUrl").val(),
+                    data: {
+                        websiteId: $('#CMSEntry_cmsSection_websiteFK').val(),
+                        timestamp: $.now()
+                    },
+                    success: function (data) {
+                        $('#CMSEntry_cmsSectionFK').empty().append(data.SectionHtml);
+                        $('#CMSEntry_cmsSectionFK').val($("#CMSEntry_cmsSectionFK option:first").val());
+                        showDd('#CMSEntry_cmsSectionFK');
+                    }
+                });
+            });
+
+            $(document).on("change", "#CMSEntry_cmsSectionFK", function (event) {
+                $.ajax({
+                    async: false,
+                    cache: false,
+                    type: "POST",
+                    url: $("#GetEntriesDropDownUrl").val(),
+                    data: {
+                        sectionId: $('#CMSEntry_cmsSectionFK').val(),
+                        timestamp: $.now()
+                    },
+                    success: function (data) {
+                        $('#CMSEntry_redirectEntryId').empty().append(data.EntriesHtml);
+                        $('#CMSEntry_redirectEntryId').val($("#CMSEntry_redirectEntryId option:first").val());
+                        showDd('#CMSEntry_redirectEntryId');
+                    }
+                });
+            });
+
+            $(document).on('click', '.lnkDelete', function (e) {
+                var rowid = $(this).attr('value');
+                e.preventDefault();
+                $.confirm({
+                    title: 'Event Mapping',
+                    content: 'Are you sure you want to delete this mapping?',
+                    buttons: {
+                        Yes: function () {
+                            deleteGridRow('@Url.Action("DeleteEventMapping", "CMS")/', { id: rowid });
+                        },
+                        No: function () { }
+                    }
+                });
+            });
+
+            $(document).on("click", ".lnk", function () {
+                var url = $(this).attr('data-url');
+                $('#myModal').find('.modal-body').html('');
+                $.ajax({
+                    url: url
+                }).done(function (data) {
+                    $('#myModal').find('.modal-body').html(data);
+                });
+                $('#myModal').modal();
+            });
+
+            showDd('#CMSEntry_cmsSectionFK');
+            showDd('#CMSEntry_redirectEntryId');
+
+            $("#CMSEntry_redirectFrom, #CMSEntry_redirectUntil").datepicker({ dateFormat: 'dd/mm/yy' });
+
+            $('#myModal').on('hidden.bs.modal', function (e) {
+                $('#myModal').find('.modal-body').empty();
+                $('.k-grid').data('kendoGrid').dataSource.read();
+                //$('.k-grid').data('kendoGrid').refresh();
+            });
+        });
+
+        function showDd(id) {
+            if ($(id).children('option').length > 1) {
+                $(id).prop('disabled', false);
+            } else {
+                $(id).prop('disabled', true);
+            }
+        }
+
+        function ajaxReturn(data) {
+            var response = data.responseJSON;
+            $.confirm({
+                animation: 'zoom',
+                animateFromElement: false,
+                title: response.type,
+                content: response.savereturn.Message,
+                type: response.savereturn.IsSuccess ? 'green' : 'red',
+                icon: response.savereturn.IsSuccess ? 'fa fa-check' : 'fa fa-warning',                
+                buttons: {
+                    OK: function () {
+                        if (response.savereturn.IsSuccess) {
+                            $('#close-modal').click();
+                        }
+                    }
+                }
+            });
+            return false;
+        }        
+
+        $(function () {
+            $.validator.addMethod('date',
+                function (value, element) {
+                    if (this.optional(element)) {
+                        return true;
+                    }
+                    var ok = true;
+                    try {
+                        $.datepicker.parseDate('dd/mm/yy', value);
+                    }
+                    catch (err) {
+                        ok = false;
+                    }
+                    return ok;
+                });
+            $(".datefield").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+        });
+    </script>
+
+    <script>
+        var showBodyOnly = true;
+        @if (Model.CMSEntry.cmsContent != null && Model.CMSEntry.cmsContent.Contains("<!DOCTYPE"))
+            {
+                @:showBodyOnly = false;
+            }
+
+        options = {
+            "indent": "auto",
+            "indent-spaces": 4,
+            "wrap": 200,
+            "output-xml": false,
+            "quote-nbsp": false,
+            "show-body-only": showBodyOnly,
+            "quote-ampersand": false,
+            "uppercase-tags": false,
+            "uppercase-attributes": false,
+            "drop-font-tags": false,
+            "tidy-mark": false,
+            "drop-empty-paras": false,
+            "drop-empty-elements": false
+        }
+
+        $(function() {
+
+            var showHtmlEditor;
+            @if (Model.CMSEntry.useHtmlEditor)
+            {
+                if (Model.CMSEntry.cmsEntryID == 0 || Model.CMSEntry.cmsContent.Length < 6 || !Model.CMSEntry.cmsContent.TrimStart().Substring(0, 6).Contains("<style"))
+                {
+                    @:showHtmlEditor = true;
+                }
+                else
+                {
+                    @:showHtmlEditor = false;
+                }
+            }
+            else
+            {
+                @:showHtmlEditor = false;
+            }
+
+            if (showHtmlEditor) {
+                $('.kendoEditor').data("kendoEditor").wrapper.show();
+                $('.kendoEditor').removeAttr('disabled');
+                $('.textArea#content').hide();
+                $('.textArea#content').attr('disabled', 'disabled');
+
+            } else {
+                $('.kendoEditor').data("kendoEditor").wrapper.hide();
+                $('.kendoEditor').attr('disabled', 'disabled');
+                $('.textArea#content').show();
+                $('.textArea#content').removeAttr('disabled');
+            }
+
+            $(document).on('change',
+                '#CMSEntry_useHtmlEditor',
+                function() {
+                    var checked = $(this).is(':checked');
+                    if (checked) {
+                        // Show Kendo Editor
+                        $('.kendoEditor').data("kendoEditor").wrapper.show();
+                        $('.kendoEditor').removeAttr('disabled');
+                        $('.textArea#content').hide();
+                        $('.textArea#content').attr('disabled', 'disabled');
+
+                    } else {
+                        // Show Textarea
+                        $('.kendoEditor').data("kendoEditor").wrapper.hide();
+                        $('.kendoEditor').attr('disabled', 'disabled');
+                        $('.textArea#content').show();
+                        $('.textArea#content').removeAttr('disabled');
+
+                    }
+                });
+        });
+
+        function formatHtml(html) {
+            @if (Model.CMSEntry.cmsContent != null && (Model.CMSEntry.cmsContent.Length < 6 || !Model.CMSEntry.cmsContent.TrimStart().Substring(0, 6).Contains("<style")))
+            {
+                @:return tidy_html5(html, options);
+            }
+        }
+    </script>
+}
+

@@ -1,0 +1,50 @@
+﻿@model List<SelectListItem>
+
+<div class="modal" id="saveReportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <b>Save New Custom Report</b>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 page-form">
+                        <div id="modalPanel1">
+                            <div class="form-value">
+                                <div class="col-md-4">
+                                    <label>Description</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input id="reportDescription" type="text" />
+                                </div>
+                            </div>
+                            <div class="form-value g-m-t-10">
+                                <div class="col-md-4">
+                                    <label>Sharing</label>
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.DropDownList("Security", Model, new { @class = "selectpicker" })
+                                </div>
+                            </div>
+                            <div id="saveReportValidationContainer" class="g-m-t-10 text-danger"></div>
+                        </div>
+                        <div id="modalPanel2" class="hide g-m-t-10">
+                            Your report has been saved successfully
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                        <i class="fa fa-times"></i> Close
+                    </button>
+                    <button id="saveReport" type="button" class="btn btn-default btn-sm">
+                        <i class="fa fa-floppy-o"></i> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

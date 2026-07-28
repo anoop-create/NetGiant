@@ -1,0 +1,124 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Reports;
+@using System.Globalization;
+@model ReportsViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>WallBoard</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/Site.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui.structure.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui.theme.min.css">
+
+</head>
+<body class="wb_bodyOveride">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <div>
+        @Html.ValidationSummary("", new { @class = "text-danger g-fs-2em" })
+        @Html.Hidden("websiteFK", Url.Action("WallBoardData"))
+        @{Html.RenderPartial("~/Views/Reports/WallBoardData.cshtml", Model);}
+
+    </div>
+
+    <div id="targetDialogue" class="g-d-n" title="Set Targets"></div>
+
+    <script type="text/javascript">
+
+        var websiteFK = 2;
+
+        $(document).on("click", "#targetsUpdate", function () {
+            SetWallBoardTargets();
+            return false;
+        });
+
+        $(document).on("click", ".wb_rightContainer", function () {
+            GetWallBoardTargets($("#targetsURL").val(), "#targetDialogue", $(this).attr("value"))
+            $("#targetDialogue").dialog({
+                modal: true,
+                width: 400
+            });
+            return false;
+        });
+
+        function wallBoardLoop() {
+            setTimeout(function () {
+                var objParams = { website: websiteFK };
+                ajaxGet($("#websiteFK").val(), "#wallBoardDynamicData", objParams);
+                websiteFK++;
+                if (websiteFK < 5) {
+                    wallBoardLoop();
+                } else {
+                    websiteFK = 1;
+                    wallBoardLoop();
+                }
+            }, 8000)
+        }
+        wallBoardLoop();
+
+        function ajaxGet(url, resultContainer, obj) {
+
+            $.ajax({
+                url: url,
+                dataType: 'html',
+                traditional: true,
+                type: 'GET',
+                data: obj,
+                async: false,
+                cache: false,
+                success: function (data) {
+                    $('' + resultContainer + '').empty();
+                    $('' + resultContainer + '').html(data);
+                }
+            });
+        }
+
+        function SetWallBoardTargets() {
+
+            optionsArray = new Array();
+
+            optionsArray[0] = $("#StretchTarget").val(); //stretchTarget
+            optionsArray[1] = $("#BaseTarget").val(); //baseTarget
+
+            $.ajax({
+                url: $("#setTargetsURL").attr("value"),
+                dataType: 'html',
+                traditional: true,
+                type: 'POST',
+                async: false,
+                cache: false,
+                data: { optionsArray: optionsArray },
+                success: function (data) {
+                    $("#targetDialogue").empty();
+                    $("#targetDialogue").html(data);
+                }
+            });
+        }
+
+        function GetWallBoardTargets(url, divPartialView, id) {
+
+            $.ajax({
+                url: url,
+                dataType: 'html',
+                traditional: true,
+                type: 'POST',
+                async: false,
+                cache: false,
+                success: function (data) {
+                    $('' + divPartialView + '').empty();
+                    $('' + divPartialView + '').html(data);
+                }
+            });
+
+        }
+    </script>
+</body>
+</html>
+

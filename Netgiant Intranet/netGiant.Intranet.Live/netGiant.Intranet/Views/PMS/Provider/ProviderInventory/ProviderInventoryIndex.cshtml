@@ -1,0 +1,411 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Provider;
+@model ProviderViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Provider Inventory";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title Details</h4>
+        
+        <div style="padding-bottom: 20px">
+            @Html.DropDownListFor(m => m.selectedProviderTypeID, Model.allProviderTypes, "Search By Provider Type", new { @class = "form-control g-smallCell g-f-l g-m-r-10" })
+            @Html.DropDownListFor(m => m.selectedProviderID, Model.AllProvidersList, "Search By Provider", new { @class = "form-control g-smallCell g-f-l g-m-r-10" })
+
+            @*<select id="ddlProvider" class="searchBy g-f-l form-control g-smallCell g-m-r-10" disabled="disabled">
+                <option selected="selected">Search by provider</option>
+            </select>*@
+            @Html.DropDownListFor(m => m.manufacturerFK, Model.allManufacturers, "Search by manufacturer", new { @class = "form-control g-smallCell g-f-l g-m-r-10" })
+            @Html.DropDownListFor(m => m.selectedUnspscCode, Model.allUnspscClasses, "Search By UNSPSC class", new { @class = "form-control g-smallCell g-f-l g-m-r-10" })
+            <select id="providerInventorySearchBy" class="searchBy g-f-l form-control g-smallCell" style="margin-right:10px">
+                <option selected="selected" value="description">Search by description</option>
+                <option value="partNo">Search by part no</option>
+                <option value="providerPartNo">Search by provider part no</option>
+                <option value="provider">Search by provider</option>
+                <option value="unspscClass">Search by unspsc code</option>
+            </select>
+            <div>
+                @Html.TextBox("SearchProviderInventory", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10", @type = "text" })
+                <a id="lnkSearchProviderInventory" href="#" class="btn btn-default g-f-l" title="Empty search returns all records">Search</a>
+            </div>
+        </div>
+        <div style="clear: both; padding-top: 10px">
+            <input type="checkbox" id="chkPotentialNew" checked="checked" />&nbsp;<label style="color: green; padding-right: 10px;">Potential New Only</label>
+            <input type="checkbox" id="chkInStock" checked="checked" />&nbsp;<label style="color: green; padding-right: 10px;">In Stock Only</label>
+            <input type="checkbox" id="chkUnwanted" />&nbsp;<label style="color: green; padding-right: 10px;">Unwanted Only</label>
+            <input type="checkbox" id="chkUntrusted" />&nbsp;<label style="color: green;">Untrusted Only</label>
+        </div>
+        <br />
+
+        <div id="providerInventoryData">
+            @{Html.RenderPartial("~/Views/PMS/Provider/ProviderInventory/ProviderInventoryData.cshtml", Model.providerInventories);}
+        </div>
+
+        <div id="priceHistoryContainer" class="g-d-n"></div>
+        <div id="setProviderUntrustedDialogue" class="g-d-n" title="Set Untrusted">
+            Are you sure you want to set this provider as untrusted for this product ?
+        </div>
+
+        <div id="eanSearchDialogue" title="EAN Search" class="g-d-n" style="overflow: hidden;"></div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+        @using (@Html.BeginForm("ExportProviderInventory", "Provider"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("options")
+            <input type="submit" id="btnExport" class="g-d-n" />
+        }
+
+    </div>
+</div>
+ 
+@section Scripts {
+    <script type="text/javascript">
+       
+        var optionsArray;
+        var potentialNewChecked = $("#chkPotentialNew").is(":checked");
+        var unwantedChecked = $("#chkUnwanted").is(":checked");
+
+        $(document).on("click", "#lnkSearchProviderInventory, #providerInventoryPaging a", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $("#SearchProviderInventory").keypress(function (event) {
+            if (event.which == 13) {
+                applyStandardPaging(event);
+            }
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            applyStandardPaging(event, 0);
+
+            return false;
+        });
+
+        if ($("#historyPage").val() != '') {
+            $('#providerInventoryData').html($("#historyPage").val());
+        }
+
+        $(document).on("change", "#selectedProviderTypeID", function (event) {
+
+            if ($(this).val() != '') {
+                jsonPopulateDropDown($("#GetProvidersURL").val() + '/' + $(this).val(), '#selectedProviderID', 'provider');
+                $("#selectedProviderID").empty();
+                $("#selectedProviderID").html('<option value="" selected="true">Search by provider</option>');
+                $("#selectedProviderID").attr('disabled', 'disabled');
+            }
+
+            var chkInStk = $("#chkInStock");
+            var chkPnpProd = $("#chkPotentialNew");
+            var chkUnwanted = $("#chkUnwanted");
+
+            if ($(this).val() != 2 && $(this).val() != '') {
+                chkPnpProd.prop('checked', false);
+                chkPnpProd.attr("disabled", "disabled");
+                chkInStk.prop('checked', false);
+                chkInStk.attr("disabled", "disabled");
+                chkUnwanted.prop('checked', false);
+                chkUnwanted.attr("disabled", "disabled");;
+            } else {
+                chkPnpProd.prop('checked', true);
+                chkPnpProd.removeAttr("disabled");
+                chkInStk.prop('checked', true);
+                chkInStk.removeAttr("disabled");
+                chkUnwanted.removeAttr("disabled");;
+            }
+            applyStandardPaging(event, 0);
+        });
+
+        $(document).on("change", "#selectedProviderID", function (event) {
+            applyStandardPaging(event, 0);
+        });
+
+        $(document).on("change", "#manufacturerFK", function (event) {
+            applyStandardPaging(event, 0);
+        });
+
+        $(document).on("change", "#chkInStock", function (event) {
+            applyStandardPaging(event, 0);
+        });
+
+        $(document).on("change", "#chkPotentialNew", function (event) {
+            applyStandardPaging(event, 0);
+        });
+
+        $(document).on("change", "#chkUnwanted", function (event) {
+            applyStandardPaging(event, 0);
+        });
+
+        $(document).on("change", "#chkUntrusted", function (event) {
+            applyStandardPaging(event, 0);
+        });
+
+        $(document).on("change", "#selectedUnspscCode", function (event) {
+            applyStandardPaging(event, 0);
+        });
+
+        $(document).on("click", "#chkSelectAll", function (event) {
+            $(".chkInterested, .lnkReinstateUnwanted").prop('checked', $(this).prop('checked'));
+        });
+
+        $(document).on("click", ".untrustedChkBox", function (event) {
+            setupOptionsArrayPaging();
+            optionsArray.push($(this).is(':checked'));
+            optionsArray.push($(this).attr('piID'));
+            optionsArray.push($('#PageNumber').val());
+            setUntrusted($('#SetProviderUntrustedURL').val(), optionsArray, $(this).is(':checked'));
+        });
+
+        $(document).on('click', '#lnkExport', function () {
+            $('#btnExport').trigger('click');
+            return false;
+        });
+
+        $(document).on('click', '.barcodeLink', function () {
+            $('body').append('<div id="updatingContainer" style="z-index: 102;"></div>');
+            $('#eanSearchDialogue').html('<div class="g-ps-r g-of-h eanB_popup"><iframe id="eanIframe" src="https://www.barcodelookup.com/' + $(this).text() + '" class="g-ps-a" frameborder="0"></iframe></div>');
+            $('#eanIframe').load(function () { $('#updatingContainer').remove(); });
+            $("#eanSearchDialogue").dialog({
+                modal: true,
+                width: 1000,
+                height: 620
+            });
+
+            return false;
+        });
+
+        $(document).tooltip({
+            items: '*:not(.ui-dialog-titlebar-close)'
+        });
+
+        $(function () {
+
+            $(document).on("change", "#chkUnwanted, #chkPotentialNew", function () {
+                unwantedChecked = $("#chkUnwanted").is(":checked");
+                potentialNewChecked = $("#chkPotentialNew").is(":checked");
+            });
+
+            $(document).tooltip({
+                items: ".lnkYes, .lnkNo, #chkSelectAll",
+                content: function () {
+                    if (unwantedChecked) {
+                        if ($(this).attr('class') == 'lnkYes') {
+                            return "Reinstate";
+                        }
+                        else if ($(this).attr('id') == 'chkSelectAll') {
+                            return "select all";
+                        }
+                        else {
+                            return "Do not reinstate";
+                        }
+                    } else {
+                        if ($(this).attr('class') == 'lnkYes') {
+                            return "I'm interested";
+                        }
+                        else if ($(this).attr('id') == 'chkSelectAll') {
+                            return "select all";
+                        }
+                        else {
+                            return "I'm not interested - hide";
+                        }
+                    }
+                }
+            });
+        });
+
+        $(document).on("click", ".lnkYes", function () {
+            //apply product interest
+            if (potentialNewChecked && !unwantedChecked) {
+                applyProductInterestOptions(true);
+            } else if (unwantedChecked) {
+                //apply reinstate
+                applyReinstateOptions($(this).attr("value"));
+            }
+        });
+
+        $(document).on("click", ".lnkNo", function () {
+            //apply product interest
+            if (potentialNewChecked && !unwantedChecked) {
+                applyProductInterestOptions(false);
+            } else if (unwantedChecked) {
+                $("#chkSelectAll").prop('checked', false);
+                $(".lnkReinstateUnwanted").prop('checked', false);
+            }
+        });
+
+        $(document).on("click", ".lnkPriceHistory", function () {
+            getPrices($("#GetPricingURL").val(), "#priceHistoryContainer", $(this).attr("value"));
+            $("#priceHistoryContainer").dialog({
+                modal: true,
+                title: 'Pricing History - ' + $(this).attr("part") 
+            });
+            return false;
+        });
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging();
+            standardPaging(event, id, "#providerInventoryPaging", $('#ProviderInventoryDataURL').val(),
+                                    "#providerInventoryData", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function applyProductInterestOptions(interested) {
+            setupOptionsArrayPaging();
+            setupOptionsArrayMultiple(interested);
+        }
+
+        function applyReinstateOptions(id) {
+            setupOptionsArrayPaging();
+            setupOptionsArrayReinstate();
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#SearchProviderInventory").val(); //SearchTerm
+            optionsArray[1] = $("#providerInventorySearchBy").val(); //SearchBy
+            optionsArray[2] = parseInt($('#selectedProviderID').val()) || 0; //Provider DropDown
+            optionsArray[3] = parseInt($('#manufacturerFK').val()) || 0; //Manufacturer DropDown
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[4] = sortType + sortDir;
+            } else {
+                optionsArray[4] = '';
+            }
+
+            optionsArray[5] = parseInt($('#selectedProviderTypeID').val()) || 0; //Provider Type DropDown
+
+            if ($("#chkInStock").is(":checked")) {
+                optionsArray[6] = true;
+            } else {
+                optionsArray[6] = false;
+            }
+
+            if ($("#chkPotentialNew").is(":checked")) {
+                optionsArray[7] = true;
+            } else {
+                optionsArray[7] = false;
+            }
+
+            if ($("#chkUnwanted").is(":checked")) {
+                optionsArray[8] = true;
+            } else {
+                optionsArray[8] = false;
+            }
+
+            if ($("#chkUntrusted").is(":checked")) {
+                optionsArray[9] = true;
+            } else {
+                optionsArray[9] = false;
+            }
+
+            optionsArray[10] = $('#selectedUnspscCode').val() || ''; //UNSPSC Class DropDown
+
+            $('#options').val(optionsArray);
+        }
+
+        function setupOptionsArrayMultiple(interested) {
+
+            var str = "";
+
+            $('.chkInterested:checked').each(function (i) {
+                if (i == 0) {
+                    str += $(this).attr("value");
+                } else {
+                    str += "," + $(this).attr("value");
+                }
+            });
+
+            optionsArray[11] = str;
+            optionsArray[12] = interested;
+
+            setProductInterest($("#SetProductInterestURL").val(), "#providerInventoryData", optionsArray);
+            return false;
+        }
+
+        function setProductInterest(url, divPartialView, optionsArray) {
+
+            $.ajax({
+                url: url,
+                dataType: 'html',
+                traditional: true,
+                type: 'POST',
+                data: { optionsArray: optionsArray },
+                async: false,
+                cache: false,
+                success: function (data) {
+                    $('' + divPartialView + '').empty();
+                    $('' + divPartialView + '').html(data);
+                }
+            });
+
+        }
+
+        function getPrices(url, divPartialView, id) {
+
+            $.ajax({
+                url: url,
+                dataType: 'html',
+                traditional: true,
+                type: 'POST',
+                data: { id: id },
+                async: false,
+                cache: false,
+                success: function (data) {
+                    $('' + divPartialView + '').empty();
+                    $('' + divPartialView + '').html(data);
+                }
+            });
+
+        }
+
+        function setUntrusted(url, optionsArray, checkedUnchecked) {
+
+            $.ajax({
+                url: url,
+                dataType: 'html',
+                traditional: true,
+                type: 'POST',
+                data: { optionsArray: optionsArray },
+                async: false,
+                cache: false,
+                success: function (data) {
+                    if (checkedUnchecked == true) {
+                        alert('Provider set to untrusted');
+                    } else {
+                        alert('Provider set to trusted');
+                    }
+                }
+            });
+
+        }
+
+        function setupOptionsArrayReinstate() {
+
+            var str = "";
+
+            $('.lnkReinstateUnwanted:checked').each(function (i) {
+                if (i == 0) {
+                    str += $(this).attr("value");
+                } else {
+                    str += "," + $(this).attr("value");
+                }
+            });
+
+            optionsArray[11] = str;
+
+            setProductInterest($("#ReinstateProductURL").val(), "#providerInventoryData", optionsArray);
+            return false;
+        }
+
+    </script>
+}

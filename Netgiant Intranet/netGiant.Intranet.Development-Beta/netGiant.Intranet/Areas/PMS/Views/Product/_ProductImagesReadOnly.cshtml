@@ -1,0 +1,68 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product;
+@using netGiant.Intranet.DataLayer.NetgiantMasterData;
+@model ProductDetailViewModel
+
+@Html.Label("Manufacturer : " + @Model.ManufacturerName)
+<br>
+
+@foreach (var webInv in Model.ProductDetail.websiteInventory)
+{
+    string fullImagesPath = Model.GetFullPathOfWebInventoryImages(webInv);
+
+    <fieldset>
+        @{
+            string toDisplayInLegend = Model.Websites.Where(x => x.Text.Equals(webInv.Website.FriendlyName)).First().Text;
+
+            List<productImage> productImagesListForWebsiteInventory = webInv.productImage.ToList();
+
+            if (productImagesListForWebsiteInventory.Count() > 0)
+            {
+                int mainFullImagesCount = productImagesListForWebsiteInventory.Where(x => x.mainImage && !x.thumbnailImage).Count();
+                if (mainFullImagesCount > 1)
+                {
+                    toDisplayInLegend += ", More than 1 main full image";
+                }
+                if (mainFullImagesCount == 0)
+                {
+                    toDisplayInLegend += ", Missing a main full image";
+                }
+
+                int mainThumbnailImagesCount = productImagesListForWebsiteInventory.Where(x => x.mainImage && x.thumbnailImage).Count();
+                if (mainThumbnailImagesCount > 1)
+                {
+                    toDisplayInLegend += ", More than 1 main thumbnail image";
+                }
+                if (mainThumbnailImagesCount == 0)
+                {
+                    toDisplayInLegend += ", Missing a main thumbnail image";
+                }
+            }
+        }
+
+        <legend>@Html.Raw(toDisplayInLegend)</legend>
+
+
+        <table class="table">
+            <tr>
+                <th>URL</th>
+                <th>IsMain</th>
+                <th>IsThumbnail</th>
+                <th>Preview</th>
+            </tr>
+
+
+            @foreach (var prdImage in webInv.productImage)
+            {
+                string fullProductImagePath = fullImagesPath + '/' + prdImage.URL;
+
+                <tr>
+                    <td>@Html.Raw(prdImage.URL)</td>
+                    <td>@Html.CheckBox("mainChecked", prdImage.mainImage, new { @disabled = "disabled" }) </td>
+                    <td>@Html.CheckBox("thumbnailChecked", prdImage.thumbnailImage, new { @disabled = "disabled" }) </td>
+                    <td><img src=@fullProductImagePath style="height:25px" onerror="this.src = '../../../Content/Images/noimage.jpg';" /></td>
+                </tr>
+            }
+        </table>
+
+    </fieldset>
+ }

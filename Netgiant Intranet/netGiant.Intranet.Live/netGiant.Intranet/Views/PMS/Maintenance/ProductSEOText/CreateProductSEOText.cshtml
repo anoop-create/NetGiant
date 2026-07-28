@@ -1,0 +1,108 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model ProductSEOTextViewModel
+
+@{
+    ViewBag.Title = "Create Product SEO Text";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h4>@ViewBag.Title</h4>
+        <div class="form-horizontal">
+            @using (Html.BeginForm("Save", "ProductSEOText"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                @Html.HiddenFor(x => x.ProductSEOText.productSEOTextID)
+
+                <div class="form-group">
+                    @Html.Label("Website", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.ProductSEOText.websiteFK, Model.WebsiteNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        @Html.ValidationMessageFor(model => model.ProductSEOText.Website.WebsiteName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Product Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.ProductSEOText.productTypeFK, Model.ProductTypeNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        @Html.ValidationMessageFor(model => model.ProductSEOText.productType.productTypeName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Paragraph Number", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ProductSEOText.paragraphNo, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.ProductSEOText.paragraphNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Entry Number", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ProductSEOText.entryNo, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.ProductSEOText.entryNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Paragraph Text", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(x => x.ProductSEOText.paragraphText, new { @class = "form-control g-largeCell-textArea", rows = 5 })
+                        @Html.ValidationMessageFor(model => model.ProductSEOText.paragraphText, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Own Brand", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <select id="isOwnBrandList" class="searchBy g-f-l form-control g-smallCell g-m-r-10" name="ProductSEOText.isOwnBrand">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                            <option value="">Both</option>
+                        </select>
+                        @Html.HiddenFor(x => x.ProductSEOText.isOwnBrand)
+                        @Html.ValidationMessageFor(model => model.ProductSEOText.isOwnBrand, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Assembly", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <select id="isAssemblyList" class="searchBy g-f-l form-control g-smallCell g-m-r-10" name="ProductSEOText.isAssembly">
+                            <option value="true">Assembly</option>
+                            <option value="false">Stock</option>
+                            <option value="">Both</option>
+                        </select>
+                        @Html.HiddenFor(x => x.ProductSEOText.isAssembly)
+                        @Html.ValidationMessageFor(model => model.ProductSEOText.isAssembly, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Maintenance", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBox("ProductSEOText.isMaintenance", Model.ProductSEOText.isMaintenance == true ? true : false, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.ProductSEOText.isMaintenance, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveEquipmentNotes" value="Save" class="btn btn-default" title="Save" />
+                        @Html.ActionLink("Cancel", "ProductSEOTextIndex", "ProductSEOText", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var isOwnBrand = $('#ProductSEOText_isOwnBrand').val().toLowerCase();;
+            var isAssembly = $('#ProductSEOText_isAssembly').val().toLowerCase();;
+
+            $('#isOwnBrandList').val(isOwnBrand);
+            $('#isAssemblyList').val(isAssembly);
+        });
+
+    </script>
+}

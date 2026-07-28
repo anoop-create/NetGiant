@@ -1,0 +1,114 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.OMS
+@using PagedList.Mvc;
+@using Kendo.Mvc.UI;
+
+@model PurchaseOrderViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody productFieldTabs">
+        <h4>
+            Purchase Order Detail - PO@(Model.PurchaseOrder.PurchaseOrderId.ToString("D8")), [PO@(Model.PurchaseOrder.AxisPONo)]
+        </h4>
+
+        <span class="g-m-l-20">
+            @Html.ActionLink("Edit Purchase Order", "EditPurchaseOrder/" + Model.PurchaseOrder.PurchaseOrderId.ToString(), "PurchaseOrder", null, new { @class = "btn btn-default" })
+        </span>
+
+
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Dates</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Date Received:</div><div class="col-lg-3">
+                    <b>
+                        @(Model.PurchaseOrder.DateReceived.ToString("dd/MM/yyyy"))
+                    </b>&nbsp;
+                </div>
+                <div class="col-lg-3">Due Date:</div><div class="col-lg-3">
+                    <b>
+                        @(Model.PurchaseOrder.DueDate.ToString("dd/MM/yyyy"))
+                    </b>&nbsp;
+                </div>
+                <div class="col-lg-3">Date Closed:</div><div class="col-lg-3">
+                    <b>
+                        @(Model.PurchaseOrder.DateClosed.HasValue ? Model.PurchaseOrder.DateClosed.Value.ToString("dd/MM/yyyy") :  " - ")
+                    </b>&nbsp;
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Order Details</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Order ID:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrder.OrderFk)</b>&nbsp;</div>
+                <div class="col-lg-3">Supplier ID:</div><div class="col-lg-3">
+                    <b>
+                        @(Model.PurchaseOrder.provider == null ? " - " : Model.PurchaseOrder.provider.providerName)
+                    </b>&nbsp;
+                </div>
+                <div class="col-lg-3">Delivery Service:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrder.deliveryService.ServiceName)</b>&nbsp;</div>
+                <div class="col-lg-3">Supplier Reference:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrder.SupplierReference)</b>&nbsp;</div>
+                <div class="col-lg-3">Axis PO No.:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrder.AxisPONo)</b>&nbsp;</div>
+                <div class="col-lg-3">No Days Credit:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrder.NumberDaysCredit)</b>&nbsp;</div>
+                <div class="col-lg-3">Created By:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrder.CreatedBy)</b>&nbsp;</div>
+                <div class="col-lg-3">Last Updated By:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrder.LastUpdatedBy)</b>&nbsp;</div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Amounts</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Nett:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrder.Nett)</b>&nbsp;</div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Flags</legend>
+            <div class=" g-m-t-10 row">
+            </div>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Is Completed:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrder.IsCompleted)</b></div>
+                <div class="col-lg-3">Is Acknowledged:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrder.IsAcknowledged)</b></div>
+                <div class="col-lg-3">Is Unapproved:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrder.IsUnapproved)</b></div>
+                <div class="col-lg-3">Is Sent:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrder.IsSent)</b></div>
+                <div class="col-lg-3">Is Closed:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrder.IsClosed)</b></div>
+                <div class="col-lg-3">Is Amended:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrder.IsAmended)</b></div>
+            </div>
+        </fieldset>
+
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Purchase Order Lines</legend>
+            <table class="table g-bc-w">
+                <tr>
+                    <th>Product Group</th>
+                    <th>Description</th>
+                    <th>Supplier Stock Ref</th>
+                    <th>Quantity Ordered</th>
+                    <th>Quantity Received</th>
+                    <th>Unit Price</th>
+                    <th>Nett</th>
+                    <th>Is Complete</th>
+                    <th>Is Returned</th>
+                    <th></th>
+                </tr>
+                @foreach (var pol in Model.PurchaseOrderLineList)
+                {
+                    <tr>
+                        <td>@pol.ProductGroup.ToString()</td>
+                        <td>@pol.Description.ToString()</td>
+                        <td>@pol.SupplierStockReference.ToString()</td>
+                        <td>@pol.QuantityOrdered.ToString()</td>
+                        <td>@pol.QuantityReceived.ToString()</td>
+                        <td>@pol.UnitPrice.ToString()</td>
+                        <td>@pol.Nett.ToString()</td>
+                        <td>@pol.IsComplete.ToString()</td>
+                        <td>@pol.IsReturned.ToString()</td>
+                        <td><a href="../ViewPurchaseOrderLine/@pol.Id.ToString()?Edit=No">View</a></td>
+                    </tr>
+                }
+            </table>
+        </fieldset>
+    </div>
+</div>
+  

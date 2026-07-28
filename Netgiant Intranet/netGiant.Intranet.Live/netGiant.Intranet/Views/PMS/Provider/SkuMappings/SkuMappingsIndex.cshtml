@@ -1,0 +1,128 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Provider
+@model ProviderViewModel
+
+@{
+    ViewBag.Title = "Sku Mappings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+
+        <div style="padding-bottom: 20px">
+            @Html.DropDownListFor(m => m.selectedProviderID, Model.allSuppliers, "Search By Provider", new { @class = "form-control g-smallCell g-f-l g-m-r-10" })
+            <select id="skuMappingsSearchBy" class="searchBy g-f-l form-control g-smallCell" style="margin-right:10px">
+                <option selected="selected" value="providerPartNo">Search by provider no</option>
+                <option selected="selected" value="ourPartNo">Search by our no</option>
+            </select>
+            <div>
+                @Html.TextBox("skuMappingSearchBox", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10", @type = "text" })
+                <a id="lnkSearchProviderType" href="#" class="btn btn-default g-f-l" title="Empty search returns all records">Search</a>
+            </div>
+        </div>
+        <br />
+
+        <div id="SkuMappingsData">
+            @{ Html.RenderPartial("~/Views/PMS/Provider/SkuMappings/SkuMappingsData.cshtml", Model.skuMappingsList); }
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+        <!--Delete Dialog-->
+        <div id="skuMappingDeleteDialogue" class="confirmDialog g-d-n" title="Confirm Delete">
+            Are you sure you want to delete this Sku Mapping Entry ?
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        $(document).on("click", "#skuMappingsPaging a", function (event) {
+            setupOptionsArrayPaging();
+            applyStandardPaging(event, $(this));
+
+            return false;
+        });
+
+        $(document).on("change", "#selectedProviderID", function (event) {
+            setupOptionsArrayPaging();
+            applyStandardPaging(event, $(this).val());
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            setupOptionsArrayPaging();
+            applyStandardPaging(event, $(this).val());
+            
+            return false;
+        });
+
+        $("#skuMappingSearchBox").keypress(function (event) {
+            if (event.which == 13) {
+                setupOptionsArrayPaging();
+                applyStandardPaging(event, $(this).val());
+            }
+        });
+
+        $(document).on("click", "#lnkSearchProviderType", function (event) {
+            setupOptionsArrayPaging();
+            applyStandardPaging(event, $(this).val());
+        });
+
+        $(document).on("click", ".lnkSkuMappingDelete", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete('#skuMappingDeleteDialogue', $('#DeleteSkuMappingURL').val(), $(this).attr('value'),
+                '#SkuMappingsData', optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        });
+
+        function applyStandardPaging(event, id) {
+            standardPaging(event, id, "#skuMappingsPaging", $('#SkuMappingsDataURL').val(),
+                                    "#SkuMappingsData", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#selectedProviderID").val() || 0; //ProviderID
+            optionsArray[1] = $("#skuMappingSearchBox").val(); //Search Box
+            optionsArray[2] = $("#skuMappingsSearchBy").val() || 0; //Search By
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[3] = sortType + sortDir;
+            } else {
+                optionsArray[3] = '';
+            }
+        }
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = $("#selectedProviderID").val() || 0; //ProviderID
+            optionsArray[1] = $("#skuMappingSearchBox").val(); //Search Box
+            optionsArray[2] = $("#skuMappingsSearchBy").val() || 0; //Search By
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[3] = sortType + sortDir;
+            } else {
+                optionsArray[3] = '';
+            }
+
+            optionsArray[4] = lnkDelete.attr("value");
+        }
+
+    </script>
+}
+

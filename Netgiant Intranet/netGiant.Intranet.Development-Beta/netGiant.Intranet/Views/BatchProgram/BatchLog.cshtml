@@ -1,0 +1,217 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Admin.BatchProgram;
+@model BatchProgramViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Batch Log";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title (red = ERROR, amber = WARNING)</h4>
+    @Html.RawFromDict(Model.IntranetData, "BatchLogFilters")
+
+    @using (Html.BeginForm("ExportBatchLog", "BatchProgram", FormMethod.Post, new { @id = "ExportForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("kendoData")
+    }
+
+    <input type="submit" class="btn btn-success g-m-t-5 download" value="Export to CSV" />
+</div>
+
+@(Html.Kendo().Grid<TelerikBatchLog>()
+        .HtmlAttributes(new { @class = "pointer-rows" })
+        .Name("BatchLogGrid")
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(x => x.Action("BatchLog_Read", "BatchProgram"))
+            .PageSize(200)
+            .Sort(sort => sort
+                .Add(x => x.Id).Descending()
+            )
+        )
+        .Columns(columns =>
+        {
+            columns.Bound(x => x.Id).Title("Id").Hidden().Width(80)
+                .HeaderHtmlAttributes(new { title = "Id", style = "text-align: center;" });
+            columns.Bound(x => x.DateTime).Title("Date").Format("{0:dd/MM/yyyy HH:mm:ss}").Width(150)
+                .HeaderHtmlAttributes(new { title = "Date", style = "text-align: center;" });
+            columns.Bound(x => x.Command).Title("Command").Width(550)
+                .HeaderHtmlAttributes(new { title = "Command", style = "text-align: center;" });
+            columns.Bound(x => x.Type).Title("Type").Width(130)
+                .HeaderHtmlAttributes(new { title = "Type", style = "text-align: center;" });
+            columns.Bound(x => x.SubType).Title("Sub Type").Width(130)
+                .HeaderHtmlAttributes(new { title = "Sub Type", style = "text-align: center;" });
+            columns.Bound(x => x.Website).Title("Website").Width(130)
+                .HeaderHtmlAttributes(new { title = "Website", style = "text-align: center;" });
+            columns.Bound(x => x.Comments).Title("Comments")
+                .HeaderHtmlAttributes(new { title = "Comments", style = "text-align: center;" });
+            columns.Bound(x => x.Status).Hidden().Title("Status")
+                .HeaderHtmlAttributes(new { title = "Error", style = "text-align: center;" });
+            columns.Command(command => command.Custom("Delete").Click("deleteBatchLog")).Width(50)
+                .HtmlAttributes(new { }).Width(90);
+        })
+        .Pageable(pager => pager.Refresh(true))
+        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable
+            .AllowUnsort(true))
+        .Groupable()
+        .Scrollable()
+        .Filterable(ftb => ftb
+            .Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .Excel(excel => excel
+            .AllPages(true)
+            .FileName("Grid Export")
+            .Filterable(true)
+            .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+        .NoRecords("There are no items to display")
+        .Events(events => events.Change("Grid_OnRowSelect"))
+        .Events(events => events.DataBound("Grid_OnDataBound"))
+        .Selectable()
+)
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 1500px;">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li id="log-grid" role="presentation" class="active"><a href="#modal-entry" aria-controls="modal-entry" role="tab" data-toggle="tab">Entry</a></li>
+                    <li role="presentation"><a href="#modal-comments" aria-controls="modal-comments" role="tab" data-toggle="tab">Comments</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane g-m-t-20 g-wr-bw active" id="modal-entry">
+                        <iframe src="" width="100%" height="600" scrolling="no"></iframe>
+                    </div>
+                    <div role="tabpanel" class="tab-pane g-m-t-20 g-wr-bw" id="modal-comments">
+                        @using (Ajax.BeginForm("SaveBatchLog", "BatchProgram", new AjaxOptions { HttpMethod = "Post", OnComplete = "updateComments" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.BatchLogEntry.BatchLogId, new { id = "modal-log-id" })
+                            @Html.TextAreaFor(m => m.BatchLogEntry.Comments, new { id = "dev-comments", rows = "6", @class = "form-control" })
+                            <input type="submit" name="saveLogEntry" value="Update" class="btn btn-default g-m-t-10" title="Save" />
+                        }
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+            $('#myModal').on('shown.bs.modal', function (event) {
+                $('iframe').attr('src', 'BatchLogDetail/' + $('#modal-log-id').val());
+            });
+        });
+
+        $('#log-grid').on('click', function () {
+            $('iframe').attr('src', 'BatchLogDetail/' + $('#modal-log-id').val());
+        });
+
+        var Grid_OnRowSelect = function (e) {
+            var data = this.dataItem(this.select());
+            $('#modal-log-id').val(data.Id);
+            $('#dev-comments').val(data.Comments);
+            $('#myModal').modal();
+        }
+
+        function Grid_OnDataBound() {
+            $("#BatchLogGrid tr.k-alt").removeClass("k-alt");
+
+            var grid = this;
+            var currentRecords = grid.dataSource.view();
+            for (var i = 0; i < currentRecords.length; i++) {
+                //currentRecords[i] is the current dataItem
+                if (currentRecords[i].Status == 2) {
+                    grid.tbody.find("tr[data-uid='" + currentRecords[i].uid + "']").removeClass("k-alt").addClass("g-bc-o").addClass("g-fc-w");
+                }
+                if (currentRecords[i].Status == 1) {
+                    grid.tbody.find("tr[data-uid='" + currentRecords[i].uid + "']").removeClass("k-alt").addClass("g-bc-r").addClass("g-fc-w");
+                }
+            }
+            saveGridFilters();
+        }
+
+        function deleteBatchLog(e) {
+            var data = this.dataItem($(e.currentTarget).closest("tr"));
+
+            $.confirm({
+                title: 'Batch Log',
+                content: 'Are you sure you want to delete this entry?',
+                buttons: {
+                    Yes: function () {
+                        $.ajax({
+                            url: '@Url.Action("DeleteBatchLog", "BatchProgram")',
+                            dataType: 'json',
+                            traditional: true,
+                            type: 'POST',
+                            cache: false,
+                            data: {
+                                id: data.Id
+                            },
+                            async: false,
+                            success: function (e) {
+                                if (e.saveReturn.IsSuccess) {
+                                    $("#BatchLogGrid").data("kendoGrid").dataSource.read();
+                                } else {
+                                    $.alert({
+                                        title: 'Delete Log',
+                                        content: 'Failed to delete. Error: ' + e.saveReturn.Message
+                                    });
+                                }
+                            },
+                            error: function (xhr, textStatus, thrownError) {
+                                $.alert({
+                                    title: 'Delete Log',
+                                    content: 'An error occurred during the deletion process'
+                                });
+                            }
+                        });
+                    },
+                    No: function () { }
+                }
+            });
+
+            return false;
+        }
+
+        function updateComments(data) {
+            var response = data.responseJSON;
+            if (!response.saveReturn.IsSuccess) {
+                alert("Unable to update comments");
+            } else {
+                $('#myModal').modal('toggle');
+                $("#BatchLogGrid").data("kendoGrid").dataSource.read();
+            }
+
+            return false;
+        }
+
+        $(document).on('click', '.download', function (e) {
+            var view = $("#BatchLogGrid").data("kendoGrid").dataSource.view();
+            $('#kendoData').val(encodeURIComponent(JSON.stringify(view)));
+            $('#ExportForm').submit();
+        });
+    </script>
+}
+

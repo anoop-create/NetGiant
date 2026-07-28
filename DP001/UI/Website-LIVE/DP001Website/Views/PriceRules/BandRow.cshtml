@@ -1,0 +1,20 @@
+﻿@using DP001DataAccess.Entities;
+@model PriceRule
+
+<tr class="list-form-row" data-id="@Model.PriceRuleID">
+    <td>
+        @Model.BandName
+    </td>
+    <td>
+        @Html.DisplayFor(x => Model.BandStart)
+    </td>
+    <td>
+        @Html.DisplayFor(x => Model.BandEnd)
+    </td>
+    <td>
+        @Html.DisplayFor(x => Model.ProductCount)
+    </td>
+    <td width="40px">
+        <i class="fa fa-chevron-down"></i>
+    </td>
+</tr>

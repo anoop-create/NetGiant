@@ -1,0 +1,23 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Export;
+@model ExportPromotionalGroupViewModel
+@{
+    ViewBag.Title = "Export Promotional Group";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+        @using (Html.BeginForm("ExportPromotionalGroup", "Export"))
+        {
+            @Html.AntiForgeryToken();
+
+            <div class="g-m-t-20">
+                <input type="submit" id="btnExportPromotionalGroup" value="Export to CSV" class="btn btn-default" />
+                @Html.Label(Model.PromotionalGroupCount.ToString(), new { @id = "lblPromotionalGroupCount" })<span> promotional group items will be exported</span>
+            </div>
+        }
+    </div>
+</div>
+

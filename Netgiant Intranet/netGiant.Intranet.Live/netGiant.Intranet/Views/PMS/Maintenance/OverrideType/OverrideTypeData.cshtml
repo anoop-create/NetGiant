@@ -1,0 +1,57 @@
+﻿@using netGiant.Intranet.DataLayer;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<overrideType>
+
+@Html.Hidden("PageCount", Model.PageCount)
+@Html.Hidden("PageNumber", Model.PageNumber)
+@Html.Hidden("PageSize", Model.PageSize)
+@Html.Hidden("OverrideTypeDataURL", Url.Action("IndexData", "OverrideType"))
+@Html.Hidden("OverrideTypeDeleteURL", Url.Action("Delete", "OverrideType"))
+
+<div>
+    @Html.ActionLink("Create New", "Create", new { id = 0 }, null)
+    <span class="g-f-r">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</span>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            <a href="#" class="tableHeaderSort" value="overrideTypeName">Override Type Name</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="dateLastUpdated">Date Last Updated</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.overrideTypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.dateLastUpdate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Create", new { id = item.overrideTypeID }, null) |
+                <a href="#" class="lnkOverrideTypeDelete" value="@item.overrideTypeID" title="Delete">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+<div id="overrideTypePaging" style="text-align:center;">
+    @Html.PagedListPager(Model, p => "#")
+</div>
+
+@{
+    string infoBoxText = Convert.ToString(@TempData["InformationBoxFlag"]);
+    if (infoBoxText != string.Empty)
+    {
+        <div id="infoBoxFlag" class="g-d-n">@TempData["InformationBoxFlag"]</div>
+    }
+}

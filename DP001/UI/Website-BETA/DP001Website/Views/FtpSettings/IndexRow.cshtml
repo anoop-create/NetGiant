@@ -1,0 +1,31 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model FtpSettingViewModel
+
+<td style="padding: 5px;">
+    @Model.FTPSettingEntry.Description
+</td>
+@if (Model.FTPSettingEntry.Lookup.LookupName == "Supplier Inventory")
+{
+    <td style="padding: 5px;">
+        @Model.FTPSettingEntry.Suppliers.First().SupplierName
+    </td>
+}
+<td style="padding: 5px;">
+    @ViewBag.FTPProtocol
+</td>
+<td style="padding: 5px;">
+    @Model.FTPSettingEntry.FTPServer
+</td>
+<td style="padding: 5px;">
+    @Model.FTPSettingEntry.FTPFileName
+</td>
+@if (Model.FTPSettingEntry.Lookup.LookupName != "Output Inventory")
+{
+    <td style="padding: 5px; white-space: nowrap;">
+        @(Model.FTPSettingEntry.FileCreated.HasValue ? Model.FTPSettingEntry.FileCreated.Value.ToString("dd/MM/yyy HH:mm:ss") : "")
+    </td>
+}
+<td width="40px">
+    <i class="fa fa-chevron-down" />
+</td>
+

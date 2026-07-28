@@ -1,0 +1,29 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<SagePayTransactions>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+           @Html.DisplayFor(x => item.doc_id)
+        </td>
+        <td>
+           @Html.DisplayFor(x => item.protx_status)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.vm_uid)
+        </td>
+        <td>
+           @Html.DisplayFor(x => item.websiteID)
+        </td>
+        <td>
+            <a class="protx_link" value="@item.protx_id" href="#">Protx_string/response</a>
+        </td>
+        <td class="g-w-30p">
+           @Html.DisplayFor(x => item.protx_detail)
+        </td>
+        <td>
+           @Html.DisplayFor(x => item.protx_time)
+        </td>
+    </tr>
+}

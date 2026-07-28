@@ -1,0 +1,114 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Reports;
+
+@foreach (var code in Model)
+{
+    <tr>
+        <td class="g-w-15p">
+            @{ string codeName = (code.AXISGroupNo != null ? code.AXISGroupNo + " - " : "") + code.categoryCodeName; }
+
+            @Html.ActionLink(codeName, "Create", "CategoryCode", new { id = code.categoryCodeID }, null)
+
+            @if (code.ProductCount > 0)
+            {
+                string codeCount = "(" + code.ProductCount + ")";
+                @Html.ActionLink(codeCount, "ProductList", "CategoryCodeStructure", new { id = code.categoryCodeID }, new { @class = "showProducts", value = code.categoryCodeID })
+            }
+        </td>
+    </tr>
+    foreach (var code2 in code.Children)
+    {
+        <tr>
+            <td class="g-w-15p"></td>
+            <td class="g-w-15p">
+                @{ string codeName2 = (code2.AXISGroupNo != null ? code2.AXISGroupNo + " - " : "") + code2.categoryCodeName; }
+
+                @Html.ActionLink(codeName2, "Create", "CategoryCode", new { id = code2.categoryCodeID }, null)
+
+                @if (code2.ProductCount > 0)
+                {
+                    string codeCount2 = "(" + code2.ProductCount + ")";
+                    @Html.ActionLink(codeCount2, "ProductList", "CategoryCodeStructure", new { id = code2.categoryCodeID }, new { @class = "showProducts", value = code2.categoryCodeID })
+                }
+            </td>
+        </tr>
+        foreach (var code3 in code2.Children)
+        {
+            <tr>
+                <td class="g-w-15p"></td>
+                <td class="g-w-15p"></td>
+                <td class="g-w-15p">
+                    @{ string codeName3 = (code3.AXISGroupNo != null ? code3.AXISGroupNo + " - " : "") + code3.categoryCodeName; }
+
+                    @Html.ActionLink(codeName3, "Create", "CategoryCode", new { id = code3.categoryCodeID }, null)
+
+                    @if (code3.ProductCount > 0)
+                    {
+                        string codeCount3 = "(" + code3.ProductCount + ")";
+                        @Html.ActionLink(codeCount3, "ProductList", "CategoryCodeStructure", new { id = code3.categoryCodeID }, new { @class = "showProducts", value = code3.categoryCodeID })
+                    }
+                </td>
+            </tr>
+            foreach (var code4 in code3.Children)
+            {
+                <tr>
+                    <td class="g-w-15p"></td>
+                    <td class="g-w-15p"></td>
+                    <td class="g-w-15p"></td>
+                    <td class="g-w-15p">
+                        @{ string codeName4 = (code4.AXISGroupNo != null ? code4.AXISGroupNo + " - " : "") + code4.categoryCodeName; }
+
+                        @Html.ActionLink(codeName4, "Create", "CategoryCode", new { id = code4.categoryCodeID }, null)
+
+                        @if (code4.ProductCount > 0)
+                        {
+                            string codeCount4 = "(" + code4.ProductCount + ")";
+                            @Html.ActionLink(codeCount4, "ProductList", "CategoryCodeStructure", new { id = code4.categoryCodeID }, new { @class = "showProducts", value = code4.categoryCodeID })
+                        }
+                    </td>
+                </tr>
+                foreach (var code5 in code4.Children)
+                {
+                    <tr>
+                        <td class="g-w-15p"></td>
+                        <td class="g-w-15p"></td>
+                        <td class="g-w-15p"></td>
+                        <td class="g-w-15p"></td>
+                        <td class="g-w-15p">
+                            @{ string codeName5 = (code5.AXISGroupNo != null ? code5.AXISGroupNo + " - " : "") + code5.categoryCodeName; }
+
+                            @Html.ActionLink(codeName5, "Create", "CategoryCode", new { id = code5.categoryCodeID }, null)
+
+                            @if (code5.ProductCount > 0)
+                            {
+                                string codeCount5 = "(" + code5.ProductCount + ")";
+                                @Html.ActionLink(codeCount5, "ProductList", "CategoryCodeStructure", new { id = code5.categoryCodeID }, new { @class = "showProducts", value = code5.categoryCodeID })
+                            }
+                        </td>
+                    </tr>
+                    foreach (var code6 in code5.Children)
+                    {
+                        <tr>
+                            <td class="g-w-15p"></td>
+                            <td class="g-w-15p"></td>
+                            <td class="g-w-15p"></td>
+                            <td class="g-w-15p"></td>
+                            <td class="g-w-15p"></td>
+                            <td class="g-w-15p">
+                                @{ string codeName6 = (code6.AXISGroupNo != null ? code6.AXISGroupNo + " - " : "") + code6.categoryCodeName; }
+
+                                @Html.ActionLink(codeName6, "Create", "CategoryCode", new { id = code6.categoryCodeID }, null)
+
+                                @if (code6.ProductCount > 0)
+                                {
+                                    string codeCount6 = "(" + code6.ProductCount + ")";
+                                    @Html.ActionLink(codeCount6, "ProductList", "CategoryCodeStructure", new { id = code6.categoryCodeID }, new { @class = "showProducts", value = code6.categoryCodeID })
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        }
+    }
+}
+

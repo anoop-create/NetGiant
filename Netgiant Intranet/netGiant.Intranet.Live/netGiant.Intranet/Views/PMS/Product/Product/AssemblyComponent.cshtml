@@ -1,0 +1,25 @@
+﻿@using netGiant.Intranet.DataLayer
+@model assemblyComponent
+
+<tr>
+
+    @using (Html.BeginCollectionItem("prod.assemblyComponent"))
+    {
+        <td class="g-w-10p">
+            @Html.TextBoxFor(x => x.quantity, new { @class = "form-control g-numberCell text-box single-line" })
+        </td>
+        <td class="g-w-20p">
+            @Html.Raw("<span>" + Model.product1.partNo + "</span>")
+        </td>
+        <td class="g-w-50p">
+            @Html.Raw("<span>" + Model.product1.productName + "</span>")
+        </td>
+        <td class="g-w-10p">
+            <a href="#" class="lnkDelete">Delete</a>
+            @Html.HiddenFor(m => m.assemblyComponentID)
+            @Html.HiddenFor(m => m.assemblyComponentFK)
+            @Html.HiddenFor(m => m.assemblyProductFK)
+        </td>
+    }
+
+</tr>

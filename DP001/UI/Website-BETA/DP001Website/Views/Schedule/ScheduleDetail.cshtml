@@ -1,0 +1,60 @@
+﻿@using DP001DataAccess.Entities;
+@model List<Schedule>
+
+<table id="schedule" class="table table-hover" data-url="@Url.Action("Edit", "Schedule")">
+    <thead>
+        <tr>
+            <th>Schedule Name</th>
+            <th>Run Type</th>
+            <th>Frequency</th>
+            <th>Day</th>
+            <th>Time</th>
+            <th>Active</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var schedule in Model)
+        {
+            <tr class="list-form-row" data-id="@schedule.ScheduleID">
+                <td style="padding: 5px;">
+                    @Html.DisplayFor(m => schedule.ScheduleName)
+                </td>
+                <td style="padding: 5px;">
+                        @Html.DisplayFor(m => schedule.Lookup.LookupName)
+                    </td>
+                <td style="padding: 5px;">
+                    @Html.DisplayFor(m => schedule.Lookup1.LookupName)
+                </td>
+                <td style="padding: 5px;">
+                    @if (schedule.Lookup1.LookupName == "Weekly")
+                    {
+                        @(schedule.DayOfWeek != null ? Enum.GetName(typeof(DayOfWeek), schedule.DayOfWeek) : "")
+                    }
+                </td>
+                <td style="padding: 5px;">
+                    @schedule.Time.ToString()
+                </td>
+                <td style="padding: 5px;">
+                    @(schedule.IsActive == true ? "Yes" : "No")
+                </td>
+                <td width="40px">
+                    <i class="fa fa-chevron-down" />
+                </td>
+            </tr>
+        }
+    </tbody>
+
+    <tfoot>
+        <tr class="list-form-row" data-newurl="@(Url.Action("New", "Schedule", new {  }))">
+            <td colspan="100%">
+                @if (User.IsInRole("Administrator"))
+                {
+                    <button class="pull-right g-m-tb-5 g-cur-p btn btn-default btn-sm btn-add">
+                        <i class="fa fa-plus"></i> Add Schedule
+                    </button>
+                }
+            </td>
+        </tr>
+    </tfoot>
+</table>

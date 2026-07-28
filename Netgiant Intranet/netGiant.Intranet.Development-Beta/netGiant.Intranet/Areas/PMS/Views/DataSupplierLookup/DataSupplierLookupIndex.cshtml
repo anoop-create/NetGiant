@@ -1,0 +1,43 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.DataSuppliers;
+@model DataSupplierLookupViewModel
+
+@{
+    ViewBag.Title = "Data Supplier Lookup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+</div>
+
+@(Html.Kendo().Grid<TelerikDataSupplierLookup>()
+                    .HtmlAttributes(new { @class = "pointer-rows" })
+                    .Name("DataSupplierLookupGrid")
+                    .Columns(columns =>
+                    {
+                        columns.Bound(x => x.ProductId).Title("Product Id");
+                        columns.Bound(x => x.PartNo).Title("Part No");
+                        columns.Bound(x => x.Manufacturer).Title("Manufacturer");
+                        columns.Bound(x => x.DataSupplier).Title("Data Supplier");
+                        columns.Bound(x => x.Model).Title("Model").Width("400px");
+                        columns.Bound(x => x.ProductId).ClientTemplate(
+                                "<a href=\"DataSupplierLookupDetails/#:ProductId#\">View Details</a>"  
+                                ).Width("100px").Filterable(false).Sortable(false).Groupable(false).Title("");
+                    })
+                    .Pageable(pager => pager.Refresh(true))
+                    .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+                    .Sortable(sortable => sortable.AllowUnsort(true))
+                    .Groupable()
+                    .Scrollable()
+                    .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+                    .ColumnMenu()
+                    .Resizable(resize => resize.Columns(true))
+                    .Reorderable(reorder => reorder.Columns(true))
+                    .NoRecords("There are no data supplier look ups to display")
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Read(x => x.Action("DataSupplierLookup_Read", "DataSupplierLookup"))
+                        .PageSize(200)
+                    )
+                    .Events(e => e.DataBound("saveGridFilters"))
+)

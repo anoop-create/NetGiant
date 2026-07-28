@@ -1,0 +1,98 @@
+﻿@using DP001Website.Models;
+@using DP001Website.Models;
+@using GridMvc.Html;
+
+@*@model List<ApplicationUser>*@
+@*@model UserViewModel*@
+
+@Html.Hidden("UserDeleteURL", Url.Action("DeleteUser", "Account"))
+
+@{
+    ViewBag.Title = "User List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Users
+            </h1>
+        </div>
+
+        <div class="col-xs-7 col-md-4 row-height-fix flex-right">
+            <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-sliders fa-lg"></i>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <ul class="dropdown-menu g-p-10">
+                    <li class="g-fw-b">Users Options</li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation">
+                        @Html.HtmlActionLink("<i class=\"fa fa-user\"></i> Add User", "CreateUser", "Account", null, null)
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+@(Html.Kendo().Grid<UserViewModel.Telerik>()
+        .Name("listUsersGrid")
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("ListUsers_Read", "Account"))
+            .PageSize(200)
+            )
+        .Columns(columns =>
+        {
+            columns.Bound(user => user.UserName).Width(250).Title("User Name");
+            columns.Bound(user => user.EmailAddress).Width(250).Title("Email Address");
+            columns.Bound(user => user.TenantId).Width(120).Title("Tenant ID");
+            columns.Bound(user => user.UserId).Width(400).ClientTemplate(Html.ActionLink("Reset Password", "ResetPassword", "Account", new { email = "#= EmailAddress #" }, null).ToString() + " | " +
+                Html.ActionLink("Manage Roles", "ListUserRoles", "Account", new { email = "#= EmailAddress #" }, null).ToString() + " | " +
+                Ajax.HtmlActionLink("Delete User",
+                "DeleteUser",
+                "Account",
+                new { id = "#= UserId #" },
+                new AjaxOptions()
+                {
+                    HttpMethod = "DELETE",
+                    Confirm = "Are you sure you want to delete this user?",
+                    OnSuccess = "deleteComplete"
+                },
+                new
+                {
+                    @class = "lnkDeleteUser"
+                })
+            );
+        })
+        .Pageable(pager => pager.Refresh(true))
+        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable
+            .AllowUnsort(true))
+        .Groupable()
+        .Scrollable()
+        .Filterable(ftb => ftb
+            .Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .NoRecords("There are no items to display")
+        .Events(e => e.DataBound("saveGridFilters"))
+)
+
+@section Scripts{
+    <script type="text/javascript">
+        function deleteComplete(data) {
+            if (data) {
+                window.location = '@Url.Action("ListUsers")';
+            }
+        }
+    </script>
+}

@@ -1,0 +1,64 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Admin;
+@model PriceologyViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutEmpty.cshtml";
+    ViewBag.Title = "Priceology Log Details";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    <div class="g-b-1dg">
+        <div class="g-a-c">Command: @Model.Command</div>
+    </div>
+</div>
+
+@(Html.Kendo().Grid<TelerikLog>()
+    .HtmlAttributes(new { @class = "pointer-rows" })
+    .Name("PriceologyLogDetailGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.JobId).Title("Job Id").Width(80)
+            .HeaderHtmlAttributes(new { title = "Job Id", style = "text-align: center;" });
+        columns.Bound(x => x.DateTime).Title("Date").Format("{0:dd/MM/yyyy HH:mm:ss}").Width(150)
+            .HeaderHtmlAttributes(new { title = "Date", style = "text-align: center;" });
+        columns.Bound(x => x.Tenant).Title("Tenant").Width(100)
+            .HeaderHtmlAttributes(new { title = "Tenant", style = "text-align: center;" });
+        columns.Bound(x => x.Channel).Title("Channel").Width(100)
+           .HeaderHtmlAttributes(new { title = "Channel", style = "text-align: center;" });
+        columns.Bound(x => x.JobName).Title("Job Name").Width(120)
+           .HeaderHtmlAttributes(new { title = "Job Name", style = "text-align: center;" });
+        columns.Bound(x => x.MessageType).Title("Message Type").Width(120)
+           .HeaderHtmlAttributes(new { title = "Message Type", style = "text-align: center;" });
+        columns.Bound(x => x.Message).Title("Message").Width(300)
+           .HeaderHtmlAttributes(new { title = "Message", style = "text-align: center;" });
+    })
+    .Pageable(pager => pager.Refresh(true))
+    .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+    .Sortable(sortable => sortable.AllowUnsort(true))
+    .Scrollable()
+    .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+    .ColumnMenu()
+    .Resizable(resize => resize.Columns(true))
+    .Reorderable(reorder => reorder.Columns(true))
+    .NoRecords("There are no logs to display")
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(x => x.Action("LogDetail_Read", "Priceology", new { id = Model.JobId }))
+        .PageSize(200)
+    )
+    //.Events(e => e.DataBound("saveGridFilters"))
+)
+
+@section scripts
+{
+    <script type="text/javascript">
+        //window.onload = location.reload();
+    </script>
+}
+
+
+
+
+

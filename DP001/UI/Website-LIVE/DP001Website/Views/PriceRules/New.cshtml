@@ -1,0 +1,417 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@model PriceRuleViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<SelectListItem> upliftIsPcList = new List<SelectListItem>
+            {
+                new SelectListItem{Text = "Percent", Value = "true"},
+                new SelectListItem{Text = "Value", Value = "false"},
+            };
+
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-12 col-md-12 row-height-fix">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                <a href="@Url.Action("Index", "Dashboard")" class="grey">
+                    Price Rules
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Add Price Rule
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-push-2">
+            @Html.ValidationSummary()
+            @using (Ajax.BeginForm("Create", "PriceRules", new AjaxOptions { HttpMethod = "POST", OnComplete = "addComplete", OnBegin = "beginPost" }, new { id = "mainRuleForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.PriceRuleEntry.PriceRuleID)
+                @Html.HiddenFor(x => x.PriceRuleEntry.IsBanding)
+                @*@Html.Hidden("PriceRuleEntry.ProductCount", "0")
+                    @Html.Hidden("PriceRuleEntry.AboveCounter", "0")
+                    @Html.Hidden("PriceRuleEntry.BelowCounter", "0")
+                    @Html.Hidden("PriceRuleEntry.MaxCounter", "0")
+                    @Html.Hidden("PriceRuleEntry.MinCounter", "0")*@
+                @Html.Hidden("BandingFlag", false, new { @id = "BandingFlag" })
+                @Html.Hidden("BandingChange", false, new { @id = "BandingChange" })
+                <div class="row page-form">
+                    <div class="container-fluid">
+                        <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The following options will determine how your pricing rule is set up." data-helpsid="2" data-helpeid="2"></i> General</h4>
+                        <div class="row">
+                            <div id="grp_RuleName">
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="A descriptive name for your rule, used to identify it." data-helpsid="2" data-helpeid="2"></i>
+                                    Rule Name
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.PriceRuleEntry.RuleName)
+                                    @Html.EditorFor(x => x.PriceRuleEntry.RuleName)
+                                </div>
+                            </div>
+                            <div id="grp_RuleType">
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The type of rule, for example: Brand, Category, Product or Universal." data-helpsid="2" data-helpeid="2"></i>
+                                    Rule Type
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.PriceRuleEntry.RuleTypeFK)
+                                    @Html.DropDownListFor(x => x.PriceRuleEntry.RuleTypeFK, Model.RuleTypes, "Select...", new { @class = "selectpicker" })
+                                    @Html.HiddenFor(x => x.PriceRuleEntry.RuleTypeName, new { @Value = "" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="grp_Brand">
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The brand or manufacturer name this rule applies to." data-helpsid="2" data-helpeid="2"></i>
+                                    Brand
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.PriceRuleEntry.BrandFK)
+                                    @Html.DropDownListFor(x => x.PriceRuleEntry.BrandFK, Model.Brands, "Select...", new { @class = "selectpicker", size = "auto", data_size = "8" })
+                                </div>
+                            </div>
+                            <div id="grp_Category">
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The category this rule applies too." data-helpsid="2" data-helpeid="2"></i>
+                                    Category
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.PriceRuleEntry.ProductCategoryFK)
+                                    @Html.DropDownListFor(x => x.PriceRuleEntry.ProductCategoryFK, Model.Categories, "Select...", new { @class = "selectpicker", size = "auto", data_size = "8" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="grp_Method">
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The method that will be applied to your price rule, for example: Cost Base, Fixed Price or Related Product Base." data-helpsid="2" data-helpeid="2"></i>
+                                    Method
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.PriceRuleEntry.MethodFK)
+                                    @Html.DropDownListFor(x => x.PriceRuleEntry.MethodFK, Model.MethodTypes, new { @class = "selectpicker" })
+                                    @Html.HiddenFor(x => x.PriceRuleEntry.RuleMethodName, new { @Value = Model.MethodTypes[0].Text })
+                                </div>
+                            </div>
+                            <div id="grp_Product">
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The individual product this rule applies to." data-helpsid="2" data-helpeid="2"></i>
+                                    Product
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.PriceRuleEntry.ProductInventoryFK)
+                                    @Html.AutoCompleteFor(x => x.PriceRuleEntry.ProductInventoryFK, "ProductAutoComplete",
+"Search", "Products", "autoCompleteSuccess",
+Model.PriceRuleEntry.ProductInventory != null ? Model.PriceRuleEntry.ProductInventory.Description : "")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-fluid g-m-b-20">
+                        <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="These options will determine how your pricing rule functions." data-helpsid="2" data-helpeid="2"></i> Pricing Rule</h4>
+                        <div class="row">
+                            <div class="col-md-6 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="By activating banding you will be able to split the same rule into multiple rules based on price." data-helpsid="2" data-helpeid="2"></i>
+                                Use Multiple Banding
+                            </div>
+                            <div class="col-md-6 form-value">
+                                <div class="switch">
+                                    <input id="banding-toggle" class="cmn-toggle cmn-toggle-round" type="checkbox" data-toggle="toggle"
+                                           data-style="ios" data-size="small" data-onstyle="success" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (!Model.PriceRuleEntry.IsBanding)
+                    {
+                        @Html.HiddenFor(x => x.PriceRuleEntry.BandStart)
+                        @Html.HiddenFor(x => x.PriceRuleEntry.BandEnd)
+                        @Html.HiddenFor(x => x.PriceRuleEntry.BandName)
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div id="grp_CostUplift">
+                                    <div class="col-md-2 form-name">
+                                        <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Increase the cost price by a value or percentage. Typically used to apply an associated direct cost of sale." data-helpsid="2" data-helpeid="2"></i>
+                                        Cost Uplift
+                                    </div>
+                                    @*<div class="col-md-4 form-value">
+                                            @Html.ValidationMessageFor(x => x.PriceRuleEntry.CostUplift)
+                                            @Html.EditorFor(x => x.PriceRuleEntry.CostUplift)
+                                        </div>*@
+                                    <div class="col-md-4 form-value">
+                                        <div class="input-group">
+                                            @Html.ValidationMessageFor(x => x.PriceRuleEntry.CostUplift)
+                                            @Html.EditorFor(x => x.PriceRuleEntry.CostUplift)
+                                            <div class="input-group-btn">
+                                                @Html.DropDownListFor(x => x.PriceRuleEntry.UpliftIsPc, upliftIsPcList, new { @class = "selectpicker" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="grp_DesiredMargin">
+                                    <div class="col-md-2 form-name">
+                                        <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Set the margin value you would like to achieve." data-helpsid="2" data-helpeid="2"></i>
+                                        Desired Margin
+                                    </div>
+                                    <div class="col-md-4 form-value">
+                                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.DesiredMarginMod)
+                                        @Html.EditorFor(x => x.PriceRuleEntry.DesiredMarginMod)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="grp_MinMargin">
+                                    <div class="col-md-2 form-name">
+                                        <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Set the minimum margin you are prepared to meet." data-helpsid="2" data-helpeid="2"></i>
+                                        Minimum Margin
+                                    </div>
+                                    <div class="col-md-4 form-value">
+                                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.MinMarginMod)
+                                        @Html.EditorFor(x => x.PriceRuleEntry.MinMarginMod)
+                                    </div>
+                                </div>
+                                <div id="grp_MaxMargin">
+                                    <div class="col-md-2 form-name">
+                                        <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Set the maximum margin you are a prepared to meet." data-helpsid="2" data-helpeid="2"></i>
+                                        Maximum Margin
+                                    </div>
+                                    <div class="col-md-4 form-value">
+                                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.MaxMarginMod)
+                                        @Html.EditorFor(x => x.PriceRuleEntry.MaxMarginMod)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="grp_BeatRate">
+                                    <div class="col-md-2 form-name">
+                                        <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Desired level of competitiveness. Apply a percentage to determine what proportion of competitor pricing to beat." data-helpsid="2" data-helpeid="2"></i>
+                                        Beat Rate
+                                    </div>
+                                    <div class="col-md-4 form-value">
+                                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.BeatRateMod)
+                                        @Html.EditorFor(x => x.PriceRuleEntry.BeatRateMod)
+                                    </div>
+                                </div>
+                                <div id="grp_NudgeAmt">
+                                    <div class="col-md-2 form-name">
+                                        <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="This is the amount in percent that the lowest targeted competitor price will be beaten." data-helpsid="2" data-helpeid="2"></i>
+                                        Nudge Amount
+                                    </div>
+                                    <div class="col-md-4 form-value">
+                                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.NudgeMod)
+                                        @Html.EditorFor(x => x.PriceRuleEntry.NudgeMod)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="grp_FixedPrice">
+                                    <div class="col-md-2 form-name">
+                                        <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Apply a fixed selling price." data-helpsid="2" data-helpeid="2"></i>
+                                        Fixed Price Override
+                                    </div>
+                                    <div class="col-md-4 form-value">
+                                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.FixedPriceOverride)
+                                        @Html.EditorFor(x => x.PriceRuleEntry.FixedPriceOverride)
+                                    </div>
+                                </div>
+                                <div id="grp_RelatedProductDiscount">
+                                    <div class="col-md-2 form-name">
+                                        <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Apply a discount off the calculated selling price of the associated product. Typically used to calculate ‘own brand’ pricing." data-helpsid="2" data-helpeid="2"></i>
+                                        Related Product Discount
+                                    </div>
+                                    <div class="col-md-4 form-value">
+                                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.CompatDiscountMod)
+                                        @Html.EditorFor(x => x.PriceRuleEntry.CompatDiscountMod)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div>
+                                    <div class="col-md-2 form-name">
+                                        <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Amends final calculated selling price to conform to a rounding convention. E.g. £x.99p" data-helpsid="2" data-helpeid="2"></i>
+                                        Rounding Rule
+                                    </div>
+                                    <div class="col-md-4 form-value">
+                                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.RoundingGroupFK)
+                                        @Html.DropDownListFor(x => x.PriceRuleEntry.RoundingGroupFK, Model.RoundingGroups, "Select...", new { @class = "selectpicker" })
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="col-md-2 form-name">
+
+                                    </div>
+                                    <div class="col-md-4 form-value">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Run calculations without changing live selling prices. Allows manual comparison of existing and test results." data-helpsid="2" data-helpeid="2"></i>
+                                    Test Mode
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    <div class="checkbox checkbox-success">
+                                        @Html.CheckBoxFor(x => x.PriceRuleEntry.IsTest)
+                                        <label for="IsTest"></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Enable/Disable this rule to run in the next schedule." data-helpsid="2" data-helpeid="2"></i>
+                                    Activate Rule
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    <div class="checkbox checkbox-success">
+                                        @Html.CheckBoxFor(x => x.PriceRuleEntry.IsActive)
+                                        <label for="IsActive"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container-fluid">
+                            @if (Model.CustomFieldList.Count > 0)
+                            {
+                                <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Custom Price Rule fields. Set Custom Fields up from the Main Settings page." data-helpsid="2" data-helpeid="2"></i> Custom Price Rule Fields</h4>
+                                <div class="row">
+                                    @{ Html.RenderPartial("~/Views/PriceRules/CustomMappings.cshtml", Model); }
+                                </div>
+                                        }
+
+                            @if (Model.AdjFieldList.Count > 0)
+                            {
+                                <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Custom Price Adjustment fields. Set Custom Fields up from the Main Settings page." data-helpsid="2" data-helpeid="2"></i> Custom Price Adjustment Fields</h4>
+                                <div class="row">
+                                    @{ Html.RenderPartial("~/Views/PriceRules/AdjustmentMappings.cshtml", Model); }
+                                </div>
+                                        }
+                        </div>
+
+                            <div class="form-actions">
+                                <div class="pull-left form-message">
+                                    <i class="fa fa-spinner fa-pulse" style="display: none"></i>
+                                    <span></span>
+                                </div>
+
+                                <button class="pull-right g-m-r-10 g-cur-p form-cancel btn btn-default btn-sm">
+                                    <i class="fa fa-times"></i> Cancel
+                                </button>
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Save" name="action:Save">
+                                        <i class="fa fa-floppy-o"></i> Save
+                                    </button>
+                                }
+                            </div>
+                                            }
+                </div>
+                                            }
+        </div>
+    </div>
+</section>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+            setMethodFields($('#PriceRuleEntry_MethodFK :selected').text());
+            setRuleFields($('#PriceRuleEntry_RuleTypeFK :selected').text());
+
+            $(document).on('click', '.page-form .form-cancel', function () {
+                window.location.href = '@Url.Action("Index")';
+            })
+
+            $('#PriceRuleEntry_IsTest').prop('checked', true);
+            $(document).on('click', '#PriceRuleEntry_IsActive', function () {
+                toggleCheckBox($('#PriceRuleEntry_IsActive'), $('#PriceRuleEntry_IsTest'))
+            });
+
+            $(document).on('click', '#PriceRuleEntry_IsTest', function () {
+                toggleCheckBox($('#PriceRuleEntry_IsTest'), $('#PriceRuleEntry_IsActive'))
+            });
+
+            $('#banding-toggle').change(function () {
+
+                if ($('#BandingFlag').val().toLowerCase() == "false") {
+
+                    if ($('#mainRuleForm').valid()) {
+                        var banding = $('#PriceRuleEntry_IsBanding').val();
+                        $('#BandingChange').val(true);
+
+                        if (banding.toLowerCase() == "true") {
+                            //Banding being set from on to off - never happens on New
+
+                            $('#PriceRuleEntry_IsBanding').val(false);
+                            $('#PriceRuleEntry_BandName').val('');
+                            $('#PriceRuleEntry_BandStart').val(0);
+                            $('#PriceRuleEntry_BandEnd').val(0);
+
+                            $('#PriceRuleEntry_RuleName').prop('disabled', false);
+                            $('#PriceRuleEntry_RuleTypeFK').prop('disabled', false);
+                            $('#PriceRuleEntry_BrandFK').prop('disabled', false);
+                            $('#PriceRuleEntry_ProductCategoryFK').prop('disabled', false);
+                            $('#PriceRuleEntry_MethodFK').prop('disabled', false);
+                        } else {
+                            //Banding being set from off to on
+
+                            $('#PriceRuleEntry_IsBanding').val(true);
+                            $('#PriceRuleEntry_BandName').prop('disabled', false);
+                            $('#PriceRuleEntry_BandStart').prop('disabled', false);
+                            $('#PriceRuleEntry_BandEnd').prop('disabled', false);
+                            $('#PriceRuleEntry_BandName').val('Default');
+                            $('#PriceRuleEntry_BandStart').val(0);
+                            $('#PriceRuleEntry_BandEnd').val(9999999);
+
+                        }
+                        $("button[name='action:Save']").trigger('click');
+
+                    } else {
+
+                        $('#BandingFlag').val("true");
+                        $('#banding-toggle').bootstrapToggle('toggle');
+
+                    }
+
+                } else {
+                    $('#BandingFlag').val("false");
+                }
+            });
+
+            $(document).on('change', '#PriceRuleEntry_MethodFK', function () {
+                var ruleMethod = $(':selected', this).text();
+                setMethodFields(ruleMethod);
+            });
+
+            $(document).on('change', '#PriceRuleEntry_RuleTypeFK', function () {
+                var ruleType = $(':selected', this).text();
+                setRuleFields(ruleType);
+            });
+
+            $(document).on('change', '#PriceRuleEntry_BrandFK', function () {
+                $('#PriceRuleEntry_ProductCategoryFK').val("");
+                brandChange($('#PriceRuleEntry_BrandFK').val(), "0");
+            });
+        });
+
+        @{Html.RenderPartial("CommonScripts");}
+
+    </script>
+}

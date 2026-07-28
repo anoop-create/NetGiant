@@ -1,0 +1,302 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001DataAccess.Entities;
+@using DP001Website.Models;
+@model ReportsViewModel
+
+@{
+    ViewBag.Title = "Telerik Grid";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Telerik Report
+            </h1>
+        </div>
+
+        <div class="col-xs-7 col-md-4 col-lg-3 row-height-fix flex-right"></div>
+    </div>
+</section>
+
+<div>
+    <a href="#" id="save">Save State</a>
+</div>
+
+<div>
+    @Html.DropDownList("ConfigList", Model.ReportConfigList)
+</div>
+
+@(Html.Kendo().Grid<ProductViewModel.Telerik>()
+        .Name("grid")
+        .HtmlAttributes(new { style = "height: 700px; " })
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("Products_Read", "Reports"))
+            .PageSize(200)
+            //.Filter(x => x.AddRange(Model.InitialFilters))
+            )
+        .Columns(columns =>
+         {
+             columns.Bound(product => product.ManufacturerPartNo).Title("Mfpn");
+             columns.Bound(product => product.ClientProductID).Title("Prod ID");
+             columns.Bound(product => product.Description).Title("Description");
+             columns.Bound(product => product.CategoryName).Title("Category");
+             columns.Bound(product => product.BrandName).Title("Brand").Filterable(filterable => filterable.UI("brandFilter"));
+             columns.Bound(product => product.StockQuantity).Title("Stock");
+             columns.Bound(product => product.SupplierCount).Title("No. Suppliers");
+             columns.Bound(product => product.CompetitorCount).ClientTemplate(@Html.TooltipLink("#=CompetitorCount#", new
+             {
+                 data_id = "#=ProductInventoryID#",
+                 data_toggle = "tooltip",
+                 data_placement = "auto bottom",
+                 data_unique_id = "#=ProductInventoryID#"
+             }).ToString());
+             columns.Bound(product => product.CheapestCostPrice).Title("Cost Price").Format("{0:0.00}");
+             columns.Bound(product => product.PriceToBeat).Title("Price to Beat").Format("{0:0.00}");
+             columns.Bound(product => product.TargetMarginPercent).Title("Target Margin").Format("{0:0.00}%");
+             columns.Bound(product => product.Price).Title("Price").ClientTemplate(@Html.TooltipLink("#= kendo.toString(Price,'n2') #",
+                 new
+                 {
+                     data_id = "#=ProductInventoryID#",
+                     data_toggle = "tooltipPrice",
+                     data_placement = "auto bottom",
+                     data_unique_id = "#=ProductInventoryID#"
+                 },
+                 true, "ZestPrice").ToString());
+             columns.Bound(product => product.GrossMarginPercent).Title("Gross Margin").Format("{0:0.00}%");
+             columns.Bound(product => product.CompetitorDifference).Title("Difference").Format("{0:0.00}");
+             columns.Bound(product => product.CalculationOutcome).Title("Outcome");
+             columns.Bound(product => product.RuleName).Title("Rule Name");
+
+             if (Model.CustomAdjustmentFields.Any(x => x.DBFieldName == "AltPriceAdj1"))
+             {
+                 columns.Bound(product => product.AltPrice1).Title(Model.CustomAdjustmentFields.First(x => x.DBFieldName == "AltPriceAdj1").UserFieldName);
+             }
+             if (Model.CustomAdjustmentFields.Any(x => x.DBFieldName == "AltPriceAdj2"))
+             {
+                 columns.Bound(product => product.AltPrice2).Title(Model.CustomAdjustmentFields.First(x => x.DBFieldName == "AltPriceAdj2").UserFieldName);
+             }
+             if (Model.CustomAdjustmentFields.Any(x => x.DBFieldName == "AltPriceAdj3"))
+             {
+                 columns.Bound(product => product.AltPrice3).Title(Model.CustomAdjustmentFields.First(x => x.DBFieldName == "AltPriceAdj3").UserFieldName);
+             }
+             if (Model.CustomAdjustmentFields.Any(x => x.DBFieldName == "AltPriceAdj4"))
+             {
+                 columns.Bound(product => product.AltPrice4).Title(Model.CustomAdjustmentFields.First(x => x.DBFieldName == "AltPriceAdj4").UserFieldName);
+             }
+             if (Model.CustomAdjustmentFields.Any(x => x.DBFieldName == "AltPriceAdj5"))
+             {
+                 columns.Bound(product => product.AltPrice5).Title(Model.CustomAdjustmentFields.First(x => x.DBFieldName == "AltPriceAdj5").UserFieldName);
+             }
+             if (Model.CustomAdjustmentFields.Any(x => x.DBFieldName == "AltPriceAdj6"))
+             {
+                 columns.Bound(product => product.AltPrice6).Title(Model.CustomAdjustmentFields.First(x => x.DBFieldName == "AltPriceAdj6").UserFieldName);
+             }
+             if (Model.CustomAdjustmentFields.Any(x => x.DBFieldName == "AltPriceAdj7"))
+             {
+                 columns.Bound(product => product.AltPrice7).Title(Model.CustomAdjustmentFields.First(x => x.DBFieldName == "AltPriceAdj7").UserFieldName);
+             }
+             if (Model.CustomAdjustmentFields.Any(x => x.DBFieldName == "AltPriceAdj8"))
+             {
+                 columns.Bound(product => product.AltPrice8).Title(Model.CustomAdjustmentFields.First(x => x.DBFieldName == "AltPriceAdj8").UserFieldName);
+             }
+             if (Model.CustomAdjustmentFields.Any(x => x.DBFieldName == "AltPriceAdj9"))
+             {
+                 columns.Bound(product => product.AltPrice9).Title(Model.CustomAdjustmentFields.First(x => x.DBFieldName == "AltPriceAdj9").UserFieldName);
+             }
+             if (Model.CustomAdjustmentFields.Any(x => x.DBFieldName == "AltPriceAdj10"))
+             {
+                 columns.Bound(product => product.AltPrice10).Title(Model.CustomAdjustmentFields.First(x => x.DBFieldName == "AltPriceAdj10").UserFieldName);
+             }
+
+             if (Model.CustomProductFields.Any(x => x.DBFieldName == "CustomProductField1"))
+             {
+                 columns.Bound(product => product.CustomField1).Title(Model.CustomProductFields.First(x => x.DBFieldName == "CustomProductField1").UserFieldName);
+             }
+             if (Model.CustomProductFields.Any(x => x.DBFieldName == "CustomProductField2"))
+             {
+                 columns.Bound(product => product.CustomField2).Title(Model.CustomProductFields.First(x => x.DBFieldName == "CustomProductField2").UserFieldName);
+             }
+             if (Model.CustomProductFields.Any(x => x.DBFieldName == "CustomProductField3"))
+             {
+                 columns.Bound(product => product.CustomField3).Title(Model.CustomProductFields.First(x => x.DBFieldName == "CustomProductField3").UserFieldName);
+             }
+             if (Model.CustomProductFields.Any(x => x.DBFieldName == "CustomProductField4"))
+             {
+                 columns.Bound(product => product.CustomField4).Title(Model.CustomProductFields.First(x => x.DBFieldName == "CustomProductField4").UserFieldName);
+             }
+             if (Model.CustomProductFields.Any(x => x.DBFieldName == "CustomProductField5"))
+             {
+                 columns.Bound(product => product.CustomField5).Title(Model.CustomProductFields.First(x => x.DBFieldName == "CustomProductField5").UserFieldName);
+             }
+             if (Model.CustomProductFields.Any(x => x.DBFieldName == "CustomProductField6"))
+             {
+                 columns.Bound(product => product.CustomField6).Title(Model.CustomProductFields.First(x => x.DBFieldName == "CustomProductField6").UserFieldName);
+             }
+             if (Model.CustomProductFields.Any(x => x.DBFieldName == "CustomProductField7"))
+             {
+                 columns.Bound(product => product.CustomField7).Title(Model.CustomProductFields.First(x => x.DBFieldName == "CustomProductField7").UserFieldName);
+             }
+             if (Model.CustomProductFields.Any(x => x.DBFieldName == "CustomProductField8"))
+             {
+                 columns.Bound(product => product.CustomField8).Title(Model.CustomProductFields.First(x => x.DBFieldName == "CustomProductField8").UserFieldName);
+             }
+             if (Model.CustomProductFields.Any(x => x.DBFieldName == "CustomProductField9"))
+             {
+                 columns.Bound(product => product.CustomField9).Title(Model.CustomProductFields.First(x => x.DBFieldName == "CustomProductField9").UserFieldName);
+             }
+             if (Model.CustomProductFields.Any(x => x.DBFieldName == "CustomProductField10"))
+             {
+                 columns.Bound(product => product.CustomField10).Title(Model.CustomProductFields.First(x => x.DBFieldName == "CustomProductField10").UserFieldName);
+             }
+         })
+        .Pageable(pager => pager.Refresh(true))
+        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable
+            .AllowUnsort(true))
+        .Groupable()
+        .Scrollable()
+        .Filterable(ftb => ftb
+            .Mode(GridFilterMode.Menu)
+            .Extra(false)
+            .Operators(operators => operators
+            .ForString(str => str.Clear()
+                .StartsWith("Starts with")
+                .IsEqualTo("Is equal to")
+                .IsNotEqualTo("Is not equal to")
+            )))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .ToolBar(tools => tools.Excel())
+        .ToolBar(tools => tools.Pdf())
+        .Excel(excel => excel
+            .AllPages(true)
+            .FileName("Grid Export")
+            .Filterable(true)
+            .ProxyURL(Url.Action("Save", "Grid")))
+        .Pdf(pdf => pdf
+            .AllPages()
+            .AvoidLinks()
+            .Margin("2cm", "1cm", "1cm", "1cm")
+            .Landscape()
+            .RepeatHeaders()
+            .TemplateId("page-template")
+            .FileName("Grid Export"))
+        
+)
+
+@Html.Hidden("TooltipDataUrl", Url.Action("CompetitorsTooltipData", "Competitors"))
+@Html.Hidden("TooltipDataPriceUrl", Url.Action("PriceHistoryTooltipData", "Products"))
+
+<style>
+    /* Page Template for the exported PDF */
+    .page-template {
+        font-family: "DejaVu Sans", "Arial", sans-serif;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+
+        .page-template .header {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            right: 30px;
+            border-bottom: 1px solid #888;
+            color: #888;
+        }
+
+        .page-template .footer {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            right: 30px;
+            border-top: 1px solid #888;
+            text-align: center;
+            color: #888;
+        }
+
+        .page-template .watermark {
+            font-weight: bold;
+            font-size: 400%;
+            text-align: center;
+            margin-top: 30%;
+            color: #aaaaaa;
+            opacity: 0.1;
+            transform: rotate(-35deg) scale(1.7, 1.5);
+        }
+
+    /* Content styling */
+    .customer-photo {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-size: 32px 35px;
+        background-position: center center;
+        vertical-align: middle;
+        line-height: 32px;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+        margin-left: 5px;
+    }
+
+    .customer-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 32px;
+        padding-left: 3px;
+    }
+</style>
+
+@section scripts {
+    <script type="text/javascript">
+
+        $(function () {
+            var grid = $("#grid").data("kendoGrid");
+            grid.bind("dataBound", grid_dataBound);
+
+            $('#save').click(function (e) {
+                console.log(kendo.stringify(grid.getOptions()));
+                e.preventDefault();
+                localStorage["kendo-grid-options"] = kendo.stringify(grid.getOptions());
+            });
+
+            $("#ConfigList").change(function (e) {
+                e.preventDefault();
+                var options = this.value;
+                if (options) {
+                    grid.setOptions(JSON.parse(options));
+                }
+            });
+
+            function grid_dataBound(e) {
+                $('[data-toggle="tooltip"]').click(function () { return false; });
+                $('[data-toggle="tooltip"]').tooltip({ title: function () { return GetTooltipData($(this), $('#TooltipDataUrl').val()) }, html: true });
+
+                $('[data-toggle="tooltipPrice"]').click(function () { return false; });
+                $('[data-toggle="tooltipPrice"]').tooltip({ title: function () { return GetTooltipData($(this), $('#TooltipDataPriceUrl').val()) }, html: true });
+            }
+        });
+
+        function brandFilter(element) {
+            element.kendoDropDownList({
+                dataSource: {
+                    transport: {
+                        read: "@Url.Action("GetBrands", "Shared")"
+                    }
+                },
+                optionLabel: "--Select Value--"
+            });
+        }
+    </script>
+}
+

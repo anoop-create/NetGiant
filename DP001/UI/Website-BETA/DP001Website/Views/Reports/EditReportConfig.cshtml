@@ -1,0 +1,74 @@
+﻿@using DP001Website.Models;
+@model DP001BusinessLogic.ViewModels.ReportConfigurationViewModel
+
+
+<tr class="list-form-extra">
+    <td colspan="100%">
+        @using (Ajax.BeginForm("UpdateReportConfig", "Reports", new AjaxOptions { HttpMethod = "POST", OnComplete = "updateReportComplete", OnBegin = "beginPost('#channel')" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.ReportConfig.ReportConfigurationId)
+            @Html.HiddenFor(x => x.ReportConfig.TenantFk)
+            @Html.HiddenFor(x => x.ReportConfig.AreaFk)
+            @Html.HiddenFor(x => x.ReportConfig.BaseUrl)
+            @Html.HiddenFor(x => x.ReportConfig.ConfigurationValue)
+
+            <section class="page-form table-responsive">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The name for the report"></i>
+                            Description
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.ReportConfig.Name)
+                            @Html.EditorFor(x => x.ReportConfig.Name)
+                        </div>
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The share setting for the report"></i>
+                            Viewable By
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.ReportConfig.SecurityFk)
+                            @Html.DropDownListFor(x => x.ReportConfig.SecurityFk, Model.ReportSecurityList, new { @class = "selectpicker" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-actions">
+                        <div class="pull-left form-message">
+                            <i class="fa fa-spinner fa-pulse" style="display: none" />
+                            <span></span>
+                        </div>
+
+                        @Ajax.HtmlActionLink("<i class=\"fa fa-trash\"></i> Delete",
+                            "DeleteReportConfig",
+                            "Reports",
+                            new { id = Model.ReportConfig.ReportConfigurationId },
+                            new AjaxOptions()
+                            {
+                                HttpMethod = "DELETE",
+                                Confirm = "Are you sure you want to delete this report?",
+                                OnComplete = "deleteReportComplete"
+                            },
+                            new
+                            {
+                                @class = "pull-right g-m-r-10 form-delete btn btn-default btn-sm"
+                            })
+
+                        <button type="button" class="pull-right g-m-r-10 g-cur-p form-cancel btn btn-default btn-sm cancel">
+                            <i class="fa fa-times"></i> Cancel
+                        </button>
+                        <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Submit">
+                            <i class="fa fa-floppy-o"></i> Save
+                        </button>
+
+                        <a href="@Url.Action("Comparison", "Reports", new { id = Model.ReportConfig.ReportConfigurationId })" class="pull-right g-m-r-10 g-cur-p btn btn-default btn-sm">
+                            <i class="fa fa-external-link"></i> Open
+                        </a>
+                    </div>
+                </div>
+            </section>
+        }
+
+    </td>
+</tr>

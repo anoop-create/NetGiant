@@ -1,0 +1,119 @@
+﻿@model DP001Website.Models.RegisterViewModel
+@{
+    ViewBag.Title = "CreateUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                <a href="@Url.Action("ListUsers", "Account")" class="grey">
+                    Users
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Add User
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-push-2">
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            @using (Html.BeginForm("CreateUser", "Account", FormMethod.Post, new { role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row page-form">
+                    <div class="container-fluid">
+                        <h4>Create a new user</h4>
+                        <div class="row">
+                            <div id="grp_RuleName">
+                                <div class="col-md-2 form-name">
+                                    Email
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.Email)
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div id="grp_RuleType">
+                                <div class="col-md-2 form-name">
+                                    Password
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.Password)
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="grp_RuleName">
+                                <div class="col-md-2 form-name">
+                                    Confirm Password
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.ConfirmPassword)
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div id="grp_RuleType">
+                                <div class="col-md-2 form-name">
+                                    First Name
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.FirstName)
+                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="grp_RuleName">
+                                <div class="col-md-2 form-name">
+                                    Last Name
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.LastName)
+                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div id="grp_RuleType">
+                                <div class="col-md-2 form-name">
+                                    Company Name
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.CompanyName)
+                                    @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="grp_RuleName">
+                                <div class="col-md-2 form-name">
+                                    Tenant
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.TenantID)
+                                    @Html.DropDownListFor(x => x.TenantID, Model.TenantList, "Select...", new { @class = "selectpicker" })
+                                </div>
+                            </div>
+                            <div id="grp_RuleType"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button class="pull-right btn btn-default btn-sm" type="submit" value="Submit">Create</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+<br/><br /><br /><br /><br /><br /><br /><br /><br />
+

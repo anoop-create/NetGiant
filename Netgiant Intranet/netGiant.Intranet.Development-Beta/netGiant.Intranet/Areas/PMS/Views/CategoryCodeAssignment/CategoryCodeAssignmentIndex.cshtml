@@ -1,0 +1,44 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product
+@model CategoryCodeAssignmentViewModel
+
+@{
+    ViewBag.Title = "Category Code Assignment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+</div>
+
+@(Html.Kendo().Grid<TelerikCategoryCodeAssignment>()
+                        .HtmlAttributes(new { @class = "pointer-rows" })
+                        .Name("CrossSellingLinkGrid")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(x => x.ProductName).Title("Product Name").Width(400);
+                            columns.Bound(x => x.Website).Title("Website").Width(120);
+                            columns.Bound(x => x.CategoryName).Title("Category").Width(120);
+                            columns.Bound(x => x.PartNo).Title("Part No").Width(120);                            
+                            columns.Bound(x => x.Manufacturer).Title("Manufacturer").Width(120);
+                            columns.Bound(x => x.ProductStatus).Title("Product Status").Width(150);
+                            columns.Bound(x => x.ProductGroup).Title("Product Group").Width(150);
+                            columns.Bound(x => x.SalesAreaGroup).Title("Sales Area Group").Width(150);
+                            columns.Bound(x => x.DataSupplier).Title("Data Supplier").Width(150);
+                        })
+                        .Pageable(pager => pager.Refresh(true))
+                        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+                        .Sortable(sortable => sortable.AllowUnsort(true))
+                        .Groupable()
+                        .Scrollable()
+                        .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+                        .ColumnMenu()
+                        .Resizable(resize => resize.Columns(true))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .NoRecords("There are no products to display")
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .Read(x => x.Action("CategoryCodeAssignment_Read", "CategoryCodeAssignment"))
+                            .PageSize(200)
+                        )
+                        .Events(e => e.DataBound("saveGridFilters"))
+)

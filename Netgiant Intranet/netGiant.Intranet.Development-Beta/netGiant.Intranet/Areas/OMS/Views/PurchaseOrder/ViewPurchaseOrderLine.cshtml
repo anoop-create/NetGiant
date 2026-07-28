@@ -1,0 +1,142 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.OMS;
+@model PurchaseOrderViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody productFieldTabs">
+        <h4>
+            Purchase Order Line Detail - @("PO" + Model.PurchaseOrderLine.PurchaseOrderFk.ToString("D7"))
+        </h4>
+
+        @if (Request["Edit"] == "No")
+        {
+            <a href="@(Url.Action("ViewPurchaseOrder/" + Model.PurchaseOrderLine.PurchaseOrderFk.ToString(), "PurchaseOrder"))" class="btn btn-default">
+                Return
+            </a>
+        }
+        else
+        {
+            @Html.ActionLink(
+                "Edit Purchase Order Line",
+                "EditPurchaseOrderLine/" + Model.PurchaseOrderLine.PurchaseOrderLineId,
+                "PurchaseOrder",
+                null,
+                new { @class = "btn btn-default" })
+
+            <a href="@(Url.Action("EditPurchaseOrder/" + Model.PurchaseOrderLine.PurchaseOrderFk.ToString(), "PurchaseOrder"))#PurchaseOrderLinesTab" class="btn btn-default">
+                Return
+            </a>
+        }
+
+
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>References</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Purchase Order ID:</div><div class="col-lg-3"><b>@("AC" + Model.PurchaseOrderLine.PurchaseOrderFk.ToString("D7"))</b>&nbsp;</div>
+                <div class="col-lg-3">Product ID:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrderLine.ProductFk)</b>&nbsp;</div>
+                <div class="col-lg-3">Product Group ID:</div><div class="col-lg-3">
+                    <b>
+                        @(Model.PurchaseOrderLine.productGroup == null ? " - " : Model.PurchaseOrderLine.productGroup.productGroupName)
+                    </b>&nbsp;
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Line Details</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Supplier Stock Ref:</div>
+                <div class="col-lg-3">
+                    <b>
+                        @Html.DisplayFor(x => x.PurchaseOrderLine.SupplierStockReference)
+                    </b>
+                </div>
+                <div class="col-lg-3">Description:</div>
+                <div class="col-lg-3">
+                    <b>
+                        @Html.DisplayFor(x => x.PurchaseOrderLine.Description)
+                    </b>
+                </div>
+
+                <div class="col-lg-3">Date Received:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @(Model.PurchaseOrderLine.DateOfReceipt.ToString("dd/MM/yyyy"))
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Due Date:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @(Model.PurchaseOrderLine.DueDate.ToString("dd/MM/yyyy"))
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+
+                <div class="col-lg-3">Quantity Ordered:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Html.DisplayFor(x => x.PurchaseOrderLine.QuantityOrdered)
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Quantity Received:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Html.DisplayFor(x => x.PurchaseOrderLine.QuantityReceived)
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+
+                <div class="col-lg-3">Quantity Invoiced:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Html.DisplayFor(x => x.PurchaseOrderLine.QuantityInvoiced)
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Unit Price:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @(Model.PurchaseOrderLine.UnitPrice.ToString("N"))
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+
+                <div class="col-lg-3">Nett:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @(Model.PurchaseOrderLine.Nett.ToString("N"))
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Purchase Order Line Col:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Html.DisplayFor(x => x.PurchaseOrderLine.PurchaseOrderLineCol)
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Flags</legend>
+            <div class=" g-m-t-10 row">
+            </div>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Is Completed:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrderLine.IsCompleted)</b></div>
+                <div class="col-lg-3">Is Returned:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrderLine.IsReturned)</b></div>
+                <div class="col-lg-3">Is Received:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrderLine.IsReceived)</b>&nbsp;</div>
+                <div class="col-lg-3">Is Invoiced:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.PurchaseOrderLine.IsInvoiced)</b>&nbsp;</div>
+            </div>
+        </fieldset>
+
+    </div>
+</div>
+
+
+
+
+

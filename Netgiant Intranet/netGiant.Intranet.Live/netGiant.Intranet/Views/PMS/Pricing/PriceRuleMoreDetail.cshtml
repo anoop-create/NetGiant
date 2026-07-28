@@ -1,0 +1,22 @@
+﻿@using netGiant.Intranet.DataLayer;
+@model priceRule
+
+<tr class="moreDetails selectedPriceRule g-d-n">
+    <td colspan="15" style="border-top: none;">
+        <span class="g-m-r-10"><b>Break 1</b> @Html.Raw(string.Format("{0:P2}", Model.breakPrice1 != null ? Model.breakPrice1 : 0))</span>
+        <span class="g-m-r-10"><b>Break 2</b> @Html.Raw(string.Format("{0:P2}", Model.breakPrice2 != null ? Model.breakPrice2 : 0))</span>
+        <span class="g-m-r-10"><b>Break 3</b> @Html.Raw(string.Format("{0:P2}", Model.breakPrice3 != null ? Model.breakPrice3 : 0))</span>
+        <span class="g-m-r-10"><b>Break 4</b> @Html.Raw(string.Format("{0:P2}", Model.breakPrice4 != null ? Model.breakPrice4 : 0))</span>
+        <span class="g-m-r-10"><b>Break 5</b> @Html.Raw(string.Format("{0:P2}", Model.breakPrice5 != null ? Model.breakPrice5 : 0))</span>
+        <span class="g-m-r-10"><b>Pack Discount</b> @Html.Raw(string.Format("{0:P2}", Model.packDiscount != null ? Model.packDiscount : 0))</span>
+        <span class="g-m-r-10"><b>Compatible Discount</b> @Html.Raw(string.Format("{0:P2}", Model.compatDiscount != null ? Model.compatDiscount : 0))</span>
+        <span class="g-m-r-10"><b>Compatible Override Margin</b> @Html.Raw(string.Format("{0:P2}", Model.compatOverrideMargin != null ? Model.compatOverrideMargin : 0))</span>
+        <span class="g-m-r-10"><b>Compatible Override Value</b> @Html.Raw("£" + string.Format("{0:N2}", Model.compatOverrideValue != null ? Model.compatOverrideValue : 0))</span>
+        <span class="g-m-r-10"><b>Fixed Price Override</b> @Html.Raw("£" + string.Format("{0:N2}", Model.fixedPriceOverride != null ? Model.fixedPriceOverride : 0))</span>
+        <span class="g-m-r-10"><b>Product Group</b> @Html.Raw(string.Format("{0:P2}", Model.productGroup != null ? Model.productGroup.productGroupName : "Not Set"))</span>
+        <span class="g-m-r-10"><b>Final Break Margin Stock</b> @Html.Raw(string.Format("{0:P2}", Model.finalBreakMinimumMarginStock))</span>
+        <span class="g-m-r-10"><b>Final Break Margin Packs</b> @Html.Raw(string.Format("{0:P2}", Model.finalBreakMinimumMarginAssemblies))</span>
+    </td>
+</tr>
+
+

@@ -1,0 +1,2 @@
+C:\Anoop\AllProject\Netgiant Intranet\netGiant.Intranet.Live\netGiant.Intranet.BusinessLayer\obj\Debug\netGiant.Intranet.BusinessLayer.csproj.AssemblyReference.cache
+C:\Anoop\AllProject\Netgiant Intranet\netGiant.Intranet.Live\netGiant.Intranet.BusinessLayer\obj\Debug\netGiant.Intranet.BusinessLayer.csproj.CoreCompileInputs.cache

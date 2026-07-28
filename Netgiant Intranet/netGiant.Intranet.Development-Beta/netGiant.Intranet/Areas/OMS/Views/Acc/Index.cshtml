@@ -1,0 +1,98 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.OMS
+@using PagedList.Mvc;
+@using Kendo.Mvc.UI;
+@model AccViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="placeHolder">
+    <h4 class="text-center">Accounts</h4>
+</div>
+
+<div class="g-m-b-5 telerik-filter" data-gridname="AccountGrid">
+    <button class="btn btn-danger" onclick="ClearFilters()">Clear Filters</button>
+
+    <a class="btn btn-default" data-script="grid.dataSource.filter({field: 'PaymentMethod',operator: 'eq',value: 'On Account'});">Credit Accounts</a>
+</div>
+
+    @(Html.Kendo().Grid<AccViewModel.TelerikAccount>()
+            .HtmlAttributes(new { @class = "pointer-rows" })
+            .Name("AccountGrid")
+            .Columns(columns =>
+            {
+                columns.Bound(x => x.ShortName)
+                    .Title("Short Name").Width(110)
+                    .HeaderHtmlAttributes(new { title = "Short Name", style = "text-align: center;" });
+                columns.Bound(x => x.Name)
+                    .Title("Name")
+                    .HeaderHtmlAttributes(new { title = "Name", style = "text-align: center;" });
+                columns.Bound(x => x.AxisNo)
+                    .Title("Cust #")
+                    .HeaderHtmlAttributes(new { title = "Cust No", style = "text-align: center;" });
+                columns.Bound(x => x.Postcode)
+                    .Title("Postcode")
+                    .HeaderHtmlAttributes(new { title = "Postcode", style = "text-align: center;" });
+                columns.Bound(x => x.Status)
+                    .Title("Status")
+                    .HeaderHtmlAttributes(new { title = "Status", style = "text-align: center;" });
+                columns.Bound(x => x.CustomerGroup)
+                    .Title("Customer Group")
+                    .HeaderHtmlAttributes(new { title = "Customer Group", style = "text-align: center;" });
+                columns.Bound(x => x.DateLastTransaction)
+                    .Title("Last Transaction")
+                    .ClientTemplate("#= kendo.toString(kendo.parseDate(DateLastTransaction, 'yyyy-MM-dd'), 'dd/MM/yyyy') #")
+                    .HeaderHtmlAttributes(new { title = "Last Transaction", style = "text-align: center;" });
+                columns.Bound(x => x.TownCity)
+                    .Title("Town/City")
+                    .HeaderHtmlAttributes(new { title = "Town/City", style = "text-align: center;" });
+                columns.Bound(x => x.PaymentMethod)
+                    .Title("Payment Terms")
+                    .HeaderHtmlAttributes(new { title = "Payment Terms", style = "text-align: center;" });
+
+                columns.Bound(x => x.Id)
+                    .ClientTemplate(
+                        "<a href=\"Acc/ViewAccount/#:Id#\">View</a>" +
+                        " | <a onclick=\"GoToOrders(#:Id#)\">Orders</a>"
+                        )
+                    .Title("Action")
+                    .Filterable(false)
+                    .Sortable(false)
+                    .Groupable(false)
+                    .Width("250px");
+            })
+            .Pageable(pager => pager.Refresh(true))
+            .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+            .Sortable(sortable => sortable.AllowUnsort(true))
+            .Scrollable()
+            .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+            .ColumnMenu()
+            .Resizable(resize => resize.Columns(true))
+            .Reorderable(reorder => reorder.Columns(true))
+            .NoRecords("There are no accounts to display")
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(x => x.Action("Account_Read", "Acc"))
+                .PageSize(200)
+                .Sort(sort => sort.Add(x => x.DateLastTransaction).Descending())
+                )
+            .Events(e => e.DataBound("saveGridFilters"))
+            )
+    )
+
+    <script>
+        function ClearFilters() {
+            document.cookie = "AccountSearchString=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;"
+
+            var MyDiv = $("#AccountGrid")
+            var MyDataSource = MyDiv.data("kendoGrid").dataSource
+            MyDataSource.filter({})
+        }
+
+        function GoToOrders(OrderAccountFk) {
+            document.cookie = "OrderAccountFk=" + OrderAccountFk + "; path=/"
+
+            window.location.href = "Order";
+        }
+    </script>

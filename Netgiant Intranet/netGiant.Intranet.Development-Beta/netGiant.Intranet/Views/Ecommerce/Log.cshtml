@@ -1,0 +1,192 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce;
+
+@model LogViewModel
+
+@{
+    ViewBag.Title = "Ecommerce Log";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title (amber = WARNING/INFORMATION)</h4>
+    @Html.RawFromDict(Model.IntranetData, "EcommerceLogFilters")
+</div>
+
+@(Html.Kendo().Grid<LogViewModel.Telerik>()
+        .HtmlAttributes(new { @class = "pointer-rows" })
+        .Name("logGrid")
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("Log_Read", "Ecommerce"))
+            .PageSize(200)
+            .Sort(sort => sort
+                .Add(x => x.DateTime).Descending())
+            )
+        .Columns(columns =>
+        {
+            columns.Bound(x => x.Website).Title("Website").Width(90)
+                .HeaderHtmlAttributes(new { title = "Website", style = "text-align: center;" });
+            columns.Bound(x => x.StatusCode).Title("Status Code").Width(60)
+                .HeaderHtmlAttributes(new { title = "Status Code", style = "text-align: center;" });
+            columns.Bound(x => x.Description).Title("Description").Width(200)
+                .HeaderHtmlAttributes(new { title = "Description", style = "text-align: center;" });
+            columns.Bound(x => x.Url).Title("Url").Width(150)
+                .HeaderHtmlAttributes(new { title = "Url", style = "text-align: center;" });
+            columns.Bound(x => x.UserAgent).Title("User Agent").Width(150)
+                .HeaderHtmlAttributes(new { title = "User Agent", style = "text-align: center;" });
+            columns.Bound(x => x.DateTime).Title("Date").Width(100)
+                .ClientTemplate("#= kendo.toString(kendo.parseDate(DateTime, 'yyyy-MM-dd'), 'dd/MM/yyyy (HH:mm:ss)') #")
+                .HeaderHtmlAttributes(new { title = "Date", style = "text-align: center;" });
+            columns.Bound(x => x.User).Title("User").Width(100)
+                .HeaderHtmlAttributes(new { title = "User", style = "text-align: center;" });
+            columns.Bound(x => x.DeveloperComments).Title("Comments").Width(90)
+                .HeaderHtmlAttributes(new { title = "Comments", style = "text-align: center;" });
+            columns.Command(command => command.Custom("Resolved").Click("markResolved")).Width(50)
+                .HtmlAttributes(new { @class = "hello" }).Width(90);
+        })
+        .Pageable(pager => pager.Refresh(true))
+        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable
+            .AllowUnsort(true))
+        .Groupable()
+        .Scrollable()
+        .Filterable(ftb => ftb
+            .Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .Excel(excel => excel
+            .AllPages(true)
+            .FileName("Grid Export")
+            .Filterable(true)
+            .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+        .NoRecords("There are no items to display")
+        .Events(events => events.Change("Grid_OnRowSelect"))
+        .Events(events => events.DataBound("Grid_OnDataBound"))
+        .Selectable()
+)
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 1000px;">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#modal-entry" aria-controls="modal-entry" role="tab" data-toggle="tab">Entry</a></li>
+                    <li role="presentation"><a href="#modal-furtherinfo" aria-controls="modal-furtherinfo" role="tab" data-toggle="tab">Further Info</a></li>
+                    <li role="presentation"><a href="#modal-formdata" aria-controls="modal-formdata" role="tab" data-toggle="tab">Form Data</a></li>
+                    <li role="presentation"><a href="#modal-querystring" aria-controls="modal-querystring" role="tab" data-toggle="tab">Query String</a></li>
+                    <li role="presentation"><a href="#modal-comments" aria-controls="modal-comments" role="tab" data-toggle="tab">Developer Comments</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane g-m-t-20 g-wr-bw active" id="modal-entry"></div>
+                    <div role="tabpanel" class="tab-pane g-m-t-20 g-wr-bw active" id="modal-furtherinfo"></div>
+                    <div role="tabpanel" class="tab-pane g-m-t-20 g-wr-bw" id="modal-formdata"></div>
+                    <div role="tabpanel" class="tab-pane g-m-t-20 g-wr-bw" id="modal-querystring"></div>
+                    <div role="tabpanel" class="tab-pane g-m-t-20 g-wr-bw" id="modal-comments">
+                        @using (Ajax.BeginForm("SaveLogEntry", "Ecommerce", new AjaxOptions { HttpMethod = "Post", OnComplete = "updateComments" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.LogEntry.Id, new { id = "modal-log-id" })
+                            @Html.TextAreaFor(m => m.LogEntry.DeveloperComments, new { id = "dev-comments", rows = "6", @class = "form-control" })
+                            <input type="submit" name="saveLogEntry" value="Update" class="btn btn-default g-m-t-10" title="Save" />
+                        }
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+            $('#myModal').on('show.bs.modal', function (event) {
+                var modal = $(this);
+
+                $.ajax({
+                    url: '@Url.Action("GetLogEntry", "Ecommerce")',
+                    data: { id: $('#modal-log-id').val() }
+                }).done(function (data) {
+
+                    var entry = '<b>Url: </b>' + data.url + '<br /><br />' + data.entry;
+
+                    modal.find('#modal-entry').html(entry);
+                    modal.find('#modal-furtherinfo').html(data.furtherinfo);
+                    modal.find('#modal-querystring').html(data.queryString);
+                    modal.find('#modal-formdata').html(data.formData);
+                    modal.find('#dev-comments').val(data.developerComments);
+                    modal.find('.modal-title').text((data.description != null ? data.description : "") + ' ' + kendo.toString(kendo.parseDate(data.dateTime, 'yyyy-MM-dd'), 'dd/MM/yyyy (HH:mm)'));
+                });
+            });
+        });
+
+        var Grid_OnRowSelect = function (e) {
+            var data = this.dataItem(this.select());
+            $('#modal-log-id').val(data.Id);
+            $('#myModal').modal();
+        }
+
+        function Grid_OnDataBound() {
+            $("#logGrid tr.k-alt").removeClass("k-alt");
+
+            var grid = this;
+            var currentRecords = grid.dataSource.view();
+            for (var i = 0; i < currentRecords.length; i++) {
+                //currentRecords[i] is the current dataItem
+                if (currentRecords[i].LogStatus == 'Information' || currentRecords[i].LogStatus == 'Warning') {
+                    grid.tbody.find("tr[data-uid='" + currentRecords[i].uid + "']").removeClass("k-alt").addClass("g-bc-o").addClass("g-fc-w");
+                }
+            }
+            saveGridFilters();
+        }
+
+        function markResolved(e) {
+            var data = this.dataItem($(e.currentTarget).closest("tr"));
+
+            $.ajax({
+                url: '@Url.Action("SetDeletedFlag", "Ecommerce")',
+                data: { id: data.Id }
+            }).done(function (data) {
+                if (data.IsSuccess) {
+                    $("#logGrid").data("kendoGrid").dataSource.read();
+                } else {
+                    $.alert({
+                        title: 'Error!',
+                        content: 'Failed to mark as Resolved. Error: ' + data.Message,
+                    });
+                }
+            });
+
+            return false;
+        }
+
+        function updateComments(data) {
+            var response = data.responseJSON;
+            if (!response.saveReturn.IsSuccess) {
+                alert("Unable to update comments");
+            } else {
+                $('#myModal').modal('toggle');
+                $("#logGrid").data("kendoGrid").dataSource.read();
+            }
+
+            return false;
+        }
+    </script>
+}
+

@@ -1,0 +1,67 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model AxisEBusinessViewModel
+
+@{
+    ViewBag.Title = "Axis EBusiness Groups";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder g-m-b--20">
+    <h4 class="text-center">@ViewBag.Title</h4>
+</div>
+
+@if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+{
+    @Html.ActionLink("Create New", "CreateAxisEBusiness", "Axis", new { id = 0 }, new { @title = "Create new axis ebusiness group", @class = "g-p-10" })
+}
+
+@(Html.Kendo().Grid<TelerikAxisEBusiness>()
+                        .HtmlAttributes(new { @class = "pointer-rows" })
+                        .Name("AxisEBusinessGrid")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(x => x.Reference).Title("EBusiness Reference");
+                            columns.Bound(x => x.Code).Title("EBusiness Code");
+                            columns.Bound(x => x.AffiliateCommissionGroup).Title("Affiliate Commission Group");
+                            columns.Bound(x => x.Description).Title("Description");
+                            columns.Bound(x => x.Id).ClientTemplate(
+                                    "<a href=\"CreateAxisEBusiness/#:Id#\">Edit</a>" +
+                                    "|<a href=\"##\" class=\"lnkAxisEBusinessDelete\" value=\"#:Id#\" title=\"Delete\">Delete</a>"
+                                    ).Width("136px").Filterable(false).Sortable(false).Groupable(false).Title("");
+                        })
+                        .Pageable(pager => pager.Refresh(true))
+                        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+                        .Sortable(sortable => sortable.AllowUnsort(true))
+                        .Groupable()
+                        .Scrollable()
+                        .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+                        .ColumnMenu()
+                        .Resizable(resize => resize.Columns(true))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .NoRecords("There are no axis ebusiness groups to display")
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .Read(x => x.Action("AxisEBusiness_Read", "Axis"))
+                            .PageSize(200)
+                        )
+                        .Events(e => e.DataBound("saveGridFilters"))
+)
+
+<script type="text/javascript">
+    $(function () {
+        $(document).on('click', '.lnkAxisEBusinessDelete', function (e) {
+            var rowid = $(this).attr('value');
+            e.preventDefault();
+            $.confirm({
+                title: 'Axis EBusiness',
+                content: 'Are you sure you want to delete this axis ebusiness group?',
+                buttons: {
+                    Yes: function () {
+                        deleteGridRow('@Url.Action("DeleteAxisEBusiness", "Axis")/', { id: rowid });
+                    },
+                    No: function () { }
+                }
+            });
+        });
+    });
+</script>

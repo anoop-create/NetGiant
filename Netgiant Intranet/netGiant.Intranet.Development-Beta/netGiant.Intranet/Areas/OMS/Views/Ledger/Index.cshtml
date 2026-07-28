@@ -1,0 +1,118 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.OMS
+@using PagedList.Mvc;
+@using Kendo.Mvc.UI;
+@model LedgerViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Ledger";
+}
+<div class="placeHolder">
+    <h4 class="text-center">Ledgers</h4>
+</div>
+
+<div class="g-m-b-5 telerik-filter" data-gridname="LedgerGrid">
+    <button class="btn btn-danger" onclick="ClearFilters()">Clear Filters</button>
+
+    @*<a class="btn btn-default" data-script="grid.dataSource.filter({field: 'PaymentMethod',operator: 'eq',value: 'On Account'});">Credit Accounts</a>*@
+</div>
+
+@(Html.Kendo().Grid<LedgerViewModel.TelerikLedger>()
+            .HtmlAttributes(new { @class = "pointer-rows" })
+            .Name("LedgerGrid")
+            .Columns(columns =>
+            {
+                columns.Bound(x => x.Id).Title("Ledger ID").Width(80)
+                    .HeaderHtmlAttributes(new { title = "Ledger ID", style = "text-align: center;" });
+                columns.Bound(x => x.OrderId).Title("Order ID").Width(80).ClientTemplate(
+                    "<a href=\"Order/ViewOrder/#:OrderId#\">#:OrderId#</a>")
+                    .HeaderHtmlAttributes(new { title = "Order ID", style = "text-align: center;" });
+                columns.Bound(x => x.AccountShortName).Title("Account").Width(80).ClientTemplate(
+                    "<a href=\"Acc/ViewAccount/#:AccountId#\">#:AccountShortName#</a>")
+                    .HeaderHtmlAttributes(new { title = "Account ID", style = "text-align: center;" });
+                columns.Bound(x => x.ProviderName).Title("Supplier ID").Width(100)
+                    .HeaderHtmlAttributes(new { title = "Supplier ID", style = "text-align: center;" });
+                columns.Bound(x => x.Year).Title("Year/Period").Width(120)
+                    .ClientTemplate("#= kendo.toString(Year, '0\\#\\#\\#') #/#= kendo.toString(Period, '0\\#') #")
+                    .HeaderHtmlAttributes(new { title = "Year / Period", style = "text-align: center;" });
+                columns.Bound(x => x.PurchaseOrderId)
+                    .Title("PO ID")
+                    .Width(80)
+                    .HeaderHtmlAttributes(new { title = "Purchase Order ID", style = "text-align: center;" })
+                    .ClientTemplate(
+                        "<a href=\"PurchaseOrder/ViewPurchaseOrder/#:PurchaseOrderId#\">#:PurchaseOrderId#</a>"
+                    );
+                columns.Bound(x => x.Type).Title("Type ID").Width(80)
+                    .HeaderHtmlAttributes(new { title = "Type ID", style = "text-align: center;" });
+                columns.Bound(x => x.TransactionType).Title("Tran Type ID").Width(80)
+                    .HeaderHtmlAttributes(new { title = "Transaction Type ID", style = "text-align: center;" });
+                columns.Bound(x => x.Description1).Title("Description  1")
+                    .HeaderHtmlAttributes(new { title = "Description 1", style = "text-align: center;" });
+                columns.Bound(x => x.Description2).Title("Description  2")
+                    .HeaderHtmlAttributes(new { title = "Description 2", style = "text-align: center;" });
+                columns.Bound(x => x.DateInvoiced).Title("Date Invoiced").Width(120)
+                    .ClientTemplate("#= kendo.toString(kendo.parseDate(DateInvoiced, 'yyyy-MM-dd'), 'dd/MM/yyyy') #")
+                    .HeaderHtmlAttributes(new { title = "Date Invoiced", style = "text-align: center;" });
+                columns.Bound(x => x.Nett)
+                    .Format("{0: #,##.00}")
+                    .Title("Nett")
+                    .Width(80)
+                    .HtmlAttributes(new { style = "text-align: right;" })
+                    .HeaderHtmlAttributes(new { title = "Nett", style = "text-align: center;" });
+                columns.Bound(x => x.Vat)
+                    .Format("{0: #,##.00}")
+                    .Title("Vat")
+                    .Width(100)
+                    .HtmlAttributes(new { style = "text-align: right;" })
+                    .HeaderHtmlAttributes(new { title = "Vat", style = "text-align: center;" });
+                columns.Bound(x => x.Cost)
+                    .Title("Cost")
+                    .Width(80)
+                    .Format("{0: #,##.00}")
+                    .HtmlAttributes(new { style = "text-align: right;" })
+                    .HeaderHtmlAttributes(new { title = "Cost", style = "text-align: center;" });
+                columns.Bound(x => x.Id).ClientTemplate(
+                        "<a href=\"Ledger/ViewLedger/#:Id#\">View</a>"
+                        ).Title("").Filterable(false).Sortable(false).Groupable(false).Width("100px");
+            })
+            .Pageable(pager => pager.Refresh(true))
+            .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+            .Sortable(sortable => sortable.AllowUnsort(true))
+            .Scrollable()
+            .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+            .ColumnMenu()
+            .Resizable(resize => resize.Columns(true))
+            .Reorderable(reorder => reorder.Columns(true))
+            .NoRecords("There are no ledgers to display")
+             .Events(e => e.DataBound("saveGridFilters"))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(x => x.Action("Ledger_Read", "Ledger", (RouteValueDictionary)ViewBag.Query))
+                .PageSize(200)
+                .Sort(sort => sort
+                    .Add(x => x.DateInvoiced).Descending())
+                )
+            .Events(e => e.DataBound("saveGridFilters"))
+            )     
+)
+
+
+
+<script>
+    function ClearFilters() {
+        document.cookie = "LedgerSearchString=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;"
+
+        var MyDiv = $("#LedgerGrid")
+        var MyDataSource = MyDiv.data("kendoGrid").dataSource
+        MyDataSource.filter({})
+    }
+</script>
+
+
+
+
+
+
+
+

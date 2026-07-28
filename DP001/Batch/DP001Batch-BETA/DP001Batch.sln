@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DP001Batch", "DP001Batch.csproj", "{FBB4BE4D-B1C4-4EDA-BD62-AF4937DF5DF6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4AB79006-51A0-49C1-9D91-099F600D010B} = {4AB79006-51A0-49C1-9D91-099F600D010B}
+		{8BF76EE7-1091-47F2-8E6A-A989086F723C} = {8BF76EE7-1091-47F2-8E6A-A989086F723C}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DP001BusinessLogic", "..\..\Class Libraries\BusinessLogic\DP001BusinessLogic-BETA\DP001BusinessLogic.csproj", "{8BF76EE7-1091-47F2-8E6A-A989086F723C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DP001DataAccess", "..\..\Class Libraries\DataAccess\DP001DataAccess-BETA\DP001DataAccess.csproj", "{4AB79006-51A0-49C1-9D91-099F600D010B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FBB4BE4D-B1C4-4EDA-BD62-AF4937DF5DF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBB4BE4D-B1C4-4EDA-BD62-AF4937DF5DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBB4BE4D-B1C4-4EDA-BD62-AF4937DF5DF6}.Debug|x64.ActiveCfg = Debug|x64
+		{FBB4BE4D-B1C4-4EDA-BD62-AF4937DF5DF6}.Debug|x64.Build.0 = Debug|x64
+		{FBB4BE4D-B1C4-4EDA-BD62-AF4937DF5DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBB4BE4D-B1C4-4EDA-BD62-AF4937DF5DF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBB4BE4D-B1C4-4EDA-BD62-AF4937DF5DF6}.Release|x64.ActiveCfg = Release|x64
+		{FBB4BE4D-B1C4-4EDA-BD62-AF4937DF5DF6}.Release|x64.Build.0 = Release|x64
+		{8BF76EE7-1091-47F2-8E6A-A989086F723C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BF76EE7-1091-47F2-8E6A-A989086F723C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BF76EE7-1091-47F2-8E6A-A989086F723C}.Debug|x64.ActiveCfg = Debug|x64
+		{8BF76EE7-1091-47F2-8E6A-A989086F723C}.Debug|x64.Build.0 = Debug|x64
+		{8BF76EE7-1091-47F2-8E6A-A989086F723C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BF76EE7-1091-47F2-8E6A-A989086F723C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BF76EE7-1091-47F2-8E6A-A989086F723C}.Release|x64.ActiveCfg = Release|x64
+		{8BF76EE7-1091-47F2-8E6A-A989086F723C}.Release|x64.Build.0 = Release|x64
+		{4AB79006-51A0-49C1-9D91-099F600D010B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AB79006-51A0-49C1-9D91-099F600D010B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AB79006-51A0-49C1-9D91-099F600D010B}.Debug|x64.ActiveCfg = Debug|x64
+		{4AB79006-51A0-49C1-9D91-099F600D010B}.Debug|x64.Build.0 = Debug|x64
+		{4AB79006-51A0-49C1-9D91-099F600D010B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AB79006-51A0-49C1-9D91-099F600D010B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AB79006-51A0-49C1-9D91-099F600D010B}.Release|x64.ActiveCfg = Release|x64
+		{4AB79006-51A0-49C1-9D91-099F600D010B}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://netgiant.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = DP001Batch.csproj
+		SccLocalPath1 = .
+		SccProjectUniqueName2 = ..\\..\\Class\u0020Libraries\\BusinessLogic\\DP001BusinessLogic-BETA\\DP001BusinessLogic.csproj
+		SccProjectName2 = ../../Class\u0020Libraries/BusinessLogic/DP001BusinessLogic-BETA
+		SccLocalPath2 = ..\\..\\Class\u0020Libraries\\BusinessLogic\\DP001BusinessLogic-BETA
+		SccProjectUniqueName3 = ..\\..\\Class\u0020Libraries\\DataAccess\\DP001DataAccess-BETA\\DP001DataAccess.csproj
+		SccProjectName3 = ../../Class\u0020Libraries/DataAccess/DP001DataAccess-BETA
+		SccLocalPath3 = ..\\..\\Class\u0020Libraries\\DataAccess\\DP001DataAccess-BETA
+	EndGlobalSection
+EndGlobal

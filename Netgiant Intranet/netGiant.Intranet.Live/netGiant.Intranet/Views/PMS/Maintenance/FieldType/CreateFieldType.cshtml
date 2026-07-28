@@ -1,0 +1,50 @@
+﻿@model netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance.FieldTypeViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Field Type";
+    ViewBag.SubTitle = Model.ft.fieldTypeID > 0 ? "Edit" : "Create";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title</h4>
+
+        <div class="form-horizontal">
+
+            @using (Html.BeginForm("Save", "FieldType", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.ft.fieldTypeID)
+
+                <div class="form-group">
+                    @Html.Label("Field Type Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ft.fieldTypeName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.ft.fieldTypeName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                if (Model.ft.fieldTypeID > 0)
+                {
+                    <div class="form-group">
+                        @Html.Label("Date Last Updated", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ft.dateLastUpdated, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveFieldType" value="Save" class="btn btn-default" title="Save" />
+                        @Html.ActionLink("Cancel", "FieldType", "FieldType", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>

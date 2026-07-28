@@ -1,0 +1,110 @@
+﻿@model netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce.DeliveryConfigurationViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Edit Delivery Configuration";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@Model.DeliveryZone.Website.FriendlyName Delivery Zone: @Model.DeliveryZone.ZoneName</h4>
+
+        @using (Html.BeginForm("SaveDeliveryZone", "Ecommerce", FormMethod.Post, new { id = "mainForm" }))
+        {
+            <div class="form-horizontal g-m-t-50">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(x => x.DeliveryZone.DeliveryZoneId)
+                @Html.HiddenFor(x => x.DeliveryZone.WebsiteFK)
+
+                <div class="form-group">
+                    @Html.Label("Zone Name", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DeliveryZone.ZoneName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.DeliveryZone.ZoneName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Postcodes", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DeliveryZone.Postcodes, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.DeliveryZone.Postcodes, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Is Default", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(model => model.DeliveryZone.IsDefault, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.DeliveryZone.IsDefault, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Apply Vat", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(model => model.DeliveryZone.ApplyVat, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.DeliveryZone.ApplyVat, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-md-offset-2 g-m-t-50">
+                <table>
+                    <tr>
+                        <th>Service Name</th>
+                        <th>Sequence</th>
+                        <th></th>
+                    </tr>
+                    @foreach (var deliveryLookup in Model.DeliveryZone.deliveryLookup.OrderBy(x => x.Sequence))
+                    {
+                        Html.RenderPartial("DeliveryLookup", deliveryLookup);
+                    }
+                    <tr>
+                        <td>@Html.DropDownList("AddNewService", Model.Services, new { @class = "g-m-t-20 form-control" })</td>
+                        <td>@Html.TextBox("newSequence", 1, new { style = "width: 50px; text-align: center;", @class = "g-m-t-20 form-control" })</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 g-m-t-50">
+                    <input type="submit" name="btnSaveDeliveryZone" value="Save" class="btn btn-default" />
+                    @Html.ActionLink("Cancel", "DeliveryZones", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).on("change",
+            "#AddNewService",
+            function () {
+
+                var self = $(this);
+
+                $.ajax({
+                    url: '@Url.Action("NewDeliveryLookup", "Ecommerce")',
+                    data:
+                    {
+                        deliveryZoneId: @Model.DeliveryZone.DeliveryZoneId,
+                        deliveryServiceId: self.val(),
+                        sequence: $("#newSequence").val()
+                    }
+                }).done(function (data) {
+                    $(data).insertBefore(self.parent().parent());
+                });
+            });
+
+        $(document).on("click", ".removeService",
+            function() {
+                $(this).parent().parent().remove();
+                return false;
+            });
+
+    </script>
+}

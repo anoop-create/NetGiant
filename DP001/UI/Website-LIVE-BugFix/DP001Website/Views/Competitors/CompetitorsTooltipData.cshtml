@@ -1,0 +1,12 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model CompetitorViewModel
+
+<table>
+    @foreach (var competitor in Model.CompetitorsList.OrderBy(x => x.Price))
+    {
+        <tr>
+            <td width="200" class="g-ta-l">@competitor.Competitor.CompetitorName</td>
+            <td>@(string.Format("{0:N2}", competitor.Price))</td>
+        </tr>
+    }
+</table>

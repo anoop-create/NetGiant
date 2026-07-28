@@ -1,0 +1,77 @@
+﻿@using DP001Website.Models
+@model DP001BusinessLogic.ViewModels.ProviderExclusionViewModel
+
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-12 col-md-12 row-height-fix">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                <a href="@Url.Action("Index", "ProviderExclusion")" class="grey">
+                    Inventory Exclusions
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Edit Exclusion
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-push-2">
+            @Html.ValidationSummary()
+            @using (Html.BeginForm("UpdateExclusion", "ProviderExclusion"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.ProviderExclusionEntry.ExclusionType, new { Value = Model.AllExclusionTypes[0].Text })
+                @Html.HiddenFor(x => x.ProviderExclusionEntry.FileTypeFK, new { Value = 36 })
+                @Html.HiddenFor(x => x.ProviderExclusionEntry.ChannelFK, new { Value = 85 })
+                @Html.HiddenFor(x => x.ProviderExclusionEntry.ProviderExclusionID)
+                @Html.HiddenFor(x => x.ProviderExclusionEntry.ProviderFK)
+                @Html.HiddenFor(x => x.ProviderExclusionEntry.BrandName)
+                @Html.HiddenFor(x => x.ProviderExclusionEntry.ExclusionTypeFk)
+                <div class="row page-form">
+                    <div class="container-fluid">
+                        <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The following details will determine your exclusion." data-helpsid="2" data-helpeid="2"></i> Exclusion</h4>
+                        <div class="row">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The type of Exclusion. For example, Brand exclusion." data-helpsid="2" data-helpeid="2"></i>
+                                Comment
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.ProviderExclusionEntry.ExclusionTypeFk)
+                                @Html.TextAreaFor(x => x.ProviderExclusionEntry.Comment, new { style = "height: 100px; width: 500px;" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <div class="pull-left form-message">
+                        <i class="fa fa-spinner fa-pulse" style="display: none"></i>
+                        <span></span>
+                    </div>
+
+                    <a class="pull-right g-m-r-10 g-cur-p form-cancel btn btn-default btn-sm" href="@Url.Action("Index", "ProviderExclusion")">
+                        <i class="fa fa-times"></i> Cancel
+                    </a>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Save">
+                            <i class="fa fa-floppy-o"></i> Save
+                        </button>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</section>
+

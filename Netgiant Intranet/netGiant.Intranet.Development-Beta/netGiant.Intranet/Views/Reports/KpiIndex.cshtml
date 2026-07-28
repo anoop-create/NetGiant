@@ -1,0 +1,81 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Reports;
+@using System.Globalization;
+@model ReportsViewModel
+
+@{
+    ViewBag.Title = "Key Performance Indicators";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h3>@ViewBag.Title</h3>
+        <div>This page will automatically refresh every 60 seconds.</div>
+
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+        <table class="table">
+            <tr>
+                <th class="g-w-15p g-a-c"></th>
+                <th class="g-w-10p g-a-c">TG</th>
+                <th class="g-w-10p g-a-c">CM</th>
+                <th class="g-w-10p g-a-c">Total</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td class="g-a-l">Number of Orders</td>
+                <td class="g-a-c">@Html.Raw(Model.TonergiantOrders)</td>
+                <td class="g-a-c">@Html.Raw(Model.CartridgeMonkeyOrders)</td>
+                <td class="g-a-c">@Html.Raw(Model.TotalOrders)</td>
+            </tr>
+            <tr>
+                <td class="g-a-l">Revenue</td>
+                <td class="g-a-c">@Html.Raw("£" + string.Format("{0:N2}", Model.TonergiantSales))</td>
+                <td class="g-a-c">@Html.Raw("£" + string.Format("{0:N2}", Model.CartridgeMonkeySales))</td>
+                <td class="g-a-c">@Html.Raw("£" + string.Format("{0:N2}", Model.TotalRevenue))</td>
+            </tr>
+            <tr>
+                <td class="g-a-l">Gross Profit (£)</td>
+                <td class="g-a-c">@Html.Raw("£" + string.Format("{0:N2}", Model.TonergiantGrossProfit))</td>
+                <td class="g-a-c">@Html.Raw("£" + string.Format("{0:N2}", Model.CartridgeMonkeyGrossProfit))</td>
+                <td class="g-a-c">@Html.Raw("£" + string.Format("{0:N2}", Model.TotalGrossProfit))</td>
+            </tr>
+            <tr>
+                <td class="g-a-l">Gross Profit (%)</td>
+                <td class="g-a-c">@Html.Raw(Model.TonergiantGrossProfitPercentage + "%")</td>
+                <td class="g-a-c">@Html.Raw(Model.CartridgeMonkeyGrossProfitPercentage + "%")</td>
+                <td class="g-a-c">@Html.Raw(Model.TotalGrossProfitPercentage + "%")</td>
+            </tr>
+            <tr>
+                <td class="g-a-l">Average Order Value</td>
+                <td class="g-a-c">@Html.Raw("£" + string.Format("{0:N2}", Model.TonergiantAverageOrderValue))</td>
+                <td class="g-a-c">@Html.Raw("£" + string.Format("{0:N2}", Model.CartridgeMonkeyAverageOrderValue))</td>
+                <td class="g-a-c">@Html.Raw("£" + string.Format("{0:N2}", Model.TotalAverageOrderValue))</td>
+            </tr>
+            <tr>
+                <td class="g-a-l" colspan="5" style="height:50px"> </td>
+            </tr>
+            <tr>
+                <td class="g-a-l">Vouchers (£)</td>
+                <td class="g-a-c">@Html.Raw("£" + string.Format("{0:N2}", Model.TonergiantVouchers))</td>
+                <td class="g-a-c">@Html.Raw("£" + string.Format("{0:N2}", Model.CartridgeMonkeyVouchers))</td>
+                <td class="g-a-c">@Html.Raw("£" + string.Format("{0:N2}", Model.TotalVouchers))</td>
+            </tr>
+            <tr>
+                <td class="g-a-l">Gross Profit (Before Vouchers) (%)</td>
+                <td class="g-a-c">@Html.Raw(Model.TonergiantGrossProfitPercentageBefore + "%")</td>
+                <td class="g-a-c">@Html.Raw(Model.CartridgeMonkeyGrossProfitPercentageBefore + "%")</td>
+                <td class="g-a-c">@Html.Raw(Model.TotalGrossProfitPercentageBefore + "%")</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+@*@section AddTags
+{
+    <link rel="manifest" href="../manifest-kpi.json">
+    <meta name="theme-color" content="#000000">
+    <meta name="mobile-web-app-capable" content="yes">
+}*@
+

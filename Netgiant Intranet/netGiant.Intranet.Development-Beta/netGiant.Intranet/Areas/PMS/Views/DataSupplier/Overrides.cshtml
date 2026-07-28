@@ -1,0 +1,78 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model DataSupplierViewModel
+
+@{
+    ViewBag.Title = "Overrides";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder g-m-b--20">
+    <h4 class="text-center">@ViewBag.Title</h4>
+</div>
+
+@if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+{
+    @Html.ActionLink("Create New", "CreateOverride", "DataSupplier", new { id = 0 }, new { @title = "Create new override", @class = "g-p-10" })
+}
+
+@(Html.Kendo().Grid<DataSupplierViewModel.TelerikOverrides>()
+        .HtmlAttributes(new { @class = "pointer-rows" })
+        .Name("overridesGrid")
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("Overrides_Read", "DataSupplier"))
+            .PageSize(200)
+            .Sort(sort => sort
+                .Add(x => x.AttributeName).Ascending())
+            )
+        .Columns(columns =>
+        {
+            columns.Bound(ds => ds.AttributeName).Title("Attribute Name");
+            columns.Bound(ds => ds.DataSupplierName).Title("Data Supplier");
+            columns.Bound(ds => ds.OverrideType).Title("Type").ClientTemplate("Exclude");
+            columns.Command(command => command.Custom("Remove").Click("markDeleted"));
+        })
+        .Pageable(pager => pager.Refresh(true))
+        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable
+            .AllowUnsort(true))
+        .Scrollable()
+        .Filterable(ftb => ftb
+            .Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .Excel(excel => excel
+            .AllPages(true)
+            .FileName("Grid Export")
+            .Filterable(true)
+            .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+        .NoRecords("There are no items to display")
+        .Selectable()
+        .Events(e => e.DataBound("saveGridFilters"))
+)
+
+@section scripts
+{
+    <script type="text/javascript">
+
+    function markDeleted(e) {
+        var data = this.dataItem($(e.currentTarget).closest("tr"));
+
+        $.ajax({
+            url: '@Url.Action("SetDeletedFlag", "DataSupplier")',
+            data: { id: data.DataSupplierOverrideId }
+        }).done(function (data) {
+            if (data.IsSuccess) {
+                $("#grid").data("kendoGrid").dataSource.read();
+            } else {
+                $.alert('Failed to mark as Deleted. Error: ' + data.Message);
+            }
+        });
+
+        return false;
+    }
+
+    </script>
+}
+

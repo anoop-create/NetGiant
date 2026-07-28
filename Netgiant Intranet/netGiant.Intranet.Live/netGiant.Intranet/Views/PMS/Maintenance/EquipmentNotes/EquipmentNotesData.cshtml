@@ -1,0 +1,28 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<equipmentNotes>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(x => item.Website.WebsiteName)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.eqEquipment.description)
+        </td>
+        <td class="g-w-50p" style="width: 60px">
+            @Html.DisplayFor(x => item.isDetail)
+        </td>
+        <td class="g-w-50p">
+            @Html.DisplayFor(x => item.note)
+        </td>
+
+        <td class="g-a-c">
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin") || User.IsInRole("SEO"))
+            {
+                @Html.ActionLink("Edit", "Create", "EquipmentNotes", new { id = item.equipmentNotesID }, null)
+                @Html.Raw(" | <a class=\"lnkDeleteEquipmentNotes\" href=\"#\" value=\"" + item.equipmentNotesID + "\">Delete</a>")
+            }
+        </td>
+    </tr>
+}

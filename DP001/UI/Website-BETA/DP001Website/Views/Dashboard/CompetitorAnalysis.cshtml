@@ -1,0 +1,22 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model DashboardViewModel
+
+<div class="col-md-12 col-lg-4 dashlet-chart pull-left">
+    <div class="g-bg-white row g-b-1-lg">
+        <div class="col-xs-12">
+            <div class="g-p-l-20 text-left">
+                <i class="fa fa-question-circle-o fa-lg help-popup g-m-r-10" data-toggle="tooltip" title="This chart shows a comparison of prices with top competitors." data-helpsid="2" data-helpeid="2"></i>
+                <span class="g-fw-b dashlet-title" id="pcTitle">Competitor Analysis</span>
+                <span class="g-fw-b dashlet-title pull-right g-m-r-20" id="caCount"></span>
+            </div>
+            <div class="pull-left col-xs-12 g-bt-1-lg">
+                <div class="clearfix">
+                    <div id="chart1" class="bar-chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

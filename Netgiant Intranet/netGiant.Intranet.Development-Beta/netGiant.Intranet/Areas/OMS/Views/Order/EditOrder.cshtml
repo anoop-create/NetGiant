@@ -1,0 +1,184 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.OMS;
+@model OrderViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.SubTitle = Model.Order.OrderId > 0 ? "Edit" : "Create";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle Order</h4>
+
+        <div class="form-horizontal">
+            @using (Html.BeginForm("SaveOrder", "Order", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.HiddenFor(x => x.Order.OrderId)
+
+                <div class="OrderTabs" style="background:none;">
+                    <ul>
+                        <li>
+                            <a href="#OrderDetailsTab">Order Details</a>
+                        </li>
+                    </ul>
+
+                    <div id="OrderDetailsTab">
+                        <fieldset class="g-m-t-20">
+                            <legend>Order Details</legend>
+
+                            <div class="form-group">
+                                @Html.Label("Customer Order Number", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Order.CustomerOrderNo, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.Order.CustomerOrderNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Internal Order Number", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Order.InternalOrderNo, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.Order.InternalOrderNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Payment Method", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(
+                                        model => model.Order.PaymentMethodFk,
+                                        Model.PaymentMethodList,
+                                        "Select...",
+                                        new { @class = "g-f-l form-control g-smallCell g-m-r-10" }
+                                    )
+                                    @Html.ValidationMessageFor(model => model.Order.PaymentMethodFk, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Delivery Service", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(
+                                        model => model.Order.DeliveryServiceFk,
+                                        Model.DeliveryServiceList,
+                                        "Select...",
+                                        new { @class = "g-f-l form-control g-smallCell g-m-r-10" }
+                                    )
+                                    @Html.ValidationMessageFor(model => model.Order.DeliveryServiceFk, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Order Source", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(
+                                        model => model.Order.OrderSourceFk,
+                                        Model.OrderSourceList,
+                                        "Select...",
+                                        new { @class = "g-f-l form-control g-smallCell g-m-r-10" }
+                                    )
+                                    @Html.ValidationMessageFor(model => model.Order.OrderSourceFk, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Order Status", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(
+                                        model => model.Order.OrderStatusFk,
+                                        Model.OrderStatusList,
+                                        "Select...",
+                                        new { @class = "g-f-l form-control g-smallCell g-m-r-10" }
+                                    )
+                                    @Html.ValidationMessageFor(model => model.Order.OrderStatusFk, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Customer Group", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(
+                                        model => model.Order.CustomerGroupFk,
+                                        Model.CustomerGroupList,
+                                        "Select...",
+                                        new { @class = "g-f-l form-control g-smallCell g-m-r-10" }
+                                    )
+                                    @Html.ValidationMessageFor(model => model.Order.CustomerGroupFk, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="SaveAccount" value="Save" class="btn btn-default" title="Save" />
+
+                        @Html.ActionLink(
+                        linkText: "Cancel",
+                        actionName: "ViewOrder",
+                        controllerName: "Order",
+                        routeValues: new { id = Model.Order.OrderId },
+                        htmlAttributes: new { @class = "btn btn-default" }
+                        )
+                    </div>
+                </div>
+            }
+
+
+            <div class="OrderTabs2" style="background:none;">
+                <ul>
+                    <li>
+                        <a href="#OrderLinesTab">Order Lines</a>
+                    </li>
+                </ul>
+
+                <div id="OrderLinesTab">
+                    <fieldset class="g-m-t-20">
+                        <legend>Order Lines</legend>
+
+                        <table class="table g-bc-w">
+                            <tr>
+                                <th>Line No</th>
+                                <th>Description</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th>Nett</th>
+                                <th>VAT</th>
+                                <th></th>
+                            </tr>
+                            @foreach (var ol in Model.OrderLineList)
+                            {
+                                <tr>
+                                    <td>@ol.LineNo</td>
+                                    <td>@ol.Description</td>
+                                    <td>@ol.Quantity</td>
+                                    <td>@ol.UnitPrice</td>
+                                    <td>@ol.Nett</td>
+                                    <td>@ol.Vat</td>
+                                    <td>
+                                        <a href="../ViewOrderLine/@ol.OrderLineId">View</a>
+                                        |
+                                        <a href="../EditOrderLine/@ol.OrderLineId">Edit</a>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $(".OrderTabs").tabs();
+        $(".OrderTabs2").tabs();
+    });
+
+</script>

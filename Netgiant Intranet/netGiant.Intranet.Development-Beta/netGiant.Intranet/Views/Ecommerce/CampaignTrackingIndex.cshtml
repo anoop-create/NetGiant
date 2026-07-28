@@ -1,0 +1,82 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce;
+@model CampaignTrackingViewModel
+
+@{
+    ViewBag.Title = "Campaign Tracking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    @Html.RawFromDict(Model.IntranetData, "CampaignTrackingFilters")
+
+    @using (Html.BeginForm("ExportCampaignTracking", "Ecommerce", FormMethod.Post, new { @id = "ExportForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("kendoData")
+    }
+    <input type="submit" class="btn btn-success g-m-t-5 download" value="Export to CSV" />
+</div>
+
+@(Html.Kendo().Grid<TelerikCampaignTracking>
+    ()
+    .HtmlAttributes(new { @class = "pointer-rows" })
+    .Name("CampaignTrackingGrid")
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(x => x.Action("CampaignTracking_Read", "Ecommerce"))
+        .PageSize(200)
+        .Sort(sort => sort.Add(x => x.OrderDate).Ascending())
+    )
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.Id).Title("Id").Hidden().Width(80);
+        columns.Bound(x => x.OrderDate).Title("Order Date").Width(180)
+        .ClientTemplate("#= kendo.toString(kendo.parseDate(OrderDate, 'yyyy-MM-dd'), 'dd/MM/yyyy (HH:mm:ss)') #")
+        .HeaderHtmlAttributes(new { title = "Order Date", style = "text-align: center;" });
+        columns.Bound(x => x.OrderNumber).Title("Order Number").Width(100)
+        .HeaderHtmlAttributes(new { title = "Order Number", style = "text-align: center;" });
+        columns.Bound(x => x.OrderSource).Title("Order Source").Width(120)
+        .HeaderHtmlAttributes(new { title = "Order Source", style = "text-align: center;" });
+        columns.Bound(x => x.Campaign).Title("Campaign").Width(120)
+        .HeaderHtmlAttributes(new { title = "Campaign", style = "text-align: center;" });
+    })
+    .Pageable(pager => pager.Refresh(true))
+    .Pageable(pager => pager.PageSizes(new List<int>
+        { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable
+        .AllowUnsort(true))
+        .Groupable()
+        .Scrollable()
+        .Filterable(ftb => ftb
+        .Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .Excel(excel => excel
+        .AllPages(true)
+        .FileName("Grid Export")
+        .Filterable(true)
+        .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+        .NoRecords("There are no campaign tracking records")
+        .Selectable()
+    )
+
+@section scripts
+    {
+    <script type="text/javascript">
+        $(document).on('click', '.download', function (e) {
+            var view = $("#CampaignTrackingGrid").data("kendoGrid").dataSource.view();
+            $('#kendoData').val(encodeURIComponent(JSON.stringify(view)));
+            $('#ExportForm').submit();
+        });
+    </script>
+}
+
+
+
+
+
+
+

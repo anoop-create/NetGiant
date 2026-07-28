@@ -1,0 +1,137 @@
+﻿@model netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance.ManufacturersViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Manufacturer";
+    ViewBag.SubTitle = Model.Manufacturer.manufacturerID > 0 ? "Edit" : "Create";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title</h4>
+
+        @using (Html.BeginForm("Save", "Manufacturer"))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.Manufacturer.manufacturerID)
+
+                <div class="form-group">
+                    @Html.Label("Manufacturer Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Manufacturer.manufacturerName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.Manufacturer.manufacturerName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Equipment Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Manufacturer.equipmentManuName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.Manufacturer.equipmentManuName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Axis Manufacturer No", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Manufacturer.axisManufacturerNo, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.Manufacturer.axisManufacturerNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @if (Model.Manufacturer.manufacturerID > 0)
+                {
+                    <div class="form-group">
+                        @Html.Label("Date Last Updated", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Manufacturer.dateLastUpdate, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="btnCategoryCodeSave" value="Save" class="btn btn-default" />
+                        @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            </div>
+
+            <table class="table g-w-50p">
+                <tr>
+                    <th>
+                        Provider
+                    </th>
+                    <th>
+                        Priority
+                    </th>
+                </tr>
+
+                @{var count = 0;
+                foreach (var prov in Model.Providers.OrderBy(x => x.providerName))
+                {
+                    <tr>
+                        <td>
+                            @Html.Raw(prov.providerName)
+
+                            @using (Html.BeginCollectionItem("priorityProviders"))
+                            {
+                                if (Model.PriorityProviders.Select(x => x.providerFK).Contains(prov.providerID))
+                                {
+                                    @Html.Hidden("providerFK", prov.providerID, new { @class = "providerID" })
+                                    @Html.Hidden("manufacturerFK", Model.Manufacturer.manufacturerID,
+                                        new { @class = "manufacturerFK" })
+                                    @Html.Hidden("id", Model.PriorityProviders.Where(x => x.providerFK == prov.providerID)
+                                        .FirstOrDefault().id, new { @class = "id" })
+                                }
+                                else
+                                {
+                                    @Html.Hidden("providerFK", prov.providerID, new { disabled = "disabled", @class = "providerID" })
+                                    @Html.Hidden("manufacturerFK", Model.Manufacturer.manufacturerID,
+                                        new { disabled = "disabled", @class = "manufacturerFK" })
+                                    @Html.Hidden("id", 0, new { disabled = "disabled", @class = "id" })
+                                }
+                            }
+                        </td>
+                        <td class="g-a-c">
+                            @Html.CheckBox("setPriority" + count, Model.PriorityProviders.Select(x => x.providerFK).Contains(prov.providerID),
+                                    new { @class = "setPriority" })
+                        </td>
+                    </tr>
+
+                            count++;
+                }
+                }
+            </table>
+
+        }
+
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+
+        $(document).on('change', '.setPriority', function () {
+            var elem = $(this);
+            var parent = elem.parentsUntil('tr').parent();
+            var provElem = parent.find('.providerID');
+            var manuElem = parent.find('.manufacturerFK');
+            var idElem = parent.find('.id');
+
+            if (elem.is(':checked')) {
+                provElem.prop('disabled', false);
+                manuElem.prop('disabled', false);
+                idElem.prop('disabled', false);
+            } else {
+                provElem.prop('disabled', true);
+                manuElem.prop('disabled', true);
+                idElem.prop('disabled', true);
+            }
+        });
+
+    </script>
+}

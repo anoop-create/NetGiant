@@ -1,0 +1,46 @@
+﻿@using netGiant.Intranet.DataLayer.NetgiantMasterData;
+@model List<actionLink>
+
+<table class="table">
+    <tr>
+        <th>Top Parent</th>
+        <th>Parent</th>
+        <th>Link Title</th>
+        <th>Link Level</th>
+        <th>Link URL</th>
+        <th>Action Name</th>
+        <th>Contoller Name</th>
+        <th>Area</th>
+        <th>Roles</th>
+        <th>Active</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (actionLink menuItem in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(m => menuItem.topParent)</td>
+            <td>@Html.DisplayFor(m => menuItem.parentLevelText)</td>
+            <td>@Html.DisplayFor(m => menuItem.actionLinkDesc)</td>
+            <td>@Html.DisplayFor(m => menuItem.actionLinkLevel)</td>
+            <td>@Html.DisplayFor(m => menuItem.actionLinkURL)</td>
+            <td>@Html.DisplayFor(m => menuItem.actionName)</td>
+            <td>@Html.DisplayFor(m => menuItem.controllerName)</td>
+            <td>@Html.DisplayFor(m => menuItem.area)</td>
+            <td>@Html.DisplayFor(m => menuItem.roles)</td>
+            <td>@Html.DisplayFor(m => menuItem.active)</td>
+            <td>
+                <a class="lnkDeleteMenu" href="#" value="@menuItem.actionLinkID">Delete</a> |
+                @Html.ActionLink("Update", "UpdateMenuItem/" + menuItem.actionLinkID, "Admin")
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+
+<div id="productPaging" style="text-align:center;">
+    @*@Html.PagedListPager(Model, p => "#")*@
+</div>
+

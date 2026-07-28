@@ -1,0 +1,100 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.DataSuppliers;
+@model DataSupplierLookupViewModel
+
+@{
+    ViewBag.Title = Model.ProductView.model;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h3>@ViewBag.Title</h3>
+        <fieldset class="g-b-1dg g-m-t-5 g-w-100p g-f-l g-m-r-20">
+            <legend>DataSuppliers Product View</legend>
+            <fieldset class="g-b-1dg g-m-t-5 g-w-100p g-f-l g-m-r-20">
+                <legend>UNSPSC_Code</legend>
+                <div class="g-m-t-5">
+                    <div class="g-w-100p g-f-l">@Html.DisplayFor(x => x.ProductView.UNSPSC_Code)</div>
+                </div>
+            </fieldset>
+            <fieldset class="g-b-1dg g-m-t-5 g-w-100p g-f-l">
+                <legend>UNSPSC_Segment</legend>
+                <div class="g-m-t-10">
+                    <div class="g-w-100p g-f-l">@Html.DisplayFor(x => x.ProductView.UNSPSC_Segment)</div>
+                </div>
+            </fieldset>
+            <fieldset class="g-b-1dg g-m-t-5 g-w-100p g-f-l g-m-r-20">
+                <legend>UNSPSC_Family</legend>
+                <div class="g-m-t-10">
+                    <div class="g-w-100p g-f-l">@Html.DisplayFor(x => x.ProductView.UNSPSC_Family)</div>
+                </div>
+            </fieldset>
+            <fieldset class="g-b-1dg g-m-t-5 g-w-100p g-f-l">
+                <legend>UNSPSC_Class</legend>
+                <div class="g-m-t-10">
+                    <div class="g-w-100p g-f-l">@Html.DisplayFor(x => x.ProductView.UNSPSC_Class)</div>
+                </div>
+            </fieldset>
+            <fieldset class="g-b-1dg g-m-t-5 g-w-100p g-f-l">
+                <legend>UNSPSC_Commodity</legend>
+                <div class="g-m-t-10">
+                    <div class="g-w-100p g-f-l">@Html.DisplayFor(x => x.ProductView.UNSPSC_Commodity)</div>
+                </div>
+            </fieldset>
+            <fieldset class="g-b-1dg g-m-t-5 g-w-100p g-f-l">
+                <legend>Description</legend>
+                <div class="g-m-t-10">
+                    <div class="g-w-100p g-f-l">@Html.DisplayFor(x => x.ProductView.description)</div>
+                </div>
+            </fieldset>
+            <fieldset class="g-b-1dg g-m-t-5 g-w-100p g-f-l">
+                <legend>Last Updated</legend>
+                <div class="g-m-t-10">
+                    <div class="g-w-100p g-f-l">@Html.DisplayFor(x => x.ProductView.lastUpdated)</div>
+                </div>
+            </fieldset>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-5 g-w-100p g-f-l g-m-r-20">
+            <legend>Searchable Attributes</legend>
+            <div class="g-m-t-5">
+                <div class="g-w-100p g-f-l">
+                    @foreach (var item in Model.SearchableViewList)
+                    {
+                        <div class="g-f-l g-c-b g-a-c g-w-100p g-a-l">
+                            <div class="g-m-r-20 g-f-l g-w-20p">
+                                <b>Name:</b> @Html.DisplayFor(x => item.name)
+                            </div>
+                            <div class="g-m-r-20 g-f-l g-w-20p">
+                                <b>Value:</b> @Html.DisplayFor(x => item.value)
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </fieldset>
+        @*<fieldset class="g-b-1dg g-m-t-5 g-w-100p g-f-l g-m-r-20">
+            <legend>Features</legend>
+            <div class="g-m-t-5">
+                <div class="g-w-100p g-f-l">
+                    @foreach (var item in Model.FeatureViewList)
+                    {
+                        <div class="g-f-l g-c-b g-a-c g-w-100p g-a-l">
+                            @if (Model.ProductView.dataSupplierID == 2)
+                            {
+                                <div class="g-m-r-20 g-f-l g-w-25p">
+                                    <b>Feature Name:</b> @Html.DisplayFor(x => item.featureName)
+                                </div>
+                            }
+                            <div class="g-m-r-20 g-f-l g-w-50p">
+                                <b>Feature Description:</b> @Html.DisplayFor(x => item.featureDesc)
+                            </div>
+                            <div class="g-m-r-20 g-f-l g-w-20p">
+                                <b>Feature Sequence:</b> @Html.Raw(string.Format("{0:N0}", item.featureSequence))
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </fieldset>*@
+    </div>
+</div>

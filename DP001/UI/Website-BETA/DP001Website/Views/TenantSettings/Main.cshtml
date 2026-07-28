@@ -1,0 +1,446 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@using DP001DataAccess.Entities;
+
+@model TenantSettingsViewModel
+
+@{
+    ViewBag.Title = "Main Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Main Settings
+            </h1>
+        </div>
+
+        @if (User.IsInRole("Administrator"))
+        {
+            <div class="col-xs-7 col-md-4 col-lg-3 row-height-fix flex-right">
+                <div class="btn-group">
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-sliders fa-lg"></i>
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <ul class="dropdown-menu g-p-10">
+                        <li class="g-fw-b">Tools</li>
+                        <li role="presentation" class="divider"></li>
+                        <li role="presentation">
+                            @Ajax.HtmlActionLink("<i class=\"fa fa-upload\"></i> Load Inventories <i id=\"repriceSpinner\" style=\"display: none\" class=\"fa fa-spinner fa-pulse\"></i>",
+                          "TriggerBatchProcess",
+                          "Shared",
+                          new
+                          {
+                              process = "loadinventories",
+                              channelId = ViewBag.channelId,
+                              attributes = "t$loadinventories,tt$" + ViewBag.tenantID.ToString() + ",ch$" + ViewBag.channelId.ToString(),
+                              runImmediately = true
+                          },
+                          new AjaxOptions()
+                          {
+                              HttpMethod = "POST",
+                              OnComplete = "triggerComplete"
+                          },
+                          new
+                          {
+                              @class = "repriceBtn"
+                          })
+                        </li>
+
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation">
+                                @Ajax.HtmlActionLink("<i class=\"fa fa-upload\"></i> NG Copy Price Rule",
+                                   "TriggerBatchProcess",
+                                   "Shared",
+                                   new
+                                   {
+                                       process = "copypricerules",
+                                       channelId = ViewBag.channelId,
+                                       attributes = "t$copypricerules,tt$18,ch$83,o$84|85",
+                                       runImmediately = true
+                                   },
+                                   new AjaxOptions()
+                                   {
+                                       HttpMethod = "POST",
+                                       OnComplete = "triggerComplete"
+                                   },
+                                   null)
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-push-2">
+            <div class="row page-form">
+
+                <section class="g-m-t-20 g-fw-b list-form clearfix">
+                    <div class="form-value pull-left">
+                        <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Select the channel you wish to edit product feeds and schedules in" data-helpsid="2" data-helpeid="2"></i>
+                        Selected Channel
+                    </div>
+                    <div class="g-p-l-10 form-value pull-left">
+                        @{
+                            CommonModel cm = new CommonModel();
+                            TenantSetting t = cm.GetTenant();
+                            @Html.ChannelDropDown(t.Channels.ToList(), Session["CurrentChannel"].ToString(), "", "10");
+                        }
+                    </div>
+                </section>
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs tab-container g-m-t-40" role="tablist">
+                    <li role="presentation" class="active"><a href="#channels" aria-controls="channels" role="tab" data-toggle="tab">Channels</a></li>
+                    <li role="presentation"><a href="#feeds" aria-controls="feeds" role="tab" data-toggle="tab">Feeds</a></li>
+                    <li role="presentation"><a href="#output" aria-controls="output" role="tab" data-toggle="tab">Output</a></li>
+                    <li role="presentation"><a href="#scheduling" aria-controls="scheduling" role="tab" data-toggle="tab">Scheduling</a></li>
+                    <li role="presentation"><a href="#custom" aria-controls="custom" role="tab" data-toggle="tab">Custom Fields</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="channels">
+                        <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Settings for all channels" data-helpsid="2" data-helpeid="2"></i> Channel Setup</h4>
+                        <section class="list-form table-responsive">
+                            @{
+                                Html.RenderPartial("~/Views/Channel/ChannelDetail.cshtml", Model.Tenant.Channels.ToList());
+                            }
+                        </section>
+
+                        @if (Model.Tenant.Lookup.LookupName == "SITC")
+                        {
+                        <h4>@ViewBag.thisChannel.ChannelName - Additional Files</h4>
+                        <section class="list-form table-responsive">
+                            @{
+                                    ViewBag.FeedType = "Additional";
+                                    Html.RenderPartial("~/Views/FtpSettings/FtpDetail.cshtml", Model.FtpSettingList.Where(x => x.Lookup.LookupName == "Additional Inventory").ToList());
+                            }
+                        </section>
+                                    }
+                    </div>
+                    <div id="feeds" class="tab-pane fade">
+                        <h4>@ViewBag.thisChannel.ChannelName - Products</h4>
+                        <section class="list-form table-responsive">
+                            @{
+                                ViewBag.FeedType = "Product";
+                                Html.RenderPartial("~/Views/FtpSettings/FtpDetail.cshtml", Model.FtpSettingList.Where(x => x.Lookup.LookupName == "Product Inventory").ToList());
+                            }
+                        </section>
+
+                        <h4>@ViewBag.thisChannel.ChannelName - Suppliers</h4>
+                        <section class="list-form table-responsive">
+                            @{
+                                ViewBag.FeedType = "Supplier";
+                                Html.RenderPartial("~/Views/FtpSettings/FtpDetail.cshtml", Model.FtpSettingList.Where(y => y.Lookup.LookupName == "Supplier Inventory").ToList());
+                            }
+                        </section>
+
+                        <h4>@ViewBag.thisChannel.ChannelName - Competitors</h4>
+                        <section class="list-form table-responsive">
+                            @{
+                                ViewBag.FeedType = "Competitor";
+                                Html.RenderPartial("~/Views/FtpSettings/FtpDetail.cshtml", Model.FtpSettingList.Where(x => x.Lookup.LookupName == "Competitor Inventory").ToList());
+                            }
+                        </section>
+
+                        @if (Html.TenantPermisson("SalesHistory", TenantPermissonCheck.IsFeatureOn))
+                        {
+                            <h4>@ViewBag.thisChannel.ChannelName - Sales History</h4>
+                            <section class="list-form table-responsive">
+                                @{
+                                    ViewBag.FeedType = "Sales History";
+                                    Html.RenderPartial("~/Views/FtpSettings/FtpDetail.cshtml", Model.FtpSettingList.Where(x => x.Lookup.LookupName == "Sales History Inventory").ToList());
+                                }
+                            </section>
+                         }
+                    </div>
+                    <div id="output" class="tab-pane fade">
+                        <h4>@ViewBag.thisChannel.ChannelName - Output File</h4>
+                        <section class="list-form table-responsive">
+                            @{
+                                ViewBag.FeedType = "Output";
+                                Html.RenderPartial("~/Views/FtpSettings/FtpDetail.cshtml", Model.FtpSettingList.Where(x => x.Lookup.LookupName == "Output Inventory").ToList());
+                            }
+                        </section>
+                    </div>
+                    <div id="scheduling" class="tab-pane fade">
+                        <a name="Schedules"></a>
+                        <h4>@ViewBag.thisChannel.ChannelName - Schedules</h4>
+                        <section class="list-form table-responsive">
+                            @{
+                                ViewBag.FeedType = "Output";
+                                Html.RenderPartial("~/Views/Schedule/ScheduleDetail.cshtml", Model.ScheduleList.ToList());
+                            }
+                        </section>
+                    </div>
+                    <div id="custom" class="tab-pane fade">
+                        <a name="CustomFields"></a>
+                        <h4>@ViewBag.thisChannel.ChannelName - Custom Fields</h4>
+                        <section class="list-form table-responsive">
+                            @{
+                                Html.RenderPartial("~/Views/CustomField/CustomFieldDetail.cshtml", Model.CustomFieldList.ToList());
+                            }
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+
+            $(document).on('click', 'tbody .list-form-row', function () {
+                openDropForm(
+                    $(this),
+                    '.list-form-extra',
+                    $(this).closest('table').attr('data-url') + '/' + $(this).attr('data-id'),
+                    { timestamp: $.now() },
+                    true
+                );
+            })
+
+            $(document).on('click', 'tbody .list-form-extra .form-cancel', function () {
+                $(this).closest('.list-form-extra').prev().trigger('click');
+            })
+
+            $(document).on('click', 'tfoot .list-form-row .btn-add', function () {
+                var tr = $(this).closest('tr');
+                openDropForm(
+                    tr,
+                    '.list-form-extra',
+                    tr.attr('data-newurl'),
+                    { id: tr.closest('table').find('tbody .list-form-row:first').attr('data-id'), timestamp: $.now() },
+                    true
+                );
+            })
+
+            $(document).on('click', 'tfoot .list-form-extra .form-cancel', function () {
+                $(this).closest('.list-form-extra').prev().find('.btn-add').trigger('click');
+            })
+
+            $(document).on('change', '#ScheduleEntry_FrequencyFK', function () {
+                $('#ScheduleEntry_FrequencyName').val($('#ScheduleEntry_FrequencyFK :selected').text());
+                if ($('#ScheduleEntry_FrequencyName').val() == 'Weekly') {
+                    $('#dayGroup').removeClass('hidden');
+                } else {
+                    $('#dayGroup').addClass('hidden');
+                }
+            });
+
+            $(document).on('click', '#FTPSettingEntry_UseSkuuudleLite', function () {
+                checkSkuuudleLite($('#FTPSettingEntry_UseSkuuudleLite'));
+            });
+
+            $('.selectpicker').selectpicker();
+
+            $(document).on('change', '#FTPSettingEntry_FileHasHeadings', function () {
+                var state = $(this).is(':checked');
+
+                if (!state) {
+                    $('#FTPSettingEntry_FieldMapping_Brand').val('');
+                    $('#FTPSettingEntry_FieldMapping_ManufacturerPartNo').val('');
+                    $('#FTPSettingEntry_FieldMapping_Description').val('');
+                    $('#FTPSettingEntry_FieldMapping_Price').val('');
+                    $('#FTPSettingEntry_FieldMapping_StockQuantity').val('');
+                    $('#fileHeadingsInfoLabel').text('Please enter column positions');
+                }
+                else {
+                    $('#fileHeadingsInfoLabel').text('');
+                }
+            });
+
+            $(document).on('click',
+                '#getFileHeadings',
+                function() {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetFileHeadings", "FtpSettings")',
+                        data: {
+                            Protocol: $('#FTPSettingEntry_FTPProtocolFK option:selected').text(),
+                            Host: $('#FTPSettingEntry_FTPServer').val(),
+                            FilePath: $('#FTPSettingEntry_FTPPath').val(),
+                            FileName: $('#FTPSettingEntry_FTPFileName').val(),
+                            Username: $('#FTPSettingEntry_FTPUser').val(),
+                            Password: $('#FTPSettingEntry_FTPPassword').val(),
+                            FtpSettingsId: $('#FTPSettingEntry_FTPSettingsID').val()
+                        }
+                    }).done(function(data) {
+                        $.each(data,
+                            function(i, value) {
+                                $('#fieldHeadings').append($('<option>').text(value).attr('value', value));
+                            });
+                    });
+                });
+        });
+
+        function addChannelComplete(data) {
+            $('#channel .form-actions > .form-message > span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                $('#channel .list-form-extra').prev().find('.btn-add').trigger('click');
+                $('#channel .list-form-extra').closest('table').children('tbody').append(data.responseJSON.html);
+                location.reload(true);
+            }
+            $('#channel .form-message .fa-spinner').hide();
+        }
+
+        function updateChannelComplete(data) {
+            $('#channel .form-actions > .form-message > span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                $('#channel .list-form-extra').prev().trigger('click');
+                $('#channel .list-form-row[data-id=' + data.responseJSON.id.toString() + ']').html(data.responseJSON.html);
+                location.reload(true);
+            }
+            $('#channel .form-message .fa-spinner').hide();
+        }
+
+        function deleteChannelComplete(data) {
+            if (data.responseJSON.isSuccess) {
+                var currTable = $('#channel .list-form-extra').closest('table');
+                confirm('The channel will be deleted in the next 24 hour period');
+                $('#channel .list-form-extra').prev().trigger('click');
+                currTable.find('tfoot').show();
+                $('#channel .form-message .fa-spinner').hide();
+            } else {
+                $('#channel .form-actions > .form-message span').text('An error occurred. Unable to schedule deletion.');
+            }
+        }
+
+        function cloneChannelComplete(data) {
+            if (data.responseJSON.IsSuccess) {
+                location.reload();
+            } else {
+                $('#channel .form-actions > .form-message span').text('An error occurred. Unable to Clone Channel. Error: ' + data.responseJSON.Message);
+                var currTable = $('.list-form-extra').closest('table');
+                currTable.find('.form-message .fa-spinner').hide();
+                $('.cloneChannel').show();
+            }
+        }
+
+        function addScheduleComplete(data) {
+            $('#schedule .form-actions > .form-message > span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                if (data.responseJSON.action != "Test") {
+                    $('#schedule .list-form-extra').prev().find('.btn-add').trigger('click');
+                    $('#schedule .list-form-extra').closest('table').children('tbody').append(data.responseJSON.html);
+                }
+            }
+            $('#schedule .form-message .fa-spinner').hide();
+        }
+
+        function updateScheduleComplete(data) {
+            $('#schedule .form-actions > .form-message > span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                if (data.responseJSON.action != "Test") {
+                    $('#schedule .list-form-extra').prev().trigger('click');
+                    $('#schedule .list-form-row[data-id=' + data.responseJSON.id.toString() + ']').html(data.responseJSON.html);
+                }
+            }
+            $('#schedule .form-message .fa-spinner').hide();
+        }
+
+        function deleteScheduleComplete(data) {
+            if (data.responseJSON.IsSuccess) {
+                $('.list-form-row[data-id=' + data.responseJSON.Id + ']').trigger('click');
+                $('.list-form-row[data-id=' + data.responseJSON.Id + ']').closest('table').find('tfoot > tr').show();
+                $('.list-form-row[data-id=' + data.responseJSON.Id + ']').remove();
+            } else {
+                $('.form-message span').text(data.responseJSON.Msg);
+            }
+        }
+
+        function addCustomFieldComplete(data) {
+            $('#customfield .form-actions > .form-message > span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                $('#customfield .list-form-extra').prev().find('.btn-add').trigger('click');
+                $('#customfield .list-form-extra').closest('table').children('tbody').append(data.responseJSON.html);
+            }
+            $('#customfield .form-message .fa-spinner').hide();
+        }
+
+        function updateCustomFieldComplete(data) {
+            $('#customfield .form-actions > .form-message > span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                $('#customfield .list-form-extra').prev().trigger('click');
+                $('#customfield .list-form-row[data-id=' + data.responseJSON.id.toString() + ']').html(data.responseJSON.html);
+            }
+            $('#customfield .form-message .fa-spinner').hide();
+        }
+
+        function deleteCustomFieldComplete(data) {
+            if (data.responseJSON.IsSuccess) {
+                $('#customfield .list-form-row[data-id=' + data.responseJSON.Id + ']').trigger('click');
+                $('#customfield .list-form-row[data-id=' + data.responseJSON.Id + ']').closest('table').find('tfoot > tr').show();
+                $('#customfield .list-form-row[data-id=' + data.responseJSON.Id + ']').remove();
+            } else {
+                $('.form-message span').text(data.responseJSON.Msg);
+            }
+        }
+
+        function updateFtpComplete(data) {
+            var currTable = $('.list-form-extra').closest('table');
+            currTable.find('.form-actions .form-message span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                if (data.responseJSON.action != "Test") {
+                    $('.list-form-extra').prev().trigger('click');
+                    currTable.find('.list-form-row[data-id=' + data.responseJSON.id.toString() + ']').html(data.responseJSON.html);
+                }
+            }
+            currTable.find('.form-message .fa-spinner').hide();
+        }
+
+        function addFtpComplete(data) {
+            var currTable = $('.list-form-extra').closest('table');
+            currTable.find('.form-actions .form-message span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                if (data.responseJSON.action != "Test") {
+                    $('.list-form-extra').prev().find('.btn-add').trigger('click');
+                    currTable.children('tbody').append(data.responseJSON.html);
+                }
+            }
+            currTable.find('.form-message .fa-spinner').hide();
+        }
+
+        function deleteFtpComplete(data) {
+            var currTable = $('.list-form-extra').closest('table');
+            currTable.find('.form-actions .form-message span').text(data.responseJSON.msg);
+            if (data.responseJSON.isSuccess) {
+                currTable.find('.list-form-row[data-id=' + data.responseJSON.id + ']').trigger('click');
+                currTable.find('tfoot tr').show();
+                currTable.find('.form-message .fa-spinner').hide();
+                currTable.find('.list-form-row[data-id=' + data.responseJSON.id + ']').remove();
+            }
+        }
+
+        function beginPost(id) {
+            $(id + ' .form-message .fa-spinner').show();
+        }
+
+        function beginClonePost(id) {
+            $(id + ' .form-message .fa-spinner').show();
+            $('.cloneChannel').hide();
+        }
+
+        function checkSkuuudleLite(o) {
+            $('#sl-zipfile').toggleClass('hide');
+            $('#sl-summfile').toggleClass('hide');
+        }
+    </script>
+}

@@ -1,0 +1,27 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model DashboardViewModel.Dash1
+
+<div class="col-xs-12 col-sm-6 col-lg-3 dashlet">
+    <div class="g-bg-blue g-m-b-20">
+        <div class="col-xs-8">
+            <h4><i class="fa fa-question-circle-o fa-lg help-popup g-m-r-10" data-toggle="tooltip" title="This shows the number of products in your own product feed, your suppliers combined feed and your competitors combined feed." data-helpsid="2" data-helpeid="2"></i>Product Feed Totals</h4>
+            <div class="">
+                <div data-toggle="tooltip" title="There are @Model.ProductInventoryCount.ToString("N0") products in your inventory, click here to view products." class="help-popup clearfix">
+                    <div data-toggle="tooltip" class="pull-left dash-lablel text-right col-xs-8"><a href="@Url.Action("Index", "Products")">Your Inventory</a></div>
+                    <div class="pull-left dash-value text-left col-xs-4"><a href="@Url.Action("Index", "Products")">@Model.ProductInventoryCount.ToString("N0")</a></div>
+                </div>
+                <div data-toggle="tooltip" title="There are @Model.SupplierInventoryCount.ToString("N0") products in your combined supplier inventory, click here to view products." class="help-popup clearfix">
+                    <div class="pull-left dash-lablel text-right col-xs-8"><a href="@Url.Action("Inventory", "Suppliers")">Supplier Inventory</a></div>
+                    <div class="pull-left dash-value text-left col-xs-4"><a href="@Url.Action("Inventory", "Suppliers")">@Model.SupplierInventoryCount.ToString("N0")</a></div>
+                </div>
+                <div data-toggle="tooltip" title="There are @Model.CompetitorInventoryCount.ToString("N0") products in your combined competitor inventory, click here to view products." class="help-popup clearfix">
+                    <div class="pull-left dash-lablel text-right col-xs-8"><a href="@Url.Action("Inventory", "Competitors")">Competitor Inventory</a></div>
+                    <div class="pull-left dash-value text-left col-xs-4"><a href="@Url.Action("Inventory", "Competitors")">@Model.CompetitorInventoryCount.ToString("N0")</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4 dash-img">
+            <i class="fa fa-list-alt fa-5x"></i>
+        </div>
+    </div>
+</div>

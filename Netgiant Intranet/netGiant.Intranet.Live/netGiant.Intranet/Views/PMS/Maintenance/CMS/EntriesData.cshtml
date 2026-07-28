@@ -1,0 +1,31 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<cmsEntry>
+
+
+@{ int num = 0; }
+
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(x => item.cmsSection.Website.WebsiteName)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.cmsSection.sectionName)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.entryName)
+        </td>
+
+        <td class="g-a-c">
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin") || User.IsInRole("SEO"))
+            {
+                @Html.ActionLink("Edit", "CreateEntry", "CMS", new { id = item.cmsEntryID }, null)
+                @Html.Raw(" | <a class=\"lnkDeleteCmsEntry\" href=\"#\" value=\"" + item.cmsEntryID + "\">Delete</a>")
+            }
+        </td>
+    </tr>
+
+    num++;
+}

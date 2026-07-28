@@ -1,0 +1,268 @@
+﻿@using netGiant.Intranet.DataLayer
+@model priceRuleBand
+
+<div class="g-b-b-1lg g-p-tb-10">
+
+    @using (Html.BeginCollectionItem("priceRuleSingle.priceRuleBand"))
+    {
+        <table class="g-w-100p g-tb-fx">
+            <tr>
+                <td colspan="9">
+                    <span class="g-f-l g-m-r-10 g-fw-b">Description</span>
+                    @Html.HiddenFor(m => m.priceRuleBandID)
+                    @Html.EditorFor(m => m.description, new { htmlAttributes = new { @class = "form-control g-largeCell g-f-l" } })
+                </td>
+                <td>
+                    <a class="lnkRemoveBand" href="#">Remove</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="g-fw-b">Start</div>
+                    @Html.EditorFor(m => m.bandStart, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control g-xxSmallCell valInput",
+                            Value = string.Format("{0}", Math.Round(Model.bandStart, 2))
+                        }
+                    })
+                </td>
+                <td>
+                    <div class="g-fw-b">End</div>
+                    @Html.EditorFor(m => m.bandEnd, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control g-xxSmallCell valInput",
+                            Value = string.Format("{0}", Math.Round(Model.bandEnd, 2))
+                        }
+                    })
+                </td>
+                <td>
+                    <div class="g-fw-b">Cost Uplift</div>
+                    @Html.EditorFor(m => m.costUplift, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control g-xxSmallCell valInput oemInput",
+                            Value = string.Format("{0:N2}", Model.costUplift)
+                        }
+                    })
+                </td>
+                <td>
+                    <div class="g-fw-b">Desired Margin</div>
+                    @Html.EditorFor(m => m.desiredMargin, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control g-xxSmallCell percentInput oemInput",
+                            Value = string.Format("{0:N2}", Model.desiredMargin * 100)
+                        }
+                    })
+                </td>
+                <td>
+                    <div class="g-fw-b">Min Margin</div>
+                    @Html.EditorFor(m => m.minMargin, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control g-xxSmallCell percentInput",
+               Value = string.Format("{0:N2}", Model.minMargin != null ? Model.minMargin * 100 : 0)
+           }
+       })
+                </td>
+                <td>
+                    <div class="g-fw-b">Max Margin</div>
+                    @Html.EditorFor(m => m.maxMargin, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control g-xxSmallCell percentInput",
+               Value = string.Format("{0:N2}", Model.maxMargin != null ? Model.maxMargin * 100 : 0)
+           }
+       })
+                </td>
+                <td>
+                    <div class="g-fw-b">Min Margin Val.</div>
+                    @Html.EditorFor(m => m.minMarginValue, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control g-xxSmallCell valInput compatInput",
+               Value = string.Format("{0:N2}", Model.minMarginValue != null ? Model.minMarginValue : 0)
+           }
+       })
+                </td>
+                <td>
+                    <div class="g-fw-b">Max Margin Val.</div>
+                    @Html.EditorFor(m => m.maxMarginValue, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control g-xxSmallCell valInput compatInput",
+               Value = string.Format("{0:N2}", Model.maxMarginValue != null ? Model.maxMarginValue : 0)
+           }
+       })
+                </td>
+                <td>
+                    <div class="g-fw-b">Comps. to Beat</div>
+                    @Html.EditorFor(m => m.competitorsToBeat, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control g-xxSmallCell percentInput oemInput",
+                            Value = string.Format("{0:N2}", Model.competitorsToBeat * 100)
+                        }
+                    })
+                </td>
+                <td>
+                    <div class="g-fw-b">Nudge</div>
+                    @Html.EditorFor(m => m.nudge, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control g-xxSmallCell percentInput oemInput",
+                            Value = string.Format("{0:N2}", Model.nudge * 100)
+                        }
+                    })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="g-fw-b">Break 1</div>
+                    @Html.EditorFor(m => m.breakPrice1, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control g-xxSmallCell percentInput",
+               Value = string.Format("{0:N2}", Model.breakPrice1 != null ? Model.breakPrice1 * 100 : 0)
+           }
+       })
+                </td>
+                <td>
+                    <div class="g-fw-b">Break 2</div>
+                    @Html.EditorFor(m => m.breakPrice2, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control g-xxSmallCell percentInput",
+               Value = string.Format("{0:N2}", Model.breakPrice2 != null ? Model.breakPrice2 * 100 : 0)
+           }
+       })
+                </td>
+                <td>
+                    <div class="g-fw-b">Final Brk. Mar. Stk.</div>
+                    @Html.EditorFor(m => m.finalBreakMinimumMarginStock, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control g-xxSmallCell percentInput",
+               Value = string.Format("{0:N2}", Model.finalBreakMinimumMarginStock != null ? Model.finalBreakMinimumMarginStock * 100 : 0)
+           }
+       })
+                </td>
+                <td>
+                    <div class="g-fw-b">Final Brk. Mar. Pac.</div>
+                    @Html.EditorFor(m => m.finalBreakMinimumMarginAssemblies, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control g-xxSmallCell percentInput",
+               Value = string.Format("{0:N2}", Model.finalBreakMinimumMarginAssemblies != null ? Model.finalBreakMinimumMarginAssemblies * 100 : 0)
+           }
+       })
+                </td>
+                @*<td>
+                    <div class="g-fw-b">Break 3</div>
+                    @Html.EditorFor(m => m.breakPrice3, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control g-xxSmallCell percentInput",
+               Value = string.Format("{0:N2}", Model.breakPrice3 != null ? Model.breakPrice3 * 100 : 0)
+           }
+       })
+                </td>*@
+                @*<td>
+                    <div class="g-fw-b">Break 4</div>
+                    @Html.EditorFor(m => m.breakPrice4, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control g-xxSmallCell percentInput",
+               Value = string.Format("{0:N2}", Model.breakPrice4 != null ? Model.breakPrice4 * 100 : 0)
+           }
+       })
+                </td>*@
+                @*<td>
+                    <div class="g-fw-b">Break 5</div>
+                    @Html.EditorFor(m => m.breakPrice5, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control g-xxSmallCell percentInput",
+               Value = string.Format("{0:N2}", Model.breakPrice5 != null ? Model.breakPrice5 * 100 : 0)
+           }
+       })
+                </td>*@
+                <td>
+                    <div class="g-fw-b">Pack Disc.</div>
+                    @Html.EditorFor(m => m.packDiscount, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control g-xxSmallCell percentInput",
+               Value = string.Format("{0:N2}", Model.packDiscount != null ? Model.packDiscount * 100 : 0)
+           }
+       })
+                </td>
+                <td>
+                    <div class="g-fw-b">Compat. Disc.</div>
+                    @Html.EditorFor(m => m.compatDiscount, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control g-xxSmallCell compatInput percentInput",
+               Value = string.Format("{0:N2}", Model.compatDiscount != null ? Model.compatDiscount * 100 : 0)
+           }
+       })
+                </td>
+                <td>
+                    <div class="g-fw-b">Compat. Over. Mar.</div>
+                    @Html.EditorFor(m => m.compatOverrideMargin, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control g-xxSmallCell compatInput percentInput",
+               Value = string.Format("{0:N2}", Model.compatOverrideMargin != null ? Model.compatOverrideMargin * 100 : 0)
+           }
+       })
+                </td>
+                <td>
+                    <div class="g-fw-b">Compat. Over. Val.</div>
+                    @Html.EditorFor(m => m.compatOverrideValue, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control g-xxSmallCell compatInput valInput",
+               Value = string.Format("{0:N2}", Model.compatOverrideValue != null ? Model.compatOverrideValue : 0)
+           }
+       })
+                </td>
+                <td>
+                    <div class="g-fw-b">Fixed Price Over.</div>
+                    @Html.EditorFor(m => m.fixedPriceOverride, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control g-xxSmallCell valInput bandFixedPrice",
+               Value = string.Format("{0:N2}", Model.fixedPriceOverride != null ? Model.fixedPriceOverride : 0)
+           }
+       })
+                </td>
+            </tr>
+        </table>
+    }
+
+</div>

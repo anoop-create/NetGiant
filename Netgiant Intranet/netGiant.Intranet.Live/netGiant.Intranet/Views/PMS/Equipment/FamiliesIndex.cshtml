@@ -1,0 +1,120 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Equipment
+@using PagedList.Mvc;
+@using System.Web.Optimization;
+@model EquipmentViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Families";
+}
+
+<div class="placeHolder">
+
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+
+        <div style="padding-bottom: 20px">
+            @Html.DropDownListFor(m => m.family.manufacturerFK, Model.AllEquipManufacturers, "Search by Manufacturer", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+            <select id="eqFamilySearchBy" class="searchBy g-f-l form-control g-smallCell" style="margin-right:10px">
+                <option selected="selected" value="name">Search by Family</option>
+            </select>
+            <div>
+                @Html.TextBox("SearchEqFamilies", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10" })
+                <a id="lnkSearchEqFamilies" href="#" class="btn btn-default g-f-l" title="Empty search returns all records">Search</a>
+            </div>
+        </div>
+        <br />
+
+        <div id="familyDataPartialView">
+            @{Html.RenderPartial("~/Views/PMS/Equipment/FamilyData.cshtml", Model.familiesList);}
+        </div>
+
+        <div id="eqFamiliesDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+            Are you sure you want to delete ?
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        $(document).on("click", "#lnkSearchEqFamilies, #eqFamiliesPaging a", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $("#SearchEqFamilies").keypress(function (event) {
+            if (event.which == 13) {
+                applyStandardPaging(event, $(this));
+            }
+        });
+
+        $(document).on("click", ".lnkDeleteFamily", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete("#eqFamiliesDialog", $("#FamilyDeleteURL").val(), $(this).attr("value"),
+                                "#familyDataPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+            return false;
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            applyStandardPaging(event, 0);
+
+            return false;
+        });
+
+        $(document).on("change", "#family_manufacturerFK", function (event) {
+            applyStandardPaging(event, 0);
+        });
+
+        if ($("#historyPage").val() != '') {
+            $('#familyDataPartialView').html($("#historyPage").val());
+        }
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging();
+            standardPaging(event, id, "#eqFamiliesPaging", $("#FamilyDataURL").val(),
+                                    "#familyDataPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#SearchEqFamilies").val(); //SearchTerm
+            optionsArray[1] = $("#family_manufacturerFK").val() || 0; //Manufacturer
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[2] = sortType + sortDir;
+            } else {
+                optionsArray[2] = '';
+            }
+        }
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value"); //FamilyID
+            optionsArray[1] = $("#SearchEqFamilies").val(); //SearchTerm
+            optionsArray[2] = $("#family_manufacturerFK").val() || 0; //Manufacturer
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[3] = sortType + sortDir;
+            } else {
+                optionsArray[3] = '';
+            }
+        }
+
+    </script>
+}

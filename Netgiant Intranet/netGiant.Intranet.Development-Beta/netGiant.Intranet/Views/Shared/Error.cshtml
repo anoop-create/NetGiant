@@ -1,0 +1,23 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Shared;
+@model ErrorViewModel
+
+<h1 class="text-danger">Application Error.</h1>
+<h2 class="text-danger">An error occurred while processing your request.</h2>
+<h3 class="text-danger">The Development Team have been notified on <a href="mailto:devteam@netgiant.com">devteam@netgiant.com</a></h3>
+
+
+@if (Model != null)
+{
+    <div>
+        <b>Error Message: </b>
+        @Model.Message 
+    </div>
+    <div>
+        <b>Inner Exception: </b>
+        @Model.InnerException
+    </div>
+    <div>
+        <b>Stack Trace: </b>
+        @Model.StackTrace
+    </div>
+}

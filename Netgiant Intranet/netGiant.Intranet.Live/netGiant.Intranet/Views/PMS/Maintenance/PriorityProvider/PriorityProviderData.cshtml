@@ -1,0 +1,18 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<priorityProvider>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(x => item.id)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.provider.providerName)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.manufacturer.manufacturerName)
+        </td>
+    </tr>
+}
+

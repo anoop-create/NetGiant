@@ -1,0 +1,21 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<eqCartridgeType>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(x => item.eqCartridgeTypeID)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.eqCartridgeTypeName)
+        </td>
+        <td>
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+            {
+                @Html.ActionLink("Edit", "Create", "CartridgeType", new { id = item.ID }, null)
+                @Html.Raw(" | <a class=\"lnkDeleteCartridgeType\" href=\"#\" value=\"" + item.ID + "\">Delete</a>")
+            }
+        </td>
+    </tr>
+}

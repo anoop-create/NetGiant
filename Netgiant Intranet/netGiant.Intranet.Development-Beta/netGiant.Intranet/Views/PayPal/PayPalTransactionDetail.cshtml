@@ -1,0 +1,32 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Orders;
+@using netGiant.Intranet.Models;
+
+@model PayPalViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutEmpty.cshtml";
+    ViewBag.Title = "PayPal Details";
+}
+
+<div class="container-fluid">
+    <div class="row g-fw-b g-p-10" style="background-color: #c9cb43;">
+        <div class="col-lg-6">Authorisation</div>
+        <div class="col-lg-6">@System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Model.PayPalTransactionEntry.Rows[0]["Cap_Action"].ToString().ToLower())</div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row g-p-5">
+        <div class="col-lg-6">
+            <pre><code id="j1">
+            </code></pre>
+        </div>
+        <div class="col-lg-6">
+            <pre><code id="j2">
+            </code></pre>
+        </div>
+    </div>
+</div>
+
+
+

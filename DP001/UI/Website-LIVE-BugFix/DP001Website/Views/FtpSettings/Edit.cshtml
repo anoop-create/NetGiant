@@ -1,0 +1,366 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@model FtpSettingViewModel
+
+<tr class="list-form-extra">
+    <td colspan="100%">
+        @using (Ajax.BeginForm("Update", "FtpSettings", new AjaxOptions { HttpMethod = "POST", OnComplete = "updateFtpComplete", OnBegin = "beginPost('#ftpsetting')" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.FTPSettingEntry.FTPSettingsID)
+            @Html.HiddenFor(x => x.FTPSettingEntry.FileTypeFK)
+            @Html.HiddenFor(x => x.FTPSettingEntry.Lookup.LookupName)
+            @Html.HiddenFor(x => x.FTPSettingEntry.Lookup.LookupID)
+
+            <section class="page-form">
+                <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The following details are used to retrieve the files necessary to populate your product inventories." data-helpsid="2" data-helpeid="2"></i> Feed</h4>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="A descriptive name to identify the FTP details of the feed." data-helpsid="2" data-helpeid="2"></i>
+                            FTP Description
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.FTPSettingEntry.Description)
+                            @Html.EditorFor(x => x.FTPSettingEntry.Description)
+                        </div>
+                        @if (Model.FTPSettingEntry.Lookup.LookupName == "Supplier Inventory")
+                        {
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The name of the supplier this feed relates to." data-helpsid="2" data-helpeid="2"></i>
+                                Supplier Name
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @using (Html.BeginCollectionItem("FTPSettingEntry.Suppliers"))
+                                {
+                                    @Html.ValidationMessageFor(x => x.FTPSettingEntry.Suppliers.First().SupplierName)
+                                    @Html.EditorFor(x => x.FTPSettingEntry.Suppliers.First().SupplierName)
+                                    @Html.HiddenFor(x => x.FTPSettingEntry.Suppliers.First().FTPSettingsFK)
+                                    @Html.HiddenFor(x => x.FTPSettingEntry.Suppliers.First().SupplierID)
+                                }
+                            </div>
+                        }
+                    </div>
+                    @if (Model.FTPSettingEntry.Lookup.LookupName == "Competitor Inventory")
+                    {
+                        <div class="row">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Check this if you are using Skuuudle Lite for this feed" data-helpsid="2" data-helpeid="2"></i>
+                                Use Skuuudle Lite
+                            </div>
+                            <div class="col-md-4 form-value">
+                                <div class="checkbox checkbox-success">
+                                    @Html.CheckBoxFor(x => x.FTPSettingEntry.UseSkuuudleLite)
+                                    <label for="UseSkuuudleLite"></label>
+                                </div>
+                            </div>
+                            <div id="sl-zipfile" class="@(Model.FTPSettingEntry.UseSkuuudleLite ? "" : "hide")">
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The name of the zip file supplied by Skuuudle Lite" data-helpsid="2" data-helpeid="2"></i>
+                                    Skuuudle Lite Zip File Name
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.FTPSettingEntry.FTPZipFileName)
+                                    @Html.EditorFor(x => x.FTPSettingEntry.FTPZipFileName)
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="This is the protocol that we will use when accesing your FTP site" data-helpsid="2" data-helpeid="2"></i>
+                            FTP Protocol
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.FTPSettingEntry.FTPProtocolFK)
+                            @Html.DropDownListFor(x => x.FTPSettingEntry.FTPProtocolFK, Model.Protocols, null, new { @class = "selectpicker" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The FTP address of the feed, for example: 101.00.90.10" data-helpsid="2" data-helpeid="2"></i>
+                            FTP Server Address
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.FTPSettingEntry.FTPServer)
+                            @Html.EditorFor(x => x.FTPSettingEntry.FTPServer)
+                        </div>
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The file name of the feed." data-helpsid="2" data-helpeid="2"></i>
+                            File Name
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.FTPSettingEntry.FTPFileName)
+                            @Html.EditorFor(x => x.FTPSettingEntry.FTPFileName)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The file location of the feed." data-helpsid="2" data-helpeid="2"></i>
+                            File Path
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.FTPSettingEntry.FTPPath)
+                            @Html.EditorFor(x => x.FTPSettingEntry.FTPPath)
+                        </div>
+                        @if (Model.FTPSettingEntry.Lookup.LookupName == "Competitor Inventory")
+                        {
+                            <div id="sl-summfile" class="@(Model.FTPSettingEntry.UseSkuuudleLite ? "" : "hide")">
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The summary file name of the feed." data-helpsid="2" data-helpeid="2"></i>
+                                    Summary File Name
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.FTPSettingEntry.FTPSummaryFileName)
+                                    @Html.EditorFor(x => x.FTPSettingEntry.FTPSummaryFileName)
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The username used to access this feed in the FTP." data-helpsid="2" data-helpeid="2"></i>
+                            Username
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.FTPSettingEntry.FTPUser)
+                            @Html.EditorFor(x => x.FTPSettingEntry.FTPUser)
+                        </div>
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The password used to access this feed in the FTP." data-helpsid="2" data-helpeid="2"></i>
+                            Password
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.FTPSettingEntry.FTPPassword)
+                            @Html.EditorFor(x => x.FTPSettingEntry.FTPPassword)
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.FTPSettingEntry.Lookup.LookupName != "Output Inventory" && Model.FTPSettingEntry.Lookup.LookupName != "Additional Inventory")
+                {
+                    @Html.HiddenFor(x => x.FTPSettingEntry.FieldMapping.FTPSettingsFK)
+                    @Html.HiddenFor(x => x.FTPSettingEntry.FieldMapping.FileTypeName, new { @Value = Model.FTPSettingEntry.Lookup.LookupName })
+                    <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Use this to tell us which colum on your file corresponds to which data item" data-helpsid="2" data-helpeid="2"></i> Field Mapping</h4>
+                    <div class="container-fluid">
+
+                        <div class="row">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Please check if you file has headings." data-helpsid="2" data-helpeid="2"></i>
+                                File Has Headings
+                            </div>
+                            <div class="col-md-4 form-value">
+                                <div class="checkbox checkbox-success">
+                                    @Html.CheckBoxFor(x => x.FTPSettingEntry.FileHasHeadings)
+                                    <label></label>
+                                    <span id="fileHeadingsInfoLabel" class="small">
+                                        @if (!Model.FTPSettingEntry.FileHasHeadings)
+                                        {
+                                            @("Please enter column positions")
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Please enter the column heading that identifies the Brand." data-helpsid="2" data-helpeid="2"></i>
+                                Brand
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.FTPSettingEntry.FieldMapping.Brand)
+                                @Html.EditorFor(x => x.FTPSettingEntry.FieldMapping.Brand)
+                            </div>
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Please enter the column heading that identifies the Manufacture Part Number." data-helpsid="2" data-helpeid="2"></i>
+                                Manufacturer Part No
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.FTPSettingEntry.FieldMapping.ManufacturerPartNo)
+                                @Html.EditorFor(x => x.FTPSettingEntry.FieldMapping.ManufacturerPartNo)
+                            </div>
+                        </div>
+                        <div class="row">
+                            @if (Model.FTPSettingEntry.Lookup.LookupName != "Competitor Inventory")
+                            {
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Please enter the column heading that identifies the product description." data-helpsid="2" data-helpeid="2"></i>
+                                    Product Description
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.FTPSettingEntry.FieldMapping.Description)
+                                    @Html.EditorFor(x => x.FTPSettingEntry.FieldMapping.Description)
+                                </div>
+                            }
+                            @if (Model.FTPSettingEntry.Lookup.LookupName == "Competitor Inventory")
+                            {
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The name of the competitor this feed relates to." data-helpsid="2" data-helpeid="2"></i>
+                                    Competitor Name
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.FTPSettingEntry.FieldMapping.Competitor)
+                                    @Html.EditorFor(x => x.FTPSettingEntry.FieldMapping.Competitor)
+                                </div>
+                            }
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Please enter the column heading that identifies the Price of the product." data-helpsid="2" data-helpeid="2"></i>
+                                Price
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.FTPSettingEntry.FieldMapping.Price)
+                                @Html.EditorFor(x => x.FTPSettingEntry.FieldMapping.Price)
+                            </div>
+                        </div>
+                        @if (Model.FTPSettingEntry.Lookup.LookupName == "Product Inventory")
+                        {
+                            <div class="row">
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="(Optional) Please enter the column heading that identifies the linked Brand." data-helpsid="2" data-helpeid="2"></i>
+                                    Linked Brand
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.FTPSettingEntry.FieldMapping.LnKdManufacturer)
+                                    @Html.EditorFor(x => x.FTPSettingEntry.FieldMapping.LnKdManufacturer)
+                                </div>
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="(Optional) Please enter the column heading that identifies the linked Manufacturer Part Number." data-helpsid="2" data-helpeid="2"></i>
+                                    Linked Part Number
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.FTPSettingEntry.FieldMapping.LnKdManufacturerPartNo)
+                                    @Html.EditorFor(x => x.FTPSettingEntry.FieldMapping.LnKdManufacturerPartNo)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Please enter the column heading that identifies the product Category." data-helpsid="2" data-helpeid="2"></i>
+                                    Product Category
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.FTPSettingEntry.FieldMapping.ProductCategory)
+                                    @Html.EditorFor(x => x.FTPSettingEntry.FieldMapping.ProductCategory)
+                                </div>
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Please enter the column heading that identifies if the product is a key line." data-helpsid="2" data-helpeid="2"></i>
+                                    Key Line
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.FTPSettingEntry.FieldMapping.IsKeyLine)
+                                    @Html.EditorFor(x => x.FTPSettingEntry.FieldMapping.IsKeyLine)
+                                </div>
+                            </div>
+                        }
+                        <div class="row">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Please enter the column heading that identifies your unique identifier for the product." data-helpsid="2" data-helpeid="2"></i>
+                                Client Product ID
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.FTPSettingEntry.FieldMapping.ClientProductID)
+                                @Html.EditorFor(x => x.FTPSettingEntry.FieldMapping.ClientProductID)
+                            </div>
+                            <div class="col-md-2 form-name"></div>
+                            <div class="col-md-4 form-value"></div>
+
+                            @if (Model.FTPSettingEntry.Lookup.LookupName == "Supplier Inventory")
+                            {
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Please enter the column heading that identifies the stock Quantity." data-helpsid="2" data-helpeid="2"></i>
+                                    Quantity
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.FTPSettingEntry.FieldMapping.StockQuantity)
+                                    @Html.EditorFor(x => x.FTPSettingEntry.FieldMapping.StockQuantity)
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <div id="ftpsetting" class="form-actions">
+                    <div class="pull-left form-message">
+                        <i class="fa fa-spinner fa-pulse" style="display: none" />
+                        <span></span>
+                    </div>
+
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        @Ajax.HtmlActionLink("<i class=\"fa fa-trash\"></i> Delete",
+                             "Delete",
+                             "FtpSettings",
+                             new { id = Model.FTPSettingEntry.FTPSettingsID },
+                             new AjaxOptions()
+                             {
+                                 HttpMethod = "DELETE",
+                                 Confirm = "Are you sure you want to delete this feed?",
+                                 OnComplete = "deleteFtpComplete"
+                                 //OnSuccess = "deleteFtpComplete(" + Model.FTPSettingEntry.FTPSettingsID.ToString() + ");"
+                             },
+                             new
+                             {
+                                 @class = "pull-right g-m-r-10 form-delete btn btn-default btn-sm"
+                             })
+
+                        @*@Ajax.HtmlActionLink("<i class=\"fa fa-trash\"></i> Delete",
+                            "TriggerBatchProcess",
+                            "Shared",
+                            new
+                            {
+                                process = "deleteftpsetting",
+                                channelId = Model.FTPSettingEntry.ChannelFK.ToString(),
+                                attributes = "t|deleteftpsetting,tt|" + Model.Channel.TenantFK.ToString() + ",ch|" + Model.FTPSettingEntry.ChannelFK.ToString() + "id|" + Model.FTPSettingEntry.FTPSettingsID.ToString() + ",i|activemode",
+                                runImmediately = false
+                            },
+                            new AjaxOptions()
+                            {
+                                HttpMethod = "POST",
+                                Confirm = "Are you sure you want to delete this ftp setting?",
+                                OnComplete = "deleteFtpComplete(" + Model.FTPSettingEntry.FTPSettingsID.ToString() + ");"
+                            },
+                            new
+                            {
+                                @class = "pull-right g-m-r-10 form-delete btn btn-default btn-sm"
+                            })*@
+                    }
+                    <button type="button" class="pull-right g-m-r-10 g-cur-p form-cancel btn btn-default btn-sm cancel">
+                        <i class="fa fa-times"></i> Cancel
+                    </button>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Save" name="action:Update">
+                            <i class="fa fa-floppy-o"></i> Save
+                        </button>
+                        <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Test" name="action:Test">
+                            <i class="fa fa-check"></i> Test
+                        </button>
+                    }
+                </div>
+            </section>
+        }
+    </td>
+</tr>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+
+            $(document).on('click', '#FTPSettingEntry_UseSkuuudleLite', function () {
+                checkSkuuudleLite($('#FTPSettingEntry_UseSkuuudleLite'));
+            });
+
+        })
+
+        function checkSkuuudleLite(o) {
+            if (o.is(':checked')) {
+                $('sl-zipfile').show();
+                $('sl-summfile').show();
+            } else {
+                $('sl-zipfile').hide();
+                $('sl-summfile').hide();
+
+            }
+        }
+    </script>
+}

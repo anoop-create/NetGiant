@@ -1,0 +1,30 @@
+﻿@using netGiant.Intranet.DataLayer.NetgiantMasterData;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<eqFamilyMembership>
+
+@if (ViewBag.ShowEquipment)
+{
+    foreach (var item in Model)
+    {
+        <div class="familyContainer">
+            @Html.Raw("<span class=\"g-w-400 g-d-ib\">" + item.eqEquipment.description + "</span>")
+            @*@Html.Hidden("eqFamilyMembershipID", item.eqFamilyMembershipID)
+            @Html.Hidden("eqFamilyID", item.eqFamilyID)
+            @Html.Hidden("eqEquipmentID", item.eqEquipmentID)
+            <a href="#" class="lnkDelete" value="@item.eqEquipmentID">Delete</a>*@
+        </div>
+    }
+}
+else
+{
+    foreach (var item in Model)
+    {
+        <div class="familyContainer">
+            @Html.Raw("<span class=\"g-w-400 g-d-ib\">" + item.eqFamily.description + "</span>")
+            @Html.Hidden("eqFamilyMembershipID", item.eqFamilyMembershipID)
+            @Html.Hidden("eqFamilyID", item.eqFamilyID)
+            @Html.Hidden("eqEquipmentID", item.eqEquipmentID)
+            <a href="#" class="lnkDelete" value="@item.eqFamilyMembershipID">Delete</a>
+        </div>
+    }
+}

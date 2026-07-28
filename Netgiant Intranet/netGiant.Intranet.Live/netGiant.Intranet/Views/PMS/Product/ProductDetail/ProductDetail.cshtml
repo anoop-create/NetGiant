@@ -1,0 +1,453 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product;
+@model ProductDetailViewModel
+
+@{
+    ViewBag.Title = "Product Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var prd = Model.ProductDetail;
+    var af = prd.AxisFields;
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title - @Model.ProductDetail.partNo, @Model.ProductDetail.productName</h4>
+
+        @if (af == null)
+        {
+            <div class="text-danger">Axis Records Not Found!</div>
+        }
+
+        <div class="productFieldTabs prd_detailContainer">
+            <ul>
+                <li><a href="#tabs-1">General</a></li>
+                <li><a href="#tabs-2">Attributes</a></li>
+                <li><a href="#tabs-3">Prices</a></li>
+                <li><a href="#tabs-4">Site Specific</a></li>
+
+                @if (Model.ProductDetail.productItemTypeFK == 2)
+                {
+                    <li><a href="#tabs-5">Components</a></li>
+                }
+                
+                <li><a href="#tabs-6">Queue</a></li>
+
+                @if (Model.WhereUsed.Count > 0)
+                { 
+                    <li><a href="#tabs-7">Where Used</a></li>
+                }
+
+                <li><a href="#tabs-8">Equipment</a></li>
+            </ul>
+            <fieldset class="g-b-1dg g-m-t-10">
+                <legend>Product Details</legend>
+                <div class=" g-m-t-10">
+                    <div class="g-w-15p g-f-l"><b>Stock Reference: @Html.DisplayFor(x => af.stockReference)</b></div>
+                    <div class="g-w-15p g-f-l"><b>Alt Reference: @Html.DisplayFor(x => prd.partNo)</b></div>
+                    <div class="g-w-40p g-f-l"><b>Product Description: @Html.DisplayFor(x => prd.productName)</b></div>
+                    <div class="g-w-20p g-f-l"><b>Product Status: @Html.DisplayFor(x => prd.productStatus.productStatusName)</b></div>
+                    @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+                    {
+                        <div class="g-w-10p g-f-l">@Html.ActionLink("Edit Product", "CreateProduct/" + prd.productID.ToString(), "Product", null, new { @class = "btn btn-default" })</div>
+                    }
+                    
+                </div>
+            </fieldset>
+
+            <div id="tabs-1">
+                <div class="g-f-l g-p-t-10 g-w-50p">
+                    <fieldset class="g-b-1dg">
+                        <legend>Categorisation</legend>
+                        <table class="table noHeader g-w-100p">
+                            <tr>
+                                <td class="g-w-40p">Product Group</td>
+                                <td class="g-w-60p">@Html.DisplayFor(x => prd.productGroup.productGroupName)</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Purchase Nominal a/c</td>
+                                <td class="g-w-60p">@Html.DisplayFor(x => prd.productGroup.productGroupName)</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Item Type</td>
+                                <td class="g-w-60p">@Html.DisplayFor(x => prd.productItemType.productItemTypeName)</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Re-saleable Item</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.reSaleable.ToString() : "")</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Discontinued Item</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.discontinuedItem.ToString() : "")</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Sales Group</td>
+                                <td class="g-w-60p">@Html.DisplayFor(x => prd.salesAreaGroup.salesAreaGroupName)</td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                    <fieldset class="g-m-t-10 g-b-1dg">
+                        <legend>Website Inventory</legend>
+                        <table class="table noHeader g-w-100p">
+                            @foreach (var web in Model.ProductDetail.websiteInventory.OrderBy(x => x.Website.FriendlyName))
+                            {
+                                <tr>
+                                    <td class="g-w-40p">@Html.DisplayFor(m => web.Website.FriendlyName)</td>
+                                    <td class="g-w-60p">
+                                        @Html.Raw(web.categoryCode != null ? web.categoryCode.categoryCodeName : "")
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </fieldset>
+                    <fieldset class="g-m-t-10 g-b-1dg">
+                        <legend>eBusiness Groups</legend>
+                        <table class="table noHeader g-w-100p">
+                            @foreach (var grp in Model.ProductDetail.AxisEbusinessMapping.OrderBy(x => x.eBusinessRef))
+                            {
+                                <tr>
+                                    <td class="g-w-50p">@Html.DisplayFor(m => grp.AxisEbusiness.description)</td>
+                                    <td class="g-w-25p">
+                                        @Html.DisplayFor(m => grp.eBusinessRef)
+                                    </td>
+                                    <td class="g-w-25p">
+                                        @if (grp.eBusinessPrimary)
+                                        {
+                                            @Html.DisplayFor(m => grp.eBusinessPrimary);
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </fieldset>
+                </div>
+                <div class="g-f-l g-p-t-10 g-w-50p">
+                    <fieldset class="g-b-1dg">
+                        <legend>Other</legend>
+                        <table class="table noHeader g-w-100p">
+                            <tr>
+                                <td class="g-w-40p">Default Delivery To Customer</td>
+                                <td class="g-w-60p">@Html.DisplayFor(m => af.defaultDeliveryToCust)</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Page Yield</td>
+                                <td class="g-w-60p">@Html.DisplayFor(m => prd.pageYield)</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Manufacturers Reference</td>
+                                <td class="g-w-60p">@Html.DisplayFor(m => prd.manuReference)</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Supplier Stock</td>
+                                <td class="g-w-60p">@Html.DisplayFor(m => prd.supplierStock)</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Barcode</td>
+                                <td class="g-w-60p">@Html.Raw("<a class=\"barcodeLink\" href=\"#\">" + prd.barcode + "</a>")</td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                    <fieldset class="g-m-t-10 g-b-1dg">
+                        <legend>Stock eBusiness Details</legend>
+                        <table class="table noHeader g-w-100p">
+                            <tr>
+                                <td class="g-w-40p">Published</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.published.ToString() : "")</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Featured</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.featured.ToString() : "")</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Best Seller</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.bestSeller.ToString() : "")</td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                    <fieldset class="g-m-t-10 g-b-1dg">
+                        <legend>Open Range Content</legend>
+                        <table class="table noHeader g-w-100p">
+                            <tr>
+                                <td class="g-w-40p">Suppress Open Range Image</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.supressOpenRangeImage.ToString() : "")</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Suppress Open Range Spec</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.supressOpenRangeSpec.ToString() : "")</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Addition Info URL</td>
+                                <td class="g-w-60p">@Html.DisplayFor(m => af.additionalInfoUrl)</td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                    <fieldset class="g-m-t-10 g-b-1dg">
+                        <legend>Cross Selling Links</legend>
+                        <table class="table noHeader g-w-100p">
+                            @foreach (var cross in Model.ProductDetail.crossSellingLink)
+                            {
+                                <tr>
+                                    <td class="g-w-40p">
+                                        @Html.Raw(cross.product1.partNo)
+                                    </td>
+                                    <td class="g-w-60p">
+                                        @Html.Raw(cross.product1.productName) 
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div id="tabs-2">
+                <div class="g-f-l g-p-t-10 g-w-50p">
+                    <fieldset class="g-b-1dg">
+                        <legend>Specification Lines</legend>
+                        <table class="table noHeader g-w-100p">
+                            <tr>
+                                <td class="g-w-40p">Specification 1</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.spec1 != null ? af.spec1 : "&nbsp;" : "")</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Specification 2</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.spec2 != null ? af.spec2 : "&nbsp;" : "")</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Specification 3</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.spec3 != null ? af.spec3 : "&nbsp;" : "")</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Specification 4</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.spec4 != null ? af.spec4 : "&nbsp;" : "")</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Specification 5</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.spec5 != null ? af.spec5 : "&nbsp;" : "")</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Specification 6</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.spec6 != null ? af.spec6 : "&nbsp;" : "")</td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                </div>
+
+                <div class="g-f-l g-p-t-10 g-w-50p">
+                    <fieldset class="g-b-1dg">
+                        <legend>Attributes</legend>
+                        <table class="table noHeader g-w-100p">
+                            <tr>
+                                <td class="g-w-40p">Attribute 1</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.Attribute1Description != null ? af.Attribute1Description : "&nbsp;" : "")</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Attribute 2</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.Attribute2Description != null ? af.Attribute2Description : "&nbsp;" : "")</td>
+                            </tr>
+
+                            <tr>
+                                <td class="g-w-40p">Attribute 3</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.Attribute3Description != null ? af.Attribute3Description : "&nbsp;" : "")</td>
+                            </tr>
+
+                            <tr>
+                                <td class="g-w-40p">Attribute 4</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.Attribute4Description != null ? af.Attribute4Description : "&nbsp;" : "")</td>
+                            </tr>
+
+                            <tr>
+                                <td class="g-w-40p">Attribute 5</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.Attribute5Description != null ? af.Attribute5Description : "&nbsp;" : "")</td>
+                            </tr>
+
+                            <tr>
+                                <td class="g-w-40p">Attribute 6</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.Attribute6Description != null ? af.Attribute6Description : "&nbsp;" : "")</td>
+                            </tr>
+                            <tr>
+                                <td class="g-w-40p">Attribute 7</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.Attribute7Description != null ? af.Attribute7Description : "&nbsp;" : "")</td>
+                            </tr>
+
+                            <tr>
+                                <td class="g-w-40p">Attribute 8</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.Attribute8Description != null ? af.Attribute8Description : "&nbsp;" : "")</td>
+                            </tr>
+
+                            <tr>
+                                <td class="g-w-40p">Attribute 9</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.Attribute9Description != null ? af.Attribute9Description : "&nbsp;" : "")</td>
+                            </tr>
+
+                            <tr>
+                                <td class="g-w-40p">Attribute 10</td>
+                                <td class="g-w-60p">@Html.Raw(af != null ? af.Attribute10Description != null ? af.Attribute10Description : "&nbsp;" : "")</td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div id="tabs-3">
+                @{Html.RenderPartial("~/Views/PMS/Product/ProductDetail/PricingDetails.cshtml", Model);}
+            </div>
+
+            <div id="tabs-4">
+                @{Html.RenderPartial("~/Views/PMS/Product/ProductDetail/SiteSpecific.cshtml", Model);}
+            </div>
+
+            @if (Model.ProductDetail.productItemTypeFK == 2)
+            {
+                <div id="tabs-5">
+                    <div class="g-f-l g-p-t-10 g-w-100p">
+                        <fieldset class="g-b-1dg">
+                            <legend>Components</legend>
+                            @{Html.RenderPartial("~/Views/PMS/Product/ProductDetail/AssemblyComponentsData.cshtml", Model);}
+                        </fieldset>
+                    </div>
+                </div>
+            }
+            
+            <div id="tabs-6">
+                <div class="g-f-l g-p-t-10 g-w-50p">
+                    <fieldset class="g-b-1dg">
+                        <legend>Add to Axis Queue</legend>
+                        <table class="table noHeader g-w-100p">
+                            <tr>
+                                <td>@Html.ActionLink("All Details", "AddToAxisQueueAll", "Product", new { productFK = prd.productID.ToString() }, new { @class = "btn btn-default" })</td>
+                                <td>@Html.ActionLink("Price Only", "AddToAxisQueuePrice", "Product", new { productFK = prd.productID.ToString() }, new { @class = "btn btn-default" })</td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                </div>
+            </div>
+            
+            @if (Model.WhereUsed.Count > 0)
+            { 
+                <div id="tabs-7">
+                    <div class="g-f-l g-p-t-10 g-w-50p">
+                        <fieldset class="g-b-1dg">
+                            <legend>Assemblies Component Used In</legend>
+                            <table class="table noHeader g-w-100p">
+                                @foreach (var item in Model.WhereUsed)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.ActionLink(item.partNo + " - " + item.productName, "Detail", "Product", new { id = item.productID }, null)
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </fieldset>
+                    </div>
+                </div>
+            }
+
+            <div id="tabs-8">
+                <br />
+
+                <input id="hiddenProductID" value="@Model.ProductDetail.productID" type="hidden" />
+
+                <div id="membershipDataPartialView">
+                    @{Html.RenderPartial("~/Views/PMS/Product/ProductDetail/EquipMemberships.cshtml", Model.ProductMembership);}
+                </div>
+
+                <div id="eqMembershipDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+                    Are you sure ?
+                </div>
+
+                <input type="hidden" id="activeSortType" />
+                <input type="hidden" id="activeSortDir" />
+                <input type="hidden" id="historyPage" />
+            </div>
+        </div>
+        <div id="eanSearchDialogue" title="EAN Search" class="g-d-n" style="overflow: hidden;"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" defer="defer">
+
+        var optionsArray;
+
+        $(document).ready(function () {
+            $(".productFieldTabs").tabs();
+        });
+
+        $(document).on('click', '.barcodeLink', function () {
+            $('body').append('<div id="updatingContainer" style="z-index: 102;"></div>');
+            $('#eanSearchDialogue').html('<div class="g-ps-r g-of-h eanB_popup"><iframe id="eanIframe" src="https://www.barcodelookup.com/' + $(this).text() + '" class="g-ps-a" frameborder="0"></iframe></div>');
+            $('#eanIframe').load(function () { $('#updatingContainer').remove(); });
+            $("#eanSearchDialogue").dialog({
+                modal: true,
+                width: 1000,
+                height: 620
+            });
+
+            return false;
+        });
+
+        $(document).on('click', '.deleteProductRelationship', function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete("#eqMembershipDialog", $("#ProductMemDeleteURL").val(), $(this).attr("value"),
+                                "#membershipDataPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+            return false;
+        });
+
+        $(document).on("click", "#eqMembershipPaging a", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            applyStandardPaging(event, 0);
+
+            return false;
+        });
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging();
+            standardPaging(event, id, "#eqMembershipPaging", $("#ProductMemDataURL").val(),
+                "#membershipDataPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#hiddenProductID").val();
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[1] = sortType + sortDir;
+            } else {
+                optionsArray[1] = '';
+            }
+        }
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value");
+            optionsArray[1] = $("#hiddenProductID").val();
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[2] = sortType + sortDir;
+            } else {
+                optionsArray[2] = '';
+            }
+        }
+
+
+        $(document).tooltip({
+            items: '*:not(.ui-dialog-titlebar-close)'
+        });
+
+    </script>
+}

@@ -1,0 +1,71 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Admin
+@model ConfigurationSettingViewModel
+
+@{
+    ViewBag.Title = "Create Configuration Setting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+
+        <div class="form-horizontal">
+
+            @using (Html.BeginForm("Save", "ConfigurationSetting"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.Setting.configurationSettingID)
+
+                <div class="form-group">
+                    @Html.Label("Section Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Setting.sectionName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.Setting.sectionName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Setting Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Setting.settingName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.Setting.settingName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Setting Value", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(x => x.Setting.settingValue, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(x => x.Setting.settingValue, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Website", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.Setting.websiteFK, Model.WebsiteList, "Select...", new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(model => model.Setting.websiteFK, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Description", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(x => x.Setting.description, new { @class = "form-control g-largeCell-textArea", rows = 5 })
+                        @Html.ValidationMessageFor(x => x.Setting.description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveSetting" value="Save" class="btn btn-default" title="Save" />
+                        @Html.ActionLink("Cancel", "Index", "ConfigurationSetting", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

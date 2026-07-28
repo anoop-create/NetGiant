@@ -1,0 +1,41 @@
+﻿@using DP001DataAccess.Entities;
+@model List<CustomField>
+
+<table id="customfield" class="table table-hover" data-url="@Url.Action("Edit", "CustomField")">
+    <thead>
+        <tr>
+            <th>Custom Field Name</th>
+            <th>Field Type</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customfield in Model)
+        {
+            <tr class="list-form-row" data-id="@customfield.CustomFieldID">
+                <td style="padding: 5px;">
+                    @Html.DisplayFor(m => customfield.UserFieldName)
+                </td>
+                <td style="padding: 5px;">
+                    @Html.DisplayFor(m => customfield.Lookup.LookupName)
+                </td>
+                <td width="40px">
+                    <i class="fa fa-chevron-down" />
+                </td>
+            </tr>
+        }
+    </tbody>
+
+    <tfoot>
+        <tr class="list-form-row" data-newurl="@(Url.Action("New", "CustomField", new {  }))">
+            <td colspan="100%">
+                @if (User.IsInRole("Administrator"))
+                {
+                    <button class="pull-right g-m-tb-5 g-cur-p btn btn-default btn-sm btn-add">
+                        <i class="fa fa-plus"></i> Add Custom Field
+                    </button>
+                }
+            </td>
+        </tr>
+    </tfoot>
+</table>

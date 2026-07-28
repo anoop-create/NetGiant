@@ -1,0 +1,91 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Orders;
+@using System.Globalization;
+@model OpayoViewModel
+
+@{
+    ViewBag.Title = "Opayo Tokens";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+</div>
+
+@Html.Hidden("CardDetailsLinkURL", Url.Action("CardDetailsData", "Opayo"))
+
+@(Html.Kendo().Grid<OpayoViewModel.TelerikOpayoToken>()
+    .HtmlAttributes(new { @class = "pointer-rows" })
+    .Name("opayoTokenGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.Account).Title("Account").Width("150px")
+        .HeaderHtmlAttributes(new { title = "Account", style = "text-align: center;" });
+        columns.Bound(x => x.Email).Title("Email")
+        .HeaderHtmlAttributes(new { title = "Email", style = "text-align: center;" });
+        columns.Bound(x => x.Uid).Title("Uid")
+        .HeaderHtmlAttributes(new { title = "Uid", style = "text-align: center;" });
+        columns.Bound(x => x.Website).Title("Website")
+        .HeaderHtmlAttributes(new { title = "Website", style = "text-align: center;" });
+        //columns.Bound(x => x.Token).Title("Token").Width("300px");
+        columns.Bound(x => x.Id).Title("Protx_string/response")
+        .HeaderHtmlAttributes(new { title = "Protx_string/response", style = "text-align: center;" })
+        .ClientTemplate(
+            "<a class=\"cardDetails\" value=\"#:Id#\" href=\"##\">Card Details</a>"
+        ).Width("180px").HtmlAttributes(new { @class = "g-a-c" });
+        columns.Bound(x => x.Date).Title("DateTime").Width("150px")
+        .HeaderHtmlAttributes(new { title = "DateTime", style = "text-align: center;" })
+        .ClientTemplate("#= kendo.toString(kendo.parseDate(Date, 'yyyy-MM-dd'), 'dd/MM/yyyy HH:mm:ss') #");
+    })
+    .Pageable(pager => pager.Refresh(true))
+    .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+    .Sortable(sortable => sortable.AllowUnsort(true))
+    .Groupable()
+    .Scrollable()
+    .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+    .ColumnMenu()
+    .Resizable(resize => resize.Columns(true))
+    .Reorderable(reorder => reorder.Columns(true))
+    .NoRecords("There are no opayo tokens to display")
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(x => x.Action("OpayoToken_Read", "Opayo"))
+        .Sort(s => s.Add(x => x.Date).Descending())
+        .PageSize(200)
+    )
+    .Events(e => e.DataBound("saveGridFilters"))
+)
+
+
+<div id="CardDetailsDialogue" class="g-d-n" title="Protx String/response"></div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).on("click", ".cardDetails", function () {
+            getCardDetailsData($("#CardDetailsLinkURL").val(), "#CardDetailsDialogue", $(this).attr("value"))
+            $("#CardDetailsDialogue").dialog({
+                modal: true,
+                width: 800
+            });
+            return false;
+        });
+
+        function getCardDetailsData(url, divPartialView, id) {
+            $.ajax({
+                url: url,
+                dataType: 'html',
+                traditional: true,
+                type: 'POST',
+                data: { id: id },
+                async: false,
+                cache: false,
+                success: function (data) {
+                    $('' + divPartialView + '').empty();
+                    $('' + divPartialView + '').html(data);
+                }
+            });
+        }
+    </script>
+}
+

@@ -1,0 +1,86 @@
+﻿@using DP001Website.Models;
+@using System.Web.Mvc;
+@using System.Web.Mvc.Html;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priceology - Optimised Pricing Software</title>
+    <link href="~/Content/images/favicon.ico" rel="icon" type="image/x-icon" />
+    @Styles.Render("~/Content/css")
+    <link href="@Url.Content("~/Content/saas.css")" rel="stylesheet" type="text/css" />
+</head>
+<body class="login-body">
+    <header>
+        <nav class="navbar navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" xdata-toggle="collapse" data-toggle="offcanvas" data-target="#navbar-links" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="fa fa-bars"></span>
+                    </button>
+                    <div class="g-m-r-20 brand-text">
+                        &nbsp;
+                        <a href="http://priceology.netgiant.com"></a>
+                    </div>
+                </div>
+                <div class="navbar-collapse collapse" id="navbar-links">
+                    <ul class="nav navbar-left text-nowrap nav-justified">
+                        @{ Html.RenderPartial("~/Views/Shared/Menu.cshtml",
+                     new { MenuType = "Public", MenuPosition = "Left", CurrentItem = "" }); }
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        @*<li class="">
+                             <div class="btn-group">
+                                 <button type="button" class="btn btn-header dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                     <i class="fa fa-user fa g-m-r-10"></i>
+                                     <i class="fa fa-caret-down"></i>
+                                 </button>
+                                 <ul class="dropdown-menu">
+                                     @{ Html.RenderPartial("~/Views/Shared/Menu.cshtml",
+    new { MenuType = "Public", MenuPosition = "Right", CurrentItem = "" }); }
+                                 </ul>
+                             </div>
+                         </li>
+                         <li class="">
+                             <button class="btn btn-header">
+                                 <a href="@Url.Action("Index", "Help")">
+                                     <i class="fa fa-question"></i>
+                                 </a>
+                             </button>
+                         </li>*@
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="container-fluid body-public">
+        <div class="row row-offcanvas row-offcanvas-left">
+            @RenderBody()
+            <div id="sidebar" class="col-xs-6 col-sm-3 sidebar-offcanvas">
+                <ul class="list-group list-unstyled">
+                    @{ Html.RenderPartial("~/Views/Shared/Menu.cshtml",
+                   new { MenuType = "Public", MenuPosition = "Left", CurrentItem = "" }); }
+                    <li role="separator"><hr /></li>
+                    @{ Html.RenderPartial("~/Views/Shared/Menu.cshtml",
+                   new { MenuType = "Public", MenuPosition = "Right", CurrentItem = "" }); }
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer class="container-fluid body-content">
+        <p class="text-center">Copyright &copy; @DateTime.Now.Year <span class="brand-text"></span></p>
+    </footer>
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

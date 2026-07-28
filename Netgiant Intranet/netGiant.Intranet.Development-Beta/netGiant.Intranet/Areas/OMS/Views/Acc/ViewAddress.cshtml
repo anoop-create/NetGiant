@@ -1,0 +1,54 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.OMS;
+@model AccViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody productFieldTabs">
+        <h4>
+            Address Details - @Model.Address.AddressId
+        </h4>
+
+        @if (Request["Edit"] == "No")
+        {
+            <a href="@(Url.Action("ViewAccount/" + Model.Address.AccountFk.ToString(), "Acc"))" class="btn btn-default">
+                Return
+            </a>
+        }
+        else
+        {
+            @Html.ActionLink(
+                "Edit Address",
+                "EditAddress/" + Model.Address.AddressId.ToString(),
+                "Acc",
+                null,
+                new { @class = "btn btn-default" })
+
+            <a href="@(Url.Action("EditAccount/" + Model.Address.AccountFk.ToString(), "Acc"))#AccountAddressesTab" class="btn btn-default">
+                Return
+            </a>
+        }
+
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Address Details</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Type:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Address.AddressType)</b>&nbsp;</div>
+                <div class="col-lg.6">&nbsp;</div>
+                <div class="col-lg-3">Line 1:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Address.Line1)</b>&nbsp;</div>
+                <div class="col-lg.6">&nbsp;</div>
+                <div class="col-lg-3">Line 2:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Address.Line2)</b>&nbsp;</div>
+                <div class="col-lg.6">&nbsp;</div>
+                <div class="col-lg-3">Line 3:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Address.Line3)</b>&nbsp;</div>
+                <div class="col-lg.6">&nbsp;</div>
+                <div class="col-lg-3">Line 4:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Address.Line4)</b>&nbsp;</div>
+                <div class="col-lg.6">&nbsp;</div>
+                <div class="col-lg-3">Line 5:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Address.Line5)</b>&nbsp;</div>
+                <div class="col-lg.6">&nbsp;</div>
+                <div class="col-lg-3">Postcode:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Address.Postcode)</b>&nbsp;</div>
+            </div>
+        </fieldset>
+    </div>
+</div>
+

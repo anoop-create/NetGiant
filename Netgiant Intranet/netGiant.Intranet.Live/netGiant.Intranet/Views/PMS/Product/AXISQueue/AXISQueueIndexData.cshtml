@@ -1,0 +1,68 @@
+﻿@using netGiant.Intranet.DataLayer;
+@using PagedList.Mvc;
+
+@model PagedList.IPagedList<AXISQueueDetails>
+
+@Html.Hidden("PageCount", Model.PageCount)
+@Html.Hidden("PageNumber", Model.PageNumber)
+@Html.Hidden("PageSize", Model.PageSize)
+
+<div>
+    <span>&nbsp;</span>
+    <span class="g-f-r">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</span>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            <a href="#" class="tableHeaderSort" value="entityName">Entity Name</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="fieldName">Field Name</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="createdDate">Created Date</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="completedDate">Completed Date</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="crud">Type</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="partNo">Part No</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var queueDetail in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(m => queueDetail.entityName)</td>
+            <td>@Html.DisplayFor(m => queueDetail.fieldName)</td>
+            <td>@Html.DisplayFor(m => queueDetail.createdDate)</td>
+            <td>@Html.DisplayFor(m => queueDetail.completedDate)</td>
+            <td>@Html.DisplayFor(m => queueDetail.CRUD)</td>
+            <td>@Html.DisplayFor(m => queueDetail.AXISQueue.product.partNo)</td>
+            <td></td>
+        </tr>
+    }
+</table>
+<br />
+<div id="axisQueuePaging" class="g-a-c">
+    @Html.PagedListPager(Model, p => "#")
+</div>
+
+@{
+    string infoBoxText = Convert.ToString(@TempData["InformationBoxFlag"]);
+    if (infoBoxText != string.Empty)
+    {
+        <div id="infoBoxFlag" class="g-d-n">@TempData["InformationBoxFlag"]</div>
+    }
+}

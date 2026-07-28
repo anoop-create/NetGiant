@@ -1,0 +1,31 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model DashboardViewModel
+
+<div class="col-xs-12 col-sm-6 col-lg-3 dashlet">
+    <div class="g-bg-green g-m-b-20">
+        <div class="col-xs-8">
+            <h4><i class="fa fa-question-circle-o fa-lg help-popup g-m-r-10" data-toggle="tooltip" title="This shows when the last scheduled rule run was and when the next one will occur on the current channel." data-helpsid="2" data-helpeid="2"></i>Schedule</h4>
+            <div class="">
+                <div data-toggle="tooltip" title="This is when your price rules were last run, click here to view schedules." class="help-popup clearfix">
+                    <div class="pull-left dash-lablel text-right col-xs-4"><a href="@Url.Action("Main", "TenantSettings")#Schedules">Last Run</a></div>
+                    <div class="pull-left dash-value text-left col-xs-8"><a href="@Url.Action("Main", "TenantSettings")#Schedules">@Model.LastRunDate</a></div>
+                </div>
+                <div data-toggle="tooltip" title="This is when your price rules will next run, click here to view schedules." class="help-popup clearfix">
+                    <div class="pull-left dash-lablel text-right col-xs-4"><a href="@Url.Action("Main", "TenantSettings")#Schedules">Next Run</a></div>
+                    <div class="pull-left dash-value text-left col-xs-8"><a href="@Url.Action("Main", "TenantSettings")#Schedules">@Model.NextRunDate</a></div>
+                </div>
+                <div data-toggle="tooltip" class="g-fc-transparent">
+                    <div class="pull-left dash-lablel text-right col-xs-8">X</div>
+                    <div class="pull-left dash-value text-left col-xs-4">X</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4 dash-img">
+            <span class="fa-stack" style="font-size:26px;">
+                <i class="fa fa-calendar fa-stack-2x"></i>
+                <i class="fa fa-circle fa-badge-bg-b g-fc-green-alt"></i>
+                <i class="fa fa-clock-o fa-badge-b"></i>
+            </span>
+        </div>
+    </div>
+</div>

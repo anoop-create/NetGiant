@@ -1,0 +1,78 @@
+﻿@using netGiant.Intranet.DataLayer;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<crossSellingLink>
+
+@Html.Hidden("PageCount", Model.PageCount)
+@Html.Hidden("PageNumber", Model.PageNumber)
+@Html.Hidden("PageSize", Model.PageSize)
+@Html.Hidden("CrossSellingLinkDataURL", Url.Action("LinksData", "CrossSellingLink"))
+@Html.Hidden("CrossSellingLinkDeleteURL", Url.Action("Delete", "CrossSellingLink"))
+
+<div>
+    @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+    {
+        @Html.ActionLink("Create New", "Create", "CrossSellingLink", new { id = 0 }, new { @title = "Create new" })
+    }
+    else
+    {
+        @Html.Raw("&nbsp");
+    }
+    <span class="g-f-r">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</span>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            <a href="#" class="tableHeaderSort" value="aPartNo">A Part No</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="aProductName">A Product Name</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="bPartNo">B Part No</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="bProductName">A Product Name</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th>
+            <a href="#" class="tableHeaderSort" value="type">Type</a>
+            <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var cs in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(m => cs.product.partNo)</td>
+            <td>@Html.DisplayFor(m => cs.product.productName)</td>
+            <td>@Html.DisplayFor(m => cs.product1.partNo)</td>
+            <td>@Html.DisplayFor(m => cs.product1.productName)</td>
+            <td>@Html.DisplayFor(m => cs.crossSellingLinkType.crossSellingLinkTypeName)</td>
+            <td>
+                @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+                {
+                    @Html.ActionLink("Edit", "Create", "CrossSellingLink", new { id = cs.crossSellingLinkID }, null);
+                    @Html.Raw(" | ");
+                    @Html.ActionLink("Delete", "#", null, new { @class = "lnkDeleteCrossLink", value = cs.crossSellingLinkID });
+                }
+            </td>
+        </tr>
+    }
+</table>
+<br />
+<div id="crossSellingLinkPaging" class="g-a-c">
+    @Html.PagedListPager(Model, p => "#")
+</div>
+
+@{
+    string infoBoxText = Convert.ToString(@TempData["InformationBoxFlag"]);
+    if (infoBoxText != string.Empty)
+    {
+        <div id="infoBoxFlag" class="g-d-n">@TempData["InformationBoxFlag"]</div>
+    }
+}

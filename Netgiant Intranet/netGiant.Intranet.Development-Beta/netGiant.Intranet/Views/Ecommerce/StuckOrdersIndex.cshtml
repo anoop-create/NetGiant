@@ -1,0 +1,176 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce;
+@model StuckOrdersViewModel
+
+@{
+    ViewBag.Title = "Orders Waiting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+</div>
+
+@(Html.Kendo().Grid<StuckOrdersViewModel.Telerik>()
+        .HtmlAttributes(new { @class = "pointer-rows" })
+        .Name("stuckOrdersGrid")
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("StuckOrders_Read", "Ecommerce"))
+            .PageSize(200)
+            .Sort(sort => sort
+                .Add(x => x.Timestamp).Descending())
+            .Aggregates(aggregates =>
+            {
+                aggregates.Add(field => field.Net).Sum();
+                aggregates.Add(field => field.Vat).Sum();
+            })
+            )
+        .Columns(columns =>
+        {
+            columns.Bound(stuck => stuck.Website).Title("Website").Width(50)
+                .HeaderHtmlAttributes(new { title = "Website", style = "text-align: center;" });
+            columns.Bound(stuck => stuck.Timestamp).Title("Timestamp").Width(100)
+                .ClientTemplate("#= kendo.toString(kendo.parseDate(Timestamp, 'yyyy-MM-dd'), 'dd/MM/yyyy (HH:mm:ss)') #")
+                .HeaderHtmlAttributes(new { title = "Timestamp", style = "text-align: center;" });
+            columns.Bound(stuck => stuck.OrderNumber).Title("Order Number").Width(80)
+                .HeaderHtmlAttributes(new { title = "Order Number", style = "text-align: center;" });
+            columns.Bound(stuck => stuck.AccountNumber).Title("Account Number").Width(80)
+                .HeaderHtmlAttributes(new { title = "Account Number", style = "text-align: center;" });
+            columns.Bound(stuck => stuck.UserNumber).Title("User Count").Width(60)
+                .HeaderHtmlAttributes(new { title = "User Count", style = "text-align: center;" });
+            columns.Bound(stuck => stuck.Email).Title("Email").Width(200)
+                .HeaderHtmlAttributes(new { title = "Email", style = "text-align: center;" })
+                .ClientGroupFooterTemplate("<div class=\"g-a-r\">Sub Totals:</div>")
+                .ClientFooterTemplate("<div class=\"g-a-r\">Totals:</div>");
+            columns.Bound(stuck => stuck.Net).Title("Net").Width(100)
+                .HtmlAttributes(new { style = "text-align: right;" })
+                .HeaderHtmlAttributes(new { title = "Net", style = "text-align: center;" })
+                .ClientGroupFooterTemplate("<div class=\"g-a-r\">#=kendo.toString(sum, 'N')#</div>")
+                .ClientFooterTemplate("<div class=\"g-a-r\">#=kendo.toString(sum, 'N')#</div>");
+            columns.Bound(stuck => stuck.Vat).Title("Vat").Width(100)
+                .HtmlAttributes(new { style = "text-align: right;" })
+                .HeaderHtmlAttributes(new { title = "Vat", style = "text-align: center;" })
+                .ClientGroupFooterTemplate("<div class=\"g-a-r\">#=kendo.toString(sum, 'N2')#</div>")
+                .ClientFooterTemplate("<div class=\"g-a-r\">#=kendo.toString(sum, 'N2')#</div>");
+            //columns.Bound(stuck => stuck.Imported).Title("Comments").Width(90)
+            //    .HeaderHtmlAttributes(new { title = "Comments", style = "text-align: center;" });
+            columns.Command(command => command.Custom("Resolved").Click("markResolved")).Width(50).HtmlAttributes(new { @class = "hello" }).Width(90);
+        })
+        .Pageable(pager => pager.Refresh(true))
+        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable
+            .AllowUnsort(true))
+        .Groupable()
+        .Scrollable()
+        .Filterable(ftb => ftb
+            .Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .Excel(excel => excel
+            .AllPages(true)
+            .FileName("Grid Export")
+            .Filterable(true)
+            .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+        .NoRecords("There are no items to display")
+        .Events(events => events.Change("Grid_OnRowSelect").DataBound("saveGridFilters"))
+        .Selectable()
+)
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 1000px;">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Update Record Number For <span id="modal-stuckorder-orderno"></span></h4>
+            </div>
+            <div class="modal-body">
+                <div class="g-m-b-50">
+                    @using (Ajax.BeginForm("StuckOrderUpdRecord", "Ecommerce", new AjaxOptions { HttpMethod = "Post", OnComplete = "updateRecordNo" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.StuckOrdersEntry.Ref, new { id = "modal-stuckorder-ref" })
+                        @Html.HiddenFor(m => m.StuckOrdersEntry.DbName, new { id = "modal-stuckorder-dbname" })
+                        <div>
+                            <div class="g-f-l g-m-r-20 g-m-t-10 g-w-15p">Account Number:</div>
+                            @Html.TextBoxFor(m => m.StuckOrdersEntry.AccountNumber, new { id = "modal-stuckorder-accountno", @class = "form-control g-f-l g-w-20p g-m-r-20" })
+                        </div>
+                        <div class="g-c-b"></div>
+                        <div class="g-m-t-10">
+                            <div class="g-f-l g-m-r-20 g-m-t-10 g-w-15p">User Count:</div>
+                            @Html.TextBoxFor(m => m.StuckOrdersEntry.UserNumber, new { id = "modal-stuckorder-userno", @class = "form-control g-f-l g-w-20p g-m-r-20" })
+                        </div>
+                        <div class="g-c-b"></div>
+                        <input type="submit" name="saveStuckOrderEntry" value="Update" class="btn btn-default g-f-l g-m-t-20" title="Save" />
+                    }
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        var Grid_OnRowSelect = function (e) {
+            var data = this.dataItem(this.select());
+            $('#modal-stuckorder-ref').val(data.Ref);
+            $('#modal-stuckorder-dbname').val(data.DbName);
+            $('#modal-stuckorder-accountno').val(data.AccountNumber);
+            $('#modal-stuckorder-userno').val(data.UserNumber);
+            $('#modal-stuckorder-orderno').html(data.OrderNumber);
+            $('#myModal').modal();
+        }
+
+        function markResolved(e) {
+            var data = this.dataItem($(e.currentTarget).closest("tr"));
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("StuckOrderResolved", "Ecommerce")',
+                data: { id: data.Ref, dbName: data.DbName }
+            }).done(function (data) {
+                if (data.IsSuccess) {
+                    $.alert({
+                        title: 'Update Order',
+                        content: 'Update order SUCCEEDED.'
+                    });
+                    $("#grid").data("kendoGrid").dataSource.read();
+                } else {
+                    $.alert({
+                        title: 'Update Order',
+                        content: 'Update order FAILED. Error: ' + data.Message
+                    });
+                }
+            });
+
+            return false;
+        }
+
+        function updateRecordNo(data) {
+            if (!data.responseJSON.IsSuccess) {
+                $.alert({
+                    title: 'Update Order',
+                    content: 'Update order FAILED. Error: ' + data.Message
+                });
+            } else {
+                $('#myModal').modal('toggle');
+                $.alert({
+                    title: 'Update Order',
+                    content: 'Update order SUCCEEDED.'
+                });
+                $("#grid").data("kendoGrid").dataSource.read();
+            }
+
+            return false;
+        }
+
+    </script>
+}
+

@@ -1,0 +1,152 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.OMS
+@using PagedList.Mvc;
+@using Kendo.Mvc.UI;
+
+@model OrderViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody productFieldTabs">
+        <h4>
+            Order Detail - @("OR" + Model.Order.OrderId.ToString("D8")), @Model.Order.InternalOrderNo
+        </h4>
+
+        <span class="g-m-l-20">
+            @Html.ActionLink("Edit Order", "EditOrder/" + Model.Order.OrderId.ToString(), "Order", null, new { @class = "btn btn-default" })
+        </span>
+
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Dates</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Date Ordered:</div><div class="col-lg-3"><b>@Model.Order.DateOrdered.ToString("dd/MM/yyyy")</b>&nbsp;</div>
+                <div class="col-lg-3">Date Received:</div><div class="col-lg-3"><b>@Model.Order.DateReceived.ToString("dd/MM/yyyy")</b>&nbsp;</div>
+                <div class="col-lg-3">Due Date:</div><div class="col-lg-3"><b>@Model.Order.DueDate.ToString("dd/MM/yyyy")</b>&nbsp;</div>
+                <div class="col-lg-3">Date Completed:</div><div class="col-lg-3">
+                    <b>
+                        @(Model.Order.DateCompleted.HasValue ? Model.Order.DateCompleted.Value.ToString("dd/MM/yyyy") : " - ")
+                    </b>
+                    &nbsp;
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Order Details</legend>
+            <div class=" g-m-t-10 row">
+                @{
+                    string name = Model.Order.Contact.FirstName + " " + Model.Order.Contact.LastName;
+                }
+                <div class="col-lg-3">Ordered By:</div><div class="col-lg-3"><b>@Html.Raw(name)</b>&nbsp;</div>
+                <div class="col-lg-3">Ordered For:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.Contact.Account.Name)</b>&nbsp;</div>
+                <div class="col-lg-3">Customer Order No.:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.CustomerOrderNo)</b>&nbsp;</div>
+                <div class="col-lg-3">Internal Order No.:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.InternalOrderNo)</b>&nbsp;</div>
+                <div class="col-lg-3">Payment Method:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.PaymentMethod)</b>&nbsp;</div>
+                <div class="col-lg-3">Delivery Service:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.deliveryService.ServiceName)</b>&nbsp;</div>
+                <div class="col-lg-3">Order Source:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.OrderSource.Description)</b>&nbsp;</div>
+                <div class="col-lg-3">Order Status:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.OrderStatus)</b>&nbsp;</div>
+                <div class="col-lg-3">Customer Group:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.CustomerGroup)</b>&nbsp;</div>
+                <div class="col-lg-3">Customer Discount Group:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.CustomerDiscountGroup)</b>&nbsp;</div>
+                <div class="col-lg-3">Created By:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.CreatedBy)</b>&nbsp;</div>
+                <div class="col-lg-3">Last Modified By:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.LastModifiedBy)</b>&nbsp;</div>
+                <div class="col-lg-3">Notes:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.Notes)</b>&nbsp;</div>
+                <div class="col-lg-3">Location Code:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.LocationCode)</b>&nbsp;</div>
+                <div class="col-lg-3">Delivery Address:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.DeliveryAddress)</b>&nbsp;</div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Amounts</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Nett:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Model.Order.Nett.ToString("N")
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Cost:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Model.Order.Cost.ToString("N")
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+
+                <div class="col-lg-3">Vat:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Model.Order.Vat.ToString("N")
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Voucher Value:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Model.Order.VoucherValue.ToString("N")
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+
+                <div class="col-lg-3">Voucher Vat:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Model.Order.VoucherVat.ToString("N")
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+                <div class="col-lg-3">Voucher Code:</div>
+                <div class="col-lg-1 text-right">
+                    <b>
+                        @Html.DisplayFor(x => x.Order.VoucherCode)
+                    </b>
+                </div>
+                <div class="col-lg-2">&nbsp;</div>
+            </div>
+        </fieldset>
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Flags</legend>
+            <div class=" g-m-t-10 row">
+            </div>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">Is Completed:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.IsCompleted)</b></div>
+                <div class="col-lg-3">Is Amended:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.IsAmended)</b></div>
+                <div class="col-lg-3">Is Cancelled:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.IsCancelled)</b></div>
+                <div class="col-lg-3">Is Quotation:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.IsQuotation)</b></div>
+                <div class="col-lg-3">Is Vat Exempt:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.IsVatExempt)</b></div>
+                <div class="col-lg-3">Is Retail:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.IsRetail)</b></div>
+                <div class="col-lg-3">Is Approved:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.IsApproved)</b></div>
+                <div class="col-lg-3">Partial Release Is Suppressed:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.PartialReleaseIsSuppressed)</b></div>
+                <div class="col-lg-3">Auto Retrieved Items Present:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Order.AutoRetrievedItemsPresent)</b></div>
+            </div>
+        </fieldset>
+
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Order Lines</legend>
+            <table class="table g-bc-w">
+                <tr>
+                    <th>Line No</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Nett</th>
+                    <th>Vat</th>
+                    <th></th>
+                </tr>
+                @foreach (var ol in Model.OrderLineList)
+                {
+                    <tr>
+                        <td>@ol.LineNo.ToString()</td>
+                        <td>@ol.Description.ToString()</td>
+                        <td>@ol.Quantity.ToString()</td>
+                        <td>@ol.UnitPrice.ToString("N")</td>
+                        <td>@ol.Nett.ToString("N")</td>
+                        <td>@ol.Vat.ToString("N")</td>
+                        <td><a href="../ViewOrderLine/@ol.OrderLineId.ToString()?Edit=No">View</a></td>
+                    </tr>
+                }
+            </table>
+        </fieldset>
+    </div>
+</div>

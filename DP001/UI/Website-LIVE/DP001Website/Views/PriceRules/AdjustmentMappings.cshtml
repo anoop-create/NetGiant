@@ -1,0 +1,182 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001DataAccess.Entities;
+@model PriceRuleViewModel
+
+
+<div class="row">
+    <div class="col-md-2 form-name" style="justify-content: center;"></div>
+    <div class="col-md-3 form-name" style="justify-content: center;">
+        <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Enter a percentage adjustment that you wish to apply to the final calculated price." data-helpsid="2" data-helpeid="2"></i>
+        Adjustment (%)
+    </div>
+    <div class="col-md-3 form-name" style="justify-content: center;">
+        <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Enter a minimum margin to be respected for this adjustment." data-helpsid="2" data-helpeid="2"></i>
+        Minimum Margin (%)
+    </div>
+    <div class="col-md-3 form-name" style="justify-content: center;">
+        <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Enter a maximum margin to be respected for this adjustment." data-helpsid="2" data-helpeid="2"></i>
+        Maximum Margin (%)
+    </div>
+</div>
+
+
+@{
+    string fieldnumber = "";
+    foreach (CustomField cf in Model.AdjFieldList)
+    {
+        fieldnumber = cf.DBFieldName.Substring(cf.DBFieldName.Length - 1);
+
+        <div class="row">
+            <div class="col-md-2 form-name">
+                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="@cf.UserFieldName custom field." data-helpsid="2" data-helpeid="2"></i>
+                @cf.UserFieldName
+            </div>
+
+            <!-- Asjustment Field -->
+            <div class="col-md-3 form-value">
+                @switch (fieldnumber)
+                {
+                    case "1":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj1Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj1Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                        break;
+                    case "2":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj2Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj2Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                        break;
+                    case "3":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj3Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj3Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                        break;
+                    case "4":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj4Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj4Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                        break;
+                    case "5":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj5Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj5Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                        break;
+                    case "6":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj6Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj6Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                        break;
+                    case "7":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj7Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj7Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                        break;
+                    case "8":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj8Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj8Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                        break;
+                    case "9":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj9)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj9Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                        break;
+                    case "0":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AltPriceAdj10)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AltPriceAdj10Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                        break;
+                }
+            </div>
+
+            <!-- Asjustment Min Margin -->
+            <div class="col-md-3 form-value">
+                @switch (fieldnumber)
+                {
+                    case "1":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin1Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin1Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                        break;
+                    case "2":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin2Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin2Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                        break;
+                    case "3":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin3Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin3Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                        break;
+                    case "4":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin4Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin4Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                        break;
+                    case "5":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin5Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin5Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                        break;
+                    case "6":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin6Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin6Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                        break;
+                    case "7":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin7Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin7Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                        break;
+                    case "8":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin8Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin8Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                        break;
+                    case "9":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin9Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin9Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                        break;
+                    case "0":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMinMargin10Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMinMargin10Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " min margin field is required." })
+                        break;
+                }
+            </div>
+
+            <!-- Asjustment Max Margin -->
+            <div class="col-md-3 form-value">
+                @switch (fieldnumber)
+                {
+                    case "1":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin1Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin1Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " max margin field is required." })
+                        break;
+                    case "2":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin2Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin2Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " max margin field is required." })
+                        break;
+                    case "3":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin3Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin3Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " max margin field is required." })
+                        break;
+                    case "4":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin4Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin4Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " field is required." })
+                        break;
+                    case "5":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin5Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin5Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " max margin field is required." })
+                        break;
+                    case "6":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin6Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin6Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " max margin field is required." })
+                        break;
+                    case "7":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin7Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin7Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " max margin field is required." })
+                        break;
+                    case "8":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin8Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin8Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " max margin field is required." })
+                        break;
+                    case "9":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin9Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin9Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " max margin field is required." })
+                        break;
+                    case "0":
+                        @Html.ValidationMessageFor(x => x.PriceRuleEntry.AdjMaxMargin10Mod)
+                        @Html.TextBoxFor(x => x.PriceRuleEntry.AdjMaxMargin10Mod, new { aria_required = "true", data_val = "true", data_val_required = "The " + cf.UserFieldName + " max margin field is required." })
+                        break;
+                }
+            </div>
+        </div>
+
+
+
+    }
+}
+
+

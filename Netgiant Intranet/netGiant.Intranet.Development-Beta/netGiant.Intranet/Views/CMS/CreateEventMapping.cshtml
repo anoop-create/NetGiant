@@ -1,0 +1,93 @@
+﻿@using System.Configuration;
+@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model CMSViewModel
+
+@{
+    Layout = Model.Layout;
+    ViewBag.Title = "Event Mapping";
+    ViewBag.SubTitle = Model.EventMapping.EventMappingId > 0 ? "Edit" : "Create";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title</h4>
+
+        <div class="form-horizontal">
+
+            @using (Ajax.BeginForm("SaveEventMapping", "CMS", new AjaxOptions { HttpMethod = "Post", OnComplete = "ajaxReturn" }))
+            {
+                @Html.AntiForgeryToken();
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" });
+                @Html.HiddenFor(m => m.EventMapping.EventMappingId);
+                @Html.HiddenFor(m => m.EventMapping.DefaultCmsEntryFk);
+                @Html.HiddenFor(m => m.Layout);
+                @Html.HiddenFor(m => m.IsPopup);
+
+                <div class="form-group">
+                    @Html.Label("Website", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.CMSEntry.cmsSection.websiteFK, Model.WebsiteNameList, "Select...", new { @class = "form-control g-largeCell", @readonly = "readonly" })
+                    </div>
+                </div>
+
+                if (Model.EventMapping.EventMappingId > 0)
+                {
+                    @Html.HiddenFor(m => m.EventMapping.cmsEntry);
+                    <div class="form-group">
+                        @Html.Label("Event", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.EventMapping.EventFk, Model.EventNameList, "Select...", new { @class = "form-control g-largeCell", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.EventMapping.EventFk, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Default CMS Entry", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.EventMapping.cmsEntry.entryName, new { @class = "form-control g-largeCell text-box single-line", @readonly = "readonly" })
+                        </div>
+                    </div>
+                }
+                else
+                {
+
+                    <div class="form-group">
+                        @Html.Label("Event", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.EventMapping.EventFk, Model.EventNameList, "Select...", new { @class = "form-control g-largeCell" })
+                            @Html.ValidationMessageFor(m => m.EventMapping.EventFk, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Default CMS Entry", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.CMSEntry.entryName, new { @class = "form-control g-largeCell text-box single-line", @readonly = "readonly" })
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group">
+                    @Html.Label("Mapped CMS Entry", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.EventMapping.MappedCmsEntryFk, Model.EventCmsEntryList, "Select...", new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(m => m.EventMapping.MappedCmsEntryFk, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveEventMapping" value="Save" class="btn btn-default" title="Save" />
+                        @if (!Model.IsPopup)
+                        {
+                            @Html.ActionLink("Cancel", "CreateEntry", "CMS", new { id = Model.EventMapping.DefaultCmsEntryFk }, new { @class = "btn btn-default" })
+                        }
+                    </div>
+                </div>
+            }
+
+        </div>
+
+    </div>
+</div>

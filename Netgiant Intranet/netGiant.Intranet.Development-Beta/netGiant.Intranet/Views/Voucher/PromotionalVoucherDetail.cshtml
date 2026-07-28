@@ -1,0 +1,124 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce.PromoVoucher;
+@model PromotionalVoucherDetailViewModel
+
+@{
+    ViewBag.Title = "Promotional Voucher Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var pvouch = Model.VoucherPromoDetail;
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title - @Model.VoucherPromoDetail.Description</h4>
+
+        <div class="prd_detailContainer">
+
+            <fieldset class="g-b-1dg g-m-t-10">
+                <legend>Promotional Voucher Details</legend>
+                <table class="table noHeader g-w-100p">
+                    <tr>
+                        <td class="g-w-40p">Code</td>
+                        <td class="g-w-60p">@Html.DisplayFor(x => pvouch.VoucherCode)</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">Description</td>
+                        <td class="g-w-60p">@Html.DisplayFor(x => pvouch.Description)</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">Promo Group</td>
+                        <td class="g-w-60p">@Html.DisplayFor(x => pvouch.VoucherPromoGroup.GroupName)</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">Voucher Type</td>
+                        <td class="g-w-60p">@Html.DisplayFor(x => Model.VoucherType)</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">Website</td>
+                        <td class="g-w-60p">@Html.DisplayFor(x => pvouch.Website.FriendlyName)</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">Valid From</td>
+                        <td class="g-w-60p">@Html.DisplayFor(x => pvouch.ValidFrom)</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">Valid To</td>
+                        <td class="g-w-60p">@Html.DisplayFor(x => pvouch.ValidTo)</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">Stock Ref</td>
+                        <td class="g-w-60p">@Html.DisplayFor(x => pvouch.StockRef)</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">Min Basket Value</td>
+                        <td class="g-w-60p">@Html.DisplayFor(x => pvouch.MinBasketValue)</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">Min Qual Value</td>
+                        <td class="g-w-60p">@Html.DisplayFor(x => pvouch.MinQualValue)</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">Amount</td>
+                        <td class="g-w-60p">@Html.DisplayFor(x => pvouch.Amount)</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">Percentage</td>
+                        <td class="g-w-60p">@Html.DisplayFor(x => pvouch.Percentage)</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">Gift Stock Ref</td>
+                        <td class="g-w-60p">@Html.DisplayFor(x => pvouch.GiftStockRef)</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">Multi Buy Qual No</td>
+                        <td class="g-w-60p">@Html.DisplayFor(x => pvouch.MultiBuyQualNo)</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">Multi Buy No Discounted</td>
+                        <td class="g-w-60p">@Html.DisplayFor(x => pvouch.MultiBuyNoDiscounted)</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">Is Global</td>
+                        <td class="g-w-60p">@(pvouch.IsGlobal ? "True" : "False")</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">Is Used</td>
+                        <td class="g-w-60p">@(pvouch.IsUsed ? "True" : "False")</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">For General Use</td>
+                        <td class="g-w-60p">@(pvouch.ForGeneralUse ? "True" : "False")</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">For Cusomers</td>
+                        <td class="g-w-60p">@(pvouch.IsForCustomer ? "True" : "False")</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">For Trade Customers</td>
+                        <td class="g-w-60p">@(pvouch.IsForTrade ? "True" : "False")</td>
+                    </tr>
+                </table>
+
+                <div class=" g-m-t-10">
+                    @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+                    {
+                        <div class="g-w-10p g-f-l">@Html.ActionLink("Edit Promotional Voucher", "CreatePromotionalVoucher/" + pvouch.VoucherPromoId.ToString(), "Voucher", null, new { @class = "btn btn-default" })</div>
+                    }
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" defer="defer">
+
+        $(document).tooltip({
+            items: '*:not(.ui-dialog-titlebar-close)'
+        });
+
+    </script>
+}

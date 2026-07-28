@@ -1,0 +1,249 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@model PriceRuleViewModel
+
+@{
+    string hideCB = "";
+    string hideFP = "";
+    string hideRPB = "";
+    string hideCB_RPB = "";
+    object disableCB = null;
+    object disableFP = null;
+    object disableRPB = null;
+    object disableCB_RPB = null;
+
+    switch (Model.PriceRuleEntry.Lookup.LookupName)
+    {
+        case "Cost Base":
+            hideFP = "hidden";
+            disableFP = new { disabled = "disabled" };
+            hideRPB = "hidden";
+            disableRPB = new { disabled = "disabled" };
+            break;
+        case "Fixed Price":
+            hideCB = "hidden";
+            disableCB = new { disabled = "disabled" };
+            hideRPB = "hidden";
+            disableRPB = new { disabled = "disabled" };
+            hideCB_RPB = "hidden";
+            disableCB_RPB = new { disabled = "disabled" };
+            break;
+        case "Related Product Base":
+            hideCB = "hidden";
+            disableCB = new { disabled = "disabled" };
+            hideFP = "hidden";
+            disableFP = new { disabled = "disabled" };
+            break;
+        default:
+            hideFP = "hidden";
+            disableFP = new { disabled = "disabled" };
+            break;
+    }
+
+    List<SelectListItem> upliftIsPcList = new List<SelectListItem>
+            {
+                new SelectListItem{Text = "Percent", Value = "true"},
+                new SelectListItem{Text = "Value", Value = "false"},
+            };
+}
+
+<tr class="list-form-extra">
+    <td colspan="100%">
+        @using (Ajax.BeginForm("UpdateBand", new AjaxOptions { OnComplete = "updateBandComplete", OnBegin = "beginPost" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => Model.PriceRuleEntry.RuleName)
+            @Html.HiddenFor(x => Model.PriceRuleEntry.RuleTypeFK)
+            @Html.HiddenFor(x => Model.PriceRuleEntry.RuleTypeName, new { @Value = Model.PriceRuleEntry.Lookup1.LookupName })
+            @Html.HiddenFor(x => Model.PriceRuleEntry.BrandFK)
+            @Html.HiddenFor(x => Model.PriceRuleEntry.ProductCategoryFK)
+            @Html.HiddenFor(x => Model.PriceRuleEntry.PriceRuleID)
+            @Html.HiddenFor(x => Model.PriceRuleEntry.MethodFK)
+            @Html.HiddenFor(x => Model.PriceRuleEntry.RuleMethodName, new { @Value = Model.PriceRuleEntry.Lookup.LookupName })
+            @Html.HiddenFor(x => Model.PriceRuleEntry.IsBanding)
+            @Html.HiddenFor(x => Model.PriceRuleEntry.IsTest, new { @Value = "false" })
+            @Html.HiddenFor(x => Model.PriceRuleEntry.IsActive, new { @Value = "true" })
+            @Html.HiddenFor(x => Model.PriceRuleEntry.ProductCount)
+
+            <section class="page-form">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="A descriptive name for your banding range." data-helpsid="2" data-helpeid="2"></i>
+                            Band Name
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.PriceRuleEntry.BandName)
+                            @Html.EditorFor(x => Model.PriceRuleEntry.BandName)
+                        </div>
+                        <div class="@hideCB_RPB">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Set the minimum margin you are prepared to meet." data-helpsid="2" data-helpeid="2"></i>
+                                Minimum Margin
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.PriceRuleEntry.MinMarginMod)
+                                @Html.TextBoxFor(x => Model.PriceRuleEntry.MinMarginMod, disableCB_RPB)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Set the value this rule should start to take affect." data-helpsid="2" data-helpeid="2"></i>
+                            Band Start
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.PriceRuleEntry.BandStart)
+                            @Html.EditorFor(x => Model.PriceRuleEntry.BandStart)
+                        </div>
+                        <div class="@hideCB_RPB">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Set the maximum margin you are a prepared to meet." data-helpsid="2" data-helpeid="2"></i>
+                                Maximum Margin
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.PriceRuleEntry.MaxMarginMod)
+                                @Html.TextBoxFor(x => Model.PriceRuleEntry.MaxMarginMod, disableCB_RPB)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Set the value this rule should stop taking affect." data-helpsid="2" data-helpeid="2"></i>
+                            Band End
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.PriceRuleEntry.BandEnd)
+                            @Html.EditorFor(x => Model.PriceRuleEntry.BandEnd)
+                        </div>
+                        <div class="@hideCB">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Set the margin value you would like to achieve." data-helpsid="2" data-helpeid="2"></i>
+                                Desired Margin
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.PriceRuleEntry.DesiredMarginMod)
+                                @Html.TextBoxFor(x => Model.PriceRuleEntry.DesiredMarginMod, disableCB)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="@hideCB">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Increase the cost price by a value or percentage. Typically used to apply an associated direct cost of sale." data-helpsid="2" data-helpeid="2"></i>
+                                Cost Uplift
+                            </div>
+                            <div class="col-md-4 form-value">
+                                <div class="input-group">
+                                    @Html.ValidationMessageFor(x => x.PriceRuleEntry.CostUplift)
+                                    @Html.TextBoxFor(x => Model.PriceRuleEntry.CostUplift, disableCB)
+                                    <div class="input-group-btn">
+                                        @Html.DropDownListFor(x => x.PriceRuleEntry.UpliftIsPc, upliftIsPcList, new { @class = "selectpicker" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Amends final calculated selling price to conform to a rounding convention. E.g. £x.99p" data-helpsid="2" data-helpeid="2"></i>
+                                Rounding Rule
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.PriceRuleEntry.RoundingGroupFK)
+                                @Html.DropDownListFor(x => x.PriceRuleEntry.RoundingGroupFK, Model.RoundingGroups, "Select...", new { @class = "selectpicker" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="@hideCB">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Desired level of competitiveness. Apply a percentage to determine what proportion of competitor pricing to beat." data-helpsid="2" data-helpeid="2"></i>
+                                Beat Rate
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.PriceRuleEntry.BeatRateMod)
+                                @Html.TextBoxFor(x => Model.PriceRuleEntry.BeatRateMod, disableCB)
+                            </div>
+                            <div>
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="This is the amount in percent that the lowest targeted competitor price will be beaten." data-helpsid="2" data-helpeid="2"></i>
+                                    Nudge Amount
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.PriceRuleEntry.NudgeMod)
+                                    @Html.TextBoxFor(x => Model.PriceRuleEntry.NudgeMod, disableCB)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="@hideRPB">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Apply a discount off the calculated selling price of the associated product. Typically used to calculate ‘own brand’ pricing." data-helpsid="2" data-helpeid="2"></i>
+                                Related Product Discount
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.PriceRuleEntry.CompatDiscountMod)
+                                @Html.TextBoxFor(x => Model.PriceRuleEntry.CompatDiscountMod, disableRPB)
+                            </div>
+                        </div>
+                        <div class="@hideFP">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Apply a fixed selling price." data-helpsid="2" data-helpeid="2"></i>
+                                Fixed Price Override
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.PriceRuleEntry.FixedPriceOverride)
+                                @Html.TextBoxFor(x => Model.PriceRuleEntry.FixedPriceOverride, disableFP)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    @if (Model.CustomFieldList.Count > 0)
+                    {
+                    <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Custom Price Rule fields." data-helpsid="2" data-helpeid="2"></i> Custom Price Rule Fields</h4>
+                    <div class="row">
+                        @{ Html.RenderPartial("~/Views/PriceRules/CustomMappings.cshtml", Model); }
+                    </div>
+                    }
+
+                    @if (Model.AdjFieldList.Count > 0)
+                    {
+                    <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Custom Price Adjustment fields." data-helpsid="2" data-helpeid="2"></i> Custom Price Adjustment Fields</h4>
+                    <div class="row">
+                        @{ Html.RenderPartial("~/Views/PriceRules/AdjustmentMappings.cshtml", Model); }
+                    </div>
+                    }
+                </div>                
+
+                <div class="form-actions">
+                    <div class="pull-left form-message">
+                        <i class="fa fa-spinner fa-pulse" style="display: none"></i>
+                        <span></span>
+                    </div>
+
+                    @Ajax.HtmlActionLink("<i class=\"fa fa-trash\"></i> Delete",
+                        "Delete",
+                        "PriceRules",
+                        new { id = Model.PriceRuleEntry.PriceRuleID },
+                        new AjaxOptions()
+                        {
+                            HttpMethod = "DELETE",
+                            Confirm = "Are you sure you want to delete this band?",
+                            OnSuccess = "deleteBandComplete"
+                        },
+                        new
+                        {
+                            @class = "pull-right g-m-r-10 form-delete btn btn-default btn-sm"
+                        })
+                    <button class="pull-right g-m-r-10 g-cur-p form-bandCancel btn btn-default btn-sm">
+                        <i class="fa fa-times"></i> Cancel
+                    </button>
+                    <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Submit" name="action:UpdateBand">
+                        <i class="fa fa-floppy-o"></i> Save
+                    </button>
+                </div>
+            </section>
+        }
+    </td>
+</tr>

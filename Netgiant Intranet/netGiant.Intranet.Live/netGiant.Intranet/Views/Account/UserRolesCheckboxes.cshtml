@@ -1,0 +1,17 @@
+﻿@using netGiant.Intranet.ViewModels;
+@using Microsoft.AspNet.Identity.EntityFramework;
+
+@model UserRoleViewModel
+
+<div id="userRoles">
+    @Html.CheckBoxListFor(
+        model => model.PostedRoles,
+        model => Model.AllRoles.OrderBy(x => x.Name),
+        entity => entity.Name,
+        entity => entity.Name,
+        model => Model.AllUserRoles,
+        new MvcCheckBoxList.Model.HtmlListInfo(
+            MvcCheckBoxList.Model.HtmlTag.vertical_columns,
+            2,
+            new { @class = "exp_checkbox" }))
+</div>

@@ -1,0 +1,122 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Admin;
+
+@model MenuViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+
+    <div class="placeHolderBody">
+
+        <h2>@ViewBag.Title</h2>
+        <h4>@ViewBag.SubTitle</h4>
+        <hr />
+
+        @using (Html.BeginForm("CreateMenuItem", "Admin"))
+        {
+            <div class="form-horizontal">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.ActionLink.actionLinkID)
+                @Html.HiddenFor(m => m.ActionLink.parentLevelID)
+
+                <div class="form-group">
+                    @Html.Label("Title", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(m => m.ActionLink.actionLinkDesc, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                            @Html.ValidationMessageFor(m => m.ActionLink.actionLinkDesc, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("URL", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.ActionLink.actionLinkURL, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                            @Html.ValidationMessageFor(m => m.ActionLink.actionLinkURL, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Level", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.ActionLink.actionLinkLevel, Model.AllLinkLevels, "Select ...",
+                                        new { @class = "g-f-l form-control g-smallCell g-m-r-10", id ="ddlLinkLevel" })
+                            @Html.ValidationMessageFor(m => m.ActionLink.actionLinkLevel, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Parent", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <select id="ddlParentItems" class="searchBy g-f-l form-control g-smallCell g-m-r-10" disabled="disabled">
+                                <option selected="selected">Select Parent ...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Action Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.ActionLink.actionName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                            @Html.ValidationMessageFor(m => m.ActionLink.actionName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Controller", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.ActionLink.controllerName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                            @Html.ValidationMessageFor(m => m.ActionLink.controllerName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Roles (comma separated)", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.ActionLink.roles, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                            @Html.ValidationMessageFor(m => m.ActionLink.roles, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Active", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.CheckBoxFor(m => m.ActionLink.active, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" name="btnSaveMenuItem" value="Save" class="btn btn-default" />
+                            @Html.ActionLink("Cancel", "ListMenuItems", "Admin", new { @class = "btn btn-default" }, null)
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    @section Scripts {
+        <script type="text/javascript">
+        $(document).on("change", "#ddlLinkLevel", function (event) {
+
+            if ($(this).val().length > 0) {
+                jsonPopulateDropDown('/Admin/GetParentMenuItems/' + $(this).val(), '#ddlParentItems', 'Parent', $('#ActionLink_parentLevelID').val());
+            } else {
+                $("#ddlParentItems").empty();
+                $("#ddlParentItems").html('<option value="" selected="true">Select Parent ...</option>');
+                $("#ddlParentItems").attr('disabled', 'disabled');
+            }
+        });
+
+        $(document).on("change", "#ddlParentItems", function (event) {
+            $("#ActionLink_parentLevelID").val($('#ddlParentItems').val());
+        });
+
+        if ($('#ParentLevelId').val() != "") {
+            $("#ddlLinkLevel").trigger("change");
+        }
+        </script>
+    }

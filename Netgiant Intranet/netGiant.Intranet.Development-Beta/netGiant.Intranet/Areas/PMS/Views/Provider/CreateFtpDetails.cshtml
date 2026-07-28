@@ -1,0 +1,202 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Provider;
+@model netGiant.Intranet.BusinessLayer.ViewModels.PMS.Provider.ProviderViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Ftp Details";
+    ViewBag.SubTitle = Model.FtpDetails.ftpDetailID > 0 ? "Edit" : "Create";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title</h4>
+
+        <div class="form-horizontal g-b-1dg g-p-10">
+
+            @using (Html.BeginForm("SaveFtpDetails", "Provider", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.FtpDetails.ftpDetailID)
+                @Html.HiddenFor(m => m.selectedProviderID)
+                @Html.HiddenFor(m => m.hasIndexedMapping)
+
+                <div class="form-group">
+                    @Html.Label("Ftp Host", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FtpDetails.ftpHost, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.FtpDetails.ftpHost, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Ftp User", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FtpDetails.ftpUser, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.FtpDetails.ftpUser, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Ftp Password", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FtpDetails.ftpPassword, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.FtpDetails.ftpPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Ftp Folder", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FtpDetails.ftpFolder, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.FtpDetails.ftpFolder, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Ftp Filename", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FtpDetails.ftpFilename, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.FtpDetails.ftpFilename, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Ftp Zip Filename", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FtpDetails.ftpZipFilename, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.FtpDetails.ftpZipFilename, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Provider", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.FtpDetails.providerFK, Model.allProviders, "Select...", new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(model => model.FtpDetails.providerFK, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                if (Model.FtpDetails.ftpDetailID > 0)
+                {
+                    <div class="form-group">
+                        @Html.Label("Date Last Updated", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.FtpDetails.dateLastUpdate, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group">
+                    @Html.Label("File has column Headers", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FtpDetails.fileColumnHeader, new { htmlAttributes = new { @class = "" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveFtpDetails" value="Save" class="btn btn-default" title="Save" />
+                        @if (Model.selectedProviderID > 0)
+                        {
+                            @Html.ActionLink("Cancel", "ProviderDetails", "Provider", new { id = Model.selectedProviderID }, new { @class = "btn btn-default" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Cancel", "FtpDetailsIndex", "Provider", null, new { @class = "btn btn-default" })
+                        }
+                    </div>
+                </div>
+            }
+
+        </div>
+        
+        @if (Model.FtpDetails.providerFK > 0)
+        {
+            <h4 class="g-m-t-20">Field Mappings</h4>
+            <div class="g-b-1dg g-p-10 g-m-t-10">
+
+                @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+                {
+                    @Html.ActionLink("Create New", "CreateFieldMapping", "Provider", new {id = 0, selectedProviderID = Model.FtpDetails.providerFK, selectedFtpDetailID = Model.FtpDetails.ftpDetailID }, new {@title = "Create new field mapping", @class = "g-p-10"})
+                }
+
+                @(Html.Kendo().Grid<TelerikFieldMapping>()
+                      .HtmlAttributes(new {@class = "pointer-rows"})
+                      .Name("FieldMappingGrid")
+                      .Columns(columns =>
+                      {
+                          columns.Bound(x => x.MappedTo).Title("Field Mapped To (PMS)");
+                          columns.Bound(x => x.MappedWith).Title("Field Mapped From (Provider)");
+                          columns.Bound(x => x.Provider).Title("Provider");
+                          columns.Bound(x => x.LastUpdated).Title("Date Last Updated").Format("{0:dd/MM/yyyy HH:mm:ss}");
+                          columns.Bound(x => x.Id).ClientTemplate(
+                              "<a href=\"../CreateFieldMapping/#:Id#?selectedProviderID=" + Model.FtpDetails.providerFK + "&selectedFtpDetailID=" + Model.FtpDetails.ftpDetailID + "\">Edit</a>" +
+                              "|<a href=\"##\" class=\"lnkDelete\" value=\"#:Id#\" title=\"Delete\">Delete</a>"
+                              ).Width("136px").Filterable(false).Sortable(false).Groupable(false).Title("");
+                      })
+                      .Pageable(pager => pager.Refresh(true))
+                      .Pageable(pager => pager.PageSizes(new List<int> {150, 100, 50, 20}))
+                      .Sortable(sortable => sortable.AllowUnsort(true))
+                      .Groupable()
+                      .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+                      .ColumnMenu()
+                      .Resizable(resize => resize.Columns(true))
+                      .Reorderable(reorder => reorder.Columns(true))
+                      .NoRecords("There are no field mappings to display")
+                      .DataSource(dataSource => dataSource
+                          .Ajax()
+                          .Read(x => x.Action("FieldMapping_Read", "Provider", new {id = Model.FtpDetails.providerFK}))
+                          .Sort(sort => sort
+                              .Add(x => x.MappedTo).Ascending())
+                          .PageSize(200)
+                      )
+                      .Events(e => e.DataBound("saveGridFilters"))
+                      )
+            </div>
+        }
+    </div>
+</div>
+
+<div id="indexedMapping" title="Warning" class="g-d-n">
+    Indexed field mappings exists for the current provider. Please either remove or update these mappings based on the column headers.
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(function () {
+            $(document).on("change", "#ftp_fileColumnHeader", function () {
+                if ($(this).is(':checked') && $("#hasIndexedMapping").val() == "True") {
+                    $("#indexedMapping").dialog();
+                }
+            });
+
+            $(document).on('click', '.lnkDelete', function (e) {
+                var rowid = $(this).attr('value');
+                e.preventDefault();
+                $.confirm({
+                    title: 'Field Mapping',
+                    content: 'Are you sure you want to delete this mapping?',
+                    buttons: {
+                        Yes: function () {
+                            deleteGridRow('@Url.Action("DeleteFieldMapping", "Provider")/', { id: rowid });
+                        },
+                        No: function () { }
+                    }
+                });
+            });
+        });
+
+
+    </script>
+}
+
+@{
+    string infoBoxText = Convert.ToString(@TempData["InformationBoxFlag"]);
+    if (infoBoxText != string.Empty)
+    {
+        <div id="infoBoxFlag" class="g-d-n">@TempData["InformationBoxFlag"]</div>
+    }
+}

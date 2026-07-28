@@ -1,0 +1,141 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Pricing;
+@model PricesViewModel
+
+@{
+    ViewBag.Title = "PMS Axis Price Difference";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+
+        @Html.Hidden("PMSAxisPricesDataURL", Url.Action("AxisPriceDifferenceData", "Prices"))
+
+        <div class="g-p-b-10">
+            @Html.DropDownList("selectedWebsiteFK", new SelectList(Model.AllWebsites, "Value", "Text", Model.SelectedWebsiteFK), "Search By website", new { @class = "form-control g-smallCell g-m-r-10 g-f-l refreshData" })
+            @Html.DropDownList("selectedManufacturerFK", new SelectList(Model.AllManufacturers, "Value", "Text", Model.selectedManufacturerID), "Search By manufacturer", new { @class = "form-control g-smallCell g-m-r-10 g-f-l refreshData" })
+            @Html.DropDownList("selectedProductStatusFK", new SelectList(Model.AllProductStatus, "Value", "Text", Model.SelectedProductStatusFK), "Search By status", new { @class = "form-control g-smallCell g-m-r-10 g-f-l refreshData" })
+            @Html.DropDownList("selectedProductItemTypeFK", new SelectList(Model.AllProductItemType, "Value", "Text", Model.SelectProductItemTypeFK), "Search By Item type", new { @class = "form-control g-smallCell g-m-r-10 g-f-l refreshData" })
+            @Html.TextBox("SearchBox", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10 refreshData" })
+            <a id="lnkSearch" href="#" class="btn btn-default g-m-r-10">Search</a>
+        </div>
+
+    <div>
+        <span class="g-f-r"><span id="PMSAxisCount" class="g-fw-b">@Model.PMSAxisPriceDifferenceCount </span><span>Prices Found</span></span>
+    </div>
+
+        <table id="PMSAxisTable" class="table">
+            <tr>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="partNo">Part No</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="manufacturer">Manufacturer</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="category">Category</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="status">Status</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="pmsPrice">PMS Price</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="axisPrice">Axis Price</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="pmsPriceChanged">PMS Price Changed</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="priceDiff">Price Difference</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+            </tr>
+            @{Html.RenderAction("AxisPriceDifferenceList", "Prices", new { Model = Model.PMSAxisPriceDifferenceList });}
+        </table>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() > $('#scrollBottomContainer').offset().top
+                && !noMoreData && !inProgress) {
+                GetPrices(false);
+            }
+            return false;
+        });
+
+        $(document).on('change', '.refreshData', function () {
+            blockNumber = 1;
+            GetPrices(true);
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            blockNumber = 1;
+            setupSort($(this));
+            GetPrices(event, 0);
+
+            return false;
+        });
+
+        $('#SearchBox').keypress(function (event) {
+            if (event.which == 13) {
+                blockNumber = 1;
+                GetPrices(event);
+            }
+        });
+
+        function GetPrices(clearTable) {
+            setupOptionsArray();
+            InfiniteScroll($('#PMSAxisPricesDataURL').val(),
+                optionsArray,
+                clearTable,
+                '#PMSAxisTable tr:gt(0)',
+                '#PMSAxisCount',
+                '#PMSAxisTable tbody',
+                $("#activeSortType"),
+                $("#activeSortDir"));
+        }
+
+        function setupOptionsArray() {
+            optionsArray = new Array();
+            optionsArray[0] = $('#selectedWebsiteFK').val() || 0; //WebsiteFK
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[1] = sortType + sortDir;
+            } else {
+                optionsArray[1] = '';
+            }
+
+            optionsArray[2] = $('#selectedManufacturerFK').val() || 0; //ManufacturerFK
+            optionsArray[3] = $('#SearchBox').val();
+            optionsArray[4] = $('#selectedProductItemTypeFK').val() || 0; //ProductItemTypeFK
+            optionsArray[5] = $('#selectedProductStatusFK').val() || 0; //ProductStatusFK
+
+        }
+
+    </script>
+}

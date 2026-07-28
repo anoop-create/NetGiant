@@ -1,0 +1,91 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.OMS
+@using PagedList.Mvc;
+@using Kendo.Mvc.UI;
+@model OrderViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Purchase Order";
+}
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    @Html.RawFromDict(Model.IntranetData, "PurchaseOrderFilters")
+</div>
+
+<div class="g-m-b-5 telerik-filter" data-gridname="PurchaseOrderGrid">
+    <button class="btn btn-danger" onclick="ClearFilters()">Clear Filters</button>
+
+    @*<a class="btn btn-default" data-script="grid.dataSource.filter({field: 'PaymentMethod',operator: 'eq',value: 'On Account'});">Credit Accounts</a>*@
+</div>
+
+@(Html.Kendo().Grid<PurchaseOrderViewModel.TelerikPurchaseOrder>()
+            .HtmlAttributes(new { @class = "pointer-rows" })
+            .Name("PurchaseOrderGrid")
+            .Columns(columns =>
+            {
+                columns.Bound(x => x.Id).Title("PO ID").Width(100)
+                    .HeaderHtmlAttributes(new { title = "Purchase Order ID", style = "text-align: center;" });
+                columns.Bound(x => x.OrderId).Title("Order ID").Width(100).ClientTemplate(
+                    "<a href=\"../OMS/Order/ViewOrder/#:OrderId#\">#:OrderId#</a>")
+                    .HeaderHtmlAttributes(new { title = "Order ID", style = "text-align: center;" });
+                columns.Bound(x => x.AxisPONo).Title("Axis PO No").Width(100)
+                    .HeaderHtmlAttributes(new { title = "Axis Purchase Order Number", style = "text-align: center;" });
+                columns.Bound(x => x.Supplier).Title("Supplier").Width(100)
+                    .HeaderHtmlAttributes(new { title = "Supplier", style = "text-align: center;" });
+                columns.Bound(x => x.DueDate).Title("Due Date").Width(120)
+                    .ClientTemplate("#= kendo.toString(kendo.parseDate(DueDate, 'yyyy-MM-dd'), 'dd/MM/yyyy') #")
+                    .HeaderHtmlAttributes(new { title = "Due Date", style = "text-align: center;" });
+                columns.Bound(x => x.DateClosed).Title("Date Closed").Width(120)
+                    .ClientTemplate("#= kendo.toString(kendo.parseDate(DateClosed, 'yyyy-MM-dd'), 'dd/MM/yyyy') #")
+                    .HeaderHtmlAttributes(new { title = "Date Closed", style = "text-align: center;" });
+                columns.Bound(x => x.Nett)
+                    .Format("{0: #,##.00}")
+                    .Title("Nett")
+                    .Width(100)
+                    .HtmlAttributes(new { style = "text-align: right;" })
+                    .HeaderHtmlAttributes(new { title = "Nett", style = "text-align: center;" });
+                columns.Bound(x => x.IsCompleted).Title("Is Complete").Width(100)
+                    .HtmlAttributes(new { style = "text-align: right;" })
+                    .HeaderHtmlAttributes(new { title = "Is Complete", style = "text-align: center;" });
+                columns.Bound(x => x.Id).ClientTemplate(
+                        "<a href=\"PurchaseOrder/ViewPurchaseOrder/#:Id#\">View</a>"
+                        ).Title("").Filterable(false).Sortable(false).Groupable(false).Width("100px");
+            })
+            .Pageable(pager => pager.Refresh(true))
+            .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+            .Sortable(sortable => sortable.AllowUnsort(true))
+            .Scrollable()
+            .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+            .ColumnMenu()
+            .Resizable(resize => resize.Columns(true))
+            .Reorderable(reorder => reorder.Columns(true))
+            .NoRecords("There are no purchase orders to display")
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(x => x.Action("PurchaseOrder_Read", "PurchaseOrder", (RouteValueDictionary)ViewBag.Query))
+                .PageSize(200)
+                .Sort(sort => sort
+                    .Add(x => x.DueDate).Descending())
+                )
+            .Events(e => e.DataBound("saveGridFilters"))
+            )
+)
+
+
+<script>
+    function ClearFilters() {
+        document.cookie = "PurchaseOrderSearchString=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;"
+        document.cookie = "PurchaseOrderOrderFk=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;"
+
+        var MyDiv = $("#PurchaseOrderGrid")
+        var MyDataSource = MyDiv.data("kendoGrid").dataSource
+        MyDataSource.filter({})
+    }
+</script>
+
+
+
+
+
+

@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DiplomatReplacementModelStoreContainer" CdmEntityContainer="DREntities">
+    <EntitySetMapping Name="Ledgers">
+      <EntityTypeMapping TypeName="DiplomatReplacementModel.Ledger">
+        <MappingFragment StoreEntitySet="Ledger">
+          <ScalarProperty Name="DateInvoiced" ColumnName="DateInvoiced" />
+          <ScalarProperty Name="DateOrdered" ColumnName="DateOrdered" />
+          <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+          <ScalarProperty Name="CreditCharge" ColumnName="CreditCharge" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="Vat" ColumnName="Vat" />
+          <ScalarProperty Name="Nett" ColumnName="Nett" />
+          <ScalarProperty Name="IsExportedToSage" ColumnName="IsExportedToSage" />
+          <ScalarProperty Name="Description2" ColumnName="Description2" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="AxisUid" ColumnName="AxisUid" />
+          <ScalarProperty Name="NominalGroupCode" ColumnName="NominalGroupCode" />
+          <ScalarProperty Name="OrderSourceCode" ColumnName="OrderSourceCode" />
+          <ScalarProperty Name="SupplierGroup" ColumnName="SupplierGroup" />
+          <ScalarProperty Name="CustomerGroup" ColumnName="CustomerGroup" />
+          <ScalarProperty Name="LedgerTransType" ColumnName="LedgerTransType" />
+          <ScalarProperty Name="LedgerType" ColumnName="LedgerType" />
+          <ScalarProperty Name="Period" ColumnName="Period" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="PurchaseOrderFk" ColumnName="PurchaseOrderFk" />
+          <ScalarProperty Name="SupplierFk" ColumnName="SupplierFk" />
+          <ScalarProperty Name="AccountFk" ColumnName="AccountFk" />
+          <ScalarProperty Name="OrderFk" ColumnName="OrderFk" />
+          <ScalarProperty Name="LedgerId" ColumnName="LedgerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LedgerLines">
+      <EntityTypeMapping TypeName="DiplomatReplacementModel.LedgerLine">
+        <MappingFragment StoreEntitySet="LedgerLine">
+          <ScalarProperty Name="CountryOfDespatch" ColumnName="CountryOfDespatch" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="VatCode" ColumnName="VatCode" />
+          <ScalarProperty Name="VatRate" ColumnName="VatRate" />
+          <ScalarProperty Name="CostOfSales" ColumnName="CostOfSales" />
+          <ScalarProperty Name="Vat" ColumnName="Vat" />
+          <ScalarProperty Name="Nett" ColumnName="Nett" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="QuantityOutstanding" ColumnName="QuantityOutstanding" />
+          <ScalarProperty Name="QuantityCredited" ColumnName="QuantityCredited" />
+          <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
+          <ScalarProperty Name="DateInvoiced" ColumnName="DateInvoiced" />
+          <ScalarProperty Name="SalesGroupCode" ColumnName="SalesGroupCode" />
+          <ScalarProperty Name="NominalAccount" ColumnName="NominalAccount" />
+          <ScalarProperty Name="AxisStockReference" ColumnName="AxisStockReference" />
+          <ScalarProperty Name="ProductGroupFk" ColumnName="ProductGroupFk" />
+          <ScalarProperty Name="LedgerRecordTypeFk" ColumnName="LedgerRecordTypeFk" />
+          <ScalarProperty Name="LedgerTransactionTypeFk" ColumnName="LedgerTransactionTypeFk" />
+          <ScalarProperty Name="Period" ColumnName="Period" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="ProductFk" ColumnName="ProductFk" />
+          <ScalarProperty Name="LedgerFk" ColumnName="LedgerFk" />
+          <ScalarProperty Name="LedgerLineId" ColumnName="LedgerLineId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

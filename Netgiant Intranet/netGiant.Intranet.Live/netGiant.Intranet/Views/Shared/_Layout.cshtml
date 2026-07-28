@@ -1,0 +1,140 @@
+﻿@using netGiant.Intranet.DataLayer
+@using netGiant.Intranet.Models
+@using System.Web.Mvc;
+@using System.Web.Mvc.Html;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>netGiant Intranet - @ViewBag.Title</title>
+
+    @Styles.Render("~/Content/css")
+
+    <link rel="icon" type="image/png" href="~/Content/images/favicon.png" />
+
+    @Scripts.Render("~/bundles/jquery")
+</head>
+<body>
+
+    <div class="topHeader">
+        <div class="topHeaderLogo">
+            <a href="@Url.Action("DefaultAction", "Account")">
+                <img src="~/Content/Images/1pxTrans.png" alt="" title="" class="topHeaderLogoImage" />
+            </a>
+        </div>
+        <div class="menu g-fc-w g-fs-1_2em g-fw-b g-f-l" id="mainMenu">
+            <ul>
+                @{
+                    int selectedActionLinkID = 0;
+
+                    using (ngmdEntities db = new ngmdEntities())
+                    {
+                        string controllerName = ViewContext.RouteData.Values["Controller"].ToString();
+                        string actionName = ViewContext.RouteData.Values["Action"].ToString();
+
+                        //if (controllerName != "Account" && actionName != "Login")
+                        //{
+
+                        int parentLevelID = 0;
+
+                        actionLink al = db.actionLinks.Where(x => x.controllerName == controllerName).OrderByDescending(x => x.parentLevelID).FirstOrDefault();
+                        if (al.parentLevelID > 0)
+                        {
+                            parentLevelID = db.actionLinks.FirstOrDefault(x => x.actionLinkID == al.parentLevelID).parentLevelID;
+                            selectedActionLinkID = parentLevelID;
+                        }
+                        else
+                        {
+                            selectedActionLinkID = al.actionLinkID;
+                        }
+
+                        foreach (var link in db.actionLinks.Where(x => x.actionLinkLevel == 1 && x.active).ToList())
+                        {
+                            <li>
+                                @{
+                            if (link.actionLinkID == parentLevelID ||
+                                (al.parentLevelID == 0 && al.actionLinkID == link.actionLinkID))
+                            {
+                                if (Helper.CheckUserIsInRoles(link.roles))
+                                {
+                                   @Html.ParentActionLink(link.actionLinkDesc, link.actionName, link.controllerName)
+                                }
+                            }
+                            else
+                            {
+                                if (Helper.CheckUserIsInRoles(link.roles))
+                                {
+                                    @Html.ActionLink(link.actionLinkDesc, link.actionName, link.controllerName)
+                                }
+                            }
+                                }
+
+                            </li>
+                        }
+                        //}
+                    }
+                }
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- Body -->
+    <div class="bodyContents">
+
+        @ViewData["parentLinkID1"]
+
+        <!--Sidebar-->
+        <div class="sideBar">
+            <div class="sideBar_User">
+                <div class="userImage">
+                    <div class="userImageContent">
+                        @if (!string.IsNullOrEmpty(User.Identity.Name))
+                        {
+                            string user = User.Identity.Name.Split('@')[0];
+                            string path = string.Format("~/Content/images/users/{0}.jpg", user);
+
+                            if (File.Exists(Server.MapPath(path)))
+                            {
+                                <img src="@Url.Content(path)" alt="" style="width:65px;height:65px;" />
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="user">
+                    <div class="userContent">
+                        @Html.Partial("_LoginPartial")
+                    </div>
+                </div>
+            </div>
+
+            <div id="accordion">
+                @Html.Partial("_SideBarPartial", new ViewDataDictionary { { "parentLinkID", selectedActionLinkID } })
+            </div>
+
+            <div class="sideBarFooter">
+                Copyright &copy; @DateTime.Now.Year NetGiant
+            </div>
+        </div>
+
+        <!--Body-->
+        <div class="contents">
+            @RenderBody()
+        </div>
+    </div>
+    <div id="scrollBottomContainer"></div>
+    <div id="goToTop" class="g-d-n">Top</div>
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/layout")
+    @Scripts.Render("~/bundles/masonry")
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

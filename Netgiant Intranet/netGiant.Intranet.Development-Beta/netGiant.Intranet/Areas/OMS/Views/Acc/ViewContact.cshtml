@@ -1,0 +1,61 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.OMS;
+@model AccViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody productFieldTabs">
+        <h4>
+            Contact Details  - @("CN" + Model.Contact.ContactId.ToString("D8")), @Model.Contact.FirstName @Model.Contact.LastName
+        </h4>
+
+        @if (Request["Edit"] == "No")
+        {
+            <a href="@(Url.Action("ViewAccount/" + Model.Contact.AccountFk.ToString(), "Acc"))" class="btn btn-default">
+                Return
+            </a>
+        }
+        else
+        {
+            @Html.ActionLink(
+                "Edit Contact",
+                "EditContact/" + Model.Contact.ContactId.ToString(),
+                "Acc",
+                null,
+                new { @class = "btn btn-default" })
+
+            <a href="@(Url.Action("EditAccount/" + Model.Contact.AccountFk.ToString(), "Acc"))#AccountContactsTab" class="btn btn-default">
+                Return
+            </a>
+        }
+
+
+
+        <fieldset class="g-b-1dg g-m-t-10">
+            <legend>Contact Details</legend>
+            <div class=" g-m-t-10 row">
+                <div class="col-lg-3">First Name:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Contact.FirstName)</b>&nbsp;</div>
+                <div class="col-lg-3">Last Name:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Contact.LastName)</b>&nbsp;</div>
+                <div class="col-lg-3">Title:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Contact.Title)</b>&nbsp;</div>
+                <div class="col-lg-3">Email:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Contact.Email)</b>&nbsp;</div>
+                <div class="col-lg-3">Date Joined:</div>
+                <div class="col-lg-3">
+                    <b>
+                        @(Model.Contact.DateJoined.HasValue ? Model.Contact.DateJoined.Value.ToString("dd/MM/yyyy") : " - " )
+                    </b>&nbsp;
+                </div>
+                <div class="col-lg-3">Telephone No:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Contact.TelephoneNumber)</b>&nbsp;</div>
+                <div class="col-lg-3">Fax No:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Contact.FaxNumber)</b>&nbsp;</div>
+                <div class="col-lg-3">Extension No:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Contact.ExtensionNumber)</b>&nbsp;</div>
+                <div class="col-lg-3">Contact Status:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Contact.ContactStatus)</b>&nbsp;</div>
+                <div class="col-lg-3">Contact Id:</div><div class="col-lg-3"><b>@("CN" + Model.Contact.ContactId.ToString("D8"))</b>&nbsp;</div>
+                <div class="col-lg-3">Account Id:</div><div class="col-lg-3"><b>@("AC" + Model.Contact.AccountFk.ToString("D7"))</b>&nbsp;</div>
+                <div class="col-lg-3">Axis Contact No:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Contact.AxisContactNo)</b>&nbsp;</div>
+                <div class="col-lg-3">Primary Contact:</div><div class="col-lg-3"><b>@Html.DisplayFor(x => x.Contact.IsPrimaryContact)</b>&nbsp;</div>
+            </div>
+        </fieldset>
+    </div>
+</div>
+

@@ -1,0 +1,25 @@
+﻿@model HandleErrorInfo
+
+<h1 class="text-danger">Application Error.</h1>
+<h2 class="text-danger">An error occurred while processing your request.</h2>
+<h3 class="text-danger">The Development Team have been notified on <a href="mailto:development@priceology.io">development@priceology.io</a></h3>
+
+
+@if (Model != null)
+{
+    <div>
+        <b>Error Message: </b>
+        @Model.Exception.Message
+    </div>
+    <div>
+        <b>Inner Exception: </b>
+        @Model.Exception.InnerException
+    </div>
+    <div>
+        <b>Stack Trace: </b>
+        @Model.Exception.StackTrace
+    </div>
+}
+
+
+

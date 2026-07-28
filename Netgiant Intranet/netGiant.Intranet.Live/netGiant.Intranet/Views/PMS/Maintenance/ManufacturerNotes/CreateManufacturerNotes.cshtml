@@ -1,0 +1,70 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model ManufacturerNotesViewModel
+
+@{
+    ViewBag.Title = "Create Manufacturer Note";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h4>@ViewBag.Title</h4>
+        <div class="form-horizontal">
+            @using (Html.BeginForm("Save", "ManufacturerNotes"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                @Html.HiddenFor(x => x.ManufacturerNotes.manufacturerNotesID)
+
+                <div class="form-group">
+                    @Html.Label("Website", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.ManufacturerNotes.websiteFK, Model.WebsiteNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        @Html.ValidationMessageFor(model => model.ManufacturerNotes.Website.WebsiteName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Manufacturer", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.ManufacturerNotes.manufacturerFK, Model.ManufacturerNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        @Html.ValidationMessageFor(model => model.ManufacturerNotes.manufacturer.manufacturerName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("CartridgeType", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.ManufacturerNotes.eqCartridgeTypeFK, Model.CartridgeTypeNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        @Html.ValidationMessageFor(model => model.ManufacturerNotes.eqCartridgeType.eqCartridgeTypeName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Note", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(x => x.ManufacturerNotes.note, new { @class = "form-control g-largeCell-textArea", rows = 5 })
+                        @Html.ValidationMessageFor(model => model.ManufacturerNotes.note, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Meta Title", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(x => x.ManufacturerNotes.metaTitle, new { @class = "form-control g-largeCell-textArea", rows = 2 })
+                        @Html.ValidationMessageFor(model => model.ManufacturerNotes.metaTitle, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Meta Description", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(x => x.ManufacturerNotes.metaDescription, new { @class = "form-control g-largeCell-textArea", rows = 5 })
+                        @Html.ValidationMessageFor(model => model.ManufacturerNotes.metaDescription, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveEquipmentNotes" value="Save" class="btn btn-default" title="Save" />
+                        @Html.ActionLink("Cancel", "ManufacturerNotesIndex", "ManufacturerNotes", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,207 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Equipment
+@model EquipmentViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Equipment";
+    ViewBag.SubTitle = Model.family != null ? "Edit" : "Create";
+}
+
+@Html.Hidden("GetProductsURL", Url.Action("GetProducts", "Equipment"))
+@Html.Hidden("GetNewFamilyRowURL", Url.Action("GetNewFamilyRow", "Equipment"))
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title</h4>
+
+        @using (Html.BeginForm("SaveEquipment", "Equipment", FormMethod.Post, new { @id = "mainForm" }))
+        {
+            <div class="form-horizontal">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.equipment.eqEquipmentID)
+
+                <div class="form-group">
+                    @Html.Label("Description", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.equipment.description, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.equipment.description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Manufacturer", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.equipment.manufacturerFK, Model.AllEquipManufacturers, "Select...", new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(model => model.equipment.manufacturerFK, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Product Type ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.equipment.productTypeFK, Model.AllProductTypes, "Select...", new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(model => model.equipment.productTypeFK, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Cartridge Type ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.equipment.eqCartridgeTypeFK, Model.AllCartridgeTypes, "Select...", new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(model => model.equipment.productTypeFK, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Main URL ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.equipment.mainURL, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.equipment.productTypeFK, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Thumbnail URL ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(m => m.equipment.thumbnailURL, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.equipment.metaKeywords, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Product ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <select id="aProduct"></select>
+                        @Html.HiddenFor(m => m.equipment.productFK, new { @class = "hiddenValue" })
+                        @Html.ValidationMessageFor(m => m.equipment.productFK, "", new { @class = "text-danger g-m-l-50" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Meta Keywords ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(m => m.equipment.metaKeywords, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.equipment.metaKeywords, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @if (Model.equipment.eqEquipmentID > 0)
+                {
+                    <div class="form-group">
+                        @Html.Label("Date Last Updated", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.equipment.dateLastUpdate, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group">
+                    @Html.Label("Families", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="famContainer">
+                            @foreach (var famMap in Model.equipment.eqFamilyMembership)
+                            {
+                                Html.RenderPartial("~/Views/PMS/Equipment/CreateFamilyMapping.cshtml", famMap);
+                            }      
+                        </div>
+
+                        @Html.DropDownList("newFamily", Model.AllFamilies, "Select Additional Family...", new { @class = "form-control g-largeCell g-m-t-10" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Status", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.equipment.statusFK, Model.AllEquipStatus, "Select...", new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(model => model.equipment.equipmentStatus.Status, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Meta Content Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.equipment.metaContentTypeFK, Model.AllMetaContentTypes, "Select...", new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(model => model.equipment.metaContentType.metaContentDescription, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    @Html.Label("Featured (Brand Level)", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(model => model.equipment.brandFeatured, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    @Html.Label("Featured (Global Level)", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(model => model.equipment.globallyFeatured, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="btnSaveEquipment" value="Save" class="btn btn-default" />
+                        @Html.ActionLink("Cancel", "EquipmentIndex", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.equipment.product != null)
+        {
+            @Html.Hidden("aProductName", Model.equipment.product.partNo + " - " + Model.equipment.product.productName)
+        }
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            //This allows validation of hidden fields inside the form
+            $('#mainForm').validate().settings.ignore = [];
+
+            setupComboBox($('#GetProductsURL').val());
+
+        });
+
+        $(document).ready(function () {
+            $("#aProduct").combobox();
+
+            $('.custom-combobox-input:first').val($('#aProductName').val());
+        });
+
+        $(document).on('change', '#newFamily', function () {
+            var objArray = new Array();
+            objArray[0] = this.value;
+            objArray[1] = $('#equipment_eqEquipmentID').val();
+
+            $.ajax({
+                url: $('#GetNewFamilyRowURL').val(),
+                dataType: 'html',
+                traditional: true,
+                type: 'POST',
+                cache: false,
+                data:
+                    {
+                        optionsArray: objArray,
+                        timestamp: $.now()
+                    },
+                async: false,
+                success: function (data) {
+                    $('.famContainer').append(data);
+                    $('#newFamily option').removeAttr("selected");
+                }
+            });
+        });
+
+        $(document).on('click', '.lnkDelete', function () {
+            $(this).parent().remove();
+            return false;
+        });
+
+    </script>
+}

@@ -1,0 +1,104 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Shared;
+@using netGiant.Intranet.DataLayer.NetgiantMasterData;
+@using netGiant.Intranet.BusinessLayer.Utilities;
+@using System.Collections;
+@model CommonViewModel
+
+<div>
+@Ajax.HtmlActionLink("<span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span> Delete Cache",
+      "DeleteCache",
+      "Admin",
+      new
+      {
+      },
+      new AjaxOptions()
+      {
+          HttpMethod = "POST",
+          OnComplete = "location.reload()"
+      },
+      new
+      {
+          @class = "pull-right g-m-r-10 g-p-5 form-delete btn btn-default btn-sm"
+      })
+</div>
+<div class="table-responsive g-w-100p g-p-t-10">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Variable Name</th>
+                <th style="width: 60%;">Variable Value</th>
+                <th style="width: 100px">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{HttpContext oc = HttpContext.Current;
+                foreach (DictionaryEntry c in oc.Cache)
+                {
+                    if (!c.Key.ToString().StartsWith(":ViewCacheEntry"))
+                    {
+                        <tr>
+                            <td>@(c.Key.ToString())</td>
+                            <td>
+                                <div style="max-width: 600px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                                    @if (HttpContext.Current.Cache[c.Key.ToString()].GetType().Namespace == "System")
+                                    {
+                                        @HttpContext.Current.Cache[c.Key.ToString()]
+                                    }
+                                    else
+                                    {
+                                        if (HttpContext.Current.Cache[c.Key.ToString()].GetType().AssemblyQualifiedName.StartsWith("System.Collections.Generic.List"))
+                                        {
+                                            if (c.Value.GetType() == typeof(List<actionLink>))
+                                            {
+                                                <button data-toggle="collapse" data-target="#@c.Key.ToString().Replace('/', '-')">Expand/Collapse</button>
+                                                <div id="@c.Key.ToString().Replace('/', '-')" class="collapse g-m-b-10">
+                                                    <div class="row g-fw-b g-m-t-10">
+                                                        <div class="col-md-3">Description</div>
+                                                        <div class="col-md-3">Area</div>
+                                                        <div class="col-md-3">Controller</div>
+                                                        <div class="col-md-3">Action</div>
+                                                    </div>
+                                                    @foreach (var item in (List<actionLink>)c.Value)
+                                                    {
+                                                        <div class="row">
+                                                            <div class="col-md-3">@item.actionLinkDesc</div>
+                                                            <div class="col-md-3">@item.area</div>
+                                                            <div class="col-md-3">@item.controllerName</div>
+                                                            <div class="col-md-3">@item.actionName</div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @HttpContext.Current.Cache[c.Key.ToString()].GetType().AssemblyQualifiedName
+                                            }
+                                        }
+                                    }
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                @Ajax.HtmlActionLink("<span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span> Delete",
+                                    "DeleteCache",
+                                    "Admin",
+                                    new
+                                    {
+                                        cacheKey = c.Key
+                                    },
+                                    new AjaxOptions()
+                                    {
+                                        HttpMethod = "POST",
+                                        OnComplete = "location.reload()"
+                                    },
+                                    new
+                                    {
+                                        @class = "pull-right g-m-r-10 g-p-5 form-delete btn btn-default btn-sm"
+                                    })
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>

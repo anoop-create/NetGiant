@@ -1,0 +1,19 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model DashboardViewModel.Dash1
+
+<div class="col-md-12 col-lg-8 dashlet-chart">
+    <div class="g-bg-white row g-b-1-lg">
+        <div class="col-xs-12">
+            <div class="g-p-l-20 text-left">
+                <i class="fa fa-question-circle-o fa-lg help-popup g-m-r-10" data-toggle="tooltip" title="This chart shows how many products are within a range of gross margin percentages, divided into ten groups between the minimum and maximum margin." data-helpsid="2" data-helpeid="2"></i>
+                <span class="g-fw-b dashlet-title">Margin Distribution by Decile</span>
+            </div>
+            <div class="pull-left col-xs-12 g-bt-1-lg">
+                <div class="clearfix">
+                    <div id="chart6" class="bar-chart"></div>
+                    @*<div id="chart7" class="pie-chart"></div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+﻿@using netGiant.Intranet.DataLayer;
+@using PagedList.Mvc;
+@model List<websiteInventory>
+
+@foreach (var item in Model)
+{
+    string pMSColour = "";
+    string compColour = "";
+    productPrice pp = item.productPrice.OrderByDescending(x => x.productPriceID).FirstOrDefault();
+
+    if (pp != null && pp.price <= pp.cheapestCompetitorPrice)
+    {
+        pMSColour = "#bced91";
+    }
+    else
+    {
+        compColour = "#bced91";
+    }
+
+    <tr>
+        <td>
+            @Html.ActionLink(item.product.partNo, "Detail/" + item.productFK, "Product", null, new { @class = "sku" })
+        </td>
+        <td>
+            @Html.DisplayFor(m => item.Website.FriendlyName)
+        </td>
+        <td>
+            @Html.DisplayFor(m => item.product.productName)
+        </td>
+        <td>
+            @Html.DisplayFor(m => item.product.manufacturer.manufacturerName)
+        </td>
+        <td>
+            @Html.DisplayFor(m => item.categoryCode.categoryCodeName)
+        </td>
+        <td>
+            @Html.Raw(item.product.supplierStock == null ? 0 : item.product.supplierStock)
+        </td>
+        <td>
+            <a class="showCompetitors" value="@item.product.partNo" href="#">
+                <div class="g-w-40 g-m-hc">
+                    @Html.Raw(pp != null ? pp.competitorCount : 0)
+                </div>
+            </a>
+        </td>
+        <td>
+            @Html.Raw("£" + string.Format("{0:N2}", pp != null ? pp.cheapestCostPrice : 0))
+        </td>
+        <td>
+            @Html.Raw(pp != null ? pp.basePrice != null ? "£" + string.Format("{0:N2}", pp != null ? pp.basePrice : 0) : "" : "")
+        </td>
+        <td style="background-color: @compColour">
+            @Html.Raw("£" + string.Format("{0:N2}", pp != null ? pp.cheapestCompetitorPrice : 0))
+        </td>
+        <td style="background-color: @pMSColour">
+            @Html.Raw("£" + string.Format("{0:N2}", pp != null ? pp.price : 0))
+        </td>
+        <td>
+            @Html.Raw("£" + string.Format("{0:N2}", pp != null ? pp.price - pp.cheapestCostPrice : 0))
+        </td>
+        <td>
+            @Html.Raw(pp != null ? pp.pricingRule == null ? "" : pp != null ? pp.pricingRule : "" : "")
+        </td>
+        <td>
+            @Html.Raw(string.Format("{0:N2}", pp != null ? Math.Round((float)((pp.price - pp.cheapestCostPrice ?? 0) / pp.price) * 100, 2) : 0) + "%")
+        </td>
+        <td>
+            @Html.Raw("£" + string.Format("{0:N2}", pp != null ? Math.Round((float)pp.price - (float)pp.cheapestCompetitorPrice, 2) : 0))
+        </td>
+        <td>
+            @if (item.product.productItemTypeFK == 2)
+            {
+                <a href="#" class="components" value="@item.productFK">
+                    @Html.Raw("£" + string.Format("{0:N2}", pp != null ?
+                        Math.Round((float)(pp.basePrice ?? 0 - pp.price), 2) : 0))
+                </a>
+            }
+        </td>
+    </tr>
+}

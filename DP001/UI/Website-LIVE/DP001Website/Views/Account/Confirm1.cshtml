@@ -1,0 +1,47 @@
+﻿@model DP001Website.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Registration Complete";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-lg-4 col-lg-push-4 col-sm-8 col-sm-push-2 account-form vertical-align-center">
+            <h1>@ViewBag.Title</h1>
+
+            <div class="register-stage clearfix">
+                <div class="pull-left text-nowrap text-center">
+                    Details
+                    <div class="active"></div>
+                </div>
+                <div class="pull-left text-nowrap text-center">
+                    Select Product
+                    <div class="active"></div>
+                </div>
+                <div class="pull-left text-nowrap text-center">
+                    Payment
+                    <div class="active"></div>
+                </div>
+                <div class="pull-left text-nowrap text-center">
+                    Complete
+                    <div class="active"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-success" value="Continue" />
+            </div>
+            <div class="row-height-fix full-center">
+                <i class="fa fa-asterisk"></i>
+                <span style="padding: 0 5px;">Marked fields are mandatory.</span>
+                <div style="display: inline">
+                    <i class="fa fa-cc-mastercard fa-2x"></i>
+                    <i class="fa fa-cc-amex fa-2x"></i>
+                    <i class="fa fa-cc-visa fa-2x"></i>
+                    <i class="fa fa-cc-paypal fa-2x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

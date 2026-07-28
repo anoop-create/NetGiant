@@ -1,0 +1,360 @@
+﻿@using System.Configuration;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce
+@model FaqViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "FAQ";
+    ViewBag.SubTitle = Model.Faq.FaqId != 0 ? "Edit" : "Create";
+}
+
+@Html.Hidden("GetProductsURL", Url.Action("GetProducts", "Ecommerce"))
+@Html.Hidden("GetModelsURL", Url.Action("GetModels", "Ecommerce"))
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title</h4>
+
+        @using (Html.BeginForm("SaveFaq", "Ecommerce", FormMethod.Post, new { @id = "mainForm" }))
+        {
+            <div class="form-horizontal">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.Faq.FaqId)
+
+                <div class="form-group">
+                    @Html.Label("Website", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.Faq.WebsiteFk, Model.AllWebsites, "Select...", new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(m => m.Faq.WebsiteFk, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Page Scope", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.Faq.PageScopeFk, Model.AllPageScopes, "Select...", new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(m => m.Faq.PageScopeFk, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Category Scope", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.Faq.CategoryScopeFk, Model.AllCategoryScopes, "Select...", new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(m => m.Faq.CategoryScopeFk, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div id="scpUniversal">
+                    @Html.HiddenFor(m => m.Faq.ProductFk)
+                    @Html.HiddenFor(m => m.Faq.EquipmentFk)
+                    @Html.HiddenFor(m => m.Faq.CartridgeTypeFk)
+                    @Html.HiddenFor(m => m.Faq.ManufacturerFk)
+                </div>
+
+                <div id="scpProduct">
+                    <div class="form-group">
+                        @Html.Label("Product", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <select id="aProduct"></select>
+                            @Html.HiddenFor(m => m.Faq.ProductFk, new { @class = "hiddenValue" })
+                            @Html.ValidationMessageFor(m => m.Faq.ProductFk, "", new { @class = "text-danger g-m-l-50" })
+                        </div>
+                        @Html.HiddenFor(m => m.Faq.EquipmentFk)
+                        @Html.HiddenFor(m => m.Faq.CartridgeTypeFk)
+                        @Html.HiddenFor(m => m.Faq.ManufacturerFk)
+                    </div>
+                </div>
+
+                <div id="scpModel">
+                    <div class="form-group">
+                        @Html.Label("Model", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <select id="aModel"></select>
+                            @Html.HiddenFor(m => m.Faq.EquipmentFk, new { @class = "hiddenValue" })
+                            @Html.ValidationMessageFor(m => m.Faq.EquipmentFk, "", new { @class = "text-danger g-m-l-50" })
+                        </div>
+                    </div>
+                    @Html.HiddenFor(m => m.Faq.ProductFk)
+                    @Html.HiddenFor(m => m.Faq.CartridgeTypeFk)
+                    @Html.HiddenFor(m => m.Faq.ManufacturerFk)
+                </div>
+
+                <div id="scpWizard">
+                    <div class="form-group">
+                        @Html.Label("Cartridge Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.Faq.CartridgeTypeFk, Model.AllCartridgeTypes, "Select...", new { @class = "form-control g-largeCell" })
+                            @Html.ValidationMessageFor(m => m.Faq.CartridgeTypeFk, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Equipment Brand", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.Faq.ManufacturerFk, Model.AllManufacturers, "Select...", new { @class = "form-control g-largeCell" })
+                            @Html.ValidationMessageFor(m => m.Faq.ManufacturerFk, "", new { @class = "text-danger" })
+                        </div>
+                        @Html.HiddenFor(m => m.Faq.EquipmentFk)
+                        @Html.HiddenFor(m => m.Faq.ProductFk)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Active", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(m => m.Faq.IsActive)
+                        @Html.ValidationMessageFor(m => m.Faq.IsActive, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Generate Schema", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(m => m.Faq.GenerateSchema)
+                        @Html.ValidationMessageFor(m => m.Faq.GenerateSchema, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Priority", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Faq.Priority, new { htmlAttributes = new { @class = "form-control g-xxSmallCell g-a-r" } })
+                        @Html.ValidationMessageFor(model => model.Faq.Priority, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @{
+                    string weburl = Model.Faq.WebsiteFk != 0 ? Model.Faq.Website.WebURL : "www.tonergiant.co.uk";
+
+                    if (ConfigurationManager.AppSettings["Environment"] != "Live")
+                    {
+                        weburl.Replace("www", "beta");
+                    }
+
+                    var bootstrapCss = (Request.Headers["X-FORWARDED-PROTO"] ?? Request.Url.Scheme) + "://" + weburl + "/Content/bootstrap.css";
+                    var fontAwesomeCss = (Request.Headers["X-FORWARDED-PROTO"] ?? Request.Url.Scheme) + "://" + weburl + "/Content/font-awesome.css";
+                    var siteCss = (Request.Headers["X-FORWARDED-PROTO"] ?? Request.Url.Scheme) + "://" + weburl + "/Content/site.less";
+                }
+
+                <div class="form-group">
+                    @Html.Label("Question", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @(Html.Kendo().Editor()
+                                      .Name("question")
+                                      .HtmlAttributes(new { style = "height:200px;", @class = "kendoEditor" })
+                                      .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                                      .Encode(false)
+                                      .Serialization(s => s
+                                          .Semantic(false)
+                                          .Scripts(true)
+                                          .Custom("formatHtml"))
+                                      .Tools(tool => tool
+                                          .FontColor()
+                                          .BackColor()
+                                          .FontSize()
+                                          .ViewHtml()
+                                      )
+                                      .Value(Model.Faq.Question)
+                                      .StyleSheets(css => css
+                                          .Add(Url.Content(bootstrapCss))
+                                          .Add(Url.Content(fontAwesomeCss))
+                                          .Add(Url.Content(siteCss))
+                                      )
+                        )
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Faq.Question, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Answer", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @(Html.Kendo().Editor()
+                                      .Name("answer")
+                                      .HtmlAttributes(new { style = "height:200px;", @class = "kendoEditor" })
+                                      .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                                      .Encode(false)
+                                      .Serialization(s => s
+                                          .Semantic(false)
+                                          .Scripts(true)
+                                          .Custom("formatHtml"))
+                                      .Tools(tool => tool
+                                          .FontColor()
+                                          .BackColor()
+                                          .FontSize()
+                                          .ViewHtml()
+                                      )
+                                      .Value(Model.Faq.Answer)
+                                      .StyleSheets(css => css
+                                          .Add(Url.Content(bootstrapCss))
+                                          .Add(Url.Content(fontAwesomeCss))
+                                          .Add(Url.Content(siteCss))
+                                      )
+                        )
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Faq.Answer, "", new { @class = "text-danger" })
+                </div>
+
+                <div id="confirmRemoveDialog" title="Confirm Delete" style="display:none;">
+                    Are you sure you want to delete ?
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="btnSaveEquipment" value="Save" class="btn btn-default" />
+                        @Html.ActionLink("Cancel", "FaqIndex", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (Model.Faq.product != null)
+        {
+            @Html.Hidden("aProductName", Model.Faq.product.partNo + " - " + Model.Faq.product.productName)
+        }
+        @if (Model.Faq.eqEquipment != null)
+        {
+            @Html.Hidden("aModelName", Model.Faq.eqEquipment.description)
+        }
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/html5-tidy.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.kendoEditor').data("kendoEditor").wrapper.show();
+
+            //This allows validation of hidden fields inside the form
+            $('#mainForm').validate().settings.ignore = [];
+
+            $(document).on('change', '#Faq_PageScopeFk', function () {
+                if ($(this).find("option:selected").text() == 'Universal') {
+                    $('#scpProduct input').prop('disabled', true);
+                    $('#scpModel input').prop('disabled', true);
+                    $('#scpWizard input').prop('disabled', true);
+                    $('#scpUniversal input').prop('disabled', false);
+
+                    $('#scpProduct').removeClass('g-d-n').addClass('g-d-n');
+                    $('#scpModel').removeClass('g-d-n').addClass('g-d-n');
+                    $('#scpWizard').removeClass('g-d-n').addClass('g-d-n');
+                    $('#scpUniversal').removeClass('g-d-n');
+                }
+                if ($(this).find("option:selected").text() == 'Product Page') {
+                    $('#scpUniversal input').prop('disabled', true);
+                    $('#scpModel input').prop('disabled', true);
+                    $('#scpWizard input').prop('disabled', true);
+                    $('#scpProduct input').prop('disabled', false);
+
+                    $('#scpUniversal').removeClass('g-d-n').addClass('g-d-n');
+                    $('#scpModel').removeClass('g-d-n').addClass('g-d-n');
+                    $('#scpWizard').removeClass('g-d-n').addClass('g-d-n');
+                    $('#scpProduct').removeClass('g-d-n');
+
+                    setupComboBox($('#GetProductsURL').val());
+                    $('#aProduct').combobox();
+                    if ($('#Faq_ProductFk').val() > 0) {
+                        //$('.custom-combobox-input:first').val($('#aProductName').val());
+                        $('#aProduct').closest('.form-group').find('.custom-combobox-input').val($('#aProductName').val());
+                    }
+                }
+                if ($(this).find("option:selected").text() == 'Model Page') {
+                    $('#scpUniversal input').prop('disabled', true);
+                    $('#scpWizard input').prop('disabled', true);
+                    $('#scpProduct input').prop('disabled', true);
+                    $('#scpModel input').prop('disabled', false);
+
+                    $('#scpUniversal').removeClass('g-d-n').addClass('g-d-n');
+                    $('#scpWizard').removeClass('g-d-n').addClass('g-d-n');
+                    $('#scpProduct').removeClass('g-d-n').addClass('g-d-n');
+                    $('#scpModel').removeClass('g-d-n');
+
+                    setupComboBox($('#GetModelsURL').val());
+                    $('#aModel').combobox();
+                    if ($('#Faq_EquipmentFk').val() > 0) {
+                        $('#aModel').closest('.form-group').find('.custom-combobox-input').val($('#aModelName').val());
+                    }
+                }
+                if ($(this).find("option:selected").text() == 'Wizard Page') {
+                    $('#scpUniversal input').prop('disabled', true);
+                    $('#scpProduct input').prop('disabled', true);
+                    $('#scpModel input').prop('disabled', true);
+                    $('#scpWizard input').prop('disabled', false);
+
+                    $('#scpUniversal').removeClass('g-d-n').addClass('g-d-n');
+                    $('#scpProduct').removeClass('g-d-n').addClass('g-d-n');
+                    $('#scpModel').removeClass('g-d-n').addClass('g-d-n');
+                    $('#scpWizard').removeClass('g-d-n');
+                }
+            });
+
+            $(document).on('change', '#Faq_CategoryScopeFk', function () {
+                // Fudged validation
+                errMsg = "";
+                if ($('#Faq_PageScopeFk').find("option:selected").text() == 'Universal') {
+                    // Only Universal allowed
+                    if ($(this).find("option:selected").text() != 'Universal') {
+                        errMsg = 'Only Universal is allowed for a PageScope of Universal'
+                    }
+                }
+                if ($('#Faq_PageScopeFk').find("option:selected").text() == 'Product Page') {
+                    if ($(this).find("option:selected").text() == 'Model') {
+                        errMsg = 'Model is not allowed for a PageScope of Product Page'
+                    }
+                }
+                if ($('#Faq_PageScopeFk').find("option:selected").text() == 'Model Page') {
+                    if ($(this).find("option:selected").text() == 'Product') {
+                        errMsg = 'Product is not allowed for a PageScope of Model Page'
+                    }
+                }
+                if ($('#Faq_PageScopeFk').find("option:selected").text() == 'Wizard Page') {
+                    if ($(this).find("option:selected").text() == 'Model') {
+                        errMsg = 'Model is not allowed for a PageScope of Wizard Page'
+                    }
+                    if ($(this).find("option:selected").text() == 'Product') {
+                        errMsg = 'Product is not allowed for a PageScope of Wizard Page'
+                    }
+                }
+                if (errMsg != "") {
+                    $.confirm({
+                        title: 'Error',
+                        content: errMsg,
+                        buttons: {
+                            confirm: function () {
+                                $('#Faq_CategoryScopeFk').val('');
+                            }
+                        }
+                    });
+                }
+            });
+
+            $('#Faq_PageScopeFk').trigger("change");
+        });
+
+        function formatHtml(html) {
+            var showBodyOnly = true;
+            var options = {
+                "indent": "auto",
+                "indent-spaces": 4,
+                "wrap": 200,
+                "output-xml": false,
+                "quote-nbsp": false,
+                "show-body-only": showBodyOnly,
+                "quote-ampersand": false,
+                "uppercase-tags": false,
+                "uppercase-attributes": false,
+                "drop-font-tags": false,
+                "tidy-mark": false,
+                "drop-empty-paras": false,
+                "drop-empty-elements": false
+            }
+            @if (Model.Faq.Question != null && (Model.Faq.Question.Length < 6 || !Model.Faq.Question.TrimStart().Substring(0, 6).Contains("<style")))
+            {
+                @:return tidy_html5(html, options);
+            }
+        }
+    </script>
+}
+
+

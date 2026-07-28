@@ -1,0 +1,71 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model AxisValueLookupViewModel
+
+@{
+    ViewBag.Title = "Create Axis Value Lookup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h4>@ViewBag.Title</h4>
+        <div class="form-horizontal">
+            @using (Html.BeginForm("Save", "AxisValueLookup"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.AxisValueLookup.axisValueLookupID)
+
+                <div class="form-group">
+                    @if (Model.AxisValueLookup.axisValueLookupID > 0)
+                    {
+                        @Html.Label("AxisValueLookup ID", htmlAttributes: new { @class = "control-label col-md-2" })
+                    } 
+                    <div class="col-md-10">
+                        @if (Model.AxisValueLookup.axisValueLookupID > 0)
+                        {
+                            <div class="g-m-t-10">@Html.DisplayFor(model => model.AxisValueLookup.axisValueLookupID, new { htmlAttributes = new { @class = "form-control g-largeCell" } })</div>
+                            @Html.HiddenFor(x => x.AxisValueLookup.axisValueLookupID)
+                        }
+                        @Html.ValidationMessageFor(model => model.AxisValueLookup.axisValueLookupID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("AxisTypeName FK", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.HiddenFor(x => x.AxisValueLookup.axisTypeNameFK)
+                        @Html.DisplayFor(model => model.AxisValueLookup.AttributeTypeNameDescription, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.AxisValueLookup.AttributeTypeNameDescription, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("AttrName FK", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.AxisValueLookup.attrNameFK, Model.AttrNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        @Html.ValidationMessageFor(model => model.AxisValueLookup.attrNameFK, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("AttrValue ID", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.AxisValueLookup.attrValueID, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.AxisValueLookup.attrValueID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("AttrValue Description", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.AxisValueLookup.attrValueDesc, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.AxisValueLookup.attrValueDesc, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveCartridgetype" value="Save" class="btn btn-default" title="Save" />
+                        @Html.ActionLink("Cancel", "AxisValueLookupIndex", "AxisValueLookup", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,24 @@
+﻿@using netGiant.Intranet.Models;
+@using Microsoft.AspNet.Identity.EntityFramework;
+
+@model List<IdentityRole>
+
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Role Name</th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (IdentityRole role in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(m => role.Name)</td>
+            <td>@Html.DisplayFor(m => role.Id)</td>
+            <td>
+                <a class="lnkDeleteRole" href="#" value="@role.Name">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,101 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model DataSupplierViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Data Supplier";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <div id="dataSupplierToggler" class="toggler">
+            <div id="effect" class="ui-widget-content ui-corner-all">
+                <h3 class="ui-widget-header ui-corner-all"></h3>
+            </div>
+        </div>
+
+        <h4>@ViewBag.Title Details</h4>
+
+        <br />
+
+        <div id="dataSupplierPartialView">
+
+            @Html.Hidden("DataSupplierDeleteURL", Url.Action("Delete", "DataSupplier"))
+
+            <div>
+                @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+                {
+                    @Html.ActionLink("Create New", "Create", "DataSupplier", new { id = 0 }, null)
+                }
+                else
+                {
+                    @Html.Raw("&nbsp");
+                }
+            </div>
+
+            @(Html.Kendo().Grid<DataSupplierViewModel.TelerikDataSupplier>()
+                .HtmlAttributes(new { @class = "pointer-rows" })
+                .Name("DataSupplierGrid")
+                .Columns(columns =>
+                {
+                columns
+                    .Bound(x => x.Name)
+                    .Title("Supplier Name")
+                    .Width("35%")
+                    .HeaderHtmlAttributes(new { title = "Supplier Name", style = "text-align: center;" });
+                columns
+                    .Bound(x => x.LastUpdate)
+                    .ClientTemplate(
+                        "#= kendo.toString(kendo.parseDate(LastUpdate),'dd/MM/yyyy HH:mm:ss') #")
+                    .Title("Date Last Updated")
+                    .Width("35%")
+                    .HeaderHtmlAttributes(new { title = "Date Last Updated", style = "text-align: center;" });
+                columns
+                    .Bound(x => x.ID)
+                    .ClientTemplate(
+                        "<a href=\"\\\\#\" class=\"lnkDataSupplierDelete\" value=\"#:ID#\" title=\"Delete\">Delete</a>")
+                    .Width("20%")
+                    .HeaderHtmlAttributes(new { title = "Action", style = "text-align: center;" })
+                    .Title("Action")
+                    .Filterable(false)
+                    .Sortable(false)
+                    .Groupable(false);
+            }
+            )
+            .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+            .ColumnMenu()
+            .Sortable(sortable => sortable.AllowUnsort(true))
+            .Resizable(resize => resize.Columns(true))
+            .Reorderable(reorder => reorder.Columns(true))
+            .NoRecords("There are no products to display")
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(x => x.Action("DataSupplierAjax", "DataSupplier"))
+                .PageSize(50)
+                )
+            )
+
+
+
+
+
+
+        </div>
+
+        <div id="dataSupplierDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+            Are you sure you want to delete ?
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).on("click", ".lnkDataSupplierDelete", function () {
+            optionsArray = new Array();
+            optionsArray[0] = $(this).attr("value")
+            ajaxDeleteTelerikRow(optionsArray, $('#DataSupplierDeleteURL').val(), '#dataSupplierDialog')
+            return false;
+        });
+    </script>
+}

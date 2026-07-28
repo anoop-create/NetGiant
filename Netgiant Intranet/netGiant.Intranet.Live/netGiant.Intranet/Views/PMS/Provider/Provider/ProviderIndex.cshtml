@@ -1,0 +1,122 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Provider;
+@model ProviderViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Provider";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title Details</h4>
+
+        <div style="padding-bottom: 20px">
+            @Html.DropDownListFor(m => m.selectedProviderTypeID, Model.allProviderTypes, "Search By Provider Type", new { @class = "form-control g-smallCell g-f-l g-m-r-10" })
+            <select id="providerSearchBy" class="searchBy g-f-l form-control g-smallCell" style="margin-right:10px" >
+                <option selected="selected" value="name">Search by name</option>
+            </select>
+            <div>
+                @Html.TextBox("SearchProvider", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10", @type = "text" })
+                <a id="lnkSearchProvider" href="#" class="btn btn-default g-f-l" title="Empty search returns all records">Search</a>
+            </div>
+        </div>
+
+        <br />
+
+        <div id="providerData">
+            @{ Html.RenderPartial("~/Views/PMS/Provider/Provider/ProviderData.cshtml", Model.providers); }
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        $(document).on("click", "#lnkSearchProvider, #providerPaging a", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $("#SearchProvider").keypress(function (event) {
+            if (event.which == 13) {
+                applyStandardPaging(event);
+            }
+        });
+
+        $(document).on("click", ".lnkProviderDelete", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete('#providerDeleteDialog', $('#DeleteProviderURL').val(), $(this).attr('value'),
+                '#providerData', optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            applyStandardPaging(event, 0);
+
+            return false;
+        });
+
+        if ($("#historyPage").val() != '') {
+            $('#providerData').html($("#historyPage").val());
+        }
+
+        $(document).on("change", "#selectedProviderTypeID", function (event) {
+            applyStandardPaging(event, 0);
+        });
+
+        $(document).on("change", '.providerActive', function () {
+            var objParams = { id: $(this).attr('data-id') };
+            ajaxGet($('#EnableDisableURL').val(), null, objParams);
+        });
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging();
+            standardPaging(event, id, "#providerPaging", $('#ProviderDataURL').val(),
+                                    "#providerData", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#SearchProvider").val(); //SearchTerm
+            optionsArray[1] = $("#providerSearchBy").val(); //SearchBy
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[2] = sortType + sortDir;
+            } else {
+                optionsArray[2] = '';
+            }
+
+            optionsArray[3] = $("#selectedProviderTypeID option:selected").val().length > 0 ? $("#selectedProviderTypeID option:selected").val() : 0;
+        }
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value"); //ProviderID
+            optionsArray[1] = $("#SearchProvider").val(); //SearchTerm
+            optionsArray[2] = $("#providerSearchBy").val(); //SearchBy
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[3] = sortType + sortDir;
+            } else {
+                optionsArray[3] = '';
+            }
+
+            optionsArray[4] = $("#selectedProviderTypeID option:selected").val().length > 0 ? $("#selectedProviderTypeID option:selected").val() : 0;
+        }
+
+    </script>
+}

@@ -1,0 +1,206 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Provider;
+
+@model ProviderViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Provider Inventory";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title Details</h4>
+    @Html.RawFromDict(Model.IntranetData, "ProviderInventoryIndexFilters")
+
+    @using (Html.BeginForm("ExportProviderInventory", "Provider", FormMethod.Post, new { @id = "ExportForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("kendoData")
+    }
+
+    <input type="submit" class="btn btn-success g-m-t-5 download" value="Export to CSV" />
+</div>
+
+@(Html.Kendo().Grid<TelerikProviderInventory>()
+        .HtmlAttributes(new { @class = "pointer-rows" })
+        .Name("providerInventoryGrid")
+        .Columns(columns =>
+        {
+            columns.Bound(x => x.PartNo).Title("Part No").Width("90px")
+                .HeaderHtmlAttributes(new { title = "Part No", style = "text-align: center;" });
+            columns.Bound(x => x.Description).Title("Description").Width("180px")
+                .HeaderHtmlAttributes(new { title = "Description", style = "text-align: center;" });
+            columns.Bound(x => x.PotentialNew).Title("Potential New")
+                .HeaderHtmlAttributes(new { title = "Potential New", style = "text-align: center;" });
+            columns.Bound(x => x.Quantity).Title("Quantity").HtmlAttributes(new { @class = "g-a-c" })
+                .HeaderHtmlAttributes(new { title = "Quantity", style = "text-align: center;" });
+            columns.Bound(x => x.DateLastUpdated).Format("{0:dd/MM/yyyy HH:mm:ss}").Title("Date Last Update")
+                .HeaderHtmlAttributes(new { title = "Date Last Update", style = "text-align: center;" });
+            columns.Bound(x => x.ProviderName).Title("Provider")
+                .HeaderHtmlAttributes(new { title = "Provider", style = "text-align: center;" });
+            columns.Bound(x => x.ProviderType).Title("Provider Type")
+                .HeaderHtmlAttributes(new { title = "Provider Type", style = "text-align: center;" });
+            columns.Bound(x => x.ProviderPartNo).Title("Provider Part No")
+                .HeaderHtmlAttributes(new { title = "Provider Part No", style = "text-align: center;" });
+            columns.Bound(x => x.Manufacturer).Title("Manufacturer")
+                .HeaderHtmlAttributes(new { title = "Manufacturer", style = "text-align: center;" });
+            columns.Bound(x => x.Code).Title("Code").Hidden(true)
+                .HeaderHtmlAttributes(new { title = "Code", style = "text-align: center;" });
+            columns.Bound(x => x.Class).Title("Class").Hidden(true)
+                .HeaderHtmlAttributes(new { title = "Class", style = "text-align: center;" });
+            columns.Bound(x => x.ManufacturerReference).Title("Manu Ref")
+                .HeaderHtmlAttributes(new { title = "Manu Ref", style = "text-align: center;" });
+            columns.Bound(x => x.Barcode).Title("Barcode").Hidden(true)
+                .ClientTemplate("<a href=\"##\" class=\"barcodeLink\">#:Barcode#</a>")
+                .HeaderHtmlAttributes(new { title = "Barcode", style = "text-align: center;" }); ;
+            columns.Bound(x => x.Price).Title("Price")
+                .ClientTemplate("<a href=\"##\" value=\"#:ProviderInventoryId#\" part=\"#:PartNo#\" class=\"lnkPriceHistory\">#:(Price != null) ? '&pound;':''##:(Price != null) ? Price.toFixed(2) : 'No Prices' #</a>")
+                .HeaderHtmlAttributes(new { title = "Price", style = "text-align: center;" });
+            columns.Bound(x => x.Untrusted).Title("Untrusted")
+                .ClientTemplate("<input pid=\"#:ProviderInventoryId#\" class=\"untrustedChkBox\" type=\"checkbox\" #:Untrusted ? \"checked=checked\" : \"\" # ></input>")
+                .HtmlAttributes(new { @class = "g-a-c" })
+                .HeaderHtmlAttributes(new { title = "Untrusted", style = "text-align: center;" });
+            columns.Bound(x => x.UntrustedAuto).Title("Untrusted Method").HtmlAttributes(new { @class = "g-a-c" }).Hidden(true);
+            columns.Bound(x => x.Unwanted).Title("Unwanted")
+                .ClientTemplate("<input pid=\"#:ProviderInventoryId#\" class=\"unwantedChkBox\" type=\"checkbox\" #:Unwanted ? \"checked=checked\" : \"\" # ></input>")
+                .HtmlAttributes(new { @class = "g-a-c" })
+                .HeaderHtmlAttributes(new { title = "Unwanted", style = "text-align: center;" });
+        })
+        .Pageable(pager => pager.Refresh(true))
+        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+        .Groupable()
+        .Sortable()
+        .Scrollable()
+        .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .NoRecords("There are no provider inventories to display")
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(x => x.Action("ProviderInventory_Read", "Provider"))
+            .Filter(f => f.Add(x => x.ProviderType).IsEqualTo("Supplier"))
+            .Filter(f => f.Add(x => x.PotentialNew).IsEqualTo(true))
+            .Filter(f => f.Add(x => x.Quantity).IsGreaterThan(0))
+            .Filter(f => f.Add(x => x.Unwanted).IsEqualTo(false))
+            .Sort(s => s.Add(x => x.PartNo).Ascending())
+            .Sort(s => s.Add(x => x.Description).Descending())
+            .PageSize(200)
+        )
+        .Events(e => e
+            .DataBound("grid_databound")
+        )
+)
+
+<div id="priceHistoryContainer" class="g-d-n"></div>
+<div id="eanSearchDialogue" title="EAN Search" class="g-d-n" style="overflow: hidden;"></div>
+
+<script type="text/javascript">
+
+    var options;
+
+    function grid_databound() {
+        var view = $("#providerInventoryGrid").data("kendoGrid").dataSource.view();
+
+        if (view.length > 200) {
+            $('#kendoData').val(encodeURIComponent(JSON.stringify(view)));
+            //$('#ExportForm').submit();
+            $("#providerInventoryGrid").data("kendoGrid").dataSource.pageSize(200);
+        }
+        saveGridFilters();
+    }
+
+    $(document).on('click', '.download', function (e) {
+        var view = $("#providerInventoryGrid").data("kendoGrid").dataSource.view();
+        $('#kendoData').val(encodeURIComponent(JSON.stringify(view)));
+        $('#ExportForm').submit();
+    });
+
+    $(document).on('click', '.hide-row', function (e) {
+        $(this).closest("tr").hide();
+        var providerInventoryId = $(this).attr('id');
+        // remove from datastore
+        e.preventDefault();
+    });
+
+    $(document).on('click', '.barcodeLink', function () {
+        $('body').append('<div id="updatingContainer" style="z-index: 102;"></div>');
+        $('#eanSearchDialogue').html('<div class="g-ps-r g-of-h eanB_popup"><iframe id="eanIframe" src="https://www.barcodelookup.com/' + $(this).text() + '" class="g-ps-a" frameborder="0"></iframe></div>');
+        $('#eanIframe').load(function () { $('#updatingContainer').remove(); });
+        $("#eanSearchDialogue").dialog({
+            modal: true,
+            width: 1000,
+            height: 620
+        });
+
+        return false;
+    });
+
+    $(document).on("click", ".untrustedChkBox", function (e) {
+        options = new Array();
+        options[0] = $(this).attr('pid');
+        options[1] = $(this).is(":checked");
+
+        $.ajax({
+            url: '@Url.Action("SetUntrustedProvider", "Provider")',
+            type: 'POST',
+            data: { options: options },
+            async: false,
+            cache: false,
+            success: function (data) {
+                if (options[1] == true) {
+                    alert('Provider set to untrusted');
+                } else {
+                    alert('Provider set to trusted');
+                }
+                $("#providerInventoryGrid").data("kendoGrid").dataSource.read();
+            }
+        })
+    });
+
+    $(document).on("click", ".unwantedChkBox", function (e) {
+        options = new Array();
+        options[0] = $(this).attr('pid');
+        options[1] = !$(this).is(":checked");
+
+        $.ajax({
+            url: '@Url.Action("SetProductInterest", "Provider")',
+            type: 'POST',
+            data: { options: options },
+            async: false,
+            cache: false,
+            success: function (data) {
+                $("#providerInventoryGrid").data("kendoGrid").dataSource.read();
+            }
+        });
+    });
+
+    function getPrices(url, divPartialView, id) {
+        $.ajax({
+            url: url,
+            dataType: 'html',
+            traditional: true,
+            type: 'POST',
+            data: { id: id },
+            async: false,
+            cache: false,
+            success: function (data) {
+                $('' + divPartialView + '').empty();
+                $('' + divPartialView + '').html(data);
+            }
+        });
+    }
+
+    $(document).on("click", ".lnkPriceHistory", function () {
+        getPrices('@Url.Action("ProviderInventoryItemPrice", "Provider", new { @area = "PMS" })', "#priceHistoryContainer", $(this).attr("value"));
+        $("#priceHistoryContainer").dialog({
+            modal: true,
+            title: 'Pricing History - ' + $(this).attr("part")
+        });
+        return false;
+    });
+
+    $('.download').click(function () {
+        $("#providerInventoryGrid").data("kendoGrid").dataSource.pageSize(10000);
+    });
+</script>

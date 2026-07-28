@@ -1,0 +1,124 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.OMS;
+@model PurchaseOrderViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.SubTitle = Model.PurchaseOrder.PurchaseOrderId > 0 ? "Edit" : "Create";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle PurchaseOrder</h4>
+
+        <div class="form-horizontal">
+            @using (Html.BeginForm("SavePurchaseOrder", "PurchaseOrder", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.HiddenFor(x => x.PurchaseOrder.PurchaseOrderId)
+
+                <div class="PurchaseOrderTabs" style="background:none;">
+                    <ul>
+                        <li>
+                            <a href="#PurchaseOrderDetailsTab">Purchase Order Details</a>
+                        </li>
+                    </ul>
+
+                    <div id="PurchaseOrderDetailsTab">
+                        <fieldset class="g-m-t-20">
+                            <legend>Purchase Order Details</legend>
+
+                            <div class="form-group">
+                                @Html.Label("Delivery Service", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(
+                                         model => model.PurchaseOrder.DeliveryServiceFk,
+                                         Model.DeliveryServiceList,
+                                         "Select...",
+                                         new { @class = "g-f-l form-control g-smallCell g-m-r-10" }
+                                     )
+                                    @Html.ValidationMessageFor(model => model.PurchaseOrder.DeliveryServiceFk, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="SaveAccount" value="Save" class="btn btn-default" title="Save" />
+
+                        @Html.ActionLink(
+                        linkText: "Cancel",
+                        actionName: "ViewPurchaseOrder",
+                        controllerName: "PurchaseOrder",
+                        routeValues: new { id = Model.PurchaseOrder.PurchaseOrderId },
+                        htmlAttributes: new { @class = "btn btn-default" }
+                        )
+                    </div>
+                </div>
+            }
+
+
+            <div class="PurchaseOrderTabs2" style="background:none;">
+                <ul>
+                    <li>
+                        <a href="#PurchaseOrderLinesTab">Purchase Order Lines</a>
+                    </li>
+                </ul>
+
+                <div id="PurchaseOrderLinesTab">
+                    <fieldset class="g-m-t-20">
+                        <legend>Purchase Order Lines</legend>
+
+                        <table class="table g-bc-w">
+                            <tr>
+                                <th>Product Group</th>
+                                <th>Description</th>
+                                <th>Supplier Stock Ref</th>
+                                <th>Quantity Ordered</th>
+                                <th>Quantity Received</th>
+                                <th>Unit Price</th>
+                                <th>Nett</th>
+                                <th>Is Complete</th>
+                                <th>Is Returned</th>
+                                <th></th>
+                            </tr>
+                            @foreach (var pol in Model.PurchaseOrderLineList)
+                            {
+                                <tr>
+                                    <td>@pol.ProductGroup.ToString()</td>
+                                    <td>@pol.Description.ToString()</td>
+                                    <td>@pol.SupplierStockReference.ToString()</td>
+                                    <td>@pol.QuantityOrdered.ToString()</td>
+                                    <td>@pol.QuantityReceived.ToString()</td>
+                                    <td>@pol.UnitPrice.ToString()</td>
+                                    <td>@pol.Nett.ToString()</td>
+                                    <td>@pol.IsComplete.ToString()</td>
+                                    <td>@pol.IsReturned.ToString()</td>
+                                    <td>
+                                        <a href="../ViewPurchaseOrderLine/@pol.Id">View</a>
+                                        |
+                                        <a href="../EditPurchaseOrderLine/@pol.Id">Edit</a>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $(".PurchaseOrderTabs").tabs();
+        $(".PurchaseOrderTabs2").tabs();
+    });
+
+</script>

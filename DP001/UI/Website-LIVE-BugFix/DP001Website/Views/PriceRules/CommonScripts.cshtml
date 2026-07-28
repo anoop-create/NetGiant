@@ -1,0 +1,289 @@
+﻿@using DP001DataAccess.Entities;
+
+function setBandedFields() {
+    if ($('#PriceRuleEntry_IsBanding').val().toLowerCase() == "true") {
+        $('#PriceRuleEntry_RuleName').prop('disabled', true);
+        $('#PriceRuleEntry_MethodFK').prop('disabled', true);
+        $('#PriceRuleEntry_RuleTypeFK').prop('disabled', true);
+        $('#PriceRuleEntry_BrandFK').prop('disabled', true);
+        $('#PriceRuleEntry_ProductCategoryFK').prop('disabled', true);
+        $('#ProductAutoComplete').prop('disabled', true);
+    } else {
+        $('#PriceRuleEntry_RuleName').prop('disabled', false);
+        $('#PriceRuleEntry_ProductCategoryFK').prop('disabled', false);
+        $('#PriceRuleEntry_MethodFK').prop('disabled', false);
+        $('#PriceRuleEntry_RuleTypeFK').prop('disabled', false);
+        $('#PriceRuleEntry_BrandFK').prop('disabled', false);
+        $('#ProductAutoComplete').prop('disabled', false);
+    }
+}
+function setMethodFields(ruleMethod) {
+    $('#PriceRuleEntry_RuleMethodName').val(ruleMethod);
+    switch (ruleMethod) {
+        case "Cost Base":
+            setField('#grp_BandStart', '#PriceRuleEntry_BandStart', 'hide');
+            setField('#grp_BandEnd', '#PriceRuleEntry_BandEnd', 'hide');
+            setField('#grp_BandName', '#PriceRuleEntry_BandName', 'hide');
+            setField('#grp_CostUplift', '#PriceRuleEntry_CostUplift', 'show');
+            setField('#grp_DesiredMargin', '#PriceRuleEntry_DesiredMargin', 'show');
+            setField('#grp_MinMargin', '#PriceRuleEntry_MinMargin', 'show');
+            setField('#grp_MaxMargin', '#PriceRuleEntry_MaxMargin', 'show');
+            setField('#grp_BeatRate', '#PriceRuleEntry_BeatRate', 'show');
+            setField('#grp_NudgeAmt', '#PriceRuleEntry_Nudge', 'show');
+            setField('#grp_FixedPrice', '#PriceRuleEntry_FixedPrice', 'hide');
+            setField('#grp_RelatedProductDiscount', '#PriceRuleEntry_CompatDiscount', 'hide');
+
+            break;
+        case "Fixed Price":
+            setField('#grp_BandStart', '#PriceRuleEntry_BandStart', 'hide');
+            setField('#grp_BandEnd', '#PriceRuleEntry_BandEnd', 'hide');
+            setField('#grp_BandName', '#PriceRuleEntry_BandName', 'hide');
+            setField('#grp_CostUplift', '#PriceRuleEntry_CostUplift', 'hide');
+            setField('#grp_DesiredMargin', '#PriceRuleEntry_DesiredMargin', 'hide');
+            setField('#grp_MinMargin', '#PriceRuleEntry_MinMargin', 'hide');
+            setField('#grp_MaxMargin', '#PriceRuleEntry_MaxMargin', 'hide');
+            setField('#grp_BeatRate', '#PriceRuleEntry_BeatRate', 'hide');
+            setField('#grp_NudgeAmt', '#PriceRuleEntry_Nudge', 'hide');
+            setField('#grp_FixedPrice', '#PriceRuleEntry_FixedPrice', 'show');
+            setField('#grp_RelatedProductDiscount', '#PriceRuleEntry_CompatDiscount', 'hide');
+
+            break;
+        case "Related Product Base":
+            setField('#grp_BandStart', '#PriceRuleEntry_BandStart', 'hide');
+            setField('#grp_BandEnd', '#PriceRuleEntry_BandEnd', 'hide');
+            setField('#grp_BandName', '#PriceRuleEntry_BandName', 'hide');
+            setField('#grp_CostUplift', '#PriceRuleEntry_CostUplift', 'hide');
+            setField('#grp_DesiredMargin', '#PriceRuleEntry_DesiredMargin', 'hide');
+            setField('#grp_MinMargin', '#PriceRuleEntry_MinMargin', 'hide');
+            setField('#grp_MaxMargin', '#PriceRuleEntry_MaxMargin', 'hide');
+            setField('#grp_BeatRate', '#PriceRuleEntry_BeatRate', 'hide');
+            setField('#grp_NudgeAmt', '#PriceRuleEntry_Nudge', 'hide');
+            setField('#grp_FixedPrice', '#PriceRuleEntry_FixedPrice', 'hide');
+            setField('#grp_RelatedProductDiscount', '#PriceRuleEntry_CompatDiscount', 'show');
+
+            break;
+    }
+}
+
+function setRuleFields(ruleType) {
+$('#PriceRuleEntry_RuleTypeName').val(ruleType);
+    switch (ruleType) {
+        case "Category":
+            $('#PriceRuleEntry_ProductInventoryFK').prop('disabled', true);
+            setField('#grp_Product', '#ProductAutoComplete', 'hide');
+            setField('#grp_Brand', '#PriceRuleEntry_BrandFK', 'hide');
+            $('#PriceRuleEntry_BrandFK').val('');
+            $('#PriceRuleEntry_ProductInventoryFK').val('');
+            setField('#grp_Category', '#PriceRuleEntry_ProductCategoryFK', 'show');
+            
+            categoryChange($('#PriceRuleEntry_ProductCategoryFK').val());                      
+
+            break;
+        case "Brand":
+            $('#PriceRuleEntry_ProductInventoryFK').prop('disabled', true);
+            setField('#grp_Product', '#ProductAutoComplete', 'hide');
+            $('#PriceRuleEntry_ProductInventoryFK').val('');
+            setField('#grp_Brand', '#PriceRuleEntry_BrandFK', 'show');
+            setField('#grp_Category', '#PriceRuleEntry_ProductCategoryFK', 'show');
+
+            brandChange($('#PriceRuleEntry_BrandFK').val(), $('#PriceRuleEntry_ProductCategoryFK').val());
+            //categoryChange($('#PriceRuleEntry_ProductCategoryFK').val()); 
+
+            break;
+        case "Product":
+            $('#PriceRuleEntry_ProductInventoryFK').prop('disabled', false);
+            setField('#grp_Brand', '#PriceRuleEntry_BrandFK', 'hide');
+            setField('#grp_Category', '#PriceRuleEntry_ProductCategoryFK', 'hide');
+            $('#PriceRuleEntry_BrandFK').val('');
+            $('#PriceRuleEntry_ProductCategoryFK').val('');
+            setField('#grp_Product', '#ProductAutoComplete', 'show');
+
+            break;
+        case "Universal":
+            $('#PriceRuleEntry_ProductInventoryFK').prop('disabled', true);
+            setField('#grp_Product', '#ProductAutoComplete', 'hide');
+            setField('#grp_Brand', '#PriceRuleEntry_BrandFK', 'hide');
+            setField('#grp_Category', '#PriceRuleEntry_ProductCategoryFK', 'hide');
+            $('#PriceRuleEntry_BrandFK').val('');
+            $('#PriceRuleEntry_ProductCategoryFK').val('');
+            $('#PriceRuleEntry_ProductInventoryFK').val('');
+
+            break;
+        default:
+            $('#PriceRuleEntry_ProductInventoryFK').prop('disabled', true);
+            setField('#grp_Product', '#ProductAutoComplete', 'hide');
+            setField('#grp_Brand', '#PriceRuleEntry_BrandFK', 'hide');
+            setField('#grp_Category', '#PriceRuleEntry_ProductCategoryFK', 'hide');
+            $('#PriceRuleEntry_BrandFK').val('');
+            $('#PriceRuleEntry_ProductCategoryFK').val('');
+            $('#PriceRuleEntry_ProductInventoryFK').val('');
+
+            break;
+    }
+}
+
+function updateComplete(data) {
+    $('.form-actions .form-message span').text(data.responseJSON.Msg);
+    if (data.responseJSON.IsSuccess) {
+        if ($('#BandingChange').val().toLowerCase() == 'true') {
+            window.location.href = '@Url.Action("Edit")';
+        } else {
+            window.location.href = '@Url.Action("Index")';
+        }
+    } else {
+        if ($('#BandingChange').val().toLowerCase() == "true") {
+            //The banding change must have been from off to on - so now set it off
+            if ($('#PriceRuleEntry_IsBanding').val().toLowerCase() == "true") {
+                //The banding change was from off to on - so now set it off
+                $('#PriceRuleEntry_IsBanding').val(false);
+                $('#BandingChange').val(false);
+                $('#BandingFlag').val("true");
+                $('#banding-toggle').bootstrapToggle('off');
+
+            } else {
+                //The banding change was from on to off - so now set it on
+                $('#PriceRuleEntry_IsBanding').val(true);
+                $('#BandingChange').val(true);
+                $('#BandingFlag').val("true");
+                $('#banding-toggle').bootstrapToggle('on');
+            }
+        }
+    }
+    $('.form-message .fa-spinner').hide();
+}
+
+function updateBandComplete(data) {
+    $('.form-actions .form-message span').text(data.responseJSON.Msg);
+    if (data.responseJSON.IsSuccess) {
+        $('.list-form-extra').prev().trigger('click');
+        $('.list-form-row[data-id=' + data.responseJSON.Id.toString() + ']').replaceWith(data.responseJSON.Html);
+        $('.list-form-row[data-id=' + data.responseJSON.Id.toString() + ']').closest('table').find('tfoot tr').show();
+        //toggleFormFieldsState('#hidden-form-fields', false);
+    }
+    $('.form-message .fa-spinner').hide();
+}
+
+function addComplete(data) {
+    $('.form-actions .form-message span').text(data.responseJSON.Msg);
+    if (data.responseJSON.IsSuccess) {
+        if ($('#BandingChange').val().toLowerCase() == 'true') {
+            window.location.href = '@Url.Action("Edit")/' + data.responseJSON.Id;
+        } else {
+            window.location.href = '@Url.Action("Index")';
+        }
+    } else {
+        if ($('#BandingChange').val().toLowerCase() == "true") {
+            //The banding change must have been from off to on - so now set it off
+            $('#PriceRuleEntry_IsBanding').val(false);
+            $('#BandingChange').val(false);
+            $('#BandingFlag').val("true");
+            $('#banding-toggle').bootstrapToggle('off');
+        }
+    }
+    $('.form-message .fa-spinner').hide();
+}
+
+function addBandComplete(data) {
+    $('.form-actions .form-message span').text(data.responseJSON.Msg);
+    if (data.responseJSON.IsSuccess) {
+        $('.list-form-extra').prev().find('.btn-add').trigger('click');
+        $('.list-form-extra').closest('table').children('tbody').append(data.responseJSON.Html);
+    }
+    $('.form-actions .form-message .fa-spinner').hide();
+}
+
+function deleteComplete(data) {
+    $('.form-actions .form-message span').text(data.Msg);
+    if (data.IsSuccess) {
+        window.location.href = '@Url.Action("Index")';
+    }
+    $('.form-message .fa-spinner').hide();
+}
+
+function deleteBandComplete(data) {
+    $('.form-actions .form-message span').text(data.Msg);
+    if (data.IsSuccess) {
+        $('.list-form-row[data-id=' + data.Id + ']').trigger('click');
+        $('.list-form-row[data-id=' + data.Id + ']').closest('table').find('tfoot tr').show();
+        $('.list-form-row[data-id=' + data.Id + ']').remove();
+    }
+    $('.form-message .fa-spinner').hide();
+    if ($('#banding-table > tbody > tr.list-form-row').length == 0) {
+        window.location.href = '@Url.Action("Index")';
+    }
+}
+
+function beginPost() {
+    $('.form-message .fa-spinner').show();
+}
+
+function autoCompleteSuccess(data, response) {
+    var products = new Array();
+
+    if (data.length == 0) {
+        return { label: "No items found, please try typing something else", Id: 0 };
+    }
+
+    for (var i = 0; i < data.length ; i++) {
+        products[i] = { label: data[i].Pn + ' - ' + data[i].Des, Id: data[i].Id };
+    }
+
+    return products;
+}
+
+function setField(grpId, elemId, action) {
+    if (action == 'hide') {
+        $(grpId).hide();
+    } else {
+        $(grpId).show();
+    }
+}
+
+function brandChange(brandFK, productCategoryFK) {
+    if (productCategoryFK == '') {
+        productCategoryFK = 0;
+    }
+    if (brandFK == '') {
+        $('#PriceRuleEntry_ProductCategoryFK option:eq(0)').prop('selected', true);
+        $('#PriceRuleEntry_ProductCategoryFK').prop('disabled', true).selectpicker('refresh');
+    } else {
+        $.ajax({
+            async: false,
+            cache: false,
+            type: "POST",
+            url: "/MapBrandCategory/GetCategories/",
+            data: {
+                "brandFK": brandFK,
+                "productCategoryFK": productCategoryFK
+            },
+            success: function (data) {
+                $('#PriceRuleEntry_ProductCategoryFK').empty().append(data.html);
+            }
+        });
+        $('#PriceRuleEntry_ProductCategoryFK').prop('disabled', false).selectpicker('refresh');
+    }
+}
+
+function categoryChange(categoryId) {
+    $.ajax({
+        async: false,
+        cache: false,
+        type: "POST",
+        url: "/Shared/GetCategories/",
+        data: {
+            "categoryId": categoryId
+        },
+        success: function (data) {
+            $('#PriceRuleEntry_ProductCategoryFK').empty().append(data.html);
+        }
+    });
+    $('#PriceRuleEntry_ProductCategoryFK').prop('disabled', false).selectpicker('refresh');
+}
+
+function toggleCheckBox(oClicked, oAlt) {
+    if (oClicked.is(':checked')) {
+        oAlt.prop('checked', false);
+    } else {
+        oAlt.prop('checked', true);
+    }
+}

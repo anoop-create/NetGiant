@@ -1,0 +1,956 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Shared;
+@using netGiant.Intranet.DataLayer.NetgiantMasterData;
+@model ProductViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Product";
+    ViewBag.SubTitle = Model.prod.productID > 0 ? "Edit" : "Create";
+    ViewBag.Action = "CreateProduct";
+}
+
+@Html.Hidden("DeleteProductImageURL", Url.Action("DeleteProductImage", "Product"))
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title - @Model.prod.partNo, @Model.prod.productName</h4>
+
+        <div class="form-horizontal">
+
+            @using (Html.BeginForm("SaveProduct", "Product", FormMethod.Post, new { @id = "mainForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.prod.productID)
+                @Html.HiddenFor(m => m.ChangedWebsiteInv)
+                @Html.Hidden("GetNewEbusRowURL", Url.Action("GetNewEbusinessRow", "Product"))
+                @Html.Hidden("GetNewCatCodeRowURL", Url.Action("GetNewCatCodeRow", "Product"))
+                @Html.Hidden("GetNewComponentURL", Url.Action("GetNewComponentRow", "Product"))
+
+                <div class="createProductTabs">
+                    <ul>
+                        <li><a href="#tabs-1">Product Info</a></li>
+                        <li><a href="#tabs-2">Axis Fields</a></li>
+                        <li><a href="#tabs-3">Site Specific</a></li>
+                        <li><a href="#tabs-4">Categorisation</a></li>
+
+                        @if (Model.prod.productItemTypeFK > 1)
+                        {
+                            <li><a href="#tabs-5">Components</a></li>
+                        }
+
+                        @if (Model.prod.productID != 0)
+                        {
+                            <li><a href="#tabs-6">Equipment</a></li>
+                            <li><a href="#tabs-7">Product Images</a></li>
+                        }
+                    </ul>
+
+                    <div id="tabs-1">
+                        <fieldset class="g-m-t-20">
+                            <legend>Product Details</legend>
+                            <div class="form-group">
+                                @Html.Label("Product Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.prod.productName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.productName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Part No", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.prod.partNo, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.partNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Manufacturer", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(m => m.prod.manufacturerFK, Model.AllManufacturers, "Select...", new { @class = "form-control g-largeCell" })
+                                    @Html.ValidationMessageFor(model => model.prod.manufacturerFK, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Product Status", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(m => m.prod.productStatusFK, Model.AllProductStatuses, "Select...", new { @class = "product-status form-control g-largeCell" })
+                                    @Html.ValidationMessageFor(model => model.prod.productStatusFK, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Product Group", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(m => m.prod.productGroupFK, Model.AllProductGroups, "Select...", new { @class = "form-control g-largeCell" })
+                                    @Html.ValidationMessageFor(model => model.prod.productGroupFK, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Sales Area Group", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(m => m.prod.salesAreaGroupFK, Model.AllSalesAreaGroups, "Select...", new { @class = "form-control g-largeCell" })
+                                    @Html.ValidationMessageFor(model => model.prod.salesAreaGroupFK, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Data Supplier", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(m => m.prod.dataSupplierFK, Model.AllDataSuppliers, "Select...", new { @class = "form-control g-largeCell" })
+                                    @Html.ValidationMessageFor(model => model.prod.dataSupplierFK, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Item Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(m => m.prod.productItemTypeFK, Model.AllProductItemType, "Select...", new { @class = "form-control g-largeCell" })
+                                    @Html.ValidationMessageFor(model => model.prod.productItemTypeFK, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Page Yield", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.prod.pageYield, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.pageYield, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Capacity", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.prod.capacity, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.capacity, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Manu Reference", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.prod.manuReference, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.manuReference, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Barcode", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.prod.barcode, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.barcode, "", new { @class = "text-danger" })
+                                    <a id="checkBarcode" href="#">Check</a>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Stock", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.prod.supplierStock, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.supplierStock, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            @if (Model.prod.productID > 0)
+                            {
+                                <div class="form-group">
+                                    @Html.Label("Date Last Updated", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.prod.dateLastUpdate, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Date Created", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.prod.dateCreated, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                                        @Html.HiddenFor(model => model.prod.dateCreated)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Date Last In Stock", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.prod.dateLastInStock, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                                        @Html.HiddenFor(model => model.prod.dateLastInStock)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Supplier Last Updated", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.prod.supplierLastUpdate, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                                    </div>
+                                </div>
+                                @Html.HiddenFor(model => model.prod.supplierLastUpdate)
+                                @Html.ValidationMessageFor(model => model.prod.supplierLastUpdate, "", new { @class = "text-danger" })
+                            }
+
+                            <div class="form-group">
+                                @Html.Label("Secondary Cross Sell Group", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.prod.secondaryCrossSellGroupIdent, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.secondaryCrossSellGroupIdent, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="g-m-t-20">
+                            <legend>Website Inventory Main Category Code</legend>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <div>
+                                        @{int currentIndex = 0;}
+                                        @foreach (Website ws in Model.AllWebsites)
+                                        {
+                                            string currentID = "SelectedWebsiteIDs" + currentIndex;
+                                            bool isSelected = Model.SelectedWebsites.Contains(ws);
+                                            websiteInventory wiDetail = Model.prod.websiteInventory.Where(x => x.websiteFK == ws.WebsiteID).FirstOrDefault();
+
+                                            <div class="createProductInventoryRow">
+                                                @Html.Label(ws.FriendlyName)
+                                                @Html.CheckBoxFor(m => isSelected, new { id = @currentID, Value = ws.WebsiteID, Name = "SelectedWebsiteIDs", @class = "chkBoxWebsite" })
+                                                @Html.DropDownList("selectedCatId" + currentIndex, new SelectList(SelectListViewModel.GetAllCategoryCodes(ws.WebsiteID),
+"Value", "Text", wiDetail != null ? wiDetail.categoryCodeFK : 0), "Select...",
+isSelected == true ? (object)new { @class = "form-control g-smallCell g-d-i catCodeSelect", Name = "selectedCatCodeIDs" } :
+(object)new { @disabled = "disabled", @class = "form-control g-smallCell g-d-i catCodeSelect", Name = "selectedCatCodeIDs" })
+                                            </div>
+
+                                            currentIndex += 1;
+                                        }
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div id="tabs-2">
+                        <fieldset class="g-m-t-20">
+                            <legend>Axis Fields</legend>
+                            @Html.HiddenFor(m => m.prod.AxisFields.productFK)
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Stock Reference", new { @class = "g-f-l" })
+                                    @Html.EditorFor(m => m.prod.AxisFields.stockReference, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.stockReference, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Attr 1 (Page Size)", new { @class = "g-f-l" })
+                                    @Html.DropDownListFor(m => m.prod.AxisFields.attr1, Model.AllAttribute1, "Select...", new { @class = "form-control g-largeCell" })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.Attribute1Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Specification 1", new { @class = "g-f-l" })
+                                    @Html.EditorFor(m => m.prod.AxisFields.spec1, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.spec1, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Attr 2 (Function)", new { @class = "g-f-l" })
+                                    @Html.DropDownListFor(m => m.prod.AxisFields.attr2, Model.AllAttribute2, "Select...", new { @class = "form-control g-largeCell" })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.Attribute1Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Specification 2", new { @class = "g-f-l" })
+                                    @Html.EditorFor(m => m.prod.AxisFields.spec2, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.spec2, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Attr 3 (Print Type)", new { @class = "g-f-l" })
+                                    @Html.DropDownListFor(m => m.prod.AxisFields.attr3, Model.AllAttribute3, "Select...", new { @class = "form-control g-largeCell" })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.Attribute1Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Specification 3", new { @class = "g-f-l" })
+                                    @Html.EditorFor(m => m.prod.AxisFields.spec3, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.spec3, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Attr 4 (Product Type)", new { @class = "g-f-l" })
+                                    @Html.DropDownListFor(m => m.prod.AxisFields.attr4, Model.AllAttribute4, "Select...", new { @class = "form-control g-largeCell" })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.Attribute1Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Specification 4", new { @class = "g-f-l" })
+                                    @Html.EditorFor(m => m.prod.AxisFields.spec4, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.spec4, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Attr 5 (Consumable Group)", new { @class = "g-f-l" })
+                                    @Html.DropDownListFor(m => m.prod.AxisFields.attr5, Model.AllAttribute5, "Select...", new { @class = "form-control g-largeCell" })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.Attribute1Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Specification 5", new { @class = "g-f-l" })
+                                    @Html.EditorFor(m => m.prod.AxisFields.spec5, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.spec5, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Attr 6 (Promotion)", new { @class = "g-f-l" })
+                                    @Html.DropDownListFor(m => m.prod.AxisFields.attr6, Model.AllAttribute6, "Select...", new { @class = "form-control g-largeCell" })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.Attribute1Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Specification 6", new { @class = "g-f-l" })
+                                    @Html.EditorFor(m => m.prod.AxisFields.spec6, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.spec6, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Attr 7 (Type)", new { @class = "g-f-l" })
+                                    @Html.DropDownListFor(m => m.prod.AxisFields.attr7, Model.AllAttribute7, "Select...", new { @class = "form-control g-largeCell" })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.Attribute1Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Re Saleable", new { @class = "g-f-l" })
+                                    @Html.EditorFor(m => m.prod.AxisFields.reSaleable, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.reSaleable, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Attr 8 (Catridge Colour)", new { @class = "g-f-l" })
+                                    @Html.DropDownListFor(m => m.prod.AxisFields.attr8, Model.AllAttribute8, "Select...", new { @class = "form-control g-largeCell" })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.Attribute1Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Discontinued", new { @class = "g-f-l" })
+                                    @Html.EditorFor(m => m.prod.AxisFields.discontinuedItem, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.discontinuedItem, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Attr 9 (Catridge Tab)", new { @class = "g-f-l" })
+                                    @Html.DropDownListFor(m => m.prod.AxisFields.attr9, Model.AllAttribute9, "Select...", new { @class = "form-control g-largeCell" })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.Attribute1Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Default Delivery to Cust", new { @class = "g-f-l" })
+                                    @Html.EditorFor(m => m.prod.AxisFields.defaultDeliveryToCust, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.defaultDeliveryToCust, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Attr 10 (Manufacturer)", new { @class = "g-f-l" })
+                                    @Html.DropDownListFor(m => m.prod.AxisFields.attr10, Model.AllAttribute10, "Select...", new { @class = "form-control g-largeCell" })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.Attribute1Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Published", new { @class = "g-f-l" })
+                                    @Html.EditorFor(m => m.prod.AxisFields.published, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.published, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Featured", new { @class = "g-f-l" })
+                                    @Html.EditorFor(m => m.prod.AxisFields.featured, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.featured, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Best Seller", new { @class = "g-f-l" })
+                                    @Html.EditorFor(m => m.prod.AxisFields.bestSeller, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.bestSeller, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Supress Third Party Images", new { @class = "g-f-l" })
+                                    @Html.EditorFor(m => m.prod.AxisFields.supressOpenRangeImage, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.supressOpenRangeImage, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Supress Open Range Spec", new { @class = "g-f-l" })
+                                    @Html.EditorFor(m => m.prod.AxisFields.supressOpenRangeSpec, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.supressOpenRangeSpec, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Additional Info URL", new { @class = "g-f-l" })
+                                    @Html.EditorFor(m => m.prod.AxisFields.additionalInfoUrl, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                    @Html.ValidationMessageFor(model => model.prod.AxisFields.additionalInfoUrl, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div id="tabs-3">
+                        @if (Model.prod.AxisFields != null)
+                        {
+                            int loopCount = 0;
+                            foreach (AxisFieldsAdditional afa in Model.prod.AxisFields.AxisFieldsAdditional.OrderBy(x => x.websiteFK))
+                            {
+                        <fieldset class="g-m-t-20">
+                            <legend>@Html.Raw(Model.AllWebsites.Where(x => x.WebsiteID == afa.websiteFK).First().FriendlyName)</legend>
+                            <input type="hidden" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).axisFieldsAdditionalID"
+                                   value="@afa.axisFieldsAdditionalID" name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].axisFieldsAdditionalID">
+                            <input type="hidden" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).productFK"
+                                   value="@afa.productFK" name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].productFK">
+                            <input type="hidden" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).websiteFK"
+                                   value="@afa.websiteFK" name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].websiteFK">
+
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Google Feed Site", new { @class = "g-f-l" })
+                                    <input value="@afa.googleFeedSite" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).googleFeedSite"
+                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].googleFeedSite"
+                                           class="form-control g-largeCell" />
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Google Feed Include", new { @class = "g-f-l" })
+                                    @Html.CheckBox("prod.AxisFields.AxisFieldsAdditional[" + loopCount + "].googleFeedInclude",
+afa.googleFeedInclude != null ? afa.googleFeedInclude == true ? true : false : false)
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Google Feed Category", new { @class = "g-f-l" })
+                                    <input value="@afa.googleFeedCategory" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).googleFeedCategory"
+                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].googleFeedCategory"
+                                           class="form-control g-largeCell" />
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Google Promotion ID(s) (comma separated)", new { @class = "g-f-l" })
+                                    <input value="@afa.googlePromotionId" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).googlePromotionId"
+                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].googlePromotionId"
+                                           class="form-control g-largeCell" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Google Feed Condition", new { @class = "g-f-l" })
+                                    <input value="@afa.googleFeedCondition" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).googleFeedCondition"
+                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].googleFeedCondition"
+                                           class="form-control g-largeCell" />
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Google Feed Availability", new { @class = "g-f-l" })
+                                    <input value="@afa.googleFeedAvailability" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).googleFeedAvailability"
+                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].googleFeedAvailability"
+                                           class="form-control g-largeCell" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Bespoke Feed Site", new { @class = "g-f-l" })
+                                    <input value="@afa.bespokeFeedSite" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).bespokeFeedSite"
+                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].bespokeFeedSite"
+                                           class="form-control g-largeCell" />
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Bespoke Feed Include", new { @class = "g-f-l" })
+                                    @Html.CheckBox("prod.AxisFields.AxisFieldsAdditional[" + loopCount + "].bespokeFeedInclude",
+afa.bespokeFeedInclude != null ? afa.bespokeFeedInclude == true ? true : false : false)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Bespoke Feed Availability", new { @class = "g-f-l" })
+                                    <input value="@afa.bespokeFeedAvailability" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).bespokeFeedAvailability"
+                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].bespokeFeedAvailability"
+                                           class="form-control g-largeCell" />
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Bespoke Feed Condition", new { @class = "g-f-l" })
+                                    <input value="@afa.bespokeFeedCondition" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).bespokeFeedCondition"
+                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].bespokeFeedCondition"
+                                           class="form-control g-largeCell" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Bespoke Custom Ship Cost", new { @class = "g-f-l" })
+                                    <input value="@afa.bespokeFeedUseCustomShipCost" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).bespokeFeedUseCustomShipCost"
+                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].bespokeFeedUseCustomShipCost"
+                                           class="form-control g-largeCell" />
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Date Last Update", new { @class = "g-f-l" })
+                                    @Html.EditorFor(model => afa.dateLastUpdate, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Break Quantity 1", new { @class = "g-f-l" })
+                                    <input value="@afa.breakQuantity1" type="number" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).breakQuantity1"
+                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].breakQuantity1"
+                                           class="form-control g-largeCell" />
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Break Quantity 2", new { @class = "g-f-l" })
+                                    <input value="@afa.breakQuantity2" type="number" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).breakQuantity2"
+                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].breakQuantity2"
+                                           class="form-control g-largeCell" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Break Quantity 3", new { @class = "g-f-l" })
+                                    <input value="@afa.breakQuantity3" type="number" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).breakQuantity3"
+                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].breakQuantity3"
+                                           class="form-control g-largeCell" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Stock Notes", new { @class = "g-f-l" })
+                                    <textarea id="prod.AxisFields.AxisFieldsAdditional@(loopCount).stockNoteDesc"
+                                              name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].stockNoteDesc">@afa.stockNoteDesc</textarea>
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Priority Notes", new { @class = "g-f-l" })
+                                    <textarea id="prod.AxisFields.AxisFieldsAdditional@(loopCount).priorityNote"
+                                              name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].priorityNote">@afa.priorityNote</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Meta Title", new { @class = "g-f-l" })
+                                    <textarea id="prod.AxisFields.AxisFieldsAdditional@(loopCount).metaTitle"
+                                              name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].metaTitle">@afa.metaTitle</textarea>
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Meta Keywords", new { @class = "g-f-l" })
+                                    <textarea id="prod.AxisFields.AxisFieldsAdditional@(loopCount).metaKeywords"
+                                              name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].metaKeywords">@afa.metaKeywords</textarea>
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="g-f-l prdCrt_leftContainer">
+                                    @Html.Label("Meta Description", new { @class = "g-f-l" })
+                                    <textarea id="prod.AxisFields.AxisFieldsAdditional@(loopCount).metaDesc"
+                                              name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].metaDesc">@afa.metaDesc</textarea>
+                                </div>
+                                <div class="g-f-l prdCrt_leftContainer">
+                                </div>
+                            </div>
+
+                        </fieldset>
+                                loopCount++;
+                            }
+                        }
+                    </div>
+                    <div id="tabs-4">
+                        <table class="g-m-t-20 g-w-100p">
+                            <tr>
+                                <td class="g-w-50p g-a-t">
+                                    <fieldset>
+                                        <legend>eBusiness Group(s)</legend>
+                                        <table id="tblEbusiness" width="500">
+                                            @foreach (var grp in Model.prod.AxisEbusinessMapping.OrderBy(x => x.eBusinessRef))
+                                            {
+                                                Html.RenderPartial("_EbusinessGroups", grp);
+                                            }
+                                        </table>
+                                        @Html.DropDownList("ddlEbusiness", Model.AllEbusinessGroups, "Add to eBusiness Group...", new { @class = "form-control g-largeCell" })
+                                    </fieldset>
+                                </td>
+                                <td class="g-w-50p g-a-t">
+                                    <fieldset>
+                                        <legend>Secondary Category Code(s)</legend>
+                                        @foreach (var wi in Model.prod.websiteInventory)
+                                        {
+                                            Model.AllCategoryCodes = SelectListViewModel.GetAllCategoryCodes(wi.websiteFK);
+                                    <fieldset>
+                                        <legend>@Html.Raw(wi.Website.FriendlyName)</legend>
+                                        <!--table id=@Html.Raw("\"tblCatCode-" + wi.websiteFK + "\"") width="500"-->
+                                        <table id="tblCatCode-@wi.websiteFK.ToString()" width="500">
+                                            <tr>
+                                                <td class="g-fw-b">
+                                                    @Html.Raw(wi.categoryCode != null ? "<span class=\"lblDesc\">" + wi.categoryCodeFK + " - " + wi.categoryCode.categoryCodeName + "</span>" : "Not Set")
+                                                </td>
+                                                <td class="g-fw-b" colspan="2">Primary</td>
+                                            </tr>
+
+                                            @{ ViewBag.guid = Guid.NewGuid().ToString(); }
+
+                                            @Html.Hidden("guid" + wi.websiteFK, (string)ViewBag.guid, new { @class = "guid" })
+
+                                            @foreach (var scc in wi.secondaryCategoryLookup.OrderBy(x => x.categoryCodeFK))
+                                            {
+                                                Html.RenderPartial("_CategoryCodes", scc);
+                                            }
+                                        </table>
+                                        @Html.DropDownList("ddlCategoryCodes-" + wi.websiteFK, Model.AllCategoryCodes, "Add to Category Code...", new { @class = "form-control g-largeCell" })
+                                        @Html.Hidden("prod.websiteInventory[" + (string)ViewBag.guid + "].websiteFK", wi.websiteFK)
+                                        @Html.Hidden("prod.websiteInventory[" + (string)ViewBag.guid + "].websiteInventoryID", wi.websiteInventoryID, new { @class = "wi-id" + wi.websiteFK })
+                                        @Html.Hidden("prod.websiteInventory[" + (string)ViewBag.guid + "].productFK", Model.prod.productID)
+
+                                        <input type="hidden" value="@ViewBag.guid" autocomplete="off"
+                                                name="prod.websiteInventory.index">
+
+                                    </fieldset>
+                                        }
+                                    </fieldset>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    @if (Model.prod.productItemTypeFK > 1)
+                    {
+                        <div id="tabs-5">
+                            <fieldset class="g-m-t-20">
+                                <legend>Components</legend>
+                                <table id="tblComponents" width="800">
+                                    @foreach (var com in Model.prod.assemblyComponent.OrderBy(x => x.product1.partNo))
+                                    {
+                                        Html.RenderPartial("_AssemblyComponent", com);
+                                    }
+                                </table>
+                                <select id="aProduct"></select>
+                                @Html.Hidden("hiddenComponent", "0", new { @class = "hiddenValue" })
+                            </fieldset>
+                        </div>
+                    }
+
+                    @if(Model.prod.productID != 0)
+                    {
+                        <div id="tabs-6">
+                            <br />
+
+                            <input id="hiddenProductID" value="@Model.prod.productID" type="hidden" />
+
+                            <div id="membershipDataPartialView">
+                                @{Html.RenderPartial("_EquipMemberships", Model.ProductMembership);}
+                            </div>
+
+                            <div id="eqMembershipDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+                                Are you sure ?
+                            </div>
+
+                            <input type="hidden" id="activeSortType" />
+                            <input type="hidden" id="activeSortDir" />
+                            <input type="hidden" id="historyPage" />
+                        </div>
+
+                        <div id="tabs-7">
+
+                            <div id="productImagesPartialView">
+                                @{Html.RenderPartial("_ProductImages", Model);}
+                            </div>
+
+                            <div id="productImageDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+                                Are you sure you want to delete the image URL ?
+                            </div>
+
+                        </div>
+                     }
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10 g-m-t-10">
+                        <input type="submit" name="saveProduct" value="Save" class="btn btn-default" title="Save" id="btnSaveProduct" />
+                        @Html.ActionLink("Cancel", "ProductIndex", "Product", null, new { @class = "btn btn-default" })
+                        @Html.ActionLink("Read Only", "Detail", "Product", new { id = Model.prod.productID }, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+
+            }
+        </div>
+
+        @Html.Hidden("GetProductsURL", Url.Action("GetAvailableComponents", "Product"))
+        <div id="eanSearchDialogue" title="EAN Search" class="g-d-n" style="overflow: hidden;"></div>
+
+    </div>
+</div>
+
+@{
+    string infoBoxText = Convert.ToString(@TempData["InformationBoxFlag"]);
+    if (infoBoxText != string.Empty)
+    {
+        <div id="infoBoxFlag" class="g-d-n">@TempData["InformationBoxFlag"]</div>
+    }
+}
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            //This allows validation of hidden fields inside the form
+            $('#mainForm').validate().settings.ignore = [];
+
+            setupComboBox($('#GetProductsURL').val());
+
+            $.validator.methods.date = function (value, element) {
+                if ($.browser.webkit) {
+                    var d = new Date();
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                }
+                else {
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+                }
+            };
+
+        });
+
+        $(document).ready(function () {
+            $("#aProduct, #bProduct").combobox();
+        });
+
+        $(document).on('change', '.hiddenValue', function () {
+            var objArray = new Array();
+            objArray[0] = $('#prod_productID').val();
+            objArray[1] = $(this).val();
+
+            $.ajax({
+                url: $('#GetNewComponentURL').val(),
+                dataType: 'html',
+                traditional: true,
+                type: 'POST',
+                cache: false,
+                data:
+                    {
+                        parms: objArray,
+                        timestamp: $.now()
+                    },
+                async: false,
+                success: function (data) {
+                    $('#tblComponents').append(data);
+                    $('.custom-combobox-input').val('').blur();
+                }
+            });
+        });
+
+        $(document).on('change', '.chkBoxWebsite', function () {
+            var catCodeSelect = $(this).parent().find('.catCodeSelect');
+
+            if ($(this).is(':checked')) {
+                catCodeSelect.removeAttr('disabled');
+            } else {
+                catCodeSelect.attr('disabled', 'disabled');
+                catCodeSelect.prop('selectedIndex', 0);
+            }
+        });
+
+        $(document).on('click', 'input[type=submit]', function () {
+            var returnState = true;
+
+            $('.chkBoxWebsite').each(function () {
+                if ($(this).is(':checked')) {
+                    var catCodeSelect = $(this).parent().find('.catCodeSelect');
+                    if (catCodeSelect.prop('selectedIndex') == 0) {
+                        returnState = false;
+                        alert('Please select a catgory code');
+                    }
+                }
+            });
+
+            return returnState;
+        });
+
+        $(document).on('change', '.catCodeSelect', function () {
+            $('#ChangedWebsiteInv').val(true);
+            $('input[type=submit]').trigger('click');
+            $('#ChangedWebsiteInv').val(false);
+        });
+
+        $(document).on('click', '.chkBoxWebsite', function () {
+            if (!$(this).is(':checked')) {
+                $('#ChangedWebsiteInv').val(true);
+                $('input[type=submit]').trigger('click');
+                $('#ChangedWebsiteInv').val(false);
+            }
+        });
+
+        $(document).on('change', '#prod_productItemTypeFK', function () {
+            $('#ChangedWebsiteInv').val(true);
+            $('input[type=submit]').trigger('click');
+            $('#ChangedWebsiteInv').val(false);
+        });
+
+        $(document).on('change', '#prod_productStatusFK', function () {
+            if ($('#prod_productStatusFK option:selected').text() === 'Inactive') {
+                $('#prod_AxisFields_discontinuedItem').find("option:contains('True')").prop('selected', true)
+                $('#prod_AxisFields_published').find("option:contains('False')").prop('selected', true)
+                $('#prod_AxisFields_reSaleable').find("option:contains('False')").prop('selected', true)
+            }
+            if ($('#prod_productStatusFK option:selected').text() === 'Active') {
+                $('#prod_AxisFields_discontinuedItem').find("option:contains('False')").prop('selected', true)
+                $('#prod_AxisFields_published').find("option:contains('True')").prop('selected', true)
+                $('#prod_AxisFields_reSaleable').find("option:contains('True')").prop('selected', true)
+            }
+        });
+
+        $(document).on('click', '.chkPrimary', function () {
+            $(this).removeClass('chkPrimary');
+
+            $('.chkPrimary').each(function () {
+                $(this).prop('checked', false);
+            });
+
+            $(this).addClass('chkPrimary');
+        });
+
+        $(document).on('click', '.lnkDelete', function () {
+            $(this).parent().parent().remove();
+            return false;
+        });
+
+        $(document).on('change', '#ddlEbusiness', function () {
+            var objArray = new Array();
+            objArray[0] = this.value;
+            objArray[1] = $('#prod_productID').val();
+
+            $.ajax({
+                url: $('#GetNewEbusRowURL').val(),
+                dataType: 'html',
+                traditional: true,
+                type: 'POST',
+                cache: false,
+                data:
+                    {
+                        parms: objArray,
+                        timestamp: $.now()
+                    },
+                async: false,
+                success: function (data) {
+                    $('#tblEbusiness').append(data);
+                }
+            });
+        });
+
+        $(document).on('change', '[id^=ddlCategoryCodes]', function () {
+            var websiteId = $(this).attr('id').split('-')[1];
+            var objArray = new Array();
+            objArray[0] = this.value;
+            objArray[1] = $('.wi-id' + (websiteId)).val();
+            objArray[2] = $(this).parent().find('.guid').val();
+
+            $.ajax({
+                url: $('#GetNewCatCodeRowURL').val(),
+                dataType: 'html',
+                traditional: true,
+                type: 'POST',
+                cache: false,
+                data:
+                    {
+                        parms: objArray,
+                        timestamp: $.now()
+                    },
+                async: false,
+                success: function (data) {
+                    $('#tblCatCode-' + websiteId).append(data);
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $(".createProductTabs").tabs();
+        });
+
+        $(document).on('click', '#btnSaveProduct', function () {
+            if ($('#mainForm').valid()) {
+                $('body').append('<div id="updatingContainer"></div>');
+            }
+        });
+
+        $(document).on('click', '#checkBarcode', function () {
+            window.open('https://www.barcodelookup.com/' + $('#prod_barcode').val(), 'newWindow', 'height=600,width=800,top=200,left=200');
+            return false;
+        });
+
+        $(document).tooltip({
+            items: '*:not(.ui-dialog-titlebar-close)'
+        });
+
+        $(document).on('change', '.product-status', function () {
+            if ($(this).val() == 3) {
+                $('.chkBoxWebsite').attr('checked', false);
+                $('.catCodeSelect option:selected').attr('selected', false);
+                $('.catCodeSelect').attr('disabled', 'disabled');
+            }
+        });
+
+        $(document).on('click', '.deleteProductRelationship', function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete("#eqMembershipDialog", $("#ProductMemDeleteURL").val(), $(this).attr("value"),
+                "#membershipDataPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+            return false;
+        });
+
+        $(document).on('click', '.deleteProductImageURL', function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete("#productImageDialog", $("#DeleteProductImageURL").val(), $(this).attr("value"),
+                "#productImagesPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+            return false;
+        });
+
+        $(document).on("click", "#eqMembershipPaging a", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            applyStandardPaging(event, 0);
+
+            return false;
+        });
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging();
+            standardPaging(event, id, "#eqMembershipPaging", $("#ProductMemDataURL").val(),
+                "#membershipDataPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#hiddenProductID").val();
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[1] = sortType + sortDir;
+            } else {
+                optionsArray[1] = '';
+            }
+        }
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value");
+            optionsArray[1] = $("#hiddenProductID").val();
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[2] = sortType + sortDir;
+            } else {
+                optionsArray[2] = '';
+            }
+        }
+
+    </script>
+}

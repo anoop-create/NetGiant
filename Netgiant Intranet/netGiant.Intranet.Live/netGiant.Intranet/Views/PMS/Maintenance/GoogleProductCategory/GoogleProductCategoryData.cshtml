@@ -1,0 +1,21 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<googleProductCategory>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(x => item.googleProductCategoryNo)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.googleProductCategoryDescription)
+        </td>
+        <td>
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+            {
+                @Html.ActionLink("Edit", "Create", "GoogleProductCategory", new { id = item.googleProductCategoryID }, null)
+                @Html.Raw(" | <a class=\"lnkDeleteGoogleProductCategory\" href=\"#\" value=\"" + item.googleProductCategoryID + "\">Delete</a>")
+            }
+        </td>
+    </tr>
+}

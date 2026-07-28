@@ -1,0 +1,110 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models
+@model ScheduleViewModel
+
+<tr class="list-form-extra">
+    <td colspan="100%">
+        @using (Ajax.BeginForm("Create", "Schedule", new AjaxOptions { HttpMethod = "POST", OnComplete = "addScheduleComplete", OnBegin = "beginPost('#schedule')" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.ScheduleEntry.ScheduleID)
+            @Html.HiddenFor(x => x.ScheduleEntry.FrequencyName, new { @Value = Model.AllFrequencies[0].Text })
+
+            <section class="page-form">
+                <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The following details determine when your pricing rules will run." data-helpsid="2" data-helpeid="2"></i> Schedule</h4>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="A descriptive name used to identify your schedule." data-helpsid="2" data-helpeid="2"></i>
+                            Schedule Name
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.ScheduleEntry.ScheduleName)
+                            @Html.EditorFor(x => x.ScheduleEntry.ScheduleName)
+                        </div>
+
+                        @if (Html.TenantPermisson("SalesHistory", TenantPermissonCheck.IsFeatureOn))
+                        {
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Set what type of schedule this is." data-helpsid="2" data-helpeid="2"></i>
+                                Run Type
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.ScheduleEntry.RunTypeFK)
+                                @Html.DropDownListFor(x => x.ScheduleEntry.RunTypeFK, Model.AllRunTypes, new { @class = "selectpicker" })
+                            </div>
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(x => x.ScheduleEntry.RunTypeFK, new{ Model.AllRunTypes.FirstOrDefault(y => y.Text == "Load Feeds and Calculate Prices").Value})
+                        }
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Set at what intervals the schedule should run." data-helpsid="2" data-helpeid="2"></i>
+                            Frequency
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.ScheduleEntry.FrequencyFK)
+                            @Html.DropDownListFor(x => x.ScheduleEntry.FrequencyFK, Model.AllFrequencies, new { @class = "selectpicker" })
+                        </div>
+                        <div id="dayGroup" class="@(Model.ScheduleEntry.Lookup1.LookupName == "Weekly" ? "": "hidden")">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Set the day you would like the rule to run." data-helpsid="2" data-helpeid="2"></i>
+                                Day
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.ScheduleEntry.DayOfWeek)
+                                @Html.DropDownListFor(x => x.ScheduleEntry.DayOfWeek, Model.Days, new { @class = "selectpicker", size = "auto", data_size = "4" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Set the time you would the rule to run. Enter HH:MM." data-helpsid="2" data-helpeid="2"></i>
+                            Time
+                        </div>
+                        <div class="col-md-4 form-value">
+                            <div class="input-group">
+                                @Html.ValidationMessageFor(x => x.ScheduleEntry.Time)
+                                @Html.TextBoxFor(x => x.ScheduleEntry.Time, new { @class = "timeentry" })
+                                <div class="input-group-btn">
+                                    <div>
+                                        <button class="btn btn-default" type="button" disabled="disabled"><i class="fa fa-clock-o"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Enable/Disable this scheduled repricing." data-helpsid="2" data-helpeid="2"></i>
+                            Activate Schedule
+                        </div>
+                        <div class="col-md-4 form-value">
+                            <div class="checkbox checkbox-success">
+                                @Html.EditorFor(x => x.ScheduleEntry.IsActive)
+                                <label for="ScheduleEntry_IsActive"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="schedule" class="form-actions">
+                        <div class="pull-left form-message">
+                            <i class="fa fa-spinner fa-pulse" style="display: none" />
+                            <span></span>
+                        </div>
+
+                        <button type="button" class="pull-right g-m-r-10 g-cur-p form-cancel btn btn-default btn-sm cancel">
+                            <i class="fa fa-times"></i> Cancel
+                        </button>
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Submit" name="action:Save">
+                               <i class="fa fa-floppy-o"></i> Save
+                            </button>
+                        }
+                    </div>
+            </section>
+        }
+    </td>
+</tr>

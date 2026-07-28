@@ -1,0 +1,62 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Reports;
+@model FileInfo[]
+
+@{
+    ViewBag.Title = "Batch Logs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h3>@ViewBag.Title</h3>
+
+        @Html.Hidden("LogFileContentURL", Url.Action("ReadLog", "Reports"))
+
+        <table class="table">
+            <tr>
+                <th>File</th>
+                <th>Created</th>
+            </tr>
+
+            @foreach (var file in Model)
+            {
+                <tr>
+                    <td>
+                        <a class="showLog" href="#">@file.Name</a>
+                    </td>
+                    <td>
+                        @Html.Raw(file.CreationTime)
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+        <div id="logContentDialog" style="display:none;"></div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).on('click', '.showLog', function () {
+
+            var objParams = { logName: $(this).text() };
+            ajaxGet($('#LogFileContentURL').val(), '#logContentDialog', objParams);
+            $("#logContentDialog").dialog({
+                modal: true,
+                width: 1000,
+                height: 850,
+                title: "Log File - " + $(this).text(),
+                open: function () {
+                    $(this).scrollTop(0);
+                }
+            });
+
+            return false;
+        });
+
+    </script>
+}

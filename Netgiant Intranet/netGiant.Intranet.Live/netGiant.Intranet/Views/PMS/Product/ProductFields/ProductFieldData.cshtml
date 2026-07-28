@@ -1,0 +1,94 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product;
+@model ProductFieldViewModel
+
+@{
+    bool hasFields = false;
+    int buttonCount = 0;
+}
+
+<div class="productFieldTabs">
+    <ul>
+        @foreach (var item in Model.fieldSections)
+        {
+            <li><a href="#@item.fieldSectionID" class="tabHeader" value="@item.fieldSectionID">@item.fieldSectionName</a></li>
+        }
+    </ul>
+
+    @foreach (var sec in Model.fieldSections.OrderBy(x => x.sequenceNo))
+    {
+        buttonCount = 1;
+        <div id="@sec.fieldSectionID" class="divSection">
+            @foreach (var subSec in sec.fieldSubSection.OrderBy(x => x.sequenceNo))
+            {
+                <div class="divSubSection">
+                    <fieldset>
+                        <legend>@subSec.fieldSubSectionName</legend>
+                        @if (subSec.fieldSubSectionName.Equals("Supplier Price List Details", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            { Html.RenderPartial("~/Views/PMS/Product/ProductFields/ProductSupplierData.cshtml", Model.productSuppliers); }
+                            hasFields = false;
+                        }
+                        else if (subSec.fieldSubSectionName.Equals("Pricing", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            { Html.RenderPartial("~/Views/PMS/Product/ProductFields/ProductPricesData.cshtml", Model); }
+                            hasFields = false;
+                        }
+                        else if (subSec.fieldSubSectionName.Equals("Competitor Details", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            { Html.RenderPartial("~/Views/PMS/Product/ProductFields/ProductCompetitorData.cshtml", Model.productCompetitors); }
+                            hasFields = false;
+                        }
+                        else
+                        {
+                            hasFields = subSec.fieldName.Count > 0 ? true : false;
+
+                            foreach (var field in subSec.fieldName.OrderBy(x => x.sequenceNo))
+                            {
+                                <div class="div-table">
+                                    <div class="div-table-row">
+                                        <div class="div-table-col-th">
+                                            @field.fieldName1
+                                        </div>
+                                        <div class="div-table-col-td">
+                                            @switch (field.fieldType.fieldTypeName)
+                                            {
+                                                case "Text":
+                                                    @Html.DisplayFor(m => m.fieldValues.FirstOrDefault(x => x.fieldNameFK == field.fieldNameID).fieldValueText)
+                                                    break;
+                                                case "Boolean":
+                                                    if (Model.fieldValues.FirstOrDefault(x => x.fieldNameFK == field.fieldNameID).fieldValueBool.HasValue)
+                                                    {
+                                                        @Html.DisplayFor(m => m.fieldValues.FirstOrDefault(x => x.fieldNameFK == field.fieldNameID).fieldValueBool.Value)
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DisplayFor(m => m.fieldValues.FirstOrDefault(x => x.fieldNameFK == field.fieldNameID).fieldValueBool)
+                                                    }
+                                                    break;
+                                                case "Double":
+                                                @Html.DisplayFor(m => m.fieldValues.FirstOrDefault(x => x.fieldNameFK == field.fieldNameID).fieldValueDouble)
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </fieldset>
+                </div>
+
+                if (hasFields && buttonCount < 2)
+                {
+                    buttonCount++;
+                    
+                    <div class="editAction">
+                        <a href="#" title="Edit Field Values" class="btn btn-default editProductField">Edit Field Values</a>
+                    </div>
+                }
+            }
+        </div>
+    }
+
+</div>

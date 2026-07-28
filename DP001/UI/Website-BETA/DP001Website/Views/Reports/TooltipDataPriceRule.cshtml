@@ -1,0 +1,80 @@
+﻿@model DP001DataAccess.Entities.PriceRule
+
+@if (Model != null)
+{
+    switch (Model.Lookup.LookupName)
+    {
+        case "Cost Base":
+            {
+                <table>
+                    <tr>
+                        <td width="100" class="text-left">Min Margin</td>
+                        <td class="text-right">@Model.MinMarginMod.ToString("N2")%</td>
+                    </tr>
+                    <tr>
+                        <td width="100" class="text-left">Max Margin</td>
+                        <td class="text-right">@Model.MaxMarginMod.ToString("N2")%</td>
+                    </tr>
+                    <tr>
+                        <td width="100" class="text-left">Beat Rate</td>
+                        <td class="text-right">@Model.BeatRateMod.ToString("N2")%</td>
+                    </tr>
+                    <tr>
+                        <td width="100" class="text-left">Cost Uplift</td>
+                        <td class="text-right">@Model.CostUplift.ToString("N2")@(Model.UpliftIsPc ? "%" : "")</td>
+                    </tr>
+                </table>
+                break;
+            }
+        case "Related Product Base":
+            {
+                <table>
+                    <tr>
+                        <td width="100" class="text-left">Min Margin</td>
+                        <td class="text-right">@Model.MinMarginMod.ToString("N2")%</td>
+                    </tr>
+                    <tr>
+                        <td width="100" class="text-left">Max Margin</td>
+                        <td class="text-right">@Model.MaxMarginMod.ToString("N2")%</td>
+                    </tr>
+                    <tr>
+                        <td width="100" class="text-left">Related Modeloduct Discount</td>
+                        <td class="text-right">@Model.CompatDiscountMod.ToString("N2")%</td>
+                    </tr>
+                </table>
+                break;
+            }
+        case "Fixed Price":
+            {
+                <table>
+                    <tr>
+                        <td width="100" class="text-left">Fixed Modelice Overide</td>
+                        <td class="text-right">@Model.FixedPriceOverride.ToString("N2")%</td>
+                    </tr>
+                </table>
+                break;
+            }
+        default:
+            {
+                <table>
+                    <tr>
+                        <td width="100" class="text-left">Min Margin</td>
+                        <td class="text-right">@Model.MinMarginMod.ToString("N2")%</td>
+                    </tr>
+                    <tr>
+                        <td width="100" class="text-left">Max Margin</td>
+                        <td class="text-right">@Model.MaxMarginMod.ToString("N2")%</td>
+                    </tr>
+                    <tr>
+                        <td width="100" class="text-left">Beat Rate</td>
+                        <td class="text-right">@Model.BeatRateMod.ToString("N2")%</td>
+                    </tr>
+                    <tr>
+                        <td width="100" class="text-left">Cost Uplift</td>
+                        <td class="text-right">@Model.CostUplift.ToString("N2")@(Model.UpliftIsPc ? "%" : "")</td>
+                    </tr>
+                </table>
+                break;
+            }
+    }
+}

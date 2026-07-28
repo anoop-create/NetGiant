@@ -1,0 +1,40 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Equipment;
+@model EquipmentViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Equipment Membership";
+    ViewBag.SubTitle = "Create";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title &#45; @ViewBag.EquipName</h4>
+        <br/>
+
+        @using (Html.BeginForm("SaveMembership", "Equipment", new { id = ViewBag.eqEquipmentID }))
+        {
+            <div class="form-horizontal">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.equipment.eqEquipmentID)
+
+                <div class="form-group">
+                    @Html.Label("Select Product", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.productID, Model.AllProductsPartNoDesc, "Select...", new { @class = "form-control g-largeCell" })
+                        @*@Html.ValidationMessageFor(model => model.membership.product.manufacturerFK, "", new { @class = "text-danger" })*@
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="btnSaveEquipment" value="Save" class="btn btn-default" />
+                        @Html.ActionLink("Cancel", "EquipmentMemIndex", new { id = ViewBag.eqEquipmentID }, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

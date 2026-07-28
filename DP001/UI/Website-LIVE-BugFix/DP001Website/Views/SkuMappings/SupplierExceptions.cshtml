@@ -1,0 +1,101 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@using GridMvc.Html;
+@model SkuMappingViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Supplier Exceptions
+            </h1>
+        </div>
+
+        <div class="col-xs-7 col-md-4 col-lg-3 row-height-fix flex-right">
+            <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-sliders fa-lg"></i>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <ul class="dropdown-menu g-p-10">
+                    <li class="g-fw-b">Report Options</li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation">
+                        @Html.HtmlActionLink("<i class=\"fa fa-times\"></i> Reset Filters", "SupplierExceptions", "SkuMappings", null, null)
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+@Html.Grid(Model.SupplierExceptions).Columns(columns =>
+{
+columns.Add(o => o.Prod.Description)
+        .Titled("Product Description")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomTextFilterWidget");
+
+columns.Add(o => o.Brnd.BrandName)
+        .Titled("Brand")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomBrandFilterWidget");
+
+columns.Add(o => o.Prod.ManufacturerPartNo)
+        .Titled("Part Number")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomTextFilterWidget");
+
+columns.Add(o => o.Prod.SupplierInventories.Count)
+        .Titled("Suppliers Mapped")
+        .Filterable(true)
+        .SetFilterWidgetType("CustomNumberFilterWidget");
+
+columns.Add()
+        .Encoded(false)
+        .Sanitized(false)
+        .SetWidth(30)
+        .Css("no-border")
+        .RenderValueAs(d => @<span class="fa fa-pencil-square-o invisible"></span>);
+
+columns.Add()
+        .Encoded(false)
+        .Sanitized(false)
+        .Css("hidden")
+        .RenderValueAs(x => Html.HiddenFor(y => x.Prod.ProductInventoryID));
+
+}).WithPaging(200).Sortable().Named("supplierExceptionsGrid").Selectable(false).SetRowCssClasses(x => "g-cur-p").WithMultipleFilters().WithGridItemsCount()
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            pageGrids.supplierExceptionsGrid.addFilterWidget(
+                new DropDownListWidget("CustomBrandFilterWidget", "brandList", "/Shared/GetBrandNames")
+            );
+
+            pageGrids.supplierExceptionsGrid.addFilterWidget(
+                new TextWidget("CustomTextFilterWidget")
+            );
+
+            pageGrids.supplierExceptionsGrid.addFilterWidget(
+                new NumberWidget("CustomNumberFilterWidget")
+            );
+
+            $(document).on('click', '.grid-wrap tbody > tr', function () {
+                if ($(this).find('#x_Prod_ProductInventoryID').length > 0) {
+                    window.location.href = '@Url.Action("EditSupplierException")/' + $(this).find('#x_Prod_ProductInventoryID').val();
+                }
+            })
+        });
+    </script>
+}
+

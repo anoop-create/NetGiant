@@ -1,0 +1,100 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001DataAccess.Entities;
+@model ProductViewModel
+
+@{
+    string fieldnumber = "";
+    foreach (CustomField cf in Model.CustomFieldList)
+    {
+        fieldnumber = cf.DBFieldName.Substring(cf.DBFieldName.Length - 1);
+
+        <div class="col-md-2 form-name">
+            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The @cf.UserFieldName custom field." data-helpsid="2" data-helpeid="2"></i>
+            @cf.UserFieldName
+        </div>
+        <div class="col-md-4 form-value">
+            @switch (fieldnumber)
+            {
+                case "1":
+                    @Html.DisplayFor(x => x.ProductEntry.CustomProductField1)
+                    break;
+                case "2":
+                    @Html.DisplayFor(x => x.ProductEntry.CustomProductField2)
+                    break;
+                case "3":
+                    @Html.DisplayFor(x => x.ProductEntry.CustomProductField3)
+                    break;
+                case "4":
+                    @Html.DisplayFor(x => x.ProductEntry.CustomProductField4)
+                    break;
+                case "5":
+                    @Html.DisplayFor(x => x.ProductEntry.CustomProductField5)
+                    break;
+                case "6":
+                    @Html.DisplayFor(x => x.ProductEntry.CustomProductField6)
+                    break;
+                case "7":
+                    @Html.DisplayFor(x => x.ProductEntry.CustomProductField7)
+                    break;
+                case "8":
+                    @Html.DisplayFor(x => x.ProductEntry.CustomProductField8)
+                    break;
+                case "9":
+                    @Html.DisplayFor(x => x.ProductEntry.CustomProductField9)
+                    break;
+                case "0":
+                    @Html.DisplayFor(x => x.ProductEntry.CustomProductField10)
+                    break;
+            }
+        </div>
+
+
+    }
+
+    foreach (CustomField cf in Model.CustomAdjustmentList)
+    {
+        fieldnumber = cf.DBFieldName.Substring(cf.DBFieldName.Length - 1);
+        <div class="col-md-2 form-name g-m-b-10">
+            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The @cf.UserFieldName custom field." data-helpsid="2" data-helpeid="2"></i>
+            @cf.UserFieldName
+        </div>
+        <div class="col-md-4 form-value g-m-b-10">
+            @switch (fieldnumber)
+            {
+                case "1":
+                    @Html.DisplayFor(x => x.ProductEntry.AltPrice1)
+                    break;
+                case "2":
+                    @Html.DisplayFor(x => x.ProductEntry.AltPrice2)
+                    break;
+                case "3":
+                    @Html.DisplayFor(x => x.ProductEntry.AltPrice3)
+                    break;
+                case "4":
+                    @Html.DisplayFor(x => x.ProductEntry.AltPrice4)
+                    break;
+                case "5":
+                    @Html.DisplayFor(x => x.ProductEntry.AltPrice5)
+                    break;
+                case "6":
+                    @Html.DisplayFor(x => x.ProductEntry.AltPrice6)
+                    break;
+                case "7":
+                    @Html.DisplayFor(x => x.ProductEntry.AltPrice7)
+                    break;
+                case "8":
+                    @Html.DisplayFor(x => x.ProductEntry.AltPrice8)
+                    break;
+                case "9":
+                    @Html.DisplayFor(x => x.ProductEntry.AltPrice9)
+                    break;
+                case "0":
+                    @Html.DisplayFor(x => x.ProductEntry.AltPrice10)
+                    break;
+            }
+        </div>
+
+
+    }
+}
+

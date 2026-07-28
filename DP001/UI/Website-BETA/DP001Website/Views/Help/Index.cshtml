@@ -1,0 +1,257 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="sub-menu"></section>
+<section class="container help-container">
+    <div class="row">
+        <div class="col-md-9" role="main">
+            <div class="help-section">
+                <h1 id="general-navigation" class="help-header">General Navigation</h1>
+                <div>
+                    The main menu consists of four distinct areas highlighted in red on the following diagrams.
+                </div>
+                <ul>
+                    <li>
+                        <h4>Navigation Menu</h4>
+                        You can navigate from this menu to reports and settings relating to the currently selected channel.
+                    </li>
+                    <li>
+                        <h4>Function Menu</h4>
+                        Here you will find tools to allow you to change your current channel, tools to manage your personal settings and a notifications area.
+                    </li>
+                    <li>
+                        <h4>Breadcrumb Trail</h4>
+                        This shows your where you are and where you came from.
+                    </li>
+                    <li>
+                        <h4>Options Menu</h4>
+                        Here you will find tools that specifically relate to the page that you are on.
+                    </li>
+                </ul>
+            </div>
+            <div class="help-section">
+                <h1 id="reports-and-grids" class="help-header">Reports and Grids</h1>
+                <div>
+                    All reports in the system use the same general way of displaying information in a grid like structure. The grid consists of a header row, which also contains embedded within it filter and sort tools, and a body which contains the report detail.
+                </div>
+                <ul>
+                    <li>
+                        <h4>Grid Headers</h4>
+                        As well as showing the column name, the grid headers contain filter and sort tools embedded within them. Simply click on a header to obtain the filtering tools for that column. The example below shows the filter available on the Product column:
+                    </li>
+                    <li>
+                        <h4>Grid Body</h4>
+                        The grid body contains the detail of the report, on most reports it is possible to click on any row to either drill down to a further level of detail or, where the report shows settings, to edit the settings of that row. Where this is the case a view icon or edit icon will appear at the far right hand side of the row.
+                    </li>
+                </ul>
+            </div>
+            <div class="help-section">
+                <h1 id="getting-started" class="help-header">Getting Started with Priceology</h1>
+                <div>
+                    All reports in the system use the same general way of displaying information in a grid like structure. The grid consists of a header row, which also contains embedded within it filter and sort tools, and a body which contains the report detail.
+                </div>
+                <ul>
+                    <li>
+                        <h4>Pre-Requisites</h4>
+                        <ul>
+                            <li>
+                                Your Channel structure.
+                            </li>
+                            <li>
+                                A strategy for your Price Rules.
+                            </li>
+                            <li>
+                                An idea of timings, in terms of when feeds become available and when you would like the calculations to take place.
+                            </li>
+                            <li>
+                                Your Product Inventory (see File Requirements).
+                            </li>
+                            <li>
+                                Your Supplier Inventory (see File Requirements).
+                            </li>
+                            <li>
+                                (optionally) Your Competitor Inventory (see File Requirements).
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4>Setting Up</h4>
+                        <ul>
+                            <li>
+                                Start by setting up the Channels for your organisation. You can set these up at Settings > Main Settings.
+                            </li>
+                            <li>
+                                For each of your Channels, set up appropriate FTP Feeds for your Product, Supplier and  (optionally) Competitor Inventories. You can set these up at Settings > Main Settings.
+                            </li>
+                            <li>
+                                For each of your Channels, set up appropriate Output Price feeds, this is the file which contains the optimised prices for all your products. You can set this up at Settings > Main Settings.
+                            </li>
+                            <li>
+                                For each of your Channels, set up Schedules, these tell the Priceology system when to trigger the inventory load and price calculation processes . You can set this up at Settings > Main Settings.
+                            </li>
+                            <li>
+                                For each of your Channels, set up Price Rules, these tell the Priceology system which products to target for specific rules and the calculation methods to use . You can set this up from Price Rules.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4>Initial Inventory Load</h4>
+                        Once the steps in 3.2 have been completed you are ready to load all your inventories, match up your products, perform targeted price calculations and create the Output Prices file. You can either wait until the Schedule that you have set up automatically triggers this process or you can trigger the process manually by going to Settings > Main Settings and selecting Load Inventories from the Options Menu.
+                    </li>
+                </ul>
+            </div>
+            <div class="help-section">
+                <h1 id="brand-partno-aliases" class="help-header">Brand and Part Number Aliases</h1>
+                <ul>
+                    <li>
+                        <h4>What are Aliases</h4>
+                        It is often the case that Suppliers will refer to Brand names or Manufacturer Part Numbers in a slightly different way to the Client. An example of this is the Brand Hewlett Packard which may be referred to using the abbreviation HP. Similarly, when referring to Manufacturer Part Numbers, Suppliers may add prefixes or suffixes to the part number for their own reasons. Priceology refers to these variations as Aliases and has built in facilities that help deal with them so that products can be successfully matched.
+                    </li>
+                    <li>
+                        <h4>How To Set Up Aliases</h4>
+                        The Supplier Brand Aliases page can be set up from the Suppliers section of the Main Settings page.
+
+                        To add a Part Number Alias:
+                        <ul>
+                            <li>
+                                Access the Supplier Pat No. Aliases page
+                            </li>
+                            <li>
+                                Click ‘Add Part No. Alias’
+                            </li>
+                            <li>
+                                Type the Brand Name that the alias will apply to
+                            </li>
+                            <li>
+                                Enter the Part Number suffix or prefix to match on and select whether the phrase is a prefix or a  suffix
+                            </li>
+                        </ul>
+
+                        To add a Brand Alias:
+
+                        <ul>
+                            <li>
+                                Access the Supplier Brand Aliases page
+                            </li>
+                            <li>
+                                Click ‘Add Brand Alias’
+                            </li>
+                            <li>
+                                On the Add Brand Alias page, select the Supplier to which this alias applies. Add the name of the Brand as it appears in the Product Inventory in the field Brand Name and add the brand name as it appears on the Supplier Feed in the Alias field.
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="help-section">
+                <h1 id="getting-started" class="help-header">Getting Started with Priceology</h1>
+                <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce felis mi, placerat in quam vel, blandit convallis mauris. Vestibulum at sapien porta neque lacinia tempus. Donec porttitor diam ac massa congue pellentesque. Vestibulum finibus quam eu laoreet facilisis. Morbi placerat, lacus sit amet consequat tempor, odio nulla faucibus eros, eget suscipit augue risus in quam. Mauris nisl massa, imperdiet non pellentesque sit amet, consectetur eget leo. In finibus ultricies ligula at egestas. Morbi lobortis mollis cursus. Vestibulum non arcu lobortis, facilisis leo ac, venenatis turpis. Fusce et hendrerit ipsum. Etiam malesuada diam quis cursus gravida. Fusce vel leo interdum, condimentum quam vel, consequat mi. Donec sollicitudin ornare nulla a efficitur. Nulla sed velit consequat, posuere nisi vitae, lobortis purus. In hac habitasse platea dictumst.
+                </div>
+                <h3 id="contract-information" class="help-header">Contract Information</h3>
+                <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce felis mi, placerat in quam vel, blandit convallis mauris. Vestibulum at sapien porta neque lacinia tempus. Donec porttitor diam ac massa congue pellentesque. Vestibulum finibus quam eu laoreet facilisis. Morbi placerat, lacus sit amet consequat tempor, odio nulla faucibus eros, eget suscipit augue risus in quam. Mauris nisl massa, imperdiet non pellentesque sit amet, consectetur eget leo. In finibus ultricies ligula at egestas. Morbi lobortis mollis cursus. Vestibulum non arcu lobortis, facilisis leo ac, venenatis turpis. Fusce et hendrerit ipsum. Etiam malesuada diam quis cursus gravida. Fusce vel leo interdum, condimentum quam vel, consequat mi. Donec sollicitudin ornare nulla a efficitur. Nulla sed velit consequat, posuere nisi vitae, lobortis purus. In hac habitasse platea dictumst.
+                </div>
+                <h3 id="main-contact-details" class="help-header">Main Contact Details</h3>
+                <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce felis mi, placerat in quam vel, blandit convallis mauris. Vestibulum at sapien porta neque lacinia tempus. Donec porttitor diam ac massa congue pellentesque. Vestibulum finibus quam eu laoreet facilisis. Morbi placerat, lacus sit amet consequat tempor, odio nulla faucibus eros, eget suscipit augue risus in quam. Mauris nisl massa, imperdiet non pellentesque sit amet, consectetur eget leo. In finibus ultricies ligula at egestas. Morbi lobortis mollis cursus. Vestibulum non arcu lobortis, facilisis leo ac, venenatis turpis. Fusce et hendrerit ipsum. Etiam malesuada diam quis cursus gravida. Fusce vel leo interdum, condimentum quam vel, consequat mi. Donec sollicitudin ornare nulla a efficitur. Nulla sed velit consequat, posuere nisi vitae, lobortis purus. In hac habitasse platea dictumst.
+                </div>
+                <h3 id="channels" class="help-header">Channels</h3>
+                <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce felis mi, placerat in quam vel, blandit convallis mauris. Vestibulum at sapien porta neque lacinia tempus. Donec porttitor diam ac massa congue pellentesque. Vestibulum finibus quam eu laoreet facilisis. Morbi placerat, lacus sit amet consequat tempor, odio nulla faucibus eros, eget suscipit augue risus in quam. Mauris nisl massa, imperdiet non pellentesque sit amet, consectetur eget leo. In finibus ultricies ligula at egestas. Morbi lobortis mollis cursus. Vestibulum non arcu lobortis, facilisis leo ac, venenatis turpis. Fusce et hendrerit ipsum. Etiam malesuada diam quis cursus gravida. Fusce vel leo interdum, condimentum quam vel, consequat mi. Donec sollicitudin ornare nulla a efficitur. Nulla sed velit consequat, posuere nisi vitae, lobortis purus. In hac habitasse platea dictumst.
+                </div>
+            </div>
+            <div class="help-section">
+                <h1 id="product-mappings" class="help-header">Product Mappings</h1>
+                <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce felis mi, placerat in quam vel, blandit convallis mauris. Vestibulum at sapien porta neque lacinia tempus. Donec porttitor diam ac massa congue pellentesque. Vestibulum finibus quam eu laoreet facilisis. Morbi placerat, lacus sit amet consequat tempor, odio nulla faucibus eros, eget suscipit augue risus in quam. Mauris nisl massa, imperdiet non pellentesque sit amet, consectetur eget leo. In finibus ultricies ligula at egestas. Morbi lobortis mollis cursus. Vestibulum non arcu lobortis, facilisis leo ac, venenatis turpis. Fusce et hendrerit ipsum. Etiam malesuada diam quis cursus gravida. Fusce vel leo interdum, condimentum quam vel, consequat mi. Donec sollicitudin ornare nulla a efficitur. Nulla sed velit consequat, posuere nisi vitae, lobortis purus. In hac habitasse platea dictumst.
+                </div>
+            </div>
+            <div class="help-section">
+                <h1 id="schedules" class="help-header">Schedules</h1>
+                <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce felis mi, placerat in quam vel, blandit convallis mauris. Vestibulum at sapien porta neque lacinia tempus. Donec porttitor diam ac massa congue pellentesque. Vestibulum finibus quam eu laoreet facilisis. Morbi placerat, lacus sit amet consequat tempor, odio nulla faucibus eros, eget suscipit augue risus in quam. Mauris nisl massa, imperdiet non pellentesque sit amet, consectetur eget leo. In finibus ultricies ligula at egestas. Morbi lobortis mollis cursus. Vestibulum non arcu lobortis, facilisis leo ac, venenatis turpis. Fusce et hendrerit ipsum. Etiam malesuada diam quis cursus gravida. Fusce vel leo interdum, condimentum quam vel, consequat mi. Donec sollicitudin ornare nulla a efficitur. Nulla sed velit consequat, posuere nisi vitae, lobortis purus. In hac habitasse platea dictumst.
+                </div>
+            </div>
+            <div class="help-section">
+                <h1 id="feeds" class="help-header">Feeds</h1>
+                <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce felis mi, placerat in quam vel, blandit convallis mauris. Vestibulum at sapien porta neque lacinia tempus. Donec porttitor diam ac massa congue pellentesque. Vestibulum finibus quam eu laoreet facilisis. Morbi placerat, lacus sit amet consequat tempor, odio nulla faucibus eros, eget suscipit augue risus in quam. Mauris nisl massa, imperdiet non pellentesque sit amet, consectetur eget leo. In finibus ultricies ligula at egestas. Morbi lobortis mollis cursus. Vestibulum non arcu lobortis, facilisis leo ac, venenatis turpis. Fusce et hendrerit ipsum. Etiam malesuada diam quis cursus gravida. Fusce vel leo interdum, condimentum quam vel, consequat mi. Donec sollicitudin ornare nulla a efficitur. Nulla sed velit consequat, posuere nisi vitae, lobortis purus. In hac habitasse platea dictumst.
+                </div>
+            </div>
+            <div class="help-section">
+                <h1 id="price-rules" class="help-header">Price Rules</h1>
+                <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce felis mi, placerat in quam vel, blandit convallis mauris. Vestibulum at sapien porta neque lacinia tempus. Donec porttitor diam ac massa congue pellentesque. Vestibulum finibus quam eu laoreet facilisis. Morbi placerat, lacus sit amet consequat tempor, odio nulla faucibus eros, eget suscipit augue risus in quam. Mauris nisl massa, imperdiet non pellentesque sit amet, consectetur eget leo. In finibus ultricies ligula at egestas. Morbi lobortis mollis cursus. Vestibulum non arcu lobortis, facilisis leo ac, venenatis turpis. Fusce et hendrerit ipsum. Etiam malesuada diam quis cursus gravida. Fusce vel leo interdum, condimentum quam vel, consequat mi. Donec sollicitudin ornare nulla a efficitur. Nulla sed velit consequat, posuere nisi vitae, lobortis purus. In hac habitasse platea dictumst.
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" role="complementary">
+            <nav id="help-navbar" class="hidden-print hidden-xs hidden-sm affix">
+                <h1 class="help-header">Contents</h1>
+                <ul class="nav help-sidenav">                    
+                    <li>
+                        <a href="#general-navigation">General Naviation</a>
+                    </li>
+                    <li>
+                        <a href="#reports-and-grids">Reports and Grids</a>
+                    </li>
+                    <li>
+                        <a href="#getting-started">Getting Started with Priceology</a>
+                    </li>
+                    <li>
+                        <a href="#brand-partno-aliases">Brand and Part Number Aliases</a>
+                    </li>
+                    <li>
+                        <a href="#general-settings">Getting Started with Priceology</a>
+                        <ul class="nav">
+                            <li>
+                                <a href="#contract-information">Contract Information</a>
+                            </li>
+                            <li>
+                                <a href="#main-contact-details">Main Contact Details</a>
+                            </li>
+                            <li>
+                                <a href="#channels">Channels</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#product-mappings">Product Mappings</a>
+                    </li>
+
+                    <li>
+                        <a href="#schedules">Schedules</a>
+                    </li>
+
+                    <li>
+                        <a href="#feeds">Feeds</a>
+                    </li>
+
+                    <li>
+                        <a href="#price-rules">Price Rules</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+
+            $('body').scrollspy({
+                target: '#help-navbar',
+                offset: 500
+            })
+        })
+
+    </script>
+}

@@ -1,0 +1,264 @@
+﻿@using DP001Website.Models
+@model DP001BusinessLogic.ViewModels.ProviderExclusionViewModel
+
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-12 col-md-12 row-height-fix">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                <a href="@Url.Action("Index", "ProviderExclusion")" class="grey">
+                    Inventory Exclusions
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Edit Exclusion
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-push-2">
+            @Html.ValidationSummary()
+            @using (Ajax.BeginForm("UpdateExclusion", "ProviderExclusion", new AjaxOptions { HttpMethod = "POST", OnComplete = "addComplete" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.ProviderExclusionEntry.ExclusionType, new { Value = Model.AllExclusionTypes[0].Text })
+                @Html.HiddenFor(x => x.ProviderExclusionEntry.FileTypeFK, new { Value = 36 })
+                @Html.HiddenFor(x => x.ProviderExclusionEntry.ChannelFK, new { Value = 85 })
+                @Html.HiddenFor(x => x.ProviderExclusionEntry.ProviderExclusionID)
+                <div class="row page-form">
+                    <div class="container-fluid">
+                        <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The following details will determine your exclusion." data-helpsid="2" data-helpeid="2"></i> Exclusion</h4>
+                        <div class="row">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The type of Exclusion. For example, Brand exclusion." data-helpsid="2" data-helpeid="2"></i>
+                                Exlusion Type
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.ProviderExclusionEntry.ExclusionTypeFk)
+                                @Html.DropDownListFor(x => x.ProviderExclusionEntry.ExclusionTypeFk, Model.AllExclusionTypes, "Select...", new { @class = "selectpicker" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 form-name">
+                                <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The competitor name, as it appears in the file." data-helpsid="2" data-helpeid="2"></i>
+                                Competitor
+                            </div>
+                            <div class="col-md-4 form-value">
+                                @Html.ValidationMessageFor(x => x.ProviderExclusionEntry.ProviderFK)
+                                @Html.AutoCompleteFor(x => x.ProviderExclusionEntry.ProviderFK, "CompetitorAutoComplete",
+                                    "SearchCompetitors", "ProviderExclusion", "autoCompleteSuccessCompetitor",
+                                    Model.ProviderExclusionEntry.ProviderName)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="brandGroup @(Model.ProviderExclusionEntry.Lookup1.LookupName == "Competitor Item" ? "g-d-n" : "")">
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The Brand name for your exclusion." data-helpsid="2" data-helpeid="2"></i>
+                                    Brand Name
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.ProviderExclusionEntry.BrandName)
+                                    <input type="text" id="brandNameBox" data-ajax-success="autoCompleteSuccessBrands" data-url="/Competitors/SearchBrands" placeholder="Search ..." class="form-control" value="@Model.ProviderExclusionEntry.BrandName" />
+                                    @Html.HiddenFor(x => x.ProviderExclusionEntry.BrandName)
+                                </div>
+                            </div>
+                            <div class="@(Model.ProviderExclusionEntry.Lookup1.LookupName == "Competitor Brand" ? "g-d-n" : "") entry-type">
+                                <div class="col-md-2 form-name">
+                                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The Manufacturer Part Number for your exclusion." data-helpsid="2" data-helpeid="2"></i>
+                                    Manufacturer Part No
+                                </div>
+                                <div class="col-md-4 form-value">
+                                    @Html.ValidationMessageFor(x => x.ProviderExclusionEntry.ManufacturerPartNo)
+                                    <input type="text" id="partNumberBox" data-ajax-success="autoCompleteSuccess" data-url="/Competitors/Search" placeholder="Search ..." class="form-control" value="@Model.ProviderExclusionEntry.ManufacturerPartNo" />
+                                    @Html.HiddenFor(x => x.ProviderExclusionEntry.ManufacturerPartNo)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <div class="pull-left form-message">
+                        <i class="fa fa-spinner fa-pulse" style="display: none"></i>
+                        <span></span>
+                    </div>
+
+                    <a class="pull-right g-m-r-10 g-cur-p form-cancel btn btn-default btn-sm" href="@Url.Action("Index", "ProviderExclusion")">
+                        <i class="fa fa-times"></i> Cancel
+                    </a>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Save">
+                            <i class="fa fa-floppy-o"></i> Save
+                        </button>
+
+                        @Ajax.HtmlActionLink("<i class=\"fa fa-trash\"></i> Delete",
+                            "Delete",
+                            "ProviderExclusion",
+                            new { id = Model.ProviderExclusionEntry.ProviderExclusionID },
+                            new AjaxOptions()
+                            {
+                                HttpMethod = "POST",
+                                Confirm = "Are you sure you want to delete this exclusion?",
+                                OnSuccess = "deleteComplete"
+                            },
+                            new
+                            {
+                                @class = "pull-right g-m-r-10 form-delete btn btn-default btn-sm"
+                            })
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $.validator.setDefaults({ ignore: null });
+
+        $("#partNumberBox").autocomplete({
+            source: function (request, response) {
+                var results = new Array();
+                $.ajax({
+                    async: false,
+                    cache: false,
+                    type: "POST",
+                    url: $("#partNumberBox").data("url"),
+                    data: {
+                        "term": request.term,
+                        "competitorFk": $('#ProviderExclusionEntry_ProviderFK').val() || 0
+                    },
+                    success: function (data) {
+                        results = getFunction($("#partNumberBox").data("ajax-success"), ["xhr", "status"]).apply(this, arguments)
+                    }
+                });
+                response(results);
+            },
+            select: function (event, ui) {
+                $('#ProviderExclusionEntry_ManufacturerPartNo').val(ui.item.Id);
+            }
+        }).focus(function () {
+            $(this).val('');
+            $('#' + datahiddenId).val('');
+        }).blur(function () {
+            if ($('#' + datahiddenId).val() == '') {
+                $(this).val('');
+            }
+        });
+
+        $("#brandNameBox").autocomplete({
+            source: function (request, response) {
+                var results = new Array();
+                $.ajax({
+                    async: false,
+                    cache: false,
+                    type: "POST",
+                    url: $("#brandNameBox").data("url"),
+                    data: {
+                        "term": request.term,
+                        "competitorFk": $('#ProviderExclusionEntry_ProviderFK').val() || 0
+                    },
+                    success: function (data) {
+                        results = getFunction($("#brandNameBox").data("ajax-success"), ["xhr", "status"]).apply(this, arguments)
+                    }
+                });
+                response(results);
+            },
+            select: function (event, ui) {
+                $('#ProviderExclusionEntry_BrandName').val(ui.item.Id);
+            }
+        }).focus(function () {
+            $(this).val('');
+            $('#' + datahiddenId).val('');
+        }).blur(function () {
+            if ($('#' + datahiddenId).val() == '') {
+                $(this).val('');
+            }
+        });
+
+        $(document).on('change',
+            '#ProviderExclusionEntry_ExclusionTypeFk',
+            function () {
+                $('#ProviderExclusionEntry_ExclusionType').val($('#ProviderExclusionEntry_ExclusionTypeFk option:selected').text());
+
+                if ($('#ProviderExclusionEntry_ExclusionTypeFk option:selected').text() == 'Competitor Brand') {
+                    $('.entry-type').hide();
+                    $('.brandGroup').show();
+                } else {
+                    $('.entry-type').show();
+                    $('.brandGroup').hide();
+                }
+            });
+
+        function autoCompleteSuccessCompetitor(data) {
+            var products = new Array();
+
+            if (data.length == 0) {
+                return { label: "No items found, please try typing something else", Id: 0 };
+            }
+
+            for (var i = 0; i < data.length; i++) {
+                products[i] = { label: data[i].Des, Id: data[i].Id };
+            }
+
+            return products;
+        }
+
+        function autoCompleteSuccessBrands(data) {
+            var products = new Array();
+
+            if (data.length == 0) {
+                return { label: "No items found, please try typing something else", Id: 0 };
+            }
+
+            for (var i = 0; i < data.length; i++) {
+                products[i] = { label: data[i].Des, Id: data[i].Des };
+            }
+
+            return products;
+        }
+
+        function autoCompleteSuccess(data) {
+            var products = new Array();
+
+            if (data.length == 0) {
+                return { label: "No items found, please try typing something else", Id: 0 };
+            }
+
+            for (var i = 0; i < data.length; i++) {
+                products[i] = { label: data[i].Pn + ' - ' + data[i].Des, Id: data[i].Id };
+            }
+
+            return products;
+        }
+
+        function addComplete(data) {
+            if (data.responseJSON.isSuccess) {
+                window.location.href = '@Url.Action("Index")';
+            }
+            $('.form-actions .form-message span').text(data.responseJSON.Msg);
+        }
+
+        function deleteComplete(data) {
+            $('.form-actions .form-message span').text(data.msg);
+            if (data.isSuccess) {
+                window.location.href = '@Url.Action("Index")';
+            }
+            $('.form-message .fa-spinner').hide();
+        }
+
+    </script>
+}

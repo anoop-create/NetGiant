@@ -1,0 +1,142 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Orders;
+@using System.Globalization;
+@model PayPalViewModel
+
+@{
+    ViewBag.Title = "AmazonPay Transactions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    @Html.RawFromDict(Model.IntranetData, "AmazonPayTransactionsFilters")
+
+    @using (Html.BeginForm("ExportTransactions", "AmazonPay", FormMethod.Post, new { @id = "ExportForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("kendoData")
+
+        <input type="submit" class="btn btn-success g-m-t-5 download" value="Export to CSV" />
+    }
+
+</div>
+
+@(Html.Kendo().Grid<AmazonPayViewModel.TelerikAmazonPayTransaction>
+    ()
+    .HtmlAttributes(new { @class = "pointer-rows" })
+    .Name("amazonPayTransactionGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.Aut_DateTime).Title("DateTime")
+            .ClientTemplate("#= kendo.toString(kendo.parseDate(Aut_DateTime, 'yyyy-MM-dd'), 'dd/MM/yyyy HH:mm:ss') #").Width("80px")
+            .HeaderHtmlAttributes(new { title = "Date/Time", style = "text-align: center;" });
+        columns.Bound(x => x.Aut_Website).Title("Website").Width("40px")
+            .HeaderHtmlAttributes(new { title = "Website", style = "text-align: center;" });
+        columns.Bound(x => x.Aut_Amount).Title("Amt.").Width("40px")
+            .Format("{0:N2}")
+            .HtmlAttributes(new { style = "text-align: right;" })
+            .HeaderHtmlAttributes(new { title = "Amount", style = "text-align: center;" });
+        columns.Bound(x => x.Aut_Payee).Title("Cust.").Width("100px")
+            .HeaderHtmlAttributes(new { title = "Customer", style = "text-align: center;" });
+        columns.Bound(x => x.Aut_SessionId).Title("Amazon Session ID").Width(150)
+            .HeaderHtmlAttributes(new { title = "Amazon Session ID", style = "text-align: center;" });
+
+        columns.Group(group => group
+            .Title("Authorisation")
+            .Columns(aut =>
+            {
+                aut.Bound(x => x.Aut_Action).Title("Action").Width("50px").HeaderHtmlAttributes(new { title = "Action", style = "text-align: center;" });
+                aut.Bound(x => x.Aut_Status).Title("Status").Width("50px").HeaderHtmlAttributes(new { title = "Status", style = "text-align: center;" });
+            })
+        );
+        columns.Group(group => group
+            .Title("Capture")
+            .Columns(cap =>
+            {
+                cap.Bound(x => x.Cap_Action).Title("Action").Width("50px")
+                    .HeaderHtmlAttributes(new { title = "Action", style = "text-align: center;" });
+                cap.Bound(x => x.Cap_Status).Title("Status").Width("50px")
+                    .HeaderHtmlAttributes(new { title = "Status", style = "text-align: center;" });
+                cap.Bound(x => x.Cap_ChargeId).Title("Charge ID").Width("150px")
+                    .HeaderHtmlAttributes(new { title = "Charge ID", style = "text-align: center;" });
+            })
+        );
+    })
+    .Pageable(pager => pager.Refresh(true))
+    .Pageable(pager => pager.PageSizes(new List<int>
+        { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable.AllowUnsort(true))
+        .Scrollable()
+        .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .NoRecords("There are no AmazonPay transactions to display")
+        .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(x => x.Action("AmazonPayTransaction_Read", "AmazonPay"))
+        .Sort(s => s.Add(x => x.Aut_DateTime).Descending())
+        .PageSize(200)
+        )
+        .Events(events => events.Change("Grid_OnRowSelect"))
+        .Selectable()
+)
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 1500px;">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var Grid_OnRowSelect = function (e) {
+        var griddata = this.dataItem(this.select());
+        $('#myModal').find('.modal-body').html('');
+        $.ajax({
+            url: '@Url.Action("GetAmazonPayTransaction", "AmazonPay")',
+            data: { id: griddata.Aut_SessionId }
+        }).done(function (data) {
+            $('#myModal').find('.modal-body').html(data);
+            $('#j1').html(JSON.stringify(JSON.parse(griddata.Aut_Response), null, 2));
+            $('#j2').html(JSON.stringify(JSON.parse(griddata.Cap_Response), null, 2));
+        });
+        $('#myModal').modal();
+
+    }
+
+    $(document).on('click', '.download', function (e) {
+        var view = $("#payPalTransactionGrid").data("kendoGrid").dataSource.view();
+        $('#kendoData').val(encodeURIComponent(JSON.stringify(view)));
+        $('#ExportForm').submit();
+    });
+
+    //function Grid_OnDataBound() {
+    //    $("#amazonPayTransactionGrid tr.k-alt").removeClass("k-alt");
+
+    //    var grid = this;
+    //    var currentRecords = grid.dataSource.view();
+    //    for (var i = 0; i < currentRecords.length; i++) {
+    //        if (currentRecords[i].OrderIsPlaced == 'No') {
+    //            grid.tbody.find("tr[data-uid='" + currentRecords[i].uid + "']").removeClass("k-alt").addClass("g-bc-r").addClass("g-fc-w");
+    //        }
+    //    }
+    //    saveGridFilters();
+    //}
+</script>
+
+
+
+
+
+

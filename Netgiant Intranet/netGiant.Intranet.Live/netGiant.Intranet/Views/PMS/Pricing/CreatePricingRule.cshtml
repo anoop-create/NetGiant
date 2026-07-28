@@ -1,0 +1,777 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Pricing
+@using netGiant.Intranet.Models
+@using System.Web.Mvc;
+@using System.Web.Mvc.Html;
+
+@model PricingRulesViewModel
+
+@{
+    ViewBag.Title = "Pricing Rule";
+    ViewBag.SubTitle = Model.priceRuleSingle.priceRuleID > 0 ? "Edit" : "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title</h4>
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        @Html.Hidden("GetCategoryCodesURL", Url.Action("GetCategoryCodes", "Prices"))
+        @Html.Hidden("GetNewPriceRuleBandRow", Url.Action("GetNewPriceRuleBandTableRow", "PricingRules"))
+        @Html.Hidden("GetProductsURL", Url.Action("GetProducts", "CrossSellingLink"))
+
+        <div class="g-w-100p g-m-b-20 form-horizontal">
+
+            @using (Html.BeginForm("SavePricingRule", "PricingRules", FormMethod.Post, new { id = "mainForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => Model.priceRuleSingle.priceRuleID)
+
+                object ddlAttributes = null;
+                if (Model.priceRuleSingle.priceRuleID > 0)
+                {
+                    ddlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" };
+                }
+                else
+                {
+                    ddlAttributes = new { @class = "form-control g-largeCell" };
+                }
+
+                <div class="g-w-50p g-f-l">
+                    <div class="form-group">
+                        @Html.Label("Description", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.EditorFor(model => model.priceRuleSingle.description, new
+                   {
+                       htmlAttributes = new { @class = "form-control g-largeCell" }
+                   })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Rule Type", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.DropDownListFor(m => m.priceRuleSingle.ruleType, Model.allRuleTypes, "Select...", new { @class = "form-control g-largeCell" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.ruleType, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Manufacturer", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.DropDownListFor(m => m.priceRuleSingle.manufacturerFK, Model.allManufacturers, "Select...", new { @class = "form-control g-largeCell allowDisable" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.manufacturerFK, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Product", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="selectProduct">
+                            <select id="ddlProduct"></select>
+                            @Html.HiddenFor(m => m.priceRuleSingle.productFK, new { @class = "hiddenValue" })
+                            @Html.ValidationMessageFor(m => m.priceRuleSingle.productFK, "", new { @class = "text-danger g-m-l-50" })
+                        </div>
+
+                        @if (Model.priceRuleSingle.product != null)
+                        {
+                            @Html.Hidden("aProductName", Model.priceRuleSingle.product.partNo + " - " + Model.priceRuleSingle.product.productName)
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Desired Margin", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.EditorFor(model => model.priceRuleSingle.desiredMargin,
+                            new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @class = "form-control g-smallCell gl_displayInlineBlock percentInput g-f-l g-m-r-10 allowDisable",
+                                    Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.desiredMargin * 100 : 0)
+                                }
+                            })
+                            @Html.Label("%", new { @class = "g-f-l" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.desiredMargin, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Min Margin", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.EditorFor(model => model.priceRuleSingle.minMargin,
+                        new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control g-smallCell gl_displayInlineBlock percentInput g-f-l g-m-r-10 allowDisable",
+                                Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.minMargin != null ? Model.priceRuleSingle.minMargin * 100 : 0 : 0)
+                            }
+                        })
+                            @Html.Label("%", new { @class = "g-f-l" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.minMargin, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Min Margin Value", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.EditorFor(model => model.priceRuleSingle.minMarginValue,
+                        new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control g-smallCell gl_displayInlineBlock valInput g-f-l g-m-r-10 allowDisable",
+                                Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.minMarginValue != null ? Model.priceRuleSingle.minMarginValue : 0 : 0)
+                            }
+                        })
+                            @Html.Label("£", new { @class = "g-f-l" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.minMarginValue, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Break 1", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.EditorFor(model => model.priceRuleSingle.breakPrice1, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control g-smallCell gl_displayInlineBlock percentInput g-f-l g-m-r-10 allowDisable",
+                           Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.breakPrice1 != null ? Model.priceRuleSingle.breakPrice1 * 100 : 0 : 0)
+                       }
+                   })
+                            @Html.Label("%", new { @class = "g-f-l" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.breakPrice1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Break 2", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.EditorFor(model => model.priceRuleSingle.breakPrice2, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control g-smallCell gl_displayInlineBlock percentInput g-f-l g-m-r-10 allowDisable",
+                           Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.breakPrice2 != null ? Model.priceRuleSingle.breakPrice2 * 100 : 0 : 0)
+                       }
+                   })
+                            @Html.Label("%", new { @class = "g-f-l" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.breakPrice2, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Final Break Margin Stock", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.EditorFor(model => model.priceRuleSingle.finalBreakMinimumMarginStock, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control g-smallCell gl_displayInlineBlock percentInput g-f-l g-m-r-10 allowDisable",
+                           Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.finalBreakMinimumMarginStock != null ? Model.priceRuleSingle.finalBreakMinimumMarginStock * 100 : 0 : 0)
+                       }
+                   })
+                            @Html.Label("%", new { @class = "g-f-l" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.finalBreakMinimumMarginStock, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Final Break Margin Packs ", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.EditorFor(model => model.priceRuleSingle.finalBreakMinimumMarginAssemblies, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control g-smallCell gl_displayInlineBlock percentInput g-f-l g-m-r-10 allowDisable",
+                           Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.finalBreakMinimumMarginAssemblies != null ? Model.priceRuleSingle.finalBreakMinimumMarginAssemblies * 100 : 0 : 0)
+                       }
+                   })
+                            @Html.Label("%", new { @class = "g-f-l" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.finalBreakMinimumMarginAssemblies, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                        @Html.Label("Break 3", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.EditorFor(model => model.priceRuleSingle.breakPrice3, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control g-smallCell gl_displayInlineBlock percentInput g-f-l g-m-r-10 allowDisable",
+                           Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.breakPrice3 != null ? Model.priceRuleSingle.breakPrice3 * 100 : 0 : 0)
+                       }
+                   })
+                            @Html.Label("%", new { @class = "g-f-l" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.breakPrice3, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                    @*<div class="form-group">
+                        @Html.Label("Break 4", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.EditorFor(model => model.priceRuleSingle.breakPrice4, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control g-smallCell gl_displayInlineBlock percentInput g-f-l g-m-r-10 allowDisable",
+                           Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.breakPrice4 != null ? Model.priceRuleSingle.breakPrice4 * 100 : 0 : 0)
+                       }
+                   })
+                            @Html.Label("%", new { @class = "g-f-l" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.breakPrice4, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                    @*<div class="form-group">
+                        @Html.Label("Break 5", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.EditorFor(model => model.priceRuleSingle.breakPrice5, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control g-smallCell gl_displayInlineBlock percentInput g-f-l g-m-r-10 allowDisable",
+                           Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.breakPrice5 != null ? Model.priceRuleSingle.breakPrice5 * 100 : 0 : 0)
+                       }
+                   })
+                            @Html.Label("%", new { @class = "g-f-l" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.breakPrice5, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                    <div class="form-group">
+                        @Html.Label("Use Banding", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div style="height: 35px;">
+                            @Html.CheckBoxFor(model => model.priceRuleSingle.useBanding, new { @class = "g-f-l allowDisable" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.useBanding, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                </div>
+                <div class="g-w-50p g-f-l">
+                    @if (Model.priceRuleSingle.priceRuleID > 0)
+                    {
+                        <div class="form-group">
+                            @Html.Label("Website", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div>
+                                @Html.LabelFor(m => m.priceRuleSingle.categoryCode.websiteFK, Model.priceRuleSingle.categoryCode.Website.FriendlyName)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Category", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div>
+                                @Html.LabelFor(m => m.priceRuleSingle.categoryCodeFK, Model.priceRuleSingle.categoryCode.categoryCodeName)
+                                @Html.HiddenFor(m => m.priceRuleSingle.categoryCodeFK)
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            @Html.Label("Website", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div>
+                                @Html.DropDownListFor(m => m.selectedWebsiteFK, Model.allWebsites, "Select...", new { @class = "form-control g-largeCell allowDisable" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Category", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div>
+                                @Html.DropDownListFor(m => m.priceRuleSingle.categoryCodeFK, Model.allCategories, "Select...", new { @class = "form-control g-largeCell allowDisable", @disabled = "disabled" })
+                                @Html.HiddenFor(m => m.priceRuleSingle.categoryCodeFK)
+                            </div>
+                        </div>
+                    }
+
+                        <div class="form-group">
+                            @Html.Label("Product Group", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div>
+                                @Html.DropDownListFor(m => m.priceRuleSingle.productGroupFK, Model.allProductGroups, "Select...", new { @class = "form-control g-largeCell allowDisable", @disabled = "disabled" })
+                                @Html.HiddenFor(m => m.priceRuleSingle.productGroupFK)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Cost Uplift", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div>
+                                @if (Model.priceRuleSingle.costUpliftIsPercent)
+                                {
+                                    @Html.TextBoxFor(model => model.priceRuleSingle.costUplift, new
+                       {
+                           @class = "form-control g-smallCell gl_displayInlineBlock g-m-r-10 g-f-l allowDisable",
+                           Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.costUplift * 100 : 0)
+                       })
+                                    @Html.Raw("<span id='costUpliftSymbol' class='g-f-l g-m-r-20'>%</span>")
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(model => model.priceRuleSingle.costUplift, new
+                       {
+                           @class = "form-control g-smallCell gl_displayInlineBlock g-f-l g-m-r-10 allowDisable",
+                           Value = String.Format("{0:N2}", Model.priceRuleSingle.costUplift)
+                       })
+                                    @Html.Raw("<span id='costUpliftSymbol' class='g-f-l g-m-r-20'>£</span>")
+                                }
+
+                                @Html.CheckBoxFor(m => m.priceRuleSingle.costUpliftIsPercent, new { @class = "g-f-l allowDisable" })
+                                @Html.Label("Percent ?", new { @class = "g-f-l g-m-l-10" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Max Margin", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div>
+                                @Html.EditorFor(model => model.priceRuleSingle.maxMargin, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control g-smallCell gl_displayInlineBlock percentInput g-f-l g-m-r-10 allowDisable",
+                           Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.maxMargin != null ? Model.priceRuleSingle.maxMargin * 100 : 0 : 0)
+                       }
+                   })
+                                @Html.Label("%", new { @class = "g-f-l" })
+                                @Html.ValidationMessageFor(model => model.priceRuleSingle.maxMargin, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    <div class="form-group">
+                        @Html.Label("Max Margin Value", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.EditorFor(model => model.priceRuleSingle.maxMarginValue, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control g-smallCell gl_displayInlineBlock valInput g-f-l g-m-r-10 allowDisable",
+                           Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.maxMarginValue != null ? Model.priceRuleSingle.maxMarginValue : 0 : 0)
+                       }
+                   })
+                            @Html.Label("£", new { @class = "g-f-l" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.maxMarginValue, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                        <div class="form-group">
+                            @Html.Label("Nudge", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div>
+                                @Html.EditorFor(model => model.priceRuleSingle.nudge, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control g-smallCell gl_displayInlineBlock percentInput g-f-l g-m-r-10 allowDisable",
+                           Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.nudge * 100 : 0)
+                       }
+                   })
+                                @Html.Label("%", new { @class = "g-f-l" })
+                                @Html.ValidationMessageFor(model => model.priceRuleSingle.nudge, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    <div class="form-group">
+                        @Html.Label("Comps to Beat", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.EditorFor(model => model.priceRuleSingle.competitorsToBeat, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control g-smallCell gl_displayInlineBlock percentInput g-f-l g-m-r-10 allowDisable",
+                           Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.competitorsToBeat * 100 : 0)
+                       }
+                   })
+                            @Html.Label("%", new { @class = "g-f-l" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.competitorsToBeat, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group compatibleGroup">
+                        @Html.Label("Compatible Discount", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.EditorFor(model => model.priceRuleSingle.compatDiscount, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control g-smallCell gl_displayInlineBlock percentInput g-f-l g-m-r-10 allowDisable",
+                           Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.compatDiscount != null ? Model.priceRuleSingle.compatDiscount * 100 : 0 : 0)
+                       }
+                   })
+                            @Html.Label("%", new { @class = "g-f-l" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.compatDiscount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group compatibleGroup">
+                        @Html.Label("Compatible Override Val", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.EditorFor(model => model.priceRuleSingle.compatOverrideValue, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control g-smallCell gl_displayInlineBlock valInput g-f-l g-m-r-10 allowDisable",
+                           Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.compatOverrideValue != null ? Model.priceRuleSingle.compatOverrideValue : 0 : 0)
+                       }
+                   })
+                            @Html.Label("£", new { @class = "g-f-l" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.compatOverrideValue, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Compatible Override Mar", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.EditorFor(model => model.priceRuleSingle.compatOverrideMargin, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control g-smallCell gl_displayInlineBlock percentInput g-f-l g-m-r-10 allowDisable",
+                           Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.compatOverrideMargin != null ? Model.priceRuleSingle.compatOverrideMargin * 100 : 0 : 0)
+                       }
+                   })
+                            @Html.Label("%", new { @class = "g-f-l" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.compatOverrideMargin, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group compatibleGroup">
+                        @Html.Label("Pack Discount", htmlAttributes: new { @class = "control-label col-md-3 allowDisable" })
+                        <div>
+                            @Html.EditorFor(model => model.priceRuleSingle.packDiscount, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control g-smallCell gl_displayInlineBlock percentInput g-f-l g-m-r-10 allowDisable",
+                           Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.packDiscount != null ? Model.priceRuleSingle.packDiscount * 100 : 0 : 0)
+                       }
+                   })
+                            @Html.Label("%", new { @class = "g-f-l" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.packDiscount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Fixed Price Override", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div>
+                            @Html.EditorFor(model => model.priceRuleSingle.fixedPriceOverride, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control g-smallCell gl_displayInlineBlock valInput g-f-l g-m-r-10 allowDisable",
+                           Value = string.Format("{0:N2}", Model.priceRuleSingle != null ? Model.priceRuleSingle.fixedPriceOverride != null ? Model.priceRuleSingle.fixedPriceOverride : 0 : 0)
+                       }
+                   })
+                            @Html.Label("£", new { @class = "g-f-l" })
+                            @Html.ValidationMessageFor(model => model.priceRuleSingle.fixedPriceOverride, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="g-c-b"></div>
+
+                <div id="containerPriceRuleBands" @(Model.priceRuleSingle.useBanding ? new { @class = "" } : new { @class = "g-d-n" })>
+                    <div id="priceRuleBandsSubContainer">
+                        @foreach (var band in Model.priceRuleSingle.priceRuleBand.OrderBy(x => x.bandEnd))
+                        {
+                            Html.RenderPartial("~/Views/PMS/Pricing/CreatePriceRuleBand.cshtml", band);
+                        }
+                    </div>
+
+                    <a class="lnkAddPriceBand" href="#">Add</a>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input id="btnSave" type="submit" name="saveProviderType" value="Save" class="btn btn-default allowDisable" title="Save" />
+                        @Html.ActionLink("Cancel", "PricingRules", "PricingRules", null, new { @class = "btn btn-default" })
+                    </div>
+                    <div class="col-md-offset-2 col-md-10">
+                        <span id="errorContainer" class="text-danger g-fs-2em g-d-n"></span>
+                    </div>
+                    </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //This allows validation of hidden fields inside the form
+            $('#mainForm').validate().settings.ignore = [];
+            setupComboBox($('#GetProductsURL').val());
+
+            $("#ddlProduct").combobox();
+
+            if ($('#priceRuleSingle_productFK').val() > 0) {
+                $('.custom-combobox-input').val($('#aProductName').val());
+            }
+
+            if ($('#priceRuleSingle_priceRuleID').val() == 0) {
+                enableDisableInputs('disable');
+            }
+            
+            setPageState(parseInt($('#priceRuleSingle_ruleType').val()) || 0, true);
+        });
+
+        $(document).on("change", "#priceRuleSingle_costUpliftIsPercent", function () {
+            var costUplift = $("#priceRuleSingle_costUplift");
+            var costUpliftSymbol = $("#costUpliftSymbol");
+
+            if ($(this).is(":checked")) {
+                costUplift.val(Number(costUplift.val()).toFixed(2));
+                costUpliftSymbol.html('%');
+                setCostUpliftBands_Percentage(true);
+            } else {
+                costUplift.val(Number(costUplift.val()).toFixed(2));
+                costUpliftSymbol.html('£');
+                setCostUpliftBands_Percentage(false);
+            }
+        });
+
+        $(document).on("change", "#priceRuleSingle_useBanding", function () {
+            if ($(this).is(":checked")) {
+                getNewBand();
+                validateRuleType();
+                $('#containerPriceRuleBands').slideDown();
+            } else {
+                $('#containerPriceRuleBands').hide();
+                $('#priceRuleBandsSubContainer div').remove();
+            }
+        });
+
+        $(document).on('click', '.lnkAddPriceBand', function () {
+            getNewBand();
+            return false;
+        });
+
+        $(document).on("change", "#selectedWebsiteFK", function (event) {
+            if ($(this).val().length > 0) {
+                jsonPopulateDropDownPriceRule($("#GetCategoryCodesURL").val() + '/' + $(this).val(), '#priceRuleSingle_categoryCodeFK', 'category');
+            } else {
+                $("#priceRuleSingle_categoryCodeFK").empty();
+                $("#priceRuleSingle_categoryCodeFK").html('<option value="" selected="true">Search by category</option>');
+                $("#priceRuleSingle_categoryCodeFK").attr('disabled', 'disabled');
+            }
+        });
+
+        $(document).on('click', '.lnkRemoveBand', function () {
+            $(this).parentsUntil('div').parent().remove();
+            return false;
+        });
+
+        $(document).on("blur", ".c", function () {
+            $(this).val(Number($(this).val()).toFixed(2));
+        });
+
+        $(document).on("blur", ".valInput, .percentInput", function () {
+            $(this).val(Number($(this).val()).toFixed(2));
+        });
+
+        $(document).on("blur", ".bandsCostUplift, #priceRuleSingle_costUplift", function () {
+            $(this).val(Number($(this).val()).toFixed(2));
+        });
+
+        $(document).on("change", "#priceRuleSingle_ruleType", function () {
+            selectedVal = parseInt($(this).val()) || 0;
+            setPageState(selectedVal, false);
+        });
+
+        $(document).on('change', '#priceRuleSingle_manufacturerFK', function () {
+            validateRuleType();
+        });
+
+        $(document).on('change', '#priceRuleSingle_minMargin, ' +
+            '#priceRuleSingle_desiredMargin, ' +
+            '#priceRuleSingle_maxMargin', function () {
+            validateMargins();
+        });
+
+        function setPageState(selectedVal, pageLoad) {
+            switch (selectedVal) {
+                case 0:
+                    enableDisableInputs('disable');
+                    $('#priceRuleSingle_manufacturerFK').prop('disabled', true).removeClass('g-v-h');
+                    $('.selectProduct').removeClass('g-v-h');
+
+                    if (pageLoad == false) {
+                        $('#priceRuleSingle_productFK').val(0);
+                        $('.custom-combobox-input').val('Start Typing...');
+                    }
+                    
+                    $('#priceRuleBandsSubContainer').empty();
+                    $('#containerPriceRuleBands').slideUp();
+                    $('#priceRuleSingle_useBanding').prop('checked', false);
+                    $('#priceRuleSingle_productGroupFK').prop('disabled', true).removeClass('g-v-h');
+                    $('#priceRuleSingle_compatDiscount').prop('disabled', true).removeClass('g-v-h');
+                    $('#priceRuleSingle_compatOverrideValue').prop('disabled', true).removeClass('g-v-h');
+                    $('#priceRuleSingle_compatOverrideMargin').prop('disabled', true).removeClass('g-v-h');
+                    $('#priceRuleSingle_maxMargin, #priceRuleSingle_maxMargin').prop('disabled', true).removeClass('g-v-h');
+                    break;
+                case 1:
+                    enableDisableInputs('enable');
+                    $('#priceRuleSingle_manufacturerFK').prop('disabled', true).addClass('g-v-h');
+                    $('.selectProduct').addClass('g-v-h');
+
+                    if (pageLoad == false) {
+                        $('#priceRuleSingle_productFK').val(0);
+                    }
+
+                    validateRuleType();
+                    break;
+                case 2:
+                    enableDisableInputs('enable');
+                    $('#priceRuleSingle_manufacturerFK').prop('disabled', false).removeClass('g-v-h');
+                    $('.selectProduct').addClass('g-v-h');
+
+                    if (pageLoad == false) {
+                        $('#priceRuleSingle_productFK').val(0);
+                    }
+
+                    validateRuleType();
+                    break;
+                case 3:
+                    enableDisableInputs('enable');
+                    $('#priceRuleSingle_manufacturerFK').prop('disabled', false).removeClass('g-v-h');
+                    $('.selectProduct').removeClass('g-v-h');
+
+                    if (pageLoad == false) {
+                        $('#priceRuleSingle_productFK').val(0);
+                        $('.custom-combobox-input').val('Start Typing...');
+                    }
+
+                    validateRuleType();
+                    break;
+            }
+        }
+
+        function getNewBand() {
+            $.ajax({
+                url: $('#GetNewPriceRuleBandRow').val(),
+                dataType: 'html',
+                traditional: true,
+                type: 'POST',
+                cache: false,
+                data:
+                    {
+                        priceRuleBandId: 0,
+                        timestamp: $.now()
+                    },
+                async: false,
+                success: function (data) {
+                    $('#priceRuleBandsSubContainer').append(data);
+                    validateRuleType();
+                }
+            });
+        }
+
+        function setCostUpliftBands_Percentage(chked) {
+            $(".bandsCostUplift").each(function () {
+                $(this).val(Number($(this).val()).toFixed(2));
+            });
+        }
+
+        function jsonPopulateDropDownPriceRule(url, dropDownId, name) {
+
+            $.getJSON(url, function (data) {
+                $(dropDownId).empty();
+                var optionsList = '<option value="" selected="true">Search by ' + name + '</option>';
+
+                $.each(data, function (index) {
+                    var optVal = data[index].Value;
+                    var optText = data[index].Text;
+                    var optNoFallback = data[index].NoCategoryFallback;
+                    var optProductCount = data[index].ProductCount;
+                    var cssName = '';
+
+                    if (optNoFallback == true) {
+                        cssName = 'selectListOptionBold';
+                    }
+
+                    optionsList += '<option class="' + cssName + '" value="' + optVal + '">' + optText + " (" + optProductCount + ")" + '</option>';
+                });
+
+                $(dropDownId).removeAttr('disabled');
+                $(dropDownId).html(optionsList);
+            });
+
+        }
+
+        function enableDisableInputs(enableDisable) {
+
+            if (enableDisable == 'disable') {
+                $('.allowDisable').prop('disabled', true);
+                $('.custom-combobox-input').prop('disabled', true);
+                $('.custom-combobox-input').next().addClass('g-d-n');
+            } else {
+                $('.allowDisable').prop('disabled', false);
+                $('.custom-combobox-input').prop('disabled', false);
+                $('.custom-combobox-input').next().removeClass('g-d-n');
+            }
+
+        }
+
+        function validateRuleType() {
+
+            if (($('#priceRuleSingle_ruleType').val() == 2 || $('#priceRuleSingle_ruleType').val() == 3) &&
+                $('#priceRuleSingle_manufacturerFK').val() == 278) {
+
+                $('#priceRuleSingle_compatDiscount, #priceRuleSingle_compatOverrideValue, ' +
+                '#priceRuleSingle_compatOverrideMargin').prop('disabled', false).removeClass('g-v-h');
+                $('.compatInput').prop('disabled', false).removeClass('g-v-h');
+                $('.oemInput').prop('disabled', true).addClass('g-v-h');
+                $('#priceRuleSingle_nudge').prop('disabled', true).addClass('g-v-h');
+                $('#priceRuleSingle_competitorsToBeat').prop('disabled', true).addClass('g-v-h');
+                $('#priceRuleSingle_costUplift, #priceRuleSingle_costUpliftIsPercent').prop('disabled', true).addClass('g-v-h');
+                $('#priceRuleSingle_desiredMargin').prop('disabled', true).addClass('g-v-h');
+                $('#priceRuleSingle_maxMarginValue, #priceRuleSingle_minMarginValue').prop('disabled', false).removeClass('g-v-h');
+                $('#priceRuleSingle_productGroupFK').prop('disabled', false).removeClass('g-v-h');
+                $('#priceRuleSingle_fixedPriceOverride').prop('disabled', true).addClass('g-v-h');
+                $('.bandFixedPrice').prop('disabled', true).addClass('g-v-h');
+            } else if ($('#priceRuleSingle_ruleType').val() == 3) {
+                $('#priceRuleSingle_fixedPriceOverride').prop('disabled', false).removeClass('g-v-h');
+                $('.bandFixedPrice').prop('disabled', false).removeClass('g-v-h');
+                $('.oemInput').prop('disabled', false).removeClass('g-v-h');
+            } else {
+                $('#priceRuleSingle_compatDiscount, #priceRuleSingle_compatOverrideValue, ' +
+                    '#priceRuleSingle_compatOverrideMargin').prop('disabled', true).addClass('g-v-h');
+                $('.compatInput').prop('disabled', true).addClass('g-v-h');
+                $('#priceRuleSingle_nudge').prop('disabled', false).removeClass('g-v-h');
+                $('#priceRuleSingle_competitorsToBeat').prop('disabled', false).removeClass('g-v-h');
+                $('#priceRuleSingle_costUplift, #priceRuleSingle_costUpliftIsPercent').prop('disabled', false).removeClass('g-v-h');
+                $('#priceRuleSingle_desiredMargin').prop('disabled', false).removeClass('g-v-h');
+                $('#priceRuleSingle_maxMarginValue, #priceRuleSingle_minMarginValue').prop('disabled', true).addClass('g-v-h');
+                $('#priceRuleSingle_productGroupFK').prop('disabled', true).addClass('g-v-h');
+                $('#priceRuleSingle_fixedPriceOverride').prop('disabled', true).addClass('g-v-h');
+                $('.bandFixedPrice').prop('disabled', true).addClass('g-v-h');
+                $('.oemInput').prop('disabled', false).removeClass('g-v-h');
+            }
+
+        }
+
+        function validateMargins() {
+
+            if (($('#priceRuleSingle_ruleType').val() == 2 || $('#priceRuleSingle_ruleType').val() == 3) &&
+                $('#priceRuleSingle_manufacturerFK').val() == 278) {
+            } else {
+
+                var minMargin = Number($('#priceRuleSingle_minMargin').val());
+                var desiredMargin = Number($('#priceRuleSingle_desiredMargin').val());
+                var maxMargin = Number($('#priceRuleSingle_maxMargin').val());
+
+                if (minMargin > desiredMargin || minMargin > maxMargin || desiredMargin < minMargin || desiredMargin > maxMargin) {
+                    $('#errorContainer').text('Invalid Margin Values').removeClass('g-d-n');
+                    $('#btnSave').prop('disabled', true);
+                } else {
+                    $('#errorContainer').text('Invalid Margin Values').addClass('g-d-n');
+                    $('#btnSave').prop('disabled', false);
+                }
+            }
+
+        }
+
+    </script>
+}

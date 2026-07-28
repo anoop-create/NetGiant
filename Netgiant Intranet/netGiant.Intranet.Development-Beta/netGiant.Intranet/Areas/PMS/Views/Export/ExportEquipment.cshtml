@@ -1,0 +1,120 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Export;
+@model ExportEquipmentViewModel
+
+@{
+    ViewBag.Title = "Export Equipment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+        @Html.Hidden("GetFamiliesURL", Url.Action("GetEquipmentFamilies", "SelectLists"))
+        @Html.Hidden("UpdateEquipmentCountURL", Url.Action("UpdateEquipmentCount", "Export"))
+
+        <div>
+            <select id="ddlExportType" class="g-f-l form-control g-smallCell g-m-r-10 setFormId">
+                <option value="" selected="selected">Export Type</option>
+                <option value="activeequipment">Active Equipment</option>
+                <option value="equipment">Equipment</option>
+                <option value="equipmentnotes">Equipment Notes</option>
+                <option value="family">Familys</option>
+                <option value="familyMapping">Family Mappings</option>
+                <option value="productMapping">Product Mappings</option>
+            </select>
+
+            @Html.DropDownList("ddlManufacturer", Model.AllManufacturers, "Export by manufacturer",
+                                    new { @class = "g-f-l form-control g-smallCell g-m-r-10 setFormId" })
+
+            <select id="ddlFamily" class="g-f-l form-control g-smallCell g-m-r-10 setFormId" disabled="disabled">
+                <option selected="selected">Search by family</option>
+            </select>
+
+            @Html.ActionLink("Reset", "Equipment", "Export", null, new { @class = "btn btn-default" })
+
+        </div>
+
+        @using (Html.BeginForm("ExportEquipment", "Export"))
+        {
+            @Html.AntiForgeryToken();
+            @Html.HiddenFor(m => m.SelectedManufacturerID)
+            @Html.HiddenFor(m => m.SelectedFamilyID)
+            @Html.HiddenFor(m => m.SelectedExportType)
+
+            <div id="exportFieldsContainer" class="g-c-b g-m-t-20 g-d-n">
+                @Html.CheckBoxListFor(model => model.PostedFields,
+                                            model => model.ExportableFields.OrderBy(x => x.Value),
+                                            entity => entity.Key,
+                                            entity => entity.Value,
+                                            model => Model.PreSelectedFields.Contains(model.Key),
+                                             new MvcCheckBoxList.Model.HtmlListInfo(MvcCheckBoxList.Model.HtmlTag.vertical_columns, 4,
+                                                   new { @class = "exp_checkbox" }))
+            </div>
+
+            <div class="g-m-t-20">
+                <input type="submit" id="btnExportEquipment" value="Export to CSV" class="btn btn-default" />
+                @Html.Label(Model.EquipmentCount.ToString(), new { @id = "lblEquipmentCount" })<span> equipment items will be exported</span>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).on('change', '.setFormId', function () {
+            var elem = $(this);
+            switch (elem.attr('id')) {
+                case 'ddlManufacturer':
+                    $('#SelectedManufacturerID').val(elem.val());
+                    break;
+                case 'ddlFamily':
+                    $('#SelectedFamilyID').val(elem.val());
+                    break;
+                case 'ddlExportType':
+                    $('#SelectedExportType').val(elem.val());
+                    break;
+            }
+
+            GetEquipmentCount();
+        });
+
+        $(document).on("change", "#ddlManufacturer", function (event) {
+
+            if ($(this).val().length > 0) {
+                jsonPopulateDropDown($("#GetFamiliesURL").val() + '/' + $(this).val(), '#ddlFamily', 'family');
+            } else {
+                $("#ddlFamily").empty();
+                $("#ddlFamily").html('<option value="" selected="true">Search by family</option>');
+                $("#ddlFamily").attr('disabled', 'disabled');
+            }
+
+        });
+
+        $(document).on("change", "#ddlExportType", function (event) {
+            switch ($(this).val()) {
+                case 'equipment':
+                    $('#exportFieldsContainer').removeClass('g-d-n');
+                    break;
+                case 'activeequipment':
+                    $('#exportFieldsContainer').removeClass('g-d-n');
+                    break;
+                default:
+                    $('#exportFieldsContainer').addClass('g-d-n');
+                    break;
+            }
+        })
+
+        function GetEquipmentCount() {
+            var optionsArray = new Array();
+            optionsArray[0] = parseInt($('#ddlManufacturer').val()) || 0;
+            optionsArray[1] = parseInt($('#ddlFamily').val()) || 0;
+            optionsArray[2] = $('#ddlExportType').val();
+
+            var objParams = { optionsArray: optionsArray };
+            ajaxGet($('#UpdateEquipmentCountURL').val(), "#lblEquipmentCount", objParams);
+        }
+
+    </script>
+}

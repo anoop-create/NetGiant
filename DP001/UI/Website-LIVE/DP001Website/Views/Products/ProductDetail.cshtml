@@ -1,0 +1,561 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using Microsoft.Ajax.Utilities
+@model ProductViewModel
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                <a href="@Url.Action("Index", "Products")" class="grey">
+                    Products
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                @Model.ProductEntry.ManufacturerPartNo
+            </h1>
+        </div>
+    </div>
+</section>
+
+<br />
+<br />
+
+<section class="container-fluid">
+    <div class="row page-form">
+        <div class="col-sm-12 col-md-8 col-md-push-2">
+            <h4>Product Details</h4>
+            <div class="row">
+                <div class="col-md-2 form-name">
+                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="A descriptive name for your product" data-helpsid="2" data-helpeid="2"></i>
+                    Product Description
+                </div>
+                <div class="col-md-4 form-value">
+                    @Html.DisplayFor(x => x.ProductEntry.Description)
+                </div>
+                <div class="col-md-2 form-name">
+                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The part number for your product, usually the Mfpn" data-helpsid="2" data-helpeid="2"></i>
+                    Part Number
+                </div>
+                <div class="col-md-4 form-value">
+                    @Html.DisplayFor(x => x.ProductEntry.ManufacturerPartNo)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-name">
+                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The brand for your product" data-helpsid="2" data-helpeid="2"></i>
+                    Brand
+                </div>
+                <div class="col-md-4 form-value">
+                    @(Model.ProductEntry.Brand?.BrandName)
+                </div>
+                @if (Model.ProductEntry.ClientProductID != "")
+            {
+                    <div class="col-md-2 form-name">
+                        <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The unique reference number for the product assigned by the client" data-helpsid="2" data-helpeid="2"></i>
+                        Cient Product ID
+                    </div>
+                    <div class="col-md-4 form-value">
+                        @Html.DisplayFor(x => x.ProductEntry.ClientProductID)
+                    </div>
+                }
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-name">
+                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The category for your product" data-helpsid="2" data-helpeid="2"></i>
+                    Category
+                </div>
+                <div class="col-md-4 form-value">
+                    @(Model.ProductEntry.ProductCategory?.CategoryName)
+                </div>
+                <div class="col-md-2 form-name">
+                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="This product is a variant of" data-helpsid="2" data-helpeid="2"></i>
+                    Variant Of
+                </div>
+
+                <div class="col-md-4 form-value">
+                    @if (!String.IsNullOrEmpty(Model.ProductEntry.VariantOf))
+                    {
+                        <a href="@Url.Action("ProductDetail", "Products", new {id = Model.VariantOf.ProductInventoryID})">@(Model.VariantOf.Description)</a>
+                    }
+                    else
+                    {
+                        @:None
+                }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-name">
+                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The date this product was lqast updated by the system" data-helpsid="2" data-helpeid="2"></i>
+                    Date Last Updated
+                </div>
+                <div class="col-md-4 form-value">
+                    @Html.DisplayFor(x => x.ProductEntry.DateLastUpdated)
+                </div>
+                <div class="col-md-2 form-name">
+                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The current price for your product" data-helpsid="2" data-helpeid="2"></i>
+                    Current Price
+                </div>
+                <div class="col-md-4 form-value">
+                    @if (Model.ProductEntry.Price > 0)
+                    {
+                        @Html.DisplayFor(x => x.ProductEntry.Price)
+                    }
+                    else
+                    {
+                        @:-
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-name">
+                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The price rule used to calculate the price of your product" data-helpsid="2" data-helpeid="2"></i>
+                    Price Rule Used
+                </div>
+                <div class="col-md-4 form-value">
+                    @if (Model.ProductEntry.PriceRule != null)
+                    {
+                        <a href="@Url.Action("Edit", "PriceRules", new {id = Model.ProductEntry.PriceRule.PriceRuleID})">
+                            @(Model.ProductEntry.PriceRule.RuleName + (!string.IsNullOrEmpty(Model.ProductEntry.PriceRule.BandName) ? " - " + Model.ProductEntry.PriceRule.BandName : ""))
+                        </a>
+                    }
+                    else
+                    {
+                        @:None
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-name">
+                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The Current Gross Margin"></i>
+                    Gross Margin
+                </div>
+                <div class="col-md-4 form-value">
+                    @if (Model.ProductEntry.GrossMarginPercent > 0)
+                    {
+                        @Math.Round(Model.ProductEntry.GrossMarginPercent ?? 0, 2)@:% (@($"{Model.ProductEntry.GrossMarginValue:N2}"))
+                    }
+                    else
+                    {
+                        @:-
+                    }
+                </div>
+                <div class="col-md-2 form-name">
+                    <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="The category for your product" data-helpsid="2" data-helpeid="2"></i>
+                    Calculation Outcome
+                </div>
+                <div class="col-md-4 form-value">
+                    @if (Model.ProductEntry.Lookup != null)
+                    {
+                        @(Model.ProductEntry.Lookup.LookupName)
+                    }
+                    else
+                    {
+                        @:-
+                    }
+                </div>
+            </div>
+
+            @if (Model.CustomFieldList.Count > 0 || Model.CustomAdjustmentList.Count > 0)
+            {
+                <h4>Custom Fields</h4>
+                <div class="row">
+                    @{
+                        Html.RenderPartial("~/Views/Products/CustomMappings.cshtml", Model);
+                    }
+                </div>
+                        }
+
+            @{
+                var minMargin = Model.ProductEntry.PriceRule?.MinMargin * 100;
+                var maxMargin = Model.ProductEntry.PriceRule?.MaxMargin * 100;
+                var desMargin = Model.ProductEntry.PriceRule?.DesiredMargin * 100;
+
+                var minMaxDiff = maxMargin - minMargin;
+                var currMargin = Model.ProductEntry.GrossMarginPercent;
+                var currMinDiff = currMargin - minMargin;
+                var desMinDiff = desMargin - minMargin;
+
+                var currMarginGraphPercent = minMaxDiff > 0 ? (currMinDiff / minMaxDiff) * 100 : 0;
+                var desMarginGraphPercent = minMaxDiff > 0 ? (desMinDiff / minMaxDiff) * 100 : 0;
+            }
+
+            @if (Model.ProductEntry.Price > 0)
+            {
+
+                <div class="g-m-t-40">&nbsp;</div>
+                <h4>Price Performance</h4>
+                <br />
+                <div id="performance_chart"></div>
+            }
+
+            @if (Model.ProductEntry.Price > 0)
+            {
+                <div class="row g-m-t-40">
+                    <div class="col-sm-12">
+                        <div class="detail-bar">
+                            <div class="detail-inner-bar">
+                                <div class="g-p-a detail-minMargin-label">
+                                    Minimum Margin <strong>(@($"{minMargin:N2}")%)</strong>
+                                </div>
+
+                                <div class="g-p-a g-tf-90r" style="top: -7px; left: @currMarginGraphPercent%; color: green;">
+                                    <i class="fa fa-play"></i>
+                                </div>
+                                <div class="g-p-a" style="top: -50px; left: @currMarginGraphPercent%; white-space: nowrap;">
+                                    <div class="detail-middle-label">
+                                        Current Margin <strong>(@($"{currMargin:N2}")%)</strong>
+                                    </div>
+                                </div>
+                                <div class="g-p-a" style="top: 22px; left: @desMarginGraphPercent%;">
+                                    <div>
+                                        <i class="fa fa-play g-tf-90l" style="color: red;"></i>
+                                        <div class="detail-middle-label">
+                                            Desired Margin <strong>(@($"{desMargin:N2}")%)</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="g-p-a" style="top: -30px; right: 0;">
+                                    <div>
+                                        Maximum Margin <strong>(@($"{maxMargin:N2}")%)</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-inner-bg"></div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.PriceHistory.Count > 1)
+            {
+                <div class="g-m-t-40">&nbsp;</div>
+                <h4>Price History</h4>
+                <div id="curve_chart"></div>
+            }
+
+            @if (Model.ProductEntry.Price > 0)
+            {
+                <h4>Price Rule Information</h4>
+                <div class="list-form table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Rule Description</th>
+                                <th>Rule Type</th>
+                                <th>Brand</th>
+                                <th>Category</th>
+                                <th>Product</th>
+                                <th>Method</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@(Model.ProductEntry.PriceRule?.RuleName)</td>
+                                <td>@(Model.ProductEntry.PriceRule?.Lookup1.LookupName)</td>
+                                <td>@(Model.ProductEntry.PriceRule?.Brand == null ? "-" : Model.ProductEntry.PriceRule.Brand.BrandName)</td>
+                                <td>@(Model.ProductEntry.PriceRule?.ProductCategory == null ? "-" : Model.ProductEntry.PriceRule.ProductCategory.CategoryName)</td>
+                                <td>@(Model.ProductEntry.PriceRule?.ProductInventory == null ? "-" : Model.ProductEntry.PriceRule.ProductInventory.ManufacturerPartNo)</td>
+                                <td>@(Model.ProductEntry.PriceRule?.Lookup?.LookupName)</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                        @if (Model.ProductEntry.PriceRule != null)
+                        {
+                            <tfoot>
+                                <tr class="list-form-row">
+                                    <td colspan="7">
+                                        <a href="@Url.Action("Edit", "PriceRules", new {id = Model.ProductEntry.PriceRule.PriceRuleID})" class="pull-right">
+                                            <button class="g-cur-p btn btn-default btn-sm"><i class="fa fa-plus"></i> View/Edit Price Rule</button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        }
+                    </table>
+                </div>
+            }
+
+            <h4>Supplier Prices</h4>
+            <div class="list-form table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Supplier</th>
+                            <th>Supplier Part Number</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var supplier in Model.ProductEntry.SupplierInventories)
+                        {
+                            <tr>
+                                <td>@(supplier.Supplier.SupplierName)</td>
+                                <td>@(supplier.ManufacturerPartNo)</td>
+                                <td>@(supplier.Price.ToString("N2"))</td>
+                                <td>@(supplier.StockQuantity)</td>
+                            </tr>
+                        }
+                        @if (Model.ProductEntry.SupplierInventories.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="4">
+                                    No Suppliers are Mapped to this Product.
+                                    @if (Model.SuppplierSuggestions > 0)
+                                    {
+                                        <a href="@Url.Action("EditSupplierException", "SkuMappings", new { id = Model.ProductEntry.ProductInventoryID })">
+                                            We have found @Model.SuppplierSuggestions suggestion(s).
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr class="list-form-row">
+                            <td colspan="7">
+                                <a href="@Url.Action("EditSupplierException", "SkuMappings", new { id = Model.ProductEntry.ProductInventoryID })" 
+                                   class="pull-right btn btn-default btn-sm help-popup" data-toggle="tooltip" data-placement="bottom" 
+                                   title="Create a new mapping to the supplier inventory for this product where a ‘natural’ mapping does not exist">
+                                    <i class="fa fa-plus"></i> Add Supplier Product Mapping
+                                    
+                                </a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <h4>Competitor Prices</h4>
+            <div class="list-form table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Competitor</th>
+                            <th>Competitor Part Number</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var competitor in Model.ProductEntry.CompetitorInventories)
+                        {
+                            <tr class="@(!competitor.Competitor.IsActive ? "grey" : "")">
+                                <td>@(competitor.Competitor.CompetitorName)</td>
+                                <td>@(competitor.ManufacturerPartNo)</td>
+                                <td>@(competitor.Price.ToString("N2"))</td>
+                            </tr>
+                        }
+                        @if (Model.ProductEntry.CompetitorInventories.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="4">
+                                    No Competitors are Mapped to this Product.
+                                    @if (Model.CompetitorSuggestions > 0)
+                                    {
+                                        <a href="@Url.Action("EditCompetitorException", "SkuMappings", new { id = Model.ProductEntry.ProductInventoryID })">
+                                            We have found @Model.CompetitorSuggestions suggestion(s).
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr class="list-form-row">
+                            <td colspan="7">
+                                <a href="@Url.Action("EditCompetitorException", "SkuMappings", new { id = Model.ProductEntry.ProductInventoryID })" 
+                                   class="pull-right btn btn-default btn-sm help-popup" data-toggle="tooltip" data-placement="bottom" 
+                                   title="Create a new mapping to the competitor inventory for this product where a ‘natural’ mapping does not exist">
+                                    <i class="fa fa-plus"></i> Add Competitor Product Mapping
+                                </a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<br />
+<br />
+
+@section scripts
+{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    @if (Model.PriceHistory.Count > 1)
+    {
+        <script type="text/javascript">
+
+            google.charts.load('current', { 'packages': ['corechart'] });
+            //google.charts.load('current', { 'packages': ['bar'] });
+            google.charts.setOnLoadCallback(drawCharts);
+
+            function drawCharts() {
+                //pricePerformance();
+                priceHistory();
+
+            }
+
+            function pricePerformance() {
+
+                @{
+                    double ppmin1 = decimal.ToDouble((Model.ProductEntry.PriceRule?.MinMargin).GetValueOrDefault() * 100) - .1;
+                    double ppdes1 = decimal.ToDouble((Model.ProductEntry.PriceRule?.DesiredMargin).GetValueOrDefault() * 100) - ppmin1 - .1;
+                    double ppmax1 = decimal.ToDouble((Model.ProductEntry.PriceRule?.MaxMargin).GetValueOrDefault() * 100) - ppdes1 - ppmin1 - .1;
+                    double ppmin2 = decimal.ToDouble((Model.ProductEntry.PriceRule?.MinMargin).GetValueOrDefault() * 100);
+                    double ppdes2 = decimal.ToDouble((Model.ProductEntry.PriceRule?.DesiredMargin).GetValueOrDefault() * 100);
+                    double ppmax2 = decimal.ToDouble((Model.ProductEntry.PriceRule?.MaxMargin).GetValueOrDefault() * 100);
+                    //double ppmin = decimal.ToDouble((Model.ProductEntry.PriceRule?.MinMargin).GetValueOrDefault() * 100);
+                    //double ppdes = decimal.ToDouble((Model.ProductEntry.PriceRule?.DesiredMargin).GetValueOrDefault() * 100);
+                    //double ppmax = decimal.ToDouble((Model.ProductEntry.PriceRule?.MaxMargin).GetValueOrDefault() * 100);
+                }
+
+                @*data = google.visualization.arrayToDataTable([
+
+                    [{ label: 'Margin', type: 'string' }, { label: 'Count', type: 'number' }, { role: 'tooltip', type: 'string' }],
+                    ['', @ppmin2, ''],
+                    ['Minimum', 0.1, 'Minimum Margin'],
+                    ['', @ppdes2, ''],
+                    ['Desired', 0.1, 'Desired Margin'],
+                    ['', @ppmax2, ''],
+                    ['Maximum', 0.1, 'Maximum Margin'],
+                    ['', @Model.ProductEntry.GrossMarginPercent, ''],
+                    ['Current', 0.1, 'Current Margin']
+
+                ]);*@
+
+                @*var data = google.visualization.arrayToDataTable([
+
+                    ['Margin', '', 'Current Margin', '', 'Minimum Margin', '', 'Desired Margin', '', 'Maximum Margin', { role: 'annotation' } ],
+                    ['', 0, 0, @ppmin1, 0.1, @ppdes1, 0.1, @ppmax1, 0.1, 'Max Margin'],
+                    ['', @Model.ProductEntry.GrossMarginPercent, 0.1, 0, 0, 0, 0, 0, 0, 'Current Margin'],
+                ]);*@
+
+                var data = google.visualization.arrayToDataTable([
+
+                    ['Margin', '', 'Current Margin', '', 'Minimum Margin', '', 'Desired Margin', '', 'Maximum Margin', 'Current Margin', { role: 'annotation' } ],
+                    ['', 0, 0, @ppmin1, 0.1, @ppdes1, 0.1, @ppmax1, 0.1, @Model.ProductEntry.GrossMarginPercent, 'Max Margin'],
+                ]);
+
+                var options = {
+                    bar: {
+                        groupWidth: "95%"
+                    },
+                    bars: "horizontal",
+                    chartArea: {
+                        width: "90%",
+                        height: "80%",
+                        top: "10",
+                        left: "80"
+                    },
+                    colors:['#cccccc', '#00aa00', '#cccccc', '#00aa00', '#cccccc', '#00aa00'],
+                    hAxis: {
+                        title: 'Gross Margin (%)',
+                        position: "out",
+                        gridlines: {
+                            count: 10,
+                            color: "#ffffff"
+                        }
+                    },
+                    isStacked: true,
+                    legend: {
+                        position: "none"
+                    },
+                    seriesType: 'bars',
+                    series: {
+                        8: {
+                            type: 'line'
+                        }
+                    },
+                    title: "Price Performance",
+                    //tooltip: {
+                    //    trigger: 'none',
+                    //    ignoreBounds: true,
+                    //    isHtml: true
+                    //}
+                }
+                var chart = new google.visualization.ComboChart(document.getElementById('performance_chart'));
+                chart.draw(data, options);
+                //chart.draw(data, google.charts.Bar.convertOptions(options));
+            }
+
+            function priceHistory() {
+                var data = new google.visualization.DataTable();
+                data.addColumn('datetime', 'Date');
+                data.addColumn('number', 'Price');
+                data.addColumn('number', 'MaximumPrice');
+                data.addColumn({ type: 'string', role: 'annotation' });
+                data.addColumn('number', 'MinimumPrice');
+                data.addColumn({ type: 'string', role: 'annotation' });
+                data.addColumn('number', 'DesiredPrice');
+                data.addColumn({ type: 'string', role: 'annotation' });
+
+                @{
+                            var maxPrice = Model.ProductEntry.MaximumPrice;
+                            var minPrice = Model.ProductEntry.MinimumPrice;
+                            var desPrice = Model.ProductEntry.DesiredPrice;
+                            var cnt = 1;
+                        }
+
+                @foreach (var record in Model.PriceHistory)
+                    {
+                            var annotationTextMin = "''";
+                            var annotationTextDes = "''";
+                            var annotationTextMax = "''";
+
+                            if (cnt == Model.PriceHistory.Count)
+                            {
+                                annotationTextMin = "'Minimum Price (" + Math.Round(minPrice ?? 0, 2) + ")'";
+                                annotationTextMax = "'Maximum Price (" + Math.Round(maxPrice ?? 0, 2) + ")'";
+                                annotationTextDes = "'Desired Price (" + Math.Round(desPrice ?? 0, 2) + ")'";
+                            }
+
+                            if (Model.PriceHistory.Count == 1)
+                            {
+
+                            }
+
+                @:data.addRow([new Date(@record.Date.Year, @record.Date.Month, @record.Date.Day, @record.Date.Hour, @record.Date.Minute, @record.Date.Second), @record.Price, @maxPrice, @Html.Raw(annotationTextMax), @minPrice, @Html.Raw(annotationTextMin), @desPrice, @Html.Raw(annotationTextDes)]);
+                                                                                                                                                                                                        cnt++;
+            }
+
+                var options = {
+                    legend: { position: 'none' },
+                    chartArea: { width: "100%", left: 50, right: 60, top: 20, bottom: 40, backgroundColor: { stroke: '#e6e6e6', strokeWidth: 1 } },
+                    vAxis: { title: "Price", format: "#,###", gridlines: { color: '#e6e6e6', count: 4 }, textStyle: { fontSize: 10 } },
+                    hAxis: { title: "Date", format: "dd/MM/yy (HH:mm)", textStyle: { fontSize: 10 } },
+                    series: {
+                        0: { pointSize: 10, color: '#8cc63e' },
+                        1: { lineDashStyle: [4, 4], color: 'grey', tooltip: false },
+                        2: { lineDashStyle: [4, 4], color: 'grey', tooltip: false },
+                        3: { lineDashStyle: [4, 4], color: 'grey', tooltip: false }
+                    },
+                    height: 400,
+                    annotations: {
+                        textStyle: {
+                            fontSize: 10
+                        },
+                        stem: {
+                            color: '#fff'
+                        }
+                    }
+                };
+
+                var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+                chart.draw(data, options);
+
+            }
+
+        </script>
+    }
+}

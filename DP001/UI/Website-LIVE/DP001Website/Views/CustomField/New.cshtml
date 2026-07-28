@@ -1,0 +1,57 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model CustomFieldViewModel
+
+<tr class="list-form-extra">
+    <td colspan="100%">
+        @using (Ajax.BeginForm("Create", "CustomField", new AjaxOptions { HttpMethod = "POST", OnComplete = "addCustomFieldComplete", OnBegin = "beginPost('#customfield')" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.CustomFieldEntry.CustomFieldID)
+
+            <section class="page-form">
+                <h4><i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Details about your custom field." data-helpsid="2" data-helpeid="2"></i> Custom Field</h4>
+                <div class="container-fluid">
+                    <div class="row g-m-b-40">
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="A descriptive name used to identify your custom field." data-helpsid="2" data-helpeid="2"></i>
+                            Custom Field Name
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.CustomFieldEntry.UserFieldName)
+                            @Html.EditorFor(x => x.CustomFieldEntry.UserFieldName)
+                        </div>
+                        <div class="col-md-2 form-name">
+                            <i class="fa fa-question-circle help-popup" data-toggle="tooltip" title="Set what type of custom field this is." data-helpsid="2" data-helpeid="2"></i>
+                            Field Type
+                        </div>
+                        <div class="col-md-4 form-value">
+                            @Html.ValidationMessageFor(x => x.CustomFieldEntry.CustFieldTypeFK)
+                            @Html.DropDownListFor(x => x.CustomFieldEntry.CustFieldTypeFK, Model.AllCustomFieldTypes, new { @class = "selectpicker" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <div class="pull-left form-message">
+                        <i class="fa fa-spinner fa-pulse" style="display: none"></i>
+                        <span></span>
+                    </div>
+
+                    <button type="button" class="pull-right g-m-r-10 g-cur-p form-cancel btn btn-default btn-sm cancel">
+                        <i class="fa fa-times"></i> Cancel
+                    </button>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Submit" name="action:Save">
+                            <i class="fa fa-floppy-o"></i> Save
+                        </button>
+                    }
+                </div>
+
+            </section>
+        }
+    </td>
+</tr>
+
+
+

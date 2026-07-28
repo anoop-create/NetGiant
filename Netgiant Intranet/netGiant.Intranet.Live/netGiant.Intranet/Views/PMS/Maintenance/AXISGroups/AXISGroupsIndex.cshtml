@@ -1,0 +1,151 @@
+﻿@using netGiant.Intranet.DataLayer
+@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance
+@using PagedList.Mvc;
+@model AXISGroupsViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "AXIS Groups";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title Details</h4>
+
+        <div style="padding-bottom: 20px">
+            @Html.DropDownListFor(m => m.axisGroup.websiteFK, Model.AllWebsites, "Search by website", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+            <select id="ddlCategorySearch" class="searchBy g-f-l form-control g-smallCell g-m-r-10" disabled="disabled">
+                <option selected="selected">Search by category</option>
+            </select>
+            <select id="axisGroupSearchBy" class="searchBy g-f-l form-control g-smallCell g-m-r-10">
+                <option selected="selected" value="name">Search by name</option>
+                <option value="axisGroupNo">Search by AXIS group #</option>
+            </select>
+            <div>
+                @Html.TextBox("SearchAXISGroup", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10" })
+                <a id="lnkSearchAXISGroup" href="#" class="btn btn-default g-f-l" title="Empty search returns all records">Search</a>
+            </div>
+        </div>
+        <br />
+
+        <div id="axisGroupsDataPartialView">
+            @{Html.RenderPartial("~/Views/PMS/Maintenance/AXISGroups/AXISGroupsData.cshtml", Model.axisGroups);}
+        </div>
+
+        <div id="axisGroupDialog" class="confirmDialog" title="Confirm Delete" style="display:none;">
+            Are you sure you want to delete ?
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        $(document).on("click", "#lnkSearchAXISGroup, #axGroupPaging a", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $("#SearchAXISGroup").keypress(function (event) {
+            if (event.which == 13) {
+                applyStandardPaging(event, 0);
+            }
+        });
+
+        $(document).on("click", ".lnkAxisGroupDelete", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete("#axisGroupDialog", $("#AxisGroupDeleteURL").val(), $(this).attr("value"),
+                                "#axisGroupsDataPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+            return false;
+        });
+
+        $(document).on("change", "#axisGroup_websiteFK", function (event) {
+
+            if ($(this).val().length > 0) {
+                jsonPopulateDropDown($("#GetCategoryCodesURL").val() + '/' + $(this).val(), '#ddlCategorySearch', 'category');
+            } else {
+                $("#ddlCategorySearch").empty();
+                $("#ddlCategorySearch").html('<option value="" selected="true">Search by category</option>');
+                $("#ddlCategorySearch").attr('disabled', 'disabled');
+            }
+
+            applyStandardPaging(event, 0);
+        });
+
+        $(document).on("change", "#ddlCategorySearch", function (event) {
+            applyStandardPaging(event, 0);
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            applyStandardPaging(event, 0);
+
+            return false;
+        });
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging();
+            standardPaging(event, id, "#axGroupPaging", $("#AxisGroupDataURL").val(),
+                                    "#axisGroupsDataPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#SearchAXISGroup").val(); //SearchTerm
+            optionsArray[1] = $("#axisGroupSearchBy").val(); //SearchBy
+            optionsArray[2] = parseInt($('#axisGroup_websiteFK').val()) || 0; //Website DropDown
+            optionsArray[3] = parseInt($('#ddlCategorySearch').val()) || 0; //Category DropDown
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[4] = sortType + sortDir;
+            } else {
+                optionsArray[4] = '';
+            }
+        }
+
+        if ($("#historyPage").val() != '') {
+            $('#axisGroupsDataPartialView').html($("#historyPage").val());
+        }
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value"); //AXISGroupID
+            optionsArray[1] = $("#axisGroupSearchBy").val(); //SearchBy
+            optionsArray[2] = $("#SearchAXISGroup").val(); //SearchTerm
+            optionsArray[3] = parseInt($('#axisGroup_websiteFK').val()) || 0; //Website DropDown
+            optionsArray[4] = parseInt($('#ddlCategorySearch').val()) || 0; //Category DropDown
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[5] = sortType + sortDir;
+            } else {
+                optionsArray[5] = '';
+            }
+        }
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1);
+                if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
+            }
+            return "";
+        }
+
+    </script>
+}

@@ -1,0 +1,139 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce;
+@model DeliveryConfigurationViewModel
+
+@{
+    ViewBag.Title = "Delivery Services";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder g-m-b--20">
+    <h4 class="text-center">@ViewBag.Title</h4>
+</div>
+
+@if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+{
+    @Html.ActionLink("Create New", "NewDeliveryService", "Ecommerce", null, new { @title = "Create new delivery service", @class = "g-p-10" })
+}
+
+@(Html.Kendo().Grid<DeliveryConfigurationViewModel.TelerikDeliveryService>()
+      .HtmlAttributes(new { @class = "pointer-rows" })
+      .Name("deliveryServicesGrid")
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Read(read => read.Action("DeliveryServices_Read", "Ecommerce"))
+          .PageSize(200)
+          .Sort(sort => sort
+              .Add(x => x.ServiceName).Descending())
+      )
+      .Columns(columns =>
+      {
+          columns.Bound(product => product.WebsiteName).Width("65px").Title("Website")
+            .HeaderHtmlAttributes(new { title = "Website", style = "text-align: center;" })
+            .Filterable(fl => fl.UI("WebsiteFilter"));
+          columns.Bound(product => product.ServiceName).Title("Service Name").Width("200px")
+            .HeaderHtmlAttributes(new { title = "Service Name", style = "text-align: center;" });
+          columns.Bound(product => product.StockRef).Title("Stock Ref").Width("50px")
+            .HeaderHtmlAttributes(new { title = "Stock Ref", style = "text-align: center;" });
+          columns.Bound(product => product.Price).Title("Price").Width("50px")
+            .HeaderHtmlAttributes(new { title = "Price", style = "text-align: center;" });
+          columns.Bound(product => product.IsCompatibleInkOnly).Title("Is Compatible Ink").Width("50px")
+            .HeaderHtmlAttributes(new { title = "Is Compatible Ink", style = "text-align: center;" });
+          columns.Bound(product => product.IsSpecialOrderOnly).Title("Is Special Order").Width("50px")
+            .HeaderHtmlAttributes(new { title = "Is Special Order", style = "text-align: center;" });
+          columns.Bound(product => product.IsSaturdayOnly).Title("Is Saturday").Width("50px")
+            .HeaderHtmlAttributes(new { title = "Is Saturday", style = "text-align: center;" });
+          columns.Bound(product => product.IsBulky).Title("Is Bulky").Width("50px")
+            .HeaderHtmlAttributes(new { title = "Is Bulky", style = "text-align: center;" });
+          columns.Bound(product => product.DeliveryMethod).Title("Delivery Method").Width("50px")
+            .HeaderHtmlAttributes(new { title = "Delivery Method", style = "text-align: center;" });
+          columns.Bound(product => product.ThresholdStart).Title("Threshold Start").Width("50px")
+            .HeaderHtmlAttributes(new { title = "Threshold Start", style = "text-align: center;" });
+          columns.Bound(product => product.ThresholdEnd).Title("Threshold End").Width("50px")
+            .HeaderHtmlAttributes(new { title = "Threshold End", style = "text-align: center;" });
+          columns.Bound(product => product.ProductFk).Title("ProductFk").Width("50px")
+            .HeaderHtmlAttributes(new { title = "ProductFk", style = "text-align: center;" });
+          columns.Command(command => command.Custom("Delete").Click("deleteService")).Width("50px");
+      })
+      .Pageable(pager => pager.Refresh(true))
+      .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+      .Sortable(sortable => sortable
+          .AllowUnsort(true))
+      .Groupable()
+      .Scrollable()
+      .Filterable(ftb => ftb
+          .Mode(GridFilterMode.Menu)
+          .Extra(false))
+      .ColumnMenu()
+      .Resizable(resize => resize.Columns(true))
+      .Reorderable(reorder => reorder.Columns(true))
+      .Excel(excel => excel
+          .AllPages(true)
+          .FileName("Grid Export")
+          .Filterable(true))
+      .NoRecords("There are no items to display")
+      .Events(events => events.Change("Grid_OnRowSelect").DataBound("saveGridFilters"))
+      .Selectable()
+      )
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+            setGridHeaderTitleTags();
+        });
+
+        function WebsiteFilter(element) {
+            element.kendoDropDownList({
+                dataSource: {
+                    transport: {
+                        read: "@Url.Action("GetWebsites", "SelectLists")"
+                    }
+                },
+                optionLabel: "--Select Value--"
+            });
+        }
+
+        var Grid_OnRowSelect = function(e) {
+            var data = this.dataItem(this.select());
+            window.location.href = '@Url.Action("EditDeliveryService")/' + data.DeliveryServiceId;
+        }
+
+        function deleteService(e) {
+            var data = this.dataItem($(e.currentTarget).closest("tr"));
+
+            $.confirm({
+                title: 'Delete Delivery Service',
+                content: 'Are you sure you want to delete this delivery service?',
+                buttons: {
+                    Yes: function () {
+                        $.ajax({
+                            url: '@Url.Action("DeleteDeliveryService", "Ecommerce")',
+                            method: 'POST',
+                            data: { id: data.DeliveryServiceId }
+                        }).done(function (data) {
+                            if (data.IsSuccess) {
+                                $("#grid").data("kendoGrid").dataSource.read();
+                            } else {
+                                $.alert('Failed to delete. Error: ' + data.Message);
+                            }
+                        });
+                    },
+                    No: function () { }
+                }
+            });
+
+            return false;
+        }
+
+        function setGridHeaderTitleTags() {
+            $(".k-grid-header th").each(function (index, val) {
+                var link = $(this).find('.k-link');
+                link.attr('title', link.text());
+            });
+        }
+
+    </script>
+}
+
+

@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.8.12021.73 stable
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "netGiant.Intranet", "netGiant.Intranet\netGiant.Intranet.csproj", "{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "netGiant.Intranet.BusinessLayer", "netGiant.Intranet.BusinessLayer\netGiant.Intranet.BusinessLayer.csproj", "{6671E29A-BFEB-4321-A7D0-68D812B1E035}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6671E29A-BFEB-4321-A7D0-68D812B1E035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6671E29A-BFEB-4321-A7D0-68D812B1E035}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6671E29A-BFEB-4321-A7D0-68D812B1E035}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6671E29A-BFEB-4321-A7D0-68D812B1E035}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CCE4E87D-2486-49E7-B09A-57ADD72AC1BD}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://netgiant.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = netGiant.Intranet\\netGiant.Intranet.csproj
+		SccProjectName1 = netGiant.Intranet
+		SccLocalPath1 = netGiant.Intranet
+		SccProjectUniqueName2 = netGiant.Intranet.BusinessLayer\\netGiant.Intranet.BusinessLayer.csproj
+		SccProjectName2 = netGiant.Intranet.BusinessLayer
+		SccLocalPath2 = netGiant.Intranet.BusinessLayer
+	EndGlobalSection
+EndGlobal

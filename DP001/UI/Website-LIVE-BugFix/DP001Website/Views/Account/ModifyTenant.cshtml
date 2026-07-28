@@ -1,0 +1,47 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model TenantSettingsViewModel
+
+@{
+    ViewBag.Title = "ModifyTenant";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 row-height-fix">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Change Tenant
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row page-form">
+        <div class="col-md-2 col-md-push-1">
+            @using (Html.BeginForm("UpdateTenant", "Account", FormMethod.Post))
+            {
+                <div class="form-value g-m-t-20">
+                    @Html.DropDownListFor(x => x.SelectedTenantID, Model.TenantList, "Select...", new { @class = "selectpicker" })
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="pull-right g-m-r-10 btn btn-default btn-sm" value="Save">
+                        <i class="fa fa-floppy-o"></i> Save
+                    </button>
+                </div>
+
+                <br />
+                @Html.ValidationSummary()
+            }
+        </div>
+    </div>
+</section>
+<br/><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+

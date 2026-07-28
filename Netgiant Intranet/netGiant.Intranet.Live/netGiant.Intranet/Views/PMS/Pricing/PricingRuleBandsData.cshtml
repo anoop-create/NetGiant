@@ -1,0 +1,57 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Pricing;
+@model PricingRulesViewModel
+
+<table class="table">
+    <tr>
+        <th class="g-a-c">Description</th>
+        <th class="g-a-c">Start</th>
+        <th class="g-a-c">End</th>
+        <th class="g-a-c">Cost Uplift</th>
+        <th class="g-a-c">Desired Margin</th>
+        <th class="g-a-c">Min Margin</th>
+        <th class="g-a-c">Max Margin</th>
+        <th class="g-a-c">Comps to Beat</th>
+        <th class="g-a-c">Nudge</th>
+    </tr>
+@foreach (var item in Model.priceRuleBandList.OrderBy(x => x.bandEnd))
+{
+    <tr>
+        <td class="g-a-c">
+            @Html.Raw(item.description)
+        </td>
+        <td class="g-a-c">
+            @Html.Raw(string.Format("{0:C}", item.bandStart))
+        </td>
+        <td class="g-a-c">
+            @Html.Raw(string.Format("{0:C}", item.bandEnd))
+        </td>
+        <td class="g-a-c">
+            @if (Model.isCostUpliftPercentage)
+            {
+                @Html.Raw(string.Format("{0:N2}", item.costUplift * 100) + "%")
+            }
+            else
+            {
+                @Html.Raw("£" + string.Format("{0:N2}", item.costUplift))
+            }
+        </td>
+        <td class="g-a-c">
+            @Html.Raw(string.Format("{0:P2}", item.desiredMargin))
+        </td>
+        <td class="g-a-c">
+            @Html.Raw(string.Format("{0:P2}", item.minMargin))
+        </td>
+        <td class="g-a-c">
+            @Html.Raw(string.Format("{0:P2}", item.maxMargin))
+        </td>
+        <td class="g-a-c">
+            @Html.Raw(string.Format("{0:P2}", item.competitorsToBeat))
+        </td>
+        <td class="g-a-c">
+            @Html.Raw(string.Format("{0:P2}", item.nudge))
+        </td>
+    </tr>
+}
+</table>
+
+

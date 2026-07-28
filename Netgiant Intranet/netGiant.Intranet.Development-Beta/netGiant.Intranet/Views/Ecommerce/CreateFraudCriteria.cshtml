@@ -1,0 +1,39 @@
+﻿@using System.Configuration;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce;
+@model FraudCriteriaViewModel
+
+@{
+    ViewBag.Title = "Create Fraud Criteria";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h4>@ViewBag.Title</h4>
+        <div class="form-horizontal">
+
+            @using (Html.BeginForm("SaveFraudCriteria", "Ecommerce"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                @Html.HiddenFor(x => x.FraudCriteria.FraudCriteriaId)
+                @Html.HiddenFor(x => x.FraudCriteria.DateLastUpdated)
+
+                <div class="form-group">
+                    @Html.Label("Post Code", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FraudCriteria.PostCode, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.FraudCriteria.PostCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveFraudCriteria" value="Save" class="btn btn-default" title="Save" />
+                        @Html.ActionLink("Cancel", "FraudCriteria", "Ecommerce", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+                            }
+        </div>
+    </div>
+</div>

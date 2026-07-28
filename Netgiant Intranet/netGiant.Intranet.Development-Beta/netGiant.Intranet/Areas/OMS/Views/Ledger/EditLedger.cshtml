@@ -1,0 +1,132 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.OMS;
+@model LedgerViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.SubTitle = Model.Ledger.LedgerId > 0 ? "Edit" : "Create";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle Ledger</h4>
+
+        <div class="form-horizontal">
+            @using (Html.BeginForm("SaveLedger", "Ledger", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.HiddenFor(x => x.Ledger.LedgerId)
+
+                <div class="LedgerTabs" style="background:none;">
+                    <ul>
+                        <li>
+                            <a href="#LedgerDetailsTab">Ledger Details</a>
+                        </li>
+                    </ul>
+
+                    <div id="LedgerDetailsTab">
+                        <fieldset class="g-m-t-20">
+                            <legend>Ledger Details</legend>
+
+                            <div class="form-group">
+                                @Html.Label("Ledger Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(
+                                    model => model.Ledger.LedgerTypeFk,
+                                    Model.LedgerTypeList,
+                                    "Select...",
+                                    new { @class = "g-f-l form-control g-smallCell g-m-r-10" }
+                                    )
+                                    @Html.ValidationMessageFor(model => model.Ledger.LedgerTypeFk, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="SaveLedger" value="Save" class="btn btn-default" title="Save" />
+
+                    @Html.ActionLink(
+                         linkText: "Cancel",
+                         actionName: "ViewLedger",
+                         controllerName: "Ledger",
+                         routeValues: new { id = Model.Ledger.LedgerId },
+                         htmlAttributes: new { @class = "btn btn-default" }
+                     )
+                    </div>
+                </div>
+            }
+
+
+
+
+
+            <div class="LedgerTabs2" style="background:none;">
+                <ul>
+                    <li>
+                        <a href="#LedgerLinesTab">Ledger Line Details</a>
+                    </li>
+                </ul>
+
+                <div id="LedgerLineDetailsTab">
+                    <fieldset class="g-m-t-20">
+                        <legend>Ledger Lines</legend>
+
+                        <table class="table g-bc-w">
+                            <tr>
+                                <th>Date Invoiced</th>
+                                <th>Year Period</th>
+                                <th>Part No</th>
+                                <th>Transaction Type</th>
+                                <th>Record Type</th>
+                                <th>Description</th>
+                                <th>Quantity Ordered</th>
+                                <th>Quantity Credited</th>
+                                <th>Quantity Outstanding</th>
+                                <th>Unit Price</th>
+                                <th>Vat</th>
+                                <th>Nett</th>
+                                <th></th>
+                            </tr>
+                            @foreach (var ll in Model.LedgerLineList)
+                            {
+                                <tr>
+                                    <td>@ll.DateInvoiced.ToString("dd/MM/yyyy")</td>
+                                    <td>@(ll.Year.ToString() + "/" + ll.Period.ToString())</td>
+                                    <td>@ll.PartNo</td>
+                                    <td>@ll.LedgerLineTransType</td>
+                                    <td>@ll.LedgerType</td>
+                                    <td>@ll.Description.ToString()</td>
+                                    <td>@ll.QuantityOrdered.ToString()</td>
+                                    <td>@ll.QuantityCredited.ToString()</td>
+                                    <td>@ll.QuantityOutstanding.ToString()</td>
+                                    <td>@ll.UnitPrice.ToString("N")</td>
+                                    <td>@ll.Vat.ToString("N")</td>
+                                    <td>@(ll.Nett.HasValue ? ll.Nett.Value.ToString("N") : " - ")</td>
+                                    <td>
+                                        <a href="../ViewLedgerLine/@ll.Id.ToString()">View</a>
+                                        |
+                                        <a href="../EditLedgerLine/@ll.Id.ToString()">Edit</a>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $(".LedgerTabs").tabs();
+        $(".LedgerTabs2").tabs();
+    });
+
+</script>

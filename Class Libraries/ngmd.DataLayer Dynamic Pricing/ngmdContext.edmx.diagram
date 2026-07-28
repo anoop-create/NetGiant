@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7e01c9ac65394daaaad3dc4392380342" Name="Diagram1" ZoomLevel="82">
+        <EntityTypeShape EntityType="netgiantMasterDataModel.qa_EmailSent" Width="1.75" PointX="20.125" PointY="34.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.qa_Granularity" Width="1.75" PointX="15.125" PointY="31" IsExpanded="true" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.qa_Main" Width="1.75" PointX="17.625" PointY="30.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.qa_WebsiteMapping" Width="2" PointX="20.125" PointY="30.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.Website" Width="1.75" PointX="17.625" PointY="26.25" IsExpanded="true" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_EmailSent_QuestionAnswerFK" ManuallyRouted="false" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_Main_GranualityFK" ManuallyRouted="false" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_WebsiteMapping_QuestionAnswerFK" ManuallyRouted="false" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_WebsiteMapping_WebsiteFK" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.actionLink" Width="1.75" PointX="8.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.overrideType" Width="1.75" PointX="6.625" PointY="31" IsExpanded="true" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.productStatus" Width="1.75" PointX="3.75" PointY="37.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.dataSupplier" Width="1.75" PointX="3.75" PointY="52.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.productGroup" Width="1.875" PointX="3.625" PointY="31.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.salesAreaGroup" Width="2.125" PointX="3.375" PointY="28.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.categoryAttribute" Width="1.875" PointX="3.25" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.filterableAttribute" Width="1.75" PointX="0.75" PointY="8.875" IsExpanded="true" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_categoryAttribute_filterableAttributeFK" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.productType" Width="2" PointX="0.875" PointY="31.625" IsExpanded="true" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_productGroup_productTypeFK" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.product" Width="2.125" PointX="6.25" PointY="34" IsExpanded="true" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_product_productStatusFK" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.fieldMapping" Width="1.75" PointX="12.125" PointY="58.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.productOverride" Width="1.75" PointX="9.125" PointY="32.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.provider" Width="1.75" PointX="9.625" PointY="55.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.providerType" Width="1.75" PointX="7.125" PointY="56.75" IsExpanded="true" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_fieldReference_providerFK" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_productOverride_overrideTypeFK" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_provider_providerTypeFK" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.websiteInventory" Width="2.125" PointX="15.125" PointY="40.375" IsExpanded="true" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_websiteInventory_productFK" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_websiteInventory_websiteFK" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.manufacturer" Width="1.75" PointX="0.75" PointY="42" IsExpanded="true" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_productOverride_productFK" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_product_productGroupFK" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_product_salesAreaGroupFK" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_product_manufacturerFK" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.eqEquipment" Width="1.75" PointX="12.125" PointY="35.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.eqFamily" Width="1.75" PointX="3.25" PointY="73.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.eqFamilyMembership" Width="1.75" PointX="14.625" PointY="54.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.eqProductMembership" Width="1.75" PointX="14.625" PointY="36.875" IsExpanded="true" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_eqEquipment_manufacturer" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_eqMapping_eqEquipment" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_eqMembership_eqEquipment" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_eqFamily_manufacturer" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_eqMapping_eqFamily" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_eqMembership_product" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.potentialNewProducts" Width="2.25" PointX="5.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.fieldName" Width="1.75" PointX="5.75" PointY="1" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.fieldSection" Width="1.75" PointX="0.75" PointY="1.625" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.fieldSubSection" Width="1.75" PointX="3.25" PointY="1.5" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.fieldType" Width="1.75" PointX="3.25" PointY="5.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.fieldValue" Width="1.75" PointX="8.25" PointY="1.375" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_fieldName_fieldTypeFK" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_fieldName_subSectionFK" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_fieldValue_fieldNameFK" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_fieldSubSection_fieldSectionFK" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.providerInventory" Width="1.75" PointX="3.25" PointY="46.5" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_providerInventory_manufacturer" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_providerInventory_providerFK" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.providerPrice" Width="1.75" PointX="5.75" PointY="47.875" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_providerPrice_providerInventory" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.skuMapping" Width="1.75" PointX="12.125" PointY="41.25" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.mfpnExtensions" Width="1.75" PointX="3.25" PointY="70.625" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_skuMapping_provider" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.supplierManuMapping" Width="1.75" PointX="3.25" PointY="42.625" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_supplierManuMapping_manufacturer" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_supplierManuMapping_provider" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_mfpnExtensions_manufacturer" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.priceRuleType" Width="1.75" PointX="6.625" PointY="24" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.AXISQueue" Width="1.75" PointX="9.125" PointY="67.125" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.AXISQueueDetails" Width="1.875" PointX="11.625" PointY="66.875" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_AXISQueue_productFK" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_AXISQueueDetails_AXISQueueFK" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.productPrice" Width="1.75" PointX="18" PointY="42" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_productPrice_websiteInventory" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_product_dataSupplier" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_product_product" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.ds_product" Width="1.75" PointX="8.75" PointY="8.75" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_skuMapping_product" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_skuMapping_skuMapping" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.axisPricingHistory" Width="1.75" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.AxisTypeLookup" Width="1.75" PointX="5.75" PointY="5.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.AxisTypeName" Width="1.75" PointX="0.75" PointY="11.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.AxisValueLookup" Width="1.75" PointX="11.75" PointY="3.75" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_AxisTypeLookup_AxisTypeLookup" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.ftpDetails" Width="1.75" PointX="12.125" PointY="54.625" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_ftpDetails_providerFK" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.exportFieldLookup" Width="1.75" PointX="3.75" PointY="11.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.AxisFieldsAdditional" Width="1.75" PointX="11.625" PointY="71.375" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.AxisFields" Width="1.75" PointX="9.125" PointY="70.25" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_AxisFields_product" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_AxisFieldsAdditional_AxisFieldsAdditional" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.crossSellingLink" Width="1.75" PointX="12.125" PointY="31.75" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_crossSellingLink_product" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_crossSellingLink_product1" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.crossSellingLinkType" Width="1.75" PointX="9.625" PointY="30.125" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_crossSellingLink_crossSellingLinkType" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.AxisEbusiness" Width="1.75" PointX="12.625" PointY="28.875" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.AxisEbusinessMapping" Width="1.75" PointX="15.125" PointY="33.875" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_AxisEbusinessMapping_AxisEbusiness" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_AxisEbusinessMapping_product" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.assemblyComponent" Width="1.75" PointX="9.125" PointY="78.125" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_assemblyComponent_product" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_assemblyComponent_product1" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.productItemType" Width="1.75" PointX="3.75" PointY="34.875" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_product_productItemType" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.priceRule" Width="1.75" PointX="9.125" PointY="36" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.priceRuleBand" Width="1.75" PointX="11.625" PointY="45.875" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_priceRule_manufacturer" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_priceRule_priceRuleType" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_priceRule_product" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_priceRuleBand_priceRule" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.configurationSetting" Width="1.75" PointX="20.125" PointY="26.625" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_configurationSetting_Website" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.SagePayTokens" Width="1.75" PointX="11.75" PointY="6.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.SagePayTransactions" Width="1.75" PointX="11.75" PointY="11.75" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_priceRule_productGroup" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.PMSAxisPriceDifference" Width="1.75" PointX="6.75" PointY="12.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.ds_searchable" Width="1.75" PointX="14.75" PointY="0.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.eqCartridgeType" Width="2.875" PointX="8.5" PointY="26.875" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_eqEquipment_eqCartridgeType" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.ProductImagesView" Width="1.5" PointX="0.75" PointY="14.75" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_eqEquipment_productType" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.secondaryCategoryLookup" Width="1.5" PointX="20" PointY="38.875" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_secondaryCategoryLookup_websiteInventory" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.AxisPriceView" Width="1.5" PointX="2.75" PointY="14.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.categoryCode" Width="1.5" PointX="6.875" PointY="51.25" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_categoryCode_categoryCode" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_priceRule_categoryCode" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_secondaryCategoryLookup_categoryCode" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_websiteInventory_categoryCode" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_categoryCode_Website" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.ds_attributeView" Width="1.5" PointX="14.75" PointY="5.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.ds_productView" Width="1.5" PointX="14.75" PointY="12.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.ds_searchableView" Width="1.5" PointX="16.75" PointY="5.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.priorityProvider" Width="1.5" PointX="3.25" PointY="39.875" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_eqEquipment_product" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_priorityProvider_manufacturer" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_priorityProvider_provider" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.equipmentNotes" Width="1.5" PointX="17.625" PointY="36.75" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_equipmentNotes_eqEquipmentFK" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_equipmentNotes_websiteFK" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.manufacturerNotes" Width="1.5" PointX="6.25" PointY="42.625" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_manufacturerNotes_eqCartridgeTypeFK" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_manufacturerNotes_manufacturerFK" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_manufacturerNotes_websiteFK" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.productSEOText" Width="1.5" PointX="23.125" PointY="28.5" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_productSEOText_productType" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_productSEOText_Website" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_qa_Main_eqEquipment" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_qa_Main_product" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.ds_featureView" Width="1.5" PointX="0.75" PointY="4.75" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

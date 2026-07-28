@@ -1,0 +1,147 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.OMS
+@using PagedList.Mvc;
+@using Kendo.Mvc.UI;
+@model MonitorViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Online Order Processing";
+}
+
+@section AddTags
+{
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet">
+    <style>
+        .k-grid {
+            font-size: 11px;
+        }
+    </style>
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    <div class="telerik-filter" data-gridname="oOPGrid">
+        <a class="btn btn-danger btn-sm" data-script="grid.dataSource.filter({});">Clear Filters</a>
+        <span class="btn btn-default btn-sm" onClick="window.location.reload();">Refresh</span>
+    </div>
+    <div class="g-fc-bl g-fs-0_8em g-a-r">(Count: <span id="counter"></span>)</div>
+</div>
+
+@(Html.Kendo().Grid<MonitorViewModel.TelerikOOP>()
+            .Name("oOPGrid")
+            .Columns(columns =>
+            {
+                columns.Bound(x => x.AxisPo).Title("Axis PO").Width("80px")
+                    .HeaderHtmlAttributes(new { title = "Axis PO", style = "text-align: center;" });
+                columns.Bound(x => x.Id).Title("Purchase Order").Width("90px").ClientTemplate(
+                    "<a href=\"../PurchaseOrder/ViewPurchaseOrder/#:Id#\">PO-#:kendo.toString(Id, '00000000.')#</a>")
+                    .HtmlAttributes(new { style = "text-align: center;" })
+                    .HeaderHtmlAttributes(new { title = "Purchase Order", style = "text-align: center;" });
+                columns.Bound(x => x.OrderId).Title("Order").Width("90px").ClientTemplate(
+                    "<a href=\"../Order/ViewOrder/#:OrderId#\">OR-#:kendo.toString(OrderId, '00000000.')#</a>")
+                    .HtmlAttributes(new { style = "text-align: center;" })
+                    .HeaderHtmlAttributes(new { title = "Order", style = "text-align: center;" });
+                columns.Bound(x => x.IsSent).Title("Sent").Width("60px")
+                    .HeaderHtmlAttributes(new { title = "Sent", style = "text-align: center;" })
+                    .HtmlAttributes(new { style = "text-align: center;" })
+                    .ClientTemplate(
+                        "#if(IsSent){#" +
+                        "<span class=\"fa fa-check-circle g-fc-g\"></span>" +
+                        "#}else{#" +
+                        "<span class=\"fa fa-circle-o\"></span>#}#"
+                    );
+                columns.Bound(x => x.IsAcknowledged).Title("Acknowledged").Width("60px")
+                    .HeaderHtmlAttributes(new { title = "Acknowledged", style = "text-align: center;" })
+                    .HtmlAttributes(new { style = "text-align: center;" })
+                    .ClientTemplate(
+                        "#if(IsAcknowledged){#" +
+                        "<span class=\"fa fa-check-circle g-fc-g\"></span>" +
+                        "#}else{#" +
+                        "<span class=\"fa fa-times-circle g-fc-r\"></span>#}#"
+                    );
+
+                columns.Bound(x => x.IsReceived).Title("Received").Width("120px")
+                    .HeaderHtmlAttributes(new { title = "Received", style = "text-align: center;" })
+                    .ClientTemplate(
+                        "#if(IsReceived == 1){#" +
+                        "<span class=\"fa fa-check-circle g-fc-g\"></span> Fully Received" +
+                        "#}else{if(IsReceived == 2){#" +
+                        "<span class=\"fa fa-adjust g-fc-b\"></span> Some Received" +
+                        "#}else{#" +
+                        "<span class=\"fa fa-times-circle g-fc-r\"></span> None Received" +
+                        "#}}#"
+                    );
+                columns.Bound(x => x.IsInvoiced).Title("Invoiced").Width("110px")
+                    .HeaderHtmlAttributes(new { title = "Invoiced", style = "text-align: center;" })
+                    .ClientTemplate(
+                        "#if(IsInvoiced == 1){#" +
+                        "<span class=\"fa fa-check-circle g-fc-g\"></span> Fully Invoiced" +
+                        "#}else{if(IsInvoiced == 2){#" +
+                        "<span class=\"fa fa-adjust g-fc-db\"></span> Some Invoiced" +
+                        "#}else{#" +
+                        "<span class=\"fa fa-times-circle g-fc-r\"></span> None Invoiced" +
+                        "#}}#"
+                    );
+                columns.Bound(x => x.SupplierName).Title("Supplier").Width("150px")
+                    .HeaderHtmlAttributes(new { title = "Supplier", style = "text-align: center;" });
+                columns.Bound(x => x.OrderDate).Title("Order Date").Width(120)
+                    .ClientTemplate("#= kendo.toString(kendo.parseDate(OrderDate, 'yyyy-MM-dd'), 'dd/MM/yyyy') #")
+                    .HtmlAttributes(new { style = "text-align: center;" })
+                    .HeaderHtmlAttributes(new { title = "Order Date", style = "text-align: center;" });
+                columns.Bound(x => x.DueDate).Title("Due Date").Width(120)
+                    .ClientTemplate("#= kendo.toString(kendo.parseDate(DueDate, 'yyyy-MM-dd'), 'dd/MM/yyyy') #")
+                    .HtmlAttributes(new { style = "text-align: center;" })
+                    .HeaderHtmlAttributes(new { title = "Due Date", style = "text-align: center;" });
+                columns.Bound(x => x.DelName).Title("Contact Name").Width("120px")
+                    .HeaderHtmlAttributes(new { title = "Contact Name", style = "text-align: center;" });
+                columns.Bound(x => x.DelPostcode).Title("Postcode").Width("80px")
+                    .HeaderHtmlAttributes(new { title = "Postcode", style = "text-align: center;" });
+                columns.Bound(x => x.Nett)
+                    .Format("{0: #,##.00}")
+                    .Title("Value")
+                    .Width(80)
+                    .HtmlAttributes(new { style = "text-align: right;" })
+                    .HeaderHtmlAttributes(new { title = "Value", style = "text-align: center;" });
+                columns.Bound(x => x.Outstanding)
+                    .Format("{0: #,##.00}")
+                    .Title("Outstanding")
+                    .Width(80)
+                    .HtmlAttributes(new { style = "text-align: right;" })
+                    .HeaderHtmlAttributes(new { title = "Outstanding Value", style = "text-align: center;" });
+
+                columns.Bound(x => x.Id).ClientTemplate(
+                    " "
+                    ).Title("").Filterable(false).Sortable(false).Groupable(false);
+
+            })
+            .Pageable(pager => pager.Enabled(false))
+            .Scrollable(scroll => scroll.Enabled(true))
+            .Sortable(sortable => sortable.AllowUnsort(true))
+            .Scrollable()
+            .Filterable(filter => filter.Mode(GridFilterMode.Menu))
+            .ColumnMenu()
+            .Resizable(resize => resize.Columns(true))
+            .Reorderable(reorder => reorder.Columns(true))
+            .NoRecords("There are no orders to display")
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(x => x.Action("OOP_Read", "Monitor", (RouteValueDictionary)ViewBag.Query))
+                .Sort(sort => sort
+                    .Add(x => x.Id))
+                )
+            .Events(e => e.DataBound("Grid_OnDataBound"))
+)
+
+@section Scripts {
+    <script type="text/javascript">
+        function Grid_OnDataBound() {
+            $('#counter').html($('#oOPGrid').data("kendoGrid").dataSource.data().length);
+
+            saveGridFilters();
+        }
+    </script>
+}
+
+
+

@@ -1,0 +1,129 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Equipment;
+@model EquipmentViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Equipment Membership";
+    ViewBag.SubTitle = "Create";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title &#45; @ViewBag.EquipName</h4>
+        <br/>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.Label("Select Product", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="productComboBox">
+                        @(Html.Kendo().ComboBox()
+                                .Name("productComboBox")
+                                .Filter(FilterType.Contains)
+                                .Placeholder("Select Product...")
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetProductsForMembership", "Equipment")
+                                           .Data("onAdditionalData");
+                                    })
+                                    .ServerFiltering(true);
+                                })
+                                .MinLength(3)
+                                .AutoBind(false)
+                                .HtmlAttributes(new { style = "width:400px;" })
+                                .Events(e =>
+                                {
+                                    e.Select("onProductSelected");
+                                })
+                        )
+                    </div>
+                </div>
+            </div>
+
+            <div class="selected-panel panel panel-default g-d-n">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Selected Products</h3>
+                </div>
+                <ul class="selected-products list-group"></ul>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" id="btnSaveMembership" name="btnSaveEquipment" value="Save" class="btn btn-default" />
+                    @Html.ActionLink("Cancel", "EquipmentMemIndex", new { id = ViewBag.eqEquipmentID }, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var products = [];
+    var selected = [];
+
+    function onAdditionalData() {
+        return {
+            text: $("#productComboBox").data("kendoComboBox").text()
+        };
+    }
+
+    function onProductSelected(e) {
+        if (e.item) {
+            products.push(e.dataItem.Value);
+            selected.push(e.dataItem.Text);
+            updateSelectedList();
+        }
+
+        if (products.length > 0) {
+            $('.selected-panel').show();
+        }
+    }
+
+    function updateSelectedList() {
+        $('.selected-products').empty();
+        for (var i = 0; i < selected.length; i++) {
+            $('.selected-products').append('<li class="list-group-item"><span class="badge g-cur-p" data-product-name="' + selected[i] + '" data-product-id="' + i + '">remove</span>' + selected[i] + '</li>');
+        }
+    }
+
+    $(document).on('click', '.badge', function () {
+        var id = $(this).attr("data-product-id");
+        var name = $(this).attr("data-product-name");
+        console.log(id);
+        products.splice(id, 1);
+        selected.splice(name, 1);
+        updateSelectedList();
+
+        if (products.length == 0) {
+            $('.selected-panel').hide();
+        }
+    });
+
+    $(document).on('click', '#btnSaveMembership', function () {
+
+        if (products == 0)
+            return;
+
+        $.ajax({
+            url: '@Url.Action("SaveMembership", "Equipment")',
+            method: 'POST',
+            dataType: 'json',
+            async: false,
+            cache: false,
+            data: {
+                equipmentId : @(ViewBag.eqEquipmentID),
+                products : products
+            },
+            success: function (e) {
+                if (e.success) {
+                    window.location.href = '@Url.Action("EquipmentMemIndex", "Equipment")/' + @(ViewBag.eqEquipmentID);
+                }
+            }
+        });
+    });
+</script>

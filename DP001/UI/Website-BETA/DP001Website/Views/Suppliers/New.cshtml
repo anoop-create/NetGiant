@@ -1,0 +1,20 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model SupplierViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create Supplier</h2>
+
+@using (Html.BeginForm("Create", "Suppliers", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.EditorFor(x => x.SupplierEntry.SupplierName)
+    </div>
+
+    <input type="submit" value="Save" />
+}

@@ -1,0 +1,75 @@
+﻿@*TIDYUP*@
+@*@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce;
+@model WAFRulesViewModel
+
+@{
+    ViewBag.Title = "WAF Rules";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="placeHolder">
+        <h4 class="text-center">@ViewBag.Title</h4>
+        <div class="g-p-b-40">
+            <select id="siteSelector" class="g-f-l form-control g-smallCell" style="margin-right:10px;">
+                <option selected="selected" value="731034">TonerGiant</option>
+                <option value="728840">CartridgeMonkey</option>
+                <option value="731033">NetGiant</option>
+            </select>
+        </div>
+    </div>
+
+@(Html.Kendo().Grid<WAFRulesViewModel.Telerik>
+    ()
+    .HtmlAttributes(new { @class = "pointer-rows" })
+    .Name("WAFRulesGrid")
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action("WAFRules_Read", "Ecommerce")
+            .Data("selectSite")
+        )
+        .PageSize(200)
+        .Sort(sort => sort.Add(x => x.Scope).Ascending())
+        .Sort(sort => sort.Add(x => x.Action).Ascending())
+    )
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.WRId).Title("ID").HeaderHtmlAttributes(new { title = "ID" }).Width(100);
+        columns.Bound(x => x.Name).Title("Rule Name").HeaderHtmlAttributes(new { title = "Rule Name" }).Width(200);
+        columns.Bound(x => x.Action).Title("Action").HeaderHtmlAttributes(new { title = "Action" }).Width(120);
+        columns.Bound(x => x.Scope).Title("Scope").HeaderHtmlAttributes(new { title = "Scope" }).Width(200);
+        columns.Bound(x => x.Data).Title("Data").HeaderHtmlAttributes(new { title = "Data" });
+    })
+    .Pageable(pager => pager.Refresh(true))
+    .Pageable(pager => pager.PageSizes(new List<int>
+        { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable
+        .AllowUnsort(true))
+        .Groupable()
+        .Scrollable()
+        .Filterable(ftb => ftb
+        .Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .Excel(excel => excel
+        .AllPages(true)
+        .FileName("Grid Export")
+        .Filterable(true)
+        .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+        .NoRecords("There are no items to display")
+)*@
+
+@*@section scripts
+{
+    <script type="text/javascript">
+        function selectSite() {
+            return {
+                site: $("#siteSelector").val()
+            }
+        }
+
+        $(document).on('change', '#siteSelector', function (e) {
+            $("#WAFRulesGrid").data("kendoGrid").dataSource.read();
+        });
+    </script>
+}*@

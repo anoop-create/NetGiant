@@ -1,0 +1,110 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product
+@model ProductOverrideViewModel
+
+@{
+    ViewBag.Title = "Product Override";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title Details</h4>
+
+        <div style="padding-bottom: 20px">
+            <select id="productOverrideSearchBy" class="searchBy g-f-l form-control g-smallCell" style="margin-right:10px">
+                <option selected="selected" value="overrideType">Search by override type</option>
+                <option value="orginal">Search by original part no</option>
+                <option value="override">Search by override value</option>
+            </select>
+            <div>
+                @Html.TextBox("SearchProductOverride", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10", @type = "text" })
+                <a id="lnkSearchProductOverride" href="#" class="btn btn-default g-f-l" title="Empty search returns all records">Search</a>
+            </div>
+        </div>
+
+        <br />
+
+        <div id="productOverrideData">
+            @{ Html.RenderPartial("~/Views/PMS/Product/ProductOverride/ProductOverrideData.cshtml", Model.ProductOverrides); }
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        $(document).on("click", "#lnkSearchProductOverride, #productOverridePaging a", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $("#SearchProductOverride").keypress(function (event) {
+            if (event.which == 13) {
+                applyStandardPaging(event);
+            }
+        });
+
+        $(document).on("click", ".lnkProductOverrideDelete", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete('#productOverrideDeleteDialog', $('#DeleteProductOverrideURL').val(), $(this).attr('value'),
+                '#productOverrideData', optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            applyStandardPaging(event, 0);
+
+            return false;
+        });
+
+        if ($("#historyPage").val() != '') {
+            $('#productOverrideData').html($("#historyPage").val());
+        }
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging();
+            standardPaging(event, id, "#productOverridePaging", $('#productOverrideDataURL').val(),
+                                    "#productOverrideData", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#SearchProductOverride").val(); //SearchTerm
+            optionsArray[1] = $("#productOverrideSearchBy").val(); //SearchBy
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[2] = sortType + sortDir;
+            } else {
+                optionsArray[2] = '';
+            }
+        }
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value"); //ProductID
+            optionsArray[1] = $("#SearchProductOverride").val(); //SearchTerm
+            optionsArray[2] = $("#productOverrideSearchBy").val(); //SearchBy
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[3] = sortType + sortDir;
+            } else {
+                optionsArray[3] = '';
+            }
+        }
+
+    </script>
+}

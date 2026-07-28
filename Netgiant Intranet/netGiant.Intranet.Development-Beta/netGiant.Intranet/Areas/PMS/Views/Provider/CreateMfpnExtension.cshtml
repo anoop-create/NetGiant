@@ -1,0 +1,49 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Provider
+@model ProviderViewModel
+@{
+    ViewBag.Title = "MFPN Extension";
+    ViewBag.SubTitle = Model.MfpnExtension.mfpnExtensionID > 0 ? "Edit" : "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title</h4>
+
+        <div class="form-horizontal">
+
+            @using (Html.BeginForm("SaveMfpnExtension", "Provider", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(x => x.MfpnExtension.mfpnExtensionID)
+
+                <div class="form-group">
+                    @Html.Label("Manufacturer", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.MfpnExtension.manuID, Model.allManufacturers, "Select...", new { @class = "form-control g-largeCell" })
+                        @Html.ValidationMessageFor(model => model.MfpnExtension.manuID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Extension", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.MfpnExtension.extension, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.MfpnExtension.extension, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveMfpnExtension" value="Save" class="btn btn-default" title="Save" />
+                        @Html.ActionLink("Cancel", "MfpnExtensions", "Provider", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+

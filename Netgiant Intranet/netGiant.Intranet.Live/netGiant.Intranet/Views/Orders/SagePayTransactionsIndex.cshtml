@@ -1,0 +1,204 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Orders;
+@using System.Globalization;
+@model SagePayViewModel
+
+@{
+    ViewBag.Title = "Sage Pay Transactions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h3>@ViewBag.Title</h3>
+
+        @Html.Hidden("SagePayTransactionsDataURL", Url.Action("TransactionIndexData", "SagePay"))
+        @Html.Hidden("protxLinkURL", Url.Action("ProtxStringResponseData", "SagePay"))
+        @Html.Hidden("TransactionsList", Model.TransactionsList.Count)
+
+        @Html.DropDownListFor(m => m.Transaction.protx_status, Model.StatusList, "Search by Status", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+        @Html.DropDownListFor(m => m.Transaction.websiteID, Model.WebsiteList, "Search by Website", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+            
+        <select id="SagePayTransactionsSearchBy" class="searchBy g-f-l form-control g-smallCell g-m-r-10">
+            <option selected="selected" value="id">Search by Doc_id</option>
+            <option value="detail">Search by Detail</option>
+            <option value="uid">Search by Vm_uid</option>
+
+        </select>
+
+        <div class="g-f-l">
+            @Html.TextBox("SearchSagePayTransactions", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10" })
+            <a id="lnkSearchSagePayTransactions" href="#" class="btn btn-default g-m-r-10" title="Empty search returns all records">Search</a>
+            <img src="~/Content/images/loader/ajax-loader-whiteBG.gif" alt="" class="g-d-n" id="slConfigurationSetting" />
+        </div>
+
+        @Html.ActionLink("Reset", "TransactionIndex", "SagePay", null, new { @class = "btn btn-default" })
+
+        <div class="g-c-b"></div>
+
+        <div class="g-m-t-10">
+            @Html.Label("From", new {@class = "g-f-l g-p-t-5" })
+            @Html.TextBox("DateFrom", DateTime.Now.ToShortDateString(), new { @class = "searchBox form-control g-smallCell g-f-l text-box single-line g-m-lr-10" })
+
+            @Html.Label("To", new { @class = "g-f-l g-p-t-5" })
+            @Html.TextBox("DateTo", DateTime.Now.Date.ToShortDateString(), new { @class = "searchBox form-control g-smallCell g-f-l text-box single-line g-m-lr-10" })
+        </div>
+
+        <div class="g-c-b"></div>
+
+        <span class="g-f-r"><span id="settingCount" class="g-fw-b">@Model.TransactionsListCount </span><span>Transactions Found</span></span>
+
+        <div class="g-c-b" id="SagePayTransactionsPartialView">
+            <table class="table" id="tableSetting">
+                <tr>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="id">Doc_id</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="status">Status</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="uid">Vm_uid</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="website">Website</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="string_response">Protx_string/response</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="detail">Detail</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                    <th>
+                        <a href="#" class="tableHeaderSort" value="time">Time</a>
+                        <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                    </th>
+                </tr>
+                @{Html.RenderAction("SagePayTransactionList", "SagePay", new { Model = Model.TransactionsList});}
+            </table>
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+
+        <div id="protxDialogue" class="g-d-n" title="Protx String/response"></div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+
+    if ($('#TransactionsList').val() < 50) {
+        noMoreData = true;
+    }
+
+    var optionsArray;
+
+    $(document).on("click", "#lnkSearchSagePayTransactions", function (event) {
+        blockNumber = 1;
+        GetConfigurationSettings(true);
+        return false;
+    });
+
+    $("#SearchSagePayTransactions").keypress(function (event) {
+        if (event.which == 13) {
+            blockNumber = 1;
+            GetConfigurationSettings(true);
+        }
+    });
+
+    $(document).on("change", "#Transaction_protx_status, #Transaction_websiteID", function (event) {
+        setupOptionsArray();
+        blockNumber = 1;
+        GetConfigurationSettings(true);
+    });
+
+    $(document).on("change", "#DateFrom, #DateTo", function (event) {
+        setupOptionsArray();
+        blockNumber = 1;
+        GetConfigurationSettings(true);
+    });
+    
+    $(document).on("click", ".tableHeaderSort", function (event) {
+        setupSort($(this));
+        blockNumber = 1;
+        GetConfigurationSettings(true);
+        return false;
+    });
+
+    $(window).scroll(function () {
+        if ($(window).scrollTop() + $(window).height() > $('#scrollBottomContainer').offset().top
+            && !noMoreData && !inProgress) {
+            GetConfigurationSettings(false);
+        }
+        return false;
+    });
+
+    $(document).on("click", ".protx_link", function () {
+        getprotxdata($("#protxLinkURL").val(), "#protxDialogue", $(this).attr("value"))
+        $("#protxDialogue").dialog({
+            modal: true,
+            width: 800
+        });
+        return false;
+    });
+
+    $("#DateFrom, #DateTo").datepicker({ dateFormat: 'dd/mm/yy' });
+
+    function getprotxdata(url, divPartialView, id) {
+
+        $.ajax({
+            url: url,
+            dataType: 'html',
+            traditional: true,
+            type: 'POST',
+            data: { protxID: id },
+            async: false,
+            cache: false,
+            success: function (data) {
+                $('' + divPartialView + '').empty();
+                $('' + divPartialView + '').html(data);
+            }
+        });
+
+    }
+    
+    function GetConfigurationSettings(clearTable) {
+        setupOptionsArray();
+        InfiniteScroll($('#SagePayTransactionsDataURL').val(),
+            optionsArray,
+            clearTable,
+            '#tableSetting tr:gt(0)',
+            '#settingCount',
+            '#tableSetting tbody',
+            $("#activeSortType"),
+            $("#activeSortDir"));
+    }
+
+    function setupOptionsArray() {
+        optionsArray = new Array();
+
+        var sortType = $("#activeSortType").val();
+        var sortDir = $("#activeSortDir").val();
+
+        if (sortType.length > 0) {
+            optionsArray[0] = sortType + sortDir;
+        } else {
+            optionsArray[0] = '';
+        }
+
+        optionsArray[1] = $("#Transaction_protx_status").val(); //Search by Status Name
+        optionsArray[2] = $("#Transaction_websiteID").val() || 0; //Search by Website
+        optionsArray[3] = $("#SearchSagePayTransactions").val(); //SearchTerm
+        optionsArray[4] = $("#SagePayTransactionsSearchBy").val(); //SearchBy
+        optionsArray[5] = $("#DateFrom").val(); //DateFrom Search
+        optionsArray[6] = $("#DateTo").val(); //DateTo Search
+    }
+    </script>
+}

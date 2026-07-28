@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Alias="Self" Namespace="DiplomatReplacementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012">
+  <EntityType Name="Ledger">
+    <Key>
+      <PropertyRef Name="LedgerId" />
+    </Key>
+    <Property Name="LedgerId" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="OrderFk" Type="int" />
+    <Property Name="AccountFk" Type="int" />
+    <Property Name="SupplierFk" Type="int" />
+    <Property Name="PurchaseOrderFk" Type="int" />
+    <Property Name="Year" Nullable="false" Type="smallint" />
+    <Property Name="Period" Nullable="false" Type="tinyint" />
+    <Property Name="LedgerType" Nullable="false" Type="tinyint" />
+    <Property Name="LedgerTransType" Nullable="false" Type="tinyint" />
+    <Property Name="CustomerGroup" Type="int" />
+    <Property Name="SupplierGroup" Type="int" />
+    <Property Name="OrderSourceCode" Nullable="false" MaxLength="45" Type="varchar" />
+    <Property Name="NominalGroupCode" Nullable="false" MaxLength="45" Type="varchar" />
+    <Property Name="AxisUid" Nullable="false" Type="int" />
+    <Property Name="Description" Nullable="false" Type="varchar(max)" />
+    <Property Name="Description2" Nullable="false" Type="varchar(max)" />
+    <Property Name="IsExportedToSage" Nullable="false" Type="bit" />
+    <Property Name="Nett" Nullable="false" Type="float" />
+    <Property Name="Vat" Nullable="false" Type="float" />
+    <Property Name="Cost" Nullable="false" Type="float" />
+    <Property Name="CreditCharge" Nullable="false" Type="float" />
+    <Property Name="LastUpdatedBy" Nullable="false" MaxLength="45" Type="varchar" />
+    <Property Name="DateOrdered" Nullable="false" Type="datetime" />
+    <Property Name="DateInvoiced" Nullable="false" Type="datetime" />
+  </EntityType>
+  <EntityType Name="LedgerLine">
+    <Key>
+      <PropertyRef Name="LedgerLineId" />
+    </Key>
+    <Property Name="LedgerLineId" Nullable="false" StoreGeneratedPattern="Identity" Type="bigint" />
+    <Property Name="LedgerFk" Nullable="false" Type="int" />
+    <Property Name="ProductFk" Type="int" />
+    <Property Name="Year" Nullable="false" Type="smallint" />
+    <Property Name="Period" Nullable="false" Type="tinyint" />
+    <Property Name="LedgerTransactionTypeFk" Nullable="false" Type="tinyint" />
+    <Property Name="LedgerRecordTypeFk" Nullable="false" Type="tinyint" />
+    <Property Name="ProductGroupFk" Nullable="false" Type="int" />
+    <Property Name="AxisStockReference" Nullable="false" MaxLength="45" Type="varchar" />
+    <Property Name="NominalAccount" Nullable="false" Type="int" />
+    <Property Name="SalesGroupCode" Nullable="false" Type="int" />
+    <Property Name="DateInvoiced" Nullable="false" Type="datetime" />
+    <Property Name="QuantityOrdered" Nullable="false" Type="int" />
+    <Property Name="QuantityCredited" Type="int" />
+    <Property Name="QuantityOutstanding" Nullable="false" Type="int" />
+    <Property Name="UnitPrice" Nullable="false" Type="float" />
+    <Property Name="Nett" Nullable="false" Type="float" />
+    <Property Name="Vat" Nullable="false" Type="float" />
+    <Property Name="CostOfSales" Nullable="false" Type="float" />
+    <Property Name="VatRate" Type="float" />
+    <Property Name="VatCode" Nullable="false" Type="int" />
+    <Property Name="Description" Nullable="false" Type="varchar(max)" />
+    <Property Name="CountryOfDespatch" Nullable="false" MaxLength="5" Type="varchar" />
+  </EntityType>
+  <Association Name="FK_LedgerLine_Ledger">
+    <End Type="Self.Ledger" Multiplicity="1" Role="Ledger" />
+    <End Type="Self.LedgerLine" Multiplicity="*" Role="LedgerLine" />
+    <ReferentialConstraint>
+      <Principal Role="Ledger">
+        <PropertyRef Name="LedgerId" />
+      </Principal>
+      <Dependent Role="LedgerLine">
+        <PropertyRef Name="LedgerFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DiplomatReplacementModelStoreContainer">
+    <EntitySet Name="Ledger" EntityType="Self.Ledger" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LedgerLine" EntityType="Self.LedgerLine" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_LedgerLine_Ledger" Association="Self.FK_LedgerLine_Ledger">
+      <End EntitySet="Ledger" Role="Ledger" />
+      <End EntitySet="LedgerLine" Role="LedgerLine" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

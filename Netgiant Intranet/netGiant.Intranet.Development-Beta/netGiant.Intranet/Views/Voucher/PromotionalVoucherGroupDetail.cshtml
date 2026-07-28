@@ -1,0 +1,54 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce.PromoVoucher;
+@model PromotionalVoucherGroupDetailViewModel
+
+@{
+    ViewBag.Title = "Promotional Voucher Group Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var pvouchgrp = Model.VoucherPromoGroupDetail;
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title - @Model.VoucherPromoGroupDetail.GroupName</h4>
+
+        <div class="prd_detailContainer">
+
+            <fieldset class="g-b-1dg g-m-t-10">
+                <legend>Promotional Voucher Group Details</legend>
+
+                <table class="table noHeader g-w-100p">
+                    <tr>
+                        <td class="g-w-40p">Group Name</td>
+                        <td class="g-w-60p">@Html.DisplayFor(x => pvouchgrp.GroupName)</td>
+                    </tr>
+                    <tr>
+                        <td class="g-w-40p">Website</td>
+                        <td class="g-w-60p">@Html.DisplayFor(x => pvouchgrp.Website.FriendlyName)</td>
+                    </tr>
+                </table>
+
+                <div class=" g-m-t-10">
+                    @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+                    {
+                        <div class="g-w-10p g-f-l">@Html.ActionLink("Edit Promotional Voucher Group", "CreatePromotionalVoucherGroup/" + pvouchgrp.VoucherPromoGroupId.ToString(), "Voucher", null, new { @class = "btn btn-default" })</div>
+                    }
+
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" defer="defer">
+
+        $(document).tooltip({
+            items: '*:not(.ui-dialog-titlebar-close)'
+        });
+
+    </script>
+}

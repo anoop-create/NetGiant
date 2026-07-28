@@ -1,0 +1,73 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Shared;
+@model CommonViewModel
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Variable Name</th>
+                <th>Variable Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (string s in Request.Params.Keys)
+            {
+                <tr>
+                    <td>@s.ToString()</td>
+                    <td>@Request.Params[s]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<h2>IP Address</h2>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Variable Name</th>
+                <th>Variable Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="white-space: nowrap;">UserHostAddress</td>
+                <td>@Request.UserHostAddress</td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;">IP Used By WebApp</td>
+                <td>@ViewBag.ClientIP</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Request.Headers</h2>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Variable Name</th>
+                <th>Variable Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var headers = Request.Headers;
+            }
+
+            @for (var i = 0; i < headers.Count; i++)
+            {
+                var key = headers.GetKey(i);
+                var value = headers.Get(i);
+
+                <tr>
+                    <td style="white-space: nowrap;">@key</td>
+                    <td>@value</td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>

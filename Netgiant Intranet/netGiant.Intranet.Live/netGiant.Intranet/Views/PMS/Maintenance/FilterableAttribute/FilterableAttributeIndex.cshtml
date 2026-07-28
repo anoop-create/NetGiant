@@ -1,0 +1,87 @@
+﻿@using netGiant.Intranet.DataLayer
+@using PagedList.Mvc;
+@model PagedList.IPagedList<filterableAttribute>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Filterable Attributes";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title Details</h4>
+
+        <div style="padding-bottom: 20px">
+            <select id="filtAttributeSearchBy" class="searchBy g-f-l form-control g-smallCell" style="margin-right:10px" >
+                <option selected="selected" value="filtAttribute">Search by attribute name</option>
+            </select>
+            <div>
+                @Html.TextBox("SearchFilterableAttribute", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10" })
+                <a id="lnkFilterableAttributeSearch" href="#" class="btn btn-default g-f-l" title="Empty search returns all records">Search</a>
+                <img src="~/Content/images/loader/ajax-loader-whiteBG.gif" alt="" class="g-d-n" id="slFilterableAttributes" />
+            </div>
+        </div>
+        <br />
+
+        <div id="filterableAttributePartialView">
+            @{Html.RenderPartial("~/Views/PMS/Maintenance/FilterableAttribute/FilterableAttributeData.cshtml", Model);}
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        $(document).on("click", "#lnkFilterableAttributeSearch, #filterAttributePaging a", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $("#SearchFilterableAttribute").keypress(function (event) {
+            if (event.which == 13) {
+                applyStandardPaging(event);
+            }
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            applyStandardPaging(event, 0);
+
+            return false;
+        });
+
+        if ($("#historyPage").val() != '') {
+            $('#filterableAttributePartialView').html($("#historyPage").val());
+        }
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging();
+            standardPaging(event, id, "#filterAttributePaging", $("#FilterableAttDataURL").val(),
+                                    "#filterableAttributePartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#SearchFilterableAttribute").val(); //SearchTerm
+            optionsArray[1] = $("#filtAttributeSearchBy").val(); //SearchBy
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[2] = sortType + sortDir;
+            } else {
+                optionsArray[2] = '';
+            }
+        }
+
+    </script>
+}

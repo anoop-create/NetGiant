@@ -1,0 +1,91 @@
+﻿@using System.Configuration
+@using netGiant.Intranet.BusinessLayer.ViewModels.CrMS;
+@model LookupViewModel
+
+@{
+    ViewBag.Title = "Create Lookup Type";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    bool exists = Model.CustomerLookupTypeEntry.LookupTypeID != 0 || Model.NgmdLookupTypeEntry.LookupTypeId != 0 ? true : false;
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h4>@ViewBag.Title</h4>
+        <div class="form-horizontal">
+
+            @if (!exists)
+            {
+                <div class="form-group">
+                    @Html.Label("Scope", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EnumDropDownListFor(x => x.Scope, new { @id = "scope_list", @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                    </div>
+                </div>
+            }
+
+            <div class="customer-lookup @(Model.CustomerLookupTypeEntry.LookupTypeID == 0 ? "g-d-n" : "")">
+                @using (Html.BeginForm("SaveCustomerLookupType", "Lookup"))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    @Html.HiddenFor(x => x.CustomerLookupTypeEntry.LookupTypeID)
+
+                    <div class="form-group">
+                        @Html.Label("Type Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.CustomerLookupTypeEntry.LookupTypeName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                            @Html.ValidationMessageFor(model => model.CustomerLookupTypeEntry.LookupTypeName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" name="saveLookupEntry" value="Save" class="btn btn-default" title="Save" />
+                            @Html.ActionLink("Cancel", "LookupTypeIndex", "Lookup", null, new { @class = "btn btn-default" })
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="ngmd-lookup @(Model.NgmdLookupTypeEntry.LookupTypeId == 0 ? "g-d-n" : "")">
+                @using (Html.BeginForm("SaveNgmdLookupType", "Lookup"))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    @Html.HiddenFor(x => x.NgmdLookupTypeEntry.LookupTypeId)
+
+                    <div class="form-group">
+                        @Html.Label("Type Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.NgmdLookupTypeEntry.LookupTypeName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                            @Html.ValidationMessageFor(model => model.NgmdLookupTypeEntry.LookupTypeName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" name="saveLookupEntry" value="Save" class="btn btn-default" title="Save" />
+                            @Html.ActionLink("Cancel", "LookupTypeIndex", "Lookup", null, new { @class = "btn btn-default" })
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $('#scope_list').on('change', function () {
+            if ($(this).val() == 0) {
+                $('.customer-lookup').hide();
+                $('.ngmd-lookup').show();                
+            } else {
+                $('.customer-lookup').show();
+                $('.ngmd-lookup').hide();
+            }
+        });
+        $('#scope_list').change();
+    });
+</script>
+

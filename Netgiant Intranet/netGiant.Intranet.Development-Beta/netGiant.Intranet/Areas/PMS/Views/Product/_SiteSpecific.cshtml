@@ -1,0 +1,168 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product;
+@using netGiant.Intranet.DataLayer.NetgiantMasterData;
+@model ProductDetailViewModel
+
+@{
+    var prd = Model.ProductDetail;
+    var af = prd.AxisFields;
+}
+
+@if (af != null)
+{
+    foreach (AxisFieldsAdditional afa in af.AxisFieldsAdditional)
+    {
+        string colourClass = string.Empty;
+        string websiteName = Model.Websites.Where(w => w.Value == afa.websiteFK.ToString()).FirstOrDefault().Text;
+
+        switch (websiteName)
+        {
+            case "TonerGiant":
+                colourClass = "tg-borderColor";
+                break;
+            case "CartridgeMonkey":
+                colourClass = "cm-borderColor";
+                break;
+            default:
+                colourClass = "ng-borderColor";
+                break;
+        }
+
+        <fieldset class="g-m-t-10 g-b-1dg @colourClass">
+            <legend>@Html.Raw(websiteName)</legend>
+            <div class="g-f-l g-p-10 g-w-50p">
+                <fieldset class="g-b-1dg">
+                    <legend>General</legend>
+                    <table class="table noHeader">
+                        <tr>
+                            <td class="g-w-40p">Stock Notes</td>
+                            <td class="g-w-60p">@Html.Raw(afa.stockNoteDesc != null ? afa.stockNoteDesc : "&nbsp;")</td>
+                        </tr>
+                        <tr>
+                            <td class="g-w-40p">Priority Notes</td>
+                            <td class="g-w-60p">@Html.Raw(afa.priorityNote != null ? afa.priorityNote : "&nbsp;")</td>
+                        </tr>
+                        <tr>
+                            <td class="g-w-40p">Break Quantity 1</td>
+                            <td class="g-w-60p">@afa.breakQuantity1</td>
+                        </tr>
+                        <tr>
+                            <td class="g-w-40p">Break Quantity 2</td>
+                            <td class="g-w-60p">@afa.breakQuantity2</td>
+                        </tr>
+                        <tr>
+                            <td class="g-w-40p">Break Quantity 3</td>
+                            <td class="g-w-60p">@afa.breakQuantity3</td>
+                        </tr>
+                    </table>
+                </fieldset>
+                <fieldset class="g-m-t-10 g-b-1dg">
+                    <legend>Images</legend>
+                    <table class="table noHeader">
+                        <tr>
+                            <td class="g-w-40p"></td>
+                            <td class="g-w-60p"></td>
+                        </tr>
+                    </table>
+                </fieldset>
+                <fieldset class="g-m-t-10 g-b-1dg">
+                    <legend>Metadata</legend>
+                    <table class="table noHeader">
+                        <tr>
+                            <td class="g-w-40p">Meta Title</td>
+                            <td class="g-w-60p">@Html.Raw(afa.metaTitle != null ? afa.metaTitle : "&nbsp;")</td>
+                        </tr>
+                        <tr>
+                            <td class="g-w-40p">Meta Keywords</td>
+                            <td class="g-w-60p">@Html.Raw(afa.metaKeywords != null ? afa.metaKeywords : "&nbsp;")</td>
+                        </tr>
+                        <tr>
+                            <td class="g-w-40p">Meta Description</td>
+                            <td class="g-w-60p">@Html.Raw(afa.metaDesc != null ? afa.metaDesc : "&nbsp;")</td>
+                        </tr>
+                    </table>
+                </fieldset>
+                @{  
+                var wi = Model.ProductDetail.websiteInventory.Where(x => x.websiteFK == afa.websiteFK).FirstOrDefault();
+                if (wi != null)
+                { 
+                <fieldset class="g-m-t-10 g-b-1dg">
+                    <legend>Category Code(s)</legend>
+                    <table class="noHeader g-w-100p">
+                        <tr class="g-fw-b">
+                            <td class="g-w-50p">@Html.DisplayFor(m => wi.categoryCode.categoryCodeName)</td>
+                            <td class="g-w-25p">@Html.DisplayFor(m => wi.categoryCode.categoryCodeID)</td>
+                            <td class="g-w-25p">Primary</td>
+                        </tr>
+                        @foreach (var scc in wi.secondaryCategoryLookup.OrderBy(x => x.categoryCodeFK))
+                        {
+                        <tr>
+                            <td class="g-w-50p">@Html.DisplayFor(m => scc.categoryCode.categoryCodeName)</td>
+                            <td class="g-w-25p">@Html.DisplayFor(m => scc.categoryCodeFK)</td>
+                            <td class="g-w-25p">Secondary</td>
+                        </tr>
+                        }
+                    </table>
+                </fieldset>
+                }
+                }
+
+            </div>
+            <div class="g-f-l g-p-10 g-w-50p">
+                <fieldset class="g-b-1dg">
+                    <legend>Google Feed</legend>
+                    <table class="table noHeader">
+                        <tr>
+                            <td class="g-w-40p">Site</td>
+                            <td class="g-w-60p">@Html.Raw(afa.googleFeedSite != null ? afa.googleFeedSite : "&nbsp;")</td>
+                        </tr>
+                        <tr>
+                            <td class="g-w-40p">Include</td>
+                            <td class="g-w-60p">@Html.Raw(afa.googleFeedInclude.ToString())</td>
+                        </tr>
+                        <tr>
+                            <td class="g-w-40p">Category</td>
+                            <td class="g-w-60p">@Html.Raw(afa.googleFeedCategory != null ? afa.googleFeedCategory : "&nbsp;")</td>
+                        </tr>
+                        <tr>
+                            <td class="g-w-40p">Availability</td>
+                            <td class="g-w-60p">@Html.Raw(afa.googleFeedAvailability != null ? afa.googleFeedAvailability : "&nbsp;")</td>
+                        </tr>
+                        <tr>
+                            <td class="g-w-40p">Condition</td>
+                            <td class="g-w-60p">@Html.Raw(afa.googleFeedCondition != null ? afa.googleFeedCondition : "&nbsp;")</td>
+                        </tr>
+                        <tr>
+                            <td class="g-w-40p">Promotion ID(s)</td>
+                            <td class="g-w-60p">@Html.Raw(afa.googlePromotionId != null ? afa.googlePromotionId : "&nbsp;")</td>
+                        </tr>
+                    </table>
+                </fieldset>
+                <fieldset class="g-m-t-10 g-b-1dg">
+                    <legend>Bespoke Feed</legend>
+                    <table class="table noHeader">
+                        <tr>
+                            <td class="g-w-40p">Site</td>
+                            <td class="g-w-60p">@Html.Raw(afa.bespokeFeedSite != null ? afa.bespokeFeedSite : "&nbsp;")</td>
+                        </tr>
+                        <tr>
+                            <td class="g-w-40p">Include</td>
+                            <td class="g-w-60p">@Html.Raw(afa.bespokeFeedInclude.ToString())</td>
+                        </tr>
+                        <tr>
+                            <td class="g-w-40p">Use Custom Shipping Cost</td>
+                            <td class="g-w-60p">@Html.Raw(afa.bespokeFeedUseCustomShipCost.ToString())</td>
+                        </tr>
+                        <tr>
+                            <td class="g-w-40p">Availability</td>
+                            <td class="g-w-60p">@Html.Raw(afa.bespokeFeedAvailability != null ? afa.bespokeFeedAvailability : "&nbsp;")</td>
+                        </tr>
+                        <tr>
+                            <td class="g-w-40p">Condition</td>
+                            <td class="g-w-60p">@Html.Raw(afa.bespokeFeedCondition != null ? afa.bespokeFeedCondition : "&nbsp;")</td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </div>
+        </fieldset>
+    }
+}

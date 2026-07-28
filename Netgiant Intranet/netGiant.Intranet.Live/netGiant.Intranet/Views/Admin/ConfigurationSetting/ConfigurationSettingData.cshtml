@@ -1,0 +1,30 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<configurationSetting>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(x => item.sectionName)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.settingName)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.settingValue)
+        </td>
+        <td class="g-w-50p">
+            @Html.DisplayFor(x => item.description)
+        </td>
+        <td>
+            @Html.Raw(item.Website != null ? item.Website.FriendlyName : "All")
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.dateLastUpdate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Create", "ConfigurationSetting", new { id = item.configurationSettingID }, null)
+            @Html.Raw(" | <a class=\"lnkDeleteSetting\" href=\"#\" value=\"" + item.configurationSettingID + "\">Delete</a>")
+        </td>
+    </tr>
+}

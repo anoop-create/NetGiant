@@ -1,0 +1,134 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.DataSuppliers;
+@model DataSupplierLookupViewModel
+
+@{
+    ViewBag.Title = "Data Supplier Lookup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h3>@ViewBag.Title</h3>
+
+        @Html.Hidden("DataSupplierLookupDataURL", Url.Action("DataSupplierLookupData", "DataSupplierLookup"))
+        @Html.Hidden("DataSupplierLookupList", Model.DataSupplierLookupList.Count)
+
+        <div class="g-m-b-5">
+            <select id="DataSupplierLookupSearchBy" class="searchBy g-f-l form-control g-smallCell g-m-r-10">
+                <option selected="selected" value="partno">Search by Part No</option>
+            </select>
+
+            <div class="g-f-l">
+                @Html.TextBox("SearchDataSupplierLookup", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10" })
+                <a id="lnkSearchDataSupplierLookup" href="#" class="btn btn-default g-m-r-10" title="Empty search returns all records">Search</a>
+                <img src="~/Content/images/loader/ajax-loader-whiteBG.gif" alt="" class="g-d-n" id="slAxisValueLookup" />
+            </div>
+            @Html.ActionLink("Reset", "DataSupplierLookupIndex", "DataSupplierLookup", null, new { @class = "btn btn-default" })
+        </div>
+
+        <div class="g-c-b">
+            <span class="g-f-r"><span id="DataSupplierLookupCount" class="g-fw-b">@Model.DataSupplierLookupListCount </span><span>DataSupplier Products Found</span></span>
+        </div>
+
+        <table class="table" id="tableSetting">
+            <tr>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="prodid">Prod ID</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="partno">Part No</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="manufacturer">Manufacturer</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="datasupplier">Data Supplier</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                    <a href="#" class="tableHeaderSort" value="model">Model</a>
+                    <img src="~/Content/Images/1pxTrans.png" alt="Sort" />
+                </th>
+                <th>
+                </th>
+            </tr>
+            @{Html.RenderAction("DataSupplierLookupList", "DataSupplierLookup", new { Model = Model.DataSupplierLookupList });}
+        </table>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        if ($('#DataSupplierLookupList').val() < 50) {
+            noMoreData = true;
+        }
+
+        $(document).on("click", "#lnkSearchDataSupplierLookup", function (event) {
+            blockNumber = 1;
+            GetDataSupplierLookupSettings(true);
+            return false;
+        });
+
+        $("#SearchDataSupplierLookup").keypress(function (event) {
+            if (event.which == 13) {
+                blockNumber = 1;
+                GetDataSupplierLookupSettings(true);
+            }
+        });     
+
+        $(document).on("change", "#DataSupplierLookupSearchBy", function (event) {
+            setupOptionsArray();
+            blockNumber = 1;
+            GetDataSupplierLookupSettings(true);
+        });
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() > $('#scrollBottomContainer').offset().top
+                && !noMoreData && !inProgress) {
+                GetDataSupplierLookupSettings(false);
+            }
+            return false;
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            blockNumber = 1;
+            GetDataSupplierLookupSettings(true);
+            return false;
+        });
+
+        function GetDataSupplierLookupSettings(clearTable) {
+            setupOptionsArray();
+            InfiniteScroll($('#DataSupplierLookupDataURL').val(),
+                optionsArray,
+                clearTable,
+                '#tableSetting tr:gt(0)',
+                '#DataSupplierLookupCount',
+                '#tableSetting tbody',
+                $("#activeSortType"),
+                $("#activeSortDir"));
+        }
+
+        function setupOptionsArray() {
+            optionsArray = new Array();
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[0] = sortType + sortDir;
+            } else {
+                optionsArray[0] = '';
+            }
+
+            optionsArray[1] = $("#SearchDataSupplierLookup").val(); //SearchTerm
+            optionsArray[2] = $("#DataSupplierLookupSearchBy").val(); //SearchBy
+        }
+    </script>
+}

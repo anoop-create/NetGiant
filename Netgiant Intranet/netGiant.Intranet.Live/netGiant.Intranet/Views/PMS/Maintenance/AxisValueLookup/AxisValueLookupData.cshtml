@@ -1,0 +1,30 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<AxisValueLookup>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(x => item.axisValueLookupID)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.AttributeTypeNameDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.AttributeNameDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.attrValueID)
+        </td>
+        <td>
+            @Html.DisplayFor(x => item.attrValueDesc)
+        </td>
+        <td>
+            @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
+            {
+                @Html.ActionLink("Edit", "Create", "AxisValueLookup", new { id = item.axisValueLookupID }, null)
+                @Html.Raw(" | <a class=\"lnkDeleteAxisValueLookup\" href=\"#\" value=\"" + item.axisValueLookupID + "\">Delete</a>")
+            }
+        </td>
+    </tr>
+}

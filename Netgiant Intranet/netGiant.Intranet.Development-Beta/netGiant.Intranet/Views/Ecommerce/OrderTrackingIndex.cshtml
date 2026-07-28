@@ -1,0 +1,80 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Orders;
+@model OrderTrackingViewModel
+
+@{
+    ViewBag.Title = "Order Tracking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    @Html.RawFromDict(Model.IntranetData, "OrderTrackingFilters")
+</div>
+
+@(Html.Kendo().Grid<OrderTrackingViewModel.Telerik>()
+    .HtmlAttributes(new { @class = "pointer-rows" })
+    .Name("orderTrackingGrid")
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action("OrderTracking_Read", "Ecommerce"))
+        .PageSize(200)
+        .Sort(s => { s.Add(x => x.OrderDate).Descending(); s.Add(x => x.OrderNumber).Ascending(); })
+    )
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.Website).Title("Website").Width(80)
+            .HeaderHtmlAttributes(new { title = "Website", style = "text-align: center;" });
+        columns.Bound(x => x.OrderNumber).Title("Order Number").Width(120)
+            .HeaderHtmlAttributes(new { title = "Order Number", style = "text-align: center;" });
+        columns.Bound(x => x.PurchaseOrderNumber).Title("PO Number").Width(120)
+            .HeaderHtmlAttributes(new { title = "Purchase Order Number", style = "text-align: center;" });
+        columns.Bound(x => x.CustomerRef).Title("Cust. Ref.").Width(150)
+            .HeaderHtmlAttributes(new { title = "Customer Ref.", style = "text-align: center;" });
+        columns.Bound(x => x.OrderDate).Title("Order Date").Width(150)
+            .ClientTemplate("#= kendo.toString(kendo.parseDate(OrderDate, 'yyyy-MM-dd'), 'dd/MM/yyyy (HH:mm:ss)') #")
+            .HeaderHtmlAttributes(new { title = "Order Date", style = "text-align: center;" });
+        columns.Bound(x => x.Courier).Title("Courier").Width(100)
+            .HeaderHtmlAttributes(new { title = "Courier", style = "text-align: center;" });
+        columns.Bound(x => x.Name).Title("Name").Width(200)
+            .HeaderHtmlAttributes(new { title = "Name", style = "text-align: center;" });
+        columns.Bound(x => x.Email).Title("Email").Width(300)
+            .HeaderHtmlAttributes(new { title = "Email", style = "text-align: center;" });
+        columns.Bound(x => x.TrackingCode).Title("Tracking Link").Width(200)
+            .HeaderHtmlAttributes(new { title = "Tracking Link", style = "text-align: center;" })
+            .ClientTemplate("<a target=\"_blank\" class=\"cardDetails\" value=\"#:TrackingCode#\" href=\"#:TrackingLink#\">Track Consignment</a>");
+        columns.Bound(x => x.IsSent).Title("Sent").Width(80)
+            .HeaderHtmlAttributes(new { title = "Email Sent", style = "text-align: center;" });
+    })
+    .Pageable(pager => pager.Refresh(true))
+    .Pageable(pager => pager.PageSizes(new List<int>
+        { 150, 100, 50, 20 }))
+    .Sortable(sortable => sortable
+    .AllowUnsort(true))
+    .Scrollable()
+    .Filterable(ftb => ftb
+    .Mode(GridFilterMode.Menu))
+    .ColumnMenu()
+    .Resizable(resize => resize.Columns(true))
+    .Reorderable(reorder => reorder.Columns(true))
+    .Excel(excel => excel
+    .AllPages(true)
+    .FileName("Grid Export")
+    .Filterable(true)
+    .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+    .NoRecords("There are no items to display")
+    //.Events(events => events.Change("Grid_OnRowSelect"))
+    //.Events(events => events.DataBound("Grid_OnDataBound"))
+    //.Selectable()
+    )
+)
+
+@section scripts
+{
+    <script type="text/javascript">
+
+    </script>
+}
+
+
+

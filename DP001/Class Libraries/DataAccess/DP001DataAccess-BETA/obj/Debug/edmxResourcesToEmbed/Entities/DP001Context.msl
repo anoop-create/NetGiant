@@ -1,0 +1,824 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DP001ModelStoreContainer" CdmEntityContainer="DP001Entities">
+    <FunctionImportMapping FunctionImportName="GetDashboardData" FunctionName="DP001Model.Store.GetDashboardData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DP001Model.GetDashboardData_Result">
+          <ScalarProperty Name="ProductInventoryCount" ColumnName="ProductInventoryCount" />
+          <ScalarProperty Name="SupplierInventoryCount" ColumnName="SupplierInventoryCount" />
+          <ScalarProperty Name="CompetitorInventoryCount" ColumnName="CompetitorInventoryCount" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="DeleteTenantInventories" FunctionName="DP001Model.Store.DeleteTenantInventories" />
+    <FunctionImportMapping FunctionImportName="SetSkuMappings" FunctionName="DP001Model.Store.SetSkuMappings" />
+    <EntitySetMapping Name="APISettings">
+      <EntityTypeMapping TypeName="DP001Model.APISetting">
+        <MappingFragment StoreEntitySet="APISettings">
+          <ScalarProperty Name="ApiRefreshToken" ColumnName="ApiRefreshToken" />
+          <ScalarProperty Name="ApiSecret" ColumnName="ApiSecret" />
+          <ScalarProperty Name="ApiClientID" ColumnName="ApiClientID" />
+          <ScalarProperty Name="ApiRequestURL" ColumnName="ApiRequestURL" />
+          <ScalarProperty Name="ApiAuthURL" ColumnName="ApiAuthURL" />
+          <ScalarProperty Name="ApiAuthMethod" ColumnName="ApiAuthMethod" />
+          <ScalarProperty Name="GatewayFK" ColumnName="GatewayFK" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Brands">
+      <EntityTypeMapping TypeName="DP001Model.Brand">
+        <MappingFragment StoreEntitySet="Brand">
+          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Competitors">
+      <EntityTypeMapping TypeName="DP001Model.Competitor">
+        <MappingFragment StoreEntitySet="Competitor">
+          <ScalarProperty Name="ProductMatchCount" ColumnName="ProductMatchCount" />
+          <ScalarProperty Name="StatusFK" ColumnName="StatusFK" />
+          <ScalarProperty Name="DateLastUpdated" ColumnName="DateLastUpdated" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="ReviewRating" ColumnName="ReviewRating" />
+          <ScalarProperty Name="ReviewTotal" ColumnName="ReviewTotal" />
+          <ScalarProperty Name="CompetitorName" ColumnName="CompetitorName" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="CompetitorID" ColumnName="CompetitorID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Contracts">
+      <EntityTypeMapping TypeName="DP001Model.Contract">
+        <MappingFragment StoreEntitySet="Contract">
+          <ScalarProperty Name="MultipleCalculationMethod" ColumnName="MultipleCalculationMethod" />
+          <ScalarProperty Name="MultipleSuppliers" ColumnName="MultipleSuppliers" />
+          <ScalarProperty Name="PriceRuleBanding" ColumnName="PriceRuleBanding" />
+          <ScalarProperty Name="CloneChannel" ColumnName="CloneChannel" />
+          <ScalarProperty Name="SalesHistory" ColumnName="SalesHistory" />
+          <ScalarProperty Name="UserLimit" ColumnName="UserLimit" />
+          <ScalarProperty Name="ChannelLimit" ColumnName="ChannelLimit" />
+          <ScalarProperty Name="ScheduleCount" ColumnName="ScheduleCount" />
+          <ScalarProperty Name="PriceRuleCount" ColumnName="PriceRuleCount" />
+          <ScalarProperty Name="InventoryCount" ColumnName="InventoryCount" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ContractID" ColumnName="ContractID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Logs">
+      <EntityTypeMapping TypeName="DP001Model.Log">
+        <MappingFragment StoreEntitySet="Log">
+          <ScalarProperty Name="Entry" ColumnName="Entry" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="LogTypeFK" ColumnName="LogTypeFK" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="TenantFK" ColumnName="TenantFK" />
+          <ScalarProperty Name="JobID" ColumnName="JobID" />
+          <ScalarProperty Name="LogID" ColumnName="LogID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Lookups">
+      <EntityTypeMapping TypeName="DP001Model.Lookup">
+        <MappingFragment StoreEntitySet="Lookup">
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="LookupName" ColumnName="LookupName" />
+          <ScalarProperty Name="LookupTypeFK" ColumnName="LookupTypeFK" />
+          <ScalarProperty Name="LookupID" ColumnName="LookupID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LookupTypes">
+      <EntityTypeMapping TypeName="DP001Model.LookupType">
+        <MappingFragment StoreEntitySet="LookupType">
+          <ScalarProperty Name="LookupTypeName" ColumnName="LookupTypeName" />
+          <ScalarProperty Name="LookupTypeID" ColumnName="LookupTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PriceHistories">
+      <EntityTypeMapping TypeName="DP001Model.PriceHistory">
+        <MappingFragment StoreEntitySet="PriceHistory">
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="ClientProductID" ColumnName="ClientProductID" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="PriceHistoryID" ColumnName="PriceHistoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductCategories">
+      <EntityTypeMapping TypeName="DP001Model.ProductCategory">
+        <MappingFragment StoreEntitySet="ProductCategory">
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="ProductCategoryID" ColumnName="ProductCategoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductInventories">
+      <EntityTypeMapping TypeName="DP001Model.ProductInventory">
+        <MappingFragment StoreEntitySet="ProductInventory">
+          <ScalarProperty Name="CompetitivePosition" ColumnName="CompetitivePosition" />
+          <ScalarProperty Name="TargetMarginPercent" ColumnName="TargetMarginPercent" />
+          <ScalarProperty Name="StatusFK" ColumnName="StatusFK" />
+          <ScalarProperty Name="BeatenCompetitorPrice" ColumnName="BeatenCompetitorPrice" />
+          <ScalarProperty Name="VariantOf" ColumnName="VariantOf" />
+          <ScalarProperty Name="CustomProductField10" ColumnName="CustomProductField10" />
+          <ScalarProperty Name="CustomProductField9" ColumnName="CustomProductField9" />
+          <ScalarProperty Name="CustomProductField8" ColumnName="CustomProductField8" />
+          <ScalarProperty Name="CustomProductField7" ColumnName="CustomProductField7" />
+          <ScalarProperty Name="CustomProductField6" ColumnName="CustomProductField6" />
+          <ScalarProperty Name="CustomProductField5" ColumnName="CustomProductField5" />
+          <ScalarProperty Name="CustomProductField4" ColumnName="CustomProductField4" />
+          <ScalarProperty Name="CustomProductField3" ColumnName="CustomProductField3" />
+          <ScalarProperty Name="CustomProductField2" ColumnName="CustomProductField2" />
+          <ScalarProperty Name="CustomProductField1" ColumnName="CustomProductField1" />
+          <ScalarProperty Name="DatePriceChanged" ColumnName="DatePriceChanged" />
+          <ScalarProperty Name="SupplierCount" ColumnName="SupplierCount" />
+          <ScalarProperty Name="CompetitorCount" ColumnName="CompetitorCount" />
+          <ScalarProperty Name="IsKeyLine" ColumnName="IsKeyLine" />
+          <ScalarProperty Name="DesiredPrice" ColumnName="DesiredPrice" />
+          <ScalarProperty Name="MinimumPrice" ColumnName="MinimumPrice" />
+          <ScalarProperty Name="MaximumPrice" ColumnName="MaximumPrice" />
+          <ScalarProperty Name="DateLastUpdated" ColumnName="DateLastUpdated" />
+          <ScalarProperty Name="CompetitorDifference" ColumnName="CompetitorDifference" />
+          <ScalarProperty Name="GrossMarginValue" ColumnName="GrossMarginValue" />
+          <ScalarProperty Name="GrossMarginPercent" ColumnName="GrossMarginPercent" />
+          <ScalarProperty Name="CheapestCompetitorPrice" ColumnName="CheapestCompetitorPrice" />
+          <ScalarProperty Name="CheapestCostPrice" ColumnName="CheapestCostPrice" />
+          <ScalarProperty Name="StockQuantity" ColumnName="StockQuantity" />
+          <ScalarProperty Name="BeatRateNumber" ColumnName="BeatRateNumber" />
+          <ScalarProperty Name="CalculationOutcome" ColumnName="CalculationOutcome" />
+          <ScalarProperty Name="PriceRuleFK" ColumnName="PriceRuleFK" />
+          <ScalarProperty Name="AltPrice10" ColumnName="AltPrice10" />
+          <ScalarProperty Name="AltPrice9" ColumnName="AltPrice9" />
+          <ScalarProperty Name="AltPrice8" ColumnName="AltPrice8" />
+          <ScalarProperty Name="AltPrice7" ColumnName="AltPrice7" />
+          <ScalarProperty Name="AltPrice6" ColumnName="AltPrice6" />
+          <ScalarProperty Name="AltPrice5" ColumnName="AltPrice5" />
+          <ScalarProperty Name="AltPrice4" ColumnName="AltPrice4" />
+          <ScalarProperty Name="AltPrice3" ColumnName="AltPrice3" />
+          <ScalarProperty Name="AltPrice2" ColumnName="AltPrice2" />
+          <ScalarProperty Name="AltPrice1" ColumnName="AltPrice1" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="ProductCategoryFK" ColumnName="ProductCategoryFK" />
+          <ScalarProperty Name="LnkdManufacturerPartNo" ColumnName="LnkdManufacturerPartNo" />
+          <ScalarProperty Name="LnkdBrandFK" ColumnName="LnkdBrandFK" />
+          <ScalarProperty Name="ClientProductID" ColumnName="ClientProductID" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ManufacturerPartNo" ColumnName="ManufacturerPartNo" />
+          <ScalarProperty Name="BrandFK" ColumnName="BrandFK" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="ProductInventoryID" ColumnName="ProductInventoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SapASettings">
+      <EntityTypeMapping TypeName="DP001Model.SapASetting">
+        <MappingFragment StoreEntitySet="SapASettings">
+          <ScalarProperty Name="TenantFK" ColumnName="TenantFK" />
+          <ScalarProperty Name="SapASettingsID" ColumnName="SapASettingsID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SKUMappingDismissals">
+      <EntityTypeMapping TypeName="DP001Model.SKUMappingDismissal">
+        <MappingFragment StoreEntitySet="SKUMappingDismissal">
+          <ScalarProperty Name="BrandFK" ColumnName="BrandFK" />
+          <ScalarProperty Name="ManufacturerPartNo" ColumnName="ManufacturerPartNo" />
+          <ScalarProperty Name="InventoryFK" ColumnName="InventoryFK" />
+          <ScalarProperty Name="FileTypeFK" ColumnName="FileTypeFK" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="SKUMappingDismissalID" ColumnName="SKUMappingDismissalID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Suppliers">
+      <EntityTypeMapping TypeName="DP001Model.Supplier">
+        <MappingFragment StoreEntitySet="Supplier">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+          <ScalarProperty Name="FTPSettingsFK" ColumnName="FTPSettingsFK" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierInventories">
+      <EntityTypeMapping TypeName="DP001Model.SupplierInventory">
+        <MappingFragment StoreEntitySet="SupplierInventory">
+          <ScalarProperty Name="StatusFK" ColumnName="StatusFK" />
+          <ScalarProperty Name="ClientProductID" ColumnName="ClientProductID" />
+          <ScalarProperty Name="OriginalBrand" ColumnName="OriginalBrand" />
+          <ScalarProperty Name="DateLastUpdated" ColumnName="DateLastUpdated" />
+          <ScalarProperty Name="Dismiss" ColumnName="Dismiss" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ProductInventoryFK" ColumnName="ProductInventoryFK" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="StockQuantity" ColumnName="StockQuantity" />
+          <ScalarProperty Name="ManufacturerPartNo" ColumnName="ManufacturerPartNo" />
+          <ScalarProperty Name="BrandFK" ColumnName="BrandFK" />
+          <ScalarProperty Name="SupplierFK" ColumnName="SupplierFK" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="SupplierInventoryID" ColumnName="SupplierInventoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SKUMappings">
+      <EntityTypeMapping TypeName="DP001Model.SKUMapping">
+        <MappingFragment StoreEntitySet="SKUMapping">
+          <ScalarProperty Name="InventoryFK" ColumnName="InventoryFK" />
+          <ScalarProperty Name="FileTypeFK" ColumnName="FileTypeFK" />
+          <ScalarProperty Name="SKUMapTo" ColumnName="SKUMapTo" />
+          <ScalarProperty Name="SKUMapFrom" ColumnName="SKUMapFrom" />
+          <ScalarProperty Name="BrandFK" ColumnName="BrandFK" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="SKUMappingID" ColumnName="SKUMappingID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PriceStagings">
+      <EntityTypeMapping TypeName="DP001Model.PriceStaging">
+        <MappingFragment StoreEntitySet="PriceStaging">
+          <ScalarProperty Name="BeatenCompetitorPrice" ColumnName="BeatenCompetitorPrice" />
+          <ScalarProperty Name="CurrentPriceDifference" ColumnName="CurrentPriceDifference" />
+          <ScalarProperty Name="CompetitorDifference" ColumnName="CompetitorDifference" />
+          <ScalarProperty Name="GrossMarginValue" ColumnName="GrossMarginValue" />
+          <ScalarProperty Name="GrossMarginPercent" ColumnName="GrossMarginPercent" />
+          <ScalarProperty Name="CheapestCompetitorPrice" ColumnName="CheapestCompetitorPrice" />
+          <ScalarProperty Name="CheapestCostPrice" ColumnName="CheapestCostPrice" />
+          <ScalarProperty Name="StockQuantity" ColumnName="StockQuantity" />
+          <ScalarProperty Name="BeatRateNumber" ColumnName="BeatRateNumber" />
+          <ScalarProperty Name="CalculationOutcome" ColumnName="CalculationOutcome" />
+          <ScalarProperty Name="PriceRuleFK" ColumnName="PriceRuleFK" />
+          <ScalarProperty Name="AltPrice10" ColumnName="AltPrice10" />
+          <ScalarProperty Name="AltPrice9" ColumnName="AltPrice9" />
+          <ScalarProperty Name="AltPrice8" ColumnName="AltPrice8" />
+          <ScalarProperty Name="AltPrice7" ColumnName="AltPrice7" />
+          <ScalarProperty Name="AltPrice6" ColumnName="AltPrice6" />
+          <ScalarProperty Name="AltPrice5" ColumnName="AltPrice5" />
+          <ScalarProperty Name="AltPrice4" ColumnName="AltPrice4" />
+          <ScalarProperty Name="AltPrice3" ColumnName="AltPrice3" />
+          <ScalarProperty Name="AltPrice2" ColumnName="AltPrice2" />
+          <ScalarProperty Name="AltPrice1" ColumnName="AltPrice1" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="ProductInventoryFK" ColumnName="ProductInventoryFK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="DeletePriceStagingEntries" FunctionName="DP001Model.Store.DeletePriceStagingEntries" />
+    <EntitySetMapping Name="CompetitorInventories">
+      <EntityTypeMapping TypeName="DP001Model.CompetitorInventory">
+        <MappingFragment StoreEntitySet="CompetitorInventory">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="StatusFK" ColumnName="StatusFK" />
+          <ScalarProperty Name="ClientProductID" ColumnName="ClientProductID" />
+          <ScalarProperty Name="OriginalBrand" ColumnName="OriginalBrand" />
+          <ScalarProperty Name="DateLastUpdated" ColumnName="DateLastUpdated" />
+          <ScalarProperty Name="Dismiss" ColumnName="Dismiss" />
+          <ScalarProperty Name="ProductInventoryFK" ColumnName="ProductInventoryFK" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="ManufacturerPartNo" ColumnName="ManufacturerPartNo" />
+          <ScalarProperty Name="BrandFK" ColumnName="BrandFK" />
+          <ScalarProperty Name="CompetitorFK" ColumnName="CompetitorFK" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="CompetitorInventoryID" ColumnName="CompetitorInventoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierBrandMatchings">
+      <EntityTypeMapping TypeName="DP001Model.SupplierBrandMatching">
+        <MappingFragment StoreEntitySet="SupplierBrandMatching">
+          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+          <ScalarProperty Name="Reference" ColumnName="Reference" />
+          <ScalarProperty Name="SupplierFK" ColumnName="SupplierFK" />
+          <ScalarProperty Name="SupplierBrandMatchingID" ColumnName="SupplierBrandMatchingID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierMfpnMatchings">
+      <EntityTypeMapping TypeName="DP001Model.SupplierMfpnMatching">
+        <MappingFragment StoreEntitySet="SupplierMfpnMatching">
+          <ScalarProperty Name="TypeFK" ColumnName="TypeFK" />
+          <ScalarProperty Name="MatchTerm" ColumnName="MatchTerm" />
+          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="SupplierMfpnMatchingID" ColumnName="SupplierMfpnMatchingID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetSuggestedSupplierMappings" FunctionName="DP001Model.Store.GetSuggestedSupplierMappings">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DP001Model.GetSuggestedSupplierMappings_Result">
+          <ScalarProperty Name="SupplierInventoryID" ColumnName="SupplierInventoryID" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="SupplierFK" ColumnName="SupplierFK" />
+          <ScalarProperty Name="BrandFK" ColumnName="BrandFK" />
+          <ScalarProperty Name="ManufacturerPartNo" ColumnName="ManufacturerPartNo" />
+          <ScalarProperty Name="StockQuantity" ColumnName="StockQuantity" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="ProductInventoryFK" ColumnName="ProductInventoryFK" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Dismiss" ColumnName="Dismiss" />
+          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+          <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="TenantAudits">
+      <EntityTypeMapping TypeName="DP001Model.TenantAudit">
+        <MappingFragment StoreEntitySet="TenantAudit">
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="NewValues" ColumnName="NewValues" />
+          <ScalarProperty Name="OldValues" ColumnName="OldValues" />
+          <ScalarProperty Name="ObjectName" ColumnName="ObjectName" />
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="TenantAuditID" ColumnName="TenantAuditID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="DeleteFtpSetting" FunctionName="DP001Model.Store.DeleteFtpSetting" />
+    <FunctionImportMapping FunctionImportName="DeleteTenant" FunctionName="DP001Model.Store.DeleteTenant" />
+    <EntitySetMapping Name="MapBrandCategories">
+      <EntityTypeMapping TypeName="DP001Model.MapBrandCategory">
+        <MappingFragment StoreEntitySet="MapBrandCategory">
+          <ScalarProperty Name="ProductCategoryFK" ColumnName="ProductCategoryFK" />
+          <ScalarProperty Name="BrandFK" ColumnName="BrandFK" />
+          <ScalarProperty Name="MapBrandCategoryID" ColumnName="MapBrandCategoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FieldMappings">
+      <EntityTypeMapping TypeName="DP001Model.FieldMapping">
+        <MappingFragment StoreEntitySet="FieldMappings">
+          <ScalarProperty Name="Price2" ColumnName="Price2" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Period" ColumnName="Period" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="VariantOf" ColumnName="VariantOf" />
+          <ScalarProperty Name="CustomField10" ColumnName="CustomField10" />
+          <ScalarProperty Name="CustomField9" ColumnName="CustomField9" />
+          <ScalarProperty Name="CustomField8" ColumnName="CustomField8" />
+          <ScalarProperty Name="CustomField7" ColumnName="CustomField7" />
+          <ScalarProperty Name="CustomField6" ColumnName="CustomField6" />
+          <ScalarProperty Name="CustomField5" ColumnName="CustomField5" />
+          <ScalarProperty Name="CustomField4" ColumnName="CustomField4" />
+          <ScalarProperty Name="CustomField3" ColumnName="CustomField3" />
+          <ScalarProperty Name="CustomField2" ColumnName="CustomField2" />
+          <ScalarProperty Name="CustomField1" ColumnName="CustomField1" />
+          <ScalarProperty Name="IsKeyLine" ColumnName="IsKeyLine" />
+          <ScalarProperty Name="Competitor" ColumnName="Competitor" />
+          <ScalarProperty Name="ProductCategory" ColumnName="ProductCategory" />
+          <ScalarProperty Name="LnKdManufacturerPartNo" ColumnName="LnKdManufacturerPartNo" />
+          <ScalarProperty Name="LnKdManufacturer" ColumnName="LnKdManufacturer" />
+          <ScalarProperty Name="ClientProductID" ColumnName="ClientProductID" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="StockQuantity" ColumnName="StockQuantity" />
+          <ScalarProperty Name="ManufacturerPartNo" ColumnName="ManufacturerPartNo" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="FTPSettingsFK" ColumnName="FTPSettingsFK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SetPriceRuleProductCounts" FunctionName="DP001Model.Store.SetPriceRuleProductCounts" />
+    <EntitySetMapping Name="CustomFields">
+      <EntityTypeMapping TypeName="DP001Model.CustomField">
+        <MappingFragment StoreEntitySet="CustomField">
+          <ScalarProperty Name="UserFieldName" ColumnName="UserFieldName" />
+          <ScalarProperty Name="DBFieldName" ColumnName="DBFieldName" />
+          <ScalarProperty Name="CustFieldTypeFK" ColumnName="CustFieldTypeFK" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="CustomFieldID" ColumnName="CustomFieldID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PriceRules">
+      <EntityTypeMapping TypeName="DP001Model.PriceRule">
+        <MappingFragment StoreEntitySet="PriceRule">
+          <ScalarProperty Name="CustomRuleField10" ColumnName="CustomRuleField10" />
+          <ScalarProperty Name="CustomRuleField9" ColumnName="CustomRuleField9" />
+          <ScalarProperty Name="CustomRuleField8" ColumnName="CustomRuleField8" />
+          <ScalarProperty Name="CustomRuleField7" ColumnName="CustomRuleField7" />
+          <ScalarProperty Name="CustomRuleField6" ColumnName="CustomRuleField6" />
+          <ScalarProperty Name="CustomRuleField5" ColumnName="CustomRuleField5" />
+          <ScalarProperty Name="CustomRuleField4" ColumnName="CustomRuleField4" />
+          <ScalarProperty Name="CustomRuleField3" ColumnName="CustomRuleField3" />
+          <ScalarProperty Name="CustomRuleField2" ColumnName="CustomRuleField2" />
+          <ScalarProperty Name="CustomRuleField1" ColumnName="CustomRuleField1" />
+          <ScalarProperty Name="AdjMaxMargin10" ColumnName="AdjMaxMargin10" />
+          <ScalarProperty Name="AdjMinMargin10" ColumnName="AdjMinMargin10" />
+          <ScalarProperty Name="AdjMaxMargin9" ColumnName="AdjMaxMargin9" />
+          <ScalarProperty Name="AdjMinMargin9" ColumnName="AdjMinMargin9" />
+          <ScalarProperty Name="AdjMaxMargin8" ColumnName="AdjMaxMargin8" />
+          <ScalarProperty Name="AdjMinMargin8" ColumnName="AdjMinMargin8" />
+          <ScalarProperty Name="AdjMaxMargin7" ColumnName="AdjMaxMargin7" />
+          <ScalarProperty Name="AdjMinMargin7" ColumnName="AdjMinMargin7" />
+          <ScalarProperty Name="AdjMaxMargin6" ColumnName="AdjMaxMargin6" />
+          <ScalarProperty Name="AdjMinMargin6" ColumnName="AdjMinMargin6" />
+          <ScalarProperty Name="AdjMaxMargin5" ColumnName="AdjMaxMargin5" />
+          <ScalarProperty Name="AdjMinMargin5" ColumnName="AdjMinMargin5" />
+          <ScalarProperty Name="AdjMaxMargin4" ColumnName="AdjMaxMargin4" />
+          <ScalarProperty Name="AdjMinMargin4" ColumnName="AdjMinMargin4" />
+          <ScalarProperty Name="AdjMaxMargin3" ColumnName="AdjMaxMargin3" />
+          <ScalarProperty Name="AdjMinMargin3" ColumnName="AdjMinMargin3" />
+          <ScalarProperty Name="AdjMaxMargin2" ColumnName="AdjMaxMargin2" />
+          <ScalarProperty Name="AdjMinMargin2" ColumnName="AdjMinMargin2" />
+          <ScalarProperty Name="AdjMaxMargin1" ColumnName="AdjMaxMargin1" />
+          <ScalarProperty Name="AdjMinMargin1" ColumnName="AdjMinMargin1" />
+          <ScalarProperty Name="RoundingGroupFK" ColumnName="RoundingGroupFK" />
+          <ScalarProperty Name="MinCounter" ColumnName="MinCounter" />
+          <ScalarProperty Name="MaxCounter" ColumnName="MaxCounter" />
+          <ScalarProperty Name="BelowCounter" ColumnName="BelowCounter" />
+          <ScalarProperty Name="AboveCounter" ColumnName="AboveCounter" />
+          <ScalarProperty Name="ProductCount" ColumnName="ProductCount" />
+          <ScalarProperty Name="CompatDiscount" ColumnName="CompatDiscount" />
+          <ScalarProperty Name="AltPriceAdj10" ColumnName="AltPriceAdj10" />
+          <ScalarProperty Name="AltPriceAdj9" ColumnName="AltPriceAdj9" />
+          <ScalarProperty Name="AltPriceAdj8" ColumnName="AltPriceAdj8" />
+          <ScalarProperty Name="AltPriceAdj7" ColumnName="AltPriceAdj7" />
+          <ScalarProperty Name="AltPriceAdj6" ColumnName="AltPriceAdj6" />
+          <ScalarProperty Name="AltPriceAdj5" ColumnName="AltPriceAdj5" />
+          <ScalarProperty Name="AltPriceAdj4" ColumnName="AltPriceAdj4" />
+          <ScalarProperty Name="AltPriceAdj3" ColumnName="AltPriceAdj3" />
+          <ScalarProperty Name="AltPriceAdj2" ColumnName="AltPriceAdj2" />
+          <ScalarProperty Name="AltPriceAdj1" ColumnName="AltPriceAdj1" />
+          <ScalarProperty Name="FixedPriceOverride" ColumnName="FixedPriceOverride" />
+          <ScalarProperty Name="Nudge" ColumnName="Nudge" />
+          <ScalarProperty Name="BeatRate" ColumnName="BeatRate" />
+          <ScalarProperty Name="MaxMargin" ColumnName="MaxMargin" />
+          <ScalarProperty Name="MinMargin" ColumnName="MinMargin" />
+          <ScalarProperty Name="DesiredMargin" ColumnName="DesiredMargin" />
+          <ScalarProperty Name="MarginsArePc" ColumnName="MarginsArePc" />
+          <ScalarProperty Name="CostUplift" ColumnName="CostUplift" />
+          <ScalarProperty Name="UpliftIsPc" ColumnName="UpliftIsPc" />
+          <ScalarProperty Name="BandEnd" ColumnName="BandEnd" />
+          <ScalarProperty Name="BandStart" ColumnName="BandStart" />
+          <ScalarProperty Name="BandName" ColumnName="BandName" />
+          <ScalarProperty Name="IsTest" ColumnName="IsTest" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsBanding" ColumnName="IsBanding" />
+          <ScalarProperty Name="MethodFK" ColumnName="MethodFK" />
+          <ScalarProperty Name="ProductCategoryFK" ColumnName="ProductCategoryFK" />
+          <ScalarProperty Name="ProductInventoryFK" ColumnName="ProductInventoryFK" />
+          <ScalarProperty Name="BrandFK" ColumnName="BrandFK" />
+          <ScalarProperty Name="RuleTypeFK" ColumnName="RuleTypeFK" />
+          <ScalarProperty Name="RuleName" ColumnName="RuleName" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="PriceRuleID" ColumnName="PriceRuleID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetProductPriceRules" FunctionName="DP001Model.Store.GetProductPriceRules">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DP001Model.GetProductPriceRules_Result">
+          <ScalarProperty Name="PriceRuleFK" ColumnName="PriceRuleFK" />
+          <ScalarProperty Name="ProductInventoryID" ColumnName="ProductInventoryID" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="RuleName" ColumnName="RuleName" />
+          <ScalarProperty Name="RuleTypeFK" ColumnName="RuleTypeFK" />
+          <ScalarProperty Name="MethodName" ColumnName="MethodName" />
+          <ScalarProperty Name="UpliftIsPercent" ColumnName="UpliftIsPercent" />
+          <ScalarProperty Name="CostUplift" ColumnName="CostUplift" />
+          <ScalarProperty Name="MarginsArePercent" ColumnName="MarginsArePercent" />
+          <ScalarProperty Name="DesiredMargin" ColumnName="DesiredMargin" />
+          <ScalarProperty Name="MinMargin" ColumnName="MinMargin" />
+          <ScalarProperty Name="MaxMargin" ColumnName="MaxMargin" />
+          <ScalarProperty Name="BeatRate" ColumnName="BeatRate" />
+          <ScalarProperty Name="Nudge" ColumnName="Nudge" />
+          <ScalarProperty Name="FixedPriceOverride" ColumnName="FixedPriceOverride" />
+          <ScalarProperty Name="AltPriceAdj1" ColumnName="AltPriceAdj1" />
+          <ScalarProperty Name="AltPriceAdj2" ColumnName="AltPriceAdj2" />
+          <ScalarProperty Name="AltPriceAdj3" ColumnName="AltPriceAdj3" />
+          <ScalarProperty Name="AltPriceAdj4" ColumnName="AltPriceAdj4" />
+          <ScalarProperty Name="AltPriceAdj5" ColumnName="AltPriceAdj5" />
+          <ScalarProperty Name="AltPriceAdj6" ColumnName="AltPriceAdj6" />
+          <ScalarProperty Name="AltPriceAdj7" ColumnName="AltPriceAdj7" />
+          <ScalarProperty Name="AltPriceAdj8" ColumnName="AltPriceAdj8" />
+          <ScalarProperty Name="AltPriceAdj9" ColumnName="AltPriceAdj9" />
+          <ScalarProperty Name="AltPriceAdj10" ColumnName="AltPriceAdj10" />
+          <ScalarProperty Name="CostPrice" ColumnName="CostPrice" />
+          <ScalarProperty Name="BasePrice" ColumnName="BasePrice" />
+          <ScalarProperty Name="CostUpliftIsPercent" ColumnName="CostUpliftIsPercent" />
+          <ScalarProperty Name="CompatDiscount" ColumnName="CompatDiscount" />
+          <ScalarProperty Name="StockQuantity" ColumnName="StockQuantity" />
+          <ScalarProperty Name="RoundingGroup" ColumnName="RoundingGroup" />
+          <ScalarProperty Name="AdjMinMargin1" ColumnName="AdjMinMargin1" />
+          <ScalarProperty Name="AdjMaxMargin1" ColumnName="AdjMaxMargin1" />
+          <ScalarProperty Name="AdjMinMargin2" ColumnName="AdjMinMargin2" />
+          <ScalarProperty Name="AdjMaxMargin2" ColumnName="AdjMaxMargin2" />
+          <ScalarProperty Name="AdjMinMargin3" ColumnName="AdjMinMargin3" />
+          <ScalarProperty Name="AdjMaxMargin3" ColumnName="AdjMaxMargin3" />
+          <ScalarProperty Name="AdjMinMargin4" ColumnName="AdjMinMargin4" />
+          <ScalarProperty Name="AdjMaxMargin4" ColumnName="AdjMaxMargin4" />
+          <ScalarProperty Name="AdjMinMargin5" ColumnName="AdjMinMargin5" />
+          <ScalarProperty Name="AdjMaxMargin5" ColumnName="AdjMaxMargin5" />
+          <ScalarProperty Name="AdjMinMargin6" ColumnName="AdjMinMargin6" />
+          <ScalarProperty Name="AdjMaxMargin6" ColumnName="AdjMaxMargin6" />
+          <ScalarProperty Name="AdjMinMargin7" ColumnName="AdjMinMargin7" />
+          <ScalarProperty Name="AdjMaxMargin7" ColumnName="AdjMaxMargin7" />
+          <ScalarProperty Name="AdjMinMargin8" ColumnName="AdjMinMargin8" />
+          <ScalarProperty Name="AdjMaxMargin8" ColumnName="AdjMaxMargin8" />
+          <ScalarProperty Name="AdjMinMargin9" ColumnName="AdjMinMargin9" />
+          <ScalarProperty Name="AdjMaxMargin9" ColumnName="AdjMaxMargin9" />
+          <ScalarProperty Name="AdjMinMargin10" ColumnName="AdjMinMargin10" />
+          <ScalarProperty Name="AdjMaxMargin10" ColumnName="AdjMaxMargin10" />
+          <ScalarProperty Name="CustomRuleField1" ColumnName="CustomRuleField1" />
+          <ScalarProperty Name="CustomRuleField2" ColumnName="CustomRuleField2" />
+          <ScalarProperty Name="CustomRuleField3" ColumnName="CustomRuleField3" />
+          <ScalarProperty Name="CustomRuleField4" ColumnName="CustomRuleField4" />
+          <ScalarProperty Name="CustomRuleField5" ColumnName="CustomRuleField5" />
+          <ScalarProperty Name="CustomRuleField6" ColumnName="CustomRuleField6" />
+          <ScalarProperty Name="CustomRuleField7" ColumnName="CustomRuleField7" />
+          <ScalarProperty Name="CustomRuleField8" ColumnName="CustomRuleField8" />
+          <ScalarProperty Name="CustomRuleField9" ColumnName="CustomRuleField9" />
+          <ScalarProperty Name="CustomRuleField10" ColumnName="CustomRuleField10" />
+          <ScalarProperty Name="CustomProductField1" ColumnName="CustomProductField1" />
+          <ScalarProperty Name="CustomProductField2" ColumnName="CustomProductField2" />
+          <ScalarProperty Name="CustomProductField3" ColumnName="CustomProductField3" />
+          <ScalarProperty Name="CustomProductField4" ColumnName="CustomProductField4" />
+          <ScalarProperty Name="CustomProductField5" ColumnName="CustomProductField5" />
+          <ScalarProperty Name="CustomProductField6" ColumnName="CustomProductField6" />
+          <ScalarProperty Name="CustomProductField7" ColumnName="CustomProductField7" />
+          <ScalarProperty Name="CustomProductField8" ColumnName="CustomProductField8" />
+          <ScalarProperty Name="CustomProductField9" ColumnName="CustomProductField9" />
+          <ScalarProperty Name="CustomProductField10" ColumnName="CustomProductField10" />
+          <ScalarProperty Name="VariantOf" ColumnName="VariantOf" />
+          <ScalarProperty Name="Competitors" ColumnName="Competitors" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetCustomProductPriceRules" FunctionName="DP001Model.Store.GetCustomProductPriceRules">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DP001Model.GetProductPriceRules_Result">
+          <ScalarProperty Name="PriceRuleFK" ColumnName="PriceRuleFK" />
+          <ScalarProperty Name="ProductInventoryID" ColumnName="ProductInventoryID" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="RuleName" ColumnName="RuleName" />
+          <ScalarProperty Name="RuleTypeFK" ColumnName="RuleTypeFK" />
+          <ScalarProperty Name="MethodName" ColumnName="MethodName" />
+          <ScalarProperty Name="UpliftIsPercent" ColumnName="UpliftIsPercent" />
+          <ScalarProperty Name="CostUplift" ColumnName="CostUplift" />
+          <ScalarProperty Name="MarginsArePercent" ColumnName="MarginsArePercent" />
+          <ScalarProperty Name="DesiredMargin" ColumnName="DesiredMargin" />
+          <ScalarProperty Name="MinMargin" ColumnName="MinMargin" />
+          <ScalarProperty Name="MaxMargin" ColumnName="MaxMargin" />
+          <ScalarProperty Name="BeatRate" ColumnName="BeatRate" />
+          <ScalarProperty Name="Nudge" ColumnName="Nudge" />
+          <ScalarProperty Name="FixedPriceOverride" ColumnName="FixedPriceOverride" />
+          <ScalarProperty Name="AltPriceAdj1" ColumnName="AltPriceAdj1" />
+          <ScalarProperty Name="AltPriceAdj2" ColumnName="AltPriceAdj2" />
+          <ScalarProperty Name="AltPriceAdj3" ColumnName="AltPriceAdj3" />
+          <ScalarProperty Name="AltPriceAdj4" ColumnName="AltPriceAdj4" />
+          <ScalarProperty Name="AltPriceAdj5" ColumnName="AltPriceAdj5" />
+          <ScalarProperty Name="AltPriceAdj6" ColumnName="AltPriceAdj6" />
+          <ScalarProperty Name="AltPriceAdj7" ColumnName="AltPriceAdj7" />
+          <ScalarProperty Name="AltPriceAdj8" ColumnName="AltPriceAdj8" />
+          <ScalarProperty Name="AltPriceAdj9" ColumnName="AltPriceAdj9" />
+          <ScalarProperty Name="AltPriceAdj10" ColumnName="AltPriceAdj10" />
+          <ScalarProperty Name="CostPrice" ColumnName="CostPrice" />
+          <ScalarProperty Name="BasePrice" ColumnName="BasePrice" />
+          <ScalarProperty Name="CostUpliftIsPercent" ColumnName="CostUpliftIsPercent" />
+          <ScalarProperty Name="CompatDiscount" ColumnName="CompatDiscount" />
+          <ScalarProperty Name="StockQuantity" ColumnName="StockQuantity" />
+          <ScalarProperty Name="RoundingGroup" ColumnName="RoundingGroup" />
+          <ScalarProperty Name="AdjMinMargin1" ColumnName="AdjMinMargin1" />
+          <ScalarProperty Name="AdjMaxMargin1" ColumnName="AdjMaxMargin1" />
+          <ScalarProperty Name="AdjMinMargin2" ColumnName="AdjMinMargin2" />
+          <ScalarProperty Name="AdjMaxMargin2" ColumnName="AdjMaxMargin2" />
+          <ScalarProperty Name="AdjMinMargin3" ColumnName="AdjMinMargin3" />
+          <ScalarProperty Name="AdjMaxMargin3" ColumnName="AdjMaxMargin3" />
+          <ScalarProperty Name="AdjMinMargin4" ColumnName="AdjMinMargin4" />
+          <ScalarProperty Name="AdjMaxMargin4" ColumnName="AdjMaxMargin4" />
+          <ScalarProperty Name="AdjMinMargin5" ColumnName="AdjMinMargin5" />
+          <ScalarProperty Name="AdjMaxMargin5" ColumnName="AdjMaxMargin5" />
+          <ScalarProperty Name="AdjMinMargin6" ColumnName="AdjMinMargin6" />
+          <ScalarProperty Name="AdjMaxMargin6" ColumnName="AdjMaxMargin6" />
+          <ScalarProperty Name="AdjMinMargin7" ColumnName="AdjMinMargin7" />
+          <ScalarProperty Name="AdjMaxMargin7" ColumnName="AdjMaxMargin7" />
+          <ScalarProperty Name="AdjMinMargin8" ColumnName="AdjMinMargin8" />
+          <ScalarProperty Name="AdjMaxMargin8" ColumnName="AdjMaxMargin8" />
+          <ScalarProperty Name="AdjMinMargin9" ColumnName="AdjMinMargin9" />
+          <ScalarProperty Name="AdjMaxMargin9" ColumnName="AdjMaxMargin9" />
+          <ScalarProperty Name="AdjMinMargin10" ColumnName="AdjMinMargin10" />
+          <ScalarProperty Name="AdjMaxMargin10" ColumnName="AdjMaxMargin10" />
+          <ScalarProperty Name="CustomRuleField1" ColumnName="CustomRuleField1" />
+          <ScalarProperty Name="CustomRuleField2" ColumnName="CustomRuleField2" />
+          <ScalarProperty Name="CustomRuleField3" ColumnName="CustomRuleField3" />
+          <ScalarProperty Name="CustomRuleField4" ColumnName="CustomRuleField4" />
+          <ScalarProperty Name="CustomRuleField5" ColumnName="CustomRuleField5" />
+          <ScalarProperty Name="CustomRuleField6" ColumnName="CustomRuleField6" />
+          <ScalarProperty Name="CustomRuleField7" ColumnName="CustomRuleField7" />
+          <ScalarProperty Name="CustomRuleField8" ColumnName="CustomRuleField8" />
+          <ScalarProperty Name="CustomRuleField9" ColumnName="CustomRuleField9" />
+          <ScalarProperty Name="CustomRuleField10" ColumnName="CustomRuleField10" />
+          <ScalarProperty Name="CustomProductField1" ColumnName="CustomProductField1" />
+          <ScalarProperty Name="CustomProductField2" ColumnName="CustomProductField2" />
+          <ScalarProperty Name="CustomProductField3" ColumnName="CustomProductField3" />
+          <ScalarProperty Name="CustomProductField4" ColumnName="CustomProductField4" />
+          <ScalarProperty Name="CustomProductField5" ColumnName="CustomProductField5" />
+          <ScalarProperty Name="CustomProductField6" ColumnName="CustomProductField6" />
+          <ScalarProperty Name="CustomProductField7" ColumnName="CustomProductField7" />
+          <ScalarProperty Name="CustomProductField8" ColumnName="CustomProductField8" />
+          <ScalarProperty Name="CustomProductField9" ColumnName="CustomProductField9" />
+          <ScalarProperty Name="CustomProductField10" ColumnName="CustomProductField10" />
+          <ScalarProperty Name="VariantOf" ColumnName="VariantOf" />
+          <ScalarProperty Name="Competitors" ColumnName="Competitors" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetClientData" FunctionName="DP001Model.Store.GetClientData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DP001Model.GetClientData_Result">
+          <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="ChannelLimit" ColumnName="ChannelLimit" />
+          <ScalarProperty Name="InventoryLimit" ColumnName="InventoryLimit" />
+          <ScalarProperty Name="PriceRuleLimit" ColumnName="PriceRuleLimit" />
+          <ScalarProperty Name="UserLimit" ColumnName="UserLimit" />
+          <ScalarProperty Name="ScheduleLimit" ColumnName="ScheduleLimit" />
+          <ScalarProperty Name="ProductInventoryCount" ColumnName="ProductInventoryCount" />
+          <ScalarProperty Name="ChannelCount" ColumnName="ChannelCount" />
+          <ScalarProperty Name="PriceRuleCount" ColumnName="PriceRuleCount" />
+          <ScalarProperty Name="UserCount" ColumnName="UserCount" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="TenantLookups">
+      <EntityTypeMapping TypeName="DP001Model.TenantLookup">
+        <MappingFragment StoreEntitySet="TenantLookup">
+          <ScalarProperty Name="LookupFK" ColumnName="LookupFK" />
+          <ScalarProperty Name="TenantFK" ColumnName="TenantFK" />
+          <ScalarProperty Name="TenantLookupID" ColumnName="TenantLookupID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReportConfigurations">
+      <EntityTypeMapping TypeName="DP001Model.ReportConfiguration">
+        <MappingFragment StoreEntitySet="ReportConfiguration">
+          <ScalarProperty Name="ExtendedConfiguration" ColumnName="ExtendedConfiguration" />
+          <ScalarProperty Name="DateLastUpdated" ColumnName="DateLastUpdated" />
+          <ScalarProperty Name="BaseUrl" ColumnName="BaseUrl" />
+          <ScalarProperty Name="AreaFk" ColumnName="AreaFk" />
+          <ScalarProperty Name="TenantFk" ColumnName="TenantFk" />
+          <ScalarProperty Name="SecurityFk" ColumnName="SecurityFk" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ConfigurationValue" ColumnName="ConfigurationValue" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ReportConfigurationId" ColumnName="ReportConfigurationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SetSalesHistoryMappings" FunctionName="DP001Model.Store.SetSalesHistoryMappings" />
+    <EntitySetMapping Name="Schedules">
+      <EntityTypeMapping TypeName="DP001Model.Schedule">
+        <MappingFragment StoreEntitySet="Schedule">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+          <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
+          <ScalarProperty Name="FrequencyFK" ColumnName="FrequencyFK" />
+          <ScalarProperty Name="RunTypeFK" ColumnName="RunTypeFK" />
+          <ScalarProperty Name="ScheduleName" ColumnName="ScheduleName" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="ScheduleID" ColumnName="ScheduleID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalesHistories">
+      <EntityTypeMapping TypeName="DP001Model.SalesHistory">
+        <MappingFragment StoreEntitySet="SalesHistory">
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Month" ColumnName="Month" />
+          <ScalarProperty Name="Day" ColumnName="Day" />
+          <ScalarProperty Name="ProductInventoryFk" ColumnName="ProductInventoryFk" />
+          <ScalarProperty Name="AveragePrice" ColumnName="AveragePrice" />
+          <ScalarProperty Name="AverageCostPrice" ColumnName="AverageCostPrice" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ClientProductId" ColumnName="ClientProductId" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="ChannelFk" ColumnName="ChannelFk" />
+          <ScalarProperty Name="SalesHistoryId" ColumnName="SalesHistoryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FTPSettings">
+      <EntityTypeMapping TypeName="DP001Model.FTPSetting">
+        <MappingFragment StoreEntitySet="FTPSettings">
+          <ScalarProperty Name="FileCreated" ColumnName="FileCreated" />
+          <ScalarProperty Name="FTPProtocolFK" ColumnName="FTPProtocolFK" />
+          <ScalarProperty Name="UseSkuuudleLite" ColumnName="UseSkuuudleLite" />
+          <ScalarProperty Name="FTPZipFileName" ColumnName="FTPZipFileName" />
+          <ScalarProperty Name="FTPSummaryFileName" ColumnName="FTPSummaryFileName" />
+          <ScalarProperty Name="FTPFileName" ColumnName="FTPFileName" />
+          <ScalarProperty Name="FTPPath" ColumnName="FTPPath" />
+          <ScalarProperty Name="FTPPassword" ColumnName="FTPPassword" />
+          <ScalarProperty Name="FTPUser" ColumnName="FTPUser" />
+          <ScalarProperty Name="FTPServer" ColumnName="FTPServer" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="FileTypeFK" ColumnName="FileTypeFK" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="FTPSettingsID" ColumnName="FTPSettingsID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Channels">
+      <EntityTypeMapping TypeName="DP001Model.Channel">
+        <MappingFragment StoreEntitySet="Channel">
+          <ScalarProperty Name="CultureName" ColumnName="CultureName" />
+          <ScalarProperty Name="UseClientProductId" ColumnName="UseClientProductId" />
+          <ScalarProperty Name="RoundingGroupFK" ColumnName="RoundingGroupFK" />
+          <ScalarProperty Name="NotificationsEmailAddress" ColumnName="NotificationsEmailAddress" />
+          <ScalarProperty Name="OutputFileEmailAddress" ColumnName="OutputFileEmailAddress" />
+          <ScalarProperty Name="SLActiveTypeFK" ColumnName="SLActiveTypeFK" />
+          <ScalarProperty Name="SLMinRating" ColumnName="SLMinRating" />
+          <ScalarProperty Name="SLMinReviews" ColumnName="SLMinReviews" />
+          <ScalarProperty Name="JobInProgress" ColumnName="JobInProgress" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="ChannelName" ColumnName="ChannelName" />
+          <ScalarProperty Name="TenantFK" ColumnName="TenantFK" />
+          <ScalarProperty Name="ChannelID" ColumnName="ChannelID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProviderExclusions">
+      <EntityTypeMapping TypeName="DP001Model.ProviderExclusion">
+        <MappingFragment StoreEntitySet="ProviderExclusion">
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="ExclusionTypeFk" ColumnName="ExclusionTypeFk" />
+          <ScalarProperty Name="ClientProductID" ColumnName="ClientProductID" />
+          <ScalarProperty Name="ManufacturerPartNo" ColumnName="ManufacturerPartNo" />
+          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+          <ScalarProperty Name="ProviderFK" ColumnName="ProviderFK" />
+          <ScalarProperty Name="FileTypeFK" ColumnName="FileTypeFK" />
+          <ScalarProperty Name="ChannelFK" ColumnName="ChannelFK" />
+          <ScalarProperty Name="ProviderExclusionID" ColumnName="ProviderExclusionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetSalesHistoryData" FunctionName="DP001Model.Store.GetSalesHistoryData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DP001Model.GetSalesHistoryData_Result">
+          <ScalarProperty Name="Day" ColumnName="Day" />
+          <ScalarProperty Name="SalesHistoryId" ColumnName="SalesHistoryId" />
+          <ScalarProperty Name="ManufacturerPartNo" ColumnName="ManufacturerPartNo" />
+          <ScalarProperty Name="Channel" ColumnName="Channel" />
+          <ScalarProperty Name="Start" ColumnName="Start" />
+          <ScalarProperty Name="End" ColumnName="End" />
+          <ScalarProperty Name="Qty" ColumnName="Qty" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+          <ScalarProperty Name="PriceRuleId" ColumnName="PriceRuleId" />
+          <ScalarProperty Name="PriceRuleName" ColumnName="PriceRuleName" />
+          <ScalarProperty Name="Month" ColumnName="Month" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="AverageCostPrice" ColumnName="AverageCostPrice" />
+          <ScalarProperty Name="AveragePrice" ColumnName="AveragePrice" />
+          <ScalarProperty Name="ProductInventoryId" ColumnName="ProductInventoryId" />
+          <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+          <ScalarProperty Name="ClientProductId" ColumnName="ClientProductId" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="TenantSettings">
+      <EntityTypeMapping TypeName="DP001Model.TenantSetting">
+        <MappingFragment StoreEntitySet="TenantSettings">
+          <ScalarProperty Name="ProviderBrandExclusion" ColumnName="ProviderBrandExclusion" />
+          <ScalarProperty Name="AllowProviderBrandExclusion" ColumnName="AllowProviderBrandExclusion" />
+          <ScalarProperty Name="MultipleCalculationMethods" ColumnName="MultipleCalculationMethods" />
+          <ScalarProperty Name="AllowMultipleCalculationMethods" ColumnName="AllowMultipleCalculationMethods" />
+          <ScalarProperty Name="MultipleSuppliers" ColumnName="MultipleSuppliers" />
+          <ScalarProperty Name="AllowMultipleSuppliers" ColumnName="AllowMultipleSuppliers" />
+          <ScalarProperty Name="PriceRuleBanding" ColumnName="PriceRuleBanding" />
+          <ScalarProperty Name="AllowPriceRuleBanding" ColumnName="AllowPriceRuleBanding" />
+          <ScalarProperty Name="CloneChannel" ColumnName="CloneChannel" />
+          <ScalarProperty Name="AllowCloneChannel" ColumnName="AllowCloneChannel" />
+          <ScalarProperty Name="SalesHistory" ColumnName="SalesHistory" />
+          <ScalarProperty Name="AllowSalesHistory" ColumnName="AllowSalesHistory" />
+          <ScalarProperty Name="LastUsedChannelId" ColumnName="LastUsedChannelId" />
+          <ScalarProperty Name="SupplierMatchLimit" ColumnName="SupplierMatchLimit" />
+          <ScalarProperty Name="VerboseLogging" ColumnName="VerboseLogging" />
+          <ScalarProperty Name="ContractExpiryDate" ColumnName="ContractExpiryDate" />
+          <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+          <ScalarProperty Name="ContactEmail" ColumnName="ContactEmail" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="SystemUserID" ColumnName="SystemUserID" />
+          <ScalarProperty Name="ContractFK" ColumnName="ContractFK" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="GatewayFK" ColumnName="GatewayFK" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

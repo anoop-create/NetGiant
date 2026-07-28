@@ -1,0 +1,129 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using DP001Website.Models;
+@model DP001Website.Models.RegisterViewModel
+
+<div id="payment" class="container-fluid stage@(Model.StageIndicator)">
+    <div class="register-stage clearfix">
+        <div class="pull-left text-nowrap text-center">
+            Details
+            <div class="active"></div>
+        </div>
+        <div class="pull-left text-nowrap text-center">
+            Select Product
+            <div class="active"></div>
+        </div>
+        <div class="pull-left text-nowrap text-center">
+            Payment
+            <div class="active"></div>
+        </div>
+        <div class="pull-left text-nowrap text-center">
+            Complete
+            <div class="inactive"></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <i class="fa fa-asterisk"></i>
+        <div class="input-group full-center">
+            @Html.RadioButtonFor(m => m.CardType, "1", new { @class = "" })
+            <div class="pull-left g-m-r-10">Debit/Credit Card</div>
+            <span class="input-group-btn" style="width:0px;"></span>
+            @Html.RadioButtonFor(m => m.CardType, "2", new { @class = "" })
+            <div class="pull-left g-m-r-10">Direct Debit</div>
+            <span class="input-group-btn" style="width:0px;"></span>
+            @Html.RadioButtonFor(m => m.CardType, "3", new { @class = "" })
+            <div class="pull-left g-m-r-10">Paypal</div>
+        </div>
+    </div>
+
+    <div>
+        <h4> </h4>
+    </div>
+
+    <div class="form-group">
+        <i class="fa fa-asterisk"></i>
+        <div class="input-group">
+            @*@Html.LabelFor(m => m.CompanyName, new { @class = "sr-only" })*@
+            @*@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "Title" })*@
+            <select id="BillingTitle" name="BillingTitle" class="form-control">
+                <option value="Mr">Mr</option>
+                <option value="Mrs">Mrs</option>
+                <option value="Miss">Miss</option>
+                <option value="Dr">Dr</option>
+            </select>
+            <span class="input-group-btn" style="width:0px;"></span>
+            @Html.LabelFor(m => m.BillingFirstName, new { @class = "sr-only" })
+            @Html.TextBoxFor(m => m.BillingFirstName, new { @class = "form-control", placeholder = "Billing First Name", data_val_required = "The First Name field is required.", data_val = Model.ValidateFields })
+            <span class="input-group-btn" style="width:0px;"></span>
+            @Html.LabelFor(m => m.BillingLastName, new { @class = "sr-only" })
+            @Html.TextBoxFor(m => m.BillingLastName, new { @class = "form-control", placeholder = "Billing Last Name", data_val_required = "The Last Name field is required.", data_val = Model.ValidateFields })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <i class="fa fa-asterisk"></i>
+        @Html.LabelFor(m => m.BillingCountry, new { @class = "sr-only" })
+        @Html.TextBoxFor(m => m.BillingCountry, new { @class = "form-control", placeholder = "Country", data_val_required = "The Country field is required.", data_val = Model.ValidateFields })
+    </div>
+
+    <div class="form-group">
+        <i class="fa fa-asterisk"></i>
+        @Html.Label("PostcodeLookup", new { @class = "sr-only" })
+        @Html.TextBox("PostcodeLookup", null, new { @class = "form-control", placeholder = "Find Address (start typing postal code or address)" })
+    </div>
+
+    <div class="form-group">
+        <i class="fa fa-asterisk"></i>
+        <div class="input-group">
+            @Html.LabelFor(m => m.BillingAddress1, new { @class = "sr-only" })
+            @Html.TextBoxFor(m => m.BillingAddress1, new { @class = "form-control", placeholder = "Billing Address Line 1", data_val_required = "The Billing Address Line 1 field is required.", data_val = Model.ValidateFields })
+            <span class="input-group-btn" style="width:0px;"></span>
+            @Html.LabelFor(m => m.BillingAddress2, new { @class = "sr-only" })
+            @Html.TextBoxFor(m => m.BillingAddress2, new { @class = "form-control", placeholder = "Billing Address Line 2", data_val_required = "The Billing Address Line 2 field is required.", data_val = Model.ValidateFields })
+        </div>
+    </div>
+
+    <div class="form-inline">
+        <div class="form-group">
+            <i class="fa fa-asterisk"></i>
+            @Html.LabelFor(m => m.BillingCity, new { @class = "sr-only" })
+            @Html.TextBoxFor(m => m.BillingCity, new { @class = "form-control", placeholder = "City", data_val_required = "The City field is required.", data_val = Model.ValidateFields })
+        </div>
+        <div class="form-group pull-right">
+            <i class="fa fa-asterisk"></i>
+            @Html.LabelFor(m => m.BillingStateProvince, new { @class = "sr-only" })
+            @Html.TextBoxFor(m => m.BillingStateProvince, new { @class = "form-control", placeholder = "State/Province", data_val_required = "The State/Province field is required.", data_val = Model.ValidateFields })
+        </div>
+    </div>
+    
+    <div class="form-inline">
+        <div class="form-group">
+            <i class="fa fa-asterisk"></i>
+            @Html.LabelFor(m => m.BillingPostalCode, new { @class = "sr-only" })
+            @Html.TextBoxFor(m => m.BillingPostalCode, new { @class = "form-control", placeholder = "Postal Code", data_val_required = "The Postal Code field is required.", data_val = Model.ValidateFields })
+        </div>
+        <div class="form-group pull-right">
+            <i class="fa fa-asterisk"></i>
+            @Html.LabelFor(m => m.BillingPhoneNumber, new { @class = "sr-only" })
+            @Html.TextBoxFor(m => m.BillingPhoneNumber, new { @class = "form-control", placeholder = "Phone Number", data_val_required = "The Phone Number field is required.", data_val = Model.ValidateFields })
+        </div>
+    </div>
+
+    <div>
+        <h4>Payment Details</h4>
+    </div>
+
+    <div class="form-group">
+        <i class="fa fa-asterisk"></i>
+        <div class="input-group">
+            @Html.LabelFor(m => m.CardNumber, new { @class = "sr-only" })
+            @Html.TextBoxFor(m => m.CardNumber, new { @class = "form-control", placeholder = "Card Number", data_val_required = "The Card Number field is required.", data_val = Model.ValidateFields })
+            <span class="input-group-btn" style="width:0px;"></span>
+            @Html.LabelFor(m => m.CardExpiryDate, new { @class = "sr-only" })
+            @Html.TextBoxFor(m => m.CardExpiryDate, new { @class = "form-control", placeholder = "Expires", data_val_required = "The Expiry Date is required.", data_val = Model.ValidateFields })
+            <span class="input-group-btn" style="width:0px;"></span>
+            @Html.LabelFor(m => m.CardCSVNumber, new { @class = "sr-only" })
+            @Html.TextBoxFor(m => m.CardCSVNumber, new { @class = "form-control", placeholder = "CSV", data_val_required = "The CSV field is required.", data_val = Model.ValidateFields })
+        </div>
+    </div>
+</div>

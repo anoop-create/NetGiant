@@ -1,0 +1,50 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce;
+@model IisLogViewModel
+@{
+    ViewBag.Title = "AnalyseIisLogs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*@(Html.Kendo().Grid<IisLogViewModel.Telerik>()
+        .HtmlAttributes(new { @class = "pointer-rows" })
+        .Name("grid")
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("Log_Read", "Ecommerce"))
+            .PageSize(200)
+            .Sort(sort => sort
+                .Add(x => x.DateTime).Descending())
+            )
+        .Columns(columns =>
+        {
+            columns.Bound(product => product.Website).Title("Website").Width(90);
+            columns.Bound(product => product.StatusCode).Title("Status Code").Width(60);
+            columns.Bound(product => product.Description).Title("Description").Width(200);
+            columns.Bound(product => product.Url).Title("Url").Width(150);
+            columns.Bound(product => product.DateTime).Title("Date").Width(100).ClientTemplate("#= kendo.toString(kendo.parseDate(DateTime, 'yyyy-MM-dd'), 'dd/MM/yyyy (HH:mm:ss)') #");
+            columns.Bound(product => product.User).Title("User").Width(100);
+            columns.Bound(product => product.DeveloperComments).Title("Comments").Width(90);
+            columns.Command(command => command.Custom("Resolved").Click("markResolved")).Width(50).HtmlAttributes(new { @class = "hello" }).Width(90);
+
+        })
+        .Pageable(pager => pager.Refresh(true))
+        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable
+            .AllowUnsort(true))
+        .Groupable()
+        .Scrollable()
+        .Filterable(ftb => ftb
+            .Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .Excel(excel => excel
+            .AllPages(true)
+            .FileName("Grid Export")
+            .Filterable(true)
+            .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+        .NoRecords("There are no items to display")
+        .Events(events => events.Change("Grid_OnRowSelect"))
+        .Selectable()
+)*@
+

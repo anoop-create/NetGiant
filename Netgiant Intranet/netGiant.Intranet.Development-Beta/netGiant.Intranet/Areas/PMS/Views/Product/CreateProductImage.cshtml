@@ -1,0 +1,62 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product;
+@model ProductViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Product Image";
+    ViewBag.SubTitle = Model.ProductImage.productImageID > 0 ? "Edit" : "Create";
+    ViewBag.Action = "CreateProductImage";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.SubTitle @ViewBag.Title</h4>
+
+        <fieldset class="g-m-t-20">
+            <legend>Product Image Details</legend>
+
+            <div class="form-horizontal">
+                @using (Html.BeginForm("SaveProductImage", "Product", FormMethod.Post, new { @id = "mainForm" }))
+            {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(m => m.ProductImage.websiteInventoryFK)
+                    @Html.HiddenFor(m => m.ProductImage.productImageID);
+
+                    <div class="form-group">
+                        @Html.Label("Image URL", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.ProductImage.URL, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                            @Html.ValidationMessageFor(m => m.ProductImage.URL, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Is Main Image", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.CheckBoxFor(m => m.ProductImage.mainImage, new { htmlAttributes = new { @class = "g-largeCell" } })
+                            @Html.ValidationMessageFor(m => m.ProductImage.mainImage, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Is Thumbnail Image", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.CheckBoxFor(m => m.ProductImage.thumbnailImage, new { htmlAttributes = new { @class = "g-largeCell" } })
+                            @Html.ValidationMessageFor(m => m.ProductImage.thumbnailImage, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-10 g-m-t-10">
+                            <input type="submit" name="saveProductImage" value="Save" class="btn btn-default" title="Save" id="btnSaveProductImage" />
+                            @Html.ActionLink("Cancel", "BackToCreateProduct", "Product", null, new { @class = "btn btn-default" })
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </fieldset>
+    </div>
+</div>

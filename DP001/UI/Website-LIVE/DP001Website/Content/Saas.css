@@ -1,0 +1,90 @@
+﻿/**********************************/
+/* Images                         */
+/**********************************/
+header .brand-text {
+    width: 230px;
+    background: url("/images/priceology-logo.svg") no-repeat scroll 0 0;
+    background-size: auto 49px;
+    margin: 0 auto;
+}
+@media only screen and (min-width : 951px) {
+    header .brand-text {
+        background: rgba(0, 0, 0, 0) url("/images/saas-logo.svg") no-repeat scroll 0 10px;
+        background-size: auto 30px;
+        margin: 0;
+        width: 200px;
+    }
+}
+@media (min-width: 1050px) {
+    header .brand-text {
+        width: 330px;
+        background: url("/images/saas-logo.svg") no-repeat scroll 0 0;
+        background-size: auto 50px;
+        margin: 0;
+    }
+}
+
+footer .brand-text::after {
+    content: "Priceology Ltd";
+}
+
+/**********************************/
+/* Colours                        */
+/**********************************/
+h1 a, 
+h1 a:hover,
+h1 a:focus {
+    color: #666666;
+}
+a, 
+a:focus, 
+a:hover, 
+.manualMappingTable .searchContainer {
+    color: #4a90e2;
+}
+
+.navbar {
+    background-color: #333333;
+}
+
+.navbar-left > li.active,
+.navbar .dropdown-menu a:hover,
+.navbar-left > li.active > a {
+    color: #666666;
+}
+
+.sub-menu {
+    color: #666666;
+}
+
+.btn-success,
+.open > .dropdown-toggle.btn-primary {
+    background-color: #8cc63e;
+}
+
+.list-form-row .fa-chevron-up,
+.fa-check-circle {
+    color: #7eb338;
+}
+
+.btn-success.active.focus, 
+.btn-success.active:focus, 
+.btn-success.active:hover, 
+.btn-success.focus:active, 
+.btn-success:active:focus, 
+.btn-success:active:hover, 
+.btn-success:hover,
+.btn-success:focus, 
+.btn-success:active,
+.open > .dropdown-toggle.btn-success,
+.open > .dropdown-toggle.btn-success.focus, 
+.open > .dropdown-toggle.btn-success:focus, 
+.open > .dropdown-toggle.btn-success:hover {
+    background-color: #7eb338;
+    border-color: #7eb338;
+    color: #ffffff;
+}
+.checkbox-success input[type="checkbox"]:checked ~ label::before, .checkbox-success input[type="radio"]:checked ~ label::before {
+    background-color: #8cc63e;
+    border-color: #8cc63e;
+}

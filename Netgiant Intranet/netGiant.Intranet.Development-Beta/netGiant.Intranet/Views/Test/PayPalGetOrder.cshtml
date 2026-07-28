@@ -1,0 +1,39 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.Shared;
+@using PayPalCheckoutSdk.Core;
+@using PayPalCheckoutSdk.Orders;
+@using PayPalHttp;
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using Newtonsoft.Json;
+@using System.Web;
+@using System.Web.Mvc;
+@using Newtonsoft.Json.Linq;
+@using System.IO;
+@using System.Runtime.Serialization.Json;
+@using System.Text;
+@using System.Threading.Tasks;
+@using System.Net;
+
+@model PayPalCheckoutSdk.Orders.Order
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PayPalGetOrder</title>
+</head>
+<body>
+    <div>
+        Retrieved Order Status
+        Status: @Model.Status);
+        Order Id: @Model.Id);
+        Intent: @Model.CheckoutPaymentIntent);
+
+    </div>
+</body>
+</html>

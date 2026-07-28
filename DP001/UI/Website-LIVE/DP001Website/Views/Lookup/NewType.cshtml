@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "NewType";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-12 col-md-12 row-height-fix">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                <a href="@Url.Action("Index", "Lookup")" class="grey">
+                    Lookups
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Add Lookup Type
+            </h1>
+        </div>
+    </div>
+</section>
+

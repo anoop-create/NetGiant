@@ -1,0 +1,27 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@model ScheduleViewModel
+
+<td style="padding: 5px;">
+    @Html.DisplayFor(m => Model.ScheduleEntry.ScheduleName)
+</td>
+<td style="padding: 5px;">
+    @Html.DisplayFor(m => Model.ScheduleEntry.Lookup.LookupName)
+</td>
+<td style="padding: 5px;">
+    @Html.DisplayFor(m => Model.ScheduleEntry.Lookup1.LookupName)
+</td>
+<td style="padding: 5px;">
+    @if (Model.ScheduleEntry.Lookup1.LookupName == "Weekly")
+    {
+        @(Model.ScheduleEntry.DayOfWeek != null ? Enum.GetName(typeof(DayOfWeek), Model.ScheduleEntry.DayOfWeek) : "")
+    }
+</td>
+<td style="padding: 5px;">
+    @Model.ScheduleEntry.Time.ToString()
+</td>
+<td style="padding: 5px;">
+    @(Model.ScheduleEntry.IsActive == true ? "Yes" : "No")
+</td>
+<td width="40px">
+    <i class="fa fa-chevron-down" />
+</td>

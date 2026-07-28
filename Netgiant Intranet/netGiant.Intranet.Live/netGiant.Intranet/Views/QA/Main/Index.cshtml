@@ -1,0 +1,107 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.QA;
+@model QAViewModel
+
+@{
+    ViewBag.Title = "Questions & Answers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+
+        <div style="padding-bottom: 20px">
+            <select id="qaSearchBy" class="searchBy g-f-l form-control g-smallCell" style="margin-right:10px">
+                <option value="altRef" selected="selected">Search by part no</option>
+                <option value="question">Search by question</option>
+                <option value="answer">Search by answer</option>
+                <option value="source">Search by source website</option>
+                <option value="unAns">Search by unanswered</option>
+            </select>
+            <div>
+                @Html.TextBox("SearchQA", null, new { @class = "searchBox form-control g-mediumCell g-f-l text-box single-line g-m-r-10", @type = "text" })
+                @Html.DropDownListFor(m => m.SelectedGranualityID, Model.AllGranularities, "Search by granularity", new { @class = "form-control g-smallCell g-f-l g-m-r-10" })
+                <a id="lnkSearchQA" href="#" class="btn btn-default g-f-l" title="Empty search returns all records">Search</a>
+            </div>
+        </div>
+        <br />
+
+        <div id="qaDataPartialView">
+            @{ Html.RenderPartial("~/Views/QA/Main/QAData.cshtml", Model.ListOfQAs); }
+        </div>
+
+        <input type="hidden" id="activeSortType" />
+        <input type="hidden" id="activeSortDir" />
+        <input type="hidden" id="historyPage" />
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var optionsArray;
+
+        $(document).on("click", "#lnkSearchQA, #qaPaging a", function (event) {
+            applyStandardPaging(event, $(this));
+            return false;
+        });
+
+        $("#SearchQA").keypress(function (event) {
+            if (event.which == 13) {
+                applyStandardPaging(event);
+            }
+        });
+
+        $(document).on("click", ".lnkQADelete", function () {
+            setupOptionsArrayDelete($(this));
+            ajaxDelete('#qaDeleteDialog', $('#DeleteQAURL').val(), $(this).attr('value'),
+                '#qaDataPartialView', optionsArray);
+        });
+
+        $(document).on("click", ".tableHeaderSort", function (event) {
+            setupSort($(this));
+            setupOptionsArrayPaging();
+            applyStandardPaging(event);
+            return false;
+        });
+
+        $(document).on("change", "#SelectedGranualityID", function (event) {
+            setupOptionsArrayPaging();
+            applyStandardPaging(event);
+            return false;
+        });
+
+        function applyStandardPaging(event, id) {
+            setupOptionsArrayPaging();
+            standardPaging(event, id, "#qaPaging", $("#QAIndexDataURL").val(),
+                                    "#qaDataPartialView", optionsArray, $("#activeSortType"), $("#activeSortDir"));
+        }
+
+        function setupOptionsArrayPaging() {
+            optionsArray = new Array();
+            optionsArray[0] = $("#SearchQA").val(); //SearchTerm
+            optionsArray[1] = $("#qaSearchBy").val(); //SearchBy
+
+            var sortType = $("#activeSortType").val();
+            var sortDir = $("#activeSortDir").val();
+
+            if (sortType.length > 0) {
+                optionsArray[2] = sortType + sortDir;
+            } else {
+                optionsArray[2] = '';
+            }
+
+            optionsArray[3] = $('#SelectedGranualityID').val() || 0;
+        }
+
+        function setupOptionsArrayDelete(lnkDelete) {
+            optionsArray = new Array();
+            optionsArray[0] = lnkDelete.attr("value"); //QAID
+            optionsArray[1] = $("#SearchQA").val(); //SearchTerm
+            optionsArray[2] = $("#qaSearchBy").val(); //SearchBy
+        }
+
+    </script>
+}

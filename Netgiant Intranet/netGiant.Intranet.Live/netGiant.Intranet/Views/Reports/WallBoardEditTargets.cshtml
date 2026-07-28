@@ -1,0 +1,45 @@
+﻿@using netGiant.Intranet.DataLayer
+@model List<configurationSetting>
+
+@Html.Hidden("setTargetsURL", Url.Action("UpdateWallBoardTargets", "Reports"))
+
+@if (Model != null)
+{
+    if (Model.Count > 0)
+    {
+        <div class="wb_editTargetContainer g-m-b-20 g-m-t-10">
+            <div class="wb_editTargetText g-f-l">Stretch</div>
+            <div class="g-f-l">@Html.TextBox("StretchTarget", Model.Where(x => x.settingName == "stretchTarget").FirstOrDefault() 
+                != null ? Model.Where(x => x.settingName == "stretchTarget").FirstOrDefault().settingValue : "0")</div>
+        </div>
+        <div class="wb_editTargetContainer g-m-b-20">
+            <div class="wb_editTargetText g-f-l g-c-b">Base</div>
+            <div class="g-f-l">@Html.TextBox("BaseTarget", Model.Where(x => x.settingName == "baseTarget").FirstOrDefault() 
+                != null ? Model.Where(x => x.settingName == "baseTarget").FirstOrDefault().settingValue : "0")</div>
+        </div>
+        <div class="g-w-100p g-a-c">
+            <a id="targetsUpdate" class="btn btn-default" href="#">Save</a>
+        </div>
+    }
+    else
+    {
+        @Html.Raw(ViewBag.Result)
+    }
+}
+else
+{
+    @Html.Raw(ViewBag.Result)
+}
+
+<script type="text/javascript">
+    $("#StretchTarget, #BaseTarget").keypress(function (e) {
+        var key_codes = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 0, 8];
+
+        if (!($.inArray(e.which, key_codes) >= 0)) {
+            e.preventDefault();
+        }
+    });
+</script>
+
+
+

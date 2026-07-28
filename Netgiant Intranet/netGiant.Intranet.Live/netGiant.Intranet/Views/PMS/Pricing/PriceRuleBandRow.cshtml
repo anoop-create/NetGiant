@@ -1,0 +1,34 @@
+﻿@using netGiant.Intranet.DataLayer;
+@model priceRuleBand
+
+@{var newGuid = Guid.NewGuid().ToString();}
+
+<tr class="pricingRuleRecord">
+    <td>
+        Band      
+    </td>
+    <td>
+        @Html.EditorFor(m => Model.bandStart, null, String.Format("{0}[{1}]", "Bands", newGuid))
+    </td>
+    <td>
+        @Html.EditorFor(x => Model.bandEnd, null, String.Format("{0}[{1}]", "Bands", newGuid))
+    </td>
+    <td>
+        @Html.EditorFor(x => Model.costUplift, null, String.Format("{0}[{1}]", "Bands", newGuid))
+    </td>
+    <td>
+        @Html.EditorFor(x => Model.desiredMargin, null, String.Format("{0}[{1}]", "Bands", newGuid))
+    </td>
+    <td>
+        @Html.EditorFor(x => Model.minMargin, null, String.Format("{0}[{1}]", "Bands", newGuid))
+    </td>
+    <td>
+        @Html.EditorFor(x => Model.maxMargin, null, String.Format("{0}[{1}]", "Bands", newGuid))
+    </td>
+    <td>
+        @Html.EditorFor(x => Model.competitorsToBeat, null, String.Format("{0}[{1}]", "Bands", newGuid))
+    </td>
+    <td>
+        @Html.EditorFor(x => Model.nudge, null, String.Format("{0}[{1}]", "Bands", newGuid))
+    </td>
+</tr>

@@ -1,0 +1,104 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.CrMS;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder g-m-b-10">
+    <h4 class="text-center">Account Details</h4>
+</div>
+
+<div class="g-p-t-10">
+    <span>@Html.CheckBox("showSubmitted", true, new { @class = "g-m-lr-10-i", @value = "#tradeContainer" }) @Html.Label("Show only submitted and in progress")</span>
+</div>
+
+@(Html.Kendo().Grid<CreditAccountViewModel.Telerik>()
+    .HtmlAttributes(new { @class = "pointer-rows" })
+    .Name("tradeGrid")
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action("Trade_Read", "Customer"))
+        .PageSize(200)
+        .Sort(sort => sort
+            .Add(x => x.DateOfApplication).Descending())
+        )
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.Website).Title("Website").Width(90)
+            .HeaderHtmlAttributes(new { title = "Website", style = "text-align: center;" });
+        columns.Bound(x => x.Status).Title("Status").Width(80)
+            .HeaderHtmlAttributes(new { title = "Status", style = "text-align: center;" });
+        columns.Bound(x => x.AccountNumber).Title("A/C Number").Width(100)
+            .HeaderHtmlAttributes(new { title = "A/C Number", style = "text-align: center;" });
+        columns.Bound(x => x.TradingName).Title("Trading Name").Width(180)
+            .HeaderHtmlAttributes(new { title = "Trading Name", style = "text-align: center;" });
+        columns.Bound(x => x.ContactName).Title("Contact Name").Width(180)
+            .HeaderHtmlAttributes(new { title = "Contact Name", style = "text-align: center;" });
+        columns.Bound(x => x.ContactEmailAddress).Title("Email").Width(180)
+            .HeaderHtmlAttributes(new { title = "Email", style = "text-align: center;" });
+        columns.Bound(x => x.ContactTelephoneNo).Title("Tel No.").Width(100)
+            .HeaderHtmlAttributes(new { title = "Tel No.", style = "text-align: center;" });
+        columns.Bound(x => x.NumberOffices).Title("Number of Offices").Width(100)
+            .HeaderHtmlAttributes(new { title = "No. Offices", style = "text-align: right;" });
+        columns.Bound(x => x.NumberPrinters).Title("Number of Printers").Width(100)
+            .HeaderHtmlAttributes(new { title = "No. Printers", style = "text-align: right;" });
+        columns.Bound(x => x.DateOfApplication).Title("Date").Width(100)
+            .ClientTemplate("#= kendo.toString(kendo.parseDate(DateOfApplication, 'yyyy-MM-dd'), 'dd/MM/yyyy (HH:mm:ss)') #")
+            .HeaderHtmlAttributes(new { title = "Date", style = "text-align: center;" });
+        columns.Bound(x => x.AccountId).ClientTemplate(
+            "<a href=\"ViewAccount/#:AccountId#\">Details</a>" +
+            "|<a href=\"CreateAccount/#:AccountId#?page=TradeIndex\">Edit</a>"
+            ).Width(120).Title("").Filterable(false).Sortable(false).Groupable(false);
+    })
+        .Pageable(pager => pager.Refresh(true))
+        .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+        .Sortable(sortable => sortable
+            .AllowUnsort(true))
+        .Groupable()
+        .Scrollable()
+        .Filterable(ftb => ftb
+            .Mode(GridFilterMode.Menu))
+        .ColumnMenu()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .Excel(excel => excel
+            .AllPages(true)
+            .FileName("Grid Export")
+            .Filterable(true)
+            .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+        .NoRecords("There are no items to display")
+        .Events(events => events.DataBound("saveGridFilters"))
+        .Selectable()
+      )
+
+<script type="text/javascript">
+    $(function () {
+        var grid = $("#tradeGrid").data("kendoGrid");
+        grid.dataSource.filter({
+            logic: "or",
+            filters: [
+                { field: "Status", operator: "eq", value: "Submitted" },
+                { field: "Status", operator: "eq", value: "In Progress" }
+            ]
+        });
+
+        $(document).on("change",
+            "#showSubmitted",
+            function () {
+                var grid = $("#tradeGrid").data("kendoGrid");
+                if ($('#showSubmitted').is(':checked')) {
+                    grid.dataSource.filter({
+                        logic: "or",
+                        filters: [
+                            { field: "Status", operator: "eq", value: "Submitted" },
+                            { field: "Status", operator: "eq", value: "In Progress" }
+                        ]
+                    });
+                } else {
+                    grid.dataSource.filter({
+                    });
+                }
+            });
+    });
+</script>
+

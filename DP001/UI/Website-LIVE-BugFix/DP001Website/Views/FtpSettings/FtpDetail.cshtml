@@ -1,0 +1,79 @@
+﻿@using DP001DataAccess.Entities;
+@model List<FTPSetting>
+
+<table class="table table-hover" data-url="@Url.Action("Edit", "FtpSettings")">
+    <thead>
+        <tr>
+            <th>Description</th>
+            @{
+                if (ViewBag.FeedType == "Supplier")
+                {
+                    <th>Supplier Name</th>
+                }
+            }
+            <th>Protocol</th>
+            <th>FTP Server</th>
+            <th>File Name</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var feed in Model)
+        {
+            <tr class="list-form-row" data-id="@feed.FTPSettingsID">
+                <td style="padding: 5px;">
+                    @feed.Description
+                </td>
+                @if (ViewBag.FeedType == "Supplier")
+                {
+                    <td style="padding: 5px;">
+                        @feed.Suppliers.First().SupplierName
+                    </td>
+                }
+                <td style="padding: 5px;">
+                    @feed.Lookup1.LookupName
+                </td>
+                <td style="padding: 5px;">
+                    @feed.FTPServer
+                </td>
+                <td style="padding: 5px;">
+                    @feed.FTPFileName
+                </td>
+                <td width="40px">
+                    <i class="fa fa-chevron-down" />
+                </td>
+            </tr>
+        }
+    </tbody>
+
+    @if (ViewBag.FeedType == "Supplier" || ViewBag.FeedType == "Competitor" || Model.Count() == 0)
+    {
+        <tfoot>
+            <tr class="list-form-row" data-newurl="@(Url.Action("New", "FtpSettings", new { ViewBag.FeedType }))">
+                <td colspan="100%">
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <button class="pull-right g-m-l-10 g-m-tb-5 g-cur-p btn btn-default btn-sm btn-add">
+                            <i class="fa fa-plus"></i> Add @(ViewBag.FeedType) Feed
+                        </button>
+                    }
+                    @if (ViewBag.FeedType == "Supplier")
+                    {
+                        <a href="@Url.Action("MfpnAliases", "Suppliers")" class="pull-right g-m-l-10 g-m-tb-5 btn btn-default btn-sm">
+                            <i class="fa fa-wrench"></i> Manage Part No. Aliases
+                        </a>
+                        <a href="@Url.Action("BrandAliases", "Suppliers")" class="pull-right g-m-l-10 g-m-tb-5 btn btn-default btn-sm">
+                            <i class="fa fa-wrench"></i> Manage Brand Aliases
+                        </a>
+                    }
+                    @if (ViewBag.FeedType == "Competitor")
+                    {
+                        <a href="@Url.Action("Index", "Competitors")" class="pull-right g-m-l-10 g-m-tb-5 btn btn-default btn-sm">
+                            <i class="fa fa-wrench"></i> Manage Competitors
+                        </a>
+                    }
+                </td>
+            </tr>
+        </tfoot>
+    }
+</table>

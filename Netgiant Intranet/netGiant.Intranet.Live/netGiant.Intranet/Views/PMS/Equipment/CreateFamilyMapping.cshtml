@@ -1,0 +1,13 @@
+﻿@using netGiant.Intranet.DataLayer
+@model eqFamilyMembership
+
+@using (Html.BeginCollectionItem("equipment.eqFamilyMembership"))
+{
+    <div class="familyContainer">
+        @Html.Raw("<span class=\"g-w-400 g-d-ib\">" + Model.eqFamily.description + "</span>")
+        @Html.Hidden("eqFamilyMembershipID", Model.eqFamilyMembershipID)
+        @Html.Hidden("eqFamilyID", Model.eqFamilyID)
+        @Html.Hidden("eqEquipmentID", Model.eqEquipmentID)
+        <a href="#" class="lnkDelete">Delete</a>
+    </div>
+}

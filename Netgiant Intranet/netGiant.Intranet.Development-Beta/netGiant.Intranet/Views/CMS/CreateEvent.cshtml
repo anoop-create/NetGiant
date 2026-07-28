@@ -1,0 +1,78 @@
+﻿@using System.Configuration;
+@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance;
+@model CMSViewModel
+
+@{
+    ViewBag.Title = "Create Event";
+    Layout = Model.Layout;
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h4>@ViewBag.Title</h4>
+        <div class="form-horizontal">
+            @using (Ajax.BeginForm("SaveEvent", "CMS", new AjaxOptions { HttpMethod = "Post", OnComplete = "ajaxReturn" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.Event.EventId)
+
+                <div class="form-group">
+                    @Html.Label("Website", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.Event.WebsiteFk, Model.WebsiteNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        @Html.ValidationMessageFor(model => model.Event.WebsiteFk, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Event Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Event.EventName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.Event.EventName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Valid From", htmlAttributes: new { @class = "control-label col-md-2 datefield" })
+                    <div class="col-md-10">
+                        @(Html.Kendo().DateTimePickerFor(model => model.Event.DateActive)
+                          .Culture("en-GB")
+                          .Format("yyyy/MM/dd hh:mm tt")
+                          .ParseFormats(new List<string>() { "yyyy/MM/dd" })
+                          .Deferred()
+                          .Events(e => e.Change("changeFromDate"))
+                        )
+                        @Html.ValidationMessageFor(model => model.Event.DateActive, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Valid To", htmlAttributes: new { @class = "control-label col-md-2 datefield" })
+                    <div class="col-md-10">
+                        @(Html.Kendo().DateTimePickerFor(model => model.Event.DateInactive)
+                          .Culture("en-GB")
+                          .Format("yyyy/MM/dd hh:mm tt")
+                          .ParseFormats(new List<string>() { "yyyy/MM/dd" })
+                          .Deferred()
+                        )
+                        @Html.ValidationMessageFor(model => model.Event.DateInactive, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Description", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Event.Description, new { htmlAttributes = new { @class = "form-control" }, style = "max-width:500px; height:100px;" })
+                        @Html.ValidationMessageFor(model => model.Event.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveEvent" value="Save" class="btn btn-default" title="Save" />
+                        @if (!ViewBag.IsPopup)
+                        {
+                            @Html.ActionLink("Cancel", "EventMappingIndex", "CMS", null, new { @class = "btn btn-default" })
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

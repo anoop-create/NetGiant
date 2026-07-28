@@ -1,0 +1,140 @@
+﻿@using System.Configuration
+@using netGiant.Intranet.BusinessLayer.ViewModels.CrMS;
+@model LookupViewModel
+
+@{
+    ViewBag.Title = "Create Lookup Entry";
+    Layout = Model.Layout;
+
+    bool exists = Model.CustomerLookupEntry.LookupID != 0 || Model.NgmdLookupEntry.LookupId != 0 ? true : false;
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+        <h4>@ViewBag.Title</h4>
+        <div class="form-horizontal">
+
+            @if (!exists)
+            {
+                <div class="form-group">
+                    @Html.Label("Scope", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EnumDropDownListFor(x => x.Scope, "NetgiantMasterData", new { @id = "scope_list", @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                    </div>
+                </div>
+            }
+
+        <div class="customer-lookup @(Model.CustomerLookupEntry.LookupID == 0 ? "g-d-n" : "")">
+            @using (Ajax.BeginForm("SaveCustomerLookup", "Lookup", new AjaxOptions { HttpMethod = "Post", OnComplete = "retLookup" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                @Html.HiddenFor(x => x.CustomerLookupEntry.LookupID)
+                @Html.HiddenFor(x => x.CustomerLookupEntry.LookupType)
+
+                <div class="form-group">
+                    @Html.Label("Lookup Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div id="" class="col-md-10">
+                        @Html.DropDownListFor(m => m.CustomerLookupEntry.LookupTypeFK, Model.CustomerTypeNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        @Html.ValidationMessageFor(model => model.CustomerLookupEntry.LookupType.LookupTypeName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Lookup Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CustomerLookupEntry.LookupName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.CustomerLookupEntry.LookupName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Alternative ID", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CustomerLookupEntry.AltLookupId, new { htmlAttributes = new { @class = "form-control g-smallCell" } })
+                        @Html.ValidationMessageFor(model => model.CustomerLookupEntry.AltLookupId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Sequence", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CustomerLookupEntry.Sequence, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.CustomerLookupEntry.Sequence, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveLookupEntry" value="Save" class="btn btn-default" title="Save" />
+                        @if (!Model.IsPopup)
+                        {
+                            @Html.ActionLink("Cancel", "LookupIndex", "Lookup", null, new { @class = "btn btn-default" })
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="ngmd-lookup @(Model.NgmdLookupEntry.LookupId == 0 ? "g-d-n" : "")">
+            @using (Ajax.BeginForm("SaveNgmdLookup", "Lookup", new AjaxOptions { HttpMethod = "Post", OnComplete = "ajaxReturn" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                @Html.HiddenFor(x => x.NgmdLookupEntry.LookupId)
+                @Html.HiddenFor(x => x.NgmdLookupEntry.LookupType)
+
+                <div class="form-group">
+                    @Html.Label("Lookup Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div id="" class="col-md-10">
+                        @Html.DropDownListFor(m => m.NgmdLookupEntry.LookupTypeFk, Model.NgmdTypeNameList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
+                        @Html.ValidationMessageFor(model => model.NgmdLookupEntry.LookupType.LookupTypeName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Lookup Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.NgmdLookupEntry.LookupName, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.NgmdLookupEntry.LookupName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Alternative ID", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.NgmdLookupEntry.AltLookupId, new { htmlAttributes = new { @class = "form-control g-smallCell" } })
+                        @Html.ValidationMessageFor(model => model.NgmdLookupEntry.AltLookupId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Sequence", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.NgmdLookupEntry.Sequence, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                        @Html.ValidationMessageFor(model => model.NgmdLookupEntry.Sequence, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="saveLookupEntry" value="Save" class="btn btn-default" title="Save" />
+                        @if (!Model.IsPopup)
+                        {
+                            @Html.ActionLink("Cancel", "LookupIndex", "Lookup", null, new { @class = "btn btn-default" })
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $('#scope_list').on('change', function () {
+            if ($(this).val() == 0) {
+                $('.customer-lookup').hide();
+                $('.ngmd-lookup').show();
+            } else {                
+                $('.customer-lookup').show();
+                $('.ngmd-lookup').hide();
+            }
+        });
+        $('#scope_list').change();
+    });
+</script>

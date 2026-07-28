@@ -1,0 +1,96 @@
+﻿@using DP001BusinessLogic.ViewModels;
+@using PagedList.Mvc;
+@using GridMvc.Html;
+@using DP001Website.Models;
+@model LogViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-fluid sub-menu">
+    <div class="row row-height-fix">
+        <div class="col-xs-5 col-md-8 col-lg-9 text-nowrap">
+            <h1 class="text-nowrap">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fa fa-home grey"></i>
+                </a>
+                <i class="fa fa-chevron-right"></i>
+                Notifications
+            </h1>
+        </div>
+
+        <div class="col-xs-7 col-md-4 col-lg-3 row-height-fix flex-right">
+            <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-sliders fa-lg"></i>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <ul class="dropdown-menu g-p-10">
+                    <li class="g-fw-b">Notification Options</li>
+                    <li role="presentation" class="divider"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row">
+        <div id="notifications" class="col-sm-12 col-md-8 col-md-push-2">
+            @if (Model.LogList.Count == 0)
+            {
+                <div class="col-sm-12 col-md-8 col-md-push-2">
+                    <h4>There are no notifications for this channel at this time.</h4>
+                </div>
+            }
+
+            @if (Model.LogList.Count > 0)
+            {
+                using (Ajax.BeginForm("RefreshNotifications", "Log", new AjaxOptions { HttpMethod = "POST", OnComplete = "formEnd", OnBegin = "formStart" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="row g-m-t-40">
+                        <span class="g-fw-b g-p-r-10">Filter Options:</span>
+                        <span class="log-filter checkbox checkbox-success g-p-r-10"><input id="log_not" name="log_not" class="check-box" type="checkbox" checked="checked" /><label for="log_not"> Action Required</label></span>
+                        <span class="log-filter checkbox checkbox-success g-p-r-10"><input id="log_sug" name="log_sug" class="check-box" type="checkbox" checked="checked" /><label for="log_sug"> Suggestions</label></span>
+                        <span class="log-filter checkbox checkbox-success g-p-r-10"><input id="log_sch" name="log_sch" class="check-box" type="checkbox" checked="checked" /><label for="log_sch"> Schedule Information</label></span>
+                        <button type="submit" class="btn btn-default btn-sm">
+                            <i class="fa fa-refresh"></i> Update
+                        </button>
+                    </div>
+                }
+                <div id="notification-body" class="row page-form">
+                    @{
+                        Html.RenderPartial("Notifications", Model);
+                    }
+                </div>
+            }
+        </div>
+    </div>
+
+</section>
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            $(document).on('click', '.refresh', function () {
+                alert('click');
+            })
+        })
+
+        function formStart() {
+
+        }
+
+        function formEnd(data) {
+            if (data.responseJSON.isSuccess) {
+                $('#notification-body').html(data.responseJSON.html);
+                //location.reload(true);
+            }
+        }
+    </script>
+}
+
+

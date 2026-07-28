@@ -1,0 +1,16 @@
+﻿@using netGiant.Intranet.DataLayer;
+@model List<PMSAxisPriceDifference>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@Html.Raw(item.partNo)</td>
+        <td>@Html.Raw(item.manufacturerName)</td>
+        <td>@Html.Raw(item.categoryCodeName)</td>
+        <td>@Html.Raw(item.productStatusName)</td>
+        <td>@Html.Raw(item.pmsPrice)</td>
+        <td>@Html.Raw(item.axisPrice)</td>
+        <td>@Html.Raw(item.pmsPriceChanged)</td>
+        <td>@Html.Raw(item.priceDiff)</td>
+    </tr>
+}

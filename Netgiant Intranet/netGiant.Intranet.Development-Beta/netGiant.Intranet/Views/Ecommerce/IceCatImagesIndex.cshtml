@@ -1,0 +1,171 @@
+﻿@using netGiant.Intranet.BusinessLayer.Models;
+@using netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce;
+@model IceCatImagesViewModel
+
+@{
+    ViewBag.Title = "Image Comparison";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    @Html.RawFromDict(Model.IntranetData, "ImageCompareFilters")
+    <div class="g-p-tb-10">
+        @Html.DropDownListFor(m => m.SiteId, Model.WebsiteNameList, new { @class = "form-control g-smallCell g-m-r-10" })
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-10 pull-left">
+            @(Html.Kendo().Grid<IceCatImagesViewModel.Telerik>()
+                .HtmlAttributes(new { @class = "pointer-rows" })
+                .Name("iceCatImagesGrid")
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .Read(read => read.Action("IceCatImages_Read", "Ecommerce")
+                        .Data("selectSite")
+                    )
+                    .PageSize(200)
+                    //.Sort(sort => sort
+                    //    .Add(x => x.Timestamp).Descending())
+                    )
+                .Columns(columns =>
+                {
+                    columns.Bound(x => x.ProductId).Width(90).Hidden();
+                    columns.Bound(x => x.PartNumber).Title("Part No.")
+                        .HeaderHtmlAttributes(new { title = "Part Number" })
+                        .ClientTemplate("<a target=\"_blank\" href=\"../../PMS/Product/Detail/#:ProductId#\" title=\"\">#:PartNumber#</a>")
+                        .Width(90);
+                    columns.Bound(x => x.Manufacturer).Title("Manufacturer").Width(100)
+                        .HeaderHtmlAttributes(new { title = "Manufacturer" });
+                    columns.Bound(x => x.Description).Title("Description").Width(200)
+                        .HeaderHtmlAttributes(new { title = "Description" });
+                    columns.Bound(x => x.Suppress3rdPartyImages).Title("Suppress").Width(90)
+                        .HeaderHtmlAttributes(new { title = "Suppress 3rd Party Images" });
+                    columns.Bound(x => x.PMSMainImages).Title("PMS Main Images").Width(150)
+                        .HeaderHtmlAttributes(new { title = "PMS Main Images" })
+                        .ClientTemplate("#= PMSMainImages #");
+                    columns.Bound(x => x.PimMainImages).Title("Pimberly Images").Width(150)
+                        .HeaderHtmlAttributes(new { title = "Pimberly Images" })
+                        .ClientTemplate("#= PimMainImages #");
+                    columns.Bound(x => x.IcMainImages).Title("IceCat Images").Width(150)
+                        .HeaderHtmlAttributes(new { title = "IceCat Images" })
+                        .ClientTemplate("#= IcMainImages #");
+                })
+                .Pageable(pager => pager.Refresh(true))
+                .Pageable(pager => pager.PageSizes(new List<int> { 150, 100, 50, 20 }))
+                .Sortable(sortable => sortable
+                    .AllowUnsort(true))
+                .Scrollable()
+                .Filterable(ftb => ftb
+                    .Mode(GridFilterMode.Menu))
+                .ColumnMenu()
+                .Resizable(resize => resize.Columns(true))
+                .Reorderable(reorder => reorder.Columns(true))
+                .Excel(excel => excel
+                    .AllPages(true)
+                    .FileName("Grid Export")
+                    .Filterable(true)
+                    .ProxyURL(Url.Action("Excel_Export_Save", "Reports")))
+                .NoRecords("There are no items to display")
+                .Events(events => events.Change("Grid_OnRowSelect"))
+                .Events(events => events.DataBound("Grid_OnDataBound"))
+                .Selectable()
+        )
+        </div>
+        <div class="col-lg-2 g-bc-w" style="padding: 0;">
+            <div class="g-bc-w g-b-1lg g-a-c g-fc-mg">IceCat Dynamic Image(s)</div>
+            <div id="imageGallery" class="g-bc-w g-b-1lg"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Product Image</h4>
+            </div>
+            <div class="modal-body"><img src="" width="100%" /></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section AddTags
+{
+    <script src="https://live.icecat.biz/js/live-current-2.js"></script>
+}
+
+@section scripts
+{
+    <script src="../../Scripts/jquery.lazyload.min.js"></script>
+    <script type="text/javascript">
+        var Grid_OnRowSelect = function (e) {
+            var griddata = this.dataItem(this.select());
+
+            var isResolved = false;
+            var ice = IcecatLive.getDatasheet(
+                {
+                    'gallery': '#imageGallery'
+                },
+                {
+                    Brand: griddata.Manufacturer,
+                    PartCode: griddata.PartNumber,
+                    UserName: 'glen.dale@netgiant.com'
+                }, 'en')
+                .then(function () {
+                    isResolved = true;
+                });
+
+            $('#imageGallery').html('<img class="center-block" src="../../Content/images/noImage.jpg" width="100%" />');
+
+        }
+
+        function Grid_OnDataBound() {
+            $("#iceCatImagesGrid tr.k-alt").removeClass("k-alt");
+
+            var grid = this;
+            var currentRecords = grid.dataSource.view();
+            for (var i = 0; i < currentRecords.length; i++) {
+                //currentRecords[i] is the current dataItem
+                if (currentRecords[i].Status == 2) {
+                    grid.tbody.find("tr[data-uid='" + currentRecords[i].uid + "']").removeClass("k-alt").addClass("g-bc-o").addClass("g-fc-w");
+                }
+                if (currentRecords[i].Status == 1) {
+                    grid.tbody.find("tr[data-uid='" + currentRecords[i].uid + "']").removeClass("k-alt").addClass("g-bc-r").addClass("g-fc-w");
+                }
+            }
+            saveGridFilters();
+            $("img.lazy").lazyload();
+            $('.k-grid-content').scroll(function () {
+                $("img.lazy").lazyload();
+            });
+        }
+
+        function selectSite() {
+            return {
+                site: $("#SiteId").val()
+            }
+        }
+
+        $(document).on('change', '#SiteId', function (e) {
+            location.replace('../IceCatImagesIndex/' + $('#SiteId').val());
+        });
+
+        $('#imageModal').on('show.bs.modal', function (e) {
+            $('.modal-body img').prop('src', $(e.relatedTarget).attr('src'));
+        })
+
+        $(document).on('click', '.download', function (e) {
+            var view = $("#iceCatImagesGrid").data("kendoGrid").dataSource.view();
+            $('#kendoData').val(encodeURIComponent(JSON.stringify(view)));
+            $('#ExportForm').submit();
+        });
+
+    </script>
+}
