@@ -9,7 +9,10 @@
     ViewBag.SubTitle = Model.prod.productID > 0 ? "Edit" : "Create";
     ViewBag.Action = "CreateProduct";
 }
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet" />
 
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 @Html.Hidden("DeleteProductImageURL", Url.Action("DeleteProductImage", "Product"))
 
 <div class="placeHolder">
@@ -46,6 +49,7 @@
                             <li><a href="#tabs-6">Equipment</a></li>
                             <li><a href="#tabs-7">Product Images</a></li>
                         }
+                        <li><a href="#tabs-8">Add On</a></li>
                     </ul>
 
                     <div id="tabs-1">
@@ -397,163 +401,163 @@ isSelected == true ? (object)new { @class = "form-control g-smallCell g-d-i catC
                             int loopCount = 0;
                             foreach (AxisFieldsAdditional afa in Model.prod.AxisFields.AxisFieldsAdditional.OrderBy(x => x.websiteFK))
                             {
-                        <fieldset class="g-m-t-20">
-                            <legend>@Html.Raw(Model.AllWebsites.Where(x => x.WebsiteID == afa.websiteFK).First().FriendlyName)</legend>
-                            <input type="hidden" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).axisFieldsAdditionalID"
-                                   value="@afa.axisFieldsAdditionalID" name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].axisFieldsAdditionalID">
-                            <input type="hidden" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).productFK"
-                                   value="@afa.productFK" name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].productFK">
-                            <input type="hidden" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).websiteFK"
-                                   value="@afa.websiteFK" name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].websiteFK">
+                                <fieldset class="g-m-t-20">
+                                    <legend>@Html.Raw(Model.AllWebsites.Where(x => x.WebsiteID == afa.websiteFK).First().FriendlyName)</legend>
+                                    <input type="hidden" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).axisFieldsAdditionalID"
+                                           value="@afa.axisFieldsAdditionalID" name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].axisFieldsAdditionalID">
+                                    <input type="hidden" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).productFK"
+                                           value="@afa.productFK" name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].productFK">
+                                    <input type="hidden" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).websiteFK"
+                                           value="@afa.websiteFK" name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].websiteFK">
 
-                            <div class="form-group">
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Google Feed Site", new { @class = "g-f-l" })
-                                    <input value="@afa.googleFeedSite" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).googleFeedSite"
-                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].googleFeedSite"
-                                           class="form-control g-largeCell" />
-                                </div>
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Google Feed Include", new { @class = "g-f-l" })
-                                    @Html.CheckBox("prod.AxisFields.AxisFieldsAdditional[" + loopCount + "].googleFeedInclude",
-afa.googleFeedInclude != null ? afa.googleFeedInclude == true ? true : false : false)
+                                    <div class="form-group">
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Google Feed Site", new { @class = "g-f-l" })
+                                            <input value="@afa.googleFeedSite" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).googleFeedSite"
+                                                   name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].googleFeedSite"
+                                                   class="form-control g-largeCell" />
+                                        </div>
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Google Feed Include", new { @class = "g-f-l" })
+                                            @Html.CheckBox("prod.AxisFields.AxisFieldsAdditional[" + loopCount + "].googleFeedInclude",
+        afa.googleFeedInclude != null ? afa.googleFeedInclude == true ? true : false : false)
 
-                                </div>
-                            </div>
+                                        </div>
+                                    </div>
 
-                            <div class="form-group">
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Google Feed Category", new { @class = "g-f-l" })
-                                    <input value="@afa.googleFeedCategory" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).googleFeedCategory"
-                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].googleFeedCategory"
-                                           class="form-control g-largeCell" />
-                                </div>
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Google Promotion ID(s) (comma separated)", new { @class = "g-f-l" })
-                                    <input value="@afa.googlePromotionId" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).googlePromotionId"
-                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].googlePromotionId"
-                                           class="form-control g-largeCell" />
-                                </div>
-                            </div>
+                                    <div class="form-group">
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Google Feed Category", new { @class = "g-f-l" })
+                                            <input value="@afa.googleFeedCategory" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).googleFeedCategory"
+                                                   name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].googleFeedCategory"
+                                                   class="form-control g-largeCell" />
+                                        </div>
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Google Promotion ID(s) (comma separated)", new { @class = "g-f-l" })
+                                            <input value="@afa.googlePromotionId" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).googlePromotionId"
+                                                   name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].googlePromotionId"
+                                                   class="form-control g-largeCell" />
+                                        </div>
+                                    </div>
 
-                            <div class="form-group">
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Google Feed Condition", new { @class = "g-f-l" })
-                                    <input value="@afa.googleFeedCondition" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).googleFeedCondition"
-                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].googleFeedCondition"
-                                           class="form-control g-largeCell" />
-                                </div>
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Google Feed Availability", new { @class = "g-f-l" })
-                                    <input value="@afa.googleFeedAvailability" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).googleFeedAvailability"
-                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].googleFeedAvailability"
-                                           class="form-control g-largeCell" />
-                                </div>
-                            </div>
+                                    <div class="form-group">
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Google Feed Condition", new { @class = "g-f-l" })
+                                            <input value="@afa.googleFeedCondition" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).googleFeedCondition"
+                                                   name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].googleFeedCondition"
+                                                   class="form-control g-largeCell" />
+                                        </div>
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Google Feed Availability", new { @class = "g-f-l" })
+                                            <input value="@afa.googleFeedAvailability" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).googleFeedAvailability"
+                                                   name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].googleFeedAvailability"
+                                                   class="form-control g-largeCell" />
+                                        </div>
+                                    </div>
 
-                            <div class="form-group">
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Bespoke Feed Site", new { @class = "g-f-l" })
-                                    <input value="@afa.bespokeFeedSite" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).bespokeFeedSite"
-                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].bespokeFeedSite"
-                                           class="form-control g-largeCell" />
-                                </div>
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Bespoke Feed Include", new { @class = "g-f-l" })
-                                    @Html.CheckBox("prod.AxisFields.AxisFieldsAdditional[" + loopCount + "].bespokeFeedInclude",
-afa.bespokeFeedInclude != null ? afa.bespokeFeedInclude == true ? true : false : false)
-                                </div>
-                            </div>
+                                    <div class="form-group">
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Bespoke Feed Site", new { @class = "g-f-l" })
+                                            <input value="@afa.bespokeFeedSite" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).bespokeFeedSite"
+                                                   name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].bespokeFeedSite"
+                                                   class="form-control g-largeCell" />
+                                        </div>
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Bespoke Feed Include", new { @class = "g-f-l" })
+                                            @Html.CheckBox("prod.AxisFields.AxisFieldsAdditional[" + loopCount + "].bespokeFeedInclude",
+        afa.bespokeFeedInclude != null ? afa.bespokeFeedInclude == true ? true : false : false)
+                                        </div>
+                                    </div>
 
-                            <div class="form-group">
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Bespoke Feed Availability", new { @class = "g-f-l" })
-                                    <input value="@afa.bespokeFeedAvailability" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).bespokeFeedAvailability"
-                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].bespokeFeedAvailability"
-                                           class="form-control g-largeCell" />
-                                </div>
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Bespoke Feed Condition", new { @class = "g-f-l" })
-                                    <input value="@afa.bespokeFeedCondition" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).bespokeFeedCondition"
-                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].bespokeFeedCondition"
-                                           class="form-control g-largeCell" />
-                                </div>
-                            </div>
+                                    <div class="form-group">
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Bespoke Feed Availability", new { @class = "g-f-l" })
+                                            <input value="@afa.bespokeFeedAvailability" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).bespokeFeedAvailability"
+                                                   name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].bespokeFeedAvailability"
+                                                   class="form-control g-largeCell" />
+                                        </div>
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Bespoke Feed Condition", new { @class = "g-f-l" })
+                                            <input value="@afa.bespokeFeedCondition" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).bespokeFeedCondition"
+                                                   name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].bespokeFeedCondition"
+                                                   class="form-control g-largeCell" />
+                                        </div>
+                                    </div>
 
-                            <div class="form-group">
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Bespoke Custom Ship Cost", new { @class = "g-f-l" })
-                                    <input value="@afa.bespokeFeedUseCustomShipCost" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).bespokeFeedUseCustomShipCost"
-                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].bespokeFeedUseCustomShipCost"
-                                           class="form-control g-largeCell" />
-                                </div>
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Date Last Update", new { @class = "g-f-l" })
-                                    @Html.EditorFor(model => afa.dateLastUpdate, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
-                                </div>
-                            </div>
+                                    <div class="form-group">
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Bespoke Custom Ship Cost", new { @class = "g-f-l" })
+                                            <input value="@afa.bespokeFeedUseCustomShipCost" type="text" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).bespokeFeedUseCustomShipCost"
+                                                   name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].bespokeFeedUseCustomShipCost"
+                                                   class="form-control g-largeCell" />
+                                        </div>
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Date Last Update", new { @class = "g-f-l" })
+                                            @Html.EditorFor(model => afa.dateLastUpdate, new { htmlAttributes = new { @class = "form-control g-largeCell", @disabled = "disabled" } })
+                                        </div>
+                                    </div>
 
-                            <div class="form-group">
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Break Quantity 1", new { @class = "g-f-l" })
-                                    <input value="@afa.breakQuantity1" type="number" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).breakQuantity1"
-                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].breakQuantity1"
-                                           class="form-control g-largeCell" />
-                                </div>
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Break Quantity 2", new { @class = "g-f-l" })
-                                    <input value="@afa.breakQuantity2" type="number" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).breakQuantity2"
-                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].breakQuantity2"
-                                           class="form-control g-largeCell" />
-                                </div>
-                            </div>
+                                    <div class="form-group">
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Break Quantity 1", new { @class = "g-f-l" })
+                                            <input value="@afa.breakQuantity1" type="number" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).breakQuantity1"
+                                                   name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].breakQuantity1"
+                                                   class="form-control g-largeCell" />
+                                        </div>
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Break Quantity 2", new { @class = "g-f-l" })
+                                            <input value="@afa.breakQuantity2" type="number" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).breakQuantity2"
+                                                   name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].breakQuantity2"
+                                                   class="form-control g-largeCell" />
+                                        </div>
+                                    </div>
 
-                            <div class="form-group">
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Break Quantity 3", new { @class = "g-f-l" })
-                                    <input value="@afa.breakQuantity3" type="number" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).breakQuantity3"
-                                           name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].breakQuantity3"
-                                           class="form-control g-largeCell" />
-                                </div>
-                            </div>
+                                    <div class="form-group">
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Break Quantity 3", new { @class = "g-f-l" })
+                                            <input value="@afa.breakQuantity3" type="number" id="prod.AxisFields.AxisFieldsAdditional@(loopCount).breakQuantity3"
+                                                   name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].breakQuantity3"
+                                                   class="form-control g-largeCell" />
+                                        </div>
+                                    </div>
 
-                            <div class="form-group">
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Stock Notes", new { @class = "g-f-l" })
-                                    <textarea id="prod.AxisFields.AxisFieldsAdditional@(loopCount).stockNoteDesc"
-                                              name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].stockNoteDesc">@afa.stockNoteDesc</textarea>
-                                </div>
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Priority Notes", new { @class = "g-f-l" })
-                                    <textarea id="prod.AxisFields.AxisFieldsAdditional@(loopCount).priorityNote"
-                                              name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].priorityNote">@afa.priorityNote</textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Meta Title", new { @class = "g-f-l" })
-                                    <textarea id="prod.AxisFields.AxisFieldsAdditional@(loopCount).metaTitle"
-                                              name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].metaTitle">@afa.metaTitle</textarea>
-                                </div>
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Meta Keywords", new { @class = "g-f-l" })
-                                    <textarea id="prod.AxisFields.AxisFieldsAdditional@(loopCount).metaKeywords"
-                                              name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].metaKeywords">@afa.metaKeywords</textarea>
-                                </div>
-                                <div class="g-f-l prdCrt_leftContainer">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="g-f-l prdCrt_leftContainer">
-                                    @Html.Label("Meta Description", new { @class = "g-f-l" })
-                                    <textarea id="prod.AxisFields.AxisFieldsAdditional@(loopCount).metaDesc"
-                                              name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].metaDesc">@afa.metaDesc</textarea>
-                                </div>
-                                <div class="g-f-l prdCrt_leftContainer">
-                                </div>
-                            </div>
+                                    <div class="form-group">
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Stock Notes", new { @class = "g-f-l" })
+                                            <textarea id="prod.AxisFields.AxisFieldsAdditional@(loopCount).stockNoteDesc"
+                                                      name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].stockNoteDesc">@afa.stockNoteDesc</textarea>
+                                        </div>
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Priority Notes", new { @class = "g-f-l" })
+                                            <textarea id="prod.AxisFields.AxisFieldsAdditional@(loopCount).priorityNote"
+                                                      name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].priorityNote">@afa.priorityNote</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Meta Title", new { @class = "g-f-l" })
+                                            <textarea id="prod.AxisFields.AxisFieldsAdditional@(loopCount).metaTitle"
+                                                      name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].metaTitle">@afa.metaTitle</textarea>
+                                        </div>
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Meta Keywords", new { @class = "g-f-l" })
+                                            <textarea id="prod.AxisFields.AxisFieldsAdditional@(loopCount).metaKeywords"
+                                                      name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].metaKeywords">@afa.metaKeywords</textarea>
+                                        </div>
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                            @Html.Label("Meta Description", new { @class = "g-f-l" })
+                                            <textarea id="prod.AxisFields.AxisFieldsAdditional@(loopCount).metaDesc"
+                                                      name="prod.AxisFields.AxisFieldsAdditional[@(loopCount)].metaDesc">@afa.metaDesc</textarea>
+                                        </div>
+                                        <div class="g-f-l prdCrt_leftContainer">
+                                        </div>
+                                    </div>
 
-                        </fieldset>
+                                </fieldset>
                                 loopCount++;
                             }
                         }
@@ -579,35 +583,35 @@ afa.bespokeFeedInclude != null ? afa.bespokeFeedInclude == true ? true : false :
                                         @foreach (var wi in Model.prod.websiteInventory)
                                         {
                                             Model.AllCategoryCodes = SelectListViewModel.GetAllCategoryCodes(wi.websiteFK);
-                                    <fieldset>
-                                        <legend>@Html.Raw(wi.Website.FriendlyName)</legend>
-                                        <!--table id=@Html.Raw("\"tblCatCode-" + wi.websiteFK + "\"") width="500"-->
-                                        <table id="tblCatCode-@wi.websiteFK.ToString()" width="500">
-                                            <tr>
-                                                <td class="g-fw-b">
-                                                    @Html.Raw(wi.categoryCode != null ? "<span class=\"lblDesc\">" + wi.categoryCodeFK + " - " + wi.categoryCode.categoryCodeName + "</span>" : "Not Set")
-                                                </td>
-                                                <td class="g-fw-b" colspan="2">Primary</td>
-                                            </tr>
+                                            <fieldset>
+                                                <legend>@Html.Raw(wi.Website.FriendlyName)</legend>
+                                                <!--table id=@Html.Raw("\"tblCatCode-" + wi.websiteFK + "\"") width="500"-->
+                                                <table id="tblCatCode-@wi.websiteFK.ToString()" width="500">
+                                                    <tr>
+                                                        <td class="g-fw-b">
+                                                            @Html.Raw(wi.categoryCode != null ? "<span class=\"lblDesc\">" + wi.categoryCodeFK + " - " + wi.categoryCode.categoryCodeName + "</span>" : "Not Set")
+                                                        </td>
+                                                        <td class="g-fw-b" colspan="2">Primary</td>
+                                                    </tr>
 
-                                            @{ ViewBag.guid = Guid.NewGuid().ToString(); }
+                                                    @{ ViewBag.guid = Guid.NewGuid().ToString(); }
 
-                                            @Html.Hidden("guid" + wi.websiteFK, (string)ViewBag.guid, new { @class = "guid" })
+                                                    @Html.Hidden("guid" + wi.websiteFK, (string)ViewBag.guid, new { @class = "guid" })
 
-                                            @foreach (var scc in wi.secondaryCategoryLookup.OrderBy(x => x.categoryCodeFK))
-                                            {
-                                                Html.RenderPartial("_CategoryCodes", scc);
-                                            }
-                                        </table>
-                                        @Html.DropDownList("ddlCategoryCodes-" + wi.websiteFK, Model.AllCategoryCodes, "Add to Category Code...", new { @class = "form-control g-largeCell" })
-                                        @Html.Hidden("prod.websiteInventory[" + (string)ViewBag.guid + "].websiteFK", wi.websiteFK)
-                                        @Html.Hidden("prod.websiteInventory[" + (string)ViewBag.guid + "].websiteInventoryID", wi.websiteInventoryID, new { @class = "wi-id" + wi.websiteFK })
-                                        @Html.Hidden("prod.websiteInventory[" + (string)ViewBag.guid + "].productFK", Model.prod.productID)
+                                                    @foreach (var scc in wi.secondaryCategoryLookup.OrderBy(x => x.categoryCodeFK))
+                                                    {
+                                                        Html.RenderPartial("_CategoryCodes", scc);
+                                                    }
+                                                </table>
+                                                @Html.DropDownList("ddlCategoryCodes-" + wi.websiteFK, Model.AllCategoryCodes, "Add to Category Code...", new { @class = "form-control g-largeCell" })
+                                                @Html.Hidden("prod.websiteInventory[" + (string)ViewBag.guid + "].websiteFK", wi.websiteFK)
+                                                @Html.Hidden("prod.websiteInventory[" + (string)ViewBag.guid + "].websiteInventoryID", wi.websiteInventoryID, new { @class = "wi-id" + wi.websiteFK })
+                                                @Html.Hidden("prod.websiteInventory[" + (string)ViewBag.guid + "].productFK", Model.prod.productID)
 
-                                        <input type="hidden" value="@ViewBag.guid" autocomplete="off"
-                                                name="prod.websiteInventory.index">
+                                                <input type="hidden" value="@ViewBag.guid" autocomplete="off"
+                                                       name="prod.websiteInventory.index">
 
-                                    </fieldset>
+                                            </fieldset>
                                         }
                                     </fieldset>
                                 </td>
@@ -632,7 +636,7 @@ afa.bespokeFeedInclude != null ? afa.bespokeFeedInclude == true ? true : false :
                         </div>
                     }
 
-                    @if(Model.prod.productID != 0)
+                    @if (Model.prod.productID != 0)
                     {
                         <div id="tabs-6">
                             <br />
@@ -663,7 +667,24 @@ afa.bespokeFeedInclude != null ? afa.bespokeFeedInclude == true ? true : false :
                             </div>
 
                         </div>
-                     }
+
+                    }
+                <div id="tabs-8">
+
+                    
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Add-on Products</label>
+                       
+                        <div class="col-md-10">
+                            <select id="addOnProduct" class="form-control g-largeCell"
+                                    name="AddonProducts"
+                                    multiple="multiple"
+                                    style="width:100%">
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
                 </div>
 
                 <div class="form-group">
@@ -729,10 +750,10 @@ afa.bespokeFeedInclude != null ? afa.bespokeFeedInclude == true ? true : false :
                 type: 'POST',
                 cache: false,
                 data:
-                    {
-                        parms: objArray,
-                        timestamp: $.now()
-                    },
+                {
+                    parms: objArray,
+                    timestamp: $.now()
+                },
                 async: false,
                 success: function (data) {
                     $('#tblComponents').append(data);
@@ -828,10 +849,10 @@ afa.bespokeFeedInclude != null ? afa.bespokeFeedInclude == true ? true : false :
                 type: 'POST',
                 cache: false,
                 data:
-                    {
-                        parms: objArray,
-                        timestamp: $.now()
-                    },
+                {
+                    parms: objArray,
+                    timestamp: $.now()
+                },
                 async: false,
                 success: function (data) {
                     $('#tblEbusiness').append(data);
@@ -853,10 +874,10 @@ afa.bespokeFeedInclude != null ? afa.bespokeFeedInclude == true ? true : false :
                 type: 'POST',
                 cache: false,
                 data:
-                    {
-                        parms: objArray,
-                        timestamp: $.now()
-                    },
+                {
+                    parms: objArray,
+                    timestamp: $.now()
+                },
                 async: false,
                 success: function (data) {
                     $('#tblCatCode-' + websiteId).append(data);
@@ -915,6 +936,58 @@ afa.bespokeFeedInclude != null ? afa.bespokeFeedInclude == true ? true : false :
             applyStandardPaging(event, 0);
 
             return false;
+        }); $(function () {
+
+            $("#addOnProduct").select2({
+
+                placeholder: "Search products",
+
+                allowClear: true,
+
+                width: "100%",
+
+                ajax: {
+
+                    url: "/PMS/Product/SearchProducts",
+
+                    dataType: "json",
+
+                    delay: 300,
+
+                    data: function (params) {
+
+                        return {
+
+                            search: params.term
+
+                        };
+
+                    },
+
+                    processResults: function (data) {
+
+                        return {
+
+                            results: $.map(data, function (item) {
+                                debugger;
+                                return {
+
+                                    id: item.value,
+
+                                    text: item.label
+
+                                };
+
+                            })
+
+                        };
+
+                    }
+
+                }
+
+            });
+
         });
 
         function applyStandardPaging(event, id) {

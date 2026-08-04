@@ -38,11 +38,12 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product
             AllProductGroups = SelectListViewModel.GetAllProductGroups();
             AllSalesAreaGroups = SelectListViewModel.GetAllSalesAreaGroups();
             AllDataSuppliers = SelectListViewModel.GetAllDataSuppliers();
-
+            AllAddOnProducts = SelectListViewModel.SearchProductsPartNoDesc("");
             Products = null;
             _ctx = new ngmdEntities();
         }
-
+        public List<int> AddonProducts { get; set; }
+        public IQueryable<SelectListItem> AllAddOnProducts { get; set; }
         private ngmdEntities _ctx;
         public List<product> Products { get; set; }
         public int ProductsCount { get; set; }

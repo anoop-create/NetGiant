@@ -325,5 +325,11 @@ namespace netGiant.Intranet.Areas.PMS.Product
             ProductViewModel.AddProductToAxisQueue(productFK, "U", QueueType.Partial, "price");
             return RedirectToAction("AXISQueueIndex");
         }
+        public JsonResult SearchProducts(string search)
+        {
+            var result = SelectListViewModel.GetProductsArray(search).ToList();
+            
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }
