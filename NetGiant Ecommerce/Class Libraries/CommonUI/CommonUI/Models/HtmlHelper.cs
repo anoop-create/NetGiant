@@ -76,7 +76,10 @@ namespace CommonUI.Models
                 {
                     foreach (KeyValuePair<string, string> kvp in replacements)
                     {
-                        s = s.Replace(kvp.Key, kvp.Value);
+                        if (!string.IsNullOrEmpty(kvp.Key) && kvp.Value != null && s != null)
+                        {
+                            s = s.Replace(kvp.Key, kvp.Value);
+                        }
                     }
                 }
                 return htmlHelper.Raw(s);

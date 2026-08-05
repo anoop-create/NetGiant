@@ -422,115 +422,20 @@ WriteLiteral(">\r\n");
             
             #line default
             #line hidden
-WriteLiteral("\r\n                            </div>\r\n                        </div>\r\n           " +
-"         </div>\r\n\r\n                    <!-- Right Hand Column -->\r\n");
+WriteLiteral(@"
+                            </div>
+                        </div>
+                    </div>
 
-            
-            #line 91 "..\..\Views\Checkout\ViewBasket.cshtml"
+                    <!-- Right Hand Column -->
                     
-            
-            #line default
-            #line hidden
-            
-            #line 91 "..\..\Views\Checkout\ViewBasket.cshtml"
-                     if (!Model.IsMobile)
-                    {
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                        <div");
-
-WriteLiteral(" class=\"col-md-3 restrict-images\"");
-
-WriteLiteral(">\r\n");
-
-WriteLiteral("                            ");
-
-            
-            #line 94 "..\..\Views\Checkout\ViewBasket.cshtml"
-                       Write(Html.RawFromDict(Model.CheckoutData, "BasketMarketing1"));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n\r\n                            <div");
-
-WriteLiteral(" class=\"g-m-t-20\"");
-
-WriteLiteral("></div>\r\n\r\n");
-
-WriteLiteral("                            ");
-
-            
-            #line 98 "..\..\Views\Checkout\ViewBasket.cshtml"
-                       Write(Html.RawFromDict(Model.CheckoutData, "BasketMarketing2"));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n\r\n");
-
-            
-            #line 100 "..\..\Views\Checkout\ViewBasket.cshtml"
-                            
-            
-            #line default
-            #line hidden
-            
-            #line 100 "..\..\Views\Checkout\ViewBasket.cshtml"
-                             if (!Model.IsMobile)
-                            {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                                <div");
-
-WriteLiteral(" class=\"g-bc-s g-b-1-p g-m-t-20 hidden-xs hidden-sm\"");
-
-WriteLiteral(">\r\n                                    <div");
-
-WriteLiteral(" class=\"g-p-10\"");
-
-WriteLiteral(">\r\n                                        <strong>Payment Options at Checkout</s" +
-"trong>\r\n                                    </div>\r\n                            " +
-"        <hr />\r\n                                    <div");
-
-WriteLiteral(" class=\"g-p-10\"");
-
-WriteLiteral(">\r\n");
-
-WriteLiteral("                                        ");
-
-            
-            #line 108 "..\..\Views\Checkout\ViewBasket.cshtml"
-                                   Write(Html.Raw(Model.CheckoutData["PaymentMethods"].Replace("[newline]", "&#013;")));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                                    </div>\r\n                                </d" +
-"iv>\r\n");
-
-            
-            #line 111 "..\..\Views\Checkout\ViewBasket.cshtml"
-                            }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                        </div>\r\n");
-
-            
-            #line 113 "..\..\Views\Checkout\ViewBasket.cshtml"
-                    }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</section" +
-">\r\n\r\n<input");
+<input");
 
 WriteLiteral(" hidden=\"hidden\"");
 
@@ -539,7 +444,7 @@ WriteLiteral(" class=\"IsInCheckout\"");
 WriteLiteral(" />\r\n\r\n");
 
             
-            #line 122 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 100 "..\..\Views\Checkout\ViewBasket.cshtml"
   
     if (Authentication.IsNotFullyAuthenticated())
     {
@@ -572,7 +477,7 @@ WriteLiteral(@">
                 if ('");
 
             
-            #line 143 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 121 "..\..\Views\Checkout\ViewBasket.cshtml"
                  Write(Authentication.IsFullyAuthenticated());
 
             
@@ -606,13 +511,13 @@ WriteLiteral(@"' == 'True') {
 ");
 
             
-            #line 168 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 146 "..\..\Views\Checkout\ViewBasket.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 168 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 146 "..\..\Views\Checkout\ViewBasket.cshtml"
      if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
     {
 
@@ -621,30 +526,30 @@ WriteLiteral(@"' == 'True') {
             #line hidden
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 6757), Tuple.Create("\"", 7037)
-, Tuple.Create(Tuple.Create("", 6763), Tuple.Create("https://www.paypal.com/sdk/js?client-id=", 6763), true)
+WriteAttribute("src", Tuple.Create(" src=\"", 5658), Tuple.Create("\"", 5938)
+, Tuple.Create(Tuple.Create("", 5664), Tuple.Create("https://www.paypal.com/sdk/js?client-id=", 5664), true)
             
-            #line 170 "..\..\Views\Checkout\ViewBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 6803), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["PayPalClientId"]
-            
-            #line default
-            #line hidden
-, 6803), false)
-, Tuple.Create(Tuple.Create("", 6856), Tuple.Create("&currency=GBP&locale=en_GB&intent=authorize&components=messages,buttons&enable-fu" +
-"nding=paylater&debug=", 6856), true)
-            
-            #line 170 "..\..\Views\Checkout\ViewBasket.cshtml"
-                                                                                                                                         , Tuple.Create(Tuple.Create("", 6958), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["Environment"] == "Live" ? "false" : "true"
+            #line 148 "..\..\Views\Checkout\ViewBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 5704), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["PayPalClientId"]
             
             #line default
             #line hidden
-, 6958), false)
+, 5704), false)
+, Tuple.Create(Tuple.Create("", 5757), Tuple.Create("&currency=GBP&locale=en_GB&intent=authorize&components=messages,buttons&enable-fu" +
+"nding=paylater&debug=", 5757), true)
+            
+            #line 148 "..\..\Views\Checkout\ViewBasket.cshtml"
+                                                                                                                                         , Tuple.Create(Tuple.Create("", 5859), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["Environment"] == "Live" ? "false" : "true"
+            
+            #line default
+            #line hidden
+, 5859), false)
 );
 
 WriteLiteral(">\r\n        </script>\r\n");
 
             
-            #line 172 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 150 "..\..\Views\Checkout\ViewBasket.cshtml"
     }
 
             
@@ -661,13 +566,13 @@ DefineSection("AddScript", () => {
 WriteLiteral("\r\n");
 
             
-            #line 178 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 156 "..\..\Views\Checkout\ViewBasket.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 178 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 156 "..\..\Views\Checkout\ViewBasket.cshtml"
       
         Html.RenderPartial("~/Views/Checkout/JSTracking.cshtml", Model);
     
@@ -679,7 +584,7 @@ WriteLiteral("\r\n");
 WriteLiteral("    ");
 
             
-            #line 181 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 159 "..\..\Views\Checkout\ViewBasket.cshtml"
 Write(Scripts.Render("~/bundles/checkoutBundle.js"));
 
             
@@ -698,7 +603,7 @@ WriteLiteral("\r\n    [\r\n");
 WriteLiteral("    ");
 
             
-            #line 187 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 165 "..\..\Views\Checkout\ViewBasket.cshtml"
 Write(Html.Raw(ViewBag.BreadcrumbJson));
 
             

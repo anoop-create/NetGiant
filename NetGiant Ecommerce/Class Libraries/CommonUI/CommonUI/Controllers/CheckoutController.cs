@@ -185,10 +185,12 @@ namespace CommonUI.Controllers
             }
             else
             {
+                Basket.RemoveDelivery();
                 Basket.UpdateBasketSession(model.BasketContents);
             }
 
             model.ExtendBasket();
+            model.GetAddOn();
             ViewBag.SuppressEdit = false;
             ViewBag.IsPortalUser = false;
             if (Convert.ToBoolean(Session["U_IsPortalUser"]))
@@ -1348,28 +1350,30 @@ namespace CommonUI.Controllers
             }
 
             SaveReturn sr = Utilities.LoadVoucher(voucherCode);
-
+            System.Diagnostics.Debug.WriteLine(sr.IsSuccess);
+            System.Diagnostics.Debug.WriteLine(sr.Html);
             string basketSummary = "";
+            string voucherMessage = sr.Html;
             if (sr.IsSuccess)
             {
                 model = new CheckoutViewModel();
                 model.ExtendBasket();
-                model.CheckoutDetails.ZeroStock = false;
+
+                ViewBag.VoucherMessage = voucherMessage;
+
                 ViewBag.SuppressEdit = false;
-                ViewBag.VoucherMessage = "";
                 ViewBag.HideVoucher = HideVoucher(model);
-                if (sr.Message != "")
-                {
-                    ViewBag.VoucherMessage = sr.Html;
-                }
+
                 ViewBag.OrderIsOnHold = false;
-                if (model.BasketContents.Find(x => x.PartNo == "ONHOLD") != null)
+
+                if (model.BasketContents.Any(x => x.PartNo == "ONHOLD"))
                 {
                     ViewBag.OrderIsOnHold = true;
                 }
 
-                sr.Html = RenderPartialViewToString("~/Views/Checkout/BasketDetails.cshtml", model);
-                basketSummary = RenderPartialViewToString("~/Views/Shared/BasketSummary.cshtml", model);
+                sr.Html = RenderPartialViewToString(
+                    "~/Views/Checkout/BasketDetails.cshtml",
+                    model);
             }
 
             BasketTotals bt = (BasketTotals)Session["B_BasketTotals"];

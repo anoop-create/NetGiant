@@ -1387,6 +1387,7 @@ $(function () {
                     async: false,
                     success: function (data) {
                         changeBasketComplete(data, thisbutton);
+                        refreshViewBasket();
                     },
                     error: function (xhr, textStatus, thrownError) {
                         logAjaxScriptError("/Product/BasketAdd/", xhr, textStatus, thrownError);
@@ -1966,7 +1967,29 @@ $(function () {
                 }
             });
         });
+    $(document).on("click", "#btnSwitchAll", function () {
+        $.ajax({
+            url: "/Product/BasketReplaceAll/",
+            type: "POST",
+            dataType: "json",
+            cache: false,
 
+            success: function (data) {
+
+                if (!data.savereturn.IsSuccess) {
+                    launchPopup('IsInCheckout', 'popup');
+                    return;
+                }
+
+                refreshViewBasket();
+                renderPaypalButtonV2();
+            },
+
+            error: function (xhr, textStatus, thrownError) {
+                logAjaxScriptError("/Product/BasketReplaceAll/", xhr, textStatus, thrownError);
+            }
+        });
+    });
     // Brand Wizard
     $('.hm-bw-links').hide();
     $(document).on('mouseenter',

@@ -5,6 +5,18 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="NgmdEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ProductAddon">
+          <Key>
+            <PropertyRef Name="ProductAddonId" />
+          </Key>
+          <Property Name="ProductAddonId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="AddonProductId" Type="int" Nullable="false" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="actionLink">
           <Key>
             <PropertyRef Name="actionLinkID" />
@@ -1149,12 +1161,6 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.richTempPaper' does not ha
           <Property Name="paperWeight" Type="varchar" MaxLength="10" />
           <Property Name="paperSize" Type="varchar" MaxLength="30" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'netgiantMasterData.ngmd.richTempPaperWeight' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="richTempPaperWeight">
-          <Property Name="alt" Type="varchar" MaxLength="20" />
-          <Property Name="weight" Type="varchar" MaxLength="10" />
-        </EntityType>-->
         <!--Errors Found During Generation:
 warning 6002: The table/view 'netgiantMasterData.ngmd.richTempPrinters' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="richTempPrinters">
@@ -2474,6 +2480,30 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProductAddon_AddonProduct">
+          <End Role="product" Type="Self.product" Multiplicity="1" />
+          <End Role="ProductAddon" Type="Self.ProductAddon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="productID" />
+            </Principal>
+            <Dependent Role="ProductAddon">
+              <PropertyRef Name="AddonProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductAddon_Product">
+          <End Role="product" Type="Self.product" Multiplicity="1" />
+          <End Role="ProductAddon" Type="Self.ProductAddon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="productID" />
+            </Principal>
+            <Dependent Role="ProductAddon">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_productImage_websiteInventory">
           <End Role="websiteInventory" Type="Self.websiteInventory" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -3477,6 +3507,7 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
           <Parameter Name="OrderNo" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="NgmdEntitiesStoreContainer">
+          <EntitySet Name="ProductAddon" EntityType="Self.ProductAddon" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="actionLink" EntityType="Self.actionLink" Schema="ngmd" store:Type="Tables" />
           <EntitySet Name="AmazonPayLog" EntityType="Self.AmazonPayLog" Schema="ngmd" store:Type="Tables" />
           <EntitySet Name="assemblyComponent" EntityType="Self.assemblyComponent" Schema="ngmd" store:Type="Tables" />
@@ -4056,6 +4087,14 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
           <AssociationSet Name="FK_product_salesAreaGroupFK" Association="Self.FK_product_salesAreaGroupFK">
             <End Role="salesAreaGroup" EntitySet="salesAreaGroup" />
             <End Role="product" EntitySet="product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductAddon_AddonProduct" Association="Self.FK_ProductAddon_AddonProduct">
+            <End Role="product" EntitySet="product" />
+            <End Role="ProductAddon" EntitySet="ProductAddon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductAddon_Product" Association="Self.FK_ProductAddon_Product">
+            <End Role="product" EntitySet="product" />
+            <End Role="ProductAddon" EntitySet="ProductAddon" />
           </AssociationSet>
           <AssociationSet Name="FK_productImage_websiteInventory" Association="Self.FK_productImage_websiteInventory">
             <End Role="websiteInventory" EntitySet="websiteInventory" />
@@ -5269,6 +5308,15 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
             <Parameter Name="WebsiteId" Mode="In" Type="Int32" />
             <Parameter Name="OrderNo" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="ProductAddons" EntityType="NgmdEntities.ProductAddon" />
+          <AssociationSet Name="FK_ProductAddon_AddonProduct" Association="NgmdEntities.FK_ProductAddon_AddonProduct">
+            <End Role="product" EntitySet="product" />
+            <End Role="ProductAddon" EntitySet="ProductAddons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductAddon_Product" Association="NgmdEntities.FK_ProductAddon_Product">
+            <End Role="product" EntitySet="product" />
+            <End Role="ProductAddon" EntitySet="ProductAddons" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="eqEquipment">
           <Key>
@@ -6967,6 +7015,8 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
           <NavigationProperty Name="AXISQueue" Relationship="NgmdEntities.FK_AXISQueue_productFK" FromRole="product" ToRole="AXISQueue" />
           <NavigationProperty Name="dataSupplier" Relationship="NgmdEntities.FK_product_dataSupplier" FromRole="product" ToRole="dataSupplier" />
           <NavigationProperty Name="skuMapping" Relationship="NgmdEntities.FK_skuMapping_product" FromRole="product" ToRole="skuMapping" />
+          <NavigationProperty Name="ProductAddons" Relationship="NgmdEntities.FK_ProductAddon_AddonProduct" FromRole="product" ToRole="ProductAddon" />
+          <NavigationProperty Name="ProductAddons1" Relationship="NgmdEntities.FK_ProductAddon_Product" FromRole="product" ToRole="ProductAddon" />
         </EntityType>
         <Association Name="FK_AxisFields_product">
           <End Type="NgmdEntities.product" Role="product" Multiplicity="1">
@@ -9059,6 +9109,44 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
           <Property Type="String" Name="DeliveryAddress5" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="DeliveryPostcode" Nullable="true" MaxLength="30" />
         </ComplexType>
+        <EntityType Name="ProductAddon">
+          <Key>
+            <PropertyRef Name="ProductAddonId" />
+          </Key>
+          <Property Name="ProductAddonId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="AddonProductId" Type="Int32" Nullable="false" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="product" Relationship="NgmdEntities.FK_ProductAddon_AddonProduct" FromRole="ProductAddon" ToRole="product" />
+          <NavigationProperty Name="product1" Relationship="NgmdEntities.FK_ProductAddon_Product" FromRole="ProductAddon" ToRole="product" />
+        </EntityType>
+        <Association Name="FK_ProductAddon_AddonProduct">
+          <End Type="NgmdEntities.product" Role="product" Multiplicity="1" />
+          <End Type="NgmdEntities.ProductAddon" Role="ProductAddon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="productID" />
+            </Principal>
+            <Dependent Role="ProductAddon">
+              <PropertyRef Name="AddonProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductAddon_Product">
+          <End Type="NgmdEntities.product" Role="product" Multiplicity="1" />
+          <End Type="NgmdEntities.ProductAddon" Role="ProductAddon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="productID" />
+            </Principal>
+            <Dependent Role="ProductAddon">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -11843,6 +11931,19 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="ProductAddons">
+            <EntityTypeMapping TypeName="NgmdEntities.ProductAddon">
+              <MappingFragment StoreEntitySet="ProductAddon">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="AddonProductId" ColumnName="AddonProductId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductAddonId" ColumnName="ProductAddonId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -573,5 +573,94 @@ namespace CommonUI.Controllers
 
             return PartialView(model);
         }
-    }    
+        [HttpPost]
+        public JsonResult BasketReplaceAll()
+        {
+            SaveReturn sr = new SaveReturn();
+
+            // Prevent changes during checkout
+            if (Session["C_IsInCheckout"] != null)
+            {
+                sr.IsSuccess = false;
+
+                return Json(new
+                {
+                    savereturn = sr
+                });
+            }
+
+            // Current basket
+            List<BasketContents> basket =
+                Utilities.LoadSession<List<BasketContents>>("B_BasketArray");
+
+            if (basket == null || basket.Count == 0)
+            {
+                sr.IsSuccess = false;
+                sr.Message = "Basket is empty.";
+
+                return Json(new
+                {
+                    savereturn = sr
+                });
+            }
+
+            // Get only the products that can actually be switched
+            List<BasketContents> switchProducts = basket
+                .Where(x =>
+                    x.ItemType == BasketItemType.Item &&
+                    !x.IsCompatible &&
+                    !x.ExcludeFromUpSell &&
+                    !string.IsNullOrEmpty(x.CrossSellingStockRef) &&
+                    (x.CrossSellingAvailability == 1 || x.CrossSellingAvailability == 7) &&
+                    x.CrossSellingPriceEx < x.PriceEx)
+                .ToList();
+
+            foreach (BasketContents item in switchProducts)
+            {
+                BasketContents bc = new BasketContents();
+
+                bc.StockRef = item.CrossSellingStockRef;
+                bc.Quantity = item.Quantity;
+                bc.QtyStart = item.Quantity;
+                bc.PriceEx = 0;          // Use live website price
+                bc.PriceInc = 0;
+                bc.ItemType = BasketItemType.Item;
+                bc.Type = item.Type;
+                bc.LineUid = item.LineUid;
+
+                // Add replacement product
+                sr = Basket.Update(bc);
+
+                // Remove original product
+                if (sr.IsSuccess)
+                {
+                    Basket.Delete(item.StockRef);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            Basket.RemoveDelivery();
+            Basket.GetBallparkDelivery();
+
+            BasketTotals bt = (BasketTotals)Session["B_BasketTotals"];
+            string basketSummary =
+                RenderPartialViewToString(
+                    "~/Views/Shared/BasketSummary.cshtml",
+                    model);
+
+            return Json(new
+            {
+                savereturn = sr,
+                basketTotals = Session["B_BasketTotals"],
+                basketSummary = basketSummary,
+                basketQuantity = bt.Quantity.ToString("##0"),
+                basketTotal = ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "1"
+                    ? bt.TotalIncVat.ToString("#,###,##0.00")
+                    : (bt.TotalExcVat - bt.Delivery).ToString("#,###,##0.00")
+            });
+        }
+    }
 }

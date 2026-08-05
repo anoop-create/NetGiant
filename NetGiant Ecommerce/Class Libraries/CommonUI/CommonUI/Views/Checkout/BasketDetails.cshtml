@@ -4,293 +4,789 @@
 @using DataAccess.EntityFramework
 @using CommonUI.Models;
 @using Kendo.Mvc.UI
-@using VmVoucherType = VMerchantWrapper.Entities.VoucherType
-
+@using VmVoucherType = VMerchantWrapper.Entities.VoucherType;
+@using System.Linq;
 @model CheckoutViewModel
 <style>
-    .basket-status {
-        margin-top: 15px;
-    }
+        .dv-basket-card {
+            background: white;
+            border: 1px solid #dcdcdc;
+        }
 
-    .stock-status {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 600;
-    }
+        .basket-card {
+            padding-right: 20px;
+        }
 
-        .stock-status.in-stock {
+        .basket-card-actions {
+            margin-top: 15px;
+            text-align: right;
+        }
+
+        .basket-status {
+            margin-top: 15px;
+        }
+
+        .stock-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+            .stock-status.in-stock {
+                color: #28a745;
+            }
+
+            .stock-status.back-order {
+                color: #f39c12;
+            }
+
+        .delivery-status {
+            margin-top: 6px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .delivery-date {
+            margin-top: 2px;
+            font-weight: 600;
+            color: #222;
+            padding-left: 1px;
+        }
+
+        .basket-qty-wrapper {
+            margin-top: 20px;
+        }
+
+        .qty-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .basket-qty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+            border-radius: 34px;
+            overflow: hidden;
+            width: 140px;
+            height: 42px;
+            margin-left: auto;
+        }
+
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: #f8f8f8;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+            .qty-btn:hover {
+                background: #ececec;
+            }
+
+            .qty-btn:disabled {
+                opacity: 0.45;
+                cursor: not-allowed;
+            }
+
+        .qty-input {
+            width: 60px;
+            border: none;
+            text-align: center;
+            font-weight: 600;
+            background: #fff;
+        }
+
+        .basket-remove-container {
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        .basket-remove {
+            background: none;
+            border: none;
+            color: #ff0d17;
+            padding: 0;
+            font-size: 26px;
+        }
+
+            .basket-remove:hover {
+                text-decoration: underline;
+            }
+
+        .switch-badge {
+            display: inline-block;
+            background: #007b5f;
+            color: #fff;
+            font-size: 12px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .switch-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .switch-text {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .switch-price {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .switch-saving {
             color: #28a745;
+            font-weight: 600;
+            margin-top: 6px;
         }
 
-        .stock-status.back-order {
-            color: #f39c12;
+        .switch-product-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 8px;
         }
 
-    .delivery-status {
-        margin-top: 6px;
-        padding-left: 24px;
-        font-size: 13px;
-        color: #666;
-    }
+        .switch-price {
+            margin-top: 6px;
+            font-size: 18px;
+            font-weight: 700;
+        }
 
-    .delivery-date {
-        margin-top: 2px;
-        font-weight: 600;
-        color: #222;
-    }
+            .switch-price small {
+                display: block;
+                font-size: 12px;
+                color: #777;
+                font-weight: 400;
+            }
 
-    .basket-qty-wrapper {
-        margin-top: 20px;
-    }
+        .switch-saving-label {
+            font-size: 12px;
+            color: #666;
+        }
 
-    .qty-label {
-        display: block;
-        margin-bottom: 8px;
-        font-size: 13px;
-        font-weight: 600;
-        color: #666;
-    }
+        .switch-saving {
+            color: #28a745;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        /* ===========================
+     Switch & Save
+    =========================== */
 
-    .basket-qty {
+        .switch-save-card {
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid #d5007f; /* Brand magenta */
+            border-radius: 8px;
+            background: #ffffff;
+        }
+
+        .switch-save-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .switch-heading {
+            font-size: 18px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .switch-product-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0px 0;
+            color: #09c;
+            margin-top: -28px;
+        }
+
+        .switch-price {
+            font-size: 17px;
+            font-weight: 700;
+            color: #000000;
+        }
+
+            .switch-price small {
+                display: block;
+                margin-top: 4px;
+                font-size: 12px;
+                font-weight: 500;
+                color: #222121;
+            }
+
+        .switch-saving {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0a8a43;
+        }
+
+        .switch-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+            .switch-footer .btn {
+                min-width: 170px;
+            }
+
+        .delivery-cutoff {
+            margin-top: 6px;
+            font-size: 13px;
+            color: #555;
+        }
+
+            .delivery-cutoff i {
+                color: #d5007f;
+                margin-right: 5px;
+            }
+
+        .delivery-countdown {
+            font-weight: 700;
+            color: #d5007f;
+        }
+
+        .delivery-date {
+            margin-top: 5px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .basket-switch-save {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border: 2px solid #d5007f;
+            border-radius: 8px;
+            background: #fff;
+        }
+
+        .basket-switch-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+            .basket-switch-header h3 {
+                margin: 0;
+                font-size: 20px;
+                font-weight: 600;
+            }
+
+        .basket-switch-total {
+            font-size: 18px;
+            font-weight: 700;
+            color: #198754;
+        }
+
+        .basket-switch-save p {
+            margin: 0 0 15px;
+            color: #666;
+        }
+
+        .voucher-applied {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: #eaf8ef;
+            color: #1e7e34;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        /*Anil css*/
+        .row.dv-basket-card {
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .switch-heading {
+            position: relative;
+            top: -36px;
+            background: #fff;
+            display: inline-block;
+            padding: 0 12px;
+        }
+
+        .fa-plus:before, .fa-minus:before {
+            color: #0099cc !important;
+        }
+
+        .price-row.ex-vat > strong {
+            font-size: 18px;
+            color: #0099cc;
+        }
+
+        .price-row.ex-vat {
+            font-weight: 700
+        }
+
+            .price-row.ex-vat > span {
+                font-size: 13px;
+                color: #0099cc;
+            }
+
+        .price-row.inc-vat > strong {
+            font-size: 16px;
+            color: #0099cc;
+            font-weight: 400 !important
+        }
+
+        .price-row.inc-vat {
+            font-weight: 400 !important
+        }
+
+            .price-row.inc-vat > span {
+                font-size: 12px;
+                color: #0099cc;
+                font-weight: 400 !important
+            }
+
+        .price-row.save-saving > strong {
+            font-size: 18px;
+            color: #5cb85c;
+        }
+
+        .price-row.save-saving {
+            font-weight: 600
+        }
+
+            .price-row.save-saving > span {
+                font-size: 13px;
+                color: #5cb85c;
+            }
+
+        button.btn.btn-success.atb-replace {
+            padding: 7px 16px;
+            margin-top: 12px;
+            border-radius: 6px !important;
+        }
+        /*button.btn.btn-success.replaceall {
+            padding: 7px 16px;
+            margin-top: 12px;
+            border-radius: 6px !important;
+        }
+        button.btn.btn-success.replaceall:hover {
+                color: #fff;
+                background-color: #5cb85c;
+                border-color: #4cae4c;
+        }*/
+        .switch-save-card .btn-success {
+            color: #fff;
+            background-color: #5cb85c;
+            border-color: #4cae4c;
+        }
+
+        .switch-save-card .btn-success:hover {
+                color: #fff;
+                background-color: #5cb85c;
+                border-color: #4cae4c;
+        }
+
+        .shipping-time {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            .shipping-time img {
+                margin-right: 12px
+            }
+
+        .shipping-time {
+            font-weight: 600;
+            color: #5cb85c;
+            line-height: 18px
+        }
+
+        .bkt-voucher {
+            display: flex;
+            gap: 6px;
+            border: none
+        }
+
+            .bkt-voucher input#voucher-code {
+                width: calc(100% - 115px);
+                border-radius: 5px !important;
+                border: 1px solid #cbcbcb
+            }
+
+        button#apply-voucher {
+            width: 115px;
+            border-radius: 5px;
+            background: #5cb85c;
+        }
+    .basket-switch-left {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #ddd;
+        flex-direction: column;
+    }
+
+        .basket-switch-left h3 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .basket-switch-left p {
+            margin: 5px 0 14px;
+            color: #666;
+        }
+
+    /*.basket-switch-right {
+        text-align: right;
+    }
+
+        .basket-switch-right span {
+            display: block;
+            color: #666;
+            font-size: 15px;
+        }
+
+        .basket-switch-right strong {
+            font-size: 36px;
+            color: #0b8b52;
+            font-weight: 700;
+        }*/
+
+    .replaceall {
+        width: 220px;
+        height: 50px;
+        font-size: 18px;
+        border: 2px solid #d5007f;
+    }
+    .switchAll {
+        border: 2px solid #d5007f;
+    }
+    .basket-switch-save {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        border: 2px solid #d5007f;
+        border-radius: 10px;
+        background: #fff;
+        padding: 22px 26px;
+        margin-bottom: 25px;
+        position: relative;
+    }
+
+   /* .basket-switch-left {
+        flex: 1;
+    }*/
+
+    .switch-banner-title {
+        display: inline-block;
+        margin: 0;
+        padding: 6px 14px;
+        background: #d5007f;
+        color: #fff;
+        font-size: 30px;
+        font-weight: 700;
+        border-radius: 4px;
+    }
+
+    /*.basket-switch-left p {
+        margin: 18px 0 0;
+        font-size: 16px;
+        color: #666;
+        line-height: 1.5;
+    }*/
+
+    .basket-switch-right {
+        text-align: right;
+        margin-left: 30px;
+    }
+
+        .basket-switch-right span {
+            display: block;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .basket-switch-right strong {
+            display: block;
+            font-size: 36px;
+            color: #11854b;
+            font-weight: 700;
+        }
+
+    .basket-switch-btn {
+        position: absolute;
+        left: 26px;
+        bottom: 22px;
+    }
+
+    .replaceall {
+        min-width: 190px;
+        height: 44px;
+        border-radius: 6px!important;
+        font-size: 16px;
+        font-weight: 600;
+        color: #d5007f;
+    }
+    .switchsave {
+        background: #d5007f;
+        color: white;
+        padding: 10px;
+        height: 60px;
+        margin-right: 10px;
+    }
+    .switchsave:hover {
+            background: #d5007f;
+            color: white;
+            padding: 10px;
+            height: 60px;
+            margin-right: 10px;
+        }
+    .replaceall:hover {
+        min-width: 190px;
+        height: 44px;
+        border-radius: 6px !important;
+        font-size: 16px;
+        font-weight: 600;
+        color: #d5007f;
+    }
+    .you-may-need {
+        margin-top: 25px;
+        border: 1px solid #d9d9d9;
         border-radius: 6px;
         overflow: hidden;
-        width: 140px;
-        height: 42px;
-    }
-
-    .qty-btn {
-        width: 40px;
-        height: 40px;
-        border: none;
-        background: #f8f8f8;
-        cursor: pointer;
-        transition: .2s;
-    }
-
-        .qty-btn:hover {
-            background: #ececec;
-        }
-
-        .qty-btn:disabled {
-            opacity: .45;
-            cursor: not-allowed;
-        }
-
-    .qty-input {
-        width: 60px;
-        border: none;
-        text-align: center;
-        font-weight: 600;
         background: #fff;
     }
 
-    .basket-remove-container {
-        margin-top: 15px;
+    .you-may-need-header {
+        background: #0d7397;
+        color: #fff;
+        padding: 14px 18px;
+        font-size: 20px;
+        font-weight: 600;
     }
 
-    .basket-remove {
-        background: none;
-        border: none;
-        color: #d61f26;
-        padding: 0;
-        font-size: 14px;
+    .you-may-need-products {
+        display: flex;
+        gap: 20px;
+        padding: 20px;
     }
 
-        .basket-remove:hover {
-            text-decoration: underline;
+    .need-product {
+        flex: 1;
+        text-align: center;
+    }
+
+        .need-product img {
+            width: 120px;
+            height: 90px;
+            object-fit: contain;
+            margin-bottom: 12px;
         }
 
-    .switch-save-card {
-        margin-top: 20px;
-        border: 1px solid #dcdcdc;
-        border-left: 5px solid #007b5f;
-        border-radius: 8px;
-        padding: 18px;
-        background: #fafafa;
-    }
-
-    .switch-badge {
-        display: inline-block;
-        background: #007b5f;
-        color: #fff;
-        font-size: 12px;
-        padding: 5px 12px;
-        border-radius: 20px;
-        margin-bottom: 10px;
-        font-weight: 600;
-    }
-
-    .switch-title {
-        font-size: 16px;
-        font-weight: 600;
-        margin-bottom: 5px;
-    }
-
-    .switch-text {
-        color: #666;
+    .need-title {
+        display: block;
+        color: #333;
         font-size: 13px;
-    }
-
-    .switch-price {
-        font-size: 20px;
-        font-weight: bold;
-    }
-
-    .switch-saving {
-        color: #28a745;
+        line-height: 18px;
+        min-height: 55px;
+        text-decoration: none;
         font-weight: 600;
-        margin-top: 6px;
     }
 
-    .switch-product-name {
-        font-size: 16px;
-        font-weight: 600;
-        margin-top: 8px;
+        .need-title:hover {
+            color: #0099cc;
+        }
+
+    .need-part {
+        font-size: 12px;
+        color: #777;
+        margin: 6px 0;
     }
 
-    .switch-price {
-        margin-top: 6px;
+    .need-price {
         font-size: 18px;
+        color: #0099cc;
         font-weight: 700;
+        margin: 12px 0;
     }
 
-        .switch-price small {
+        .need-price small {
             display: block;
             font-size: 12px;
-            color: #777;
+            color: #666;
             font-weight: 400;
         }
 
-    .switch-saving-label {
-        font-size: 12px;
-        color: #666;
+    .need-product .btn {
+        width: 100%;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
     }
-
-    .switch-saving {
-        color: #28a745;
-        font-size: 18px;
-        font-weight: 700;
-    }
-    /* ===========================
-   Switch & Save
-=========================== */
-
-    .switch-save-card {
+    .basket-sidebar-info {
         margin-top: 20px;
-        padding: 20px;
-        border: 2px solid #d5007f; /* Brand magenta */
+    }
+
+    .sidebar-card {
+        background: #fff;
+        border: 1px solid #e6e6e6;
         border-radius: 8px;
-        background: #ffffff;
+        margin-bottom: 12px;
+        overflow: hidden;
     }
 
-    .switch-save-header {
+    .card-header {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        margin-bottom: 15px;
-    }
-
-    .switch-heading {
-        font-size: 18px;
-        font-weight: 600;
-        color: #222;
-    }
-
-    .switch-product-name {
-        font-size: 16px;
-        font-weight: 600;
-        margin: 12px 0;
-        color: #222;
-    }
-
-    .switch-price {
+        gap: 12px;
+        padding: 18px;
         font-size: 22px;
         font-weight: 700;
         color: #222;
     }
 
-        .switch-price small {
-            display: block;
-            margin-top: 4px;
-            font-size: 12px;
-            font-weight: 400;
-            color: #777;
+        .card-header i {
+            width: 28px;
+            text-align: center;
+            font-size: 24px;
+            color: #444;
         }
 
-    .switch-saving {
-        font-size: 18px;
-        font-weight: 700;
-        color: #0a8a43;
-    }
-
-    .switch-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 20px;
-    }
-
-        .switch-footer .btn {
-            min-width: 170px;
-        }
-    .delivery-cutoff {
-        margin-top: 6px;
-        font-size: 13px;
+    .card-body {
+        padding: 0 18px 16px;
+        font-size: 14px;
+        line-height: 1.6;
         color: #555;
     }
 
-        .delivery-cutoff i {
-            color: #d5007f;
-            margin-right: 5px;
-        }
-
-    .delivery-countdown {
-        font-weight: 700;
-        color: #d5007f;
-    }
-
-    .delivery-date {
-        margin-top: 5px;
-        font-size: 14px;
-        font-weight: 600;
-    }
-    .basket-switch-save {
-        margin: 25px 0;
-        padding: 20px;
-        border: 2px solid #d5007f;
-        border-radius: 8px;
-        background: #fff;
-    }
-
-    .basket-switch-header {
+    .card-footer {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 10px;
+        padding: 14px 18px;
+        border-top: 1px solid #efefef;
+        font-weight: 600;
     }
 
-        .basket-switch-header h3 {
-            margin: 0;
-            font-size: 20px;
-            font-weight: 600;
+        .card-footer a {
+            color: #111;
+            text-decoration: none;
         }
 
-    .basket-switch-total {
-        font-size: 18px;
-        font-weight: 700;
-        color: #198754;
+        .card-footer i {
+            font-size: 22px;
+            color: #444;
+        }
+
+    .payment-card .payment-icons {
+        display: flex;
+        gap: 10px;
+        padding: 18px;
+        flex-wrap: wrap;
     }
 
-    .basket-switch-save p {
-        margin: 0 0 15px;
+    .payment-card img {
+        height: 28px;
+        width: auto;
+    }
+    .card-header span {
+        font-size: 15px;
+        font-weight: 600;
+    }
+    .card-toggle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 18px;
+        cursor: pointer;
+        border-top: 1px solid #eee;
+        font-weight: 600;
+    }
+
+        .card-toggle i {
+            transition: .3s;
+        }
+
+    .card-content {
+        display: none;
+        padding: 0 18px 18px;
         color: #666;
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+    .sidebar-card.active .card-content {
+        display: block;
+    }
+
+    .sidebar-card.active .card-toggle i {
+        transform: rotate(180deg);
+    }
+    .voucher-success {
+        background: #e8f8ea;
+        border: 1px solid #5cb85c;
+        color: #2e7d32;
+        padding: 10px;
+        border-radius: 4px;
+    }
+
+    .voucher-error {
+        background: #fdeaea;
+        border: 1px solid #dc3545;
+        color: #b00020;
+        padding: 10px;
+        border-radius: 4px;
+    }
+    .atb-add:hover {
+        color: #fff !important;
+        background-color: #5cb85c !important;
+        border-color: #4cae4c !important;
+    }
+    .you-may-need-products {
+        display: flex;
+        gap: 20px;
+        padding: 20px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-wrap: nowrap;
+        scrollbar-width: thin;
+    }
+
+        .you-may-need-products::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .you-may-need-products::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+
+    .need-product {
+        flex: 0 0 calc((100% - 40px) / 3);
+        max-width: calc((100% - 40px) / 3);
+        text-align: center;
     }
 </style>
+
 @if (Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery > 0)
 {
     bool isAdminDiscount = Model.BasketContents.Exists(x => x.ItemType == BasketItemType.AdminDiscount);
@@ -298,43 +794,6 @@
     <div class="col-md-9">
         <div class="row">
             <div class="col-md-12">
-                <hr class="g-m-b-10 hidden-xs hidden-sm" />
-                <div class="row g-fw-b">
-                    <div class="col-lg-6 col-md-5">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-lg-10 col-md-12 pull-left">
-                                    Items <span class="g-fc-s">(<span class="basketQuantity">@Model.BasketTotals.Quantity.ToString("##0")</span>)</span>
-                                </div>
-                                <div class="col-lg-2 g-m-l-a g-p-r-10 hidden-md hidden-sm hidden-xs pull-right">Price</div>
-                            </div>
-                        </div>
-                    </div>
-                    @if (!Model.IsMobile)
-                    {
-                        <div class="col-md-7 col-lg-6 hidden-xs hidden-sm">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-md-3 g-p-lr-0">
-                                        <div class="g-m-l-10 text-center pull-left">
-                                            Quantity
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 g-p-lr-0">
-                                        <div class="text-center">
-                                            Potential Saving
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 g-p-lr-0">
-                                        <div class="g-m-l-a g-p-r-20 hidden-xs hidden-sm pull-right">
-                                            Sub-Total
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
 
                 <div id="basketSummary" class="basketSummaryContainer">
                     @{
@@ -343,16 +802,86 @@
                         Model.CheckZeroStock();
                         decimal basketSwitchSaving = 0;
                         bool hasSwitchProducts = false;
-                        foreach (BasketContents bc in Model.BasketContents)
+                        // Logic to build Basket Switch & Save section
+                        List<BasketContents> switchProducts = new List<BasketContents>();
+                        var list = Model.BasketContents;int switchCount = 0;
+                        if (list != null && list.Count > 1)
+                        {
+                            foreach (BasketContents item in Model.BasketContents)
+                            {
+                                // Ignore non-product lines
+                                if (item.ItemType != BasketItemType.Item)
+                                { continue; }
+
+                                // Ignore compatible products (already switched)
+                                if (item.IsCompatible)
+                                { continue; }
+
+                                // Ignore excluded products
+                                if (item.ExcludeFromUpSell)
+                                { continue; }
+
+                                // Cross-sell product must exist
+                                if (item.CrossSellingStockRef == null || item.CrossSellingStockRef == "")
+                                {
+                                    continue;
+                                }
+
+                                // Cross-sell product must be in stock
+                                if (item.CrossSellingAvailability != 1 &&
+                                                    item.CrossSellingAvailability != 7)
+                                { continue; }
+
+                                decimal lineSaving =
+                                    (item.PriceEx - item.CrossSellingPriceEx) * item.Quantity;
+
+                                // Only show if customer actually saves money
+                                if (lineSaving <= 0)
+                                { continue; }
+
+                                basketSwitchSaving += lineSaving;
+                                switchProducts.Add(item);
+                            }
+
+                            hasSwitchProducts = switchProducts.Count > 0;
+                            switchCount = switchProducts.Count;
+                        }
+                        if (hasSwitchProducts && switchCount>1)
+                        {
+
+
+                            <div class="basket-switch-save">
+                                <button class="btn switchsave">
+                                    Switch &amp; Save
+                                </button>
+                                <div class="">
+
+                                    Switch &amp; Save
+
+                                    <p>
+                                        Save @basketSwitchSaving.ToString("C") by switching your basket to compatible products.
+                                    </p>
+
+                                </div>
+
+                                <div class="basket-switch-btn">
+
+                                </div><button id="btnSwitchAll" class="btn replaceall">
+                                    Switch All Products
+                                </button>
+
+                            </div>
+                        }
+                        foreach (BasketContents bc in list)
                         {
                             if (bc.ItemType == BasketItemType.Item || bc.ItemType == BasketItemType.AdminDiscount)
                             {
                                 string neg = bc.ItemType == BasketItemType.AdminDiscount ? "-" : "";
-                                string strike = "";
-                                string discClass = "g-d-n";
-                                decimal discUnitPrice = decimal.Zero;
-                                decimal subt = bc.PriceEx * bc.Quantity;
-                                decimal discountRate = Utilities.GetUpsellRate();
+                            string strike = "";
+                            string discClass = "g-d-n";
+                            decimal discUnitPrice = decimal.Zero;
+                            decimal subt = bc.PriceEx * bc.Quantity;
+                            decimal discountRate = Utilities.GetUpsellRate();
                                 if (!bc.IsCompatible &&
                                 !String.IsNullOrEmpty(bc.CrossSellingStockRef) &&
                                 !bc.ExcludeFromUpSell &&
@@ -371,28 +900,27 @@
                                     !Convert.ToBoolean(Session["U_IsTradeCustomer"]) &&
                                     !isAdminDiscount &&
                                     bc.Quantity > bc.QtyStart)
-                                {
-                                    discUnitPrice = Math.Round(bc.PriceEx, 2) - Math.Round(bc.PriceEx * discountRate / 100, 2);
-                                    subt = discUnitPrice * bc.Quantity;
-                                    strike = "g-s";
-                                    discClass = "";
-                                }
+                        {
+                            discUnitPrice = Math.Round(bc.PriceEx, 2) - Math.Round(bc.PriceEx * discountRate / 100, 2);
+                            subt = discUnitPrice * bc.Quantity;
+                            strike = "g-s";
+                            discClass = "";
+                        }
 
-                                <hr class="g-m-tb-10" />
                                 <div class="basket-card atb-entry g-m-b-20"
                                      data-productid="@bc.StockRef">
 
-                                    <div class="row">
+                                    <div class="row dv-basket-card">
 
                                         <!-- Product Image -->
                                         <div class="col-lg-2 col-md-3 col-sm-3 col-4">
 
                                             <a href="@bc.ProductUrl" class="basket-card-image">
 
-                                                @*<img src="@bc.ImageUrl"
+                                                <img src="@bc.ImageUrl"
                                                      alt="@bc.Description"
                                                      class="img-responsive"
-                                                     onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />*@
+                                                     onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
 
                                             </a>
 
@@ -448,12 +976,14 @@
                                                                     </strong>
 
                                                                 </div>
+
                                                             }
+
 
                                                         </div>
                                                     }
                                                     else if (bc.Availability == 10)
-                                                    {
+                        {
                                                         <div class="stock-status special-order">
 
                                                             <i class="fa fa-info-circle"></i>
@@ -473,7 +1003,7 @@
                                                         </div>
                                                     }
                                                     else if (bc.Availability == 11 || bc.Availability == 13)
-                                                    {
+                        {
                                                         <div class="stock-status out-of-stock">
 
                                                             <i class="fa fa-times-circle"></i>
@@ -489,7 +1019,7 @@
                                                         </div>
                                                     }
                                                     else if (bc.Availability == 2 || bc.Availability == 4)
-                                                    {
+                        {
                                                         <div class="stock-status availability">
 
                                                             <i class="fa fa-clock-o"></i>
@@ -505,7 +1035,7 @@
                                                         </div>
                                                     }
                                                     else
-                                                    {
+                        {
                                                         <div class="stock-status back-order">
 
                                                             <i class="fa fa-history"></i>
@@ -531,11 +1061,34 @@
                                         <div class="col-lg-4 col-md-4 col-sm-12">
 
                                             <div class="basket-card-actions">
+                                                <div class="basket-price-box">
 
+                                                    <div class="price-row">
+                                                        <span>Ex VAT</span>
+                                                        <strong>@neg@string.Format("{0:N2}", bc.PriceEx)</strong>
+                                                    </div>
+
+                                                    <div class="price-row">
+                                                        <span>Inc VAT</span>
+                                                        <strong>@string.Format("{0:N2}", bc.PriceInc)</strong>
+                                                    </div>
+
+                                                    @if (discUnitPrice > 0)
+                                                    {
+                                                        <div class="price-saving">
+
+                                                            Save
+                                                            <strong>
+                                                                @string.Format("{0:N2}", bc.PriceEx - discUnitPrice)
+                                                            </strong>
+
+                                                        </div>
+                                                    }
+
+                                                </div>
                                                 @if (!bc.IsFreeGift)
                                                 {
                                                     <div class="basket-qty-wrapper">
-
                                                         <label class="qty-label">
                                                             Quantity
                                                         </label>
@@ -551,10 +1104,7 @@
 
                                                             </button>
 
-                                                            <input class="qty-input"
-                                                                   type="text"
-                                                                   readonly
-                                                                   value="@bc.Quantity" />
+                                                            <input class="qty-input" type="text" readonly value="@bc.Quantity" />
 
                                                             <button type="button"
                                                                     class="qty-btn qty-plus"
@@ -572,71 +1122,19 @@
                                                         <button class="basket-remove delete"
                                                                 data-productid="@bc.StockRef"
                                                                 type="button">
-
                                                             <i class="fa fa-trash"></i>
-
-                                                            Remove Item
-
                                                         </button>
-
                                                     </div>
                                                 }
-                                                <div class="basket-price-box">
 
-                                                    <div class="price-row">
-
-                                                        <span>Ex VAT</span>
-
-                                                        <strong class="@strike">
-                                                            @neg@string.Format("{0:C}", bc.PriceEx)
-                                                        </strong>
-
-                                                    </div>
-
-                                                    <div class="price-row">
-
-                                                        <span>Inc VAT</span>
-
-                                                        <strong>
-                                                            @string.Format("{0:C}", bc.PriceInc)
-                                                        </strong>
-
-                                                    </div>
-
-                                                    @if (discUnitPrice > 0)
-                                                    {
-                                                        <div class="price-saving">
-
-                                                            Save
-                                                            @string.Format("{0:C}", bc.PriceEx - discUnitPrice)
-
-                                                        </div>
-                                                    }
-
-                                                </div>
-                                                <div class="basket-line-total g-m-t-20">
-
-                                                    <span class="subtotal-label">
-
-                                                        Subtotal
-
-                                                    </span>
-
-                                                    <h4>
-
-                                                        @neg@string.Format("{0:C}", subt)
-
-                                                    </h4>
-
-                                                </div>
 
                                                 @if (Session["V_Voucher"] != null)
-                                                {
-                                                    VoucherPromo vp = (VoucherPromo)Session["V_Voucher"];
-
-                                                    if (bc.IsVoucherQualifyingItem &&
-                                                        vp.VoucherTypeFk == (int)VmVoucherType.Percentage)
                                                     {
+                            VoucherPromo vp = (VoucherPromo)Session["V_Voucher"];
+
+                            if (bc.IsVoucherQualifyingItem &&
+                                vp.VoucherTypeFk == (int)VmVoucherType.Percentage)
+                            {
                                                         <div class="voucher-applied g-m-t-10">
 
                                                             <i class="fa fa-check-circle"></i>
@@ -652,78 +1150,85 @@
                                         </div>
 
                                     </div>
+                                    @* ---------------- Switch & Save ----------------
+                        Fully data-bound - every value below comes from bc / Model,
+                        nothing hardcoded. Eligibility rules unchanged from before:
+                        not already compatible, has a cross-sell ref, that ref is
+                        in stock (1 or 7), and switching genuinely saves money. *@
                                     @if (!bc.IsCompatible && !String.IsNullOrEmpty(bc.CrossSellingStockRef) && !bc.ExcludeFromUpSell)
                                     {
                                         List<int> inStock = new List<int> { 1, 7 };
 
                                         if (inStock.Contains(bc.CrossSellingAvailability))
                                         {
-                                            decimal saving = (bc.PriceEx - bc.CrossSellingPriceEx) * bc.Quantity;
-                                            decimal switchLinePrice = bc.CrossSellingPriceEx * bc.Quantity;
+                                            decimal switchUnitPriceEx = bc.CrossSellingPriceEx;
+                                            decimal switchLinePriceEx = switchUnitPriceEx * bc.Quantity;
+                                            decimal switchLinePriceInc = switchLinePriceEx * Model.VatMultiplier;
+                                            decimal saving = (bc.PriceEx - switchUnitPriceEx) * bc.Quantity;
+
                                             if (saving > 0)
                                             {
                                                 <div class="switch-save-card">
+                                                    <div class="col-lg-2 col-md-3 col-sm-3 col-4">
 
+                                                        <a href="@bc.ProductUrl" class="basket-card-image">
+
+                                                            <img src="@bc.ImageUrl"
+                                                                 alt="@bc.Description"
+                                                                 class="img-responsive"
+                                                                 onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
+
+                                                        </a>
+
+                                                    </div>
                                                     <div class="row">
+                                                        <div class="col-md-5 col-sm-12">
 
-                                                        <div class="col-md-7">
+                                                            <div class="switch-heading"> Switch &amp; Save </div>
 
-                                                            <div class="switch-heading">
+                                                            <div class="switch-product-name"> @bc.CrossSellingDescription </div>
 
-                                                                Switch &amp; Save
+                                                            @*<div class="switch-price">
+                                                    <span>@string.Format("{0:C}", switchLinePriceEx)</span>
+                                                    <small>
+                                                        Ex VAT (@bc.Quantity &times; @string.Format("{0:C}", switchUnitPriceEx))
+                                                    </small>
+                                                </div>*@
 
-                                                            </div>
-
-                                                            <div class="switch-product-name">
-
-                                                                @bc.CrossSellingDescription
-
-                                                            </div>
-
-                                                            <div class="switch-price">
-
-                                                                @string.Format("{0:C}", switchLinePrice)
-
-                                                                <small>
-                                                                    Ex VAT (@bc.Quantity × @string.Format("{0:C}", bc.CrossSellingPriceEx))
-                                                                </small>
-
+                                                            <div class="stock-status in-stock">
+                                                                <i class="fa fa-check-circle"></i>
+                                                                <span>In Stock</span>
                                                             </div>
 
                                                         </div>
+                                                        <div class="col-md-4 col-sm-12 text-right">
 
-                                                        <div class="col-md-2 text-center">
-
-                                                            <div class="switch-saving-label">
-
-                                                                Saving
-
+                                                            <div class="basket-price-box">
+                                                                <div class="price-row ex-vat">
+                                                                    <span>Ex VAT</span>
+                                                                    <strong>@string.Format("{0:N2}", switchLinePriceEx)</strong>
+                                                                </div>
+                                                                <div class="price-row inc-vat">
+                                                                    <span>Inc VAT</span>
+                                                                    <strong>@string.Format("{0:N2}", switchLinePriceInc)</strong>
+                                                                </div>
+                                                                <div class="price-row save-saving">
+                                                                    <span>Save</span>
+                                                                    <strong>@saving.ToString("C")</strong>
+                                                                    <span>Ex. VAT</span>
+                                                                </div>
                                                             </div>
-
-                                                            <div class="switch-saving">
-
-                                                                @saving.ToString("C")
-
-                                                            </div>
-
-                                                        </div>
-
-                                                        <div class="col-md-2 text-right">
 
                                                             <button class="btn btn-success atb-replace"
                                                                     data-productid="@bc.CrossSellingStockRef"
                                                                     data-price="@bc.CrossSellingPriceEx"
                                                                     data-removeid="@bc.StockRef"
                                                                     data-qty="@bc.Quantity">
-
                                                                 Switch Product
-
                                                             </button>
 
                                                         </div>
-
                                                     </div>
-
                                                 </div>
                                             }
                                         }
@@ -740,6 +1245,55 @@
                         }
 
                         <hr class="g-m-tb-10" />
+                        if (list.Count>0)
+                        {
+                            <div class="you-may-need">
+
+                                <div class="you-may-need-header">
+                                    You May Also Need...
+                                </div>
+
+                                <div class="you-may-need-products">
+
+                                    @foreach (var items in list)
+                                    {
+                                        foreach (var addOn in items.AddonProducts)
+                                        {
+                                            <div class="need-product">
+
+                                                <a href="@addOn.ImageUrl">
+                                                    <img src="@addOn.ImageUrl"
+                                                         class="img-responsive"
+                                                         onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
+                                                </a>
+
+                                                <a class="need-title"
+                                                   href="@addOn.ImageUrl">
+                                                    @addOn.Description
+                                                </a>
+
+                                                <div class="need-price">
+                                                    @addOn.PriceEx.ToString("C")
+                                                    <small>Ex VAT</small>
+                                                </div>
+
+                                                <button class="btn btn-success atb-add"
+                                                        data-productid="@addOn.StockRef"
+                                                        data-price="@addOn.PriceEx"
+                                                        data-qty="1">
+                                                    Add to Basket
+                                                </button>
+
+                                            </div>
+                                            
+                                        }
+
+                                    }
+
+                                </div>
+
+                            </div>
+                        }
                     }
                 </div>
             </div>
@@ -753,47 +1307,7 @@
                     <div class="g-bc-note g-b-1-p g-p-10 g-m-t-10 g-w-345 g-fs-sm">@(Html.RawFromDict(Model.CheckoutData, "ZeroStock", replacements))</div>
                 }
 
-                @if (!isAdminDiscount)
-                {
-                    if (Session["B_VoucherCode"].ToSafeString() != "")
-                    {
-                        <div class="g-fc-secondary g-m-t-10">
-                            <strong>Voucher code</strong>
-                        </div>
-                        <div id="voucher-msg" class="g-m-t-10">
-                            <span>Voucher<strong> @Session["B_VoucherCode"].ToSafeString()</strong> has been recognised. Please note that only one offer can be applied to an order.</span>
-                            <span>
-                                <a class="remove-voucher">[Remove]</a>
-                            </span>
-                        </div>
-                        if (!string.IsNullOrEmpty(ViewBag.VoucherMessage))
-                        {
-                            <div class="g-d-ib">
-                                <div class="error-message g-m-t-10">
-                                    @Html.Raw(ViewBag.VoucherMessage)
-                                </div>
-                            </div>
-                        }
-                    }
-                    else
-                    {
-                        <div class="g-fc-secondary g-m-t-10">
-                            <strong>Add a voucher code</strong>
-                        </div>
-                        <div class="bkt-voucher input-group g-m-t-10 g-w-345">
-                            <input id="voucher-code" class="form-control g-h-40 pull-left" placeholder="Enter Voucher Code ..." type="text">
-                            <span class="input-group-btn">
-                                <button id="apply-voucher" class="g-butt-secondary g-butt-lg g-fs-n" type="button">Apply Voucher</button>
-                            </span>
-                        </div>
-                        <div class="g-d-ib">
-                            <div class="error-message g-d-n g-m-t-10">
-                                <i class="fa fa-exclamation-triangle g-fs-20 g-p-r-10"></i>
-                                <p class="g-m-0 g-d-i g-p-r-10"></p>
-                            </div>
-                        </div>
-                    }
-                }
+
                 @if (Convert.ToBoolean(Session["U_IsPortalUser"]))
                 {
                     <div class="g-m-t-60 g-m-b-20 g-br-0 panel panel-default">
@@ -862,133 +1376,66 @@
                     </div>
                 }
             </div>
-            @*<div class="col-md-4">
-                <div class="g-m-t-10 clearfix">
-                    <div class="pull-left">
-                        <strong>Delivery</strong>
-                    </div>
-                    <div class="pull-right g-p-r-20">
-                        @if (Model.BasketTotals.Delivery == 0)
-                        {
-                            @:FREE
-                        }
-                        else
-                        {
-                            @Html.Raw("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Delivery)))
-                        }
-                    </div>
-                </div>
-                <div class="g-m-t-10 clearfix">
-                    <div class="pull-left">
-                        <strong>Sub Total</strong>
-                    </div>
-                    <div class="pull-right g-p-r-20">&pound;@string.Format("{0:N2}", Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery)</div>
-                </div>
-                <div class="g-m-t-10 clearfix">
-                    <div class="pull-left">
-                        <strong>VAT</strong>
-                    </div>
-                    <div class="pull-right g-p-r-20">&pound;@string.Format("{0:N2}", Model.BasketTotals.Vat + Model.BasketTotals.VoucherVat)</div>
-                </div>
-
-                <div class="@(ViewBag.HideVoucher ? "g-d-n" : "")">
-                    <hr class="g-m-tb-10" />
-                    <div id="voucherTotal" class="g-m-t-10 clearfix g-lh-40">
-                        <div class="pull-left">
-                            <strong>Voucher</strong>
-                        </div>
-                        <div class="pull-right g-p-r-20 g-i g-fc-pm">
-                            <span id="voucherValue">
-                                @if (Model.BasketTotals.Voucher == 0)
-                                {
-                                    @:FREE GIFT
-                                }
-                                else
-                                {
-                                    @((Model.BasketTotals.Voucher < 0 ? "-" : ""))
-                                    @Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher)) + " (inc VAT)"))
-                                }
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="@(isMultiBuy ? "" : "g-d-n")">
-                    <hr class="g-m-tb-10" />
-                    <div id="voucherTotal" class="g-m-t-10 clearfix g-lh-40">
-                        <div class="pull-left">
-                            <strong>You have saved</strong>
-                        </div>
-                        <div class="pull-right g-p-r-20 g-i g-fc-pm">
-                            <span id="voucherValue">
-                                @Html.Raw(("&pound;" + string.Format("{0:N2}", multibuyAmount) + " (ex VAT)"))
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="g-m-tb-10" />
-                <div class="g-m-t-10 clearfix g-lh-40">
-                    <div class="pull-left">
-                        <strong>Grand Total</strong>
-                    </div>
-                    <div class="pull-right g-fs-lg g-p-r-20">
-                        <strong>
-                            <span>&pound;@string.Format("{0:N2}", Model.BasketTotals.GrandTotalIncVat)</span>
-                        </strong>
-                    </div>
-                </div>
-
-                <button type="button" class="checkout-button btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-right" title="Checkout">Proceed to Checkout</button>
-                @Html.AntiForgeryToken()
-                <form id="co-form" method="post" action="~/Checkout/Stage1/">
-                    @Html.HiddenFor(x => x.CheckoutDetails.IsNewCustomer)
-                    @Html.HiddenFor(x => x.CheckoutDetails.Email)
-                    @Html.HiddenFor(x => x.CheckoutDetails.Password)
-                    @Html.HiddenFor(x => x.CheckoutDetails.ZeroStock)
-                </form>
-
-                @if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
-                {
-                    if (ConfigurationManager.AppSettings["AmazonPayMerchantId"] != "OFF")
-                    {
-                        <div style="height:70px;"></div>
-                        <div id="AmazonPayButton" class="g-m-t-20"></div>
-
-                        <script src="https://static-eu.payments-amazon.com/checkout.js"></script>
-
-                        <script type="text/javascript" charset="utf-8">
-                    amazon.Pay.renderButton('#AmazonPayButton', {
-                        merchantId: '@Html.Raw(ConfigurationManager.AppSettings["AmazonPayMerchantId"])',
-                        publicKeyId: '@Html.Raw(ConfigurationManager.AppSettings["AmazonPayPublicKeyId"])',
-                        ledgerCurrency: 'GBP',
-                        checkoutLanguage: 'en_GB',
-                        productType: 'PayAndShip',
-                        placement: 'Cart',
-                        buttonColor: 'Gold',
-                        createCheckoutSessionConfig: {
-                            payloadJSON: '@Html.Raw(Model.AmazonButtonJSONPayLoad)',
-                            signature: '@Html.Raw(Model.AmazonButtonSignature)'
-                        }
-                    });
-                        </script>
-                    }
-
-                    <div id="paypal-button2" class="g-m-t-20"></div>
-                    <div id="paypal-button3"></div>
-                    <div id="paypal-message" data-pp-message data-pp-style-layout="text"
-                         data-pp-style-logo-type="inline" data-pp-style-text-color="black"
-                         data-pp-amount="@string.Format("{0:N2}", Model.BasketTotals.GrandTotalIncVat)">
-                    </div>
-                    <form id="paypal-form" action="/checkout/stage3/" method="post">
-                        <input type="hidden" name="PayPalPaid" id="PayPalPaid" value="true" />
-                        @Html.Hidden("PaymentAmountPaid", Model.BasketTotals.GrandTotalIncVat)
-                    </form>
-                }
-            </div>*@
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 dv-basket-card">
+
+        @* ---------------- Delivery message ----------------
+        CM: shows the "spend X more for free delivery" threshold message.
+        TG: constant "Free Next Day/Working Day Delivery" message.
+        Site is distinguished the same way other site-specific config is
+        read elsewhere in this file (ConfigurationManager.AppSettings) -
+        adjust the key/values below to match your actual site flag. *@
+        @{
+            bool isCartridgeMarket = ConfigurationManager.AppSettings["SiteBrand"] == "CM";
+            decimal freeDeliveryThreshold = 45.00m; // CM threshold - move to config if it varies
+            decimal subTotalExVat = Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery;
+        }
+        <div class="">
+
+            <h4>Summary</h4>
+            <div class="">
+                @{
+                    IHtmlString deliveryMessage = Html.Raw("");
+                }
+
+                @if (isCartridgeMarket)
+                {
+                    decimal remaining = freeDeliveryThreshold - subTotalExVat;
+
+                    if (remaining > 0)
+                    {
+                        deliveryMessage = Html.Raw("Spend &pound;" + string.Format("{0:N2}", remaining) + " more for free delivery");
+                    }
+                    else
+                    {
+                        deliveryMessage = Html.Raw("Free Delivery Included");
+                    }
+                }
+                else
+                {
+                    bool isFriday = DateTime.Now.DayOfWeek == DayOfWeek.Friday;
+                    TimeSpan cutoff = isFriday ? new TimeSpan(17, 0, 0) : new TimeSpan(17, 30, 0);
+                    bool pastCutoff = DateTime.Now.TimeOfDay > cutoff;
+
+                    if (pastCutoff)
+                    {
+                        deliveryMessage = Html.Raw("Free Next Working Day Delivery");
+                    }
+                    else
+                    {
+                        deliveryMessage = Html.Raw("Free Next Day Delivery");
+                    }
+                }
+                <span><i class="fa fa-truck fa-flip-horizontal fa-2x"></i></span>
+                <span>@deliveryMessage</span>
+            </div>
+
+            <span>
+
+            </span>
+        </div>
+
         <div class="g-m-t-10 clearfix">
             <div class="pull-left">
                 <strong>Delivery</strong>
@@ -1008,7 +1455,7 @@
             <div class="pull-left">
                 <strong>Sub Total</strong>
             </div>
-            <div class="pull-right g-p-r-20">&pound;@string.Format("{0:N2}", Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery)</div>
+            <div class="pull-right g-p-r-20">&pound;@string.Format("{0:N2}", subTotalExVat)</div>
         </div>
         <div class="g-m-t-10 clearfix">
             <div class="pull-left">
@@ -1064,7 +1511,45 @@
                 </strong>
             </div>
         </div>
-
+        @if (!isAdminDiscount)
+        {
+            if (Session["B_VoucherCode"].ToSafeString() != "")
+            {
+                <div class="g-fc-secondary g-m-t-10">
+                    <strong>Voucher code</strong>
+                </div>
+                <div id="voucher-msg" class="g-m-t-10">
+                    <span>Voucher<strong> @Session["B_VoucherCode"].ToSafeString()</strong> has been recognised. Please note that only one offer can be applied to an order.</span>
+                    <span>
+                        <a class="remove-voucher">[Remove]</a>
+                    </span>
+                </div>
+                if (!string.IsNullOrEmpty(ViewBag.VoucherMessage))
+                {
+                    <div class="g-d-ib">
+                        <div class="error-message g-m-t-10">
+                            @Html.Raw(ViewBag.VoucherMessage)
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="g-fc-secondary g-m-t-10">
+                    <strong>Add a voucher code</strong>
+                </div>
+                <div class="bkt-voucher input-group g-m-t-10">
+                    <input id="voucher-code" class="form-control g-h-40 pull-left" placeholder="Enter Voucher Code ..." type="text">
+                    <span class="input-group-btn">
+                        <button id="apply-voucher" class="g-butt-secondary g-butt-lg g-fs-n" type="button">Apply Voucher</button>
+                    </span>
+                </div>
+                <div id="error-message" class="error-message" style="display:none;">
+                    <p></p>
+                </div>
+                <div id="voucherResult" class="g-m-t-10"></div>
+            }
+        }
         <button type="button" class="checkout-button btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-right" title="Checkout">Proceed to Checkout</button>
         @Html.AntiForgeryToken()
         <form id="co-form" method="post" action="~/Checkout/Stage1/">
@@ -1111,6 +1596,134 @@
                 @Html.Hidden("PaymentAmountPaid", Model.BasketTotals.GrandTotalIncVat)
             </form>
         }
+        <div class="basket-sidebar-info">
+
+            <div class="sidebar-card delivery">
+
+                <div class="card-header">
+                    <i class="fa fa-truck"></i>
+                    <span>Free Next Day Delivery</span>
+                </div>
+
+                <div class="card-body">
+                    Order before <strong>5:30 Mon-Thu</strong>, &amp;
+                    <strong>5pm Fri</strong> for next working day delivery.
+                </div>
+
+                <div class="card-toggle delivery">
+                    <a href="javascript:void(0);" class="toggle-link">
+                        Find Out More
+                    </a>
+
+                    <i class="fa fa-angle-down"></i>
+                </div>
+
+                <div class="card-content delivery">
+                    <p>
+                        We dispatch all in-stock orders placed before the cut-off time on the
+                        same working day. Orders placed after the cut-off will be dispatched
+                        the following working day.
+                    </p>
+
+                    <p>
+                        Delivery is available Monday to Friday excluding public holidays.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="sidebar-card trust">
+                <div class="card-header">
+                    <i class="fa fa-star-o"></i>
+                    <span>Trusted By 25,000+</span>
+                </div>
+
+                <div class="card-body">
+                    Thousands of businesses trust us for office supplies,
+                    printer cartridges and workplace essentials.
+                </div>
+
+                <div class="card-toggle trust">
+                    <a href="javascript:void(0);" class="toggle-link">
+                        Find Out More
+                    </a>
+
+                    <i class="fa fa-angle-down"></i>
+                </div>
+                <div class="card-content trust">
+                    <p>
+                        We dispatch all in-stock orders placed before the cut-off time on the
+                        same working day. Orders placed after the cut-off will be dispatched
+                        the following working day.
+                    </p>
+
+                    <p>
+                        Delivery is available Monday to Friday excluding public holidays.
+                    </p>
+                </div>
+            </div>
+
+            <div class="sidebar-card exclusive">
+                <div class="card-header">
+                    <i class="fa fa-gbp"></i>
+                    <span>Exclusive Trade Pricing</span>
+                </div>
+
+                <div class="card-body">
+                    Register for a trade account and receive exclusive
+                    business pricing.
+                </div>
+
+                <div class="card-toggle exclusive">
+                    <a href="javascript:void(0);" class="toggle-link">
+                        Find Out More
+                    </a>
+
+                    <i class="fa fa-angle-down"></i>
+                </div>
+                <div class="card-content exclusive">
+                    <p>
+                        We dispatch all in-stock orders placed before the cut-off time on the
+                        same working day. Orders placed after the cut-off will be dispatched
+                        the following working day.
+                    </p>
+
+                    <p>
+                        Delivery is available Monday to Friday excluding public holidays.
+                    </p>
+                </div>
+            </div>
+
+            <div class="sidebar-card payment-card">
+
+                <div class="card-header">
+                    <i class="fa fa-credit-card"></i>
+                    <span>Payment Cards Accepted</span>
+                </div>
+
+                <div class="payment-icons">
+
+                    <img src="/Content/Images/1pxTrans.png" alt="Visa">
+                    <img src="/Content/Images/1pxTrans.png" alt="Mastercard">
+                    <img src="/Content/Images/1pxTrans.png" alt="Amex">
+
+                </div>
+
+            </div>
+
+        </div>
+        @*@if (!Model.IsMobile)
+        {
+            <div class="g-bc-s g-b-1-p g-m-t-20 hidden-xs hidden-sm">
+                <div class="g-p-10">
+                    <strong>Payment Options at Checkout</strong>
+                </div>
+                <hr />
+                <div class="g-p-10">
+                    @Html.Raw(Model.CheckoutData["PaymentMethods"].Replace("[newline]", "&#013;"))
+                </div>
+            </div>
+        }*@
     </div>
 }
 else
@@ -1122,3 +1735,16 @@ else
     </div>
 }
 
+<script>
+    $(document).on("click", ".card-toggle", function (e) {
+
+        e.preventDefault();
+
+        var card = $(this).closest(".sidebar-card");
+
+        card.toggleClass("active");
+
+        card.find(".card-content").stop(true, true).slideToggle(250);
+
+    });
+</script>

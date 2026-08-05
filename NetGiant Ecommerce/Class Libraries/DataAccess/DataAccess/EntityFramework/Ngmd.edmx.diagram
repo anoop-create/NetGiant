@@ -222,6 +222,9 @@
         <AssociationConnector Association="NgmdEntities.FK_supplierManuMapping_provider" />
         <AssociationConnector Association="NgmdEntities.FK_providerPrice_providerInventoryFK" />
         <AssociationConnector Association="NgmdEntities.FK_skuMapping_providerInventory" />
+        <EntityTypeShape EntityType="NgmdEntities.ProductAddon" Width="1.5" PointX="7.5" PointY="49.5" />
+        <AssociationConnector Association="NgmdEntities.FK_ProductAddon_AddonProduct" />
+        <AssociationConnector Association="NgmdEntities.FK_ProductAddon_Product" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

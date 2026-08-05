@@ -1,0 +1,629 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="netgiantMasterDataModelStoreContainer" CdmEntityContainer="ngmdEntities">
+    <EntitySetMapping Name="qa_EmailSent">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.qa_EmailSent">
+        <MappingFragment StoreEntitySet="qa_EmailSent">
+          <ScalarProperty Name="UserFK" ColumnName="UserFK" />
+          <ScalarProperty Name="EmailSentID" ColumnName="EmailSentID" />
+          <ScalarProperty Name="EmailSentDate" ColumnName="EmailSentDate" />
+          <ScalarProperty Name="EmailSentTo" ColumnName="EmailSentTo" />
+          <ScalarProperty Name="QuestionAnswerFK" ColumnName="QuestionAnswerFK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="qa_Granularity">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.qa_Granularity">
+        <MappingFragment StoreEntitySet="qa_Granularity">
+          <ScalarProperty Name="GranularityID" ColumnName="GranularityID" />
+          <ScalarProperty Name="Granularity" ColumnName="Granularity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="qa_Main">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.qa_Main">
+        <MappingFragment StoreEntitySet="qa_Main">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="QuestionAnswerID" ColumnName="QuestionAnswerID" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="AskedDate" ColumnName="AskedDate" />
+          <ScalarProperty Name="RepliedDate" ColumnName="RepliedDate" />
+          <ScalarProperty Name="ShowOnAllSites" ColumnName="ShowOnAllSites" />
+          <ScalarProperty Name="GranularityFK" ColumnName="GranularityFK" />
+          <ScalarProperty Name="UserFK" ColumnName="UserFK" />
+          <ScalarProperty Name="SourceWebsiteID" ColumnName="SourceWebsiteID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="AltRef" ColumnName="AltRef" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="qa_WebsiteMapping">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.qa_WebsiteMapping">
+        <MappingFragment StoreEntitySet="qa_WebsiteMapping">
+          <ScalarProperty Name="WebsiteMappingID" ColumnName="WebsiteMappingID" />
+          <ScalarProperty Name="WebsiteFK" ColumnName="WebsiteFK" />
+          <ScalarProperty Name="QuestionAnswerFK" ColumnName="QuestionAnswerFK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Websites">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.Website">
+        <MappingFragment StoreEntitySet="Website">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="WebURL" ColumnName="WebURL" />
+          <ScalarProperty Name="WebsiteID" ColumnName="WebsiteID" />
+          <ScalarProperty Name="WebsiteName" ColumnName="WebsiteName" />
+          <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="actionLinks">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.actionLink">
+        <MappingFragment StoreEntitySet="actionLink">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="active" ColumnName="active" />
+          <ScalarProperty Name="controllerName" ColumnName="controllerName" />
+          <ScalarProperty Name="actionName" ColumnName="actionName" />
+          <ScalarProperty Name="actionLinkURL" ColumnName="actionLinkURL" />
+          <ScalarProperty Name="parentLevelID" ColumnName="parentLevelID" />
+          <ScalarProperty Name="actionLinkLevel" ColumnName="actionLinkLevel" />
+          <ScalarProperty Name="actionLinkDesc" ColumnName="actionLinkDesc" />
+          <ScalarProperty Name="actionLinkID" ColumnName="actionLinkID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="overrideTypes">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.overrideType">
+        <MappingFragment StoreEntitySet="overrideType">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="overrideTypeName" ColumnName="overrideTypeName" />
+          <ScalarProperty Name="overrideTypeID" ColumnName="overrideTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="productStatus">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.productStatus">
+        <MappingFragment StoreEntitySet="productStatus">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="productStatusName" ColumnName="productStatusName" />
+          <ScalarProperty Name="productStatusID" ColumnName="productStatusID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AXISGroups">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.AXISGroups">
+        <MappingFragment StoreEntitySet="AXISGroups">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="AXISGroupNo" ColumnName="AXISGroupNo" />
+          <ScalarProperty Name="AXISGroupName" ColumnName="AXISGroupName" />
+          <ScalarProperty Name="s_eBusinessGroup" ColumnName="s_eBusinessGroup" />
+          <ScalarProperty Name="p_eBusinessGroup" ColumnName="p_eBusinessGroup" />
+          <ScalarProperty Name="categoryCodeFK" ColumnName="categoryCodeFK" />
+          <ScalarProperty Name="websiteFK" ColumnName="websiteFK" />
+          <ScalarProperty Name="AXISGroupsID" ColumnName="AXISGroupsID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="dataSupplier">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.dataSupplier">
+        <MappingFragment StoreEntitySet="dataSupplier">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="dataSupplierName" ColumnName="dataSupplierName" />
+          <ScalarProperty Name="dataSupplierID" ColumnName="dataSupplierID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="productGroup">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.productGroup">
+        <MappingFragment StoreEntitySet="productGroup">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="productGroupNo" ColumnName="productGroupNo" />
+          <ScalarProperty Name="productGroupName" ColumnName="productGroupName" />
+          <ScalarProperty Name="productTypeFK" ColumnName="productTypeFK" />
+          <ScalarProperty Name="productGroupID" ColumnName="productGroupID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="salesAreaGroup">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.salesAreaGroup">
+        <MappingFragment StoreEntitySet="salesAreaGroup">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="salesAreaGroupNo" ColumnName="salesAreaGroupNo" />
+          <ScalarProperty Name="salesAreaGroupName" ColumnName="salesAreaGroupName" />
+          <ScalarProperty Name="salesAreaGroupID" ColumnName="salesAreaGroupID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="categoryAttribute">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.categoryAttribute">
+        <MappingFragment StoreEntitySet="categoryAttribute">
+          <ScalarProperty Name="categoryCodeFK" ColumnName="categoryCodeFK" />
+          <ScalarProperty Name="filterableAttributeFK" ColumnName="filterableAttributeFK" />
+          <ScalarProperty Name="categoryAttributeID" ColumnName="categoryAttributeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="filterableAttribute">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.filterableAttribute">
+        <MappingFragment StoreEntitySet="filterableAttribute">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="attributeName" ColumnName="attributeName" />
+          <ScalarProperty Name="filterableAttributeID" ColumnName="filterableAttributeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="productType">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.productType">
+        <MappingFragment StoreEntitySet="productType">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="productTypeNo" ColumnName="productTypeNo" />
+          <ScalarProperty Name="productTypeName" ColumnName="productTypeName" />
+          <ScalarProperty Name="productTypeID" ColumnName="productTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="product">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.product">
+        <MappingFragment StoreEntitySet="product">
+          <ScalarProperty Name="supplierStock" ColumnName="supplierStock" />
+          <ScalarProperty Name="dataSupplierFK" ColumnName="dataSupplierFK" />
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="productName" ColumnName="productName" />
+          <ScalarProperty Name="manufacturerFK" ColumnName="manufacturerFK" />
+          <ScalarProperty Name="salesAreaGroupFK" ColumnName="salesAreaGroupFK" />
+          <ScalarProperty Name="productGroupFK" ColumnName="productGroupFK" />
+          <ScalarProperty Name="productStatusFK" ColumnName="productStatusFK" />
+          <ScalarProperty Name="UNSPSCCode" ColumnName="UNSPSCCode" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="productID" ColumnName="productID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="fieldMapping">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.fieldMapping">
+        <MappingFragment StoreEntitySet="fieldMapping">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="providerFK" ColumnName="providerFK" />
+          <ScalarProperty Name="fieldMappingWith" ColumnName="fieldMappingWith" />
+          <ScalarProperty Name="fieldMappingTo" ColumnName="fieldMappingTo" />
+          <ScalarProperty Name="fieldMappingID" ColumnName="fieldMappingID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ftpDetails">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.ftpDetails">
+        <MappingFragment StoreEntitySet="ftpDetails">
+          <ScalarProperty Name="fileColumnHeader" ColumnName="fileColumnHeader" />
+          <ScalarProperty Name="ftpZipFilename" ColumnName="ftpZipFilename" />
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="ftpFolder" ColumnName="ftpFolder" />
+          <ScalarProperty Name="providerFK" ColumnName="providerFK" />
+          <ScalarProperty Name="ftpFilename" ColumnName="ftpFilename" />
+          <ScalarProperty Name="ftpPassword" ColumnName="ftpPassword" />
+          <ScalarProperty Name="ftpUser" ColumnName="ftpUser" />
+          <ScalarProperty Name="ftpHost" ColumnName="ftpHost" />
+          <ScalarProperty Name="ftpDetailID" ColumnName="ftpDetailID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="productOverride">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.productOverride">
+        <MappingFragment StoreEntitySet="productOverride">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="productFK" ColumnName="productFK" />
+          <ScalarProperty Name="overrideRule" ColumnName="overrideRule" />
+          <ScalarProperty Name="overrideValue" ColumnName="overrideValue" />
+          <ScalarProperty Name="originalValue" ColumnName="originalValue" />
+          <ScalarProperty Name="overrideTypeFK" ColumnName="overrideTypeFK" />
+          <ScalarProperty Name="productOverrideID" ColumnName="productOverrideID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="provider">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.provider">
+        <MappingFragment StoreEntitySet="provider">
+          <ScalarProperty Name="feedFileDateTime" ColumnName="feedFileDateTime" />
+          <ScalarProperty Name="axisSupplierRef" ColumnName="axisSupplierRef" />
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="providerTypeFK" ColumnName="providerTypeFK" />
+          <ScalarProperty Name="providerDesc" ColumnName="providerDesc" />
+          <ScalarProperty Name="providerName" ColumnName="providerName" />
+          <ScalarProperty Name="providerID" ColumnName="providerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="providerType">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.providerType">
+        <MappingFragment StoreEntitySet="providerType">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="providerTypeName" ColumnName="providerTypeName" />
+          <ScalarProperty Name="providerTypeID" ColumnName="providerTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="websiteInventory">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.websiteInventory">
+        <MappingFragment StoreEntitySet="websiteInventory">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="categoryCodeFK" ColumnName="categoryCodeFK" />
+          <ScalarProperty Name="productFK" ColumnName="productFK" />
+          <ScalarProperty Name="websiteFK" ColumnName="websiteFK" />
+          <ScalarProperty Name="websiteInventoryID" ColumnName="websiteInventoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="manufacturer">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.manufacturer">
+        <MappingFragment StoreEntitySet="manufacturer">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="equipmentManuName" ColumnName="equipmentManuName" />
+          <ScalarProperty Name="manufacturerName" ColumnName="manufacturerName" />
+          <ScalarProperty Name="manufacturerID" ColumnName="manufacturerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UnwantedProducts">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.UnwantedProducts">
+        <MappingFragment StoreEntitySet="UnwantedProducts">
+          <ScalarProperty Name="productDescription" ColumnName="productDescription" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="unwantedProductID" ColumnName="unwantedProductID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="eqEquipment">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.eqEquipment">
+        <MappingFragment StoreEntitySet="eqEquipment">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="productTypeFK" ColumnName="productTypeFK" />
+          <ScalarProperty Name="manufacturerFK" ColumnName="manufacturerFK" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="eqEquipmentID" ColumnName="eqEquipmentID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="eqFamily">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.eqFamily">
+        <MappingFragment StoreEntitySet="eqFamily">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="manufacturerFK" ColumnName="manufacturerFK" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="eqFamilyID" ColumnName="eqFamilyID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="eqFamilyMembership">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.eqFamilyMembership">
+        <MappingFragment StoreEntitySet="eqFamilyMembership">
+          <ScalarProperty Name="eqEquipmentID" ColumnName="eqEquipmentID" />
+          <ScalarProperty Name="eqFamilyID" ColumnName="eqFamilyID" />
+          <ScalarProperty Name="eqFamilyMembershipID" ColumnName="eqFamilyMembershipID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="eqProductMembership">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.eqProductMembership">
+        <MappingFragment StoreEntitySet="eqProductMembership">
+          <ScalarProperty Name="eqEquipmentFK" ColumnName="eqEquipmentFK" />
+          <ScalarProperty Name="productFK" ColumnName="productFK" />
+          <ScalarProperty Name="eqProductMembershipID" ColumnName="eqProductMembershipID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="potentialNewProducts">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.potentialNewProducts">
+        <MappingFragment StoreEntitySet="potentialNewProducts">
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="providerInventoryID" ColumnName="providerInventoryID" />
+          <ScalarProperty Name="potentialNewProductID" ColumnName="potentialNewProductID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="fieldName">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.fieldName">
+        <MappingFragment StoreEntitySet="fieldName">
+          <ScalarProperty Name="dateLastUpdated" ColumnName="dateLastUpdated" />
+          <ScalarProperty Name="websiteSpecific" ColumnName="websiteSpecific" />
+          <ScalarProperty Name="fieldSubSectionFK" ColumnName="fieldSubSectionFK" />
+          <ScalarProperty Name="fieldTypeFK" ColumnName="fieldTypeFK" />
+          <ScalarProperty Name="sequenceNo" ColumnName="sequenceNo" />
+          <ScalarProperty Name="AXISFieldName" ColumnName="AXISFieldName" />
+          <ScalarProperty Name="AXISTableName" ColumnName="AXISTableName" />
+          <ScalarProperty Name="fieldName1" ColumnName="fieldName" />
+          <ScalarProperty Name="fieldNameID" ColumnName="fieldNameID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="fieldSection">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.fieldSection">
+        <MappingFragment StoreEntitySet="fieldSection">
+          <ScalarProperty Name="dateLastUpdated" ColumnName="dateLastUpdated" />
+          <ScalarProperty Name="sequenceNo" ColumnName="sequenceNo" />
+          <ScalarProperty Name="fieldSectionName" ColumnName="fieldSectionName" />
+          <ScalarProperty Name="fieldSectionID" ColumnName="fieldSectionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="fieldSubSection">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.fieldSubSection">
+        <MappingFragment StoreEntitySet="fieldSubSection">
+          <ScalarProperty Name="dateLastUpdated" ColumnName="dateLastUpdated" />
+          <ScalarProperty Name="fieldSectionFK" ColumnName="fieldSectionFK" />
+          <ScalarProperty Name="sequenceNo" ColumnName="sequenceNo" />
+          <ScalarProperty Name="fieldSubSectionName" ColumnName="fieldSubSectionName" />
+          <ScalarProperty Name="fieldSubSectionID" ColumnName="fieldSubSectionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="fieldType">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.fieldType">
+        <MappingFragment StoreEntitySet="fieldType">
+          <ScalarProperty Name="dateLastUpdated" ColumnName="dateLastUpdated" />
+          <ScalarProperty Name="fieldTypeName" ColumnName="fieldTypeName" />
+          <ScalarProperty Name="fieldTypeID" ColumnName="fieldTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="fieldValue">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.fieldValue">
+        <MappingFragment StoreEntitySet="fieldValue">
+          <ScalarProperty Name="websiteFK" ColumnName="websiteFK" />
+          <ScalarProperty Name="productFK" ColumnName="productFK" />
+          <ScalarProperty Name="fieldNameFK" ColumnName="fieldNameFK" />
+          <ScalarProperty Name="fieldValueDouble" ColumnName="fieldValueDouble" />
+          <ScalarProperty Name="fieldValueBool" ColumnName="fieldValueBool" />
+          <ScalarProperty Name="fieldValueText" ColumnName="fieldValueText" />
+          <ScalarProperty Name="fieldValueID" ColumnName="fieldValueID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="providerInventory">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.providerInventory">
+        <MappingFragment StoreEntitySet="providerInventory">
+          <ScalarProperty Name="providerManuRef" ColumnName="providerManuRef" />
+          <ScalarProperty Name="unspscClass" ColumnName="unspscClass" />
+          <ScalarProperty Name="unspscCode" ColumnName="unspscCode" />
+          <ScalarProperty Name="untrustedProvider" ColumnName="untrustedProvider" />
+          <ScalarProperty Name="unwantedProduct" ColumnName="unwantedProduct" />
+          <ScalarProperty Name="potentialNewProduct" ColumnName="potentialNewProduct" />
+          <ScalarProperty Name="manufacturerFK" ColumnName="manufacturerFK" />
+          <ScalarProperty Name="providerPartNo" ColumnName="providerPartNo" />
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="providerFK" ColumnName="providerFK" />
+          <ScalarProperty Name="effectiveDate" ColumnName="effectiveDate" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="providerInventoryID" ColumnName="providerInventoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="providerPrice">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.providerPrice">
+        <MappingFragment StoreEntitySet="providerPrice">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="providerInventoryFK" ColumnName="providerInventoryFK" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="effectiveDate" ColumnName="effectiveDate" />
+          <ScalarProperty Name="providerPriceID" ColumnName="providerPriceID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="skuMapping">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.skuMapping">
+        <MappingFragment StoreEntitySet="skuMapping">
+          <ScalarProperty Name="providerInventoryFK" ColumnName="providerInventoryFK" />
+          <ScalarProperty Name="productFK" ColumnName="productFK" />
+          <ScalarProperty Name="altRef" ColumnName="altRef" />
+          <ScalarProperty Name="supplierNo" ColumnName="supplierNo" />
+          <ScalarProperty Name="providerFK" ColumnName="providerFK" />
+          <ScalarProperty Name="providerPartNo" ColumnName="providerPartNo" />
+          <ScalarProperty Name="skuMappingID" ColumnName="skuMappingID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mfpnExtensions">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.mfpnExtensions">
+        <MappingFragment StoreEntitySet="mfpnExtensions">
+          <ScalarProperty Name="extension" ColumnName="extension" />
+          <ScalarProperty Name="manuID" ColumnName="manuID" />
+          <ScalarProperty Name="mfpnExtensionID" ColumnName="mfpnExtensionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="supplierManuMapping">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.supplierManuMapping">
+        <MappingFragment StoreEntitySet="supplierManuMapping">
+          <ScalarProperty Name="providerFK" ColumnName="providerFK" />
+          <ScalarProperty Name="manufacturerFK" ColumnName="manufacturerFK" />
+          <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
+          <ScalarProperty Name="supplierManuRef" ColumnName="supplierManuRef" />
+          <ScalarProperty Name="supplier" ColumnName="supplier" />
+          <ScalarProperty Name="supplierManuMappingID" ColumnName="supplierManuMappingID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="priceRuleType">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.priceRuleType">
+        <MappingFragment StoreEntitySet="priceRuleType">
+          <ScalarProperty Name="ruleName" ColumnName="ruleName" />
+          <ScalarProperty Name="ruleTypeID" ColumnName="ruleTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AXISQueue">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.AXISQueue">
+        <MappingFragment StoreEntitySet="AXISQueue">
+          <ScalarProperty Name="productFK" ColumnName="productFK" />
+          <ScalarProperty Name="dateLastUpdated" ColumnName="dateLastUpdated" />
+          <ScalarProperty Name="AXISQueueID" ColumnName="AXISQueueID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AXISQueueDetails">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.AXISQueueDetails">
+        <MappingFragment StoreEntitySet="AXISQueueDetails">
+          <ScalarProperty Name="CRUD" ColumnName="CRUD" />
+          <ScalarProperty Name="AXISQueueFK" ColumnName="AXISQueueFK" />
+          <ScalarProperty Name="completedDate" ColumnName="completedDate" />
+          <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+          <ScalarProperty Name="fieldName" ColumnName="fieldName" />
+          <ScalarProperty Name="entityName" ColumnName="entityName" />
+          <ScalarProperty Name="AXISQueueDetailsID" ColumnName="AXISQueueDetailsID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="priceRule">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.priceRule">
+        <MappingFragment StoreEntitySet="priceRule">
+          <ScalarProperty Name="nudge" ColumnName="nudge" />
+          <ScalarProperty Name="competitorsToBeat" ColumnName="competitorsToBeat" />
+          <ScalarProperty Name="maxMargin" ColumnName="maxMargin" />
+          <ScalarProperty Name="minMargin" ColumnName="minMargin" />
+          <ScalarProperty Name="desiredMargin" ColumnName="desiredMargin" />
+          <ScalarProperty Name="costUpliftIsPercent" ColumnName="costUpliftIsPercent" />
+          <ScalarProperty Name="costUplift" ColumnName="costUplift" />
+          <ScalarProperty Name="useBanding" ColumnName="useBanding" />
+          <ScalarProperty Name="productFK" ColumnName="productFK" />
+          <ScalarProperty Name="manufacturerFK" ColumnName="manufacturerFK" />
+          <ScalarProperty Name="ruleType" ColumnName="ruleType" />
+          <ScalarProperty Name="categoryCodeFK" ColumnName="categoryCodeFK" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="priceRuleID" ColumnName="priceRuleID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="priceRuleBand">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.priceRuleBand">
+        <MappingFragment StoreEntitySet="priceRuleBand">
+          <ScalarProperty Name="nudge" ColumnName="nudge" />
+          <ScalarProperty Name="competitorsToBeat" ColumnName="competitorsToBeat" />
+          <ScalarProperty Name="maxMargin" ColumnName="maxMargin" />
+          <ScalarProperty Name="minMargin" ColumnName="minMargin" />
+          <ScalarProperty Name="desiredMargin" ColumnName="desiredMargin" />
+          <ScalarProperty Name="costUplift" ColumnName="costUplift" />
+          <ScalarProperty Name="bandEnd" ColumnName="bandEnd" />
+          <ScalarProperty Name="bandStart" ColumnName="bandStart" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="priceRuleFK" ColumnName="priceRuleFK" />
+          <ScalarProperty Name="priceRuleBandID" ColumnName="priceRuleBandID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="productPrice">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.productPrice">
+        <MappingFragment StoreEntitySet="productPrice">
+          <ScalarProperty Name="cheapestCostPrice" ColumnName="cheapestCostPrice" />
+          <ScalarProperty Name="dateLastUpdated" ColumnName="dateLastUpdated" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="websiteInventoryFK" ColumnName="websiteInventoryFK" />
+          <ScalarProperty Name="productPriceID" ColumnName="productPriceID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ds_product">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.ds_product">
+        <MappingFragment StoreEntitySet="ds_product">
+          <ScalarProperty Name="model" ColumnName="model" />
+          <ScalarProperty Name="dateLastUpdated" ColumnName="dateLastUpdated" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="UNSPSC_Commodity" ColumnName="UNSPSC_Commodity" />
+          <ScalarProperty Name="UNSPSC_Class" ColumnName="UNSPSC_Class" />
+          <ScalarProperty Name="UNSPSC_Family" ColumnName="UNSPSC_Family" />
+          <ScalarProperty Name="UNSPSC_Segment" ColumnName="UNSPSC_Segment" />
+          <ScalarProperty Name="UNSPSC_Code" ColumnName="UNSPSC_Code" />
+          <ScalarProperty Name="dataSupplierID" ColumnName="dataSupplierID" />
+          <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="categoryCode">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.categoryCode">
+        <MappingFragment StoreEntitySet="categoryCode">
+          <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
+          <ScalarProperty Name="axisGroupID" ColumnName="axisGroupID" />
+          <ScalarProperty Name="websiteFK" ColumnName="websiteFK" />
+          <ScalarProperty Name="parentCategoryCodeID" ColumnName="parentCategoryCodeID" />
+          <ScalarProperty Name="categoryCodeName" ColumnName="categoryCodeName" />
+          <ScalarProperty Name="categoryCodeID" ColumnName="categoryCodeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetProductPrices" FunctionName="netgiantMasterDataModel.Store.GetProductPrices">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="netgiantMasterDataModel.GetProductPrices_Result">
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+          <ScalarProperty Name="dateLastUpdated" ColumnName="dateLastUpdated" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetProductSuppliers" FunctionName="netgiantMasterDataModel.Store.GetProductSuppliers">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="netgiantMasterDataModel.GetProductSuppliers_Result">
+          <ScalarProperty Name="providerID" ColumnName="providerID" />
+          <ScalarProperty Name="providerName" ColumnName="providerName" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="providerPartNo" ColumnName="providerPartNo" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="priceUpdatedOn" ColumnName="priceUpdatedOn" />
+          <ScalarProperty Name="axisSupplierRef" ColumnName="axisSupplierRef" />
+          <ScalarProperty Name="inventoryUpdated" ColumnName="inventoryUpdated" />
+          <ScalarProperty Name="manufacturerFK" ColumnName="manufacturerFK" />
+          <ScalarProperty Name="untrusted" ColumnName="untrusted" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="axisPricingHistory">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.axisPricingHistory">
+        <MappingFragment StoreEntitySet="axisPricingHistory">
+          <ScalarProperty Name="axisPriceTrade" ColumnName="axisPriceTrade" />
+          <ScalarProperty Name="axisPriceRetail" ColumnName="axisPriceRetail" />
+          <ScalarProperty Name="altRef" ColumnName="altRef" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PriceCompView">
+      <EntityTypeMapping TypeName="netgiantMasterDataModel.PriceCompView">
+        <MappingFragment StoreEntitySet="PriceCompView">
+          <ScalarProperty Name="productID" ColumnName="productID" />
+          <ScalarProperty Name="grossMargin" ColumnName="grossMargin" />
+          <ScalarProperty Name="costFinalDiff" ColumnName="costFinalDiff" />
+          <ScalarProperty Name="cheapestCostPrice" ColumnName="cheapestCostPrice" />
+          <ScalarProperty Name="diff" ColumnName="diff" />
+          <ScalarProperty Name="retailPrice" ColumnName="retailPrice" />
+          <ScalarProperty Name="tradePrice" ColumnName="tradePrice" />
+          <ScalarProperty Name="manufacturerID" ColumnName="manufacturerID" />
+          <ScalarProperty Name="manufacturerName" ColumnName="manufacturerName" />
+          <ScalarProperty Name="supplierStock" ColumnName="supplierStock" />
+          <ScalarProperty Name="categoryCodeName" ColumnName="categoryCodeName" />
+          <ScalarProperty Name="categoryCodeID" ColumnName="categoryCodeID" />
+          <ScalarProperty Name="productName" ColumnName="productName" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="partNo" ColumnName="partNo" />
+          <ScalarProperty Name="rn" ColumnName="rn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <!--<FunctionImportMapping FunctionImportName="GetProductSuppliers1" FunctionName="netgiantMasterDataModel.Store.GetProductSuppliers1">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="netgiantMasterDataModel.GetProductSuppliers1_Result">
+                <ScalarProperty Name="providerID" ColumnName="providerID" />
+                <ScalarProperty Name="providerName" ColumnName="providerName" />
+                <ScalarProperty Name="partNo" ColumnName="partNo" />
+                <ScalarProperty Name="providerPartNo" ColumnName="providerPartNo" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="priceUpdatedOn" ColumnName="priceUpdatedOn" />
+                <ScalarProperty Name="axisSupplierRef" ColumnName="axisSupplierRef" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>-->
+  </EntityContainerMapping>
+</Mapping>

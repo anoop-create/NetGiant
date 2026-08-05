@@ -85,13 +85,14 @@ function changeBasketQty(e, qty) {
             async: false,
             success: function (data) {
                 if (data.savereturn.IsSuccess) {
-                    $("#qty-" + ref.toString()).data("kendoNumericTextBox").destroy();
-                    //refreshVbFields(data);
+                    //$("#qty-" + ref.toString()).data("kendoNumericTextBox").destroy();
+                    refreshVbFields(data);
                     refreshViewBasket();
                     renderPaypalButtonV2();
                 }
             },
-            error: function (xhr, textStatus, thrownError) {
+            error: function (xhr, textStatus, thrownError)
+            {
                 logAjaxScriptError("/Checkout/BasketChangeQty/", xhr, textStatus, thrownError);
             }
         });
@@ -280,15 +281,18 @@ $(function () {
                             //refreshVbFields(data);
                             refreshViewBasket();
                             renderPaypalButtonV2();
+                            $('#error-message').hide();
                         } else {
-                            displayErrorMessage('.basket-voucher', data.savereturn.Message);
+                            $('#error-message > p').text(data.savereturn.Message);
+                            $('#error-message').show();
                         }
                     },
                     error: function (xhr, textStatus, thrownError) {
                         logAjaxScriptError("/Checkout/ApplyVoucher/", xhr, textStatus, thrownError);
                     }
                 });
-            } else {
+            }
+            else {
                 $('.IsInCheckout').val('true');
                 location.href = '/checkout?pm=IsInCheckout';
             }

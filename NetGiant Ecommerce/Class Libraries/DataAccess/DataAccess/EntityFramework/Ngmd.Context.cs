@@ -146,6 +146,7 @@ namespace DataAccess.EntityFramework
         public virtual DbSet<PMSAxisPriceDifference> PMSAxisPriceDifference { get; set; }
         public virtual DbSet<PriceCompView> PriceCompView { get; set; }
         public virtual DbSet<ProductImagesView> ProductImagesView { get; set; }
+        public virtual DbSet<ProductAddon> ProductAddons { get; set; }
     
         public virtual ObjectResult<string> sp_Blitz(Nullable<byte> help, Nullable<byte> checkUserDatabaseObjects, Nullable<byte> checkProcedureCache, string outputType, Nullable<byte> outputProcedureCache, string checkProcedureCacheFilter, Nullable<byte> checkServerInfo, string skipChecksServer, string skipChecksDatabase, string skipChecksSchema, string skipChecksTable, Nullable<int> ignorePrioritiesBelow, Nullable<int> ignorePrioritiesAbove, string outputServerName, string outputDatabaseName, string outputSchemaName, string outputTableName, Nullable<byte> outputXMLasNVARCHAR, string emailRecipients, string emailProfile, Nullable<byte> summaryMode, Nullable<byte> bringThePain, string usualDBOwner, Nullable<byte> skipBlockingChecks, Nullable<byte> debug, ObjectParameter version, ObjectParameter versionDate, Nullable<bool> versionCheckMode)
         {

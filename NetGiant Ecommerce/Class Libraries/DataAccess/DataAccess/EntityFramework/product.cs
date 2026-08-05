@@ -29,6 +29,8 @@ namespace DataAccess.EntityFramework
             this.AxisEbusinessMapping = new HashSet<AxisEbusinessMapping>();
             this.AXISQueue = new HashSet<AXISQueue>();
             this.skuMapping = new HashSet<skuMapping>();
+            this.ProductAddons = new HashSet<ProductAddon>();
+            this.ProductAddons1 = new HashSet<ProductAddon>();
         }
     
         public int productID { get; set; }
@@ -81,5 +83,9 @@ namespace DataAccess.EntityFramework
         public virtual dataSupplier dataSupplier { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<skuMapping> skuMapping { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductAddon> ProductAddons { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductAddon> ProductAddons1 { get; set; }
     }
 }

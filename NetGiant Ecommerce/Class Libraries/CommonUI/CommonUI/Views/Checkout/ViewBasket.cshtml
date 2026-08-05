@@ -88,29 +88,7 @@
                     </div>
 
                     <!-- Right Hand Column -->
-                    @if (!Model.IsMobile)
-                    {
-                        <div class="col-md-3 restrict-images">
-                            @Html.RawFromDict(Model.CheckoutData, "BasketMarketing1")
-
-                            <div class="g-m-t-20"></div>
-
-                            @Html.RawFromDict(Model.CheckoutData, "BasketMarketing2")
-
-                            @if (!Model.IsMobile)
-                            {
-                                <div class="g-bc-s g-b-1-p g-m-t-20 hidden-xs hidden-sm">
-                                    <div class="g-p-10">
-                                        <strong>Payment Options at Checkout</strong>
-                                    </div>
-                                    <hr />
-                                    <div class="g-p-10">
-                                        @Html.Raw(Model.CheckoutData["PaymentMethods"].Replace("[newline]", "&#013;"))
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    }
+                    
                 </div>
             </div>
         </div>

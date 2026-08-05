@@ -539,6 +539,9 @@
     <Compile Include="EntityFramework\product.cs">
       <DependentUpon>Ngmd.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\ProductAddon.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\productGroup.cs">
       <DependentUpon>Ngmd.tt</DependentUpon>
     </Compile>

@@ -13,14 +13,19 @@ namespace ASP
 {
     using System;
     using System.Collections.Generic;
-    
-    #line 1 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+#line 1 "..\..\Views\Checkout\BasketDetails.cshtml"
     using System.Configuration;
-    
-    #line default
-    #line hidden
+
+#line default
+#line hidden
     using System.IO;
+
+#line 8 "..\..\Views\Checkout\BasketDetails.cshtml"
     using System.Linq;
+
+#line default
+#line hidden
     using System.Net;
     using System.Text;
     using System.Web;
@@ -33,44 +38,44 @@ namespace ASP
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
-    
-    #line 2 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+#line 2 "..\..\Views\Checkout\BasketDetails.cshtml"
     using BusinessLogic;
-    
-    #line default
-    #line hidden
-    
-    #line 3 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+#line default
+#line hidden
+
+#line 3 "..\..\Views\Checkout\BasketDetails.cshtml"
     using BusinessLogic.ViewModels;
-    
-    #line default
-    #line hidden
+
+#line default
+#line hidden
     using CommonUI;
-    
-    #line 5 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+#line 5 "..\..\Views\Checkout\BasketDetails.cshtml"
     using CommonUI.Models;
-    
-    #line default
-    #line hidden
-    
-    #line 4 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+#line default
+#line hidden
+
+#line 4 "..\..\Views\Checkout\BasketDetails.cshtml"
     using DataAccess.EntityFramework;
-    
-    #line default
-    #line hidden
-    
-    #line 6 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+#line default
+#line hidden
+
+#line 6 "..\..\Views\Checkout\BasketDetails.cshtml"
     using Kendo.Mvc.UI;
-    
-    #line default
-    #line hidden
-    
-    #line 7 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+#line default
+#line hidden
+
+#line 7 "..\..\Views\Checkout\BasketDetails.cshtml"
     using VmVoucherType = VMerchantWrapper.Entities.VoucherType;
-    
-    #line default
-    #line hidden
-    
+
+#line default
+#line hidden
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Checkout/BasketDetails.cshtml")]
     public partial class _Views_Checkout_BasketDetails_cshtml : System.Web.Mvc.WebViewPage<CheckoutViewModel>
@@ -80,663 +85,820 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("\r\n");
+            WriteLiteral("<style>\r\n        .dv-basket-card {\r\n            background: white;\r\n            b" +
+            "order: 1px solid #dcdcdc;\r\n        }\r\n\r\n        .basket-card {\r\n            padd" +
+            "ing-right: 20px;\r\n        }\r\n\r\n        .basket-card-actions {\r\n            margi" +
+            "n-top: 15px;\r\n            text-align: right;\r\n        }\r\n\r\n        .basket-statu" +
+            "s {\r\n            margin-top: 15px;\r\n        }\r\n\r\n        .stock-status {\r\n      " +
+            "      display: flex;\r\n            align-items: center;\r\n            gap: 8px;\r\n " +
+            "           font-weight: 600;\r\n        }\r\n\r\n            .stock-status.in-stock {\r" +
+            "\n                color: #28a745;\r\n            }\r\n\r\n            .stock-status.bac" +
+            "k-order {\r\n                color: #f39c12;\r\n            }\r\n\r\n        .delivery-s" +
+            "tatus {\r\n            margin-top: 6px;\r\n            font-size: 13px;\r\n           " +
+            " color: #666;\r\n        }\r\n\r\n        .delivery-date {\r\n            margin-top: 2p" +
+            "x;\r\n            font-weight: 600;\r\n            color: #222;\r\n            padding" +
+            "-left: 1px;\r\n        }\r\n\r\n        .basket-qty-wrapper {\r\n            margin-top:" +
+            " 20px;\r\n        }\r\n\r\n        .qty-label {\r\n            display: block;\r\n        " +
+            "    margin-bottom: 8px;\r\n            font-size: 13px;\r\n            font-weight: " +
+            "600;\r\n            color: #000;\r\n        }\r\n\r\n        .basket-qty {\r\n            " +
+            "display: flex;\r\n            align-items: center;\r\n            justify-content: c" +
+            "enter;\r\n            border: 1px solid #ddd;\r\n            border-radius: 34px;\r\n " +
+            "           overflow: hidden;\r\n            width: 140px;\r\n            height: 42p" +
+            "x;\r\n            margin-left: auto;\r\n        }\r\n\r\n        .qty-btn {\r\n           " +
+            " width: 40px;\r\n            height: 40px;\r\n            border: none;\r\n           " +
+            " background: #f8f8f8;\r\n            cursor: pointer;\r\n            transition: 0.2" +
+            "s;\r\n        }\r\n\r\n            .qty-btn:hover {\r\n                background: #ecec" +
+            "ec;\r\n            }\r\n\r\n            .qty-btn:disabled {\r\n                opacity: " +
+            "0.45;\r\n                cursor: not-allowed;\r\n            }\r\n\r\n        .qty-input" +
+            " {\r\n            width: 60px;\r\n            border: none;\r\n            text-align:" +
+            " center;\r\n            font-weight: 600;\r\n            background: #fff;\r\n        " +
+            "}\r\n\r\n        .basket-remove-container {\r\n            margin-top: 15px;\r\n        " +
+            "    margin-bottom: 20px;\r\n        }\r\n\r\n        .basket-remove {\r\n            bac" +
+            "kground: none;\r\n            border: none;\r\n            color: #ff0d17;\r\n        " +
+            "    padding: 0;\r\n            font-size: 26px;\r\n        }\r\n\r\n            .basket-" +
+            "remove:hover {\r\n                text-decoration: underline;\r\n            }\r\n\r\n  " +
+            "      .switch-badge {\r\n            display: inline-block;\r\n            backgroun" +
+            "d: #007b5f;\r\n            color: #fff;\r\n            font-size: 12px;\r\n           " +
+            " padding: 5px 12px;\r\n            border-radius: 20px;\r\n            margin-bottom" +
+            ": 10px;\r\n            font-weight: 600;\r\n        }\r\n\r\n        .switch-title {\r\n  " +
+            "          font-size: 16px;\r\n            font-weight: 600;\r\n            margin-bo" +
+            "ttom: 5px;\r\n        }\r\n\r\n        .switch-text {\r\n            color: #666;\r\n     " +
+            "       font-size: 13px;\r\n        }\r\n\r\n        .switch-price {\r\n            font-" +
+            "size: 20px;\r\n            font-weight: bold;\r\n        }\r\n\r\n        .switch-saving" +
+            " {\r\n            color: #28a745;\r\n            font-weight: 600;\r\n            marg" +
+            "in-top: 6px;\r\n        }\r\n\r\n        .switch-product-name {\r\n            font-size" +
+            ": 16px;\r\n            font-weight: 600;\r\n            margin-top: 8px;\r\n        }\r" +
+            "\n\r\n        .switch-price {\r\n            margin-top: 6px;\r\n            font-size:" +
+            " 18px;\r\n            font-weight: 700;\r\n        }\r\n\r\n            .switch-price sm" +
+            "all {\r\n                display: block;\r\n                font-size: 12px;\r\n      " +
+            "          color: #777;\r\n                font-weight: 400;\r\n            }\r\n\r\n    " +
+            "    .switch-saving-label {\r\n            font-size: 12px;\r\n            color: #66" +
+            "6;\r\n        }\r\n\r\n        .switch-saving {\r\n            color: #28a745;\r\n        " +
+            "    font-size: 18px;\r\n            font-weight: 700;\r\n        }\r\n        /* =====" +
+            "======================\r\n     Switch & Save\r\n    =========================== */\r\n" +
+            "\r\n        .switch-save-card {\r\n            margin-top: 20px;\r\n            paddin" +
+            "g: 20px;\r\n            border: 2px solid #d5007f; /* Brand magenta */\r\n          " +
+            "  border-radius: 8px;\r\n            background: #ffffff;\r\n        }\r\n\r\n        .s" +
+            "witch-save-header {\r\n            display: flex;\r\n            justify-content: sp" +
+            "ace-between;\r\n            align-items: center;\r\n            margin-bottom: 15px;" +
+            "\r\n        }\r\n\r\n        .switch-heading {\r\n            font-size: 18px;\r\n        " +
+            "    font-weight: 600;\r\n            color: #222;\r\n        }\r\n\r\n        .switch-pr" +
+            "oduct-name {\r\n            font-size: 16px;\r\n            font-weight: 600;\r\n     " +
+            "       margin: 0px 0;\r\n            color: #09c;\r\n            margin-top: -28px;\r" +
+            "\n        }\r\n\r\n        .switch-price {\r\n            font-size: 17px;\r\n           " +
+            " font-weight: 700;\r\n            color: #000000;\r\n        }\r\n\r\n            .switc" +
+            "h-price small {\r\n                display: block;\r\n                margin-top: 4p" +
+            "x;\r\n                font-size: 12px;\r\n                font-weight: 500;\r\n       " +
+            "         color: #222121;\r\n            }\r\n\r\n        .switch-saving {\r\n           " +
+            " font-size: 18px;\r\n            font-weight: 700;\r\n            color: #0a8a43;\r\n " +
+            "       }\r\n\r\n        .switch-footer {\r\n            display: flex;\r\n            ju" +
+            "stify-content: space-between;\r\n            align-items: center;\r\n            mar" +
+            "gin-top: 20px;\r\n        }\r\n\r\n            .switch-footer .btn {\r\n                " +
+            "min-width: 170px;\r\n            }\r\n\r\n        .delivery-cutoff {\r\n            marg" +
+            "in-top: 6px;\r\n            font-size: 13px;\r\n            color: #555;\r\n        }\r" +
+            "\n\r\n            .delivery-cutoff i {\r\n                color: #d5007f;\r\n          " +
+            "      margin-right: 5px;\r\n            }\r\n\r\n        .delivery-countdown {\r\n      " +
+            "      font-weight: 700;\r\n            color: #d5007f;\r\n        }\r\n\r\n        .deli" +
+            "very-date {\r\n            margin-top: 5px;\r\n            font-size: 14px;\r\n       " +
+            "     font-weight: 600;\r\n        }\r\n\r\n        .basket-switch-save {\r\n            " +
+            "display: flex;\r\n            justify-content: space-between;\r\n            align-i" +
+            "tems: center;\r\n            padding: 16px 20px;\r\n            margin-bottom: 20px;" +
+            "\r\n            border: 2px solid #d5007f;\r\n            border-radius: 8px;\r\n     " +
+            "       background: #fff;\r\n        }\r\n\r\n        .basket-switch-header {\r\n        " +
+            "    display: flex;\r\n            justify-content: space-between;\r\n            ali" +
+            "gn-items: center;\r\n            margin-bottom: 10px;\r\n        }\r\n\r\n            .b" +
+            "asket-switch-header h3 {\r\n                margin: 0;\r\n                font-size:" +
+            " 20px;\r\n                font-weight: 600;\r\n            }\r\n\r\n        .basket-swit" +
+            "ch-total {\r\n            font-size: 18px;\r\n            font-weight: 700;\r\n       " +
+            "     color: #198754;\r\n        }\r\n\r\n        .basket-switch-save p {\r\n            " +
+            "margin: 0 0 15px;\r\n            color: #666;\r\n        }\r\n\r\n        .voucher-appli" +
+            "ed {\r\n            display: inline-flex;\r\n            align-items: center;\r\n     " +
+            "       gap: 6px;\r\n            padding: 6px 12px;\r\n            background: #eaf8e" +
+            "f;\r\n            color: #1e7e34;\r\n            border-radius: 20px;\r\n            f" +
+            "ont-size: 13px;\r\n            font-weight: 600;\r\n        }\r\n        /*Anil css*/\r" +
+            "\n        .row.dv-basket-card {\r\n            border-radius: 10px;\r\n            pa" +
+            "dding: 10px;\r\n            margin-bottom: 20px;\r\n            border-radius: 10px;" +
+            "\r\n        }\r\n\r\n        .switch-heading {\r\n            position: relative;\r\n     " +
+            "       top: -36px;\r\n            background: #fff;\r\n            display: inline-b" +
+            "lock;\r\n            padding: 0 12px;\r\n        }\r\n\r\n        .fa-plus:before, .fa-m" +
+            "inus:before {\r\n            color: #0099cc !important;\r\n        }\r\n\r\n        .pri" +
+            "ce-row.ex-vat > strong {\r\n            font-size: 18px;\r\n            color: #0099" +
+            "cc;\r\n        }\r\n\r\n        .price-row.ex-vat {\r\n            font-weight: 700\r\n   " +
+            "     }\r\n\r\n            .price-row.ex-vat > span {\r\n                font-size: 13p" +
+            "x;\r\n                color: #0099cc;\r\n            }\r\n\r\n        .price-row.inc-vat" +
+            " > strong {\r\n            font-size: 16px;\r\n            color: #0099cc;\r\n        " +
+            "    font-weight: 400 !important\r\n        }\r\n\r\n        .price-row.inc-vat {\r\n    " +
+            "        font-weight: 400 !important\r\n        }\r\n\r\n            .price-row.inc-vat" +
+            " > span {\r\n                font-size: 12px;\r\n                color: #0099cc;\r\n  " +
+            "              font-weight: 400 !important\r\n            }\r\n\r\n        .price-row.s" +
+            "ave-saving > strong {\r\n            font-size: 18px;\r\n            color: #5cb85c;" +
+            "\r\n        }\r\n\r\n        .price-row.save-saving {\r\n            font-weight: 600\r\n " +
+            "       }\r\n\r\n            .price-row.save-saving > span {\r\n                font-si" +
+            "ze: 13px;\r\n                color: #5cb85c;\r\n            }\r\n\r\n        button.btn." +
+            "btn-success.atb-replace {\r\n            padding: 7px 16px;\r\n            margin-to" +
+            "p: 12px;\r\n            border-radius: 6px !important;\r\n        }\r\n        /*butto" +
+            "n.btn.btn-success.replaceall {\r\n            padding: 7px 16px;\r\n            marg" +
+            "in-top: 12px;\r\n            border-radius: 6px !important;\r\n        }\r\n        bu" +
+            "tton.btn.btn-success.replaceall:hover {\r\n                color: #fff;\r\n         " +
+            "       background-color: #5cb85c;\r\n                border-color: #4cae4c;\r\n     " +
+            "   }*/\r\n        .switch-save-card .btn-success {\r\n            color: #fff;\r\n    " +
+            "        background-color: #5cb85c;\r\n            border-color: #4cae4c;\r\n        " +
+            "}\r\n\r\n        .switch-save-card .btn-success:hover {\r\n                color: #fff" +
+            ";\r\n                background-color: #5cb85c;\r\n                border-color: #4c" +
+            "ae4c;\r\n        }\r\n\r\n        .shipping-time {\r\n            display: flex;\r\n      " +
+            "      align-items: center;\r\n            margin-bottom: 20px;\r\n        }\r\n\r\n     " +
+            "       .shipping-time img {\r\n                margin-right: 12px\r\n            }\r\n" +
+            "\r\n        .shipping-time {\r\n            font-weight: 600;\r\n            color: #5" +
+            "cb85c;\r\n            line-height: 18px\r\n        }\r\n\r\n        .bkt-voucher {\r\n    " +
+            "        display: flex;\r\n            gap: 6px;\r\n            border: none\r\n       " +
+            " }\r\n\r\n            .bkt-voucher input#voucher-code {\r\n                width: calc" +
+            "(100% - 115px);\r\n                border-radius: 5px !important;\r\n               " +
+            " border: 1px solid #cbcbcb\r\n            }\r\n\r\n        button#apply-voucher {\r\n   " +
+            "         width: 115px;\r\n            border-radius: 5px;\r\n            background:" +
+            " #5cb85c;\r\n        }\r\n    .basket-switch-left {\r\n        display: flex;\r\n       " +
+            " flex-direction: column;\r\n    }\r\n\r\n        .basket-switch-left h3 {\r\n           " +
+            " margin: 0;\r\n            font-size: 32px;\r\n            font-weight: 700;\r\n      " +
+            "  }\r\n\r\n        .basket-switch-left p {\r\n            margin: 5px 0 14px;\r\n       " +
+            "     color: #666;\r\n        }\r\n\r\n    /*.basket-switch-right {\r\n        text-align" +
+            ": right;\r\n    }\r\n\r\n        .basket-switch-right span {\r\n            display: blo" +
+            "ck;\r\n            color: #666;\r\n            font-size: 15px;\r\n        }\r\n\r\n      " +
+            "  .basket-switch-right strong {\r\n            font-size: 36px;\r\n            color" +
+            ": #0b8b52;\r\n            font-weight: 700;\r\n        }*/\r\n\r\n    .replaceall {\r\n   " +
+            "     width: 220px;\r\n        height: 50px;\r\n        font-size: 18px;\r\n        bor" +
+            "der: 2px solid #d5007f;\r\n    }\r\n    .switchAll {\r\n        border: 2px solid #d50" +
+            "07f;\r\n    }\r\n    .basket-switch-save {\r\n        display: flex;\r\n        align-it" +
+            "ems: flex-start;\r\n        justify-content: space-between;\r\n        border: 2px s" +
+            "olid #d5007f;\r\n        border-radius: 10px;\r\n        background: #fff;\r\n        " +
+            "padding: 22px 26px;\r\n        margin-bottom: 25px;\r\n        position: relative;\r\n" +
+            "    }\r\n\r\n   /* .basket-switch-left {\r\n        flex: 1;\r\n    }*/\r\n\r\n    .switch-b" +
+            "anner-title {\r\n        display: inline-block;\r\n        margin: 0;\r\n        paddi" +
+            "ng: 6px 14px;\r\n        background: #d5007f;\r\n        color: #fff;\r\n        font-" +
+            "size: 30px;\r\n        font-weight: 700;\r\n        border-radius: 4px;\r\n    }\r\n\r\n  " +
+            "  /*.basket-switch-left p {\r\n        margin: 18px 0 0;\r\n        font-size: 16px;" +
+            "\r\n        color: #666;\r\n        line-height: 1.5;\r\n    }*/\r\n\r\n    .basket-switch" +
+            "-right {\r\n        text-align: right;\r\n        margin-left: 30px;\r\n    }\r\n\r\n     " +
+            "   .basket-switch-right span {\r\n            display: block;\r\n            font-si" +
+            "ze: 18px;\r\n            color: #333;\r\n        }\r\n\r\n        .basket-switch-right s" +
+            "trong {\r\n            display: block;\r\n            font-size: 36px;\r\n            " +
+            "color: #11854b;\r\n            font-weight: 700;\r\n        }\r\n\r\n    .basket-switch-" +
+            "btn {\r\n        position: absolute;\r\n        left: 26px;\r\n        bottom: 22px;\r\n" +
+            "    }\r\n\r\n    .replaceall {\r\n        min-width: 190px;\r\n        height: 44px;\r\n  " +
+            "      border-radius: 6px!important;\r\n        font-size: 16px;\r\n        font-weig" +
+            "ht: 600;\r\n        color: #d5007f;\r\n    }\r\n    .switchsave {\r\n        background:" +
+            " #d5007f;\r\n        color: white;\r\n        padding: 10px;\r\n        height: 60px;\r" +
+            "\n        margin-right: 10px;\r\n    }\r\n    .switchsave:hover {\r\n            backgr" +
+            "ound: #d5007f;\r\n            color: white;\r\n            padding: 10px;\r\n         " +
+            "   height: 60px;\r\n            margin-right: 10px;\r\n        }\r\n    .replaceall:ho" +
+            "ver {\r\n        min-width: 190px;\r\n        height: 44px;\r\n        border-radius: " +
+            "6px !important;\r\n        font-size: 16px;\r\n        font-weight: 600;\r\n        co" +
+            "lor: #d5007f;\r\n    }\r\n    .you-may-need {\r\n        margin-top: 25px;\r\n        bo" +
+            "rder: 1px solid #d9d9d9;\r\n        border-radius: 6px;\r\n        overflow: hidden;" +
+            "\r\n        background: #fff;\r\n    }\r\n\r\n    .you-may-need-header {\r\n        backgr" +
+            "ound: #0d7397;\r\n        color: #fff;\r\n        padding: 14px 18px;\r\n        font-" +
+            "size: 20px;\r\n        font-weight: 600;\r\n    }\r\n\r\n    .you-may-need-products {\r\n " +
+            "       display: flex;\r\n        gap: 20px;\r\n        padding: 20px;\r\n    }\r\n\r\n    " +
+            ".need-product {\r\n        flex: 1;\r\n        text-align: center;\r\n    }\r\n\r\n       " +
+            " .need-product img {\r\n            width: 120px;\r\n            height: 90px;\r\n    " +
+            "        object-fit: contain;\r\n            margin-bottom: 12px;\r\n        }\r\n\r\n   " +
+            " .need-title {\r\n        display: block;\r\n        color: #333;\r\n        font-size" +
+            ": 13px;\r\n        line-height: 18px;\r\n        min-height: 55px;\r\n        text-dec" +
+            "oration: none;\r\n        font-weight: 600;\r\n    }\r\n\r\n        .need-title:hover {\r" +
+            "\n            color: #0099cc;\r\n        }\r\n\r\n    .need-part {\r\n        font-size: " +
+            "12px;\r\n        color: #777;\r\n        margin: 6px 0;\r\n    }\r\n\r\n    .need-price {\r" +
+            "\n        font-size: 18px;\r\n        color: #0099cc;\r\n        font-weight: 700;\r\n " +
+            "       margin: 12px 0;\r\n    }\r\n\r\n        .need-price small {\r\n            displa" +
+            "y: block;\r\n            font-size: 12px;\r\n            color: #666;\r\n            f" +
+            "ont-weight: 400;\r\n        }\r\n\r\n    .need-product .btn {\r\n        width: 100%;\r\n " +
+            "       border-radius: 4px;\r\n        font-size: 14px;\r\n        font-weight: 600;\r" +
+            "\n    }\r\n    .basket-sidebar-info {\r\n        margin-top: 20px;\r\n    }\r\n\r\n    .sid" +
+            "ebar-card {\r\n        background: #fff;\r\n        border: 1px solid #e6e6e6;\r\n    " +
+            "    border-radius: 8px;\r\n        margin-bottom: 12px;\r\n        overflow: hidden;" +
+            "\r\n    }\r\n\r\n    .card-header {\r\n        display: flex;\r\n        align-items: cent" +
+            "er;\r\n        gap: 12px;\r\n        padding: 18px;\r\n        font-size: 22px;\r\n     " +
+            "   font-weight: 700;\r\n        color: #222;\r\n    }\r\n\r\n        .card-header i {\r\n " +
+            "           width: 28px;\r\n            text-align: center;\r\n            font-size:" +
+            " 24px;\r\n            color: #444;\r\n        }\r\n\r\n    .card-body {\r\n        padding" +
+            ": 0 18px 16px;\r\n        font-size: 14px;\r\n        line-height: 1.6;\r\n        col" +
+            "or: #555;\r\n    }\r\n\r\n    .card-footer {\r\n        display: flex;\r\n        justify-" +
+            "content: space-between;\r\n        align-items: center;\r\n        padding: 14px 18p" +
+            "x;\r\n        border-top: 1px solid #efefef;\r\n        font-weight: 600;\r\n    }\r\n\r\n" +
+            "        .card-footer a {\r\n            color: #111;\r\n            text-decoration:" +
+            " none;\r\n        }\r\n\r\n        .card-footer i {\r\n            font-size: 22px;\r\n   " +
+            "         color: #444;\r\n        }\r\n\r\n    .payment-card .payment-icons {\r\n        " +
+            "display: flex;\r\n        gap: 10px;\r\n        padding: 18px;\r\n        flex-wrap: w" +
+            "rap;\r\n    }\r\n\r\n    .payment-card img {\r\n        height: 28px;\r\n        width: au" +
+            "to;\r\n    }\r\n    .card-header span {\r\n        font-size: 15px;\r\n        font-weig" +
+            "ht: 600;\r\n    }\r\n    .card-toggle {\r\n        display: flex;\r\n        justify-con" +
+            "tent: space-between;\r\n        align-items: center;\r\n        padding: 15px 18px;\r" +
+            "\n        cursor: pointer;\r\n        border-top: 1px solid #eee;\r\n        font-wei" +
+            "ght: 600;\r\n    }\r\n\r\n        .card-toggle i {\r\n            transition: .3s;\r\n    " +
+            "    }\r\n\r\n    .card-content {\r\n        display: none;\r\n        padding: 0 18px 18" +
+            "px;\r\n        color: #666;\r\n        font-size: 13px;\r\n        line-height: 1.7;\r\n" +
+            "    }\r\n\r\n    .sidebar-card.active .card-content {\r\n        display: block;\r\n    " +
+            "}\r\n\r\n    .sidebar-card.active .card-toggle i {\r\n        transform: rotate(180deg" +
+            ");\r\n    }\r\n    .voucher-success {\r\n        background: #e8f8ea;\r\n        border:" +
+            " 1px solid #5cb85c;\r\n        color: #2e7d32;\r\n        padding: 10px;\r\n        bo" +
+            "rder-radius: 4px;\r\n    }\r\n\r\n    .voucher-error {\r\n        background: #fdeaea;\r\n" +
+            "        border: 1px solid #dc3545;\r\n        color: #b00020;\r\n        padding: 10" +
+            "px;\r\n        border-radius: 4px;\r\n    }\r\n    .atb-add:hover {\r\n        color: #f" +
+            "ff !important;\r\n        background-color: #5cb85c !important;\r\n        border-co" +
+            "lor: #4cae4c !important;\r\n    }\r\n    .you-may-need-products {\r\n        display: " +
+            "flex;\r\n        gap: 20px;\r\n        padding: 20px;\r\n        overflow-x: auto;\r\n  " +
+            "      overflow-y: hidden;\r\n        flex-wrap: nowrap;\r\n        scrollbar-width: " +
+            "thin;\r\n    }\r\n\r\n        .you-may-need-products::-webkit-scrollbar {\r\n           " +
+            " height: 8px;\r\n        }\r\n\r\n        .you-may-need-products::-webkit-scrollbar-th" +
+            "umb {\r\n            background: #ccc;\r\n            border-radius: 4px;\r\n        }" +
+            "\r\n\r\n    .need-product {\r\n        flex: 0 0 calc((100% - 40px) / 3);\r\n        max" +
+            "-width: calc((100% - 40px) / 3);\r\n        text-align: center;\r\n    }\r\n</style>\r\n" +
+            "\r\n");
 
-WriteLiteral("<style>\r\n    .basket-status {\r\n        margin-top: 15px;\r\n    }\r\n\r\n    .stock-sta" +
-"tus {\r\n        display: flex;\r\n        align-items: center;\r\n        gap: 8px;\r\n" +
-"        font-weight: 600;\r\n    }\r\n\r\n        .stock-status.in-stock {\r\n          " +
-"  color: #28a745;\r\n        }\r\n\r\n        .stock-status.back-order {\r\n            " +
-"color: #f39c12;\r\n        }\r\n\r\n    .delivery-status {\r\n        margin-top: 6px;\r\n" +
-"        padding-left: 24px;\r\n        font-size: 13px;\r\n        color: #666;\r\n   " +
-" }\r\n\r\n    .delivery-date {\r\n        margin-top: 2px;\r\n        font-weight: 600;\r" +
-"\n        color: #222;\r\n    }\r\n\r\n    .basket-qty-wrapper {\r\n        margin-top: 2" +
-"0px;\r\n    }\r\n\r\n    .qty-label {\r\n        display: block;\r\n        margin-bottom:" +
-" 8px;\r\n        font-size: 13px;\r\n        font-weight: 600;\r\n        color: #666;" +
-"\r\n    }\r\n\r\n    .basket-qty {\r\n        display: flex;\r\n        align-items: cente" +
-"r;\r\n        justify-content: center;\r\n        border: 1px solid #ddd;\r\n        b" +
-"order-radius: 6px;\r\n        overflow: hidden;\r\n        width: 140px;\r\n        he" +
-"ight: 42px;\r\n    }\r\n\r\n    .qty-btn {\r\n        width: 40px;\r\n        height: 40px" +
-";\r\n        border: none;\r\n        background: #f8f8f8;\r\n        cursor: pointer;" +
-"\r\n        transition: .2s;\r\n    }\r\n\r\n        .qty-btn:hover {\r\n            backg" +
-"round: #ececec;\r\n        }\r\n\r\n        .qty-btn:disabled {\r\n            opacity: " +
-".45;\r\n            cursor: not-allowed;\r\n        }\r\n\r\n    .qty-input {\r\n        w" +
-"idth: 60px;\r\n        border: none;\r\n        text-align: center;\r\n        font-we" +
-"ight: 600;\r\n        background: #fff;\r\n    }\r\n\r\n    .basket-remove-container {\r\n" +
-"        margin-top: 15px;\r\n    }\r\n\r\n    .basket-remove {\r\n        background: no" +
-"ne;\r\n        border: none;\r\n        color: #d61f26;\r\n        padding: 0;\r\n      " +
-"  font-size: 14px;\r\n    }\r\n\r\n        .basket-remove:hover {\r\n            text-de" +
-"coration: underline;\r\n        }\r\n\r\n    .switch-save-card {\r\n        margin-top: " +
-"20px;\r\n        border: 1px solid #dcdcdc;\r\n        border-left: 5px solid #007b5" +
-"f;\r\n        border-radius: 8px;\r\n        padding: 18px;\r\n        background: #fa" +
-"fafa;\r\n    }\r\n\r\n    .switch-badge {\r\n        display: inline-block;\r\n        bac" +
-"kground: #007b5f;\r\n        color: #fff;\r\n        font-size: 12px;\r\n        paddi" +
-"ng: 5px 12px;\r\n        border-radius: 20px;\r\n        margin-bottom: 10px;\r\n     " +
-"   font-weight: 600;\r\n    }\r\n\r\n    .switch-title {\r\n        font-size: 16px;\r\n  " +
-"      font-weight: 600;\r\n        margin-bottom: 5px;\r\n    }\r\n\r\n    .switch-text " +
-"{\r\n        color: #666;\r\n        font-size: 13px;\r\n    }\r\n\r\n    .switch-price {\r" +
-"\n        font-size: 20px;\r\n        font-weight: bold;\r\n    }\r\n\r\n    .switch-savi" +
-"ng {\r\n        color: #28a745;\r\n        font-weight: 600;\r\n        margin-top: 6p" +
-"x;\r\n    }\r\n\r\n    .switch-product-name {\r\n        font-size: 16px;\r\n        font-" +
-"weight: 600;\r\n        margin-top: 8px;\r\n    }\r\n\r\n    .switch-price {\r\n        ma" +
-"rgin-top: 6px;\r\n        font-size: 18px;\r\n        font-weight: 700;\r\n    }\r\n\r\n  " +
-"      .switch-price small {\r\n            display: block;\r\n            font-size:" +
-" 12px;\r\n            color: #777;\r\n            font-weight: 400;\r\n        }\r\n\r\n  " +
-"  .switch-saving-label {\r\n        font-size: 12px;\r\n        color: #666;\r\n    }\r" +
-"\n\r\n    .switch-saving {\r\n        color: #28a745;\r\n        font-size: 18px;\r\n    " +
-"    font-weight: 700;\r\n    }\r\n    /* ===========================\r\n   Switch & Sa" +
-"ve\r\n=========================== */\r\n\r\n    .switch-save-card {\r\n        margin-to" +
-"p: 20px;\r\n        padding: 20px;\r\n        border: 2px solid #d5007f; /* Brand ma" +
-"genta */\r\n        border-radius: 8px;\r\n        background: #ffffff;\r\n    }\r\n\r\n  " +
-"  .switch-save-header {\r\n        display: flex;\r\n        justify-content: space-" +
-"between;\r\n        align-items: center;\r\n        margin-bottom: 15px;\r\n    }\r\n\r\n " +
-"   .switch-heading {\r\n        font-size: 18px;\r\n        font-weight: 600;\r\n     " +
-"   color: #222;\r\n    }\r\n\r\n    .switch-product-name {\r\n        font-size: 16px;\r\n" +
-"        font-weight: 600;\r\n        margin: 12px 0;\r\n        color: #222;\r\n    }\r" +
-"\n\r\n    .switch-price {\r\n        font-size: 22px;\r\n        font-weight: 700;\r\n   " +
-"     color: #222;\r\n    }\r\n\r\n        .switch-price small {\r\n            display: " +
-"block;\r\n            margin-top: 4px;\r\n            font-size: 12px;\r\n            " +
-"font-weight: 400;\r\n            color: #777;\r\n        }\r\n\r\n    .switch-saving {\r\n" +
-"        font-size: 18px;\r\n        font-weight: 700;\r\n        color: #0a8a43;\r\n  " +
-"  }\r\n\r\n    .switch-footer {\r\n        display: flex;\r\n        justify-content: sp" +
-"ace-between;\r\n        align-items: center;\r\n        margin-top: 20px;\r\n    }\r\n\r\n" +
-"        .switch-footer .btn {\r\n            min-width: 170px;\r\n        }\r\n    .de" +
-"livery-cutoff {\r\n        margin-top: 6px;\r\n        font-size: 13px;\r\n        col" +
-"or: #555;\r\n    }\r\n\r\n        .delivery-cutoff i {\r\n            color: #d5007f;\r\n " +
-"           margin-right: 5px;\r\n        }\r\n\r\n    .delivery-countdown {\r\n        f" +
-"ont-weight: 700;\r\n        color: #d5007f;\r\n    }\r\n\r\n    .delivery-date {\r\n      " +
-"  margin-top: 5px;\r\n        font-size: 14px;\r\n        font-weight: 600;\r\n    }\r\n" +
-"    .basket-switch-save {\r\n        margin: 25px 0;\r\n        padding: 20px;\r\n    " +
-"    border: 2px solid #d5007f;\r\n        border-radius: 8px;\r\n        background:" +
-" #fff;\r\n    }\r\n\r\n    .basket-switch-header {\r\n        display: flex;\r\n        ju" +
-"stify-content: space-between;\r\n        align-items: center;\r\n        margin-bott" +
-"om: 10px;\r\n    }\r\n\r\n        .basket-switch-header h3 {\r\n            margin: 0;\r\n" +
-"            font-size: 20px;\r\n            font-weight: 600;\r\n        }\r\n\r\n    .b" +
-"asket-switch-total {\r\n        font-size: 18px;\r\n        font-weight: 700;\r\n     " +
-"   color: #198754;\r\n    }\r\n\r\n    .basket-switch-save p {\r\n        margin: 0 0 15" +
-"px;\r\n        color: #666;\r\n    }\r\n</style>\r\n");
 
-            
-            #line 294 "..\..\Views\Checkout\BasketDetails.cshtml"
- if (Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery > 0)
-{
-    bool isAdminDiscount = Model.BasketContents.Exists(x => x.ItemType == BasketItemType.AdminDiscount);
-    bool isCompatibleDiscount = Model.BasketContents.Exists(x => x.ItemType == BasketItemType.CompatibleDiscount);
+#line 790 "..\..\Views\Checkout\BasketDetails.cshtml"
+            if (Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery > 0)
+            {
+                bool isAdminDiscount = Model.BasketContents.Exists(x => x.ItemType == BasketItemType.AdminDiscount);
+                bool isCompatibleDiscount = Model.BasketContents.Exists(x => x.ItemType == BasketItemType.CompatibleDiscount);
 
-            
-            #line default
-            #line hidden
-WriteLiteral("    <div");
 
-WriteLiteral(" class=\"col-md-9\"");
+#line default
+#line hidden
+                WriteLiteral("    <div");
 
-WriteLiteral(">\r\n        <div");
+                WriteLiteral(" class=\"col-md-9\"");
 
-WriteLiteral(" class=\"row\"");
+                WriteLiteral(">\r\n        <div");
 
-WriteLiteral(">\r\n            <div");
+                WriteLiteral(" class=\"row\"");
 
-WriteLiteral(" class=\"col-md-12\"");
+                WriteLiteral(">\r\n            <div");
 
-WriteLiteral(">\r\n                <hr");
+                WriteLiteral(" class=\"col-md-12\"");
 
-WriteLiteral(" class=\"g-m-b-10 hidden-xs hidden-sm\"");
+                WriteLiteral(">\r\n\r\n                <div");
 
-WriteLiteral(" />\r\n                <div");
+                WriteLiteral(" id=\"basketSummary\"");
 
-WriteLiteral(" class=\"row g-fw-b\"");
+                WriteLiteral(" class=\"basketSummaryContainer\"");
 
-WriteLiteral(">\r\n                    <div");
+                WriteLiteral(">\r\n");
 
-WriteLiteral(" class=\"col-lg-6 col-md-5\"");
 
-WriteLiteral(">\r\n                        <div");
+#line 799 "..\..\Views\Checkout\BasketDetails.cshtml"
 
-WriteLiteral(" class=\"container-fluid\"");
 
-WriteLiteral(">\r\n                            <div");
+#line default
+#line hidden
 
-WriteLiteral(" class=\"row\"");
+#line 799 "..\..\Views\Checkout\BasketDetails.cshtml"
 
-WriteLiteral(">\r\n                                <div");
-
-WriteLiteral(" class=\"col-lg-10 col-md-12 pull-left\"");
-
-WriteLiteral(">\r\n                                    Items <span");
-
-WriteLiteral(" class=\"g-fc-s\"");
-
-WriteLiteral(">(<span");
-
-WriteLiteral(" class=\"basketQuantity\"");
-
-WriteLiteral(">");
-
-            
-            #line 307 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                                                        Write(Model.BasketTotals.Quantity.ToString("##0"));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</span>)</span>\r\n                                </div>\r\n                        " +
-"        <div");
-
-WriteLiteral(" class=\"col-lg-2 g-m-l-a g-p-r-10 hidden-md hidden-sm hidden-xs pull-right\"");
-
-WriteLiteral(">Price</div>\r\n                            </div>\r\n                        </div>\r" +
-"\n                    </div>\r\n");
-
-            
-            #line 313 "..\..\Views\Checkout\BasketDetails.cshtml"
-                    
-            
-            #line default
-            #line hidden
-            
-            #line 313 "..\..\Views\Checkout\BasketDetails.cshtml"
-                     if (!Model.IsMobile)
+                bool isMultiBuy = false;
+                decimal multibuyAmount = decimal.Zero;
+                Model.CheckZeroStock();
+                decimal basketSwitchSaving = 0;
+                bool hasSwitchProducts = false;
+                // Logic to build Basket Switch & Save section
+                List<BasketContents> switchProducts = new List<BasketContents>();
+                var list = Model.BasketContents; int switchCount = 0;
+                if (list != null && list.Count > 1)
+                {
+                    foreach (BasketContents item in Model.BasketContents)
                     {
+                        // Ignore non-product lines
+                        if (item.ItemType != BasketItemType.Item)
+                        { continue; }
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                        <div");
+                        // Ignore compatible products (already switched)
+                        if (item.IsCompatible)
+                        { continue; }
 
-WriteLiteral(" class=\"col-md-7 col-lg-6 hidden-xs hidden-sm\"");
+                        // Ignore excluded products
+                        if (item.ExcludeFromUpSell)
+                        { continue; }
 
-WriteLiteral(">\r\n                            <div");
+                        // Cross-sell product must exist
+                        if (item.CrossSellingStockRef == null || item.CrossSellingStockRef == "")
+                        {
+                            continue;
+                        }
 
-WriteLiteral(" class=\"container-fluid\"");
+                        // Cross-sell product must be in stock
+                        if (item.CrossSellingAvailability != 1 &&
+                                            item.CrossSellingAvailability != 7)
+                        { continue; }
 
-WriteLiteral(">\r\n                                <div");
+                        decimal lineSaving =
+                            (item.PriceEx - item.CrossSellingPriceEx) * item.Quantity;
 
-WriteLiteral(" class=\"row\"");
+                        // Only show if customer actually saves money
+                        if (lineSaving <= 0)
+                        { continue; }
 
-WriteLiteral(">\r\n                                    <div");
-
-WriteLiteral(" class=\"col-md-3 g-p-lr-0\"");
-
-WriteLiteral(">\r\n                                        <div");
-
-WriteLiteral(" class=\"g-m-l-10 text-center pull-left\"");
-
-WriteLiteral(">\r\n                                            Quantity\r\n                        " +
-"                </div>\r\n                                    </div>\r\n            " +
-"                        <div");
-
-WriteLiteral(" class=\"col-md-6 g-p-lr-0\"");
-
-WriteLiteral(">\r\n                                        <div");
-
-WriteLiteral(" class=\"text-center\"");
-
-WriteLiteral(">\r\n                                            Potential Saving\r\n                " +
-"                        </div>\r\n                                    </div>\r\n    " +
-"                                <div");
-
-WriteLiteral(" class=\"col-md-3 g-p-lr-0\"");
-
-WriteLiteral(">\r\n                                        <div");
-
-WriteLiteral(" class=\"g-m-l-a g-p-r-20 hidden-xs hidden-sm pull-right\"");
-
-WriteLiteral(@">
-                                            Sub-Total
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-");
-
-            
-            #line 336 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        basketSwitchSaving += lineSaving;
+                        switchProducts.Add(item);
                     }
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                </div>\r\n\r\n                <div");
+                    hasSwitchProducts = switchProducts.Count > 0;
+                    switchCount = switchProducts.Count;
+                }
+                if (hasSwitchProducts && switchCount > 1)
+                {
 
-WriteLiteral(" id=\"basketSummary\"");
 
-WriteLiteral(" class=\"basketSummaryContainer\"");
 
-WriteLiteral(">\r\n");
 
-            
-            #line 340 "..\..\Views\Checkout\BasketDetails.cshtml"
-                    
-            
-            #line default
-            #line hidden
-            
-            #line 340 "..\..\Views\Checkout\BasketDetails.cshtml"
-                      
-                        bool isMultiBuy = false;
-                        decimal multibuyAmount = decimal.Zero;
-                        Model.CheckZeroStock();
-                        decimal basketSwitchSaving = 0;
-                        bool hasSwitchProducts = false;
-                        foreach (BasketContents bc in Model.BasketContents)
+#line default
+#line hidden
+                    WriteLiteral("                            <div");
+
+                    WriteLiteral(" class=\"basket-switch-save\"");
+
+                    WriteLiteral(">\r\n                                <button");
+
+                    WriteLiteral(" class=\"btn switchsave\"");
+
+                    WriteLiteral(">\r\n                                    Switch &amp; Save\r\n                       " +
+                    "         </button>\r\n                                <div");
+
+                    WriteLiteral(" class=\"\"");
+
+                    WriteLiteral(">\r\n\r\n                                    Switch &amp; Save\r\n\r\n                   " +
+                    "                 <p>\r\n                                        Save ");
+
+
+#line 862 "..\..\Views\Checkout\BasketDetails.cshtml"
+                    Write(basketSwitchSaving.ToString("C"));
+
+
+#line default
+#line hidden
+                    WriteLiteral(" by switching your basket to compatible products.\r\n                              " +
+                    "      </p>\r\n\r\n                                </div>\r\n\r\n                        " +
+                    "        <div");
+
+                    WriteLiteral(" class=\"basket-switch-btn\"");
+
+                    WriteLiteral(">\r\n\r\n                                </div><button");
+
+                    WriteLiteral(" id=\"btnSwitchAll\"");
+
+                    WriteLiteral(" class=\"btn replaceall\"");
+
+                    WriteLiteral(">\r\n                                    Switch All Products\r\n                     " +
+                    "           </button>\r\n\r\n                            </div>\r\n");
+
+
+#line 874 "..\..\Views\Checkout\BasketDetails.cshtml"
+                }
+                foreach (BasketContents bc in list)
+                {
+                    if (bc.ItemType == BasketItemType.Item || bc.ItemType == BasketItemType.AdminDiscount)
+                    {
+                        string neg = bc.ItemType == BasketItemType.AdminDiscount ? "-" : "";
+                        string strike = "";
+                        string discClass = "g-d-n";
+                        decimal discUnitPrice = decimal.Zero;
+                        decimal subt = bc.PriceEx * bc.Quantity;
+                        decimal discountRate = Utilities.GetUpsellRate();
+                        if (!bc.IsCompatible &&
+                        !String.IsNullOrEmpty(bc.CrossSellingStockRef) &&
+                        !bc.ExcludeFromUpSell &&
+                        (bc.CrossSellingAvailability == 1 || bc.CrossSellingAvailability == 7))
                         {
-                            if (bc.ItemType == BasketItemType.Item || bc.ItemType == BasketItemType.AdminDiscount)
+                            decimal lineSaving = (bc.PriceEx - bc.CrossSellingPriceEx) * bc.Quantity;
+
+                            if (lineSaving > 0)
                             {
-                                string neg = bc.ItemType == BasketItemType.AdminDiscount ? "-" : "";
-                                string strike = "";
-                                string discClass = "g-d-n";
-                                decimal discUnitPrice = decimal.Zero;
-                                decimal subt = bc.PriceEx * bc.Quantity;
-                                decimal discountRate = Utilities.GetUpsellRate();
-                                if (!bc.IsCompatible &&
-                                !String.IsNullOrEmpty(bc.CrossSellingStockRef) &&
-                                !bc.ExcludeFromUpSell &&
-                                (bc.CrossSellingAvailability == 1 || bc.CrossSellingAvailability == 7))
-                                {
-                                    decimal lineSaving = (bc.PriceEx - bc.CrossSellingPriceEx) * bc.Quantity;
+                                basketSwitchSaving += lineSaving;
+                                hasSwitchProducts = true;
+                            }
+                        }
+                        if (bc.IsCompatible && Session["V_Voucher"] == null &&
+                            Convert.ToBoolean(ConfigurationManager.AppSettings["IsCompatibleUpsellActive"]) &&
+                            !Convert.ToBoolean(Session["U_IsTradeCustomer"]) &&
+                            !isAdminDiscount &&
+                            bc.Quantity > bc.QtyStart)
+                        {
+                            discUnitPrice = Math.Round(bc.PriceEx, 2) - Math.Round(bc.PriceEx * discountRate / 100, 2);
+                            subt = discUnitPrice * bc.Quantity;
+                            strike = "g-s";
+                            discClass = "";
+                        }
 
-                                    if (lineSaving > 0)
-                                    {
-                                        basketSwitchSaving += lineSaving;
-                                        hasSwitchProducts = true;
-                                    }
-                                }
-                                if (bc.IsCompatible && Session["V_Voucher"] == null &&
-                                    Convert.ToBoolean(ConfigurationManager.AppSettings["IsCompatibleUpsellActive"]) &&
-                                    !Convert.ToBoolean(Session["U_IsTradeCustomer"]) &&
-                                    !isAdminDiscount &&
-                                    bc.Quantity > bc.QtyStart)
-                                {
-                                    discUnitPrice = Math.Round(bc.PriceEx, 2) - Math.Round(bc.PriceEx * discountRate / 100, 2);
-                                    subt = discUnitPrice * bc.Quantity;
-                                    strike = "g-s";
-                                    discClass = "";
-                                }
 
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                <hr");
+#line default
+#line hidden
+                        WriteLiteral("                                <div");
 
-WriteLiteral(" class=\"g-m-tb-10\"");
+                        WriteLiteral(" class=\"basket-card atb-entry g-m-b-20\"");
 
-WriteLiteral(" />\r\n");
+                        WriteLiteral("\r\n                                     data-productid=\"");
 
-WriteLiteral("                                <div");
 
-WriteLiteral(" class=\"basket-card atb-entry g-m-b-20\"");
+#line 911 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        Write(bc.StockRef);
 
-WriteLiteral("\r\n                                     data-productid=\"");
 
-            
-            #line 383 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                Write(bc.StockRef);
+#line default
+#line hidden
+                        WriteLiteral("\"");
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\"");
+                        WriteLiteral(">\r\n\r\n                                    <div");
 
-WriteLiteral(">\r\n\r\n                                    <div");
-
-WriteLiteral(" class=\"row\"");
+                        WriteLiteral(" class=\"row dv-basket-card\"");
 
-WriteLiteral(">\r\n\r\n                                        <!-- Product Image -->\r\n            " +
-"                            <div");
+                        WriteLiteral(">\r\n\r\n                                        <!-- Product Image -->\r\n            " +
+                        "                            <div");
 
-WriteLiteral(" class=\"col-lg-2 col-md-3 col-sm-3 col-4\"");
+                        WriteLiteral(" class=\"col-lg-2 col-md-3 col-sm-3 col-4\"");
 
-WriteLiteral(">\r\n\r\n                                            <a");
+                        WriteLiteral(">\r\n\r\n                                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 11534), Tuple.Create("\"", 11555)
-            
-            #line 390 "..\..\Views\Checkout\BasketDetails.cshtml"
-, Tuple.Create(Tuple.Create("", 11541), Tuple.Create<System.Object, System.Int32>(bc.ProductUrl
-            
-            #line default
-            #line hidden
-, 11541), false)
-);
+                        WriteAttribute("href", Tuple.Create(" href=\"", 24865), Tuple.Create("\"", 24886)
 
-WriteLiteral(" class=\"basket-card-image\"");
+#line 918 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        , Tuple.Create(Tuple.Create("", 24872), Tuple.Create<System.Object, System.Int32>(bc.ProductUrl
 
-WriteLiteral(">\r\n\r\n                                                ");
+#line default
+#line hidden
+                        , 24872), false)
+                        );
 
-WriteLiteral("\r\n\r\n                                            </a>\r\n\r\n                         " +
-"               </div>\r\n\r\n                                        <!-- Product De" +
-"tails -->\r\n                                        <div");
+                        WriteLiteral(" class=\"basket-card-image\"");
 
-WriteLiteral(" class=\"col-lg-6 col-md-5 col-sm-9 col-8\"");
+                        WriteLiteral(">\r\n\r\n                                                <img");
 
-WriteLiteral(">\r\n\r\n                                            <div");
+                        WriteAttribute("src", Tuple.Create(" src=\"", 24970), Tuple.Create("\"", 24988)
 
-WriteLiteral(" class=\"basket-card-details\"");
+#line 920 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        , Tuple.Create(Tuple.Create("", 24976), Tuple.Create<System.Object, System.Int32>(bc.ImageUrl
 
-WriteLiteral(">\r\n\r\n                                                <h4");
+#line default
+#line hidden
+                        , 24976), false)
+                        );
 
-WriteLiteral(" class=\"basket-product-title\"");
+                        WriteAttribute("alt", Tuple.Create("\r\n                                                     alt=\"", 24989), Tuple.Create("\"", 25064)
 
-WriteLiteral(">\r\n                                                    <a");
+#line 921 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        , Tuple.Create(Tuple.Create("", 25049), Tuple.Create<System.Object, System.Int32>(bc.Description
 
-WriteAttribute("href", Tuple.Create(" href=\"", 12395), Tuple.Create("\"", 12416)
-            
-            #line 407 "..\..\Views\Checkout\BasketDetails.cshtml"
-, Tuple.Create(Tuple.Create("", 12402), Tuple.Create<System.Object, System.Int32>(bc.ProductUrl
-            
-            #line default
-            #line hidden
-, 12402), false)
-);
+#line default
+#line hidden
+                        , 25049), false)
+                        );
 
-WriteLiteral(">\r\n");
+                        WriteLiteral("\r\n                                                     class=\"img-responsive\"");
 
-WriteLiteral("                                                        ");
+                        WriteAttribute("onerror", Tuple.Create("\r\n                                                     onerror=\"", 25142), Tuple.Create("\"", 25277)
+                        , Tuple.Create(Tuple.Create("", 25206), Tuple.Create("this.src=\'", 25206), true)
 
-            
-            #line 408 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                   Write(bc.Description);
+#line 923 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        , Tuple.Create(Tuple.Create("", 25216), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                                                    </a>\r\n                     " +
-"                           </h4>\r\n\r\n                                            " +
-"    <div");
+#line default
+#line hidden
+                        , 25216), false)
+                        , Tuple.Create(Tuple.Create("", 25256), Tuple.Create("/Images/noImage.jpg\';", 25256), true)
+                        );
 
-WriteLiteral(" class=\"basket-product-code\"");
+                        WriteLiteral(" />\r\n\r\n                                            </a>\r\n\r\n                      " +
+                        "                  </div>\r\n\r\n                                        <!-- Product" +
+                        " Details -->\r\n                                        <div");
 
-WriteLiteral(">\r\n                                                    <strong>Product Code:</str" +
-"ong>\r\n");
+                        WriteLiteral(" class=\"col-lg-6 col-md-5 col-sm-9 col-8\"");
 
-WriteLiteral("                                                    ");
+                        WriteLiteral(">\r\n\r\n                                            <div");
 
-            
-            #line 414 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                               Write(bc.PartNo);
+                        WriteLiteral(" class=\"basket-card-details\"");
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                                                </div>\r\n\r\n                     " +
-"                           <div");
+                        WriteLiteral(">\r\n\r\n                                                <h4");
 
-WriteLiteral(" class=\"basket-status g-m-t-15\"");
+                        WriteLiteral(" class=\"basket-product-title\"");
 
-WriteLiteral(">\r\n\r\n");
+                        WriteLiteral(">\r\n                                                    <a");
 
-            
-            #line 419 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                    
-            
-            #line default
-            #line hidden
-            
-            #line 419 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                     if (bc.Availability == 1 || bc.Availability == 7)
-                                                    {
+                        WriteAttribute("href", Tuple.Create(" href=\"", 25761), Tuple.Create("\"", 25782)
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                                        <div");
+#line 935 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        , Tuple.Create(Tuple.Create("", 25768), Tuple.Create<System.Object, System.Int32>(bc.ProductUrl
 
-WriteLiteral(" class=\"stock-status in-stock\"");
+#line default
+#line hidden
+                        , 25768), false)
+                        );
 
-WriteLiteral(">\r\n\r\n                                                            <i");
+                        WriteLiteral(">\r\n");
 
-WriteLiteral(" class=\"fa fa-check-circle\"");
+                        WriteLiteral("                                                        ");
 
-WriteLiteral("></i>\r\n\r\n                                                            <span>In Sto" +
-"ck</span>\r\n\r\n                                                        </div>\r\n");
 
-            
-            #line 428 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 936 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        Write(bc.Description);
 
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                                        <div");
+#line default
+#line hidden
+                        WriteLiteral("\r\n                                                    </a>\r\n                     " +
+                        "                           </h4>\r\n\r\n                                            " +
+                        "    <div");
 
-WriteLiteral(" class=\"delivery-status\"");
+                        WriteLiteral(" class=\"basket-product-code\"");
 
-WriteLiteral(">\r\n\r\n");
+                        WriteLiteral(">\r\n                                                    <strong>Product Code:</str" +
+                        "ong>\r\n");
 
-            
-            #line 431 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                            
-            
-            #line default
-            #line hidden
-            
-            #line 431 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                             if (!Convert.ToBoolean(Model.CommonData["DeliveryDateIsOverridden"]))
-                                                            {
+                        WriteLiteral("                                                    ");
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                                                <div");
 
-WriteLiteral(" class=\"delivery-cutoff\"");
+#line 942 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        Write(bc.PartNo);
 
-WriteLiteral(">\r\n\r\n                                                                    <i");
 
-WriteLiteral(" class=\"fa fa-clock-o\"");
+#line default
+#line hidden
+                        WriteLiteral("\r\n                                                </div>\r\n\r\n                     " +
+                        "                           <div");
 
-WriteLiteral("></i>\r\n\r\n                                                                    Orde" +
-"r Within\r\n\r\n                                                                    " +
-"<strong>\r\n                                                                      " +
-"  <span");
+                        WriteLiteral(" class=\"basket-status g-m-t-15\"");
 
-WriteLiteral(" class=\"cutoffCountdownFalse\"");
+                        WriteLiteral(">\r\n\r\n");
 
-WriteLiteral("></span>\r\n                                                                    </s" +
-"trong>\r\n\r\n                                                                </div>" +
-"\r\n");
 
-            
-            #line 444 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                            }
+#line 947 "..\..\Views\Checkout\BasketDetails.cshtml"
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                                                            <div");
 
-WriteLiteral(" class=\"delivery-date\"");
+#line default
+#line hidden
 
-WriteLiteral(">\r\n\r\n                                                                <strong>\r\n  " +
-"                                                                  Delivered ");
+#line 947 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        if (bc.Availability == 1 || bc.Availability == 7)
+                        {
 
-            
-            #line 449 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                                         Write(Session["D_standardDeliveryDay"]);
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                                                                </strong>\r\n\r\n  " +
-"                                                          </div>\r\n\r\n            " +
-"                                            </div>\r\n");
+#line default
+#line hidden
+                            WriteLiteral("                                                        <div");
 
-            
-            #line 455 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                    }
-                                                    else if (bc.Availability == 10)
-                                                    {
+                            WriteLiteral(" class=\"stock-status in-stock\"");
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                                        <div");
+                            WriteLiteral(">\r\n\r\n                                                            <i");
 
-WriteLiteral(" class=\"stock-status special-order\"");
+                            WriteLiteral(" class=\"fa fa-check-circle\"");
 
-WriteLiteral(">\r\n\r\n                                                            <i");
+                            WriteLiteral("></i>\r\n\r\n                                                            <span>In Sto" +
+                            "ck</span>\r\n\r\n                                                        </div>\r\n");
 
-WriteLiteral(" class=\"fa fa-info-circle\"");
 
-WriteLiteral("></i>\r\n\r\n                                                            <span>Specia" +
-"l Order Item</span>\r\n\r\n                                                        <" +
-"/div>\r\n");
+#line 956 "..\..\Views\Checkout\BasketDetails.cshtml"
 
-            
-            #line 465 "..\..\Views\Checkout\BasketDetails.cshtml"
 
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                                        <div");
+#line default
+#line hidden
+                            WriteLiteral("                                                        <div");
 
-WriteLiteral(" class=\"delivery-status\"");
+                            WriteLiteral(" class=\"delivery-status\"");
 
-WriteLiteral(">\r\n\r\n                                                            Call\r\n          " +
-"                                                  <a");
+                            WriteLiteral(">\r\n\r\n");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 15725), Tuple.Create("\"", 15799)
-, Tuple.Create(Tuple.Create("", 15732), Tuple.Create("tel:", 15732), true)
-            
-            #line 469 "..\..\Views\Checkout\BasketDetails.cshtml"
-, Tuple.Create(Tuple.Create("", 15736), Tuple.Create<System.Object, System.Int32>(Utilities.GetItemFromDict(Model.CommonData, "TelephoneNumber")
-            
-            #line default
-            #line hidden
-, 15736), false)
-);
 
-WriteLiteral(">\r\n");
+#line 959 "..\..\Views\Checkout\BasketDetails.cshtml"
 
-WriteLiteral("                                                                ");
 
-            
-            #line 470 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                           Write(Utilities.GetItemFromDict(Model.CommonData, "TelephoneNumber"));
+#line default
+#line hidden
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                                                            </a>\r\n             " +
-"                                               for delivery information.\r\n\r\n    " +
-"                                                    </div>\r\n");
+#line 959 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            if (!Convert.ToBoolean(Model.CommonData["DeliveryDateIsOverridden"]))
+                            {
 
-            
-            #line 475 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                    }
-                                                    else if (bc.Availability == 11 || bc.Availability == 13)
-                                                    {
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                                        <div");
+#line default
+#line hidden
+                                WriteLiteral("                                                                <div");
 
-WriteLiteral(" class=\"stock-status out-of-stock\"");
+                                WriteLiteral(" class=\"delivery-cutoff\"");
 
-WriteLiteral(">\r\n\r\n                                                            <i");
+                                WriteLiteral(">\r\n\r\n                                                                    <i");
 
-WriteLiteral(" class=\"fa fa-times-circle\"");
+                                WriteLiteral(" class=\"fa fa-clock-o\"");
 
-WriteLiteral("></i>\r\n\r\n                                                            <span>Out of" +
-" Stock</span>\r\n\r\n                                                        </div>\r" +
-"\n");
+                                WriteLiteral("></i>\r\n\r\n                                                                    Orde" +
+                                "r Within\r\n\r\n                                                                    " +
+                                "<strong>\r\n                                                                      " +
+                                "  <span");
 
-            
-            #line 485 "..\..\Views\Checkout\BasketDetails.cshtml"
+                                WriteLiteral(" class=\"cutoffCountdownFalse\"");
 
+                                WriteLiteral("></span>\r\n                                                                    </s" +
+                                "trong>\r\n\r\n                                                                </div>" +
+                                "\r\n");
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                                        <div");
+                                WriteLiteral("                                                                <div");
 
-WriteLiteral(" class=\"delivery-status\"");
+                                WriteLiteral(" class=\"delivery-date\"");
 
-WriteLiteral(">\r\n\r\n                                                            Currently unavai" +
-"lable.\r\n\r\n                                                        </div>\r\n");
+                                WriteLiteral(">\r\n\r\n                                                                    <strong>" +
+                                "\r\n                                                                        Delive" +
+                                "red ");
 
-            
-            #line 491 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                    }
-                                                    else if (bc.Availability == 2 || bc.Availability == 4)
-                                                    {
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                                        <div");
+#line 975 "..\..\Views\Checkout\BasketDetails.cshtml"
+                                Write(Session["D_standardDeliveryDay"]);
 
-WriteLiteral(" class=\"stock-status availability\"");
 
-WriteLiteral(">\r\n\r\n                                                            <i");
+#line default
+#line hidden
+                                WriteLiteral("\r\n                                                                    </strong>\r\n" +
+                                "\r\n                                                                </div>\r\n");
 
-WriteLiteral(" class=\"fa fa-clock-o\"");
 
-WriteLiteral("></i>\r\n\r\n                                                            <span>Availa" +
-"bility 2–3 Days</span>\r\n\r\n                                                      " +
-"  </div>\r\n");
+#line 979 "..\..\Views\Checkout\BasketDetails.cshtml"
 
-            
-            #line 501 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            }
 
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                                        <div");
+#line default
+#line hidden
+                            WriteLiteral("\r\n\r\n                                                        </div>\r\n");
 
-WriteLiteral(" class=\"delivery-status\"");
 
-WriteLiteral(">\r\n\r\n                                                            Dispatched when " +
-"stock returns.\r\n\r\n                                                        </div>" +
-"\r\n");
+#line 984 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        }
+                        else if (bc.Availability == 10)
+                        {
 
-            
-            #line 507 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                    }
-                                                    else
-                                                    {
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                                        <div");
+#line default
+#line hidden
+                            WriteLiteral("                                                        <div");
 
-WriteLiteral(" class=\"stock-status back-order\"");
+                            WriteLiteral(" class=\"stock-status special-order\"");
 
-WriteLiteral(">\r\n\r\n                                                            <i");
+                            WriteLiteral(">\r\n\r\n                                                            <i");
 
-WriteLiteral(" class=\"fa fa-history\"");
+                            WriteLiteral(" class=\"fa fa-info-circle\"");
 
-WriteLiteral("></i>\r\n\r\n                                                            <span>Back I" +
-"n Stock Soon</span>\r\n\r\n                                                        <" +
-"/div>\r\n");
+                            WriteLiteral("></i>\r\n\r\n                                                            <span>Specia" +
+                            "l Order Item</span>\r\n\r\n                                                        <" +
+                            "/div>\r\n");
 
-            
-            #line 517 "..\..\Views\Checkout\BasketDetails.cshtml"
 
+#line 994 "..\..\Views\Checkout\BasketDetails.cshtml"
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                                        <div");
 
-WriteLiteral(" class=\"delivery-status\"");
 
-WriteLiteral(">\r\n\r\n                                                            Dispatched when " +
-"stock returns.\r\n\r\n                                                        </div>" +
-"\r\n");
+#line default
+#line hidden
+                            WriteLiteral("                                                        <div");
 
-            
-            #line 523 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                    }
+                            WriteLiteral(" class=\"delivery-status\"");
 
-            
-            #line default
-            #line hidden
-WriteLiteral(@"
+                            WriteLiteral(">\r\n\r\n                                                            Call\r\n          " +
+                            "                                                  <a");
+
+                            WriteAttribute("href", Tuple.Create(" href=\"", 29085), Tuple.Create("\"", 29159)
+                            , Tuple.Create(Tuple.Create("", 29092), Tuple.Create("tel:", 29092), true)
+
+#line 998 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            , Tuple.Create(Tuple.Create("", 29096), Tuple.Create<System.Object, System.Int32>(Utilities.GetItemFromDict(Model.CommonData, "TelephoneNumber")
+
+#line default
+#line hidden
+                            , 29096), false)
+                            );
+
+                            WriteLiteral(">\r\n");
+
+                            WriteLiteral("                                                                ");
+
+
+#line 999 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            Write(Utilities.GetItemFromDict(Model.CommonData, "TelephoneNumber"));
+
+
+#line default
+#line hidden
+                            WriteLiteral("\r\n                                                            </a>\r\n             " +
+                            "                                               for delivery information.\r\n\r\n    " +
+                            "                                                    </div>\r\n");
+
+
+#line 1004 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        }
+                        else if (bc.Availability == 11 || bc.Availability == 13)
+                        {
+
+
+#line default
+#line hidden
+                            WriteLiteral("                                                        <div");
+
+                            WriteLiteral(" class=\"stock-status out-of-stock\"");
+
+                            WriteLiteral(">\r\n\r\n                                                            <i");
+
+                            WriteLiteral(" class=\"fa fa-times-circle\"");
+
+                            WriteLiteral("></i>\r\n\r\n                                                            <span>Out of" +
+                            " Stock</span>\r\n\r\n                                                        </div>\r" +
+                            "\n");
+
+
+#line 1014 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+
+#line default
+#line hidden
+                            WriteLiteral("                                                        <div");
+
+                            WriteLiteral(" class=\"delivery-status\"");
+
+                            WriteLiteral(">\r\n\r\n                                                            Currently unavai" +
+                            "lable.\r\n\r\n                                                        </div>\r\n");
+
+
+#line 1020 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        }
+                        else if (bc.Availability == 2 || bc.Availability == 4)
+                        {
+
+
+#line default
+#line hidden
+                            WriteLiteral("                                                        <div");
+
+                            WriteLiteral(" class=\"stock-status availability\"");
+
+                            WriteLiteral(">\r\n\r\n                                                            <i");
+
+                            WriteLiteral(" class=\"fa fa-clock-o\"");
+
+                            WriteLiteral("></i>\r\n\r\n                                                            <span>Availa" +
+                            "bility 2–3 Days</span>\r\n\r\n                                                      " +
+                            "  </div>\r\n");
+
+
+#line 1030 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+
+#line default
+#line hidden
+                            WriteLiteral("                                                        <div");
+
+                            WriteLiteral(" class=\"delivery-status\"");
+
+                            WriteLiteral(">\r\n\r\n                                                            Dispatched when " +
+                            "stock returns.\r\n\r\n                                                        </div>" +
+                            "\r\n");
+
+
+#line 1036 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        }
+                        else
+                        {
+
+
+#line default
+#line hidden
+                            WriteLiteral("                                                        <div");
+
+                            WriteLiteral(" class=\"stock-status back-order\"");
+
+                            WriteLiteral(">\r\n\r\n                                                            <i");
+
+                            WriteLiteral(" class=\"fa fa-history\"");
+
+                            WriteLiteral("></i>\r\n\r\n                                                            <span>Back I" +
+                            "n Stock Soon</span>\r\n\r\n                                                        <" +
+                            "/div>\r\n");
+
+
+#line 1046 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+
+#line default
+#line hidden
+                            WriteLiteral("                                                        <div");
+
+                            WriteLiteral(" class=\"delivery-status\"");
+
+                            WriteLiteral(">\r\n\r\n                                                            Dispatched when " +
+                            "stock returns.\r\n\r\n                                                        </div>" +
+                            "\r\n");
+
+
+#line 1052 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        }
+
+
+#line default
+#line hidden
+                        WriteLiteral(@"
                                                 </div>
 
                                             </div>
@@ -746,1455 +908,1736 @@ WriteLiteral(@"
                                         <!-- Quantity / Remove / Total -->
                                         <div");
 
-WriteLiteral(" class=\"col-lg-4 col-md-4 col-sm-12\"");
+                        WriteLiteral(" class=\"col-lg-4 col-md-4 col-sm-12\"");
 
-WriteLiteral(">\r\n\r\n                                            <div");
+                        WriteLiteral(">\r\n\r\n                                            <div");
 
-WriteLiteral(" class=\"basket-card-actions\"");
+                        WriteLiteral(" class=\"basket-card-actions\"");
 
-WriteLiteral(">\r\n\r\n");
+                        WriteLiteral(">\r\n                                                <div");
 
-            
-            #line 536 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                
-            
-            #line default
-            #line hidden
-            
-            #line 536 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                 if (!bc.IsFreeGift)
-                                                {
+                        WriteLiteral(" class=\"basket-price-box\"");
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                                    <div");
+                        WriteLiteral(">\r\n\r\n                                                    <div");
 
-WriteLiteral(" class=\"basket-qty-wrapper\"");
+                        WriteLiteral(" class=\"price-row\"");
 
-WriteLiteral(">\r\n\r\n                                                        <label");
+                        WriteLiteral(">\r\n                                                        <span>Ex VAT</span>\r\n " +
+                        "                                                       <strong>");
 
-WriteLiteral(" class=\"qty-label\"");
 
-WriteLiteral(">\r\n                                                            Quantity\r\n        " +
-"                                                </label>\r\n\r\n                    " +
-"                                    <div");
+#line 1068 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        Write(neg);
 
-WriteLiteral(" class=\"basket-qty\"");
 
-WriteLiteral(">\r\n\r\n                                                            <button");
+#line default
+#line hidden
 
-WriteLiteral(" type=\"button\"");
+#line 1068 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        Write(string.Format("{0:N2}", bc.PriceEx));
 
-WriteLiteral("\r\n                                                                    class=\"qty-" +
-"btn qty-minus\"");
 
-WriteLiteral("\r\n                                                                    ");
+#line default
+#line hidden
+                        WriteLiteral("</strong>\r\n                                                    </div>\r\n\r\n        " +
+                        "                                            <div");
 
-            
-            #line 548 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                                Write(bc.Quantity <= 1 ? "disabled" : "");
+                        WriteLiteral(" class=\"price-row\"");
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                                                                    onclick=\"ch" +
-"angeBasketQty(\'");
+                        WriteLiteral(">\r\n                                                        <span>Inc VAT</span>\r\n" +
+                        "                                                        <strong>");
 
-            
-            #line 549 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                                                         Write(bc.StockRef);
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\', ");
+#line 1073 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        Write(string.Format("{0:N2}", bc.PriceInc));
 
-            
-            #line 549 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                                                                         Write(Math.Max(1, bc.Quantity - 1));
 
-            
-            #line default
-            #line hidden
-WriteLiteral(")\">\r\n\r\n                                                                <i");
+#line default
+#line hidden
+                        WriteLiteral("</strong>\r\n                                                    </div>\r\n\r\n");
 
-WriteLiteral(" class=\"fa fa-minus\"");
 
-WriteLiteral("></i>\r\n\r\n                                                            </button>\r\n\r" +
-"\n                                                            <input");
+#line 1076 "..\..\Views\Checkout\BasketDetails.cshtml"
 
-WriteLiteral(" class=\"qty-input\"");
 
-WriteLiteral("\r\n                                                                   type=\"text\"");
+#line default
+#line hidden
 
-WriteLiteral("\r\n                                                                   readonly");
+#line 1076 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        if (discUnitPrice > 0)
+                        {
 
-WriteAttribute("value", Tuple.Create("\r\n                                                                   value=\"", 20365), Tuple.Create("\"", 20453)
-            
-            #line 558 "..\..\Views\Checkout\BasketDetails.cshtml"
-, Tuple.Create(Tuple.Create("", 20441), Tuple.Create<System.Object, System.Int32>(bc.Quantity
-            
-            #line default
-            #line hidden
-, 20441), false)
-);
 
-WriteLiteral(" />\r\n\r\n                                                            <button");
+#line default
+#line hidden
+                            WriteLiteral("                                                        <div");
 
-WriteLiteral(" type=\"button\"");
+                            WriteLiteral(" class=\"price-saving\"");
 
-WriteLiteral("\r\n                                                                    class=\"qty-" +
-"btn qty-plus\"");
+                            WriteLiteral(">\r\n\r\n                                                            Save\r\n          " +
+                            "                                                  <strong>\r\n");
 
-WriteAttribute("onclick", Tuple.Create("\r\n                                                                    onclick=\"", 20636), Tuple.Create("\"", 20766)
-, Tuple.Create(Tuple.Create("", 20715), Tuple.Create("changeBasketQty(\'", 20715), true)
-            
-            #line 562 "..\..\Views\Checkout\BasketDetails.cshtml"
-             , Tuple.Create(Tuple.Create("", 20732), Tuple.Create<System.Object, System.Int32>(bc.StockRef
-            
-            #line default
-            #line hidden
-, 20732), false)
-, Tuple.Create(Tuple.Create("", 20744), Tuple.Create("\',", 20744), true)
-            
-            #line 562 "..\..\Views\Checkout\BasketDetails.cshtml"
-                            , Tuple.Create(Tuple.Create(" ", 20746), Tuple.Create<System.Object, System.Int32>(bc.Quantity + 1
-            
-            #line default
-            #line hidden
-, 20747), false)
-, Tuple.Create(Tuple.Create("", 20765), Tuple.Create(")", 20765), true)
-);
+                            WriteLiteral("                                                                ");
 
-WriteLiteral(">\r\n\r\n                                                                <i");
 
-WriteLiteral(" class=\"fa fa-plus\"");
+#line 1082 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            Write(string.Format("{0:N2}", bc.PriceEx - discUnitPrice));
 
-WriteLiteral("></i>\r\n\r\n                                                            </button>\r\n\r" +
-"\n                                                        </div>\r\n\r\n             " +
-"                                       </div>\r\n");
 
-            
-            #line 571 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line default
+#line hidden
+                            WriteLiteral("\r\n                                                            </strong>\r\n\r\n      " +
+                            "                                                  </div>\r\n");
 
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                                    <div");
+#line 1086 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        }
 
-WriteLiteral(" class=\"basket-remove-container\"");
 
-WriteLiteral(">\r\n\r\n                                                        <button");
-
-WriteLiteral(" class=\"basket-remove delete\"");
-
-WriteLiteral("\r\n                                                                data-productid=" +
-"\"");
-
-            
-            #line 575 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                                           Write(bc.StockRef);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\"");
+#line default
+#line hidden
+                        WriteLiteral("\r\n                                                </div>\r\n");
 
-WriteLiteral("\r\n                                                                type=\"button\"");
 
-WriteLiteral(">\r\n\r\n                                                            <i");
+#line 1089 "..\..\Views\Checkout\BasketDetails.cshtml"
 
-WriteLiteral(" class=\"fa fa-trash\"");
 
-WriteLiteral("></i>\r\n\r\n                                                            Remove Item\r" +
-"\n\r\n                                                        </button>\r\n\r\n        " +
-"                                            </div>\r\n");
+#line default
+#line hidden
 
-            
-            #line 585 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                }
+#line 1089 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        if (!bc.IsFreeGift)
+                        {
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                                <div");
 
-WriteLiteral(" class=\"basket-price-box\"");
+#line default
+#line hidden
+                            WriteLiteral("                                                    <div");
 
-WriteLiteral(">\r\n\r\n                                                    <div");
+                            WriteLiteral(" class=\"basket-qty-wrapper\"");
 
-WriteLiteral(" class=\"price-row\"");
+                            WriteLiteral(">\r\n                                                        <label");
 
-WriteLiteral(">\r\n\r\n                                                        <span>Ex VAT</span>\r" +
-"\n\r\n                                                        <strong");
+                            WriteLiteral(" class=\"qty-label\"");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 22080), Tuple.Create("\"", 22095)
-            
-            #line 592 "..\..\Views\Checkout\BasketDetails.cshtml"
-, Tuple.Create(Tuple.Create("", 22088), Tuple.Create<System.Object, System.Int32>(strike
-            
-            #line default
-            #line hidden
-, 22088), false)
-);
+                            WriteLiteral(">\r\n                                                            Quantity\r\n        " +
+                            "                                                </label>\r\n\r\n                    " +
+                            "                                    <div");
 
-WriteLiteral(">\r\n");
+                            WriteLiteral(" class=\"basket-qty\"");
 
-WriteLiteral("                                                            ");
+                            WriteLiteral(">\r\n\r\n                                                            <button");
 
-            
-            #line 593 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                       Write(neg);
+                            WriteLiteral(" type=\"button\"");
 
-            
-            #line default
-            #line hidden
-            
-            #line 593 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                           Write(string.Format("{0:C}", bc.PriceEx));
+                            WriteLiteral("\r\n                                                                    class=\"qty-" +
+                            "btn qty-minus\"");
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                                                        </strong>\r\n\r\n          " +
-"                                          </div>\r\n\r\n                            " +
-"                        <div");
-
-WriteLiteral(" class=\"price-row\"");
-
-WriteLiteral(">\r\n\r\n                                                        <span>Inc VAT</span>" +
-"\r\n\r\n                                                        <strong>\r\n");
-
-WriteLiteral("                                                            ");
-
-            
-            #line 603 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                       Write(string.Format("{0:C}", bc.PriceInc));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                                                        </strong>\r\n\r\n          " +
-"                                          </div>\r\n\r\n");
+                            WriteLiteral("\r\n                                                                    ");
 
-            
-            #line 608 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                    
-            
-            #line default
-            #line hidden
-            
-            #line 608 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                     if (discUnitPrice > 0)
-                                                    {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                                                        <div");
-
-WriteLiteral(" class=\"price-saving\"");
-
-WriteLiteral(">\r\n\r\n                                                            Save\r\n");
-
-WriteLiteral("                                                            ");
-
-            
-            #line 613 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                       Write(string.Format("{0:C}", bc.PriceEx - discUnitPrice));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n\r\n                                                        </div>\r\n");
-
-            
-            #line 616 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                    }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                                                </div>\r\n                       " +
-"                         <div");
-
-WriteLiteral(" class=\"basket-line-total g-m-t-20\"");
-
-WriteLiteral(">\r\n\r\n                                                    <span");
-
-WriteLiteral(" class=\"subtotal-label\"");
-
-WriteLiteral(">\r\n\r\n                                                        Subtotal\r\n\r\n        " +
-"                                            </span>\r\n\r\n                         " +
-"                           <h4>\r\n\r\n");
 
-WriteLiteral("                                                        ");
-
-            
-            #line 629 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                   Write(neg);
+#line 1100 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            Write(bc.Quantity <= 1 ? "disabled" : "");
 
-            
-            #line default
-            #line hidden
-            
-            #line 629 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                       Write(string.Format("{0:C}", subt));
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n\r\n                                                    </h4>\r\n\r\n                " +
-"                                </div>\r\n\r\n");
+#line default
+#line hidden
+                            WriteLiteral("\r\n                                                                    onclick=\"ch" +
+                            "angeBasketQty(\'");
 
-            
-            #line 635 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                
-            
-            #line default
-            #line hidden
-            
-            #line 635 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                 if (Session["V_Voucher"] != null)
-                                                {
-                                                    VoucherPromo vp = (VoucherPromo)Session["V_Voucher"];
 
-                                                    if (bc.IsVoucherQualifyingItem &&
-                                                        vp.VoucherTypeFk == (int)VmVoucherType.Percentage)
-                                                    {
+#line 1101 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            Write(bc.StockRef);
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                                        <div");
 
-WriteLiteral(" class=\"voucher-applied g-m-t-10\"");
+#line default
+#line hidden
+                            WriteLiteral("\', ");
 
-WriteLiteral(">\r\n\r\n                                                            <i");
 
-WriteLiteral(" class=\"fa fa-check-circle\"");
+#line 1101 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            Write(Math.Max(1, bc.Quantity - 1));
 
-WriteLiteral("></i>\r\n\r\n                                                            Voucher Appl" +
-"ied\r\n\r\n                                                        </div>\r\n");
 
-            
-            #line 649 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                    }
-                                                }
+#line default
+#line hidden
+                            WriteLiteral(")\">\r\n\r\n                                                                <i");
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                                            </div>\r\n\r\n                         " +
-"               </div>\r\n\r\n                                    </div>\r\n");
+                            WriteLiteral(" class=\"fa fa-minus\"");
 
-            
-            #line 657 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                    
-            
-            #line default
-            #line hidden
-            
-            #line 657 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                     if (!bc.IsCompatible && !String.IsNullOrEmpty(bc.CrossSellingStockRef) && !bc.ExcludeFromUpSell)
-                                    {
-                                        List<int> inStock = new List<int> { 1, 7 };
+                            WriteLiteral("></i>\r\n\r\n                                                            </button>\r\n\r" +
+                            "\n                                                            <input");
 
-                                        if (inStock.Contains(bc.CrossSellingAvailability))
-                                        {
-                                            decimal saving = (bc.PriceEx - bc.CrossSellingPriceEx) * bc.Quantity;
-                                            decimal switchLinePrice = bc.CrossSellingPriceEx * bc.Quantity;
-                                            if (saving > 0)
-                                            {
+                            WriteLiteral(" class=\"qty-input\"");
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                                <div");
+                            WriteLiteral(" type=\"text\"");
 
-WriteLiteral(" class=\"switch-save-card\"");
+                            WriteLiteral(" readonly");
 
-WriteLiteral(">\r\n\r\n                                                    <div");
+                            WriteAttribute("value", Tuple.Create(" value=\"", 34965), Tuple.Create("\"", 34985)
 
-WriteLiteral(" class=\"row\"");
+#line 1107 "..\..\Views\Checkout\BasketDetails.cshtml"
+                                                            , Tuple.Create(Tuple.Create("", 34973), Tuple.Create<System.Object, System.Int32>(bc.Quantity
 
-WriteLiteral(">\r\n\r\n                                                        <div");
+#line default
+#line hidden
+                            , 34973), false)
+                            );
 
-WriteLiteral(" class=\"col-md-7\"");
+                            WriteLiteral(" />\r\n\r\n                                                            <button");
 
-WriteLiteral(">\r\n\r\n                                                            <div");
+                            WriteLiteral(" type=\"button\"");
 
-WriteLiteral(" class=\"switch-heading\"");
+                            WriteLiteral("\r\n                                                                    class=\"qty-" +
+                            "btn qty-plus\"");
 
-WriteLiteral(">\r\n\r\n                                                                Switch &amp;" +
-" Save\r\n\r\n                                                            </div>\r\n\r\n " +
-"                                                           <div");
+                            WriteAttribute("onclick", Tuple.Create("\r\n                                                                    onclick=\"", 35168), Tuple.Create("\"", 35298)
+                            , Tuple.Create(Tuple.Create("", 35247), Tuple.Create("changeBasketQty(\'", 35247), true)
 
-WriteLiteral(" class=\"switch-product-name\"");
+#line 1111 "..\..\Views\Checkout\BasketDetails.cshtml"
+                                         , Tuple.Create(Tuple.Create("", 35264), Tuple.Create<System.Object, System.Int32>(bc.StockRef
 
-WriteLiteral(">\r\n\r\n");
+#line default
+#line hidden
+                            , 35264), false)
+                            , Tuple.Create(Tuple.Create("", 35276), Tuple.Create("\',", 35276), true)
 
-WriteLiteral("                                                                ");
+#line 1111 "..\..\Views\Checkout\BasketDetails.cshtml"
+                                                        , Tuple.Create(Tuple.Create(" ", 35278), Tuple.Create<System.Object, System.Int32>(bc.Quantity + 1
 
-            
-            #line 681 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                           Write(bc.CrossSellingDescription);
+#line default
+#line hidden
+                            , 35279), false)
+                            , Tuple.Create(Tuple.Create("", 35297), Tuple.Create(")", 35297), true)
+                            );
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n\r\n                                                            </div>\r\n\r\n       " +
-"                                                     <div");
+                            WriteLiteral(">\r\n\r\n                                                                <i");
 
-WriteLiteral(" class=\"switch-price\"");
+                            WriteLiteral(" class=\"fa fa-plus\"");
 
-WriteLiteral(">\r\n\r\n");
+                            WriteLiteral("></i>\r\n\r\n                                                            </button>\r\n\r" +
+                            "\n                                                        </div>\r\n\r\n             " +
+                            "                                       </div>\r\n");
 
-WriteLiteral("                                                                ");
 
-            
-            #line 687 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                           Write(string.Format("{0:C}", switchLinePrice));
+#line 1120 "..\..\Views\Checkout\BasketDetails.cshtml"
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n\r\n                                                                <small>\r\n    " +
-"                                                                Ex VAT (");
 
-            
-            #line 690 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                                       Write(bc.Quantity);
 
-            
-            #line default
-            #line hidden
-WriteLiteral(" × ");
+#line default
+#line hidden
+                            WriteLiteral("                                                    <div");
 
-            
-            #line 690 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                                                      Write(string.Format("{0:C}", bc.CrossSellingPriceEx));
+                            WriteLiteral(" class=\"basket-remove-container\"");
 
-            
-            #line default
-            #line hidden
-WriteLiteral(@")
-                                                                </small>
+                            WriteLiteral(">\r\n                                                        <button");
 
-                                                            </div>
+                            WriteLiteral(" class=\"basket-remove delete\"");
 
-                                                        </div>
+                            WriteLiteral("\r\n                                                                data-productid=" +
+                            "\"");
 
-                                                        <div");
 
-WriteLiteral(" class=\"col-md-2 text-center\"");
+#line 1123 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            Write(bc.StockRef);
 
-WriteLiteral(">\r\n\r\n                                                            <div");
 
-WriteLiteral(" class=\"switch-saving-label\"");
+#line default
+#line hidden
+                            WriteLiteral("\"");
 
-WriteLiteral(">\r\n\r\n                                                                Saving\r\n\r\n  " +
-"                                                          </div>\r\n\r\n            " +
-"                                                <div");
+                            WriteLiteral("\r\n                                                                type=\"button\"");
 
-WriteLiteral(" class=\"switch-saving\"");
+                            WriteLiteral(">\r\n                                                            <i");
 
-WriteLiteral(">\r\n\r\n");
+                            WriteLiteral(" class=\"fa fa-trash\"");
 
-WriteLiteral("                                                                ");
+                            WriteLiteral("></i>\r\n                                                        </button>\r\n       " +
+                            "                                             </div>\r\n");
 
-            
-            #line 707 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                           Write(saving.ToString("C"));
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n\r\n                                                            </div>\r\n\r\n       " +
-"                                                 </div>\r\n\r\n                     " +
-"                                   <div");
+#line 1128 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        }
 
-WriteLiteral(" class=\"col-md-2 text-right\"");
 
-WriteLiteral(">\r\n\r\n                                                            <button");
+#line default
+#line hidden
+                        WriteLiteral("\r\n\r\n");
 
-WriteLiteral(" class=\"btn btn-success atb-replace\"");
 
-WriteLiteral("\r\n                                                                    data-produc" +
-"tid=\"");
+#line 1131 "..\..\Views\Checkout\BasketDetails.cshtml"
 
-            
-            #line 716 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                                               Write(bc.CrossSellingStockRef);
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\"");
+#line default
+#line hidden
 
-WriteLiteral("\r\n                                                                    data-price=" +
-"\"");
+#line 1131 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        if (Session["V_Voucher"] != null)
+                        {
+                            VoucherPromo vp = (VoucherPromo)Session["V_Voucher"];
 
-            
-            #line 717 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                                           Write(bc.CrossSellingPriceEx);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\"");
-
-WriteLiteral("\r\n                                                                    data-remove" +
-"id=\"");
-
-            
-            #line 718 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                                              Write(bc.StockRef);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\"");
-
-WriteLiteral("\r\n                                                                    data-qty=\"");
-
-            
-            #line 719 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                                         Write(bc.Quantity);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\"");
-
-WriteLiteral(@">
-
-                                                                Switch Product
-
-                                                            </button>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-");
-
-            
-            #line 730 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                            }
-                                        }
-                                    }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                                </div>\r\n");
-
-            
-            #line 734 "..\..\Views\Checkout\BasketDetails.cshtml"
-
-                            }
-                            if (bc.ItemType == BasketItemType.CompatibleDiscount)
+                            if (bc.IsVoucherQualifyingItem &&
+                                vp.VoucherTypeFk == (int)VmVoucherType.Percentage)
                             {
-                                isMultiBuy = true;
-                                multibuyAmount = bc.PriceEx;
 
+
+#line default
+#line hidden
+                                WriteLiteral("                                                        <div");
+
+                                WriteLiteral(" class=\"voucher-applied g-m-t-10\"");
+
+                                WriteLiteral(">\r\n\r\n                                                            <i");
+
+                                WriteLiteral(" class=\"fa fa-check-circle\"");
+
+                                WriteLiteral("></i>\r\n\r\n                                                            Voucher Appl" +
+                                "ied\r\n\r\n                                                        </div>\r\n");
+
+
+#line 1145 "..\..\Views\Checkout\BasketDetails.cshtml"
                             }
                         }
 
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                        <hr");
+#line default
+#line hidden
+                        WriteLiteral("\r\n                                            </div>\r\n\r\n                         " +
+                        "               </div>\r\n\r\n                                    </div>\r\n           " +
+                        "                         ");
 
-WriteLiteral(" class=\"g-m-tb-10\"");
+                        WriteLiteral("\r\n");
 
-WriteLiteral(" />\r\n");
 
-            
-            #line 745 "..\..\Views\Checkout\BasketDetails.cshtml"
-                    
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                </div>\r\n            </div>\r\n        </div>\r\n\r\n        <div");
+#line 1158 "..\..\Views\Checkout\BasketDetails.cshtml"
 
-WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n            <div");
+#line default
+#line hidden
 
-WriteLiteral(" class=\"basket-voucher col-md-8\"");
+#line 1158 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        if (!bc.IsCompatible && !String.IsNullOrEmpty(bc.CrossSellingStockRef) && !bc.ExcludeFromUpSell)
+                        {
+                            List<int> inStock = new List<int> { 1, 7 };
 
-WriteLiteral(">\r\n");
+                            if (inStock.Contains(bc.CrossSellingAvailability))
+                            {
+                                decimal switchUnitPriceEx = bc.CrossSellingPriceEx;
+                                decimal switchLinePriceEx = switchUnitPriceEx * bc.Quantity;
+                                decimal switchLinePriceInc = switchLinePriceEx * Model.VatMultiplier;
+                                decimal saving = (bc.PriceEx - switchUnitPriceEx) * bc.Quantity;
 
-            
-            #line 752 "..\..\Views\Checkout\BasketDetails.cshtml"
-                
-            
-            #line default
-            #line hidden
-            
-            #line 752 "..\..\Views\Checkout\BasketDetails.cshtml"
-                 if ((Model.CheckoutDetails.ZeroStock || Model.CheckoutDetails.IsSpecialOrder) && !Convert.ToBoolean(Session["U_IsPortalUser"]))
+                                if (saving > 0)
+                                {
+
+
+#line default
+#line hidden
+                                    WriteLiteral("                                                <div");
+
+                                    WriteLiteral(" class=\"switch-save-card\"");
+
+                                    WriteLiteral(">\r\n                                                    <div");
+
+                                    WriteLiteral(" class=\"col-lg-2 col-md-3 col-sm-3 col-4\"");
+
+                                    WriteLiteral(">\r\n\r\n                                                        <a");
+
+                                    WriteAttribute("href", Tuple.Create(" href=\"", 38826), Tuple.Create("\"", 38847)
+
+#line 1174 "..\..\Views\Checkout\BasketDetails.cshtml"
+                                    , Tuple.Create(Tuple.Create("", 38833), Tuple.Create<System.Object, System.Int32>(bc.ProductUrl
+
+#line default
+#line hidden
+                                    , 38833), false)
+                                    );
+
+                                    WriteLiteral(" class=\"basket-card-image\"");
+
+                                    WriteLiteral(">\r\n\r\n                                                            <img");
+
+                                    WriteAttribute("src", Tuple.Create(" src=\"", 38943), Tuple.Create("\"", 38961)
+
+#line 1176 "..\..\Views\Checkout\BasketDetails.cshtml"
+                                    , Tuple.Create(Tuple.Create("", 38949), Tuple.Create<System.Object, System.Int32>(bc.ImageUrl
+
+#line default
+#line hidden
+                                    , 38949), false)
+                                    );
+
+                                    WriteAttribute("alt", Tuple.Create("\r\n                                                                 alt=\"", 38962), Tuple.Create("\"", 39049)
+
+#line 1177 "..\..\Views\Checkout\BasketDetails.cshtml"
+                                    , Tuple.Create(Tuple.Create("", 39034), Tuple.Create<System.Object, System.Int32>(bc.Description
+
+#line default
+#line hidden
+                                    , 39034), false)
+                                    );
+
+                                    WriteLiteral("\r\n                                                                 class=\"img-res" +
+                                    "ponsive\"");
+
+                                    WriteAttribute("onerror", Tuple.Create("\r\n                                                                 onerror=\"", 39139), Tuple.Create("\"", 39286)
+                                    , Tuple.Create(Tuple.Create("", 39215), Tuple.Create("this.src=\'", 39215), true)
+
+#line 1179 "..\..\Views\Checkout\BasketDetails.cshtml"
+                                       , Tuple.Create(Tuple.Create("", 39225), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+
+#line default
+#line hidden
+                                    , 39225), false)
+                                    , Tuple.Create(Tuple.Create("", 39265), Tuple.Create("/Images/noImage.jpg\';", 39265), true)
+                                    );
+
+                                    WriteLiteral(" />\r\n\r\n                                                        </a>\r\n\r\n          " +
+                                    "                                          </div>\r\n                              " +
+                                    "                      <div");
+
+                                    WriteLiteral(" class=\"row\"");
+
+                                    WriteLiteral(">\r\n                                                        <div");
+
+                                    WriteLiteral(" class=\"col-md-5 col-sm-12\"");
+
+                                    WriteLiteral(">\r\n\r\n                                                            <div");
+
+                                    WriteLiteral(" class=\"switch-heading\"");
+
+                                    WriteLiteral("> Switch &amp; Save </div>\r\n\r\n                                                   " +
+                                    "         <div");
+
+                                    WriteLiteral(" class=\"switch-product-name\"");
+
+                                    WriteLiteral("> ");
+
+
+#line 1189 "..\..\Views\Checkout\BasketDetails.cshtml"
+                                    Write(bc.CrossSellingDescription);
+
+
+#line default
+#line hidden
+                                    WriteLiteral(" </div>\r\n\r\n                                                            ");
+
+                                    WriteLiteral("\r\n\r\n                                                            <div");
+
+                                    WriteLiteral(" class=\"stock-status in-stock\"");
+
+                                    WriteLiteral(">\r\n                                                                <i");
+
+                                    WriteLiteral(" class=\"fa fa-check-circle\"");
+
+                                    WriteLiteral(@"></i>
+                                                                <span>In Stock</span>
+                                                            </div>
+
+                                                        </div>
+                                                        <div");
+
+                                    WriteLiteral(" class=\"col-md-4 col-sm-12 text-right\"");
+
+                                    WriteLiteral(">\r\n\r\n                                                            <div");
+
+                                    WriteLiteral(" class=\"basket-price-box\"");
+
+                                    WriteLiteral(">\r\n                                                                <div");
+
+                                    WriteLiteral(" class=\"price-row ex-vat\"");
+
+                                    WriteLiteral(">\r\n                                                                    <span>Ex V" +
+                                    "AT</span>\r\n                                                                    <" +
+                                    "strong>");
+
+
+#line 1209 "..\..\Views\Checkout\BasketDetails.cshtml"
+                                    Write(string.Format("{0:N2}", switchLinePriceEx));
+
+
+#line default
+#line hidden
+                                    WriteLiteral("</strong>\r\n                                                                </div>" +
+                                    "\r\n                                                                <div");
+
+                                    WriteLiteral(" class=\"price-row inc-vat\"");
+
+                                    WriteLiteral(">\r\n                                                                    <span>Inc " +
+                                    "VAT</span>\r\n                                                                    " +
+                                    "<strong>");
+
+
+#line 1213 "..\..\Views\Checkout\BasketDetails.cshtml"
+                                    Write(string.Format("{0:N2}", switchLinePriceInc));
+
+
+#line default
+#line hidden
+                                    WriteLiteral("</strong>\r\n                                                                </div>" +
+                                    "\r\n                                                                <div");
+
+                                    WriteLiteral(" class=\"price-row save-saving\"");
+
+                                    WriteLiteral(">\r\n                                                                    <span>Save" +
+                                    "</span>\r\n                                                                    <st" +
+                                    "rong>");
+
+
+#line 1217 "..\..\Views\Checkout\BasketDetails.cshtml"
+                                    Write(saving.ToString("C"));
+
+
+#line default
+#line hidden
+                                    WriteLiteral(@"</strong>
+                                                                    <span>Ex. VAT</span>
+                                                                </div>
+                                                            </div>
+
+                                                            <button");
+
+                                    WriteLiteral(" class=\"btn btn-success atb-replace\"");
+
+                                    WriteLiteral("\r\n                                                                    data-produc" +
+                                    "tid=\"");
+
+
+#line 1223 "..\..\Views\Checkout\BasketDetails.cshtml"
+                                    Write(bc.CrossSellingStockRef);
+
+
+#line default
+#line hidden
+                                    WriteLiteral("\"");
+
+                                    WriteLiteral("\r\n                                                                    data-price=" +
+                                    "\"");
+
+
+#line 1224 "..\..\Views\Checkout\BasketDetails.cshtml"
+                                    Write(bc.CrossSellingPriceEx);
+
+
+#line default
+#line hidden
+                                    WriteLiteral("\"");
+
+                                    WriteLiteral("\r\n                                                                    data-remove" +
+                                    "id=\"");
+
+
+#line 1225 "..\..\Views\Checkout\BasketDetails.cshtml"
+                                    Write(bc.StockRef);
+
+
+#line default
+#line hidden
+                                    WriteLiteral("\"");
+
+                                    WriteLiteral("\r\n                                                                    data-qty=\"");
+
+
+#line 1226 "..\..\Views\Checkout\BasketDetails.cshtml"
+                                    Write(bc.Quantity);
+
+
+#line default
+#line hidden
+                                    WriteLiteral("\"");
+
+                                    WriteLiteral(@">
+                                                                Switch Product
+                                                            </button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+");
+
+
+#line 1233 "..\..\Views\Checkout\BasketDetails.cshtml"
+                                }
+                            }
+                        }
+
+
+#line default
+#line hidden
+                        WriteLiteral("                                </div>\r\n");
+
+
+#line 1237 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+                    }
+                    if (bc.ItemType == BasketItemType.CompatibleDiscount)
+                    {
+                        isMultiBuy = true;
+                        multibuyAmount = bc.PriceEx;
+
+                    }
+                }
+
+
+
+#line default
+#line hidden
+                WriteLiteral("                        <hr");
+
+                WriteLiteral(" class=\"g-m-tb-10\"");
+
+                WriteLiteral(" />\r\n");
+
+
+#line 1248 "..\..\Views\Checkout\BasketDetails.cshtml"
+                if (list.Count > 0)
+                {
+
+
+#line default
+#line hidden
+                    WriteLiteral("                            <div");
+
+                    WriteLiteral(" class=\"you-may-need\"");
+
+                    WriteLiteral(">\r\n\r\n                                <div");
+
+                    WriteLiteral(" class=\"you-may-need-header\"");
+
+                    WriteLiteral(">\r\n                                    You May Also Need...\r\n                    " +
+                    "            </div>\r\n\r\n                                <div");
+
+                    WriteLiteral(" class=\"you-may-need-products\"");
+
+                    WriteLiteral(">\r\n\r\n");
+
+
+#line 1258 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+#line default
+#line hidden
+
+#line 1258 "..\..\Views\Checkout\BasketDetails.cshtml"
+                    foreach (var items in list)
+                    {
+                        foreach (var addOn in items.AddonProducts)
+                        {
+
+
+#line default
+#line hidden
+                            WriteLiteral("                                            <div");
+
+                            WriteLiteral(" class=\"need-product\"");
+
+                            WriteLiteral(">\r\n\r\n                                                <a");
+
+                            WriteAttribute("href", Tuple.Create(" href=\"", 44371), Tuple.Create("\"", 44393)
+
+#line 1264 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            , Tuple.Create(Tuple.Create("", 44378), Tuple.Create<System.Object, System.Int32>(addOn.ImageUrl
+
+#line default
+#line hidden
+                            , 44378), false)
+                            );
+
+                            WriteLiteral(">\r\n                                                    <img");
+
+                            WriteAttribute("src", Tuple.Create(" src=\"", 44453), Tuple.Create("\"", 44474)
+
+#line 1265 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            , Tuple.Create(Tuple.Create("", 44459), Tuple.Create<System.Object, System.Int32>(addOn.ImageUrl
+
+#line default
+#line hidden
+                            , 44459), false)
+                            );
+
+                            WriteLiteral("\r\n                                                         class=\"img-responsive\"" +
+                            "");
+
+                            WriteAttribute("onerror", Tuple.Create("\r\n                                                         onerror=\"", 44556), Tuple.Create("\"", 44695)
+                            , Tuple.Create(Tuple.Create("", 44624), Tuple.Create("this.src=\'", 44624), true)
+
+#line 1267 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            , Tuple.Create(Tuple.Create("", 44634), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+
+#line default
+#line hidden
+                            , 44634), false)
+                            , Tuple.Create(Tuple.Create("", 44674), Tuple.Create("/Images/noImage.jpg\';", 44674), true)
+                            );
+
+                            WriteLiteral(" />\r\n                                                </a>\r\n\r\n                    " +
+                            "                            <a");
+
+                            WriteLiteral(" class=\"need-title\"");
+
+                            WriteAttribute("href", Tuple.Create("\r\n                                                   href=\"", 44826), Tuple.Create("\"", 44900)
+
+#line 1271 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            , Tuple.Create(Tuple.Create("", 44885), Tuple.Create<System.Object, System.Int32>(addOn.ImageUrl
+
+#line default
+#line hidden
+                            , 44885), false)
+                            );
+
+                            WriteLiteral(">\r\n");
+
+                            WriteLiteral("                                                    ");
+
+
+#line 1272 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            Write(addOn.Description);
+
+
+#line default
+#line hidden
+                            WriteLiteral("\r\n                                                </a>\r\n\r\n                       " +
+                            "                         <div");
+
+                            WriteLiteral(" class=\"need-price\"");
+
+                            WriteLiteral(">\r\n");
+
+                            WriteLiteral("                                                    ");
+
+
+#line 1276 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            Write(addOn.PriceEx.ToString("C"));
+
+
+#line default
+#line hidden
+                            WriteLiteral("\r\n                                                    <small>Ex VAT</small>\r\n    " +
+                            "                                            </div>\r\n\r\n                          " +
+                            "                      <button");
+
+                            WriteLiteral(" class=\"btn btn-success atb-add\"");
+
+                            WriteLiteral("\r\n                                                        data-productid=\"");
+
+
+#line 1281 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            Write(addOn.StockRef);
+
+
+#line default
+#line hidden
+                            WriteLiteral("\"");
+
+                            WriteLiteral("\r\n                                                        data-price=\"");
+
+
+#line 1282 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            Write(addOn.PriceEx);
+
+
+#line default
+#line hidden
+                            WriteLiteral("\"");
+
+                            WriteLiteral("\r\n                                                        data-qty=\"1\"");
+
+                            WriteLiteral(">\r\n                                                    Add to Basket\r\n           " +
+                            "                                     </button>\r\n\r\n                              " +
+                            "              </div>\r\n");
+
+
+#line 1288 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+                        }
+
+                    }
+
+
+#line default
+#line hidden
+                    WriteLiteral("\r\n                                </div>\r\n\r\n                            </div>\r\n");
+
+
+#line 1296 "..\..\Views\Checkout\BasketDetails.cshtml"
+                }
+
+
+#line default
+#line hidden
+                WriteLiteral("\r\n                </div>\r\n            </div>\r\n        </div>\r\n\r\n        <div");
+
+                WriteLiteral(" class=\"row\"");
+
+                WriteLiteral(">\r\n            <div");
+
+                WriteLiteral(" class=\"basket-voucher col-md-8\"");
+
+                WriteLiteral(">\r\n");
+
+
+#line 1304 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+#line default
+#line hidden
+
+#line 1304 "..\..\Views\Checkout\BasketDetails.cshtml"
+                if ((Model.CheckoutDetails.ZeroStock || Model.CheckoutDetails.IsSpecialOrder) && !Convert.ToBoolean(Session["U_IsPortalUser"]))
                 {
                     Dictionary<string, string> replacements = new Dictionary<string, string>();
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                    <div");
 
-WriteLiteral(" class=\"g-bc-note g-b-1-p g-p-10 g-m-t-10 g-w-345 g-fs-sm\"");
+#line default
+#line hidden
+                    WriteLiteral("                    <div");
 
-WriteLiteral(">");
+                    WriteLiteral(" class=\"g-bc-note g-b-1-p g-p-10 g-m-t-10 g-w-345 g-fs-sm\"");
 
-            
-            #line 755 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                                               Write(Html.RawFromDict(Model.CheckoutData, "ZeroStock", replacements));
+                    WriteLiteral(">");
 
-            
-            #line default
-            #line hidden
-WriteLiteral("</div>\r\n");
 
-            
-            #line 756 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 1307 "..\..\Views\Checkout\BasketDetails.cshtml"
+                    Write(Html.RawFromDict(Model.CheckoutData, "ZeroStock", replacements));
+
+
+#line default
+#line hidden
+                    WriteLiteral("</div>\r\n");
+
+
+#line 1308 "..\..\Views\Checkout\BasketDetails.cshtml"
                 }
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
 
-            
-            #line 758 "..\..\Views\Checkout\BasketDetails.cshtml"
-                
-            
-            #line default
-            #line hidden
-            
-            #line 758 "..\..\Views\Checkout\BasketDetails.cshtml"
-                 if (!isAdminDiscount)
+#line default
+#line hidden
+                WriteLiteral("\r\n\r\n");
+
+
+#line 1311 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+#line default
+#line hidden
+
+#line 1311 "..\..\Views\Checkout\BasketDetails.cshtml"
+                if (Convert.ToBoolean(Session["U_IsPortalUser"]))
+                {
+
+
+#line default
+#line hidden
+                    WriteLiteral("                    <div");
+
+                    WriteLiteral(" class=\"g-m-t-60 g-m-b-20 g-br-0 panel panel-default\"");
+
+                    WriteLiteral(">\r\n                        <div");
+
+                    WriteLiteral(" class=\"panel-heading g-fw-b\"");
+
+                    WriteLiteral(">Customer Service Tools</div>\r\n                        <div");
+
+                    WriteLiteral(" class=\"panel-body\"");
+
+                    WriteLiteral(">\r\n");
+
+
+#line 1316 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+#line default
+#line hidden
+
+#line 1316 "..\..\Views\Checkout\BasketDetails.cshtml"
+                    if (String.IsNullOrEmpty(Session["B_VoucherCode"] as string))
+                    {
+                        if (isAdminDiscount)
+                        {
+
+
+#line default
+#line hidden
+                            WriteLiteral("                                    <div");
+
+                            WriteLiteral(" class=\"g-m-t-10 g-fw-b\"");
+
+                            WriteLiteral(">ADMIN DISCOUNT HAS BEEN APPLIED TO THIS ORDER</div>\r\n");
+
+
+#line 1321 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        }
+                        else
+                        {
+
+
+#line default
+#line hidden
+                            WriteLiteral("                                    <div");
+
+                            WriteLiteral(" class=\"g-fc-secondary g-m-t-10\"");
+
+                            WriteLiteral(">Administrator Discount Inc.Vat</div>\r\n");
+
+                            WriteLiteral("                                    <div");
+
+                            WriteLiteral(" class=\"atb-entry bkt-discount input-group g-m-t-10 g-w-345\"");
+
+                            WriteLiteral(">\r\n                                        <span");
+
+                            WriteLiteral(" class=\"input-group-addon g-br-0 g-fc-tt g-b-n g-bc-s\"");
+
+                            WriteLiteral(" style=\"border-right: 1px solid #cccccc !important;\"");
+
+                            WriteLiteral(">-&pound;</span>\r\n                                        <input");
+
+                            WriteLiteral(" id=\"admin-discount\"");
+
+                            WriteLiteral(" class=\"form-control g-h-40 pull-left\"");
+
+                            WriteLiteral(" placeholder=\"Enter discount ...\"");
+
+                            WriteLiteral(" type=\"number\"");
+
+                            WriteLiteral(">\r\n                                        <span");
+
+                            WriteLiteral(" class=\"input-group-btn\"");
+
+                            WriteLiteral(">\r\n                                            <button");
+
+                            WriteLiteral(" id=\"apply-discount\"");
+
+                            WriteLiteral(" class=\"g-butt-secondary g-butt-lg g-fs-n\"");
+
+                            WriteLiteral(" type=\"button\"");
+
+                            WriteLiteral(">Apply Discount</button>\r\n                                            <button");
+
+                            WriteLiteral(" id=\"discount-atb\"");
+
+                            WriteLiteral(" class=\"atb-add g-d-n\"");
+
+                            WriteLiteral("\r\n                                                    data-vatm=\"");
+
+
+#line 1331 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            Write(Model.VatMultiplier);
+
+
+#line default
+#line hidden
+                            WriteLiteral("\"");
+
+                            WriteLiteral("\r\n                                                    data-productid=\"4957\"");
+
+                            WriteLiteral("\r\n                                                    data-partno=\"\"");
+
+                            WriteLiteral("\r\n                                                    data-price=\"\"");
+
+                            WriteLiteral("\r\n                                                    data-itemtype=\"2\"");
+
+                            WriteLiteral("></button>\r\n                                        </span>\r\n                    " +
+                            "                </div>\r\n");
+
+
+#line 1338 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        }
+                    }
+
+
+#line default
+#line hidden
+                    WriteLiteral("                            <div");
+
+                    WriteLiteral(" class=\"g-m-t-10 basket-entry\"");
+
+                    WriteLiteral(">\r\n                                <div");
+
+                    WriteLiteral(" class=\"atb-entry input-group g-m-t-10 g-w-345\"");
+
+                    WriteLiteral(">\r\n                                    <span");
+
+                    WriteLiteral(" class=\"input-group-addon g-br-0 g-b-n g-bc-s\"");
+
+                    WriteLiteral(">Clear All Products</span>\r\n                                    <button");
+
+                    WriteLiteral(" id=\"admn-clear-basket\"");
+
+                    WriteLiteral(" class=\"g-butt g-butt-secondary g-butt-lg pull-right\"");
+
+                    WriteLiteral("\r\n                                            title=\"Clear all items from the bas" +
+                    "ket\"");
+
+                    WriteLiteral(">\r\n                                        Clear\r\n                               " +
+                    "     </button>\r\n                                </div>\r\n                        " +
+                    "        <div");
+
+                    WriteLiteral(" class=\"g-m-t-10\"");
+
+                    WriteLiteral(">\r\n                                    <div");
+
+                    WriteLiteral(" class=\"atb-entry input-group g-m-t-10 g-w-345\"");
+
+                    WriteLiteral(">\r\n");
+
+
+#line 1350 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+#line default
+#line hidden
+
+#line 1350 "..\..\Views\Checkout\BasketDetails.cshtml"
+                    if (ViewBag.OrderIsOnHold)
+                    {
+
+
+#line default
+#line hidden
+                        WriteLiteral("                                            <span");
+
+                        WriteLiteral(" class=\"input-group-addon g-br-0 g-b-n g-bc-s\"");
+
+                        WriteLiteral(">Order is On Hold</span>\r\n");
+
+                        WriteLiteral("                                            <button");
+
+                        WriteLiteral(" class=\"g-butt g-butt-secondary g-butt-lg delete pull-right\"");
+
+                        WriteLiteral("\r\n                                                    data-productid=\"ONHOLD\"");
+
+                        WriteLiteral("\r\n                                                    title=\"Remove from on hold\"" +
+                        "");
+
+                        WriteLiteral(">\r\n                                                Remove\r\n                      " +
+                        "                      </button>\r\n");
+
+
+#line 1358 "..\..\Views\Checkout\BasketDetails.cshtml"
+                    }
+                    else
+                    {
+
+
+#line default
+#line hidden
+                        WriteLiteral("                                            <span");
+
+                        WriteLiteral(" class=\"input-group-addon g-br-0 g-b-n g-bc-s\"");
+
+                        WriteLiteral(">Place Order On Hold</span>\r\n");
+
+                        WriteLiteral("                                            <button");
+
+                        WriteLiteral(" class=\"g-butt g-butt-secondary g-butt-lg atb-add pull-right\"");
+
+                        WriteLiteral("\r\n                                                    data-price=\"0.00\"");
+
+                        WriteLiteral("\r\n                                                    data-productid=\"ONHOLD\"");
+
+                        WriteLiteral("\r\n                                                    data-partno=\"ONHOLD\"");
+
+                        WriteLiteral("\r\n                                                    data-imageurl=\"unknown.jpg\"" +
+                        "");
+
+                        WriteLiteral("\r\n                                                    data-itemtype=\"3\"");
+
+                        WriteLiteral("\r\n                                                    title=\"Place this order on " +
+                        "hold\"");
+
+                        WriteLiteral(">\r\n                                                Place On Hold\r\n               " +
+                        "                             </button>\r\n");
+
+
+#line 1371 "..\..\Views\Checkout\BasketDetails.cshtml"
+                    }
+
+
+#line default
+#line hidden
+                    WriteLiteral("                                    </div>\r\n                                </div" +
+                    ">\r\n                            </div>\r\n                        </div>\r\n         " +
+                    "           </div>\r\n");
+
+
+#line 1377 "..\..\Views\Checkout\BasketDetails.cshtml"
+                }
+
+
+#line default
+#line hidden
+                WriteLiteral("            </div>\r\n        </div>\r\n    </div>\r\n");
+
+                WriteLiteral("    <div");
+
+                WriteLiteral(" class=\"col-md-3 dv-basket-card\"");
+
+                WriteLiteral(">\r\n\r\n        ");
+
+                WriteLiteral("\r\n");
+
+
+#line 1389 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+#line default
+#line hidden
+
+#line 1389 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+                bool isCartridgeMarket = ConfigurationManager.AppSettings["SiteBrand"] == "CM";
+                decimal freeDeliveryThreshold = 45.00m; // CM threshold - move to config if it varies
+                decimal subTotalExVat = Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery;
+
+
+#line default
+#line hidden
+                WriteLiteral("\r\n        <div");
+
+                WriteLiteral(" class=\"\"");
+
+                WriteLiteral(">\r\n\r\n            <h4>Summary</h4>\r\n            <div");
+
+                WriteLiteral(" class=\"\"");
+
+                WriteLiteral(">\r\n");
+
+
+#line 1398 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+#line default
+#line hidden
+
+#line 1398 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+                IHtmlString deliveryMessage = Html.Raw("");
+
+
+#line default
+#line hidden
+                WriteLiteral("\r\n\r\n");
+
+
+#line 1402 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+#line default
+#line hidden
+
+#line 1402 "..\..\Views\Checkout\BasketDetails.cshtml"
+                if (isCartridgeMarket)
+                {
+                    decimal remaining = freeDeliveryThreshold - subTotalExVat;
+
+                    if (remaining > 0)
+                    {
+                        deliveryMessage = Html.Raw("Spend &pound;" + string.Format("{0:N2}", remaining) + " more for free delivery");
+                    }
+                    else
+                    {
+                        deliveryMessage = Html.Raw("Free Delivery Included");
+                    }
+                }
+                else
+                {
+                    bool isFriday = DateTime.Now.DayOfWeek == DayOfWeek.Friday;
+                    TimeSpan cutoff = isFriday ? new TimeSpan(17, 0, 0) : new TimeSpan(17, 30, 0);
+                    bool pastCutoff = DateTime.Now.TimeOfDay > cutoff;
+
+                    if (pastCutoff)
+                    {
+                        deliveryMessage = Html.Raw("Free Next Working Day Delivery");
+                    }
+                    else
+                    {
+                        deliveryMessage = Html.Raw("Free Next Day Delivery");
+                    }
+                }
+
+
+#line default
+#line hidden
+                WriteLiteral("                <span><i");
+
+                WriteLiteral(" class=\"fa fa-truck fa-flip-horizontal fa-2x\"");
+
+                WriteLiteral("></i></span>\r\n                <span>");
+
+
+#line 1431 "..\..\Views\Checkout\BasketDetails.cshtml"
+                Write(deliveryMessage);
+
+
+#line default
+#line hidden
+                WriteLiteral("</span>\r\n            </div>\r\n\r\n            <span>\r\n\r\n            </span>\r\n       " +
+                " </div>\r\n\r\n        <div");
+
+                WriteLiteral(" class=\"g-m-t-10 clearfix\"");
+
+                WriteLiteral(">\r\n            <div");
+
+                WriteLiteral(" class=\"pull-left\"");
+
+                WriteLiteral(">\r\n                <strong>Delivery</strong>\r\n            </div>\r\n            <di" +
+                "v");
+
+                WriteLiteral(" class=\"pull-right g-p-r-20\"");
+
+                WriteLiteral(">\r\n");
+
+
+#line 1444 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+#line default
+#line hidden
+
+#line 1444 "..\..\Views\Checkout\BasketDetails.cshtml"
+                if (Model.BasketTotals.Delivery == 0)
+                {
+
+
+#line default
+#line hidden
+                    WriteLiteral("                    ");
+
+                    WriteLiteral("FREE\r\n");
+
+
+#line 1447 "..\..\Views\Checkout\BasketDetails.cshtml"
+                }
+                else
+                {
+
+
+#line default
+#line hidden
+
+#line 1450 "..\..\Views\Checkout\BasketDetails.cshtml"
+                    Write(Html.Raw("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Delivery))));
+
+
+#line default
+#line hidden
+
+#line 1450 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+                }
+
+
+#line default
+#line hidden
+                WriteLiteral("            </div>\r\n        </div>\r\n        <div");
+
+                WriteLiteral(" class=\"g-m-t-10 clearfix\"");
+
+                WriteLiteral(">\r\n            <div");
+
+                WriteLiteral(" class=\"pull-left\"");
+
+                WriteLiteral(">\r\n                <strong>Sub Total</strong>\r\n            </div>\r\n            <d" +
+                "iv");
+
+                WriteLiteral(" class=\"pull-right g-p-r-20\"");
+
+                WriteLiteral(">&pound;");
+
+
+#line 1458 "..\..\Views\Checkout\BasketDetails.cshtml"
+                Write(string.Format("{0:N2}", subTotalExVat));
+
+
+#line default
+#line hidden
+                WriteLiteral("</div>\r\n        </div>\r\n        <div");
+
+                WriteLiteral(" class=\"g-m-t-10 clearfix\"");
+
+                WriteLiteral(">\r\n            <div");
+
+                WriteLiteral(" class=\"pull-left\"");
+
+                WriteLiteral(">\r\n                <strong>VAT</strong>\r\n            </div>\r\n            <div");
+
+                WriteLiteral(" class=\"pull-right g-p-r-20\"");
+
+                WriteLiteral(">&pound;");
+
+
+#line 1464 "..\..\Views\Checkout\BasketDetails.cshtml"
+                Write(string.Format("{0:N2}", Model.BasketTotals.Vat + Model.BasketTotals.VoucherVat));
+
+
+#line default
+#line hidden
+                WriteLiteral("</div>\r\n        </div>\r\n\r\n        <div");
+
+                WriteAttribute("class", Tuple.Create(" class=\"", 54853), Tuple.Create("\"", 54898)
+
+#line 1467 "..\..\Views\Checkout\BasketDetails.cshtml"
+                , Tuple.Create(Tuple.Create("", 54861), Tuple.Create<System.Object, System.Int32>(ViewBag.HideVoucher ? "g-d-n" : ""
+
+#line default
+#line hidden
+                , 54861), false)
+                );
+
+                WriteLiteral(">\r\n            <hr");
+
+                WriteLiteral(" class=\"g-m-tb-10\"");
+
+                WriteLiteral(" />\r\n            <div");
+
+                WriteLiteral(" id=\"voucherTotal\"");
+
+                WriteLiteral(" class=\"g-m-t-10 clearfix g-lh-40\"");
+
+                WriteLiteral(">\r\n                <div");
+
+                WriteLiteral(" class=\"pull-left\"");
+
+                WriteLiteral(">\r\n                    <strong>Voucher</strong>\r\n                </div>\r\n        " +
+                "        <div");
+
+                WriteLiteral(" class=\"pull-right g-p-r-20 g-i g-fc-pm\"");
+
+                WriteLiteral(">\r\n                    <span");
+
+                WriteLiteral(" id=\"voucherValue\"");
+
+                WriteLiteral(">\r\n");
+
+
+#line 1475 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+#line default
+#line hidden
+
+#line 1475 "..\..\Views\Checkout\BasketDetails.cshtml"
+                if (Model.BasketTotals.Voucher == 0)
+                {
+
+
+#line default
+#line hidden
+                    WriteLiteral("                            ");
+
+                    WriteLiteral("FREE GIFT\r\n");
+
+
+#line 1478 "..\..\Views\Checkout\BasketDetails.cshtml"
+                }
+                else
+                {
+
+
+#line default
+#line hidden
+
+#line 1481 "..\..\Views\Checkout\BasketDetails.cshtml"
+                    Write((Model.BasketTotals.Voucher < 0 ? "-" : ""));
+
+
+#line default
+#line hidden
+
+#line 1481 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+
+#line default
+#line hidden
+
+#line 1482 "..\..\Views\Checkout\BasketDetails.cshtml"
+                    Write(Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher)) + " (inc VAT)")));
+
+
+#line default
+#line hidden
+
+#line 1482 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+                }
+
+
+#line default
+#line hidden
+                WriteLiteral("                    </span>\r\n                </div>\r\n            </div>\r\n        " +
+                "</div>\r\n\r\n        <div");
+
+                WriteAttribute("class", Tuple.Create(" class=\"", 55783), Tuple.Create("\"", 55819)
+
+#line 1489 "..\..\Views\Checkout\BasketDetails.cshtml"
+                , Tuple.Create(Tuple.Create("", 55791), Tuple.Create<System.Object, System.Int32>(isMultiBuy ? "" : "g-d-n"
+
+#line default
+#line hidden
+                , 55791), false)
+                );
+
+                WriteLiteral(">\r\n            <hr");
+
+                WriteLiteral(" class=\"g-m-tb-10\"");
+
+                WriteLiteral(" />\r\n            <div");
+
+                WriteLiteral(" id=\"voucherTotal\"");
+
+                WriteLiteral(" class=\"g-m-t-10 clearfix g-lh-40\"");
+
+                WriteLiteral(">\r\n                <div");
+
+                WriteLiteral(" class=\"pull-left\"");
+
+                WriteLiteral(">\r\n                    <strong>You have saved</strong>\r\n                </div>\r\n " +
+                "               <div");
+
+                WriteLiteral(" class=\"pull-right g-p-r-20 g-i g-fc-pm\"");
+
+                WriteLiteral(">\r\n                    <span");
+
+                WriteLiteral(" id=\"voucherValue\"");
+
+                WriteLiteral(">\r\n");
+
+                WriteLiteral("                        ");
+
+
+#line 1497 "..\..\Views\Checkout\BasketDetails.cshtml"
+                Write(Html.Raw(("&pound;" + string.Format("{0:N2}", multibuyAmount) + " (ex VAT)")));
+
+
+#line default
+#line hidden
+                WriteLiteral("\r\n                    </span>\r\n                </div>\r\n            </div>\r\n      " +
+                "  </div>\r\n\r\n        <hr");
+
+                WriteLiteral(" class=\"g-m-tb-10\"");
+
+                WriteLiteral(" />\r\n        <div");
+
+                WriteLiteral(" class=\"g-m-t-10 clearfix g-lh-40\"");
+
+                WriteLiteral(">\r\n            <div");
+
+                WriteLiteral(" class=\"pull-left\"");
+
+                WriteLiteral(">\r\n                <strong>Grand Total</strong>\r\n            </div>\r\n            " +
+                "<div");
+
+                WriteLiteral(" class=\"pull-right g-fs-lg g-p-r-20\"");
+
+                WriteLiteral(">\r\n                <strong>\r\n                    <span>&pound;");
+
+
+#line 1510 "..\..\Views\Checkout\BasketDetails.cshtml"
+                Write(string.Format("{0:N2}", Model.BasketTotals.GrandTotalIncVat));
+
+
+#line default
+#line hidden
+                WriteLiteral("</span>\r\n                </strong>\r\n            </div>\r\n        </div>\r\n");
+
+
+#line 1514 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+#line default
+#line hidden
+
+#line 1514 "..\..\Views\Checkout\BasketDetails.cshtml"
+                if (!isAdminDiscount)
                 {
                     if (Session["B_VoucherCode"].ToSafeString() != "")
                     {
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                        <div");
 
-WriteLiteral(" class=\"g-fc-secondary g-m-t-10\"");
+#line default
+#line hidden
+                        WriteLiteral("                <div");
 
-WriteLiteral(">\r\n                            <strong>Voucher code</strong>\r\n                   " +
-"     </div>\r\n");
+                        WriteLiteral(" class=\"g-fc-secondary g-m-t-10\"");
 
-WriteLiteral("                        <div");
+                        WriteLiteral(">\r\n                    <strong>Voucher code</strong>\r\n                </div>\r\n");
 
-WriteLiteral(" id=\"voucher-msg\"");
+                        WriteLiteral("                <div");
 
-WriteLiteral(" class=\"g-m-t-10\"");
+                        WriteLiteral(" id=\"voucher-msg\"");
 
-WriteLiteral(">\r\n                            <span>Voucher<strong> ");
+                        WriteLiteral(" class=\"g-m-t-10\"");
 
-            
-            #line 766 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                             Write(Session["B_VoucherCode"].ToSafeString());
+                        WriteLiteral(">\r\n                    <span>Voucher<strong> ");
 
-            
-            #line default
-            #line hidden
-WriteLiteral("</strong> has been recognised. Please note that only one offer can be applied to " +
-"an order.</span>\r\n                            <span>\r\n                          " +
-"      <a");
 
-WriteLiteral(" class=\"remove-voucher\"");
+#line 1522 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        Write(Session["B_VoucherCode"].ToSafeString());
 
-WriteLiteral(">[Remove]</a>\r\n                            </span>\r\n                        </div" +
-">\r\n");
 
-            
-            #line 771 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line default
+#line hidden
+                        WriteLiteral("</strong> has been recognised. Please note that only one offer can be applied to " +
+                        "an order.</span>\r\n                    <span>\r\n                        <a");
+
+                        WriteLiteral(" class=\"remove-voucher\"");
+
+                        WriteLiteral(">[Remove]</a>\r\n                    </span>\r\n                </div>\r\n");
+
+
+#line 1527 "..\..\Views\Checkout\BasketDetails.cshtml"
                         if (!string.IsNullOrEmpty(ViewBag.VoucherMessage))
                         {
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                            <div");
 
-WriteLiteral(" class=\"g-d-ib\"");
+#line default
+#line hidden
+                            WriteLiteral("                    <div");
 
-WriteLiteral(">\r\n                                <div");
+                            WriteLiteral(" class=\"g-d-ib\"");
 
-WriteLiteral(" class=\"error-message g-m-t-10\"");
+                            WriteLiteral(">\r\n                        <div");
 
-WriteLiteral(">\r\n");
+                            WriteLiteral(" class=\"error-message g-m-t-10\"");
 
-WriteLiteral("                                    ");
+                            WriteLiteral(">\r\n");
 
-            
-            #line 775 "..\..\Views\Checkout\BasketDetails.cshtml"
-                               Write(Html.Raw(ViewBag.VoucherMessage));
+                            WriteLiteral("                            ");
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                                </div>\r\n                            </div>\r\n");
 
-            
-            #line 778 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 1531 "..\..\Views\Checkout\BasketDetails.cshtml"
+                            Write(Html.Raw(ViewBag.VoucherMessage));
+
+
+#line default
+#line hidden
+                            WriteLiteral("\r\n                        </div>\r\n                    </div>\r\n");
+
+
+#line 1534 "..\..\Views\Checkout\BasketDetails.cshtml"
                         }
                     }
                     else
                     {
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                        <div");
 
-WriteLiteral(" class=\"g-fc-secondary g-m-t-10\"");
+#line default
+#line hidden
+                        WriteLiteral("                <div");
 
-WriteLiteral(">\r\n                            <strong>Add a voucher code</strong>\r\n             " +
-"           </div>\r\n");
+                        WriteLiteral(" class=\"g-fc-secondary g-m-t-10\"");
 
-WriteLiteral("                        <div");
+                        WriteLiteral(">\r\n                    <strong>Add a voucher code</strong>\r\n                </div" +
+                        ">\r\n");
 
-WriteLiteral(" class=\"bkt-voucher input-group g-m-t-10 g-w-345\"");
+                        WriteLiteral("                <div");
 
-WriteLiteral(">\r\n                            <input");
+                        WriteLiteral(" class=\"bkt-voucher input-group g-m-t-10\"");
 
-WriteLiteral(" id=\"voucher-code\"");
+                        WriteLiteral(">\r\n                    <input");
 
-WriteLiteral(" class=\"form-control g-h-40 pull-left\"");
+                        WriteLiteral(" id=\"voucher-code\"");
 
-WriteLiteral(" placeholder=\"Enter Voucher Code ...\"");
+                        WriteLiteral(" class=\"form-control g-h-40 pull-left\"");
 
-WriteLiteral(" type=\"text\"");
+                        WriteLiteral(" placeholder=\"Enter Voucher Code ...\"");
 
-WriteLiteral(">\r\n                            <span");
+                        WriteLiteral(" type=\"text\"");
 
-WriteLiteral(" class=\"input-group-btn\"");
+                        WriteLiteral(">\r\n                    <span");
 
-WriteLiteral(">\r\n                                <button");
+                        WriteLiteral(" class=\"input-group-btn\"");
 
-WriteLiteral(" id=\"apply-voucher\"");
+                        WriteLiteral(">\r\n                        <button");
 
-WriteLiteral(" class=\"g-butt-secondary g-butt-lg g-fs-n\"");
+                        WriteLiteral(" id=\"apply-voucher\"");
 
-WriteLiteral(" type=\"button\"");
+                        WriteLiteral(" class=\"g-butt-secondary g-butt-lg g-fs-n\"");
 
-WriteLiteral(">Apply Voucher</button>\r\n                            </span>\r\n                   " +
-"     </div>\r\n");
+                        WriteLiteral(" type=\"button\"");
 
-WriteLiteral("                        <div");
+                        WriteLiteral(">Apply Voucher</button>\r\n                    </span>\r\n                </div>\r\n");
 
-WriteLiteral(" class=\"g-d-ib\"");
+                        WriteLiteral("                <div");
 
-WriteLiteral(">\r\n                            <div");
+                        WriteLiteral(" id=\"error-message\"");
 
-WriteLiteral(" class=\"error-message g-d-n g-m-t-10\"");
+                        WriteLiteral(" class=\"error-message\"");
 
-WriteLiteral(">\r\n                                <i");
+                        WriteLiteral(" style=\"display:none;\"");
 
-WriteLiteral(" class=\"fa fa-exclamation-triangle g-fs-20 g-p-r-10\"");
+                        WriteLiteral(">\r\n                    <p></p>\r\n                </div>\r\n");
 
-WriteLiteral("></i>\r\n                                <p");
+                        WriteLiteral("                <div");
 
-WriteLiteral(" class=\"g-m-0 g-d-i g-p-r-10\"");
+                        WriteLiteral(" id=\"voucherResult\"");
 
-WriteLiteral("></p>\r\n                            </div>\r\n                        </div>\r\n");
+                        WriteLiteral(" class=\"g-m-t-10\"");
 
-            
-            #line 797 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        WriteLiteral("></div>\r\n");
+
+
+#line 1551 "..\..\Views\Checkout\BasketDetails.cshtml"
                     }
                 }
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                ");
 
-            
-            #line 799 "..\..\Views\Checkout\BasketDetails.cshtml"
-                 if (Convert.ToBoolean(Session["U_IsPortalUser"]))
+#line default
+#line hidden
+                WriteLiteral("        <button");
+
+                WriteLiteral(" type=\"button\"");
+
+                WriteLiteral(" class=\"checkout-button btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-rig" +
+                "ht\"");
+
+                WriteLiteral(" title=\"Checkout\"");
+
+                WriteLiteral(">Proceed to Checkout</button>\r\n");
+
+                WriteLiteral("        ");
+
+
+#line 1554 "..\..\Views\Checkout\BasketDetails.cshtml"
+                Write(Html.AntiForgeryToken());
+
+
+#line default
+#line hidden
+                WriteLiteral("\r\n        <form");
+
+                WriteLiteral(" id=\"co-form\"");
+
+                WriteLiteral(" method=\"post\"");
+
+                WriteAttribute("action", Tuple.Create(" action=\"", 58838), Tuple.Create("\"", 58865)
+                , Tuple.Create(Tuple.Create("", 58847), Tuple.Create<System.Object, System.Int32>(Href("~/Checkout/Stage1/")
+                , 58847), false)
+                );
+
+                WriteLiteral(">\r\n");
+
+                WriteLiteral("            ");
+
+
+#line 1556 "..\..\Views\Checkout\BasketDetails.cshtml"
+                Write(Html.HiddenFor(x => x.CheckoutDetails.IsNewCustomer));
+
+
+#line default
+#line hidden
+                WriteLiteral("\r\n");
+
+                WriteLiteral("            ");
+
+
+#line 1557 "..\..\Views\Checkout\BasketDetails.cshtml"
+                Write(Html.HiddenFor(x => x.CheckoutDetails.Email));
+
+
+#line default
+#line hidden
+                WriteLiteral("\r\n");
+
+                WriteLiteral("            ");
+
+
+#line 1558 "..\..\Views\Checkout\BasketDetails.cshtml"
+                Write(Html.HiddenFor(x => x.CheckoutDetails.Password));
+
+
+#line default
+#line hidden
+                WriteLiteral("\r\n");
+
+                WriteLiteral("            ");
+
+
+#line 1559 "..\..\Views\Checkout\BasketDetails.cshtml"
+                Write(Html.HiddenFor(x => x.CheckoutDetails.ZeroStock));
+
+
+#line default
+#line hidden
+                WriteLiteral("\r\n        </form>\r\n\r\n");
+
+
+#line 1562 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+#line default
+#line hidden
+
+#line 1562 "..\..\Views\Checkout\BasketDetails.cshtml"
+                if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
                 {
+                    if (ConfigurationManager.AppSettings["AmazonPayMerchantId"] != "OFF")
+                    {
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                    <div");
 
-WriteLiteral(" class=\"g-m-t-60 g-m-b-20 g-br-0 panel panel-default\"");
+#line default
+#line hidden
+                        WriteLiteral("                <div");
 
-WriteLiteral(">\r\n                        <div");
+                        WriteLiteral(" style=\"height:70px;\"");
 
-WriteLiteral(" class=\"panel-heading g-fw-b\"");
+                        WriteLiteral("></div>\r\n");
 
-WriteLiteral(">Customer Service Tools</div>\r\n                        <div");
+                        WriteLiteral("                <div");
 
-WriteLiteral(" class=\"panel-body\"");
+                        WriteLiteral(" id=\"AmazonPayButton\"");
 
-WriteLiteral(">\r\n");
+                        WriteLiteral(" class=\"g-m-t-20\"");
 
-            
-            #line 804 "..\..\Views\Checkout\BasketDetails.cshtml"
-                            
-            
-            #line default
-            #line hidden
-            
-            #line 804 "..\..\Views\Checkout\BasketDetails.cshtml"
-                             if (String.IsNullOrEmpty(Session["B_VoucherCode"] as string))
-                            {
-                                if (isAdminDiscount)
-                                {
+                        WriteLiteral("></div>\r\n");
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                    <div");
 
-WriteLiteral(" class=\"g-m-t-10 g-fw-b\"");
+#line 1568 "..\..\Views\Checkout\BasketDetails.cshtml"
 
-WriteLiteral(">ADMIN DISCOUNT HAS BEEN APPLIED TO THIS ORDER</div>\r\n");
 
-            
-            #line 809 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                }
-                                else
-                                {
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                                    <div");
+#line default
+#line hidden
+                        WriteLiteral("                <script");
 
-WriteLiteral(" class=\"g-fc-secondary g-m-t-10\"");
+                        WriteLiteral(" src=\"https://static-eu.payments-amazon.com/checkout.js\"");
 
-WriteLiteral(">Administrator Discount Inc.Vat</div>\r\n");
+                        WriteLiteral("></script>\r\n");
 
-WriteLiteral("                                    <div");
 
-WriteLiteral(" class=\"atb-entry bkt-discount input-group g-m-t-10 g-w-345\"");
+#line 1570 "..\..\Views\Checkout\BasketDetails.cshtml"
 
-WriteLiteral(">\r\n                                        <span");
 
-WriteLiteral(" class=\"input-group-addon g-br-0 g-fc-tt g-b-n g-bc-s\"");
 
-WriteLiteral(" style=\"border-right: 1px solid #cccccc !important;\"");
+#line default
+#line hidden
+                        WriteLiteral("                <script");
 
-WriteLiteral(">-&pound;</span>\r\n                                        <input");
+                        WriteLiteral(" type=\"text/javascript\"");
 
-WriteLiteral(" id=\"admin-discount\"");
+                        WriteLiteral(" charset=\"utf-8\"");
 
-WriteLiteral(" class=\"form-control g-h-40 pull-left\"");
+                        WriteLiteral(">\r\n                 amazon.Pay.renderButton(\'#AmazonPayButton\', {\r\n              " +
+                        "       merchantId: \'");
 
-WriteLiteral(" placeholder=\"Enter discount ...\"");
 
-WriteLiteral(" type=\"number\"");
+#line 1573 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        Write(Html.Raw(ConfigurationManager.AppSettings["AmazonPayMerchantId"]));
 
-WriteLiteral(">\r\n                                        <span");
 
-WriteLiteral(" class=\"input-group-btn\"");
+#line default
+#line hidden
+                        WriteLiteral("\',\r\n                     publicKeyId: \'");
 
-WriteLiteral(">\r\n                                            <button");
 
-WriteLiteral(" id=\"apply-discount\"");
+#line 1574 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        Write(Html.Raw(ConfigurationManager.AppSettings["AmazonPayPublicKeyId"]));
 
-WriteLiteral(" class=\"g-butt-secondary g-butt-lg g-fs-n\"");
 
-WriteLiteral(" type=\"button\"");
-
-WriteLiteral(">Apply Discount</button>\r\n                                            <button");
-
-WriteLiteral(" id=\"discount-atb\"");
-
-WriteLiteral(" class=\"atb-add g-d-n\"");
-
-WriteLiteral("\r\n                                                    data-vatm=\"");
-
-            
-            #line 819 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                          Write(Model.VatMultiplier);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\"");
-
-WriteLiteral("\r\n                                                    data-productid=\"4957\"");
-
-WriteLiteral("\r\n                                                    data-partno=\"\"");
-
-WriteLiteral("\r\n                                                    data-price=\"\"");
-
-WriteLiteral("\r\n                                                    data-itemtype=\"2\"");
-
-WriteLiteral("></button>\r\n                                        </span>\r\n                    " +
-"                </div>\r\n");
-
-            
-            #line 826 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                }
-                            }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                            <div");
-
-WriteLiteral(" class=\"g-m-t-10 basket-entry\"");
-
-WriteLiteral(">\r\n                                <div");
-
-WriteLiteral(" class=\"atb-entry input-group g-m-t-10 g-w-345\"");
-
-WriteLiteral(">\r\n                                    <span");
-
-WriteLiteral(" class=\"input-group-addon g-br-0 g-b-n g-bc-s\"");
-
-WriteLiteral(">Clear All Products</span>\r\n                                    <button");
-
-WriteLiteral(" id=\"admn-clear-basket\"");
-
-WriteLiteral(" class=\"g-butt g-butt-secondary g-butt-lg pull-right\"");
-
-WriteLiteral("\r\n                                            title=\"Clear all items from the bas" +
-"ket\"");
-
-WriteLiteral(">\r\n                                        Clear\r\n                               " +
-"     </button>\r\n                                </div>\r\n                        " +
-"        <div");
-
-WriteLiteral(" class=\"g-m-t-10\"");
-
-WriteLiteral(">\r\n                                    <div");
-
-WriteLiteral(" class=\"atb-entry input-group g-m-t-10 g-w-345\"");
-
-WriteLiteral(">\r\n");
-
-            
-            #line 838 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                        
-            
-            #line default
-            #line hidden
-            
-            #line 838 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                         if (ViewBag.OrderIsOnHold)
-                                        {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                                            <span");
-
-WriteLiteral(" class=\"input-group-addon g-br-0 g-b-n g-bc-s\"");
-
-WriteLiteral(">Order is On Hold</span>\r\n");
-
-WriteLiteral("                                            <button");
-
-WriteLiteral(" class=\"g-butt g-butt-secondary g-butt-lg delete pull-right\"");
-
-WriteLiteral("\r\n                                                    data-productid=\"ONHOLD\"");
-
-WriteLiteral("\r\n                                                    title=\"Remove from on hold\"" +
-"");
-
-WriteLiteral(">\r\n                                                Remove\r\n                      " +
-"                      </button>\r\n");
-
-            
-            #line 846 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                        }
-                                        else
-                                        {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                                            <span");
-
-WriteLiteral(" class=\"input-group-addon g-br-0 g-b-n g-bc-s\"");
-
-WriteLiteral(">Place Order On Hold</span>\r\n");
-
-WriteLiteral("                                            <button");
-
-WriteLiteral(" class=\"g-butt g-butt-secondary g-butt-lg atb-add pull-right\"");
-
-WriteLiteral("\r\n                                                    data-price=\"0.00\"");
-
-WriteLiteral("\r\n                                                    data-productid=\"ONHOLD\"");
-
-WriteLiteral("\r\n                                                    data-partno=\"ONHOLD\"");
-
-WriteLiteral("\r\n                                                    data-imageurl=\"unknown.jpg\"" +
-"");
-
-WriteLiteral("\r\n                                                    data-itemtype=\"3\"");
-
-WriteLiteral("\r\n                                                    title=\"Place this order on " +
-"hold\"");
-
-WriteLiteral(">\r\n                                                Place On Hold\r\n               " +
-"                             </button>\r\n");
-
-            
-            #line 859 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                        }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                                    </div>\r\n                                </div" +
-">\r\n                            </div>\r\n                        </div>\r\n         " +
-"           </div>\r\n");
-
-            
-            #line 865 "..\..\Views\Checkout\BasketDetails.cshtml"
-                }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("            </div>\r\n            ");
-
-WriteLiteral("\r\n        </div>\r\n    </div>\r\n");
-
-WriteLiteral("    <div");
-
-WriteLiteral(" class=\"col-md-3\"");
-
-WriteLiteral(">\r\n        <div");
-
-WriteLiteral(" class=\"g-m-t-10 clearfix\"");
-
-WriteLiteral(">\r\n            <div");
-
-WriteLiteral(" class=\"pull-left\"");
-
-WriteLiteral(">\r\n                <strong>Delivery</strong>\r\n            </div>\r\n            <di" +
-"v");
-
-WriteLiteral(" class=\"pull-right g-p-r-20\"");
-
-WriteLiteral(">\r\n");
-
-            
-            #line 999 "..\..\Views\Checkout\BasketDetails.cshtml"
-                
-            
-            #line default
-            #line hidden
-            
-            #line 999 "..\..\Views\Checkout\BasketDetails.cshtml"
-                 if (Model.BasketTotals.Delivery == 0)
-                {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                    ");
-
-WriteLiteral("FREE\r\n");
-
-            
-            #line 1002 "..\..\Views\Checkout\BasketDetails.cshtml"
-                }
-                else
-                {
-                    
-            
-            #line default
-            #line hidden
-            
-            #line 1005 "..\..\Views\Checkout\BasketDetails.cshtml"
-               Write(Html.Raw("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Delivery))));
-
-            
-            #line default
-            #line hidden
-            
-            #line 1005 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                                                                         
-                }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("            </div>\r\n        </div>\r\n        <div");
-
-WriteLiteral(" class=\"g-m-t-10 clearfix\"");
-
-WriteLiteral(">\r\n            <div");
-
-WriteLiteral(" class=\"pull-left\"");
-
-WriteLiteral(">\r\n                <strong>Sub Total</strong>\r\n            </div>\r\n            <d" +
-"iv");
-
-WriteLiteral(" class=\"pull-right g-p-r-20\"");
-
-WriteLiteral(">&pound;");
-
-            
-            #line 1013 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                               Write(string.Format("{0:N2}", Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</div>\r\n        </div>\r\n        <div");
-
-WriteLiteral(" class=\"g-m-t-10 clearfix\"");
-
-WriteLiteral(">\r\n            <div");
-
-WriteLiteral(" class=\"pull-left\"");
-
-WriteLiteral(">\r\n                <strong>VAT</strong>\r\n            </div>\r\n            <div");
-
-WriteLiteral(" class=\"pull-right g-p-r-20\"");
-
-WriteLiteral(">&pound;");
-
-            
-            #line 1019 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                               Write(string.Format("{0:N2}", Model.BasketTotals.Vat + Model.BasketTotals.VoucherVat));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</div>\r\n        </div>\r\n\r\n        <div");
-
-WriteAttribute("class", Tuple.Create(" class=\"", 44492), Tuple.Create("\"", 44537)
-            
-            #line 1022 "..\..\Views\Checkout\BasketDetails.cshtml"
-, Tuple.Create(Tuple.Create("", 44500), Tuple.Create<System.Object, System.Int32>(ViewBag.HideVoucher ? "g-d-n" : ""
-            
-            #line default
-            #line hidden
-, 44500), false)
-);
-
-WriteLiteral(">\r\n            <hr");
-
-WriteLiteral(" class=\"g-m-tb-10\"");
-
-WriteLiteral(" />\r\n            <div");
-
-WriteLiteral(" id=\"voucherTotal\"");
-
-WriteLiteral(" class=\"g-m-t-10 clearfix g-lh-40\"");
-
-WriteLiteral(">\r\n                <div");
-
-WriteLiteral(" class=\"pull-left\"");
-
-WriteLiteral(">\r\n                    <strong>Voucher</strong>\r\n                </div>\r\n        " +
-"        <div");
-
-WriteLiteral(" class=\"pull-right g-p-r-20 g-i g-fc-pm\"");
-
-WriteLiteral(">\r\n                    <span");
-
-WriteLiteral(" id=\"voucherValue\"");
-
-WriteLiteral(">\r\n");
-
-            
-            #line 1030 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        
-            
-            #line default
-            #line hidden
-            
-            #line 1030 "..\..\Views\Checkout\BasketDetails.cshtml"
-                         if (Model.BasketTotals.Voucher == 0)
-                        {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                            ");
-
-WriteLiteral("FREE GIFT\r\n");
-
-            
-            #line 1033 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        }
-                        else
-                        {
-                            
-            
-            #line default
-            #line hidden
-            
-            #line 1036 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        Write((Model.BasketTotals.Voucher < 0 ? "-" : ""));
-
-            
-            #line default
-            #line hidden
-            
-            #line 1036 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                                          
-                            
-            
-            #line default
-            #line hidden
-            
-            #line 1037 "..\..\Views\Checkout\BasketDetails.cshtml"
-                       Write(Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher)) + " (inc VAT)")));
-
-            
-            #line default
-            #line hidden
-            
-            #line 1037 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                                                                                                 
-                        }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                    </span>\r\n                </div>\r\n            </div>\r\n        " +
-"</div>\r\n\r\n        <div");
-
-WriteAttribute("class", Tuple.Create(" class=\"", 45422), Tuple.Create("\"", 45458)
-            
-            #line 1044 "..\..\Views\Checkout\BasketDetails.cshtml"
-, Tuple.Create(Tuple.Create("", 45430), Tuple.Create<System.Object, System.Int32>(isMultiBuy ? "" : "g-d-n"
-            
-            #line default
-            #line hidden
-, 45430), false)
-);
-
-WriteLiteral(">\r\n            <hr");
-
-WriteLiteral(" class=\"g-m-tb-10\"");
-
-WriteLiteral(" />\r\n            <div");
-
-WriteLiteral(" id=\"voucherTotal\"");
-
-WriteLiteral(" class=\"g-m-t-10 clearfix g-lh-40\"");
-
-WriteLiteral(">\r\n                <div");
-
-WriteLiteral(" class=\"pull-left\"");
-
-WriteLiteral(">\r\n                    <strong>You have saved</strong>\r\n                </div>\r\n " +
-"               <div");
-
-WriteLiteral(" class=\"pull-right g-p-r-20 g-i g-fc-pm\"");
-
-WriteLiteral(">\r\n                    <span");
-
-WriteLiteral(" id=\"voucherValue\"");
-
-WriteLiteral(">\r\n");
-
-WriteLiteral("                        ");
-
-            
-            #line 1052 "..\..\Views\Checkout\BasketDetails.cshtml"
-                   Write(Html.Raw(("&pound;" + string.Format("{0:N2}", multibuyAmount) + " (ex VAT)")));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                    </span>\r\n                </div>\r\n            </div>\r\n      " +
-"  </div>\r\n\r\n        <hr");
-
-WriteLiteral(" class=\"g-m-tb-10\"");
-
-WriteLiteral(" />\r\n        <div");
-
-WriteLiteral(" class=\"g-m-t-10 clearfix g-lh-40\"");
-
-WriteLiteral(">\r\n            <div");
-
-WriteLiteral(" class=\"pull-left\"");
-
-WriteLiteral(">\r\n                <strong>Grand Total</strong>\r\n            </div>\r\n            " +
-"<div");
-
-WriteLiteral(" class=\"pull-right g-fs-lg g-p-r-20\"");
-
-WriteLiteral(">\r\n                <strong>\r\n                    <span>&pound;");
-
-            
-            #line 1065 "..\..\Views\Checkout\BasketDetails.cshtml"
-                            Write(string.Format("{0:N2}", Model.BasketTotals.GrandTotalIncVat));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</span>\r\n                </strong>\r\n            </div>\r\n        </div>\r\n\r\n       " +
-" <button");
-
-WriteLiteral(" type=\"button\"");
-
-WriteLiteral(" class=\"checkout-button btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-rig" +
-"ht\"");
-
-WriteLiteral(" title=\"Checkout\"");
-
-WriteLiteral(">Proceed to Checkout</button>\r\n");
-
-WriteLiteral("        ");
-
-            
-            #line 1071 "..\..\Views\Checkout\BasketDetails.cshtml"
-   Write(Html.AntiForgeryToken());
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n        <form");
-
-WriteLiteral(" id=\"co-form\"");
-
-WriteLiteral(" method=\"post\"");
-
-WriteAttribute("action", Tuple.Create(" action=\"", 46663), Tuple.Create("\"", 46690)
-, Tuple.Create(Tuple.Create("", 46672), Tuple.Create<System.Object, System.Int32>(Href("~/Checkout/Stage1/")
-, 46672), false)
-);
-
-WriteLiteral(">\r\n");
-
-WriteLiteral("            ");
-
-            
-            #line 1073 "..\..\Views\Checkout\BasketDetails.cshtml"
-       Write(Html.HiddenFor(x => x.CheckoutDetails.IsNewCustomer));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
-
-WriteLiteral("            ");
-
-            
-            #line 1074 "..\..\Views\Checkout\BasketDetails.cshtml"
-       Write(Html.HiddenFor(x => x.CheckoutDetails.Email));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
-
-WriteLiteral("            ");
-
-            
-            #line 1075 "..\..\Views\Checkout\BasketDetails.cshtml"
-       Write(Html.HiddenFor(x => x.CheckoutDetails.Password));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
-
-WriteLiteral("            ");
-
-            
-            #line 1076 "..\..\Views\Checkout\BasketDetails.cshtml"
-       Write(Html.HiddenFor(x => x.CheckoutDetails.ZeroStock));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n        </form>\r\n\r\n");
-
-            
-            #line 1079 "..\..\Views\Checkout\BasketDetails.cshtml"
-        
-            
-            #line default
-            #line hidden
-            
-            #line 1079 "..\..\Views\Checkout\BasketDetails.cshtml"
-         if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
-        {
-            if (ConfigurationManager.AppSettings["AmazonPayMerchantId"] != "OFF")
-            {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                <div");
-
-WriteLiteral(" style=\"height:70px;\"");
-
-WriteLiteral("></div>\r\n");
-
-WriteLiteral("                <div");
-
-WriteLiteral(" id=\"AmazonPayButton\"");
-
-WriteLiteral(" class=\"g-m-t-20\"");
-
-WriteLiteral("></div>\r\n");
-
-            
-            #line 1085 "..\..\Views\Checkout\BasketDetails.cshtml"
-
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                <script");
-
-WriteLiteral(" src=\"https://static-eu.payments-amazon.com/checkout.js\"");
-
-WriteLiteral("></script>\r\n");
-
-            
-            #line 1087 "..\..\Views\Checkout\BasketDetails.cshtml"
-
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                <script");
-
-WriteLiteral(" type=\"text/javascript\"");
-
-WriteLiteral(" charset=\"utf-8\"");
-
-WriteLiteral(">\r\n                 amazon.Pay.renderButton(\'#AmazonPayButton\', {\r\n              " +
-"       merchantId: \'");
-
-            
-            #line 1090 "..\..\Views\Checkout\BasketDetails.cshtml"
-                             Write(Html.Raw(ConfigurationManager.AppSettings["AmazonPayMerchantId"]));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\',\r\n                     publicKeyId: \'");
-
-            
-            #line 1091 "..\..\Views\Checkout\BasketDetails.cshtml"
-                              Write(Html.Raw(ConfigurationManager.AppSettings["AmazonPayPublicKeyId"]));
-
-            
-            #line default
-            #line hidden
-WriteLiteral(@"',
+#line default
+#line hidden
+                        WriteLiteral(@"',
                      ledgerCurrency: 'GBP',
                      checkoutLanguage: 'en_GB',
                      productType: 'PayAndShip',
@@ -2203,147 +2646,354 @@ WriteLiteral(@"',
                      createCheckoutSessionConfig: {
                          payloadJSON: '");
 
-            
-            #line 1098 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                  Write(Html.Raw(Model.AmazonButtonJSONPayLoad));
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\',\r\n                         signature: \'");
+#line 1581 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        Write(Html.Raw(Model.AmazonButtonJSONPayLoad));
 
-            
-            #line 1099 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                Write(Html.Raw(Model.AmazonButtonSignature));
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\'\r\n                     }\r\n                 });\r\n                </script>\r\n");
+#line default
+#line hidden
+                        WriteLiteral("\',\r\n                         signature: \'");
 
-            
-            #line 1103 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+#line 1582 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        Write(Html.Raw(Model.AmazonButtonSignature));
+
+
+#line default
+#line hidden
+                        WriteLiteral("\'\r\n                     }\r\n                 });\r\n                </script>\r\n");
+
+
+#line 1586 "..\..\Views\Checkout\BasketDetails.cshtml"
+                    }
+
+
+
+#line default
+#line hidden
+                    WriteLiteral("            <div");
+
+                    WriteLiteral(" id=\"paypal-button2\"");
+
+                    WriteLiteral(" class=\"g-m-t-20\"");
+
+                    WriteLiteral("></div>\r\n");
+
+                    WriteLiteral("            <div");
+
+                    WriteLiteral(" id=\"paypal-button3\"");
+
+                    WriteLiteral("></div>\r\n");
+
+                    WriteLiteral("            <div");
+
+                    WriteLiteral(" id=\"paypal-message\"");
+
+                    WriteLiteral(" data-pp-message");
+
+                    WriteLiteral(" data-pp-style-layout=\"text\"");
+
+                    WriteLiteral("\r\n                 data-pp-style-logo-type=\"inline\"");
+
+                    WriteLiteral(" data-pp-style-text-color=\"black\"");
+
+                    WriteLiteral("\r\n                 data-pp-amount=\"");
+
+
+#line 1592 "..\..\Views\Checkout\BasketDetails.cshtml"
+                    Write(string.Format("{0:N2}", Model.BasketTotals.GrandTotalIncVat));
+
+
+#line default
+#line hidden
+                    WriteLiteral("\"");
+
+                    WriteLiteral(">\r\n            </div>\r\n");
+
+                    WriteLiteral("            <form");
+
+                    WriteLiteral(" id=\"paypal-form\"");
+
+                    WriteLiteral(" action=\"/checkout/stage3/\"");
+
+                    WriteLiteral(" method=\"post\"");
+
+                    WriteLiteral(">\r\n                <input");
+
+                    WriteLiteral(" type=\"hidden\"");
+
+                    WriteLiteral(" name=\"PayPalPaid\"");
+
+                    WriteLiteral(" id=\"PayPalPaid\"");
+
+                    WriteLiteral(" value=\"true\"");
+
+                    WriteLiteral(" />\r\n");
+
+                    WriteLiteral("                ");
+
+
+#line 1596 "..\..\Views\Checkout\BasketDetails.cshtml"
+                    Write(Html.Hidden("PaymentAmountPaid", Model.BasketTotals.GrandTotalIncVat));
+
+
+#line default
+#line hidden
+                    WriteLiteral("\r\n            </form>\r\n");
+
+
+#line 1598 "..\..\Views\Checkout\BasketDetails.cshtml"
+                }
+
+
+#line default
+#line hidden
+                WriteLiteral("        <div");
+
+                WriteLiteral(" class=\"basket-sidebar-info\"");
+
+                WriteLiteral(">\r\n\r\n            <div");
+
+                WriteLiteral(" class=\"sidebar-card delivery\"");
+
+                WriteLiteral(">\r\n\r\n                <div");
+
+                WriteLiteral(" class=\"card-header\"");
+
+                WriteLiteral(">\r\n                    <i");
+
+                WriteLiteral(" class=\"fa fa-truck\"");
+
+                WriteLiteral("></i>\r\n                    <span>Free Next Day Delivery</span>\r\n                <" +
+                "/div>\r\n\r\n                <div");
+
+                WriteLiteral(" class=\"card-body\"");
+
+                WriteLiteral(">\r\n                    Order before <strong>5:30 Mon-Thu</strong>, &amp;\r\n       " +
+                "             <strong>5pm Fri</strong> for next working day delivery.\r\n          " +
+                "      </div>\r\n\r\n                <div");
+
+                WriteLiteral(" class=\"card-toggle delivery\"");
+
+                WriteLiteral(">\r\n                    <a");
+
+                WriteLiteral(" href=\"javascript:void(0);\"");
+
+                WriteLiteral(" class=\"toggle-link\"");
+
+                WriteLiteral(">\r\n                        Find Out More\r\n                    </a>\r\n\r\n           " +
+                "         <i");
+
+                WriteLiteral(" class=\"fa fa-angle-down\"");
+
+                WriteLiteral("></i>\r\n                </div>\r\n\r\n                <div");
+
+                WriteLiteral(" class=\"card-content delivery\"");
+
+                WriteLiteral(@">
+                    <p>
+                        We dispatch all in-stock orders placed before the cut-off time on the
+                        same working day. Orders placed after the cut-off will be dispatched
+                        the following working day.
+                    </p>
+
+                    <p>
+                        Delivery is available Monday to Friday excluding public holidays.
+                    </p>
+                </div>
+
+            </div>
+
+            <div");
+
+                WriteLiteral(" class=\"sidebar-card trust\"");
+
+                WriteLiteral(">\r\n                <div");
+
+                WriteLiteral(" class=\"card-header\"");
+
+                WriteLiteral(">\r\n                    <i");
+
+                WriteLiteral(" class=\"fa fa-star-o\"");
+
+                WriteLiteral("></i>\r\n                    <span>Trusted By 25,000+</span>\r\n                </div" +
+                ">\r\n\r\n                <div");
+
+                WriteLiteral(" class=\"card-body\"");
+
+                WriteLiteral(">\r\n                    Thousands of businesses trust us for office supplies,\r\n   " +
+                "                 printer cartridges and workplace essentials.\r\n                <" +
+                "/div>\r\n\r\n                <div");
+
+                WriteLiteral(" class=\"card-toggle trust\"");
+
+                WriteLiteral(">\r\n                    <a");
+
+                WriteLiteral(" href=\"javascript:void(0);\"");
+
+                WriteLiteral(" class=\"toggle-link\"");
+
+                WriteLiteral(">\r\n                        Find Out More\r\n                    </a>\r\n\r\n           " +
+                "         <i");
+
+                WriteLiteral(" class=\"fa fa-angle-down\"");
+
+                WriteLiteral("></i>\r\n                </div>\r\n                <div");
+
+                WriteLiteral(" class=\"card-content trust\"");
+
+                WriteLiteral(@">
+                    <p>
+                        We dispatch all in-stock orders placed before the cut-off time on the
+                        same working day. Orders placed after the cut-off will be dispatched
+                        the following working day.
+                    </p>
+
+                    <p>
+                        Delivery is available Monday to Friday excluding public holidays.
+                    </p>
+                </div>
+            </div>
+
+            <div");
+
+                WriteLiteral(" class=\"sidebar-card exclusive\"");
+
+                WriteLiteral(">\r\n                <div");
+
+                WriteLiteral(" class=\"card-header\"");
+
+                WriteLiteral(">\r\n                    <i");
+
+                WriteLiteral(" class=\"fa fa-gbp\"");
+
+                WriteLiteral("></i>\r\n                    <span>Exclusive Trade Pricing</span>\r\n                " +
+                "</div>\r\n\r\n                <div");
+
+                WriteLiteral(" class=\"card-body\"");
+
+                WriteLiteral(">\r\n                    Register for a trade account and receive exclusive\r\n      " +
+                "              business pricing.\r\n                </div>\r\n\r\n                <div");
+
+                WriteLiteral(" class=\"card-toggle exclusive\"");
+
+                WriteLiteral(">\r\n                    <a");
+
+                WriteLiteral(" href=\"javascript:void(0);\"");
+
+                WriteLiteral(" class=\"toggle-link\"");
+
+                WriteLiteral(">\r\n                        Find Out More\r\n                    </a>\r\n\r\n           " +
+                "         <i");
+
+                WriteLiteral(" class=\"fa fa-angle-down\"");
+
+                WriteLiteral("></i>\r\n                </div>\r\n                <div");
+
+                WriteLiteral(" class=\"card-content exclusive\"");
+
+                WriteLiteral(@">
+                    <p>
+                        We dispatch all in-stock orders placed before the cut-off time on the
+                        same working day. Orders placed after the cut-off will be dispatched
+                        the following working day.
+                    </p>
+
+                    <p>
+                        Delivery is available Monday to Friday excluding public holidays.
+                    </p>
+                </div>
+            </div>
+
+            <div");
+
+                WriteLiteral(" class=\"sidebar-card payment-card\"");
+
+                WriteLiteral(">\r\n\r\n                <div");
+
+                WriteLiteral(" class=\"card-header\"");
+
+                WriteLiteral(">\r\n                    <i");
+
+                WriteLiteral(" class=\"fa fa-credit-card\"");
+
+                WriteLiteral("></i>\r\n                    <span>Payment Cards Accepted</span>\r\n                <" +
+                "/div>\r\n\r\n                <div");
+
+                WriteLiteral(" class=\"payment-icons\"");
+
+                WriteLiteral(">\r\n\r\n                    <img");
+
+                WriteLiteral(" src=\"/Content/Images/1pxTrans.png\"");
+
+                WriteLiteral(" alt=\"Visa\"");
+
+                WriteLiteral(">\r\n                    <img");
+
+                WriteLiteral(" src=\"/Content/Images/1pxTrans.png\"");
+
+                WriteLiteral(" alt=\"Mastercard\"");
+
+                WriteLiteral(">\r\n                    <img");
+
+                WriteLiteral(" src=\"/Content/Images/1pxTrans.png\"");
+
+                WriteLiteral(" alt=\"Amex\"");
+
+                WriteLiteral(">\r\n\r\n                </div>\r\n\r\n            </div>\r\n\r\n        </div>\r\n        ");
+
+                WriteLiteral("\r\n    </div>\r\n");
+
+
+#line 1728 "..\..\Views\Checkout\BasketDetails.cshtml"
+            }
+            else
+            {
+
+
+#line default
+#line hidden
+                WriteLiteral("    <div");
+
+                WriteLiteral(" class=\"row\"");
+
+                WriteLiteral(">\r\n        <div");
+
+                WriteLiteral(" class=\"col-md-12\"");
+
+                WriteLiteral(">\r\n            <span>Your basket is currently empty, ");
+
+
+#line 1733 "..\..\Views\Checkout\BasketDetails.cshtml"
+                Write(Html.ActionLink("continue shopping", "Index", "Home"));
+
+
+#line default
+#line hidden
+                WriteLiteral("</span>\r\n        </div>\r\n    </div>\r\n");
+
+
+#line 1736 "..\..\Views\Checkout\BasketDetails.cshtml"
             }
 
 
-            
-            #line default
-            #line hidden
-WriteLiteral("            <div");
+#line default
+#line hidden
+            WriteLiteral(@"
+<script>
+    $(document).on(""click"", "".card-toggle"", function (e) {
 
-WriteLiteral(" id=\"paypal-button2\"");
+        e.preventDefault();
 
-WriteLiteral(" class=\"g-m-t-20\"");
+        var card = $(this).closest("".sidebar-card"");
 
-WriteLiteral("></div>\r\n");
+        card.toggleClass(""active"");
 
-WriteLiteral("            <div");
+        card.find("".card-content"").stop(true, true).slideToggle(250);
 
-WriteLiteral(" id=\"paypal-button3\"");
-
-WriteLiteral("></div>\r\n");
-
-WriteLiteral("            <div");
-
-WriteLiteral(" id=\"paypal-message\"");
-
-WriteLiteral(" data-pp-message");
-
-WriteLiteral(" data-pp-style-layout=\"text\"");
-
-WriteLiteral("\r\n                 data-pp-style-logo-type=\"inline\"");
-
-WriteLiteral(" data-pp-style-text-color=\"black\"");
-
-WriteLiteral("\r\n                 data-pp-amount=\"");
-
-            
-            #line 1109 "..\..\Views\Checkout\BasketDetails.cshtml"
-                            Write(string.Format("{0:N2}", Model.BasketTotals.GrandTotalIncVat));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\"");
-
-WriteLiteral(">\r\n            </div>\r\n");
-
-WriteLiteral("            <form");
-
-WriteLiteral(" id=\"paypal-form\"");
-
-WriteLiteral(" action=\"/checkout/stage3/\"");
-
-WriteLiteral(" method=\"post\"");
-
-WriteLiteral(">\r\n                <input");
-
-WriteLiteral(" type=\"hidden\"");
-
-WriteLiteral(" name=\"PayPalPaid\"");
-
-WriteLiteral(" id=\"PayPalPaid\"");
-
-WriteLiteral(" value=\"true\"");
-
-WriteLiteral(" />\r\n");
-
-WriteLiteral("                ");
-
-            
-            #line 1113 "..\..\Views\Checkout\BasketDetails.cshtml"
-           Write(Html.Hidden("PaymentAmountPaid", Model.BasketTotals.GrandTotalIncVat));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n            </form>\r\n");
-
-            
-            #line 1115 "..\..\Views\Checkout\BasketDetails.cshtml"
-        }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    </div>\r\n");
-
-            
-            #line 1117 "..\..\Views\Checkout\BasketDetails.cshtml"
-}
-else
-{
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <div");
-
-WriteLiteral(" class=\"row\"");
-
-WriteLiteral(">\r\n        <div");
-
-WriteLiteral(" class=\"col-md-12\"");
-
-WriteLiteral(">\r\n            <span>Your basket is currently empty, ");
-
-            
-            #line 1122 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                             Write(Html.ActionLink("continue shopping", "Index", "Home"));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</span>\r\n        </div>\r\n    </div>\r\n");
-
-            
-            #line 1125 "..\..\Views\Checkout\BasketDetails.cshtml"
-}
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
+    });
+</script>");
 
         }
     }

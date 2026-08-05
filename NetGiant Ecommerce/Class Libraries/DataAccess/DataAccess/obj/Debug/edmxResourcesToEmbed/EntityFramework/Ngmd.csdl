@@ -1103,6 +1103,15 @@
       <Parameter Name="WebsiteId" Mode="In" Type="Int32" />
       <Parameter Name="OrderNo" Mode="In" Type="String" />
     </FunctionImport>
+    <EntitySet Name="ProductAddons" EntityType="NgmdEntities.ProductAddon" />
+    <AssociationSet Name="FK_ProductAddon_AddonProduct" Association="NgmdEntities.FK_ProductAddon_AddonProduct">
+      <End Role="product" EntitySet="product" />
+      <End Role="ProductAddon" EntitySet="ProductAddons" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductAddon_Product" Association="NgmdEntities.FK_ProductAddon_Product">
+      <End Role="product" EntitySet="product" />
+      <End Role="ProductAddon" EntitySet="ProductAddons" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="eqEquipment">
     <Key>
@@ -2801,6 +2810,8 @@
     <NavigationProperty Name="AXISQueue" Relationship="NgmdEntities.FK_AXISQueue_productFK" FromRole="product" ToRole="AXISQueue" />
     <NavigationProperty Name="dataSupplier" Relationship="NgmdEntities.FK_product_dataSupplier" FromRole="product" ToRole="dataSupplier" />
     <NavigationProperty Name="skuMapping" Relationship="NgmdEntities.FK_skuMapping_product" FromRole="product" ToRole="skuMapping" />
+    <NavigationProperty Name="ProductAddons" Relationship="NgmdEntities.FK_ProductAddon_AddonProduct" FromRole="product" ToRole="ProductAddon" />
+    <NavigationProperty Name="ProductAddons1" Relationship="NgmdEntities.FK_ProductAddon_Product" FromRole="product" ToRole="ProductAddon" />
   </EntityType>
   <Association Name="FK_AxisFields_product">
     <End Type="NgmdEntities.product" Role="product" Multiplicity="1">
@@ -4893,4 +4904,42 @@
     <Property Type="String" Name="DeliveryAddress5" Nullable="true" MaxLength="30" />
     <Property Type="String" Name="DeliveryPostcode" Nullable="true" MaxLength="30" />
   </ComplexType>
+  <EntityType Name="ProductAddon">
+    <Key>
+      <PropertyRef Name="ProductAddonId" />
+    </Key>
+    <Property Name="ProductAddonId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="AddonProductId" Type="Int32" Nullable="false" />
+    <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="product" Relationship="NgmdEntities.FK_ProductAddon_AddonProduct" FromRole="ProductAddon" ToRole="product" />
+    <NavigationProperty Name="product1" Relationship="NgmdEntities.FK_ProductAddon_Product" FromRole="ProductAddon" ToRole="product" />
+  </EntityType>
+  <Association Name="FK_ProductAddon_AddonProduct">
+    <End Type="NgmdEntities.product" Role="product" Multiplicity="1" />
+    <End Type="NgmdEntities.ProductAddon" Role="ProductAddon" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="productID" />
+      </Principal>
+      <Dependent Role="ProductAddon">
+        <PropertyRef Name="AddonProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductAddon_Product">
+    <End Type="NgmdEntities.product" Role="product" Multiplicity="1" />
+    <End Type="NgmdEntities.ProductAddon" Role="ProductAddon" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="productID" />
+      </Principal>
+      <Dependent Role="ProductAddon">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>
