@@ -743,6 +743,44 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.Shared
                 throw new ApplicationException(e.Message + e.StackTrace);
             }
         }
+        public static List<JqueryFormatted> GetProductsAddOn(string searchTerm = null, int productItemType = 0, bool includeEmpty = false)
+        {
+            List<JqueryFormatted> list = new List<JqueryFormatted>();
+
+            try
+            {
+                using (ngmdEntities db = new ngmdEntities())
+                {
+                    IQueryable<product> query = db.product.Where(x => x.productItemTypeFK != 2);
+
+                    if (!string.IsNullOrEmpty(searchTerm))
+                    {
+                        query = query.Where(x => x.partNo.ToLower().Contains(searchTerm.ToLower()) ||
+                            x.productName.ToLower().Contains(searchTerm.ToLower()));
+                    }
+
+                    if (productItemType > 0)
+                        query = query.Where(x => x.productItemTypeFK == productItemType);
+
+                    list = query.Select(x => new JqueryFormatted
+                    {
+                        label = x.productName,
+                        value = x.productID.ToString()
+                    }).Take(200).ToList();
+                    if (includeEmpty)
+                    {
+                        JqueryFormatted emptyItem = new JqueryFormatted { label = "Empty Item", value = "NULL" };
+                        list.Insert(0, emptyItem);
+                    }
+                }
+            }
+            catch (InvalidOperationException e)
+            {
+                throw new ApplicationException(e.Message + e.StackTrace);
+            }
+
+            return list;
+        }
     }
 
     public class JqueryFormatted

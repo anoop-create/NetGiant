@@ -60,9 +60,6 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="netGiant.Intranet.DataLayer">
-      <HintPath>..\..\..\..\..\Users\Abcom\Downloads\All\All\beta.intranet.netgiant.com\netGiant.Intranet\bin\netGiant.Intranet.DataLayer.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -237,7 +234,12 @@
     <Content Include="DynamicLibraries\PagedList.dll" />
     <Content Include="DynamicLibraries\PagedList.Mvc.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Class Libraries\ngmd.DataLayer\netGiant.Intranet.DataLayer\netGiant.Intranet.DataLayer.csproj">
+      <Project>{1cff9d16-890d-471e-8a7d-37b2485ee063}</Project>
+      <Name>netGiant.Intranet.DataLayer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

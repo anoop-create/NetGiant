@@ -9,7 +9,6 @@
 
 namespace netGiant.Intranet.DataLayer.NetgiantMasterData
 {
-    using DataAccess.EntityFramework;
     using System;
     using System.Collections.Generic;
     
@@ -38,6 +37,7 @@ namespace netGiant.Intranet.DataLayer.NetgiantMasterData
             this.Event = new HashSet<Event>();
             this.Faq = new HashSet<Faq>();
             this.Log = new HashSet<Log>();
+            this.PortalIndex = new HashSet<PortalIndex>();
         }
     
         public int WebsiteID { get; set; }
@@ -68,5 +68,6 @@ namespace netGiant.Intranet.DataLayer.NetgiantMasterData
         public virtual ICollection<Event> Event { get; set; }
         public virtual ICollection<Faq> Faq { get; set; }
         public virtual ICollection<Log> Log { get; set; }
+        public virtual ICollection<PortalIndex> PortalIndex { get; set; }
     }
 }

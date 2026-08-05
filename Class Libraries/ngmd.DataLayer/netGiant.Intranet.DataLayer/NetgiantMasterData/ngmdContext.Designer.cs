@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\AA-TFS-2022-3\Class Libraries\ngmd.DataLayer\netGiant.Intranet.DataLayer\NetgiantMasterData\ngmdContext.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Anoop\Git\NetGiant\Class Libraries\ngmd.DataLayer\netGiant.Intranet.DataLayer\NetgiantMasterData\ngmdContext.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataAccess.EntityFramework
+namespace netGiant.Intranet.DataLayer.NetgiantMasterData
 {
     using System;
     using System.Collections.Generic;
@@ -16,7 +16,7 @@ namespace DataAccess.EntityFramework
     {
         public long McCartDataId { get; set; }
         public string RecordId { get; set; }
-        public string CartId { get; set; }
         public System.DateTime DateTime { get; set; }
+        public string CartId { get; set; }
     }
 }

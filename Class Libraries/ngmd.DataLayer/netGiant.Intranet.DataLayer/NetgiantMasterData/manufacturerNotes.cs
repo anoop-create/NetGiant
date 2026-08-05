@@ -7,12 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataAccess.EntityFramework
+namespace netGiant.Intranet.DataLayer.NetgiantMasterData
 {
-    using netGiant.Intranet.DataLayer.NetgiantMasterData;
     using System;
     using System.Collections.Generic;
-
+    
     public partial class manufacturerNotes
     {
         public int manufacturerNotesID { get; set; }
@@ -24,7 +23,7 @@ namespace DataAccess.EntityFramework
         public string metaDescription { get; set; }
         public string priorityNote { get; set; }
         public string secondaryNote { get; set; }
-
+    
         public virtual manufacturer manufacturer { get; set; }
         public virtual Website Website { get; set; }
     }

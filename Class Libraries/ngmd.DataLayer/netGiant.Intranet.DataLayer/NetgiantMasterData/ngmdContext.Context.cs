@@ -9,11 +9,10 @@
 
 namespace netGiant.Intranet.DataLayer.NetgiantMasterData
 {
-    using DataAccess.EntityFramework;
     using System;
     using System.Data.Entity;
-    using System.Data.Entity.Core.Objects;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
     using System.Linq;
     
     public partial class ngmdEntities : DbContext
@@ -129,6 +128,25 @@ namespace netGiant.Intranet.DataLayer.NetgiantMasterData
         public virtual DbSet<Faq> Faq { get; set; }
         public virtual DbSet<product> product { get; set; }
         public virtual DbSet<Log> Log { get; set; }
+        public virtual DbSet<GATransaction> GATransaction { get; set; }
+        public virtual DbSet<interimProductOverride> interimProductOverride { get; set; }
+        public virtual DbSet<JsonStore> JsonStore { get; set; }
+        public virtual DbSet<McCartData> McCartData { get; set; }
+        public virtual DbSet<McOrderData> McOrderData { get; set; }
+        public virtual DbSet<overrideType> overrideType { get; set; }
+        public virtual DbSet<passwordReset> passwordReset { get; set; }
+        public virtual DbSet<PayPalLog> PayPalLog { get; set; }
+        public virtual DbSet<PortalIndex> PortalIndex { get; set; }
+        public virtual DbSet<productOverride> productOverride { get; set; }
+        public virtual DbSet<SagePayTransactions> SagePayTransactions { get; set; }
+        public virtual DbSet<zproduct_20200108> zproduct_20200108 { get; set; }
+        public virtual DbSet<zskuMapping_20100108> zskuMapping_20100108 { get; set; }
+        public virtual DbSet<LookupTypeView> LookupTypeView { get; set; }
+        public virtual DbSet<LookupView> LookupView { get; set; }
+        public virtual DbSet<pim_attributesView> pim_attributesView { get; set; }
+        public virtual DbSet<PMSAxisPriceDifference> PMSAxisPriceDifference { get; set; }
+        public virtual DbSet<PriceCompView> PriceCompView { get; set; }
+        public virtual DbSet<ProductAddon> ProductAddon { get; set; }
     
         [DbFunction("ngmdEntities", "GetProductPrices")]
         public virtual IQueryable<GetProductPrices_Result> GetProductPrices(string altRef)
@@ -261,6 +279,1941 @@ namespace netGiant.Intranet.DataLayer.NetgiantMasterData
         public virtual ObjectResult<GetQAList_Result> GetQAList()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetQAList_Result>("GetQAList");
+        }
+    
+        public virtual ObjectResult<string> sp_Blitz(Nullable<byte> help, Nullable<byte> checkUserDatabaseObjects, Nullable<byte> checkProcedureCache, string outputType, Nullable<byte> outputProcedureCache, string checkProcedureCacheFilter, Nullable<byte> checkServerInfo, string skipChecksServer, string skipChecksDatabase, string skipChecksSchema, string skipChecksTable, Nullable<int> ignorePrioritiesBelow, Nullable<int> ignorePrioritiesAbove, string outputServerName, string outputDatabaseName, string outputSchemaName, string outputTableName, Nullable<byte> outputXMLasNVARCHAR, string emailRecipients, string emailProfile, Nullable<byte> summaryMode, Nullable<byte> bringThePain, string usualDBOwner, Nullable<byte> skipBlockingChecks, Nullable<byte> debug, ObjectParameter version, ObjectParameter versionDate, Nullable<bool> versionCheckMode)
+        {
+            var helpParameter = help.HasValue ?
+                new ObjectParameter("Help", help) :
+                new ObjectParameter("Help", typeof(byte));
+    
+            var checkUserDatabaseObjectsParameter = checkUserDatabaseObjects.HasValue ?
+                new ObjectParameter("CheckUserDatabaseObjects", checkUserDatabaseObjects) :
+                new ObjectParameter("CheckUserDatabaseObjects", typeof(byte));
+    
+            var checkProcedureCacheParameter = checkProcedureCache.HasValue ?
+                new ObjectParameter("CheckProcedureCache", checkProcedureCache) :
+                new ObjectParameter("CheckProcedureCache", typeof(byte));
+    
+            var outputTypeParameter = outputType != null ?
+                new ObjectParameter("OutputType", outputType) :
+                new ObjectParameter("OutputType", typeof(string));
+    
+            var outputProcedureCacheParameter = outputProcedureCache.HasValue ?
+                new ObjectParameter("OutputProcedureCache", outputProcedureCache) :
+                new ObjectParameter("OutputProcedureCache", typeof(byte));
+    
+            var checkProcedureCacheFilterParameter = checkProcedureCacheFilter != null ?
+                new ObjectParameter("CheckProcedureCacheFilter", checkProcedureCacheFilter) :
+                new ObjectParameter("CheckProcedureCacheFilter", typeof(string));
+    
+            var checkServerInfoParameter = checkServerInfo.HasValue ?
+                new ObjectParameter("CheckServerInfo", checkServerInfo) :
+                new ObjectParameter("CheckServerInfo", typeof(byte));
+    
+            var skipChecksServerParameter = skipChecksServer != null ?
+                new ObjectParameter("SkipChecksServer", skipChecksServer) :
+                new ObjectParameter("SkipChecksServer", typeof(string));
+    
+            var skipChecksDatabaseParameter = skipChecksDatabase != null ?
+                new ObjectParameter("SkipChecksDatabase", skipChecksDatabase) :
+                new ObjectParameter("SkipChecksDatabase", typeof(string));
+    
+            var skipChecksSchemaParameter = skipChecksSchema != null ?
+                new ObjectParameter("SkipChecksSchema", skipChecksSchema) :
+                new ObjectParameter("SkipChecksSchema", typeof(string));
+    
+            var skipChecksTableParameter = skipChecksTable != null ?
+                new ObjectParameter("SkipChecksTable", skipChecksTable) :
+                new ObjectParameter("SkipChecksTable", typeof(string));
+    
+            var ignorePrioritiesBelowParameter = ignorePrioritiesBelow.HasValue ?
+                new ObjectParameter("IgnorePrioritiesBelow", ignorePrioritiesBelow) :
+                new ObjectParameter("IgnorePrioritiesBelow", typeof(int));
+    
+            var ignorePrioritiesAboveParameter = ignorePrioritiesAbove.HasValue ?
+                new ObjectParameter("IgnorePrioritiesAbove", ignorePrioritiesAbove) :
+                new ObjectParameter("IgnorePrioritiesAbove", typeof(int));
+    
+            var outputServerNameParameter = outputServerName != null ?
+                new ObjectParameter("OutputServerName", outputServerName) :
+                new ObjectParameter("OutputServerName", typeof(string));
+    
+            var outputDatabaseNameParameter = outputDatabaseName != null ?
+                new ObjectParameter("OutputDatabaseName", outputDatabaseName) :
+                new ObjectParameter("OutputDatabaseName", typeof(string));
+    
+            var outputSchemaNameParameter = outputSchemaName != null ?
+                new ObjectParameter("OutputSchemaName", outputSchemaName) :
+                new ObjectParameter("OutputSchemaName", typeof(string));
+    
+            var outputTableNameParameter = outputTableName != null ?
+                new ObjectParameter("OutputTableName", outputTableName) :
+                new ObjectParameter("OutputTableName", typeof(string));
+    
+            var outputXMLasNVARCHARParameter = outputXMLasNVARCHAR.HasValue ?
+                new ObjectParameter("OutputXMLasNVARCHAR", outputXMLasNVARCHAR) :
+                new ObjectParameter("OutputXMLasNVARCHAR", typeof(byte));
+    
+            var emailRecipientsParameter = emailRecipients != null ?
+                new ObjectParameter("EmailRecipients", emailRecipients) :
+                new ObjectParameter("EmailRecipients", typeof(string));
+    
+            var emailProfileParameter = emailProfile != null ?
+                new ObjectParameter("EmailProfile", emailProfile) :
+                new ObjectParameter("EmailProfile", typeof(string));
+    
+            var summaryModeParameter = summaryMode.HasValue ?
+                new ObjectParameter("SummaryMode", summaryMode) :
+                new ObjectParameter("SummaryMode", typeof(byte));
+    
+            var bringThePainParameter = bringThePain.HasValue ?
+                new ObjectParameter("BringThePain", bringThePain) :
+                new ObjectParameter("BringThePain", typeof(byte));
+    
+            var usualDBOwnerParameter = usualDBOwner != null ?
+                new ObjectParameter("UsualDBOwner", usualDBOwner) :
+                new ObjectParameter("UsualDBOwner", typeof(string));
+    
+            var skipBlockingChecksParameter = skipBlockingChecks.HasValue ?
+                new ObjectParameter("SkipBlockingChecks", skipBlockingChecks) :
+                new ObjectParameter("SkipBlockingChecks", typeof(byte));
+    
+            var debugParameter = debug.HasValue ?
+                new ObjectParameter("Debug", debug) :
+                new ObjectParameter("Debug", typeof(byte));
+    
+            var versionCheckModeParameter = versionCheckMode.HasValue ?
+                new ObjectParameter("VersionCheckMode", versionCheckMode) :
+                new ObjectParameter("VersionCheckMode", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_Blitz", helpParameter, checkUserDatabaseObjectsParameter, checkProcedureCacheParameter, outputTypeParameter, outputProcedureCacheParameter, checkProcedureCacheFilterParameter, checkServerInfoParameter, skipChecksServerParameter, skipChecksDatabaseParameter, skipChecksSchemaParameter, skipChecksTableParameter, ignorePrioritiesBelowParameter, ignorePrioritiesAboveParameter, outputServerNameParameter, outputDatabaseNameParameter, outputSchemaNameParameter, outputTableNameParameter, outputXMLasNVARCHARParameter, emailRecipientsParameter, emailProfileParameter, summaryModeParameter, bringThePainParameter, usualDBOwnerParameter, skipBlockingChecksParameter, debugParameter, version, versionDate, versionCheckModeParameter);
+        }
+    
+        public virtual ObjectResult<sp_BlitzCache_Result> sp_BlitzCache(Nullable<bool> help, Nullable<int> top, string sortOrder, Nullable<bool> useTriggersAnyway, Nullable<bool> exportToExcel, Nullable<byte> expertMode, string outputType, string outputServerName, string outputDatabaseName, string outputSchemaName, string outputTableName, string configurationDatabaseName, string configurationSchemaName, string configurationTableName, Nullable<decimal> durationFilter, Nullable<bool> hideSummary, Nullable<bool> ignoreSystemDBs, string onlyQueryHashes, string ignoreQueryHashes, string onlySqlHandles, string ignoreSqlHandles, string queryFilter, string databaseName, string storedProcName, string slowlySearchPlansFor, Nullable<bool> reanalyze, Nullable<bool> skipAnalysis, Nullable<bool> bringThePain, Nullable<int> minimumExecutionCount, Nullable<bool> debug, Nullable<System.DateTimeOffset> checkDateOverride, Nullable<int> minutesBack, ObjectParameter version, ObjectParameter versionDate, Nullable<bool> versionCheckMode)
+        {
+            var helpParameter = help.HasValue ?
+                new ObjectParameter("Help", help) :
+                new ObjectParameter("Help", typeof(bool));
+    
+            var topParameter = top.HasValue ?
+                new ObjectParameter("Top", top) :
+                new ObjectParameter("Top", typeof(int));
+    
+            var sortOrderParameter = sortOrder != null ?
+                new ObjectParameter("SortOrder", sortOrder) :
+                new ObjectParameter("SortOrder", typeof(string));
+    
+            var useTriggersAnywayParameter = useTriggersAnyway.HasValue ?
+                new ObjectParameter("UseTriggersAnyway", useTriggersAnyway) :
+                new ObjectParameter("UseTriggersAnyway", typeof(bool));
+    
+            var exportToExcelParameter = exportToExcel.HasValue ?
+                new ObjectParameter("ExportToExcel", exportToExcel) :
+                new ObjectParameter("ExportToExcel", typeof(bool));
+    
+            var expertModeParameter = expertMode.HasValue ?
+                new ObjectParameter("ExpertMode", expertMode) :
+                new ObjectParameter("ExpertMode", typeof(byte));
+    
+            var outputTypeParameter = outputType != null ?
+                new ObjectParameter("OutputType", outputType) :
+                new ObjectParameter("OutputType", typeof(string));
+    
+            var outputServerNameParameter = outputServerName != null ?
+                new ObjectParameter("OutputServerName", outputServerName) :
+                new ObjectParameter("OutputServerName", typeof(string));
+    
+            var outputDatabaseNameParameter = outputDatabaseName != null ?
+                new ObjectParameter("OutputDatabaseName", outputDatabaseName) :
+                new ObjectParameter("OutputDatabaseName", typeof(string));
+    
+            var outputSchemaNameParameter = outputSchemaName != null ?
+                new ObjectParameter("OutputSchemaName", outputSchemaName) :
+                new ObjectParameter("OutputSchemaName", typeof(string));
+    
+            var outputTableNameParameter = outputTableName != null ?
+                new ObjectParameter("OutputTableName", outputTableName) :
+                new ObjectParameter("OutputTableName", typeof(string));
+    
+            var configurationDatabaseNameParameter = configurationDatabaseName != null ?
+                new ObjectParameter("ConfigurationDatabaseName", configurationDatabaseName) :
+                new ObjectParameter("ConfigurationDatabaseName", typeof(string));
+    
+            var configurationSchemaNameParameter = configurationSchemaName != null ?
+                new ObjectParameter("ConfigurationSchemaName", configurationSchemaName) :
+                new ObjectParameter("ConfigurationSchemaName", typeof(string));
+    
+            var configurationTableNameParameter = configurationTableName != null ?
+                new ObjectParameter("ConfigurationTableName", configurationTableName) :
+                new ObjectParameter("ConfigurationTableName", typeof(string));
+    
+            var durationFilterParameter = durationFilter.HasValue ?
+                new ObjectParameter("DurationFilter", durationFilter) :
+                new ObjectParameter("DurationFilter", typeof(decimal));
+    
+            var hideSummaryParameter = hideSummary.HasValue ?
+                new ObjectParameter("HideSummary", hideSummary) :
+                new ObjectParameter("HideSummary", typeof(bool));
+    
+            var ignoreSystemDBsParameter = ignoreSystemDBs.HasValue ?
+                new ObjectParameter("IgnoreSystemDBs", ignoreSystemDBs) :
+                new ObjectParameter("IgnoreSystemDBs", typeof(bool));
+    
+            var onlyQueryHashesParameter = onlyQueryHashes != null ?
+                new ObjectParameter("OnlyQueryHashes", onlyQueryHashes) :
+                new ObjectParameter("OnlyQueryHashes", typeof(string));
+    
+            var ignoreQueryHashesParameter = ignoreQueryHashes != null ?
+                new ObjectParameter("IgnoreQueryHashes", ignoreQueryHashes) :
+                new ObjectParameter("IgnoreQueryHashes", typeof(string));
+    
+            var onlySqlHandlesParameter = onlySqlHandles != null ?
+                new ObjectParameter("OnlySqlHandles", onlySqlHandles) :
+                new ObjectParameter("OnlySqlHandles", typeof(string));
+    
+            var ignoreSqlHandlesParameter = ignoreSqlHandles != null ?
+                new ObjectParameter("IgnoreSqlHandles", ignoreSqlHandles) :
+                new ObjectParameter("IgnoreSqlHandles", typeof(string));
+    
+            var queryFilterParameter = queryFilter != null ?
+                new ObjectParameter("QueryFilter", queryFilter) :
+                new ObjectParameter("QueryFilter", typeof(string));
+    
+            var databaseNameParameter = databaseName != null ?
+                new ObjectParameter("DatabaseName", databaseName) :
+                new ObjectParameter("DatabaseName", typeof(string));
+    
+            var storedProcNameParameter = storedProcName != null ?
+                new ObjectParameter("StoredProcName", storedProcName) :
+                new ObjectParameter("StoredProcName", typeof(string));
+    
+            var slowlySearchPlansForParameter = slowlySearchPlansFor != null ?
+                new ObjectParameter("SlowlySearchPlansFor", slowlySearchPlansFor) :
+                new ObjectParameter("SlowlySearchPlansFor", typeof(string));
+    
+            var reanalyzeParameter = reanalyze.HasValue ?
+                new ObjectParameter("Reanalyze", reanalyze) :
+                new ObjectParameter("Reanalyze", typeof(bool));
+    
+            var skipAnalysisParameter = skipAnalysis.HasValue ?
+                new ObjectParameter("SkipAnalysis", skipAnalysis) :
+                new ObjectParameter("SkipAnalysis", typeof(bool));
+    
+            var bringThePainParameter = bringThePain.HasValue ?
+                new ObjectParameter("BringThePain", bringThePain) :
+                new ObjectParameter("BringThePain", typeof(bool));
+    
+            var minimumExecutionCountParameter = minimumExecutionCount.HasValue ?
+                new ObjectParameter("MinimumExecutionCount", minimumExecutionCount) :
+                new ObjectParameter("MinimumExecutionCount", typeof(int));
+    
+            var debugParameter = debug.HasValue ?
+                new ObjectParameter("Debug", debug) :
+                new ObjectParameter("Debug", typeof(bool));
+    
+            var checkDateOverrideParameter = checkDateOverride.HasValue ?
+                new ObjectParameter("CheckDateOverride", checkDateOverride) :
+                new ObjectParameter("CheckDateOverride", typeof(System.DateTimeOffset));
+    
+            var minutesBackParameter = minutesBack.HasValue ?
+                new ObjectParameter("MinutesBack", minutesBack) :
+                new ObjectParameter("MinutesBack", typeof(int));
+    
+            var versionCheckModeParameter = versionCheckMode.HasValue ?
+                new ObjectParameter("VersionCheckMode", versionCheckMode) :
+                new ObjectParameter("VersionCheckMode", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_BlitzCache_Result>("sp_BlitzCache", helpParameter, topParameter, sortOrderParameter, useTriggersAnywayParameter, exportToExcelParameter, expertModeParameter, outputTypeParameter, outputServerNameParameter, outputDatabaseNameParameter, outputSchemaNameParameter, outputTableNameParameter, configurationDatabaseNameParameter, configurationSchemaNameParameter, configurationTableNameParameter, durationFilterParameter, hideSummaryParameter, ignoreSystemDBsParameter, onlyQueryHashesParameter, ignoreQueryHashesParameter, onlySqlHandlesParameter, ignoreSqlHandlesParameter, queryFilterParameter, databaseNameParameter, storedProcNameParameter, slowlySearchPlansForParameter, reanalyzeParameter, skipAnalysisParameter, bringThePainParameter, minimumExecutionCountParameter, debugParameter, checkDateOverrideParameter, minutesBackParameter, version, versionDate, versionCheckModeParameter);
+        }
+    
+        public virtual int AXISQueueFeedData()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AXISQueueFeedData");
+        }
+    
+        public virtual int AXISQueueFeedDataOLD()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AXISQueueFeedDataOLD");
+        }
+    
+        public virtual int ClearAxisQueueRecords(Nullable<int> daysOlderThan)
+        {
+            var daysOlderThanParameter = daysOlderThan.HasValue ?
+                new ObjectParameter("daysOlderThan", daysOlderThan) :
+                new ObjectParameter("daysOlderThan", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ClearAxisQueueRecords", daysOlderThanParameter);
+        }
+    
+        public virtual int CopyCNETData()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CopyCNETData");
+        }
+    
+        public virtual int CopyEquipmentData(string desiredCSV)
+        {
+            var desiredCSVParameter = desiredCSV != null ?
+                new ObjectParameter("DesiredCSV", desiredCSV) :
+                new ObjectParameter("DesiredCSV", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CopyEquipmentData", desiredCSVParameter);
+        }
+    
+        public virtual int CopyOpenRangeImagesToVMerchant()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CopyOpenRangeImagesToVMerchant");
+        }
+    
+        public virtual int CopyProductFieldsData(string desiredCSV)
+        {
+            var desiredCSVParameter = desiredCSV != null ?
+                new ObjectParameter("DesiredCSV", desiredCSV) :
+                new ObjectParameter("DesiredCSV", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CopyProductFieldsData", desiredCSVParameter);
+        }
+    
+        public virtual int CopyProviderData(string providerCSV)
+        {
+            var providerCSVParameter = providerCSV != null ?
+                new ObjectParameter("ProviderCSV", providerCSV) :
+                new ObjectParameter("ProviderCSV", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CopyProviderData", providerCSVParameter);
+        }
+    
+        public virtual int CreateMissingIndexes()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CreateMissingIndexes");
+        }
+    
+        public virtual int CreatePortalIndex()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CreatePortalIndex");
+        }
+    
+        public virtual int CreateTempFieldValue(string fieldValueText, Nullable<bool> fieldValueBool, Nullable<double> fieldValueDouble, Nullable<int> productFK, Nullable<int> websiteFK, Nullable<short> fieldNameFK)
+        {
+            var fieldValueTextParameter = fieldValueText != null ?
+                new ObjectParameter("fieldValueText", fieldValueText) :
+                new ObjectParameter("fieldValueText", typeof(string));
+    
+            var fieldValueBoolParameter = fieldValueBool.HasValue ?
+                new ObjectParameter("fieldValueBool", fieldValueBool) :
+                new ObjectParameter("fieldValueBool", typeof(bool));
+    
+            var fieldValueDoubleParameter = fieldValueDouble.HasValue ?
+                new ObjectParameter("fieldValueDouble", fieldValueDouble) :
+                new ObjectParameter("fieldValueDouble", typeof(double));
+    
+            var productFKParameter = productFK.HasValue ?
+                new ObjectParameter("productFK", productFK) :
+                new ObjectParameter("productFK", typeof(int));
+    
+            var websiteFKParameter = websiteFK.HasValue ?
+                new ObjectParameter("websiteFK", websiteFK) :
+                new ObjectParameter("websiteFK", typeof(int));
+    
+            var fieldNameFKParameter = fieldNameFK.HasValue ?
+                new ObjectParameter("fieldNameFK", fieldNameFK) :
+                new ObjectParameter("fieldNameFK", typeof(short));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CreateTempFieldValue", fieldValueTextParameter, fieldValueBoolParameter, fieldValueDoubleParameter, productFKParameter, websiteFKParameter, fieldNameFKParameter);
+        }
+    
+        public virtual int DeleteOldRecords(string tableName, string dateTimeField, Nullable<int> keepMonths, string optionalWhere, string test)
+        {
+            var tableNameParameter = tableName != null ?
+                new ObjectParameter("TableName", tableName) :
+                new ObjectParameter("TableName", typeof(string));
+    
+            var dateTimeFieldParameter = dateTimeField != null ?
+                new ObjectParameter("DateTimeField", dateTimeField) :
+                new ObjectParameter("DateTimeField", typeof(string));
+    
+            var keepMonthsParameter = keepMonths.HasValue ?
+                new ObjectParameter("KeepMonths", keepMonths) :
+                new ObjectParameter("KeepMonths", typeof(int));
+    
+            var optionalWhereParameter = optionalWhere != null ?
+                new ObjectParameter("OptionalWhere", optionalWhere) :
+                new ObjectParameter("OptionalWhere", typeof(string));
+    
+            var testParameter = test != null ?
+                new ObjectParameter("Test", test) :
+                new ObjectParameter("Test", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteOldRecords", tableNameParameter, dateTimeFieldParameter, keepMonthsParameter, optionalWhereParameter, testParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> DeleteProduct()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("DeleteProduct");
+        }
+    
+        public virtual int DO_NOT_USE_GenerateEquipmentTables()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DO_NOT_USE_GenerateEquipmentTables");
+        }
+    
+        public virtual int FixSagePayTokenAccount()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("FixSagePayTokenAccount");
+        }
+    
+        [DbFunction("ngmdEntities", "fnSplit")]
+        public virtual IQueryable<fnSplit_Result> fnSplit(string sInputList, string sDelimiter)
+        {
+            var sInputListParameter = sInputList != null ?
+                new ObjectParameter("sInputList", sInputList) :
+                new ObjectParameter("sInputList", typeof(string));
+    
+            var sDelimiterParameter = sDelimiter != null ?
+                new ObjectParameter("sDelimiter", sDelimiter) :
+                new ObjectParameter("sDelimiter", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<fnSplit_Result>("[ngmdEntities].[fnSplit](@sInputList, @sDelimiter)", sInputListParameter, sDelimiterParameter);
+        }
+    
+        public virtual int GenerateSecondaryCategoryLookup()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GenerateSecondaryCategoryLookup");
+        }
+    
+        public virtual int GetAllCMSEntries(string siteCode, string entryType)
+        {
+            var siteCodeParameter = siteCode != null ?
+                new ObjectParameter("SiteCode", siteCode) :
+                new ObjectParameter("SiteCode", typeof(string));
+    
+            var entryTypeParameter = entryType != null ?
+                new ObjectParameter("EntryType", entryType) :
+                new ObjectParameter("EntryType", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetAllCMSEntries", siteCodeParameter, entryTypeParameter);
+        }
+    
+        public virtual ObjectResult<GetAllQuestionAnswers_Result> GetAllQuestionAnswers()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllQuestionAnswers_Result>("GetAllQuestionAnswers");
+        }
+    
+        public virtual ObjectResult<GetAmazonPayTransactions_Result> GetAmazonPayTransactions(string id)
+        {
+            var idParameter = id != null ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAmazonPayTransactions_Result>("GetAmazonPayTransactions", idParameter);
+        }
+    
+        public virtual ObjectResult<string> GetBestSellerIDs(Nullable<int> cartridgeTypeID, Nullable<int> manufacturerID, Nullable<int> count)
+        {
+            var cartridgeTypeIDParameter = cartridgeTypeID.HasValue ?
+                new ObjectParameter("CartridgeTypeID", cartridgeTypeID) :
+                new ObjectParameter("CartridgeTypeID", typeof(int));
+    
+            var manufacturerIDParameter = manufacturerID.HasValue ?
+                new ObjectParameter("ManufacturerID", manufacturerID) :
+                new ObjectParameter("ManufacturerID", typeof(int));
+    
+            var countParameter = count.HasValue ?
+                new ObjectParameter("Count", count) :
+                new ObjectParameter("Count", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetBestSellerIDs", cartridgeTypeIDParameter, manufacturerIDParameter, countParameter);
+        }
+    
+        public virtual ObjectResult<GetBestSellers_Result> GetBestSellers(Nullable<int> websiteID, Nullable<int> cartridgeType, Nullable<int> manufacturer, Nullable<int> limit)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var cartridgeTypeParameter = cartridgeType.HasValue ?
+                new ObjectParameter("CartridgeType", cartridgeType) :
+                new ObjectParameter("CartridgeType", typeof(int));
+    
+            var manufacturerParameter = manufacturer.HasValue ?
+                new ObjectParameter("Manufacturer", manufacturer) :
+                new ObjectParameter("Manufacturer", typeof(int));
+    
+            var limitParameter = limit.HasValue ?
+                new ObjectParameter("Limit", limit) :
+                new ObjectParameter("Limit", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetBestSellers_Result>("GetBestSellers", websiteIDParameter, cartridgeTypeParameter, manufacturerParameter, limitParameter);
+        }
+    
+        public virtual ObjectResult<GetCategoryBestSellers_Result> GetCategoryBestSellers(Nullable<int> websiteID, Nullable<int> categoryID, Nullable<int> limit)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var categoryIDParameter = categoryID.HasValue ?
+                new ObjectParameter("CategoryID", categoryID) :
+                new ObjectParameter("CategoryID", typeof(int));
+    
+            var limitParameter = limit.HasValue ?
+                new ObjectParameter("Limit", limit) :
+                new ObjectParameter("Limit", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCategoryBestSellers_Result>("GetCategoryBestSellers", websiteIDParameter, categoryIDParameter, limitParameter);
+        }
+    
+        public virtual ObjectResult<string> GetCategoryResults(Nullable<int> websiteID, Nullable<int> categoryID, string account)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var categoryIDParameter = categoryID.HasValue ?
+                new ObjectParameter("CategoryID", categoryID) :
+                new ObjectParameter("CategoryID", typeof(int));
+    
+            var accountParameter = account != null ?
+                new ObjectParameter("Account", account) :
+                new ObjectParameter("Account", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetCategoryResults", websiteIDParameter, categoryIDParameter, accountParameter);
+        }
+    
+        public virtual ObjectResult<GetChildCategories_Result> GetChildCategories(Nullable<int> websiteID, Nullable<int> parentAxisGroupNo)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var parentAxisGroupNoParameter = parentAxisGroupNo.HasValue ?
+                new ObjectParameter("ParentAxisGroupNo", parentAxisGroupNo) :
+                new ObjectParameter("ParentAxisGroupNo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetChildCategories_Result>("GetChildCategories", websiteIDParameter, parentAxisGroupNoParameter);
+        }
+    
+        public virtual ObjectResult<GetCMSSection_Result> GetCMSSection(string sectionName, Nullable<int> websiteId)
+        {
+            var sectionNameParameter = sectionName != null ?
+                new ObjectParameter("SectionName", sectionName) :
+                new ObjectParameter("SectionName", typeof(string));
+    
+            var websiteIdParameter = websiteId.HasValue ?
+                new ObjectParameter("WebsiteId", websiteId) :
+                new ObjectParameter("WebsiteId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCMSSection_Result>("GetCMSSection", sectionNameParameter, websiteIdParameter);
+        }
+    
+        public virtual int GetCompatibleRefs(string idList)
+        {
+            var idListParameter = idList != null ?
+                new ObjectParameter("IdList", idList) :
+                new ObjectParameter("IdList", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetCompatibleRefs", idListParameter);
+        }
+    
+        public virtual ObjectResult<GetConfigSettings_Result> GetConfigSettings(Nullable<int> websiteFK, string sectionName, Nullable<bool> test)
+        {
+            var websiteFKParameter = websiteFK.HasValue ?
+                new ObjectParameter("websiteFK", websiteFK) :
+                new ObjectParameter("websiteFK", typeof(int));
+    
+            var sectionNameParameter = sectionName != null ?
+                new ObjectParameter("SectionName", sectionName) :
+                new ObjectParameter("SectionName", typeof(string));
+    
+            var testParameter = test.HasValue ?
+                new ObjectParameter("Test", test) :
+                new ObjectParameter("Test", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetConfigSettings_Result>("GetConfigSettings", websiteFKParameter, sectionNameParameter, testParameter);
+        }
+    
+        public virtual ObjectResult<string> GetCrossSellingProducts(Nullable<int> websiteID, Nullable<int> productID)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var productIDParameter = productID.HasValue ?
+                new ObjectParameter("ProductID", productID) :
+                new ObjectParameter("ProductID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetCrossSellingProducts", websiteIDParameter, productIDParameter);
+        }
+    
+        public virtual int GetDataSupplierAttributes(string partNo, string manufacturer, Nullable<int> dataSupplierID)
+        {
+            var partNoParameter = partNo != null ?
+                new ObjectParameter("partNo", partNo) :
+                new ObjectParameter("partNo", typeof(string));
+    
+            var manufacturerParameter = manufacturer != null ?
+                new ObjectParameter("manufacturer", manufacturer) :
+                new ObjectParameter("manufacturer", typeof(string));
+    
+            var dataSupplierIDParameter = dataSupplierID.HasValue ?
+                new ObjectParameter("dataSupplierID", dataSupplierID) :
+                new ObjectParameter("dataSupplierID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetDataSupplierAttributes", partNoParameter, manufacturerParameter, dataSupplierIDParameter);
+        }
+    
+        public virtual ObjectResult<GetEquipmentData_Result> GetEquipmentData(string equipName)
+        {
+            var equipNameParameter = equipName != null ?
+                new ObjectParameter("equipName", equipName) :
+                new ObjectParameter("equipName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetEquipmentData_Result>("GetEquipmentData", equipNameParameter);
+        }
+    
+        public virtual ObjectResult<GetEquipmentDropDownData_Result> GetEquipmentDropDownData(Nullable<int> websiteID, string type, Nullable<int> cartridgeType, Nullable<int> manuID, Nullable<int> familyID)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var typeParameter = type != null ?
+                new ObjectParameter("Type", type) :
+                new ObjectParameter("Type", typeof(string));
+    
+            var cartridgeTypeParameter = cartridgeType.HasValue ?
+                new ObjectParameter("CartridgeType", cartridgeType) :
+                new ObjectParameter("CartridgeType", typeof(int));
+    
+            var manuIDParameter = manuID.HasValue ?
+                new ObjectParameter("ManuID", manuID) :
+                new ObjectParameter("ManuID", typeof(int));
+    
+            var familyIDParameter = familyID.HasValue ?
+                new ObjectParameter("FamilyID", familyID) :
+                new ObjectParameter("FamilyID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetEquipmentDropDownData_Result>("GetEquipmentDropDownData", websiteIDParameter, typeParameter, cartridgeTypeParameter, manuIDParameter, familyIDParameter);
+        }
+    
+        public virtual int GetEvoFeed(string crossSellCSV)
+        {
+            var crossSellCSVParameter = crossSellCSV != null ?
+                new ObjectParameter("CrossSellCSV", crossSellCSV) :
+                new ObjectParameter("CrossSellCSV", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetEvoFeed", crossSellCSVParameter);
+        }
+    
+        public virtual ObjectResult<GetFacebookFeed_Product_Result> GetFacebookFeed_Product(Nullable<int> websiteId)
+        {
+            var websiteIdParameter = websiteId.HasValue ?
+                new ObjectParameter("websiteId", websiteId) :
+                new ObjectParameter("websiteId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetFacebookFeed_Product_Result>("GetFacebookFeed_Product", websiteIdParameter);
+        }
+    
+        public virtual ObjectResult<GetFavouritePrinters_Result> GetFavouritePrinters(Nullable<int> websiteID, string customerId)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var customerIdParameter = customerId != null ?
+                new ObjectParameter("CustomerId", customerId) :
+                new ObjectParameter("CustomerId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetFavouritePrinters_Result>("GetFavouritePrinters", websiteIDParameter, customerIdParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> GetFilteredQASummary(string mode, Nullable<int> startRow, Nullable<int> pageSize, string altRef, string searchText)
+        {
+            var modeParameter = mode != null ?
+                new ObjectParameter("Mode", mode) :
+                new ObjectParameter("Mode", typeof(string));
+    
+            var startRowParameter = startRow.HasValue ?
+                new ObjectParameter("StartRow", startRow) :
+                new ObjectParameter("StartRow", typeof(int));
+    
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(int));
+    
+            var altRefParameter = altRef != null ?
+                new ObjectParameter("AltRef", altRef) :
+                new ObjectParameter("AltRef", typeof(string));
+    
+            var searchTextParameter = searchText != null ?
+                new ObjectParameter("SearchText", searchText) :
+                new ObjectParameter("SearchText", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("GetFilteredQASummary", modeParameter, startRowParameter, pageSizeParameter, altRefParameter, searchTextParameter);
+        }
+    
+        public virtual int GetGoogleFeed_Equip(Nullable<int> websiteID)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("websiteID", websiteID) :
+                new ObjectParameter("websiteID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetGoogleFeed_Equip", websiteIDParameter);
+        }
+    
+        public virtual ObjectResult<GetGoogleFeed_Product_Result> GetGoogleFeed_Product(Nullable<int> websiteID, Nullable<bool> feedForKenshoo)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("websiteID", websiteID) :
+                new ObjectParameter("websiteID", typeof(int));
+    
+            var feedForKenshooParameter = feedForKenshoo.HasValue ?
+                new ObjectParameter("feedForKenshoo", feedForKenshoo) :
+                new ObjectParameter("feedForKenshoo", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetGoogleFeed_Product_Result>("GetGoogleFeed_Product", websiteIDParameter, feedForKenshooParameter);
+        }
+    
+        public virtual ObjectResult<GetImages_Result> GetImages(Nullable<int> websiteId, string productRefArray)
+        {
+            var websiteIdParameter = websiteId.HasValue ?
+                new ObjectParameter("WebsiteId", websiteId) :
+                new ObjectParameter("WebsiteId", typeof(int));
+    
+            var productRefArrayParameter = productRefArray != null ?
+                new ObjectParameter("ProductRefArray", productRefArray) :
+                new ObjectParameter("ProductRefArray", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetImages_Result>("GetImages", websiteIdParameter, productRefArrayParameter);
+        }
+    
+        public virtual ObjectResult<GetITData_Result> GetITData()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetITData_Result>("GetITData");
+        }
+    
+        public virtual ObjectResult<GetMailChimpFeed_Product_Result> GetMailChimpFeed_Product(Nullable<int> websiteID)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMailChimpFeed_Product_Result>("GetMailChimpFeed_Product", websiteIDParameter);
+        }
+    
+        public virtual ObjectResult<string> GetManufacturerNotes(Nullable<int> websiteID, Nullable<int> cartridgeType, Nullable<int> manuID)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var cartridgeTypeParameter = cartridgeType.HasValue ?
+                new ObjectParameter("CartridgeType", cartridgeType) :
+                new ObjectParameter("CartridgeType", typeof(int));
+    
+            var manuIDParameter = manuID.HasValue ?
+                new ObjectParameter("ManuID", manuID) :
+                new ObjectParameter("ManuID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetManufacturerNotes", websiteIDParameter, cartridgeTypeParameter, manuIDParameter);
+        }
+    
+        public virtual ObjectResult<GetManuFamily_Result> GetManuFamily(string manuName, string familyName)
+        {
+            var manuNameParameter = manuName != null ?
+                new ObjectParameter("manuName", manuName) :
+                new ObjectParameter("manuName", typeof(string));
+    
+            var familyNameParameter = familyName != null ?
+                new ObjectParameter("familyName", familyName) :
+                new ObjectParameter("familyName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetManuFamily_Result>("GetManuFamily", manuNameParameter, familyNameParameter);
+        }
+    
+        public virtual ObjectResult<GetMetaData_Result> GetMetaData(Nullable<int> websiteID, Nullable<int> manufacturerID, Nullable<int> eqCartridgeTypeID, Nullable<int> familyID)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("websiteID", websiteID) :
+                new ObjectParameter("websiteID", typeof(int));
+    
+            var manufacturerIDParameter = manufacturerID.HasValue ?
+                new ObjectParameter("manufacturerID", manufacturerID) :
+                new ObjectParameter("manufacturerID", typeof(int));
+    
+            var eqCartridgeTypeIDParameter = eqCartridgeTypeID.HasValue ?
+                new ObjectParameter("eqCartridgeTypeID", eqCartridgeTypeID) :
+                new ObjectParameter("eqCartridgeTypeID", typeof(int));
+    
+            var familyIDParameter = familyID.HasValue ?
+                new ObjectParameter("familyID", familyID) :
+                new ObjectParameter("familyID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMetaData_Result>("GetMetaData", websiteIDParameter, manufacturerIDParameter, eqCartridgeTypeIDParameter, familyIDParameter);
+        }
+    
+        public virtual ObjectResult<GetMissingImages_Result> GetMissingImages()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMissingImages_Result>("GetMissingImages");
+        }
+    
+        public virtual ObjectResult<GetObsoleteItem_Result> GetObsoleteItem(Nullable<int> websiteID, string stockRef, string equipName)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var stockRefParameter = stockRef != null ?
+                new ObjectParameter("StockRef", stockRef) :
+                new ObjectParameter("StockRef", typeof(string));
+    
+            var equipNameParameter = equipName != null ?
+                new ObjectParameter("EquipName", equipName) :
+                new ObjectParameter("EquipName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetObsoleteItem_Result>("GetObsoleteItem", websiteIDParameter, stockRefParameter, equipNameParameter);
+        }
+    
+        public virtual ObjectResult<GetOpayoTransactions_Result> GetOpayoTransactions()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetOpayoTransactions_Result>("GetOpayoTransactions");
+        }
+    
+        public virtual ObjectResult<GetOrderDetail_Result> GetOrderDetail(Nullable<int> websiteId, string orderNo)
+        {
+            var websiteIdParameter = websiteId.HasValue ?
+                new ObjectParameter("WebsiteId", websiteId) :
+                new ObjectParameter("WebsiteId", typeof(int));
+    
+            var orderNoParameter = orderNo != null ?
+                new ObjectParameter("OrderNo", orderNo) :
+                new ObjectParameter("OrderNo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetOrderDetail_Result>("GetOrderDetail", websiteIdParameter, orderNoParameter);
+        }
+    
+        public virtual ObjectResult<GetOrderDetails_Result> GetOrderDetails(Nullable<int> websiteId, Nullable<int> language, string account)
+        {
+            var websiteIdParameter = websiteId.HasValue ?
+                new ObjectParameter("WebsiteId", websiteId) :
+                new ObjectParameter("WebsiteId", typeof(int));
+    
+            var languageParameter = language.HasValue ?
+                new ObjectParameter("Language", language) :
+                new ObjectParameter("Language", typeof(int));
+    
+            var accountParameter = account != null ?
+                new ObjectParameter("Account", account) :
+                new ObjectParameter("Account", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetOrderDetails_Result>("GetOrderDetails", websiteIdParameter, languageParameter, accountParameter);
+        }
+    
+        public virtual ObjectResult<GetPayPalTransactions_Result> GetPayPalTransactions(string id)
+        {
+            var idParameter = id != null ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetPayPalTransactions_Result>("GetPayPalTransactions", idParameter);
+        }
+    
+        public virtual ObjectResult<GetPimberlyFeed_Result> GetPimberlyFeed()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetPimberlyFeed_Result>("GetPimberlyFeed");
+        }
+    
+        public virtual ObjectResult<GetPopularPrinters_Result> GetPopularPrinters(Nullable<int> websiteID, Nullable<int> manufacturerId, Nullable<int> cTypeId, Nullable<int> limit)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var manufacturerIdParameter = manufacturerId.HasValue ?
+                new ObjectParameter("ManufacturerId", manufacturerId) :
+                new ObjectParameter("ManufacturerId", typeof(int));
+    
+            var cTypeIdParameter = cTypeId.HasValue ?
+                new ObjectParameter("CTypeId", cTypeId) :
+                new ObjectParameter("CTypeId", typeof(int));
+    
+            var limitParameter = limit.HasValue ?
+                new ObjectParameter("Limit", limit) :
+                new ObjectParameter("Limit", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetPopularPrinters_Result>("GetPopularPrinters", websiteIDParameter, manufacturerIdParameter, cTypeIdParameter, limitParameter);
+        }
+    
+        public virtual ObjectResult<GetPrice_Result> GetPrice(Nullable<int> websiteID, string productRefArray, string account, Nullable<bool> isLocked)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var productRefArrayParameter = productRefArray != null ?
+                new ObjectParameter("ProductRefArray", productRefArray) :
+                new ObjectParameter("ProductRefArray", typeof(string));
+    
+            var accountParameter = account != null ?
+                new ObjectParameter("Account", account) :
+                new ObjectParameter("Account", typeof(string));
+    
+            var isLockedParameter = isLocked.HasValue ?
+                new ObjectParameter("IsLocked", isLocked) :
+                new ObjectParameter("IsLocked", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetPrice_Result>("GetPrice", websiteIDParameter, productRefArrayParameter, accountParameter, isLockedParameter);
+        }
+    
+        public virtual int GetPricingRules()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetPricingRules");
+        }
+    
+        public virtual int GetPricingRulesAssemblies()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetPricingRulesAssemblies");
+        }
+    
+        public virtual int GetPricingRulesNonOEM()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetPricingRulesNonOEM");
+        }
+    
+        public virtual int GetPricingRulesOEM()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetPricingRulesOEM");
+        }
+    
+        public virtual int GetPricingRulesOLD()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetPricingRulesOLD");
+        }
+    
+        public virtual ObjectResult<GetPrinter3Equip_Result> GetPrinter3Equip(Nullable<int> websiteID, string equipName, string customerId)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var equipNameParameter = equipName != null ?
+                new ObjectParameter("EquipName", equipName) :
+                new ObjectParameter("EquipName", typeof(string));
+    
+            var customerIdParameter = customerId != null ?
+                new ObjectParameter("CustomerId", customerId) :
+                new ObjectParameter("CustomerId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetPrinter3Equip_Result>("GetPrinter3Equip", websiteIDParameter, equipNameParameter, customerIdParameter);
+        }
+    
+        public virtual ObjectResult<GetPrinter3Results_Result> GetPrinter3Results(Nullable<int> websiteID, string equipName, Nullable<int> productID, string account)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var equipNameParameter = equipName != null ?
+                new ObjectParameter("EquipName", equipName) :
+                new ObjectParameter("EquipName", typeof(string));
+    
+            var productIDParameter = productID.HasValue ?
+                new ObjectParameter("ProductID", productID) :
+                new ObjectParameter("ProductID", typeof(int));
+    
+            var accountParameter = account != null ?
+                new ObjectParameter("Account", account) :
+                new ObjectParameter("Account", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetPrinter3Results_Result>("GetPrinter3Results", websiteIDParameter, equipNameParameter, productIDParameter, accountParameter);
+        }
+    
+        public virtual ObjectResult<GetPrintersForProducts_Result> GetPrintersForProducts(string productIdArray, Nullable<int> thisId)
+        {
+            var productIdArrayParameter = productIdArray != null ?
+                new ObjectParameter("ProductIdArray", productIdArray) :
+                new ObjectParameter("ProductIdArray", typeof(string));
+    
+            var thisIdParameter = thisId.HasValue ?
+                new ObjectParameter("ThisId", thisId) :
+                new ObjectParameter("ThisId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetPrintersForProducts_Result>("GetPrintersForProducts", productIdArrayParameter, thisIdParameter);
+        }
+    
+        public virtual ObjectResult<GetProductComponents_Result> GetProductComponents(Nullable<int> productID)
+        {
+            var productIDParameter = productID.HasValue ?
+                new ObjectParameter("ProductID", productID) :
+                new ObjectParameter("ProductID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProductComponents_Result>("GetProductComponents", productIDParameter);
+        }
+    
+        public virtual ObjectResult<GetProductEquipment_Result> GetProductEquipment(Nullable<int> websiteID, string productID)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var productIDParameter = productID != null ?
+                new ObjectParameter("ProductID", productID) :
+                new ObjectParameter("ProductID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProductEquipment_Result>("GetProductEquipment", websiteIDParameter, productIDParameter);
+        }
+    
+        public virtual ObjectResult<GetProductFeedback_Result> GetProductFeedback(Nullable<int> websiteID, Nullable<int> productID)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var productIDParameter = productID.HasValue ?
+                new ObjectParameter("ProductID", productID) :
+                new ObjectParameter("ProductID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProductFeedback_Result>("GetProductFeedback", websiteIDParameter, productIDParameter);
+        }
+    
+        public virtual ObjectResult<GetProductFromAxisRef_Result> GetProductFromAxisRef(Nullable<int> websiteID, string productRefArray, string account)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var productRefArrayParameter = productRefArray != null ?
+                new ObjectParameter("ProductRefArray", productRefArray) :
+                new ObjectParameter("ProductRefArray", typeof(string));
+    
+            var accountParameter = account != null ?
+                new ObjectParameter("Account", account) :
+                new ObjectParameter("Account", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProductFromAxisRef_Result>("GetProductFromAxisRef", websiteIDParameter, productRefArrayParameter, accountParameter);
+        }
+    
+        public virtual ObjectResult<GetProductImages_Result> GetProductImages(Nullable<int> websiteID, string partNo, string manuRef)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var partNoParameter = partNo != null ?
+                new ObjectParameter("PartNo", partNo) :
+                new ObjectParameter("PartNo", typeof(string));
+    
+            var manuRefParameter = manuRef != null ?
+                new ObjectParameter("ManuRef", manuRef) :
+                new ObjectParameter("ManuRef", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProductImages_Result>("GetProductImages", websiteIDParameter, partNoParameter, manuRefParameter);
+        }
+    
+        public virtual ObjectResult<GetProductMetaData_Result> GetProductMetaData(Nullable<int> websiteFK, string productRef)
+        {
+            var websiteFKParameter = websiteFK.HasValue ?
+                new ObjectParameter("websiteFK", websiteFK) :
+                new ObjectParameter("websiteFK", typeof(int));
+    
+            var productRefParameter = productRef != null ?
+                new ObjectParameter("productRef", productRef) :
+                new ObjectParameter("productRef", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProductMetaData_Result>("GetProductMetaData", websiteFKParameter, productRefParameter);
+        }
+    
+        public virtual ObjectResult<string> GetProductName(string prodRef)
+        {
+            var prodRefParameter = prodRef != null ?
+                new ObjectParameter("prodRef", prodRef) :
+                new ObjectParameter("prodRef", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetProductName", prodRefParameter);
+        }
+    
+        public virtual ObjectResult<GetProductPDFs_Result> GetProductPDFs(Nullable<int> websiteID, string partNo)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var partNoParameter = partNo != null ?
+                new ObjectParameter("PartNo", partNo) :
+                new ObjectParameter("PartNo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProductPDFs_Result>("GetProductPDFs", websiteIDParameter, partNoParameter);
+        }
+    
+        public virtual ObjectResult<GetProductResults_Result> GetProductResults(Nullable<int> websiteID, string productRef, string account)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var productRefParameter = productRef != null ?
+                new ObjectParameter("ProductRef", productRef) :
+                new ObjectParameter("ProductRef", typeof(string));
+    
+            var accountParameter = account != null ?
+                new ObjectParameter("Account", account) :
+                new ObjectParameter("Account", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProductResults_Result>("GetProductResults", websiteIDParameter, productRefParameter, accountParameter);
+        }
+    
+        public virtual int GetProductSeoText(Nullable<int> websiteID, Nullable<int> productTypeID, Nullable<bool> isOwnBrand, Nullable<bool> isAssembly, Nullable<bool> isMaintenance, Nullable<int> entry1, Nullable<int> entry2, Nullable<int> entry3, Nullable<int> entry4, Nullable<int> entry5, Nullable<int> entry6, Nullable<int> entry7, Nullable<int> entry8, Nullable<int> entry9, Nullable<int> entry10, Nullable<int> start)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("websiteID", websiteID) :
+                new ObjectParameter("websiteID", typeof(int));
+    
+            var productTypeIDParameter = productTypeID.HasValue ?
+                new ObjectParameter("productTypeID", productTypeID) :
+                new ObjectParameter("productTypeID", typeof(int));
+    
+            var isOwnBrandParameter = isOwnBrand.HasValue ?
+                new ObjectParameter("isOwnBrand", isOwnBrand) :
+                new ObjectParameter("isOwnBrand", typeof(bool));
+    
+            var isAssemblyParameter = isAssembly.HasValue ?
+                new ObjectParameter("isAssembly", isAssembly) :
+                new ObjectParameter("isAssembly", typeof(bool));
+    
+            var isMaintenanceParameter = isMaintenance.HasValue ?
+                new ObjectParameter("isMaintenance", isMaintenance) :
+                new ObjectParameter("isMaintenance", typeof(bool));
+    
+            var entry1Parameter = entry1.HasValue ?
+                new ObjectParameter("entry1", entry1) :
+                new ObjectParameter("entry1", typeof(int));
+    
+            var entry2Parameter = entry2.HasValue ?
+                new ObjectParameter("entry2", entry2) :
+                new ObjectParameter("entry2", typeof(int));
+    
+            var entry3Parameter = entry3.HasValue ?
+                new ObjectParameter("entry3", entry3) :
+                new ObjectParameter("entry3", typeof(int));
+    
+            var entry4Parameter = entry4.HasValue ?
+                new ObjectParameter("entry4", entry4) :
+                new ObjectParameter("entry4", typeof(int));
+    
+            var entry5Parameter = entry5.HasValue ?
+                new ObjectParameter("entry5", entry5) :
+                new ObjectParameter("entry5", typeof(int));
+    
+            var entry6Parameter = entry6.HasValue ?
+                new ObjectParameter("entry6", entry6) :
+                new ObjectParameter("entry6", typeof(int));
+    
+            var entry7Parameter = entry7.HasValue ?
+                new ObjectParameter("entry7", entry7) :
+                new ObjectParameter("entry7", typeof(int));
+    
+            var entry8Parameter = entry8.HasValue ?
+                new ObjectParameter("entry8", entry8) :
+                new ObjectParameter("entry8", typeof(int));
+    
+            var entry9Parameter = entry9.HasValue ?
+                new ObjectParameter("entry9", entry9) :
+                new ObjectParameter("entry9", typeof(int));
+    
+            var entry10Parameter = entry10.HasValue ?
+                new ObjectParameter("entry10", entry10) :
+                new ObjectParameter("entry10", typeof(int));
+    
+            var startParameter = start.HasValue ?
+                new ObjectParameter("start", start) :
+                new ObjectParameter("start", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetProductSeoText", websiteIDParameter, productTypeIDParameter, isOwnBrandParameter, isAssemblyParameter, isMaintenanceParameter, entry1Parameter, entry2Parameter, entry3Parameter, entry4Parameter, entry5Parameter, entry6Parameter, entry7Parameter, entry8Parameter, entry9Parameter, entry10Parameter, startParameter);
+        }
+    
+        public virtual int GetProductsToCreateTempFields(string desiredCSV)
+        {
+            var desiredCSVParameter = desiredCSV != null ?
+                new ObjectParameter("DesiredCSV", desiredCSV) :
+                new ObjectParameter("DesiredCSV", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetProductsToCreateTempFields", desiredCSVParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> GetQASummary(string mode, Nullable<int> startRow, Nullable<int> pageSize, string filterExpression)
+        {
+            var modeParameter = mode != null ?
+                new ObjectParameter("Mode", mode) :
+                new ObjectParameter("Mode", typeof(string));
+    
+            var startRowParameter = startRow.HasValue ?
+                new ObjectParameter("StartRow", startRow) :
+                new ObjectParameter("StartRow", typeof(int));
+    
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(int));
+    
+            var filterExpressionParameter = filterExpression != null ?
+                new ObjectParameter("FilterExpression", filterExpression) :
+                new ObjectParameter("FilterExpression", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("GetQASummary", modeParameter, startRowParameter, pageSizeParameter, filterExpressionParameter);
+        }
+    
+        public virtual int GetRecentlyOrdered(Nullable<int> websiteId, string account)
+        {
+            var websiteIdParameter = websiteId.HasValue ?
+                new ObjectParameter("WebsiteId", websiteId) :
+                new ObjectParameter("WebsiteId", typeof(int));
+    
+            var accountParameter = account != null ?
+                new ObjectParameter("Account", account) :
+                new ObjectParameter("Account", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetRecentlyOrdered", websiteIdParameter, accountParameter);
+        }
+    
+        public virtual int GetReturnOrderDetail(Nullable<int> websiteId, string orderNo)
+        {
+            var websiteIdParameter = websiteId.HasValue ?
+                new ObjectParameter("WebsiteId", websiteId) :
+                new ObjectParameter("WebsiteId", typeof(int));
+    
+            var orderNoParameter = orderNo != null ?
+                new ObjectParameter("OrderNo", orderNo) :
+                new ObjectParameter("OrderNo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetReturnOrderDetail", websiteIdParameter, orderNoParameter);
+        }
+    
+        public virtual ObjectResult<GetSagePayTransactions_Result> GetSagePayTransactions(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSagePayTransactions_Result>("GetSagePayTransactions", idParameter);
+        }
+    
+        public virtual ObjectResult<GetSearchResults_Result> GetSearchResults(Nullable<int> websiteID, string productIDArray, string account, Nullable<int> pageSize, Nullable<int> pageNumber, Nullable<int> productTypeID, Nullable<int> manufacturerID, Nullable<int> attribute8ID, Nullable<bool> showCompatibles)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var productIDArrayParameter = productIDArray != null ?
+                new ObjectParameter("ProductIDArray", productIDArray) :
+                new ObjectParameter("ProductIDArray", typeof(string));
+    
+            var accountParameter = account != null ?
+                new ObjectParameter("Account", account) :
+                new ObjectParameter("Account", typeof(string));
+    
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(int));
+    
+            var pageNumberParameter = pageNumber.HasValue ?
+                new ObjectParameter("PageNumber", pageNumber) :
+                new ObjectParameter("PageNumber", typeof(int));
+    
+            var productTypeIDParameter = productTypeID.HasValue ?
+                new ObjectParameter("productTypeID", productTypeID) :
+                new ObjectParameter("productTypeID", typeof(int));
+    
+            var manufacturerIDParameter = manufacturerID.HasValue ?
+                new ObjectParameter("manufacturerID", manufacturerID) :
+                new ObjectParameter("manufacturerID", typeof(int));
+    
+            var attribute8IDParameter = attribute8ID.HasValue ?
+                new ObjectParameter("attribute8ID", attribute8ID) :
+                new ObjectParameter("attribute8ID", typeof(int));
+    
+            var showCompatiblesParameter = showCompatibles.HasValue ?
+                new ObjectParameter("showCompatibles", showCompatibles) :
+                new ObjectParameter("showCompatibles", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSearchResults_Result>("GetSearchResults", websiteIDParameter, productIDArrayParameter, accountParameter, pageSizeParameter, pageNumberParameter, productTypeIDParameter, manufacturerIDParameter, attribute8IDParameter, showCompatiblesParameter);
+        }
+    
+        public virtual int GetSearchResultsEquip(string equipIDArray)
+        {
+            var equipIDArrayParameter = equipIDArray != null ?
+                new ObjectParameter("EquipIDArray", equipIDArray) :
+                new ObjectParameter("EquipIDArray", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetSearchResultsEquip", equipIDArrayParameter);
+        }
+    
+        public virtual ObjectResult<GetSkuuudleFeed_Result> GetSkuuudleFeed(Nullable<int> websiteID)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("websiteID", websiteID) :
+                new ObjectParameter("websiteID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSkuuudleFeed_Result>("GetSkuuudleFeed", websiteIDParameter);
+        }
+    
+        public virtual ObjectResult<GetSpecificationAttributes_Result> GetSpecificationAttributes(string partNos, string manufacturers)
+        {
+            var partNosParameter = partNos != null ?
+                new ObjectParameter("PartNos", partNos) :
+                new ObjectParameter("PartNos", typeof(string));
+    
+            var manufacturersParameter = manufacturers != null ?
+                new ObjectParameter("Manufacturers", manufacturers) :
+                new ObjectParameter("Manufacturers", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSpecificationAttributes_Result>("GetSpecificationAttributes", partNosParameter, manufacturersParameter);
+        }
+    
+        public virtual ObjectResult<GetSummaryData_Result> GetSummaryData(Nullable<int> websiteID, string productIDArray, string account)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var productIDArrayParameter = productIDArray != null ?
+                new ObjectParameter("ProductIDArray", productIDArray) :
+                new ObjectParameter("ProductIDArray", typeof(string));
+    
+            var accountParameter = account != null ?
+                new ObjectParameter("Account", account) :
+                new ObjectParameter("Account", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSummaryData_Result>("GetSummaryData", websiteIDParameter, productIDArrayParameter, accountParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> GetUnAnsweredQASummary(string mode, Nullable<int> startRow, Nullable<int> pageSize)
+        {
+            var modeParameter = mode != null ?
+                new ObjectParameter("Mode", mode) :
+                new ObjectParameter("Mode", typeof(string));
+    
+            var startRowParameter = startRow.HasValue ?
+                new ObjectParameter("StartRow", startRow) :
+                new ObjectParameter("StartRow", typeof(int));
+    
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("GetUnAnsweredQASummary", modeParameter, startRowParameter, pageSizeParameter);
+        }
+    
+        public virtual ObjectResult<GetXSells_Result> GetXSells(Nullable<int> websiteID, Nullable<int> productID, string account)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var productIDParameter = productID.HasValue ?
+                new ObjectParameter("ProductID", productID) :
+                new ObjectParameter("ProductID", typeof(int));
+    
+            var accountParameter = account != null ?
+                new ObjectParameter("Account", account) :
+                new ObjectParameter("Account", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetXSells_Result>("GetXSells", websiteIDParameter, productIDParameter, accountParameter);
+        }
+    
+        public virtual int InsertPriceologyPrices(string priceFile)
+        {
+            var priceFileParameter = priceFile != null ?
+                new ObjectParameter("priceFile", priceFile) :
+                new ObjectParameter("priceFile", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertPriceologyPrices", priceFileParameter);
+        }
+    
+        public virtual int InsertProductPrices(string pricesCSV)
+        {
+            var pricesCSVParameter = pricesCSV != null ?
+                new ObjectParameter("pricesCSV", pricesCSV) :
+                new ObjectParameter("pricesCSV", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertProductPrices", pricesCSVParameter);
+        }
+    
+        public virtual int InsertProductPricesNEW(string pricesCSV)
+        {
+            var pricesCSVParameter = pricesCSV != null ?
+                new ObjectParameter("pricesCSV", pricesCSV) :
+                new ObjectParameter("pricesCSV", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertProductPricesNEW", pricesCSVParameter);
+        }
+    
+        public virtual int InsFeeFoFeedback(Nullable<System.DateTime> feedbackDate, Nullable<int> websiteFK, string partNo, string uniqueRef, Nullable<int> productRating, string productComment, string vendorReply, string author)
+        {
+            var feedbackDateParameter = feedbackDate.HasValue ?
+                new ObjectParameter("FeedbackDate", feedbackDate) :
+                new ObjectParameter("FeedbackDate", typeof(System.DateTime));
+    
+            var websiteFKParameter = websiteFK.HasValue ?
+                new ObjectParameter("WebsiteFK", websiteFK) :
+                new ObjectParameter("WebsiteFK", typeof(int));
+    
+            var partNoParameter = partNo != null ?
+                new ObjectParameter("PartNo", partNo) :
+                new ObjectParameter("PartNo", typeof(string));
+    
+            var uniqueRefParameter = uniqueRef != null ?
+                new ObjectParameter("UniqueRef", uniqueRef) :
+                new ObjectParameter("UniqueRef", typeof(string));
+    
+            var productRatingParameter = productRating.HasValue ?
+                new ObjectParameter("ProductRating", productRating) :
+                new ObjectParameter("ProductRating", typeof(int));
+    
+            var productCommentParameter = productComment != null ?
+                new ObjectParameter("ProductComment", productComment) :
+                new ObjectParameter("ProductComment", typeof(string));
+    
+            var vendorReplyParameter = vendorReply != null ?
+                new ObjectParameter("VendorReply", vendorReply) :
+                new ObjectParameter("VendorReply", typeof(string));
+    
+            var authorParameter = author != null ?
+                new ObjectParameter("Author", author) :
+                new ObjectParameter("Author", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsFeeFoFeedback", feedbackDateParameter, websiteFKParameter, partNoParameter, uniqueRefParameter, productRatingParameter, productCommentParameter, vendorReplyParameter, authorParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<bool>> IsAxisLocked()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("IsAxisLocked");
+        }
+    
+        public virtual ObjectResult<ListCategoryCodes_Result> ListCategoryCodes(Nullable<int> websiteID)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ListCategoryCodes_Result>("ListCategoryCodes", websiteIDParameter);
+        }
+    
+        public virtual int MaintainBackOrders()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("MaintainBackOrders");
+        }
+    
+        public virtual int MaintainFavouritePrinters()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("MaintainFavouritePrinters");
+        }
+    
+        public virtual ObjectResult<string> MaintainSagePayTokens()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("MaintainSagePayTokens");
+        }
+    
+        public virtual ObjectResult<ng_FreshRelevance_Result> ng_FreshRelevance()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ng_FreshRelevance_Result>("ng_FreshRelevance");
+        }
+    
+        public virtual int openRangeUpdateFull()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("openRangeUpdateFull");
+        }
+    
+        public virtual int openRangeUpdateInc()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("openRangeUpdateInc");
+        }
+    
+        public virtual int pimberlyDeleteDuplicates()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("pimberlyDeleteDuplicates");
+        }
+    
+        public virtual int pimberlyRefresh1(string filePickupPath)
+        {
+            var filePickupPathParameter = filePickupPath != null ?
+                new ObjectParameter("filePickupPath", filePickupPath) :
+                new ObjectParameter("filePickupPath", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("pimberlyRefresh1", filePickupPathParameter);
+        }
+    
+        public virtual int pimberlyUpdateFull1(string filePickupPath, Nullable<bool> isLive, Nullable<bool> isFirstTime)
+        {
+            var filePickupPathParameter = filePickupPath != null ?
+                new ObjectParameter("filePickupPath", filePickupPath) :
+                new ObjectParameter("filePickupPath", typeof(string));
+    
+            var isLiveParameter = isLive.HasValue ?
+                new ObjectParameter("isLive", isLive) :
+                new ObjectParameter("isLive", typeof(bool));
+    
+            var isFirstTimeParameter = isFirstTime.HasValue ?
+                new ObjectParameter("isFirstTime", isFirstTime) :
+                new ObjectParameter("isFirstTime", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("pimberlyUpdateFull1", filePickupPathParameter, isLiveParameter, isFirstTimeParameter);
+        }
+    
+        public virtual int pimberlyUpdateFull2(string filePickupPath, Nullable<bool> isLive, Nullable<bool> isFirstTime)
+        {
+            var filePickupPathParameter = filePickupPath != null ?
+                new ObjectParameter("filePickupPath", filePickupPath) :
+                new ObjectParameter("filePickupPath", typeof(string));
+    
+            var isLiveParameter = isLive.HasValue ?
+                new ObjectParameter("isLive", isLive) :
+                new ObjectParameter("isLive", typeof(bool));
+    
+            var isFirstTimeParameter = isFirstTime.HasValue ?
+                new ObjectParameter("isFirstTime", isFirstTime) :
+                new ObjectParameter("isFirstTime", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("pimberlyUpdateFull2", filePickupPathParameter, isLiveParameter, isFirstTimeParameter);
+        }
+    
+        public virtual int PopulatePotentialNewProds()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PopulatePotentialNewProds");
+        }
+    
+        public virtual int QAWebsites(Nullable<int> websiteID, Nullable<int> questionAnswersID, Nullable<byte> showOnAll)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var questionAnswersIDParameter = questionAnswersID.HasValue ?
+                new ObjectParameter("QuestionAnswersID", questionAnswersID) :
+                new ObjectParameter("QuestionAnswersID", typeof(int));
+    
+            var showOnAllParameter = showOnAll.HasValue ?
+                new ObjectParameter("ShowOnAll", showOnAll) :
+                new ObjectParameter("ShowOnAll", typeof(byte));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("QAWebsites", websiteIDParameter, questionAnswersIDParameter, showOnAllParameter);
+        }
+    
+        public virtual int SagePayCheckValidTrans(string vPSTxID, string vendorTxCode, ObjectParameter count)
+        {
+            var vPSTxIDParameter = vPSTxID != null ?
+                new ObjectParameter("VPSTxID", vPSTxID) :
+                new ObjectParameter("VPSTxID", typeof(string));
+    
+            var vendorTxCodeParameter = vendorTxCode != null ?
+                new ObjectParameter("VendorTxCode", vendorTxCode) :
+                new ObjectParameter("VendorTxCode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SagePayCheckValidTrans", vPSTxIDParameter, vendorTxCodeParameter, count);
+        }
+    
+        public virtual int SagePayDeleteToken(string securityKey, string token)
+        {
+            var securityKeyParameter = securityKey != null ?
+                new ObjectParameter("SecurityKey", securityKey) :
+                new ObjectParameter("SecurityKey", typeof(string));
+    
+            var tokenParameter = token != null ?
+                new ObjectParameter("Token", token) :
+                new ObjectParameter("Token", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SagePayDeleteToken", securityKeyParameter, tokenParameter);
+        }
+    
+        public virtual int SagePayGetSecurityKey(string vPSTxID, string vendorTxCode, ObjectParameter securityKey)
+        {
+            var vPSTxIDParameter = vPSTxID != null ?
+                new ObjectParameter("VPSTxID", vPSTxID) :
+                new ObjectParameter("VPSTxID", typeof(string));
+    
+            var vendorTxCodeParameter = vendorTxCode != null ?
+                new ObjectParameter("VendorTxCode", vendorTxCode) :
+                new ObjectParameter("VendorTxCode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SagePayGetSecurityKey", vPSTxIDParameter, vendorTxCodeParameter, securityKey);
+        }
+    
+        public virtual int SagePayGetToken(Nullable<int> iD, string securityKey, ObjectParameter token)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            var securityKeyParameter = securityKey != null ?
+                new ObjectParameter("SecurityKey", securityKey) :
+                new ObjectParameter("SecurityKey", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SagePayGetToken", iDParameter, securityKeyParameter, token);
+        }
+    
+        public virtual int SagePayInsertRecord(string docID, string vendorTxCode, string vPSProtocol, string status, string statusDetail, string vPSTxId, string securityKey, string txAuthNo, string aVSCV2, string addressResult, string postcodeResult, string cV2Result, string pOSTString, string p3DSecureStatus, string rESPONSEString, string cAVV, Nullable<byte> docType, Nullable<bool> reDScreened, Nullable<int> websiteID)
+        {
+            var docIDParameter = docID != null ?
+                new ObjectParameter("DocID", docID) :
+                new ObjectParameter("DocID", typeof(string));
+    
+            var vendorTxCodeParameter = vendorTxCode != null ?
+                new ObjectParameter("VendorTxCode", vendorTxCode) :
+                new ObjectParameter("VendorTxCode", typeof(string));
+    
+            var vPSProtocolParameter = vPSProtocol != null ?
+                new ObjectParameter("VPSProtocol", vPSProtocol) :
+                new ObjectParameter("VPSProtocol", typeof(string));
+    
+            var statusParameter = status != null ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(string));
+    
+            var statusDetailParameter = statusDetail != null ?
+                new ObjectParameter("StatusDetail", statusDetail) :
+                new ObjectParameter("StatusDetail", typeof(string));
+    
+            var vPSTxIdParameter = vPSTxId != null ?
+                new ObjectParameter("VPSTxId", vPSTxId) :
+                new ObjectParameter("VPSTxId", typeof(string));
+    
+            var securityKeyParameter = securityKey != null ?
+                new ObjectParameter("SecurityKey", securityKey) :
+                new ObjectParameter("SecurityKey", typeof(string));
+    
+            var txAuthNoParameter = txAuthNo != null ?
+                new ObjectParameter("TxAuthNo", txAuthNo) :
+                new ObjectParameter("TxAuthNo", typeof(string));
+    
+            var aVSCV2Parameter = aVSCV2 != null ?
+                new ObjectParameter("AVSCV2", aVSCV2) :
+                new ObjectParameter("AVSCV2", typeof(string));
+    
+            var addressResultParameter = addressResult != null ?
+                new ObjectParameter("AddressResult", addressResult) :
+                new ObjectParameter("AddressResult", typeof(string));
+    
+            var postcodeResultParameter = postcodeResult != null ?
+                new ObjectParameter("PostcodeResult", postcodeResult) :
+                new ObjectParameter("PostcodeResult", typeof(string));
+    
+            var cV2ResultParameter = cV2Result != null ?
+                new ObjectParameter("CV2Result", cV2Result) :
+                new ObjectParameter("CV2Result", typeof(string));
+    
+            var pOSTStringParameter = pOSTString != null ?
+                new ObjectParameter("POSTString", pOSTString) :
+                new ObjectParameter("POSTString", typeof(string));
+    
+            var p3DSecureStatusParameter = p3DSecureStatus != null ?
+                new ObjectParameter("p3DSecureStatus", p3DSecureStatus) :
+                new ObjectParameter("p3DSecureStatus", typeof(string));
+    
+            var rESPONSEStringParameter = rESPONSEString != null ?
+                new ObjectParameter("RESPONSEString", rESPONSEString) :
+                new ObjectParameter("RESPONSEString", typeof(string));
+    
+            var cAVVParameter = cAVV != null ?
+                new ObjectParameter("CAVV", cAVV) :
+                new ObjectParameter("CAVV", typeof(string));
+    
+            var docTypeParameter = docType.HasValue ?
+                new ObjectParameter("DocType", docType) :
+                new ObjectParameter("DocType", typeof(byte));
+    
+            var reDScreenedParameter = reDScreened.HasValue ?
+                new ObjectParameter("ReDScreened", reDScreened) :
+                new ObjectParameter("ReDScreened", typeof(bool));
+    
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SagePayInsertRecord", docIDParameter, vendorTxCodeParameter, vPSProtocolParameter, statusParameter, statusDetailParameter, vPSTxIdParameter, securityKeyParameter, txAuthNoParameter, aVSCV2Parameter, addressResultParameter, postcodeResultParameter, cV2ResultParameter, pOSTStringParameter, p3DSecureStatusParameter, rESPONSEStringParameter, cAVVParameter, docTypeParameter, reDScreenedParameter, websiteIDParameter);
+        }
+    
+        public virtual ObjectResult<SagePayListTokens_Result> SagePayListTokens(string account, string email, Nullable<int> websiteID)
+        {
+            var accountParameter = account != null ?
+                new ObjectParameter("Account", account) :
+                new ObjectParameter("Account", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SagePayListTokens_Result>("SagePayListTokens", accountParameter, emailParameter, websiteIDParameter);
+        }
+    
+        public virtual int SagePaySaveToken(string account, string email, string sid, Nullable<byte> deleted, string uid, string sp_uid, string sp_security_key, string token, string card_type, string last4Digits, string expiryDate, Nullable<byte> used, Nullable<int> websiteID)
+        {
+            var accountParameter = account != null ?
+                new ObjectParameter("Account", account) :
+                new ObjectParameter("Account", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var sidParameter = sid != null ?
+                new ObjectParameter("Sid", sid) :
+                new ObjectParameter("Sid", typeof(string));
+    
+            var deletedParameter = deleted.HasValue ?
+                new ObjectParameter("Deleted", deleted) :
+                new ObjectParameter("Deleted", typeof(byte));
+    
+            var uidParameter = uid != null ?
+                new ObjectParameter("Uid", uid) :
+                new ObjectParameter("Uid", typeof(string));
+    
+            var sp_uidParameter = sp_uid != null ?
+                new ObjectParameter("Sp_uid", sp_uid) :
+                new ObjectParameter("Sp_uid", typeof(string));
+    
+            var sp_security_keyParameter = sp_security_key != null ?
+                new ObjectParameter("Sp_security_key", sp_security_key) :
+                new ObjectParameter("Sp_security_key", typeof(string));
+    
+            var tokenParameter = token != null ?
+                new ObjectParameter("Token", token) :
+                new ObjectParameter("Token", typeof(string));
+    
+            var card_typeParameter = card_type != null ?
+                new ObjectParameter("Card_type", card_type) :
+                new ObjectParameter("Card_type", typeof(string));
+    
+            var last4DigitsParameter = last4Digits != null ?
+                new ObjectParameter("Last4Digits", last4Digits) :
+                new ObjectParameter("Last4Digits", typeof(string));
+    
+            var expiryDateParameter = expiryDate != null ?
+                new ObjectParameter("ExpiryDate", expiryDate) :
+                new ObjectParameter("ExpiryDate", typeof(string));
+    
+            var usedParameter = used.HasValue ?
+                new ObjectParameter("Used", used) :
+                new ObjectParameter("Used", typeof(byte));
+    
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SagePaySaveToken", accountParameter, emailParameter, sidParameter, deletedParameter, uidParameter, sp_uidParameter, sp_security_keyParameter, tokenParameter, card_typeParameter, last4DigitsParameter, expiryDateParameter, usedParameter, websiteIDParameter);
+        }
+    
+        public virtual int SagePayUpdateSavedToken(string sp_uid, string token, string card_type, string last4Digits, string expiryDate)
+        {
+            var sp_uidParameter = sp_uid != null ?
+                new ObjectParameter("Sp_uid", sp_uid) :
+                new ObjectParameter("Sp_uid", typeof(string));
+    
+            var tokenParameter = token != null ?
+                new ObjectParameter("Token", token) :
+                new ObjectParameter("Token", typeof(string));
+    
+            var card_typeParameter = card_type != null ?
+                new ObjectParameter("Card_type", card_type) :
+                new ObjectParameter("Card_type", typeof(string));
+    
+            var last4DigitsParameter = last4Digits != null ?
+                new ObjectParameter("Last4Digits", last4Digits) :
+                new ObjectParameter("Last4Digits", typeof(string));
+    
+            var expiryDateParameter = expiryDate != null ?
+                new ObjectParameter("ExpiryDate", expiryDate) :
+                new ObjectParameter("ExpiryDate", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SagePayUpdateSavedToken", sp_uidParameter, tokenParameter, card_typeParameter, last4DigitsParameter, expiryDateParameter);
+        }
+    
+        public virtual ObjectResult<SaveQuestionAnswer_Result> SaveQuestionAnswer(Nullable<int> questionAnswerID, string question, string answer, string email, Nullable<System.DateTime> askedDate, Nullable<byte> showOnAllSites, Nullable<int> granularityID, string userID, Nullable<int> websiteID, Nullable<int> productID, string altRef, Nullable<int> equipID)
+        {
+            var questionAnswerIDParameter = questionAnswerID.HasValue ?
+                new ObjectParameter("QuestionAnswerID", questionAnswerID) :
+                new ObjectParameter("QuestionAnswerID", typeof(int));
+    
+            var questionParameter = question != null ?
+                new ObjectParameter("Question", question) :
+                new ObjectParameter("Question", typeof(string));
+    
+            var answerParameter = answer != null ?
+                new ObjectParameter("Answer", answer) :
+                new ObjectParameter("Answer", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var askedDateParameter = askedDate.HasValue ?
+                new ObjectParameter("AskedDate", askedDate) :
+                new ObjectParameter("AskedDate", typeof(System.DateTime));
+    
+            var showOnAllSitesParameter = showOnAllSites.HasValue ?
+                new ObjectParameter("ShowOnAllSites", showOnAllSites) :
+                new ObjectParameter("ShowOnAllSites", typeof(byte));
+    
+            var granularityIDParameter = granularityID.HasValue ?
+                new ObjectParameter("GranularityID", granularityID) :
+                new ObjectParameter("GranularityID", typeof(int));
+    
+            var userIDParameter = userID != null ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(string));
+    
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var productIDParameter = productID.HasValue ?
+                new ObjectParameter("ProductID", productID) :
+                new ObjectParameter("ProductID", typeof(int));
+    
+            var altRefParameter = altRef != null ?
+                new ObjectParameter("AltRef", altRef) :
+                new ObjectParameter("AltRef", typeof(string));
+    
+            var equipIDParameter = equipID.HasValue ?
+                new ObjectParameter("equipID", equipID) :
+                new ObjectParameter("equipID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SaveQuestionAnswer_Result>("SaveQuestionAnswer", questionAnswerIDParameter, questionParameter, answerParameter, emailParameter, askedDateParameter, showOnAllSitesParameter, granularityIDParameter, userIDParameter, websiteIDParameter, productIDParameter, altRefParameter, equipIDParameter);
+        }
+    
+        public virtual ObjectResult<SearchQuestion_Result> SearchQuestion(string altRef, string searchText, Nullable<byte> unAnsweredQuestion, string vendorName, Nullable<int> equipID)
+        {
+            var altRefParameter = altRef != null ?
+                new ObjectParameter("AltRef", altRef) :
+                new ObjectParameter("AltRef", typeof(string));
+    
+            var searchTextParameter = searchText != null ?
+                new ObjectParameter("SearchText", searchText) :
+                new ObjectParameter("SearchText", typeof(string));
+    
+            var unAnsweredQuestionParameter = unAnsweredQuestion.HasValue ?
+                new ObjectParameter("UnAnsweredQuestion", unAnsweredQuestion) :
+                new ObjectParameter("UnAnsweredQuestion", typeof(byte));
+    
+            var vendorNameParameter = vendorName != null ?
+                new ObjectParameter("VendorName", vendorName) :
+                new ObjectParameter("VendorName", typeof(string));
+    
+            var equipIDParameter = equipID.HasValue ?
+                new ObjectParameter("EquipID", equipID) :
+                new ObjectParameter("EquipID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SearchQuestion_Result>("SearchQuestion", altRefParameter, searchTextParameter, unAnsweredQuestionParameter, vendorNameParameter, equipIDParameter);
+        }
+    
+        public virtual int SetProvidersAlertStatus()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SetProvidersAlertStatus");
+        }
+    
+        [DbFunction("ngmdEntities", "StringSplit")]
+        public virtual IQueryable<StringSplit_Result> StringSplit(string sString, string cDelimiter)
+        {
+            var sStringParameter = sString != null ?
+                new ObjectParameter("sString", sString) :
+                new ObjectParameter("sString", typeof(string));
+    
+            var cDelimiterParameter = cDelimiter != null ?
+                new ObjectParameter("cDelimiter", cDelimiter) :
+                new ObjectParameter("cDelimiter", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<StringSplit_Result>("[ngmdEntities].[StringSplit](@sString, @cDelimiter)", sStringParameter, cDelimiterParameter);
+        }
+    
+        public virtual int Test()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Test");
+        }
+    
+        public virtual ObjectResult<string> TruncateTable(string tableName, string fieldName, Nullable<int> retentionPeriod, Nullable<int> debug)
+        {
+            var tableNameParameter = tableName != null ?
+                new ObjectParameter("TableName", tableName) :
+                new ObjectParameter("TableName", typeof(string));
+    
+            var fieldNameParameter = fieldName != null ?
+                new ObjectParameter("FieldName", fieldName) :
+                new ObjectParameter("FieldName", typeof(string));
+    
+            var retentionPeriodParameter = retentionPeriod.HasValue ?
+                new ObjectParameter("RetentionPeriod", retentionPeriod) :
+                new ObjectParameter("RetentionPeriod", typeof(int));
+    
+            var debugParameter = debug.HasValue ?
+                new ObjectParameter("Debug", debug) :
+                new ObjectParameter("Debug", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("TruncateTable", tableNameParameter, fieldNameParameter, retentionPeriodParameter, debugParameter);
+        }
+    
+        public virtual int UpdateAXISQueueCompletedDate(Nullable<int> axisQueueFK)
+        {
+            var axisQueueFKParameter = axisQueueFK.HasValue ?
+                new ObjectParameter("axisQueueFK", axisQueueFK) :
+                new ObjectParameter("axisQueueFK", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateAXISQueueCompletedDate", axisQueueFKParameter);
+        }
+    
+        public virtual int UpdateCompletedDates()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateCompletedDates");
+        }
+    
+        public virtual ObjectResult<Nullable<int>> UpdateDropDownEquipmentStatus()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("UpdateDropDownEquipmentStatus");
+        }
+    
+        public virtual int UpdateEquipmentImageUrls()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateEquipmentImageUrls");
+        }
+    
+        public virtual int UpdateProductIds(string aXISProductIdsCSV)
+        {
+            var aXISProductIdsCSVParameter = aXISProductIdsCSV != null ?
+                new ObjectParameter("AXISProductIdsCSV", aXISProductIdsCSV) :
+                new ObjectParameter("AXISProductIdsCSV", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateProductIds", aXISProductIdsCSVParameter);
+        }
+    
+        public virtual int UpdateProviderFeedTime(string providerFK, string feedDateTime)
+        {
+            var providerFKParameter = providerFK != null ?
+                new ObjectParameter("providerFK", providerFK) :
+                new ObjectParameter("providerFK", typeof(string));
+    
+            var feedDateTimeParameter = feedDateTime != null ?
+                new ObjectParameter("feedDateTime", feedDateTime) :
+                new ObjectParameter("feedDateTime", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateProviderFeedTime", providerFKParameter, feedDateTimeParameter);
+        }
+    
+        public virtual int UpdateSupplierStockQuantity()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateSupplierStockQuantity");
+        }
+    
+        public virtual ObjectResult<zGetOrderDetail_Result> zGetOrderDetail(Nullable<int> websiteId, string orderNo)
+        {
+            var websiteIdParameter = websiteId.HasValue ?
+                new ObjectParameter("WebsiteId", websiteId) :
+                new ObjectParameter("WebsiteId", typeof(int));
+    
+            var orderNoParameter = orderNo != null ?
+                new ObjectParameter("OrderNo", orderNo) :
+                new ObjectParameter("OrderNo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<zGetOrderDetail_Result>("zGetOrderDetail", websiteIdParameter, orderNoParameter);
         }
     }
 }

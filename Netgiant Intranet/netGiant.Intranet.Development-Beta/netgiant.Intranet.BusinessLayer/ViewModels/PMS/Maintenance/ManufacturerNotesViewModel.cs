@@ -9,8 +9,7 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance
 {
     public class ManufacturerNotesViewModel : CommonViewModel
     {
-        private ngmdEntities _ctx;
-
+        private readonly ngmdEntities _ctx;
         public ManufacturerNotesViewModel()
         {
             _ctx = new ngmdEntities();

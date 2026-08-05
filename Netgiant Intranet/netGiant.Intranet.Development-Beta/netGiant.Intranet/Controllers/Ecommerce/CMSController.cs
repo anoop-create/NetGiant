@@ -44,7 +44,7 @@ namespace netGiant.Intranet.Controllers.Ecommerce
         {
             try
             {
-                model.CMSEntry.cmsContent = content;
+                //model.CMSEntry.cmsContent = content;
                 if (model.SaveEntry())
                 {
                     TempData["InformationBoxFlag"] = "CMS Entry Saved";

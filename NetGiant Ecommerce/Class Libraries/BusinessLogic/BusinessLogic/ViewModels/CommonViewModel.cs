@@ -204,6 +204,7 @@ namespace BusinessLogic.ViewModels
         public SignUp SignUp { get; set; }
         public decimal VatMultiplier { get; set; }
         public List<BasketContents> BasketContents { get; set; }
+        public List<BasketContents> AddonProducts { get; set; }
         public bool IsLiveSystem { get; set; } = false;
         public string Menu { get; set; }
         public string MobileMenu { get; set; }

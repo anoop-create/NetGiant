@@ -7,9 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataAccess.EntityFramework
+namespace netGiant.Intranet.DataLayer.NetgiantMasterData
 {
-    using netGiant.Intranet.DataLayer.NetgiantMasterData;
     using System;
     using System.Collections.Generic;
     
@@ -31,7 +30,7 @@ namespace DataAccess.EntityFramework
         public string UserAgent { get; set; }
         public int LogStatusFk { get; set; }
     
-        //public virtual LookupNgmd Lookup { get; set; }
+        public virtual Lookup Lookup { get; set; }
         public virtual Website Website { get; set; }
     }
 }

@@ -103,6 +103,7 @@ namespace BusinessLogic.ViewModels
                     BasketContents[i].CrossSellingAvailability = int.Parse(dr["CrossSellingAvailability"].ToString());
                     BasketContents[i].CrossSellingDescription = dr["CrossSellingDescription"].ToString();
                     BasketContents[i].ExcludeFromUpSell = dr["ManufacturerName"].ToString() == "HP" ? true : false;
+                    //BasketContents[i].CrossSellingImageURL = dr["CrossSellingDescription"].ToString();
                 }
             }
             HttpContext.Current.Session["B_BasketArray"] = BasketContents;
@@ -1079,6 +1080,41 @@ namespace BusinessLogic.ViewModels
             sb.Replace("[VoucherPrice]", Math.Round(item.PriceInc, 2).ToString("0.00"));
 
             return sb.ToString();
+        }
+        public void GetAddOn()
+        {
+            using (Ngmd db = new Ngmd())
+            {
+                List<BasketContents> lbc = Utilities.LoadSession<List<BasketContents>>("B_BasketArray");
+                var basketProductIds = lbc.Select(x => x.ProductId)
+                                            .ToList();
+
+                var addons = db.ProductAddons
+                    .Where(x => basketProductIds.Contains(x.ProductId) && x.IsActive)
+                    .OrderBy(x => x.DisplayOrder)
+                    .ToList();
+                ProductViewModel pv= new ProductViewModel();
+                foreach (var basketItem in lbc)
+                {
+                    var addonIds = db.ProductAddons
+                    .Where(x => x.ProductId == basketItem.ProductId && x.IsActive)
+                    .OrderBy(x => x.DisplayOrder)
+                    .Select(x => x.AddonProductId)
+                    .ToList();
+
+                    basketItem.AddonProducts = new List<BasketContents>();
+
+                    foreach (var addonId in addonIds)
+                    {
+                        ProductEntry product = pv.GetProductDetailById(addonId);
+
+                        if (product != null)
+                        {
+                            basketItem.AddonProducts.Add(pv.CreateBasketContent(product));
+                        }
+                    }
+                }
+            }
         }
     }
 }

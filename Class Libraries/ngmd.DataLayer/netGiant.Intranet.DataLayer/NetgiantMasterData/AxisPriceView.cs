@@ -11,7 +11,7 @@ namespace netGiant.Intranet.DataLayer.NetgiantMasterData
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class AxisPriceView
     {
         public string partNo { get; set; }

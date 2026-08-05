@@ -327,7 +327,7 @@ namespace netGiant.Intranet.Areas.PMS.Product
         }
         public JsonResult SearchProducts(string search)
         {
-            var result = SelectListViewModel.GetProductsArray(search).ToList();
+            var result = SelectListViewModel.GetProductsAddOn(search).ToList();
             
             return Json(result, JsonRequestBehavior.AllowGet);
         }

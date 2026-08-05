@@ -28,6 +28,8 @@ namespace netGiant.Intranet.DataLayer.NetgiantMasterData
             this.qa_Main = new HashSet<qa_Main>();
             this.skuMapping = new HashSet<skuMapping>();
             this.websiteInventory = new HashSet<websiteInventory>();
+            this.ProductAddon = new HashSet<ProductAddon>();
+            this.ProductAddon1 = new HashSet<ProductAddon>();
         }
     
         public int productID { get; set; }
@@ -68,5 +70,7 @@ namespace netGiant.Intranet.DataLayer.NetgiantMasterData
         public virtual ICollection<qa_Main> qa_Main { get; set; }
         public virtual ICollection<skuMapping> skuMapping { get; set; }
         public virtual ICollection<websiteInventory> websiteInventory { get; set; }
+        public virtual ICollection<ProductAddon> ProductAddon { get; set; }
+        public virtual ICollection<ProductAddon> ProductAddon1 { get; set; }
     }
 }

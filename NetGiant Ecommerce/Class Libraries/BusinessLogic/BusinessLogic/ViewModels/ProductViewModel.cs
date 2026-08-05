@@ -1326,5 +1326,79 @@ namespace BusinessLogic.ViewModels
 
             return mpe;
         }
+        public ProductEntry GetProductDetailById(int masterId)
+        {
+            List<SqlParameter> sqlParms = new List<SqlParameter>();
+            SqlParameter sqlParm = new SqlParameter("@WebsiteId", SqlDbType.Int);
+            sqlParm.Value = int.Parse(ConfigurationManager.AppSettings["WebsiteId"].ToString());
+            sqlParms.Add(sqlParm);
+            sqlParm = new SqlParameter("@ProductID", SqlDbType.Int);
+            sqlParm.Value = masterId;
+            sqlParms.Add(sqlParm);
+            sqlParm = new SqlParameter("@Account", SqlDbType.VarChar);
+            sqlParm.Value = HttpContext.Current.Session["U_AccountNo"] != null
+                ? HttpContext.Current.Session["U_AccountNo"].ToString()
+                : "";
+            sqlParms.Add(sqlParm);
+            DataSet ds = SQL
+                .ExecuteReadStoredProcedure("netgiantmasterdata", "ngmd.GetProductResultsById", sqlParms, "p3results");
+
+            DataTable productDetail = ds.Tables[0];
+            DataTable xsProductDetail = new DataTable();
+            if (ds.Tables.Count > 1)
+            {
+                xsProductDetail = ds.Tables[1];
+            }
+
+            if (productDetail.Rows.Count > 0)
+            {
+                Product = new ProductEntry();
+                Product = CreateProductEntry(productDetail.Rows[0]);
+            }
+            return Product;
+        }
+        public BasketContents CreateBasketContent(ProductEntry product)
+        {
+            return new BasketContents
+            {
+                ProductId = product.ProductId,
+                StockRef = product.Reference,
+                PartNo = product.PartNo,
+                Description = product.Description,
+                ProductUrl = product.Url,
+                ImageUrl = product.ImageUrl,
+
+                Availability = product.Availability,
+                PriceInc = product.PriceRetIncVat,
+                PriceEx = product.PriceTrExVat,
+
+                IsCompatible = product.BrandFlag == BrandFlag.Compatible,
+                IsCompatibleInk = product.BrandFlag == BrandFlag.Compatible &&
+                                  product.SpecLine6 == "Ink",
+
+                IsBulky = product.SpecLine6 == "Bulky",
+                IsSpecialOrder = product.Availability == 10,
+
+                CategoryNo = 0,
+                GroupNo = 0,
+                GroupName = "",
+                Quantity = 1,
+                QtyStart = 1,
+                Type = 0,
+                ItemType = BasketItemType.Item,
+                LineUid = 0,
+
+                IsVatExempt = HttpContext.Current.Session["D_IsVatExempt"] != null &&
+                              Convert.ToBoolean(HttpContext.Current.Session["D_IsVatExempt"]),
+
+                AffiliateCommissionGroup = "",
+
+                CrossSellingStockRef = "",
+                CrossSellingPriceEx = 0,
+                CrossSellingAvailability = 0,
+                CrossSellingDescription = "",
+                CrossSellingImageURL = ""
+            };
+        }
     }
 }

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataAccess.EntityFramework
+namespace netGiant.Intranet.DataLayer.NetgiantMasterData
 {
     using System;
     using System.Collections.Generic;
@@ -19,5 +19,8 @@ namespace DataAccess.EntityFramework
         public int providerFk { get; set; }
         public string providerItemCode { get; set; }
         public decimal price { get; set; }
+    
+        public virtual deliveryService deliveryService { get; set; }
+        public virtual provider provider { get; set; }
     }
 }

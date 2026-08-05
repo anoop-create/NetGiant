@@ -9,7 +9,6 @@
 
 namespace netGiant.Intranet.DataLayer.NetgiantMasterData
 {
-    using DataAccess.EntityFramework;
     using System;
     using System.Collections.Generic;
     

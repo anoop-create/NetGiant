@@ -102,7 +102,7 @@ namespace BusinessLogic
 
             // Get Promo Vouchers
             List<VoucherPromo> lvp = EntityAccess.ReadVoucherPromo(x => x.VoucherCode == voucherCode && x.WebsiteFk == w).ToList();
-
+            
             if (lvp.Count > 0)
             {
                 // Process Vouchers
@@ -1365,6 +1365,8 @@ namespace BusinessLogic
         public int CrossSellingAvailability { get; set; }
         public string CrossSellingDescription { get; set; }
         public bool ExcludeFromUpSell { get; set; } = false;
+        public string CrossSellingImageURL { get; set; }
+        public List<BasketContents> AddonProducts = new List<BasketContents>();
     }
 
     public class BasketTotals

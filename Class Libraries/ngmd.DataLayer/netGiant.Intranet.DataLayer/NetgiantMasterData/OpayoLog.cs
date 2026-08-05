@@ -7,9 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataAccess.EntityFramework
+namespace netGiant.Intranet.DataLayer.NetgiantMasterData
 {
-    using netGiant.Intranet.DataLayer.NetgiantMasterData;
     using System;
     using System.Collections.Generic;
     

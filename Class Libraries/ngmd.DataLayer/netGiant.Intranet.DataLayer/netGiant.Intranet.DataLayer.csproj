@@ -272,10 +272,91 @@
     <Compile Include="NetgiantMasterData\filterableAttribute.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="NetgiantMasterData\fnSplit_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="NetgiantMasterData\FraudCriteria.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\ftpDetails.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GATransaction.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetAllQuestionAnswers_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetAmazonPayTransactions_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetBestSellers_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetCategoryBestSellers_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetChildCategories_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetCMSSection_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetConfigSettings_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetEquipmentData_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetEquipmentDropDownData_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetFacebookFeed_Product_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetFavouritePrinters_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetGoogleFeed_Product_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetImages_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetITData_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetMailChimpFeed_Product_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetManuFamily_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetMetaData_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetMissingImages_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetObsoleteItem_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetOpayoTransactions_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetOrderDetails_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetOrderDetail_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetPayPalTransactions_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetPimberlyFeed_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetPopularPrinters_Result.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\GetPriceologyAssemblySupplierFeed_Result.cs">
@@ -290,10 +371,46 @@
     <Compile Include="NetgiantMasterData\GetPriceologySupplierFeed_Result.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="NetgiantMasterData\GetPrice_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetPrinter3Equip_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetPrinter3Results_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetPrintersForProducts_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="NetgiantMasterData\GetProdGridData_Result.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="NetgiantMasterData\GetProductComponents_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetProductEquipment_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetProductFeedback_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetProductFromAxisRef_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetProductImages_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetProductMetaData_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetProductPDFs_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="NetgiantMasterData\GetProductPrices_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetProductResults_Result.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\GetProductSuppliers_Result.cs">
@@ -302,7 +419,25 @@
     <Compile Include="NetgiantMasterData\GetQAList_Result.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="NetgiantMasterData\GetSagePayTransactions_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetSearchResults_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="NetgiantMasterData\GetSiteMapsData_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetSkuuudleFeed_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetSpecificationAttributes_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetSummaryData_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\GetXSells_Result.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\googleProductCategory.cs">
@@ -317,7 +452,16 @@
     <Compile Include="NetgiantMasterData\InterimOrder.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="NetgiantMasterData\interimProductOverride.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="NetgiantMasterData\JobStatus.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\JsonStore.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\ListCategoryCodes_Result.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\Log.cs">
@@ -329,10 +473,22 @@
     <Compile Include="NetgiantMasterData\LookupType.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="NetgiantMasterData\LookupTypeView.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\LookupView.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="NetgiantMasterData\manufacturer.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\manufacturerNotes.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\McCartData.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\McOrderData.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\MetaData\Ecommerce\DeliverySupplierCodeMetaData.cs" />
@@ -357,6 +513,9 @@
     <Compile Include="NetgiantMasterData\ng_features.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="NetgiantMasterData\ng_FreshRelevance_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="NetgiantMasterData\ng_products.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
@@ -372,7 +531,19 @@
     <Compile Include="NetgiantMasterData\OrderTracking.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="NetgiantMasterData\overrideType.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\passwordReset.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\PayPalLog.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="NetgiantMasterData\pim_attributes.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\pim_attributesView.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\pim_mediaLinks.cs">
@@ -381,13 +552,25 @@
     <Compile Include="NetgiantMasterData\pim_products.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="NetgiantMasterData\PMSAxisPriceDifference.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\PortalIndex.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="NetgiantMasterData\potentialNewProducts.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\PriceCompView.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\priorityProvider.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\product.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\ProductAddon.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\productGroup.cs">
@@ -397,6 +580,9 @@
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\ProductImagesView.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\productOverride.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\productPrice.cs">
@@ -432,7 +618,13 @@
     <Compile Include="NetgiantMasterData\richTempPrinters.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="NetgiantMasterData\SagePayListTokens_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="NetgiantMasterData\SagePayTokens.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\SagePayTransactions.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\salesAreaGroup.cs">
@@ -441,10 +633,22 @@
     <Compile Include="NetgiantMasterData\SalesforceBatchJob.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="NetgiantMasterData\SaveQuestionAnswer_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\SearchQuestion_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="NetgiantMasterData\secondaryCategoryLookup.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\skuMapping.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\sp_BlitzCache_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\StringSplit_Result.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\supplierManuMapping.cs">
@@ -466,6 +670,15 @@
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\websiteInventory.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\zGetOrderDetail_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\zproduct_20200108.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\zskuMapping_20100108.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMembership\AspNetRole.cs">

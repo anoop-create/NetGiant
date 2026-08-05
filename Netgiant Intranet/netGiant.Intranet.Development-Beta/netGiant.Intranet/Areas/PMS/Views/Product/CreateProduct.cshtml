@@ -671,20 +671,30 @@ isSelected == true ? (object)new { @class = "form-control g-smallCell g-d-i catC
                     }
                 <div id="tabs-8">
 
-                    
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Add-on Products</label>
-                       
-                        <div class="col-md-10">
-                            <select id="addOnProduct" class="form-control g-largeCell"
-                                    name="AddonProducts"
-                                    multiple="multiple"
-                                    style="width:100%">
-                            </select>
-                        </div>
-                    </div>
+                    <fieldset class="g-m-t-20">
+                        <legend>Add On Product</legend>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Add-on Products</label>
 
-                </div>
+                            <div class="col-md-10">
+                                <select id="addOnProduct"
+                                        name="AddonProducts"
+                                        multiple="multiple"
+                                        class="form-control"
+                                        style="width:100%">
+
+                                    @foreach (var item in Model.SelectedAddonProducts)
+                                    {
+                                        <option value="@item.Value" selected="selected">
+                                            @item.Text
+                                        </option>
+                                    }
+
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+                  </div>
                 </div>
 
                 <div class="form-group">

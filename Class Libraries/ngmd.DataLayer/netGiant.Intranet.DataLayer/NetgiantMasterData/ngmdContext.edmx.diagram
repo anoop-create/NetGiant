@@ -209,6 +209,29 @@
         <EntityTypeShape EntityType="netgiantMasterDataModel.Log" Width="1.5" PointX="22.625" PointY="10.375" />
         <AssociationConnector Association="netgiantMasterDataModel.FK_Log_Lookup" />
         <AssociationConnector Association="netgiantMasterDataModel.FK_Log_Website" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.GATransaction" Width="1.5" PointX="10.375" PointY="12.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.interimProductOverride" Width="1.5" PointX="18.375" PointY="12.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.JsonStore" Width="1.5" PointX="17.375" PointY="5.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.McCartData" Width="1.5" PointX="19.375" PointY="16.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.McOrderData" Width="1.5" PointX="18.375" PointY="19.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.overrideType" Width="1.5" PointX="9.375" PointY="18.375" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.passwordReset" Width="1.5" PointX="5.375" PointY="21.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.PayPalLog" Width="1.5" PointX="7.375" PointY="21.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.PortalIndex" Width="1.5" PointX="3" PointY="77.125" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.productOverride" Width="1.5" PointX="11.625" PointY="18" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.SagePayTransactions" Width="1.5" PointX="9.375" PointY="21.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.zproduct_20200108" Width="1.5" PointX="6.375" PointY="24.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.zskuMapping_20100108" Width="1.5" PointX="11.375" PointY="21.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.LookupTypeView" Width="1.5" PointX="10.375" PointY="15.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.LookupView" Width="1.5" PointX="13.375" PointY="21.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.pim_attributesView" Width="1.5" PointX="25.375" PointY="7.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.PMSAxisPriceDifference" Width="1.5" PointX="27.375" PointY="3.75" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.PriceCompView" Width="1.5" PointX="8.375" PointY="28.75" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_productOverride_overrideTypeFK" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_PortalIndex_Website" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.ProductAddon" Width="1.5" PointX="10.5" PointY="53.375" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_ProductAddon_AddonProduct" />
+        <AssociationConnector Association="netgiantMasterDataModel.FK_ProductAddon_Product" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

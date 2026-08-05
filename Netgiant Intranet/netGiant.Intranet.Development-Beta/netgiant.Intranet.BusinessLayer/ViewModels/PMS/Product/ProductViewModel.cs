@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using netGiant.Intranet.BusinessLayer.ViewModels.Shared;
 using netGiant.Intranet.DataLayer;
 using netGiant.Intranet.DataLayer.NetgiantMasterData;
 using PagedList;
-using System.Data.Entity;
-using System.Web.Mvc;
-using netGiant.Intranet.BusinessLayer.ViewModels.Shared;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
 namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product
 {
@@ -38,12 +40,11 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product
             AllProductGroups = SelectListViewModel.GetAllProductGroups();
             AllSalesAreaGroups = SelectListViewModel.GetAllSalesAreaGroups();
             AllDataSuppliers = SelectListViewModel.GetAllDataSuppliers();
-            AllAddOnProducts = SelectListViewModel.SearchProductsPartNoDesc("");
             Products = null;
             _ctx = new ngmdEntities();
         }
         public List<int> AddonProducts { get; set; }
-        public IQueryable<SelectListItem> AllAddOnProducts { get; set; }
+        public List<SelectListItem> SelectedAddonProducts { get; set; }
         private ngmdEntities _ctx;
         public List<product> Products { get; set; }
         public int ProductsCount { get; set; }
@@ -413,6 +414,21 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product
                     model.AllCategoryCodes = SelectListViewModel.GetAllCategoryCodes();
                     model.AllProductItemType = SelectListViewModel.GetNgmdLookupSelectList("ProductItemType");
                     model.AllStockItems = SelectListViewModel.GetAllStockItems();
+                    model.AddonProducts = db.ProductAddon.Where(x => x.ProductId == id && x.IsActive).OrderBy(x => x.DisplayOrder).Select(x => x.AddonProductId).ToList();
+                    model.SelectedAddonProducts =
+                    (
+                        from pa in db.ProductAddon
+                        join p in db.product
+                            on pa.AddonProductId equals p.productID
+                        where pa.ProductId == id && pa.IsActive
+                        orderby pa.DisplayOrder
+                        select new SelectListItem
+                        {
+                            Value = p.productID.ToString(),
+                            Text = p.productName
+                        }
+                    ).ToList();
+
                 }
             }
 
@@ -653,6 +669,7 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product
 
                 bool isNew = true;
                 UpdateEbusinessGroups(isNew, prod, null, db, 0);
+                SaveProductAddons(db);
                 UpdateWebsiteInventory(isNew);
 
                 AXISQueue aq = CreateAxisQueueEntry(db);
@@ -716,7 +733,7 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product
 
                 db.Entry(prod).State = EntityState.Modified;
                 db.SaveChanges();
-
+                SaveProductAddons(db);
                 UpdateWebsiteInventory(isNew);
 
                 //If changing from a 'No Status' to 'Active' or 'Active Unpublished'
@@ -1267,6 +1284,39 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product
                 db.Entry(aqd).State = EntityState.Added;
                 db.SaveChanges();
             }
+        }
+        private void SaveProductAddons(ngmdEntities db)
+        {
+            if (prod.productID == 0)
+                return;
+
+            //Delete existing mappings
+            var existing = db.ProductAddon
+                             .Where(x => x.ProductId == prod.productID)
+                             .ToList();
+
+            if (existing.Any())
+                db.ProductAddon.RemoveRange(existing);
+
+            if (AddonProducts != null && AddonProducts.Any())
+            {
+                int order = 1;
+
+                foreach (int addonId in AddonProducts.Distinct())
+                {
+                    db.ProductAddon.Add(new ProductAddon
+                    {
+                        ProductId = prod.productID,
+                        AddonProductId = addonId,
+                        DisplayOrder = order++,
+                        IsActive = true,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = HttpContext.Current.User.Identity.Name
+                    });
+                }
+            }
+
+            db.SaveChanges();
         }
     }
 }

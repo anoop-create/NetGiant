@@ -7,14 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataAccess.EntityFramework
+namespace netGiant.Intranet.DataLayer.NetgiantMasterData
 {
     using System;
     using System.Collections.Generic;
     
     public partial class overrideType
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public overrideType()
         {
             this.productOverride = new HashSet<productOverride>();
@@ -24,7 +23,6 @@ namespace DataAccess.EntityFramework
         public string overrideTypeName { get; set; }
         public System.DateTime dateLastUpdate { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<productOverride> productOverride { get; set; }
     }
 }

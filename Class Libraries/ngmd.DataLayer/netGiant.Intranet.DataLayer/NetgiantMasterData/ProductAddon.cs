@@ -10,15 +10,19 @@
 namespace netGiant.Intranet.DataLayer.NetgiantMasterData
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class GetOpayoTransactions_Result
+    public partial class ProductAddon
     {
-        public int Id { get; set; }
-        public System.DateTime DateTime { get; set; }
-        public string WebsiteName { get; set; }
-        public string OrderNumber { get; set; }
-        public string Action { get; set; }
-        public string Json { get; set; }
-        public string OrderIsPlaced { get; set; }
+        public int ProductAddonId { get; set; }
+        public int ProductId { get; set; }
+        public int AddonProductId { get; set; }
+        public int DisplayOrder { get; set; }
+        public bool IsActive { get; set; }
+        public System.DateTime CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+    
+        public virtual product product { get; set; }
+        public virtual product product1 { get; set; }
     }
 }

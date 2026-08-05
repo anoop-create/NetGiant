@@ -7,15 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataAccess.EntityFramework
+namespace netGiant.Intranet.DataLayer.NetgiantMasterData
 {
-    using netGiant.Intranet.DataLayer.NetgiantMasterData;
     using System;
     using System.Collections.Generic;
     
     public partial class cmsEntry
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public cmsEntry()
         {
             this.EventMapping = new HashSet<EventMapping>();
@@ -32,9 +30,7 @@ namespace DataAccess.EntityFramework
         public Nullable<short> cmsGroupFK { get; set; }
     
         public virtual cmsSection cmsSection { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventMapping> EventMapping { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventMapping> EventMapping1 { get; set; }
     }
 }
