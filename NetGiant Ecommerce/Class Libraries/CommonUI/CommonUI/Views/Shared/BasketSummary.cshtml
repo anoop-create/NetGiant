@@ -20,6 +20,18 @@
     bool isAdminDiscount = false;//Model.BasketContents.Exists(x => x.ItemType == BasketItemType.AdminDiscount);
     bool isCompatibleDiscount = false;// Model.BasketContents.Exists(x => x.ItemType == BasketItemType.CompatibleDiscount);
     int switchCount = 0;
+
+    bool isTradeCustomer = HttpContext.Current.Session["U_IsTradeCustomer"] != null && Convert.ToBoolean(HttpContext.Current.Session["U_IsTradeCustomer"]);
+
+    // TonerGiant delivery message: a constant "Free Next Day Delivery" up to the order cutoff
+    // (17:30 Mon-Thu, 17:00 Fri), switching to "Free Next Working Day Delivery" after that -
+    // this covers Friday evening through the weekend until Monday's cutoff. TG has no spend
+    // threshold for free delivery (that's a CartridgeMonkey-only rule).
+    DateTime nowLocal = DateTime.Now;
+    TimeSpan orderCutoff = nowLocal.DayOfWeek == DayOfWeek.Friday ? new TimeSpan(17, 0, 0) : new TimeSpan(17, 30, 0);
+    bool isDeliveryWeekday = nowLocal.DayOfWeek >= DayOfWeek.Monday && nowLocal.DayOfWeek <= DayOfWeek.Friday;
+    bool beforeDeliveryCutoff = isDeliveryWeekday && nowLocal.TimeOfDay < orderCutoff;
+    string deliveryMessage = beforeDeliveryCutoff ? "Free Next Day Delivery" : "Free Next Working Day Delivery";
 }
 <style>
     @@media (min-width: 992px) {
@@ -57,16 +69,18 @@
         display: flex;
         flex-direction: column;
         max-height: 90vh;
+        /* Spec: "slight drop shadow on the left edge of the tray container" */
+        box-shadow: -6px 0 18px rgba(0, 0, 0, 0.2);
     }
 
     .mini-cart__header {
         background: var(--dark);
         color: #fff;
-        padding: 14px 16px;
+        padding: 16px 18px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        font-size: 16px;
+        font-size: 20px;
         font-weight: 600;
     }
 
@@ -250,6 +264,12 @@
         color: #000000;
     }
 
+        .switch-save__price .vat {
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--muted);
+        }
+
     .switch-save__save {
         font-size: 12px;
         font-weight: 700;
@@ -339,6 +359,41 @@
             cursor: pointer;
         }
 
+    .promo-error {
+        color: #c0392b;
+        font-size: 12px;
+        margin-top: 6px;
+    }
+
+    .promo-applied {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .promo-applied__code {
+        font-weight: 700;
+        font-size: 13px;
+        color: #000;
+    }
+
+    .voucher-remove {
+        background: none;
+        border: none;
+        color: var(--pink);
+        cursor: pointer;
+        font-size: 13px;
+        padding: 0;
+    }
+
+    .promo-applied__saving {
+        margin-left: auto;
+        font-weight: 700;
+        font-size: 13px;
+        color: var(--pink);
+    }
+
     .free-delivery {
         display: flex;
         align-items: center;
@@ -365,6 +420,18 @@
             background: #008f45;
         }
 
+    /* Spec: "Transparent overlay added to the background of the screen, so that the tray has
+       more definition" - dimmed backdrop shown behind the tray while it's open (see site.js). */
+    .offcanvas-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.35);
+        z-index: 1040;
+    }
+
     .sidebar-offcanvas * {
         color: black !important;
     }
@@ -381,8 +448,7 @@
         <div class="mini-cart">
             <div class="mini-cart__header">
                 <span style=" color: white !important; ">
-                    Basket Summary
-                    <small>(@lbc.Count item@(lbc.Count == 1 ? "" : "s"))</small>
+                    Summary
                 </span>
 
                 <button type="button"
@@ -458,7 +524,7 @@
                                 Switch &amp; Save
 
                                 <p>
-                                    Save @basketSwitchSaving.ToString("C") by switching your basket to compatible products.
+                                    Save £@string.Format("{0:N2}", basketSwitchSaving) by switching your basket to compatible products.
                                 </p>
 
                             </div>
@@ -607,7 +673,7 @@
                                         @neg@string.Format("{0:N2}", bc.PriceEx)
 
                                         <span class="vat">
-                                            Ex VAT
+                                            @(isTradeCustomer ? "Trade Price, ex VAT" : "Ex VAT")
                                         </span>
 
                                         @if (discUnitPrice > 0)
@@ -626,7 +692,7 @@
 
                                     @if (!bc.IsFreeGift)
                                     {
-                                        <button class="cart-item__remove delete"
+                                        <button class="cart-item__remove basket-remove delete"
                                                 data-productid="@bc.StockRef"
                                                 type="button">
                                             <i class="fa fa-trash"></i>
@@ -697,7 +763,7 @@
 
                                                     <a href="@bc.ProductUrl">
 
-                                                        <img src="@bc.ImageUrl"
+                                                        <img src="@(!String.IsNullOrEmpty(bc.CrossSellingImageURL) ? bc.CrossSellingImageURL : bc.ImageUrl)"
                                                              alt="@bc.CrossSellingDescription"
                                                              class="switch-save__img"
                                                              onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
@@ -723,21 +789,14 @@
                                                         </div>
 
                                                         <div class="switch-save__price">
-                                                            Ex VAT
-                                                            <strong>
-                                                                @string.Format("{0:N2}", switchLinePriceEx)
-                                                            </strong>
-                                                        </div>
-
-                                                        <div class="switch-save__price">
-                                                            Inc VAT
-                                                            <strong>
-                                                                @string.Format("{0:N2}", switchLinePriceInc)
-                                                            </strong>
+                                                            £@string.Format("{0:N2}", switchLinePriceEx)
+                                                            <span class="vat">
+                                                                @(isTradeCustomer ? "Trade Price, ex VAT" : "exc. VAT")
+                                                            </span>
                                                         </div>
 
                                                         <div class="switch-save__save">
-                                                            Save @saving.ToString("C")
+                                                            Save £@string.Format("{0:N2}", saving) ex VAT
                                                         </div>
 
                                                         <button class="switch-save__btn atb-replace"
@@ -746,7 +805,7 @@
                                                                 data-removeid="@bc.StockRef"
                                                                 data-qty="@bc.Quantity">
 
-                                                            Switch Product
+                                                            Switch Now
 
                                                         </button>
 
@@ -773,7 +832,7 @@
             <div class="mini-cart__footer">
 
                 <div class="total-row">
-                    <span>Subtotal</span>
+                    <span>Total Payable</span>
 
                     <span>
                         £@bt.GrandTotalIncVat.ToString("0.00")
@@ -782,19 +841,33 @@
 
                 @if (Session["B_VoucherCode"].ToSafeString() != "")
                 {
-                    <div class="promo-success">
+                    decimal totalSaving = bt.Voucher + bt.VoucherVat;
 
-                        <i class="fa fa-check-circle"></i>
+                    <details class="promo" open="open">
 
-                        Voucher
+                        <summary>
+                            Promotion Code
+                        </summary>
 
-                        <strong>
-                            @Session["B_VoucherCode"]
-                        </strong>
+                        <div class="promo-applied">
 
-                        applied successfully.
+                            <span class="promo-applied__code">
+                                @Session["B_VoucherCode"]
+                            </span>
 
-                    </div>
+                            <button type="button"
+                                    class="voucher-remove"
+                                    title="Remove voucher code">
+                                <i class="fa fa-times"></i>
+                            </button>
+
+                            <span class="promo-applied__saving">
+                                -£@Math.Abs(totalSaving).ToString("0.00")
+                            </span>
+
+                        </div>
+
+                    </details>
                 }
                 else
                 {
@@ -819,6 +892,8 @@
 
                         </div>
 
+                        <div id="voucher-code-error" class="promo-error g-v-h"></div>
+
                     </details>
                 }
 
@@ -827,14 +902,14 @@
                     <i class="fa fa-truck"></i>
 
                     <span>
-                        Free UK delivery available on eligible orders
+                        @deliveryMessage
                     </span>
 
                 </div>
 
                 <button class="checkout-btn"
                         type="button"
-                        onclick="location.href='/checkout/'">
+                        onclick="proceedToCheckout()">
 
                     Proceed to Checkout
 

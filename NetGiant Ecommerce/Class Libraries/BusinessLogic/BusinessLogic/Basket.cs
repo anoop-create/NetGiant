@@ -938,6 +938,28 @@ namespace BusinessLogic
                         {
                             lbcEntry.Description = desc;
                         }
+
+                        // Switch & Save / cross-sell data - previously only ever populated once the
+                        // full /checkout/ page had loaded (CheckoutViewModel.ExtendBasket), which meant
+                        // the mini-cart showed no Switch & Save block until then. Populate it here too,
+                        // from the same GetSummaryData result set, so the mini-cart is correct immediately
+                        // after an add-to-basket.
+                        lbcEntry.CrossSellingStockRef = dt.Columns.Contains("CrossSellingStockRef") && dr["CrossSellingStockRef"] != DBNull.Value
+                            ? dr["CrossSellingStockRef"].ToString()
+                            : "";
+                        lbcEntry.CrossSellingPriceEx = dt.Columns.Contains("CrossSellingPriceEx") && dr["CrossSellingPriceEx"] != DBNull.Value
+                            ? Convert.ToDecimal(dr["CrossSellingPriceEx"])
+                            : 0;
+                        lbcEntry.CrossSellingAvailability = dt.Columns.Contains("CrossSellingAvailability") && dr["CrossSellingAvailability"] != DBNull.Value
+                            ? int.Parse(dr["CrossSellingAvailability"].ToString())
+                            : 0;
+                        lbcEntry.CrossSellingDescription = dt.Columns.Contains("CrossSellingDescription") && dr["CrossSellingDescription"] != DBNull.Value
+                            ? dr["CrossSellingDescription"].ToString()
+                            : "";
+                        lbcEntry.CrossSellingImageURL = dt.Columns.Contains("CrossSellingImageURL") && dr["CrossSellingImageURL"] != DBNull.Value
+                            ? dr["CrossSellingImageURL"].ToString()
+                            : "";
+                        lbcEntry.ExcludeFromUpSell = dt.Columns.Contains("ManufacturerName") && dr["ManufacturerName"].ToString() == "HP";
                         lbcEntry.IsVatExempt = isVatExempt;
                     }
                     catch (Exception e)

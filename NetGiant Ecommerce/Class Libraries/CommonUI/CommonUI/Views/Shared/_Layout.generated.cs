@@ -556,7 +556,11 @@ WriteLiteral(">\r\n");
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n");
+WriteLiteral("\r\n    <div");
+
+WriteLiteral(" id=\"youMayAlsoNeedContainer\"");
+
+WriteLiteral("></div>\r\n");
 
 WriteLiteral("    ");
 
@@ -607,14 +611,14 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteLiteral(" id=\"SearchApplication\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 3842), Tuple.Create("\"", 3927)
+WriteAttribute("value", Tuple.Create(" value=\"", 3886), Tuple.Create("\"", 3971)
             
             #line 84 "..\..\Views\Shared\_Layout.cshtml"
-, Tuple.Create(Tuple.Create("", 3850), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["SearchApplication"] == "SLI" ? "1" : "0"
+, Tuple.Create(Tuple.Create("", 3894), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["SearchApplication"] == "SLI" ? "1" : "0"
             
             #line default
             #line hidden
-, 3850), false)
+, 3894), false)
 );
 
 WriteLiteral(" />\r\n\r\n");
@@ -728,24 +732,24 @@ WriteLiteral("        <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 4473), Tuple.Create("\"", 4636)
-, Tuple.Create(Tuple.Create("", 4479), Tuple.Create("https://", 4479), true)
+WriteAttribute("src", Tuple.Create(" src=\"", 4517), Tuple.Create("\"", 4680)
+, Tuple.Create(Tuple.Create("", 4523), Tuple.Create("https://", 4523), true)
             
             #line 102 "..\..\Views\Shared\_Layout.cshtml"
-, Tuple.Create(Tuple.Create("", 4487), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["SLIDomain"]
+, Tuple.Create(Tuple.Create("", 4531), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["SLIDomain"]
             
             #line default
             #line hidden
-, 4487), false)
-, Tuple.Create(Tuple.Create("", 4535), Tuple.Create("/autocomplete/rac-resources-", 4535), true)
+, 4531), false)
+, Tuple.Create(Tuple.Create("", 4579), Tuple.Create("/autocomplete/rac-resources-", 4579), true)
             
             #line 102 "..\..\Views\Shared\_Layout.cshtml"
-                                                 , Tuple.Create(Tuple.Create("", 4563), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["WebsiteShortCode"]
+                                                 , Tuple.Create(Tuple.Create("", 4607), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["WebsiteShortCode"]
             
             #line default
             #line hidden
-, 4563), false)
-, Tuple.Create(Tuple.Create("", 4618), Tuple.Create("/sli-rac.config.js", 4618), true)
+, 4607), false)
+, Tuple.Create(Tuple.Create("", 4662), Tuple.Create("/sli-rac.config.js", 4662), true)
 );
 
 WriteLiteral(" defer></script>\r\n");
@@ -866,15 +870,15 @@ WriteLiteral("\r\n    <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 5586), Tuple.Create("\"", 5638)
-, Tuple.Create(Tuple.Create("", 5592), Tuple.Create("https://api.feefo.com/api/javascript/", 5592), true)
+WriteAttribute("src", Tuple.Create(" src=\"", 5630), Tuple.Create("\"", 5682)
+, Tuple.Create(Tuple.Create("", 5636), Tuple.Create("https://api.feefo.com/api/javascript/", 5636), true)
             
             #line 129 "..\..\Views\Shared\_Layout.cshtml"
-, Tuple.Create(Tuple.Create("", 5629), Tuple.Create<System.Object, System.Int32>(siteName
+, Tuple.Create(Tuple.Create("", 5673), Tuple.Create<System.Object, System.Int32>(siteName
             
             #line default
             #line hidden
-, 5629), false)
+, 5673), false)
 );
 
 WriteLiteral(" async></script>\r\n</body>\r\n</html>\r\n");

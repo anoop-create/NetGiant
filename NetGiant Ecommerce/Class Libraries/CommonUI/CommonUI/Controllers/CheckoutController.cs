@@ -1371,6 +1371,13 @@ namespace CommonUI.Controllers
                     ViewBag.OrderIsOnHold = true;
                 }
 
+                // Also render the mini-cart summary so it can be refreshed in place when the
+                // voucher is applied from there (previously this was left blank and only the
+                // full basket page picked up the applied voucher).
+                basketSummary = RenderPartialViewToString(
+                    "~/Views/Shared/BasketSummary.cshtml",
+                    model);
+
                 sr.Html = RenderPartialViewToString(
                     "~/Views/Checkout/BasketDetails.cshtml",
                     model);
@@ -1433,6 +1440,41 @@ namespace CommonUI.Controllers
             });
         }
 
+        /// <summary>
+        /// Called when the mini-cart's "Proceed to Checkout" button is clicked. If any basket
+        /// item has in-stock add-on products linked via ProductAddon, returns the "You May Also
+        /// Need" popup markup so the mini-cart JS can show it instead of navigating straight to
+        /// /checkout/. Capped at 3 products total across the whole basket, deduped, and excludes
+        /// anything already in the basket.
+        /// </summary>
+        [HttpPost]
+        public JsonResult GetAddSellPopup()
+        {
+            model = new CheckoutViewModel();
+            model.ExtendBasket();
+            model.GetAddOn();
+
+            List<string> basketRefs = model.BasketContents.Select(x => x.StockRef).ToList();
+
+            List<BasketContents> addSell = model.BasketContents
+                .Where(x => x.AddonProducts != null)
+                .SelectMany(x => x.AddonProducts)
+                .Where(x => !basketRefs.Contains(x.StockRef))
+                .GroupBy(x => x.StockRef)
+                .Select(g => g.First())
+                .Take(3)
+                .ToList();
+
+            if (addSell.Count == 0)
+            {
+                return Json(new { hasAddSell = false });
+            }
+
+            string html = RenderPartialViewToString("~/Views/Shared/YouMayAlsoNeed.cshtml", addSell);
+
+            return Json(new { hasAddSell = true, html = html });
+        }
+
         public JsonResult RefreshViewBasket()
         {
             SaveReturn sr = new SaveReturn();
@@ -1480,6 +1522,7 @@ namespace CommonUI.Controllers
             }
 
             BasketTotals bt = (BasketTotals)Session["B_BasketTotals"];
+
             return Json(new
             {
                 savereturn = sr,

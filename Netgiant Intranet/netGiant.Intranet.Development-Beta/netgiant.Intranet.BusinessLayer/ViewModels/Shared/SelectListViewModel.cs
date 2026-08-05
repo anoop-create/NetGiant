@@ -751,7 +751,7 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.Shared
             {
                 using (ngmdEntities db = new ngmdEntities())
                 {
-                    IQueryable<product> query = db.product.Where(x => x.productItemTypeFK != 2);
+                    IQueryable<product> query = db.product.Where(x => x.productStatusFK == 1 || x.productStatusFK == 7);
 
                     if (!string.IsNullOrEmpty(searchTerm))
                     {

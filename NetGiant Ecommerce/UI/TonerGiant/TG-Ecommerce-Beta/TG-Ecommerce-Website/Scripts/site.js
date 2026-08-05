@@ -680,6 +680,122 @@ function refreshVbFields(data) {
     });
 }
 
+// Sets a basket line to an absolute quantity - used by the qty stepper buttons in the
+// mini-cart (BasketSummary.cshtml) and the full basket page (BasketDetails.cshtml).
+function changeBasketQty(productref, qty) {
+    var isCheckout = isCurrentPage('/checkout');
+
+    $.ajax({
+        url: "/Product/BasketUpdateQty/",
+        dataType: 'json',
+        traditional: true,
+        type: 'POST',
+        cache: false,
+        data: {
+            productref: productref,
+            qty: qty
+        },
+        async: false,
+        success: function (data) {
+            if (!data.savereturn.IsSuccess) {
+                launchPopup('IsInCheckout', 'popup');
+                return false;
+            }
+
+            if (isCheckout) {
+                refreshViewBasket();
+            } else {
+                $('#utility-bar #basket').replaceWith(data.basketSummary);
+                $('.basketQuantity').html(data.basketQuantity);
+                $('.basketTotal').html(data.basketTotal);
+                $('.basket-counter').html(data.basketQuantity);
+                setDeferredImages();
+            }
+
+            renderPaypalButtonV2();
+        },
+        error: function (xhr, textStatus, thrownError) {
+            logAjaxScriptError("/Product/BasketUpdateQty/", xhr, textStatus, thrownError);
+        }
+    });
+}
+
+// Shared "You May Also Need" lookup - asks the server whether the current basket has any
+// eligible add-on products (in stock, not already in the basket). Calls onEligible(html) if
+// so, otherwise onNotEligible() (both optional). Used both by the mini-cart's Proceed to
+// Checkout click and by every "Add to Basket" click site-wide (see .atb-add handler below).
+function requestAddSellPopup(onEligible, onNotEligible) {
+    $.ajax({
+        url: "/Checkout/GetAddSellPopup/",
+        dataType: 'json',
+        type: 'POST',
+        cache: false,
+        async: false,
+        success: function (data) {
+            if (data && data.hasAddSell) {
+                if (onEligible) { onEligible(data.html); }
+            } else if (onNotEligible) {
+                onNotEligible();
+            }
+        },
+        error: function (xhr, textStatus, thrownError) {
+            logAjaxScriptError("/Checkout/GetAddSellPopup/", xhr, textStatus, thrownError);
+            if (onNotEligible) { onNotEligible(); }
+        }
+    });
+}
+
+// Inserts the popup markup and tags it with where it came from - 'checkout' (closing/X should
+// still take the customer through to /checkout/, since that's what they were trying to do) vs
+// 'addtocart' (closing should just dismiss it and leave them where they are).
+function showAddSellPopup(html, context) {
+    $('#you-may-also-need').remove();
+    $('body').append(html);
+    $('#you-may-also-need').attr('data-context', context);
+    setDeferredImages();
+}
+
+// Mini-cart "Proceed to Checkout" click. Checks for eligible "You May Also Need" add-on
+// products first; if there are none (or the popup has already been shown/skipped this visit),
+// goes straight to /checkout/.
+function proceedToCheckout() {
+    if ($('#you-may-also-need').length) {
+        // Popup already open/shown - a second click on Proceed skips straight through.
+        $('#you-may-also-need').remove();
+        window.location.href = '/checkout/';
+        return;
+    }
+
+    requestAddSellPopup(
+        function (html) {
+            showAddSellPopup(html, 'checkout');
+
+            // On mobile the mini-cart tray isn't shown alongside the popup - close it.
+            if ($(window).width() < 768) {
+                $('[data-toggle="offcanvas-close"]').trigger('click');
+            }
+        },
+        function () {
+            window.location.href = '/checkout/';
+        }
+    );
+}
+
+// Called after any successful "Add to Basket" click, from anywhere on the site (product page,
+// category listing, the inline "You May Also Need" section on the basket page, etc.) - if the
+// item(s) now in the basket have eligible add-ons, surface the same popup right away instead of
+// only waiting for the mini-cart's Proceed to Checkout click.
+function maybeShowAddSellPopupAfterAdd() {
+    if ($('#you-may-also-need').length) {
+        // Already showing (e.g. rapid double-add) - don't stack a second copy.
+        return;
+    }
+
+    requestAddSellPopup(function (html) {
+        showAddSellPopup(html, 'addtocart');
+    });
+}
+
 function startTime() {
     //var currTime = new Array();
     var cutOffTime = new Array();
@@ -1388,6 +1504,7 @@ $(function () {
                     success: function (data) {
                         changeBasketComplete(data, thisbutton);
                         refreshViewBasket();
+                        maybeShowAddSellPopupAfterAdd();
                     },
                     error: function (xhr, textStatus, thrownError) {
                         logAjaxScriptError("/Product/BasketAdd/", xhr, textStatus, thrownError);
@@ -1961,6 +2078,7 @@ $(function () {
                     }
                     refreshViewBasket();
                     renderPaypalButtonV2();
+                    maybeShowAddSellPopupAfterAdd();
                 },
                 error: function (xhr, textStatus, thrownError) {
                     logAjaxScriptError("/Product/BasketReplace/", xhr, textStatus, thrownError);
@@ -1983,6 +2101,7 @@ $(function () {
 
                 refreshViewBasket();
                 renderPaypalButtonV2();
+                maybeShowAddSellPopupAfterAdd();
             },
 
             error: function (xhr, textStatus, thrownError) {
@@ -1990,6 +2109,168 @@ $(function () {
             }
         });
     });
+    // Mini-cart promotion code - apply
+    $(document).on('click', '#apply-voucher', function () {
+        var code = $.trim($('#voucher-code1').val());
+        var $error = $('#voucher-code-error');
+
+        if (!code) {
+            return false;
+        }
+
+        $.ajax({
+            url: "/Checkout/ApplyVoucher/",
+            dataType: 'json',
+            traditional: true,
+            type: 'POST',
+            cache: false,
+            data: {
+                voucherCode: code
+            },
+            async: false,
+            success: function (data) {
+                if (!data || !data.savereturn || !data.savereturn.IsSuccess) {
+                    if ($error.length) {
+                        $error.text((data && data.savereturn && data.savereturn.Message) || 'Sorry, that code isn\'t valid.').removeClass('g-v-h');
+                    }
+                    return false;
+                }
+
+                $('#utility-bar #basket').replaceWith(data.basketSummary);
+                $('.basketQuantity').html(data.basketQuantity);
+                $('.basketTotal').html(data.basketTotal);
+                $('.basket-counter').html(data.basketQuantity);
+                setDeferredImages();
+                renderPaypalButtonV2();
+            },
+            error: function (xhr, textStatus, thrownError) {
+                logAjaxScriptError("/Checkout/ApplyVoucher/", xhr, textStatus, thrownError);
+            }
+        });
+    });
+
+    // Mini-cart promotion code - remove
+    $(document).on('click', '.voucher-remove', function () {
+        $.ajax({
+            url: "/Checkout/RemoveVoucher/",
+            dataType: 'json',
+            traditional: true,
+            type: 'POST',
+            cache: false,
+            async: false,
+            success: function (data) {
+                $('#utility-bar #basket').replaceWith(data.basketSummary);
+                $('.basketQuantity').html(data.basketQuantity);
+                $('.basketTotal').html(data.basketTotal);
+                $('.basket-counter').html(data.basketQuantity);
+                setDeferredImages();
+                renderPaypalButtonV2();
+            },
+            error: function (xhr, textStatus, thrownError) {
+                logAjaxScriptError("/Checkout/RemoveVoucher/", xhr, textStatus, thrownError);
+            }
+        });
+    });
+
+    // "You May Also Need" carousel on the full basket page - shows 3 (1 on mobile) at a time,
+    // with left/right arrows stepping one card at a time. Arrows only render when there are
+    // more than 3 add-ons (see BasketDetails.cshtml), so this just needs to move/disable them.
+    function ymnCarouselStep($wrapper, direction) {
+        var $viewport = $wrapper.find('.you-may-need-products');
+        var $track = $wrapper.find('.you-may-need-track');
+        var $items = $track.find('.need-product');
+
+        if (!$items.length) {
+            return;
+        }
+
+        var gap = parseFloat($track.css('gap')) || 0;
+        var step = $items.first().outerWidth() + gap;
+        var visibleCount = Math.max(1, Math.round($viewport.width() / step));
+        var maxIndex = Math.max(0, $items.length - visibleCount);
+
+        var currentIndex = parseInt($wrapper.attr('data-index'), 10) || 0;
+        var newIndex = currentIndex + direction;
+        if (newIndex < 0) { newIndex = 0; }
+        if (newIndex > maxIndex) { newIndex = maxIndex; }
+
+        $wrapper.attr('data-index', newIndex);
+        $track.css('transform', 'translateX(-' + (newIndex * step) + 'px)');
+
+        $wrapper.find('.need-arrow.prev').prop('disabled', newIndex === 0);
+        $wrapper.find('.need-arrow.next').prop('disabled', newIndex === maxIndex);
+    }
+
+    $(document).on('click', '.need-arrow.prev', function () {
+        ymnCarouselStep($(this).closest('.you-may-need-wrapper'), -1);
+    });
+
+    $(document).on('click', '.need-arrow.next', function () {
+        ymnCarouselStep($(this).closest('.you-may-need-wrapper'), 1);
+    });
+
+    // Mini-cart "Proceed to Checkout" - may show the "You May Also Need" popup first if the
+    // basket has in-stock add-on products linked to anything in it. Clicking Proceed a second
+    // time (popup already open) skips straight to /checkout/.
+
+    // The popup's own "Proceed to Checkout" button (mobile only) always means checkout,
+    // regardless of how the popup was opened.
+    $(document).on('click', '#you-may-also-need .ymn-proceed', function () {
+        $('#you-may-also-need').remove();
+        window.location.href = '/checkout/';
+    });
+
+    // The X/close button only forces a checkout redirect if the popup was opened from the
+    // mini-cart's Proceed to Checkout click. If it was opened after a plain "Add to Basket"
+    // (from a product page, category listing, etc.), closing it should just dismiss it and
+    // leave the customer where they were.
+    $(document).on('click', '#you-may-also-need .ymn-close', function () {
+        var context = $('#you-may-also-need').attr('data-context');
+        $('#you-may-also-need').remove();
+        if (context === 'checkout') {
+            window.location.href = '/checkout/';
+        }
+    });
+
+    // Quietly add an item from the "You May Also Need" popup - refresh the mini-cart in place
+    // without the usual "added to basket" toast/animation, and without closing the popup, so
+    // the user can add more than one of the three items before proceeding.
+    $(document).on('click', '.ymn-add', function () {
+        var ref = $(this).attr('data-productid');
+        var thisbutton = $(this);
+
+        $.ajax({
+            url: "/Product/BasketAdd/",
+            dataType: 'json',
+            traditional: true,
+            type: 'POST',
+            cache: false,
+            data: {
+                productref: ref,
+                productprice: 0,
+                productqty: 1,
+                itemtype: '1'
+            },
+            async: false,
+            success: function (data) {
+                if (!data.savereturn.IsSuccess) {
+                    launchPopup('IsInCheckout', 'popup');
+                    return false;
+                }
+
+                $('#utility-bar #basket').replaceWith(data.basketSummary);
+                $('.basketQuantity').html(data.basketQuantity);
+                $('.basketTotal').html(data.basketTotal);
+                $('.basket-counter').html(data.basketQuantity);
+                setDeferredImages();
+                thisbutton.text('Added').prop('disabled', true);
+            },
+            error: function (xhr, textStatus, thrownError) {
+                logAjaxScriptError("/Product/BasketAdd/", xhr, textStatus, thrownError);
+            }
+        });
+    });
+
     // Brand Wizard
     $('.hm-bw-links').hide();
     $(document).on('mouseenter',
@@ -2293,11 +2574,22 @@ $(function () {
             var contentContainer = thisparent.find('.content');
 
             utilityDotDotDot(contentContainer);
+
+            // Spec: "transparent overlay added to the background of the screen, so that the
+            // tray has more definition" - dim the rest of the page while the mini-cart is open.
+            if (!$('.offcanvas-backdrop').length) {
+                $('body').append('<div class="offcanvas-backdrop"></div>');
+            }
         });
+
+    $(document).on('click', '.offcanvas-backdrop', function () {
+        $('[data-toggle="offcanvas-close"]').trigger('click');
+    });
 
     $('[data-toggle="offcanvas-close"]').click(function () {
         $('.row-offcanvas').toggleClass('active');
         $('[data-toggle="offcanvas-open"]').removeClass('active');
+        $('.offcanvas-backdrop').remove();
     });
 
     $(document).on('click',

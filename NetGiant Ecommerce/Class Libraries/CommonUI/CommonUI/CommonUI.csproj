@@ -762,6 +762,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UtilityBar.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Shared\YouMayAlsoNeed.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>YouMayAlsoNeed.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shared\_Blank.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1372,6 +1377,10 @@
     <Content Include="Views\Misc\TradeApplicationComponents.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>TradeApplicationComponents.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Shared\YouMayAlsoNeed.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>YouMayAlsoNeed.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

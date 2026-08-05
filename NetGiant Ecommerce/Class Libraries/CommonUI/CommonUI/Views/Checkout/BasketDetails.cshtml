@@ -584,14 +584,44 @@
         font-weight: 600;
     }
 
-    .you-may-need-products {
+    .you-may-need-wrapper {
         display: flex;
-        gap: 20px;
+        align-items: center;
+        gap: 8px;
         padding: 20px;
     }
 
-    .need-product {
+    .need-arrow {
+        flex: 0 0 auto;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid #d9d9d9;
+        background: #fff;
+        color: #0d7397;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+        .need-arrow:disabled {
+            color: #ccc;
+            cursor: default;
+        }
+
+    .you-may-need-products {
         flex: 1;
+        overflow: hidden;
+    }
+
+    .you-may-need-track {
+        display: flex;
+        gap: 20px;
+        transition: transform 0.3s ease;
+    }
+
+    .need-product {
+        flex: 0 0 calc((100% - 40px) / 3);
+        max-width: calc((100% - 40px) / 3);
         text-align: center;
     }
 
@@ -761,29 +791,12 @@
         background-color: #5cb85c !important;
         border-color: #4cae4c !important;
     }
-    .you-may-need-products {
-        display: flex;
-        gap: 20px;
-        padding: 20px;
-        overflow-x: auto;
-        overflow-y: hidden;
-        flex-wrap: nowrap;
-        scrollbar-width: thin;
-    }
-
-        .you-may-need-products::-webkit-scrollbar {
-            height: 8px;
+    /* Mobile: one card per "page" instead of three */
+    @@media (max-width: 767px) {
+        .need-product {
+            flex: 0 0 100%;
+            max-width: 100%;
         }
-
-        .you-may-need-products::-webkit-scrollbar-thumb {
-            background: #ccc;
-            border-radius: 4px;
-        }
-
-    .need-product {
-        flex: 0 0 calc((100% - 40px) / 3);
-        max-width: calc((100% - 40px) / 3);
-        text-align: center;
     }
 </style>
 
@@ -859,7 +872,7 @@
                                     Switch &amp; Save
 
                                     <p>
-                                        Save @basketSwitchSaving.ToString("C") by switching your basket to compatible products.
+                                        Save £@string.Format("{0:N2}", basketSwitchSaving) by switching your basket to compatible products.
                                     </p>
 
                                 </div>
@@ -1214,7 +1227,7 @@
                                                                 </div>
                                                                 <div class="price-row save-saving">
                                                                     <span>Save</span>
-                                                                    <strong>@saving.ToString("C")</strong>
+                                                                    <strong>£@string.Format("{0:N2}", saving)</strong>
                                                                     <span>Ex. VAT</span>
                                                                 </div>
                                                             </div>
@@ -1245,7 +1258,23 @@
                         }
 
                         <hr class="g-m-tb-10" />
-                        if (list.Count>0)
+                        @{
+                            // Flatten + dedupe across every basket line's add-ons - without this,
+                            // the same add-on could show once per basket line that links to it.
+                            var seenAddOnRefs = new HashSet<string>();
+                            var addOnsToShow = new List<BasketContents>();
+                            foreach (var items in list)
+                            {
+                                foreach (var addOn in items.AddonProducts)
+                                {
+                                    if (seenAddOnRefs.Add(addOn.StockRef))
+                                    {
+                                        addOnsToShow.Add(addOn);
+                                    }
+                                }
+                            }
+                        }
+                        if (addOnsToShow.Count > 0)
                         {
                             <div class="you-may-need">
 
@@ -1253,41 +1282,57 @@
                                     You May Also Need...
                                 </div>
 
-                                <div class="you-may-need-products">
+                                <div class="you-may-need-wrapper" data-index="0">
 
-                                    @foreach (var items in list)
+                                    @if (addOnsToShow.Count > 3)
                                     {
-                                        foreach (var addOn in items.AddonProducts)
-                                        {
-                                            <div class="need-product">
+                                        <button type="button" class="need-arrow prev" disabled aria-label="Previous">
+                                            <i class="fa fa-chevron-left"></i>
+                                        </button>
+                                    }
 
-                                                <a href="@addOn.ImageUrl">
-                                                    <img src="@addOn.ImageUrl"
-                                                         class="img-responsive"
-                                                         onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
-                                                </a>
+                                    <div class="you-may-need-products">
+                                        <div class="you-may-need-track">
 
-                                                <a class="need-title"
-                                                   href="@addOn.ImageUrl">
-                                                    @addOn.Description
-                                                </a>
+                                            @foreach (var addOn in addOnsToShow)
+                                            {
+                                                <div class="need-product">
 
-                                                <div class="need-price">
-                                                    @addOn.PriceEx.ToString("C")
-                                                    <small>Ex VAT</small>
+                                                    <a href="@addOn.ProductUrl">
+                                                        <img src="@addOn.ImageUrl"
+                                                             class="img-responsive"
+                                                             onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
+                                                    </a>
+
+                                                    <a class="need-title"
+                                                       href="@addOn.ProductUrl">
+                                                        @addOn.Description
+                                                    </a>
+
+                                                    <div class="need-price">
+                                                        £@string.Format("{0:N2}", addOn.PriceEx)
+                                                        <small>Ex VAT</small>
+                                                    </div>
+
+                                                    <button class="btn btn-success atb-add"
+                                                            data-productid="@addOn.StockRef"
+                                                            data-price="@addOn.PriceEx"
+                                                            data-qty="1">
+                                                        Add to Basket
+                                                    </button>
+
                                                 </div>
 
-                                                <button class="btn btn-success atb-add"
-                                                        data-productid="@addOn.StockRef"
-                                                        data-price="@addOn.PriceEx"
-                                                        data-qty="1">
-                                                    Add to Basket
-                                                </button>
+                                            }
 
-                                            </div>
-                                            
-                                        }
+                                        </div>
+                                    </div>
 
+                                    @if (addOnsToShow.Count > 3)
+                                    {
+                                        <button type="button" class="need-arrow next" aria-label="Next">
+                                            <i class="fa fa-chevron-right"></i>
+                                        </button>
                                     }
 
                                 </div>

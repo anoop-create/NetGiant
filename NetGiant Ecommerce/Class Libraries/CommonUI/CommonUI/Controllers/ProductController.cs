@@ -440,6 +440,72 @@ namespace CommonUI.Controllers
             });
         }
 
+        /// <summary>
+        /// Sets a basket line to an absolute quantity (used by the mini-cart and basket page
+        /// quantity steppers). Basket.Update()/BasketAdd only ever ADD to the existing quantity,
+        /// so the stepper needs this to set qty directly.
+        /// </summary>
+        [HttpPost]
+        public JsonResult BasketUpdateQty(string productref, int qty)
+        {
+            SaveReturn sr = new SaveReturn();
+            model = new ProductViewModel();
+
+            if (Session["C_IsInCheckout"] != null)
+            {
+                sr.IsSuccess = false;
+
+                return Json(new
+                {
+                    savereturn = sr
+                });
+            }
+
+            if (qty <= 0)
+            {
+                sr = Basket.Delete(productref);
+            }
+            else
+            {
+                sr = Basket.UpdateQty(productref, qty);
+            }
+
+            bool productHasOffer = model.IsCompatibleSaleActive
+                || (Convert.ToBoolean(ConfigurationManager.AppSettings["PPCPromoIsOn"]) && Convert.ToBoolean(Session["U_IsFromPPC"]) && ConfigurationManager.AppSettings["PPCPromoAppl"] != "OEM");
+
+            string basketSummary = sr.Html = RenderPartialViewToString("~/Views/Shared/BasketSummary.cshtml", model);
+
+            List<BasketContents> lbc = Utilities.LoadSession<List<BasketContents>>("B_BasketArray");
+            var i = lbc.FindIndex(x => x.StockRef == productref);
+            BasketContents bc = i >= 0 ? lbc[i] : new BasketContents();
+
+            ViewData.Add("Section", "Info");
+            ViewData.Add("ProductHasOffer", productHasOffer);
+            string infoMessage = RenderPartialViewToString("~/Views/Product/InfoMessage.cshtml", bc);
+            ViewData.Clear();
+            ViewData.Add("Section", "Price");
+            ViewData.Add("ProductHasOffer", productHasOffer);
+            ViewData.Add("PriceEx", bc.PriceEx);
+            ViewData.Add("PriceInc", bc.PriceInc);
+            string priceMessage = RenderPartialViewToString("~/Views/Product/InfoMessage.cshtml", bc);
+
+            Basket.RemoveDelivery();
+            Basket.GetBallparkDelivery();
+
+            BasketTotals bt = (BasketTotals)Session["B_BasketTotals"];
+
+            return Json(new
+            {
+                savereturn = sr,
+                basketTotals = Session["B_BasketTotals"],
+                basketSummary = basketSummary,
+                basketQuantity = bt.Quantity.ToString("##0"),
+                basketTotal = ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "1" ? bt.TotalIncVat.ToString("#,###,##0.00") : (bt.TotalExcVat - bt.Delivery).ToString("#,###,##0.00"),
+                productInfoMessage = infoMessage,
+                productPriceMessage = priceMessage
+            });
+        }
+
         public JsonResult BasketDelete(string productref)
         {
             SaveReturn sr = new SaveReturn();
