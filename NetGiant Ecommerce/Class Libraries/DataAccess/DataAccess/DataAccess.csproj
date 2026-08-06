@@ -368,6 +368,9 @@
     <Compile Include="EntityFramework\GetProductPrices_Result.cs">
       <DependentUpon>Ngmd.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\GetProductResultsById_Result.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\GetProductResults_Result.cs">
       <DependentUpon>Ngmd.tt</DependentUpon>
     </Compile>
@@ -636,6 +639,9 @@
       <DependentUpon>Ngmd.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\Website.cs">
+      <DependentUpon>Ngmd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\WebsiteInfoCard.cs">
       <DependentUpon>Ngmd.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\websiteInventory.cs">

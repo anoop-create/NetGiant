@@ -35,10 +35,12 @@
     /* Add-to-basket context: no mini-cart tray is open alongside it, so sit flush to the
        right edge instead of leaving a gap where the tray would normally be. */
     #you-may-also-need[data-context="addtocart"] {
-        right: 20px;
-        top: 20px;
-        max-height: calc(100vh - 40px);
-    }
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+     }
 
     #you-may-also-need .ymn-header {
         background: #0d7397;
@@ -60,54 +62,91 @@
         cursor: pointer;
     }
 
-    #you-may-also-need .ymn-products {
-        padding: 20px;
+    /* Card row - matches the inline "You May Also Need" carousel on the full basket page
+       (BasketDetails.cshtml: .you-may-need-wrapper / .need-arrow / .need-product etc), just
+       scoped under #you-may-also-need since this partial is rendered standalone via AJAX and
+       can't rely on that page's own <style> block being present. Reusing the same class names
+       also means the existing carousel click handlers in site.js ($(document).on('click',
+       '.need-arrow.prev'/'.next', ...)) work here automatically with no JS changes. */
+    #you-may-also-need .you-may-need-wrapper {
         display: flex;
-        gap: 20px;
+        align-items: center;
+        gap: 8px;
+        padding: 20px;
     }
 
-    #you-may-also-need .ymn-product {
+    #you-may-also-need .need-arrow {
+        flex: 0 0 auto;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid #d9d9d9;
+        background: #fff;
+        color: #0d7397;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+        #you-may-also-need .need-arrow:disabled {
+            color: #ccc;
+            cursor: default;
+        }
+
+    #you-may-also-need .you-may-need-products {
+        flex: 1;
+        overflow: hidden;
+    }
+
+    #you-may-also-need .you-may-need-track {
+        display: flex;
+        gap: 20px;
+        transition: transform 0.3s ease;
+    }
+
+    #you-may-also-need .need-product {
         flex: 0 0 calc((100% - 40px) / 3);
         max-width: calc((100% - 40px) / 3);
         text-align: center;
     }
 
-    #you-may-also-need .ymn-product img {
-        width: 120px;
-        height: 90px;
-        object-fit: contain;
-        margin-bottom: 12px;
-    }
-
-    #you-may-also-need .ymn-title {
-        display: block;
-        font-size: 13px;
-        line-height: 18px;
-        font-weight: 600;
-        color: #333;
-        text-decoration: none;
-        margin-bottom: 2px;
-    }
-
-    #you-may-also-need .ymn-partno {
-        font-size: 12px;
-        color: #777;
-        margin: 6px 0;
-    }
-
-    #you-may-also-need .ymn-price {
-        font-size: 15px;
-        font-weight: 700;
-        color: #0d7397;
-        margin: 10px 0;
-    }
-
-        #you-may-also-need .ymn-price small {
-            font-size: 12px;
-            font-weight: 400;
-            color: #666;
+        #you-may-also-need .need-product img {
+            width: 120px;
+            height: 90px;
+            object-fit: contain;
+            margin-bottom: 12px;
         }
 
+    #you-may-also-need .need-title {
+        display: block;
+        color: #333;
+        font-size: 13px;
+        line-height: 18px;
+        min-height: 55px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+        #you-may-also-need .need-title:hover {
+            color: #0099cc;
+        }
+
+    #you-may-also-need .need-price {
+        font-size: 18px;
+        color: #0099cc;
+        font-weight: 700;
+        margin: 12px 0;
+    }
+
+        #you-may-also-need .need-price small {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            font-weight: 400;
+        }
+
+    /* Kept as its own class (not .atb-add) - this is the "quiet" add-to-basket that just
+       refreshes the mini-cart without closing the popup or re-triggering this same popup
+       again. Styled to look identical to the carousel's green "Add to Basket" button. */
     #you-may-also-need .ymn-add {
         width: 100%;
         background: #00a651;
@@ -149,11 +188,7 @@
             border-radius: 0;
         }
 
-        #you-may-also-need .ymn-products {
-            flex-direction: column;
-        }
-
-        #you-may-also-need .ymn-product {
+        #you-may-also-need .need-product {
             flex: 0 0 100%;
             max-width: 100%;
         }
@@ -174,38 +209,60 @@
         </button>
     </div>
 
-    <div class="ymn-products">
+    <div class="you-may-need-wrapper" data-index="0">
 
-        @foreach (BasketContents addOn in Model)
+        @if (Model.Count > 3)
         {
-            <div class="ymn-product">
+            <button type="button" class="need-arrow prev" disabled aria-label="Previous">
+                <i class="fa fa-chevron-left"></i>
+            </button>
+        }
 
-                <a href="@addOn.ProductUrl">
-                    <img src="@addOn.ImageUrl"
-                         alt="@addOn.Description"
-                         onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
-                </a>
+        <div class="you-may-need-products">
+            <div class="you-may-need-track">
 
-                <a href="@addOn.ProductUrl" class="ymn-title">
-                    @addOn.Description
-                </a>
+                @foreach (BasketContents addOn in Model)
+                {
+                    <div class="need-product">
 
-                <div class="ymn-partno">
-                    @addOn.PartNo
-                </div>
+                        @{
+                            var productUrl = addOn.ProductUrl.StartsWith("/")
+                                ? addOn.ProductUrl
+                                : "/" + addOn.ProductUrl;
+                        }
 
-                <div class="ymn-price">
-                    £@string.Format("{0:N2}", addOn.PriceEx)
-                    <small>exc. VAT</small>
-                </div>
+                        <a href="@productUrl">
+                            <img src="@addOn.ImageUrl"
+                                 alt="@addOn.Description"
+                                 onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
+                        </a>
 
-                <button type="button"
-                        class="ymn-add"
-                        data-productid="@addOn.StockRef">
-                    Add to Basket
-                </button>
+                        <a href="@productUrl" class="need-title">
+                            @addOn.Description
+                        </a>
+
+                        <div class="need-price">
+                            £@string.Format("{0:N2}", addOn.PriceEx)
+                            <small>Ex VAT</small>
+                        </div>
+
+                        <button type="button"
+                                class="ymn-add"
+                                data-productid="@addOn.StockRef">
+                            Add to Basket
+                        </button>
+
+                    </div>
+                }
 
             </div>
+        </div>
+
+        @if (Model.Count > 3)
+        {
+            <button type="button" class="need-arrow next" aria-label="Next">
+                <i class="fa fa-chevron-right"></i>
+            </button>
         }
 
     </div>

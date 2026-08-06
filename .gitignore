@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/NetGiant Ecommerce/Class Libraries/BusinessLogic/BusinessLogic/bin/Debug
+/NetGiant Ecommerce/Class Libraries/CommonUI/CommonUI/bin
+/NetGiant Ecommerce/Class Libraries/DataAccess/DataAccess/bin/Debug

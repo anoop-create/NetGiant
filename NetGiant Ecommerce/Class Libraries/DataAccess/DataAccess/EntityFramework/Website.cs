@@ -39,6 +39,7 @@ namespace DataAccess.EntityFramework
             this.Log = new HashSet<Log>();
             this.AXISGroups = new HashSet<AXISGroups>();
             this.BatchLog = new HashSet<BatchLog>();
+            this.WebsiteInfoCards = new HashSet<WebsiteInfoCard>();
         }
     
         public int WebsiteID { get; set; }
@@ -92,5 +93,7 @@ namespace DataAccess.EntityFramework
         public virtual ICollection<AXISGroups> AXISGroups { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BatchLog> BatchLog { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WebsiteInfoCard> WebsiteInfoCards { get; set; }
     }
 }

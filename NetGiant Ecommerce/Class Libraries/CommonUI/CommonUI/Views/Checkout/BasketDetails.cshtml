@@ -684,6 +684,18 @@
         overflow: hidden;
     }
 
+    .sidebar-card.banner {
+        border: none;
+        border-radius: 8px;
+    }
+
+        .sidebar-card.banner .sidebar-banner-img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
     .card-header {
         display: flex;
         align-items: center;
@@ -927,8 +939,12 @@
 
                                         <!-- Product Image -->
                                         <div class="col-lg-2 col-md-3 col-sm-3 col-4">
-
-                                            <a href="@bc.ProductUrl" class="basket-card-image">
+                                            @{
+                                                var productUrl = bc.ProductUrl.StartsWith("/")
+                                                    ? bc.ProductUrl
+                                                    : "/" + bc.ProductUrl;
+                                            }
+                                            <a href="@productUrl" class="basket-card-image">
 
                                                 <img src="@bc.ImageUrl"
                                                      alt="@bc.Description"
@@ -945,7 +961,7 @@
                                             <div class="basket-card-details">
 
                                                 <h4 class="basket-product-title">
-                                                    <a href="@bc.ProductUrl">
+                                                    <a href="@productUrl">
                                                         @bc.Description
                                                     </a>
                                                 </h4>
@@ -1183,8 +1199,12 @@
                                             {
                                                 <div class="switch-save-card">
                                                     <div class="col-lg-2 col-md-3 col-sm-3 col-4">
-
-                                                        <a href="@bc.ProductUrl" class="basket-card-image">
+                                                        @{
+                                                            var productUrl1 = bc.ProductUrl.StartsWith("/")
+                                                                ? bc.ProductUrl
+                                                                : "/" + bc.ProductUrl;
+                                                        }
+                                                        <a href="@productUrl1" class="basket-card-image">
 
                                                             <img src="@bc.ImageUrl"
                                                                  alt="@bc.Description"
@@ -1297,15 +1317,19 @@
                                             @foreach (var addOn in addOnsToShow)
                                             {
                                                 <div class="need-product">
-
-                                                    <a href="@addOn.ProductUrl">
+                                                    @{
+                                                        var productUrl = addOn.ProductUrl.StartsWith("/")
+                                                            ? addOn.ProductUrl
+                                                            : "/" + addOn.ProductUrl;
+                                                    }
+                                                    <a href="@productUrl">
                                                         <img src="@addOn.ImageUrl"
                                                              class="img-responsive"
                                                              onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
                                                     </a>
 
                                                     <a class="need-title"
-                                                       href="@addOn.ProductUrl">
+                                                       href="@productUrl">
                                                         @addOn.Description
                                                     </a>
 
@@ -1641,103 +1665,70 @@
                 @Html.Hidden("PaymentAmountPaid", Model.BasketTotals.GrandTotalIncVat)
             </form>
         }
+        @{
+            // Sidebar content (sale banner + "Find Out More" cards) is managed via the
+            // Intranet's Website Info Cards admin screen and read straight from
+            // dbo.WebsiteInfoCard - see BusinessLogic.EntityAccess.ReadWebsiteInfoCards().
+            // Falls back to nothing rendered if the table/rows don't exist yet, rather
+            // than erroring the whole basket page.
+            List<WebsiteInfoCard> infoCards = new List<WebsiteInfoCard>();
+            try
+            {
+                infoCards = EntityAccess.ReadWebsiteInfoCards();
+            }
+            catch { /* table not migrated yet on this environment - render nothing below */ }
+
+            WebsiteInfoCard bannerCard = infoCards.FirstOrDefault(x => x.Category == "Banner" && !String.IsNullOrEmpty(x.ImageUrl));
+            List<WebsiteInfoCard> findOutMoreCards = infoCards.Where(x => x.Category != "Banner").ToList();
+        }
         <div class="basket-sidebar-info">
 
-            <div class="sidebar-card delivery">
-
-                <div class="card-header">
-                    <i class="fa fa-truck"></i>
-                    <span>Free Next Day Delivery</span>
+            @if (bannerCard != null)
+            {
+                <div class="sidebar-card banner">
+                    @if (!String.IsNullOrEmpty(bannerCard.LinkUrl))
+                    {
+                        <a href="@bannerCard.LinkUrl">
+                            <img src="@bannerCard.ImageUrl" alt="@bannerCard.Title" class="sidebar-banner-img" />
+                        </a>
+                    }
+                    else
+                    {
+                        <img src="@bannerCard.ImageUrl" alt="@bannerCard.Title" class="sidebar-banner-img" />
+                    }
                 </div>
+            }
 
-                <div class="card-body">
-                    Order before <strong>5:30 Mon-Thu</strong>, &amp;
-                    <strong>5pm Fri</strong> for next working day delivery.
+            @foreach (WebsiteInfoCard card in findOutMoreCards)
+            {
+                <div class="sidebar-card @card.Category.ToLower()">
+
+                    <div class="card-header">
+                        <i class="@card.IconClass"></i>
+                        <span>@card.Title</span>
+                    </div>
+
+                    <div class="card-body">
+                        @Html.Raw(card.BodyText)
+                    </div>
+
+                    @if (!String.IsNullOrEmpty(card.FindOutMoreContent))
+                    {
+                        <div class="card-toggle @card.Category.ToLower()">
+                            <a href="javascript:void(0);" class="toggle-link">
+                                Find Out More
+                            </a>
+
+                            <i class="fa fa-angle-down"></i>
+                        </div>
+
+                        <div class="card-content @card.Category.ToLower()">
+                            @Html.Raw(card.FindOutMoreContent)
+                        </div>
+                    }
+
                 </div>
-
-                <div class="card-toggle delivery">
-                    <a href="javascript:void(0);" class="toggle-link">
-                        Find Out More
-                    </a>
-
-                    <i class="fa fa-angle-down"></i>
-                </div>
-
-                <div class="card-content delivery">
-                    <p>
-                        We dispatch all in-stock orders placed before the cut-off time on the
-                        same working day. Orders placed after the cut-off will be dispatched
-                        the following working day.
-                    </p>
-
-                    <p>
-                        Delivery is available Monday to Friday excluding public holidays.
-                    </p>
-                </div>
-
-            </div>
-
-            <div class="sidebar-card trust">
-                <div class="card-header">
-                    <i class="fa fa-star-o"></i>
-                    <span>Trusted By 25,000+</span>
-                </div>
-
-                <div class="card-body">
-                    Thousands of businesses trust us for office supplies,
-                    printer cartridges and workplace essentials.
-                </div>
-
-                <div class="card-toggle trust">
-                    <a href="javascript:void(0);" class="toggle-link">
-                        Find Out More
-                    </a>
-
-                    <i class="fa fa-angle-down"></i>
-                </div>
-                <div class="card-content trust">
-                    <p>
-                        We dispatch all in-stock orders placed before the cut-off time on the
-                        same working day. Orders placed after the cut-off will be dispatched
-                        the following working day.
-                    </p>
-
-                    <p>
-                        Delivery is available Monday to Friday excluding public holidays.
-                    </p>
-                </div>
-            </div>
-
-            <div class="sidebar-card exclusive">
-                <div class="card-header">
-                    <i class="fa fa-gbp"></i>
-                    <span>Exclusive Trade Pricing</span>
-                </div>
-
-                <div class="card-body">
-                    Register for a trade account and receive exclusive
-                    business pricing.
-                </div>
-
-                <div class="card-toggle exclusive">
-                    <a href="javascript:void(0);" class="toggle-link">
-                        Find Out More
-                    </a>
-
-                    <i class="fa fa-angle-down"></i>
-                </div>
-                <div class="card-content exclusive">
-                    <p>
-                        We dispatch all in-stock orders placed before the cut-off time on the
-                        same working day. Orders placed after the cut-off will be dispatched
-                        the following working day.
-                    </p>
-
-                    <p>
-                        Delivery is available Monday to Friday excluding public holidays.
-                    </p>
-                </div>
-            </div>
+            }
 
             <div class="sidebar-card payment-card">
 

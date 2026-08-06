@@ -147,6 +147,7 @@ namespace DataAccess.EntityFramework
         public virtual DbSet<PriceCompView> PriceCompView { get; set; }
         public virtual DbSet<ProductImagesView> ProductImagesView { get; set; }
         public virtual DbSet<ProductAddon> ProductAddons { get; set; }
+        public virtual DbSet<WebsiteInfoCard> WebsiteInfoCards { get; set; }
     
         public virtual ObjectResult<string> sp_Blitz(Nullable<byte> help, Nullable<byte> checkUserDatabaseObjects, Nullable<byte> checkProcedureCache, string outputType, Nullable<byte> outputProcedureCache, string checkProcedureCacheFilter, Nullable<byte> checkServerInfo, string skipChecksServer, string skipChecksDatabase, string skipChecksSchema, string skipChecksTable, Nullable<int> ignorePrioritiesBelow, Nullable<int> ignorePrioritiesAbove, string outputServerName, string outputDatabaseName, string outputSchemaName, string outputTableName, Nullable<byte> outputXMLasNVARCHAR, string emailRecipients, string emailProfile, Nullable<byte> summaryMode, Nullable<byte> bringThePain, string usualDBOwner, Nullable<byte> skipBlockingChecks, Nullable<byte> debug, ObjectParameter version, ObjectParameter versionDate, Nullable<bool> versionCheckMode)
         {
@@ -2184,6 +2185,23 @@ namespace DataAccess.EntityFramework
                 new ObjectParameter("OrderNo", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<zGetOrderDetail_Result>("zGetOrderDetail", websiteIdParameter, orderNoParameter);
+        }
+    
+        public virtual ObjectResult<GetProductResultsById_Result> GetProductResultsById(Nullable<int> websiteID, Nullable<int> productID, string account)
+        {
+            var websiteIDParameter = websiteID.HasValue ?
+                new ObjectParameter("WebsiteID", websiteID) :
+                new ObjectParameter("WebsiteID", typeof(int));
+    
+            var productIDParameter = productID.HasValue ?
+                new ObjectParameter("ProductID", productID) :
+                new ObjectParameter("ProductID", typeof(int));
+    
+            var accountParameter = account != null ?
+                new ObjectParameter("Account", account) :
+                new ObjectParameter("Account", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProductResultsById_Result>("GetProductResultsById", websiteIDParameter, productIDParameter, accountParameter);
         }
     }
 }

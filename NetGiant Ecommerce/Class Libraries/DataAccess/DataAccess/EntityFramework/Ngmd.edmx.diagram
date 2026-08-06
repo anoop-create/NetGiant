@@ -225,6 +225,8 @@
         <EntityTypeShape EntityType="NgmdEntities.ProductAddon" Width="1.5" PointX="7.5" PointY="49.5" />
         <AssociationConnector Association="NgmdEntities.FK_ProductAddon_AddonProduct" />
         <AssociationConnector Association="NgmdEntities.FK_ProductAddon_Product" />
+        <EntityTypeShape EntityType="NgmdEntities.WebsiteInfoCard" Width="1.5" PointX="5.25" PointY="87" />
+        <AssociationConnector Association="NgmdEntities.FK_WebsiteInfoCard_Website" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -139,6 +139,39 @@ namespace BusinessLogic
         }
 
         /// <summary>
+        /// Read the active WebsiteInfoCard rows (basket sidebar: sale banner,
+        /// "Free Next Day Delivery", "Trusted By 25,000+", "Exclusive Trade
+        /// Pricing", etc) for the current site, ordered ready for display.
+        /// Managed via the Intranet's Website Info Cards admin screen.
+        /// </summary>
+        public static List<WebsiteInfoCard> ReadWebsiteInfoCards()
+        {
+            int w = int.Parse(ConfigurationManager.AppSettings["WebsiteId"].ToString());
+            return ReadWebsiteInfoCards(w);
+        }
+
+        public static List<WebsiteInfoCard> ReadWebsiteInfoCards(int websiteid)
+        {
+            List<WebsiteInfoCard> ret = new List<WebsiteInfoCard>();
+
+            try
+            {
+                using (Ngmd db = new Ngmd())
+                {
+                    ret = db.WebsiteInfoCards
+                        .Where(x => x.WebsiteId == websiteid && x.IsActive)
+                        .OrderBy(x => x.DisplayOrder)
+                        .ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                Utilities.ProcessException(e);
+            }
+            return ret;
+        }
+
+        /// <summary>
         /// Read manufacturer entities
         /// </summary>
         /// <param name="where"></param>
