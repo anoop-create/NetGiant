@@ -1,4 +1,4 @@
-﻿using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Import.Equipment;
+using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Import.Equipment;
 using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Import.Product;
 using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Import.ProductImages;
 using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Import.PromotionalGroup;
@@ -82,6 +82,10 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Import
                     var obsoleteItem = new ImportObsoleteItemViewModel(FilePath);
                     obsoleteItem.Import();
                     break;
+                case ImportType.ProductAddon:
+                    var productAddon = new ImportProductAddonViewModel();
+                    productAddon.Import(FilePath);
+                    break;
                 default: break;
             }
 
@@ -93,7 +97,17 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Import
             Configuration machineConfig = ConfigurationManager.OpenMachineConfiguration();
             string localDirectory = machineConfig.AppSettings.Settings["LocalDirectory"].Value.ToString();
             FilePath = localDirectory + "\\PMSTempData\\" + DateTime.Now.ToString("dd_MM_yyyy_H_mm_ss_") + file.FileName;
-            file.SaveAs(FilePath);
+            if (Directory.Exists(localDirectory))
+            {
+                file.SaveAs(FilePath);
+            }
+            else
+            {
+                localDirectory = "C:\\";
+                FilePath = localDirectory + "\\PMSTempData\\" + DateTime.Now.ToString("dd_MM_yyyy_H_mm_ss_") + file.FileName;
+                file.SaveAs(FilePath);
+            }
+
         }
 
         public void DeleteImportedFile(string filePath)
@@ -124,6 +138,8 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Import
         [Display(Name = "Provider Inventory")]
         ProviderInventory,
         [Display(Name = "Obsolete Items")]
-        ObsoleteItem
+        ObsoleteItem,
+        [Display(Name = "Product Add On")]
+        ProductAddon
     }
 }

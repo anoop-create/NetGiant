@@ -15,6 +15,21 @@
     line up visually.
 *@
 <style>
+    /* Spec: "the user can skip by clicking the x off the modal or on the transparent
+       background". Fully transparent (not dimmed) on purpose - when this popup opens
+       alongside the still-open mini-cart, the mini-cart's own dark backdrop is already
+       covering the page; this element only exists to catch the click and dismiss the popup,
+       not to add a second layer of dimming. Sits one z-index below #you-may-also-need. */
+    #you-may-also-need-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: transparent;
+        z-index: 1059;
+    }
+
     /* Default/checkout context: sits beside the still-open mini-cart tray. */
     #you-may-also-need {
         position: fixed;
@@ -35,12 +50,10 @@
     /* Add-to-basket context: no mini-cart tray is open alongside it, so sit flush to the
        right edge instead of leaving a gap where the tray would normally be. */
     #you-may-also-need[data-context="addtocart"] {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-     }
+        right: 20px;
+        top: 20px;
+        max-height: calc(100vh - 40px);
+    }
 
     #you-may-also-need .ymn-header {
         background: #0d7397;
@@ -199,6 +212,8 @@
     }
 </style>
 
+<div id="you-may-also-need-backdrop"></div>
+
 <div id="you-may-also-need">
 
     <div class="ymn-header">
@@ -225,19 +240,13 @@
                 {
                     <div class="need-product">
 
-                        @{
-                            var productUrl = addOn.ProductUrl.StartsWith("/")
-                                ? addOn.ProductUrl
-                                : "/" + addOn.ProductUrl;
-                        }
-
-                        <a href="@productUrl">
+                        <a href="@addOn.ProductUrl">
                             <img src="@addOn.ImageUrl"
                                  alt="@addOn.Description"
                                  onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
                         </a>
 
-                        <a href="@productUrl" class="need-title">
+                        <a href="@addOn.ProductUrl" class="need-title">
                             @addOn.Description
                         </a>
 

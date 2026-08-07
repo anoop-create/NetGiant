@@ -1,4 +1,4 @@
-﻿using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Export;
+using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Export;
 using System;
 using System.Configuration;
 using System.Net.Mime;
@@ -92,8 +92,8 @@ namespace netGiant.Intranet.Areas.PMS.Export
 
             model.Export();
 
-            return File(model.FilePath, 
-                            MediaTypeNames.Application.Octet, 
+            return File(model.FilePath,
+                            MediaTypeNames.Application.Octet,
                             "PMSExport_" + DateTime.Now.ToString("dd_MM_yyyy_H_mm_ss") + ".csv");
         }
 
@@ -140,6 +140,28 @@ namespace netGiant.Intranet.Areas.PMS.Export
         [ValidateAntiForgeryToken]
         [DeleteFile]
         public FileResult ExportPromotionalGroup(ExportPromotionalGroupViewModel model)
+        {
+            Configuration machineConfig = ConfigurationManager.OpenMachineConfiguration();
+            model.LocalDirectory = machineConfig.AppSettings.Settings["LocalDirectory"].Value.ToString();
+
+            model.Export();
+
+            return File(model.FilePath,
+                MediaTypeNames.Application.Octet,
+                "PMSExport_" + DateTime.Now.ToString("dd_MM_yyyy_H_mm_ss") + ".csv");
+        }
+
+        public ActionResult ProductAddon()
+        {
+            var model = new ExportProductAddonViewModel();
+            model.GetResultsCount();
+            return View("ExportProductAddon", model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [DeleteFile]
+        public FileResult ExportProductAddon(ExportProductAddonViewModel model)
         {
             Configuration machineConfig = ConfigurationManager.OpenMachineConfiguration();
             model.LocalDirectory = machineConfig.AppSettings.Settings["LocalDirectory"].Value.ToString();

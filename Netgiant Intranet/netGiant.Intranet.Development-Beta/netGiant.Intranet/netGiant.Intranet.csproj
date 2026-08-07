@@ -316,6 +316,7 @@
     <Compile Include="Controllers\Ecommerce\CMSController.cs" />
     <Compile Include="Controllers\Ecommerce\EcommerceController.cs" />
     <Compile Include="Controllers\Ecommerce\VoucherController.cs" />
+    <Compile Include="Controllers\Ecommerce\WebsiteInfoCardController.cs" />
     <Compile Include="Controllers\Orders\AmazonPayController.cs" />
     <Compile Include="Controllers\Orders\BackOrderController.cs" />
     <Compile Include="Controllers\Orders\OpayoController.cs" />
@@ -785,6 +786,10 @@
     <Content Include="Views\Opayo\OpayoTokensIndex.cshtml" />
     <Content Include="Views\Opayo\_CardDetailsData.cshtml" />
     <Content Include="Views\Customer\TradeIndex.cshtml" />
+    <Content Include="Views\WebsiteInfoCard\CreateEntry.cshtml" />
+    <Content Include="Views\WebsiteInfoCard\Index.cshtml" />
+    <Content Include="Views\Searching\Lucene\CreateIndex.cshtml" />
+    <Content Include="Views\Searching\Lucene\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

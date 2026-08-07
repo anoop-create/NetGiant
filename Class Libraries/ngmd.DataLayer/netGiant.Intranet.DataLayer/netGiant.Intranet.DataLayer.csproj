@@ -410,6 +410,9 @@
     <Compile Include="NetgiantMasterData\GetProductPrices_Result.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="NetgiantMasterData\GetProductResultsById_Result.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="NetgiantMasterData\GetProductResults_Result.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
@@ -667,6 +670,9 @@
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\Website.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NetgiantMasterData\WebsiteInfoCard.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
     <Compile Include="NetgiantMasterData\websiteInventory.cs">

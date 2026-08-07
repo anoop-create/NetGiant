@@ -741,13 +741,12 @@
 
     .payment-card .payment-icons {
         display: flex;
-        gap: 10px;
-        padding: 18px;
+        padding: 20px;
         flex-wrap: wrap;
     }
 
     .payment-card img {
-        height: 28px;
+        height: 50px;
         width: auto;
     }
     .card-header span {
@@ -1688,7 +1687,7 @@
                 <div class="sidebar-card banner">
                     @if (!String.IsNullOrEmpty(bannerCard.LinkUrl))
                     {
-                        <a href="@bannerCard.LinkUrl">
+                        <a href="@bannerCard.LinkUrl" target="_blank">
                             <img src="@bannerCard.ImageUrl" alt="@bannerCard.Title" class="sidebar-banner-img" />
                         </a>
                     }
@@ -1739,9 +1738,9 @@
 
                 <div class="payment-icons">
 
-                    <img src="/Content/Images/1pxTrans.png" alt="Visa">
-                    <img src="/Content/Images/1pxTrans.png" alt="Mastercard">
-                    <img src="/Content/Images/1pxTrans.png" alt="Amex">
+                    <img src="/Content/Images/visa.png" alt="Visa">
+                    <img src="/Content/Images/mastercard.png" alt="Mastercard">
+                    <img src="/Content/Images/american-express.png" alt="Amex">
 
                 </div>
 

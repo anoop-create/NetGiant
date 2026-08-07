@@ -167,8 +167,10 @@
     <Compile Include="ViewModels\PMS\Export\ExportProductImagesViewModel.cs" />
     <Compile Include="ViewModels\PMS\Export\ExportProductViewModel.cs" />
     <Compile Include="ViewModels\PMS\Export\ExportPromotionalGroupViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Export\ExportProductAddonViewModel.cs" />
     <Compile Include="ViewModels\PMS\Import\CategoryCode\ImportCategoryCodeViewModel.cs" />
     <Compile Include="ViewModels\PMS\Import\CrossSellingLink\ImportCrossSellingLinkViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Import\ProductAddon\ImportProductAddonViewModel.cs" />
     <Compile Include="ViewModels\PMS\Import\Equipment\ExtractData.cs" />
     <Compile Include="ViewModels\PMS\Import\Equipment\ImportEquipmentViewModel.cs" />
     <Compile Include="ViewModels\PMS\Import\Equipment\SaveRecords.cs" />
@@ -184,6 +186,7 @@
     <Compile Include="ViewModels\PMS\Maintenance\AxisEBusinessViewModel.cs" />
     <Compile Include="ViewModels\PMS\Maintenance\AxisValueLookupViewModel.cs" />
     <Compile Include="ViewModels\PMS\Maintenance\CMSViewModel.cs" />
+    <Compile Include="ViewModels\PMS\Maintenance\WebsiteInfoCardViewModel.cs" />
     <Compile Include="ViewModels\PMS\Maintenance\EquipmentNotesViewModel.cs" />
     <Compile Include="ViewModels\PMS\Maintenance\GoogleProductCategoryViewModel.cs" />
     <Compile Include="ViewModels\PMS\Maintenance\ManufacturerNotesViewModel.cs" />

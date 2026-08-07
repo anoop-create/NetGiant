@@ -1456,13 +1456,16 @@ namespace CommonUI.Controllers
 
             List<string> basketRefs = model.BasketContents.Select(x => x.StockRef).ToList();
 
+            // No cap here (matches the inline "You May Also Need" list on BasketDetails.cshtml,
+            // which also doesn't cap) - the popup's carousel (YouMayAlsoNeed.cshtml) shows 3 at a
+            // time and only renders its prev/next arrows when there are more than 3, so capping
+            // the list to exactly 3 here meant those arrows could never have anything to scroll to.
             List<BasketContents> addSell = model.BasketContents
                 .Where(x => x.AddonProducts != null)
                 .SelectMany(x => x.AddonProducts)
                 .Where(x => !basketRefs.Contains(x.StockRef))
                 .GroupBy(x => x.StockRef)
                 .Select(g => g.First())
-                .Take(3)
                 .ToList();
 
             if (addSell.Count == 0)
@@ -1522,7 +1525,6 @@ namespace CommonUI.Controllers
             }
 
             BasketTotals bt = (BasketTotals)Session["B_BasketTotals"];
-
             return Json(new
             {
                 savereturn = sr,

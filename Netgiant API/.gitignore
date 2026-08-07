@@ -1,0 +1,3 @@
+# Build output - never commit compiled artifacts, only source
+[Bb]in/
+[Oo]bj/

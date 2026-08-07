@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -81,24 +81,24 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Import
 
     public class ProductAcceptedFields
     {
-        public static string[] Fields = { "Alt Ref", "ACD Modifier", "Stock reference", "Specification 1", 
-                                            "Specification 2", "Specification 3", "Specification 4", 
-                                            "Specification 5", "Specification 6", "Default delivery days", 
+        public static string[] Fields = { "Alt Ref", "ACD Modifier", "Stock reference", "Specification 1",
+                                            "Specification 2", "Specification 3", "Specification 4",
+                                            "Specification 5", "Specification 6", "Default delivery days",
                                             "Discontinued Item", "Re-saleable", "Attribute 1", "Attribute 2",
-                                            "Attribute 3", "Attribute 4", "Attribute 5", "Attribute 6", "Attribute 7", 
+                                            "Attribute 3", "Attribute 4", "Attribute 5", "Attribute 6", "Attribute 7",
                                             "Attribute 8", "Attribute 9", "Attribute 10", "English Meta Title",
                                             "French Meta Title", "German Meta Title", "English Meta Keywords",
                                             "French Meta Keywords", "German Meta Keywords", "English Meta Description",
-                                            "French Meta Description", "German Meta Description", "Additional Information URL", 
+                                            "French Meta Description", "German Meta Description", "Additional Information URL",
                                             "Suppress open range image", "Suppress open range spec", "Featured item", "Best seller",
                                             "Published", "Stock Notes", "Stock Record Type", "Google Feed Include",
                                             "Google Feed Category", "Google Feed Availability", "Google Feed Condition",
-                                            "Bespoke Feed Include", "Bespoke Feed Custom Shipping Cost", 
+                                            "Bespoke Feed Include", "Bespoke Feed Custom Shipping Cost",
                                             "Google Feed Site", "Bespoke Feed Site",
                                             "Bespoke Feed Availability", "Bespoke Feed Condition", "Product Name",
                                             "Manufacturer", "Priority Note", "Product Status", "Product Group", "Sales Area Group",
                                             "Data Supplier", "Provider Part No", "Provider ID", "Axis Supplier ID",
-                                            "Record Type", "eBus", "eBusIsPrimary", "Google Promotion IDs", "Page Yield", "Capacity", 
+                                            "Record Type", "eBus", "eBusIsPrimary", "Google Promotion IDs", "Page Yield", "Capacity",
                                             "Break Quantity 1", "Break Quantity 2", "Break Quantity 3", "Barcode",
                                             "Assembly Components", "Primary eBusiness Group", "Secondary eBusiness Groups",
                                             "Website", "URL", "IsThumbnail", "IsMain", "Secondary Cross Sell Group", "dateCreated" };
@@ -142,7 +142,7 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Import
         public static string[] Fields = { "Equip Description", "Equip Manufacturer", "Equip Cartridge Type",
                                           "Equip Product", "Equip Product Type", "Equip Main URL", "Equip Thumbnail URL",
                                           "Equip Meta Keywords", "Family Description", "Family Manufacturer",
-                                          "Equip ID", "Family ID", "Record Type", "Equip Meta Content Type", "Globally Featured", 
+                                          "Equip ID", "Family ID", "Record Type", "Equip Meta Content Type", "Globally Featured",
                                           "Brand Featured", "Date Created", "Equip Notes ID", "Website ID", "Equip Note", "Is Detail", "Equip Status" };
     }
 
@@ -284,6 +284,17 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Import
         public bool isThumbnail { get; set; }
         public bool isMain { get; set; }
         public string ACDModifier { get; set; }
+    }
+
+    public class ProductAddonAcceptedFields
+    {
+        public static string[] Fields = { "Product SKU", "Add On SKUs" };
+    }
+
+    public class ProductAddonImportFields
+    {
+        public string ProductSKU { get; set; }
+        public string AddOnSKUs { get; set; }
     }
 
 }

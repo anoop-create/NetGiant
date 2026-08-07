@@ -38,6 +38,7 @@ namespace netGiant.Intranet.DataLayer.NetgiantMasterData
             this.Faq = new HashSet<Faq>();
             this.Log = new HashSet<Log>();
             this.PortalIndex = new HashSet<PortalIndex>();
+            this.WebsiteInfoCard = new HashSet<WebsiteInfoCard>();
         }
     
         public int WebsiteID { get; set; }
@@ -69,5 +70,6 @@ namespace netGiant.Intranet.DataLayer.NetgiantMasterData
         public virtual ICollection<Faq> Faq { get; set; }
         public virtual ICollection<Log> Log { get; set; }
         public virtual ICollection<PortalIndex> PortalIndex { get; set; }
+        public virtual ICollection<WebsiteInfoCard> WebsiteInfoCard { get; set; }
     }
 }

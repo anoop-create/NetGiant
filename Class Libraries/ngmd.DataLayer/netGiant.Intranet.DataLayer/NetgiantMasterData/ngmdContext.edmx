@@ -17,6 +17,26 @@
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="WebsiteInfoCard">
+          <Key>
+            <PropertyRef Name="WebsiteInfoCardId" />
+          </Key>
+          <Property Name="WebsiteInfoCardId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WebsiteId" Type="int" Nullable="false" />
+          <Property Name="Category" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IconClass" Type="nvarchar" MaxLength="50" />
+          <Property Name="Title" Type="nvarchar" MaxLength="200" />
+          <Property Name="BodyText" Type="nvarchar" MaxLength="500" />
+          <Property Name="FindOutMoreContent" Type="nvarchar(max)" />
+          <Property Name="ImageUrl" Type="nvarchar" MaxLength="500" />
+          <Property Name="LinkUrl" Type="nvarchar" MaxLength="500" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="actionLink">
           <Key>
             <PropertyRef Name="actionLinkID" />
@@ -1161,12 +1181,6 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.richTempPaper' does not ha
           <Property Name="paperWeight" Type="varchar" MaxLength="10" />
           <Property Name="paperSize" Type="varchar" MaxLength="30" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'netgiantMasterData.ngmd.richTempPaperWeight' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="richTempPaperWeight">
-          <Property Name="alt" Type="varchar" MaxLength="20" />
-          <Property Name="weight" Type="varchar" MaxLength="10" />
-        </EntityType>-->
         <!--Errors Found During Generation:
 warning 6002: The table/view 'netgiantMasterData.ngmd.richTempPrinters' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="richTempPrinters">
@@ -2769,6 +2783,18 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_WebsiteInfoCard_Website">
+          <End Role="Website" Type="Self.Website" Multiplicity="1" />
+          <End Role="WebsiteInfoCard" Type="Self.WebsiteInfoCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Website">
+              <PropertyRef Name="WebsiteID" />
+            </Principal>
+            <Dependent Role="WebsiteInfoCard">
+              <PropertyRef Name="WebsiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_websiteInventory_categoryCode">
           <End Role="categoryCode" Type="Self.categoryCode" Multiplicity="0..1" />
           <End Role="websiteInventory" Type="Self.websiteInventory" Multiplicity="*" />
@@ -3228,6 +3254,11 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
           <Parameter Name="ProductRef" Type="varchar" Mode="In" />
           <Parameter Name="Account" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="GetProductResultsById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="ngmd">
+          <Parameter Name="WebsiteID" Type="int" Mode="In" />
+          <Parameter Name="ProductID" Type="int" Mode="In" />
+          <Parameter Name="Account" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="GetProductSeoText" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="ngmd">
           <Parameter Name="websiteID" Type="int" Mode="In" />
           <Parameter Name="productTypeID" Type="int" Mode="In" />
@@ -3515,6 +3546,7 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
         </Function>
         <EntityContainer Name="netgiantMasterDataModelStoreContainer">
           <EntitySet Name="ProductAddon" EntityType="Self.ProductAddon" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WebsiteInfoCard" EntityType="Self.WebsiteInfoCard" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="actionLink" EntityType="Self.actionLink" Schema="ngmd" store:Type="Tables" />
           <EntitySet Name="AmazonPayLog" EntityType="Self.AmazonPayLog" Schema="ngmd" store:Type="Tables" />
           <EntitySet Name="assemblyComponent" EntityType="Self.assemblyComponent" Schema="ngmd" store:Type="Tables" />
@@ -4182,6 +4214,10 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
           <AssociationSet Name="FK_VoucherPromoGroupMapping_VoucherPromoGroup" Association="Self.FK_VoucherPromoGroupMapping_VoucherPromoGroup">
             <End Role="VoucherPromoGroup" EntitySet="VoucherPromoGroup" />
             <End Role="VoucherPromoGroupMapping" EntitySet="VoucherPromoGroupMapping" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WebsiteInfoCard_Website" Association="Self.FK_WebsiteInfoCard_Website">
+            <End Role="Website" EntitySet="Website" />
+            <End Role="WebsiteInfoCard" EntitySet="WebsiteInfoCard" />
           </AssociationSet>
           <AssociationSet Name="FK_websiteInventory_categoryCode" Association="Self.FK_websiteInventory_categoryCode">
             <End Role="categoryCode" EntitySet="categoryCode" />
@@ -5434,6 +5470,16 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
             <End Role="product" EntitySet="product" />
             <End Role="ProductAddon" EntitySet="ProductAddon" />
           </AssociationSet>
+          <EntitySet Name="WebsiteInfoCard" EntityType="netgiantMasterDataModel.WebsiteInfoCard" />
+          <AssociationSet Name="FK_WebsiteInfoCard_Website" Association="netgiantMasterDataModel.FK_WebsiteInfoCard_Website">
+            <End Role="Website" EntitySet="Website" />
+            <End Role="WebsiteInfoCard" EntitySet="WebsiteInfoCard" />
+          </AssociationSet>
+          <FunctionImport Name="GetProductResultsById" ReturnType="Collection(netgiantMasterDataModel.GetProductResultsById_Result)">
+            <Parameter Name="WebsiteID" Mode="In" Type="Int32" />
+            <Parameter Name="ProductID" Mode="In" Type="Int32" />
+            <Parameter Name="Account" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="actionLink">
           <Key>
@@ -6521,6 +6567,7 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
           <NavigationProperty Name="Faq" Relationship="netgiantMasterDataModel.FK_Faq_Website" FromRole="Website" ToRole="Faq" />
           <NavigationProperty Name="Log" Relationship="netgiantMasterDataModel.FK_Log_Website" FromRole="Website" ToRole="Log" />
           <NavigationProperty Name="PortalIndex" Relationship="netgiantMasterDataModel.FK_PortalIndex_Website" FromRole="Website" ToRole="PortalIndex" />
+          <NavigationProperty Name="WebsiteInfoCard" Relationship="netgiantMasterDataModel.FK_WebsiteInfoCard_Website" FromRole="Website" ToRole="WebsiteInfoCard" />
           </EntityType>
         <Association Name="FK_AXISGroups_websiteFK">
           <End Type="netgiantMasterDataModel.Website" Role="Website" Multiplicity="1" />
@@ -9266,6 +9313,107 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="WebsiteInfoCard">
+          <Key>
+            <PropertyRef Name="WebsiteInfoCardId" />
+          </Key>
+          <Property Name="WebsiteInfoCardId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WebsiteId" Type="Int32" Nullable="false" />
+          <Property Name="Category" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IconClass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BodyText" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FindOutMoreContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LinkUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Website" Relationship="netgiantMasterDataModel.FK_WebsiteInfoCard_Website" FromRole="WebsiteInfoCard" ToRole="Website" />
+        </EntityType>
+        <Association Name="FK_WebsiteInfoCard_Website">
+          <End Type="netgiantMasterDataModel.Website" Role="Website" Multiplicity="1" />
+          <End Type="netgiantMasterDataModel.WebsiteInfoCard" Role="WebsiteInfoCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Website">
+              <PropertyRef Name="WebsiteID" />
+            </Principal>
+            <Dependent Role="WebsiteInfoCard">
+              <PropertyRef Name="WebsiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="GetProductResultsById_Result">
+          <Property Type="String" Name="ProductURL" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="ImageURL" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="PartNo" Nullable="false" MaxLength="45" />
+          <Property Type="String" Name="ManuRef" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="BarCode" Nullable="false" MaxLength="8000" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="306" />
+          <Property Type="String" Name="Brand" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="Availability" Nullable="true" />
+          <Property Type="Int32" Name="AttribValue4" Nullable="false" />
+          <Property Type="Int32" Name="AttribValue5" Nullable="false" />
+          <Property Type="Int32" Name="AttribValue6" Nullable="false" />
+          <Property Type="Int32" Name="AttribValue7" Nullable="false" />
+          <Property Type="Int32" Name="AttribValue8" Nullable="false" />
+          <Property Type="Int32" Name="AttribValue9" Nullable="false" />
+          <Property Type="Int32" Name="ManufacturerId" Nullable="false" />
+          <Property Type="Int32" Name="AXISBrandNo" Nullable="false" />
+          <Property Type="String" Name="AttribDesc6" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="AttribDesc8" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="AttribDesc9" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="SpecLine1" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SpecLine2" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SpecLine3" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SpecLine4" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SpecLine6" Nullable="false" MaxLength="50" />
+          <Property Type="Byte" Name="ProductItemType" Nullable="false" />
+          <Property Type="String" Name="ProductReference" Nullable="false" MaxLength="20" />
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="Int32" Name="BrandFlag" Nullable="false" />
+          <Property Type="Double" Name="PriceRetail" Nullable="true" />
+          <Property Type="Double" Name="PriceTrade" Nullable="true" />
+          <Property Type="Int32" Name="BreakQty1" Nullable="false" />
+          <Property Type="Int32" Name="BreakQty2" Nullable="false" />
+          <Property Type="Int32" Name="BreakQty3" Nullable="false" />
+          <Property Type="Double" Name="BreakPrice2" Nullable="true" />
+          <Property Type="Double" Name="BreakPrice3" Nullable="true" />
+          <Property Type="Int32" Name="PageYield" Nullable="false" />
+          <Property Type="String" Name="Capacity" Nullable="false" MaxLength="10" />
+          <Property Type="Double" Name="AssemblySaving" Nullable="false" />
+          <Property Type="Int32" Name="AssemblyCount" Nullable="false" />
+          <Property Type="String" Name="ProductNotes" Nullable="false" />
+          <Property Type="String" Name="AxisGroupNo" Nullable="true" MaxLength="45" />
+          <Property Type="Boolean" Name="IsStationerySaleItem" Nullable="false" />
+          <Property Type="String" Name="ProductGroup" Nullable="true" MaxLength="45" />
+          <Property Type="String" Name="CategoryCodeName" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="ProductTypeID" Nullable="false" />
+          <Property Type="String" Name="ProductType" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ProductVideoURL" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="CrossSellProductURL" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="CrossSellProductID" Nullable="false" />
+          <Property Type="String" Name="CrossSellDescription" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="CrossSellBrand" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="CrossSellStatus" Nullable="true" />
+          <Property Type="Double" Name="CrossSellPrice" Nullable="true" />
+          <Property Type="String" Name="CrossSellImage" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="CrossSellRef" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="CrossSellPageYield" Nullable="false" />
+          <Property Type="String" Name="DSNotes" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="PriorityNote" Nullable="true" />
+          <Property Type="Boolean" Name="DSSuppress" Nullable="true" />
+          <Property Type="String" Name="MetaTitle" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="MetaDesc" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="MetaKeywords" Nullable="false" MaxLength="500" />
+          <Property Type="Int32" Name="FeeFoCount" Nullable="true" />
+          <Property Type="Double" Name="FeeFoRating" Nullable="true" />
+          <Property Type="String" Name="promotionalGroupName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="recordType" Nullable="false" MaxLength="1" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -12062,6 +12210,99 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="WebsiteInfoCard">
+            <EntityTypeMapping TypeName="netgiantMasterDataModel.WebsiteInfoCard">
+              <MappingFragment StoreEntitySet="WebsiteInfoCard">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="LinkUrl" ColumnName="LinkUrl" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="FindOutMoreContent" ColumnName="FindOutMoreContent" />
+                <ScalarProperty Name="BodyText" ColumnName="BodyText" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="IconClass" ColumnName="IconClass" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="WebsiteId" ColumnName="WebsiteId" />
+                <ScalarProperty Name="WebsiteInfoCardId" ColumnName="WebsiteInfoCardId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetProductResultsById" FunctionName="netgiantMasterDataModel.Store.GetProductResultsById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="netgiantMasterDataModel.GetProductResultsById_Result">
+                <ScalarProperty Name="ProductURL" ColumnName="ProductURL" />
+                <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+                <ScalarProperty Name="PartNo" ColumnName="PartNo" />
+                <ScalarProperty Name="ManuRef" ColumnName="ManuRef" />
+                <ScalarProperty Name="BarCode" ColumnName="BarCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="Availability" ColumnName="Availability" />
+                <ScalarProperty Name="AttribValue4" ColumnName="AttribValue4" />
+                <ScalarProperty Name="AttribValue5" ColumnName="AttribValue5" />
+                <ScalarProperty Name="AttribValue6" ColumnName="AttribValue6" />
+                <ScalarProperty Name="AttribValue7" ColumnName="AttribValue7" />
+                <ScalarProperty Name="AttribValue8" ColumnName="AttribValue8" />
+                <ScalarProperty Name="AttribValue9" ColumnName="AttribValue9" />
+                <ScalarProperty Name="ManufacturerId" ColumnName="ManufacturerId" />
+                <ScalarProperty Name="AXISBrandNo" ColumnName="AXISBrandNo" />
+                <ScalarProperty Name="AttribDesc6" ColumnName="AttribDesc6" />
+                <ScalarProperty Name="AttribDesc8" ColumnName="AttribDesc8" />
+                <ScalarProperty Name="AttribDesc9" ColumnName="AttribDesc9" />
+                <ScalarProperty Name="SpecLine1" ColumnName="SpecLine1" />
+                <ScalarProperty Name="SpecLine2" ColumnName="SpecLine2" />
+                <ScalarProperty Name="SpecLine3" ColumnName="SpecLine3" />
+                <ScalarProperty Name="SpecLine4" ColumnName="SpecLine4" />
+                <ScalarProperty Name="SpecLine6" ColumnName="SpecLine6" />
+                <ScalarProperty Name="ProductItemType" ColumnName="ProductItemType" />
+                <ScalarProperty Name="ProductReference" ColumnName="ProductReference" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="BrandFlag" ColumnName="BrandFlag" />
+                <ScalarProperty Name="PriceRetail" ColumnName="PriceRetail" />
+                <ScalarProperty Name="PriceTrade" ColumnName="PriceTrade" />
+                <ScalarProperty Name="BreakQty1" ColumnName="BreakQty1" />
+                <ScalarProperty Name="BreakQty2" ColumnName="BreakQty2" />
+                <ScalarProperty Name="BreakQty3" ColumnName="BreakQty3" />
+                <ScalarProperty Name="BreakPrice2" ColumnName="BreakPrice2" />
+                <ScalarProperty Name="BreakPrice3" ColumnName="BreakPrice3" />
+                <ScalarProperty Name="PageYield" ColumnName="PageYield" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="AssemblySaving" ColumnName="AssemblySaving" />
+                <ScalarProperty Name="AssemblyCount" ColumnName="AssemblyCount" />
+                <ScalarProperty Name="ProductNotes" ColumnName="ProductNotes" />
+                <ScalarProperty Name="AxisGroupNo" ColumnName="AxisGroupNo" />
+                <ScalarProperty Name="IsStationerySaleItem" ColumnName="IsStationerySaleItem" />
+                <ScalarProperty Name="ProductGroup" ColumnName="ProductGroup" />
+                <ScalarProperty Name="CategoryCodeName" ColumnName="CategoryCodeName" />
+                <ScalarProperty Name="ProductTypeID" ColumnName="ProductTypeID" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+                <ScalarProperty Name="ProductVideoURL" ColumnName="ProductVideoURL" />
+                <ScalarProperty Name="CrossSellProductURL" ColumnName="CrossSellProductURL" />
+                <ScalarProperty Name="CrossSellProductID" ColumnName="CrossSellProductID" />
+                <ScalarProperty Name="CrossSellDescription" ColumnName="CrossSellDescription" />
+                <ScalarProperty Name="CrossSellBrand" ColumnName="CrossSellBrand" />
+                <ScalarProperty Name="CrossSellStatus" ColumnName="CrossSellStatus" />
+                <ScalarProperty Name="CrossSellPrice" ColumnName="CrossSellPrice" />
+                <ScalarProperty Name="CrossSellImage" ColumnName="CrossSellImage" />
+                <ScalarProperty Name="CrossSellRef" ColumnName="CrossSellRef" />
+                <ScalarProperty Name="CrossSellPageYield" ColumnName="CrossSellPageYield" />
+                <ScalarProperty Name="DSNotes" ColumnName="DSNotes" />
+                <ScalarProperty Name="PriorityNote" ColumnName="PriorityNote" />
+                <ScalarProperty Name="DSSuppress" ColumnName="DSSuppress" />
+                <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
+                <ScalarProperty Name="MetaDesc" ColumnName="MetaDesc" />
+                <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
+                <ScalarProperty Name="FeeFoCount" ColumnName="FeeFoCount" />
+                <ScalarProperty Name="FeeFoRating" ColumnName="FeeFoRating" />
+                <ScalarProperty Name="promotionalGroupName" ColumnName="promotionalGroupName" />
+                <ScalarProperty Name="recordType" ColumnName="recordType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <!--<FunctionImportMapping FunctionImportName="GetProductSuppliers1" FunctionName="netgiantMasterDataModel.Store.GetProductSuppliers1">
             <ResultMapping>
               <ComplexTypeMapping TypeName="netgiantMasterDataModel.GetProductSuppliers1_Result">

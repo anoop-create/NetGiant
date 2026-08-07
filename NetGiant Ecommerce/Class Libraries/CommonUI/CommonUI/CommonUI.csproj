@@ -809,6 +809,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\1pxTrans.png" />
+    <Content Include="Content\Images\american-express.png" />
     <Content Include="Content\Images\animated-overlay.gif" />
     <Content Include="Content\Images\Background.jpg" />
     <Content Include="Content\Images\BackgroundOLD.jpg" />
@@ -825,6 +826,7 @@
     <Content Include="Content\Images\loader\ajax-loader.gif" />
     <Content Include="Content\Images\loader\loading.GIF" />
     <Content Include="Content\Images\main-logo.png" />
+    <Content Include="Content\Images\mastercard.png" />
     <Content Include="Content\Images\missingEquipment.png" />
     <Content Include="Content\Images\NG-Favicon.jpg" />
     <Content Include="Content\Images\noImage.jpg" />
@@ -865,6 +867,7 @@
     <Content Include="Content\Images\users\Stuart.deavall.jpg" />
     <Content Include="Content\Images\users\Tom.leeds.jpg" />
     <Content Include="Content\Images\users\wendy.grimshaw.jpg" />
+    <Content Include="Content\Images\visa.png" />
     <Content Include="Content\Images\Wallboard-BG.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -972,7 +975,7 @@
     </Content>
     <Content Include="Views\Checkout\BasketDetails.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>BasketDetails1.generated.cs</LastGenOutput>
+      <LastGenOutput>BasketDetails.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\Checkout\DeliveryOptions.cshtml">
       <Generator>RazorGenerator</Generator>

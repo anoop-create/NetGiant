@@ -29501,6 +29501,7 @@
     <Content Include="Content\fonts\glyphs\WebComponentsIcons.eot" />
     <Content Include="Content\fonts\glyphs\WebComponentsIcons.ttf" />
     <Content Include="Content\fonts\glyphs\WebComponentsIcons.woff" />
+    <Content Include="Content\Images\american-express.png" />
     <Content Include="Content\Images\animated-overlay.gif" />
     <Content Include="Content\Images\Background.jpg" />
     <Content Include="Content\Images\BackgroundOLD.jpg" />
@@ -29517,6 +29518,7 @@
     <Content Include="Content\Images\loader\ajax-loader.gif" />
     <Content Include="Content\Images\loader\loading.GIF" />
     <Content Include="Content\Images\main-logo.png" />
+    <Content Include="Content\Images\mastercard.png" />
     <Content Include="Content\Images\NG-Favicon.jpg" />
     <Content Include="Content\Images\noImage.jpg" />
     <Content Include="Content\Images\shipping-icon.png" />
@@ -29557,6 +29559,7 @@
     <Content Include="Content\Images\users\Stuart.deavall.jpg" />
     <Content Include="Content\Images\users\Tom.leeds.jpg" />
     <Content Include="Content\Images\users\wendy.grimshaw.jpg" />
+    <Content Include="Content\Images\visa.png" />
     <Content Include="Content\Images\Wallboard-BG.jpg" />
     <Content Include="Content\overrides-lg.less" />
     <Content Include="Content\overrides-md.less" />

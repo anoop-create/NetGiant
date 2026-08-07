@@ -745,11 +745,18 @@ function requestAddSellPopup(onEligible, onNotEligible) {
     });
 }
 
-// Inserts the popup markup and tags it with where it came from - 'checkout' (closing/X should
-// still take the customer through to /checkout/, since that's what they were trying to do) vs
-// 'addtocart' (closing should just dismiss it and leave them where they are).
-function showAddSellPopup(html, context) {
+// Removes the popup and its transparent click-catcher backdrop together - the two always come
+// and go as a pair, so every removal of one should also remove the other.
+function removeAddSellPopup() {
     $('#you-may-also-need').remove();
+    $('#you-may-also-need-backdrop').remove();
+}
+
+// Inserts the popup markup and tags it with where it came from - 'checkout' (closing/X/backdrop
+// should still take the customer through to /checkout/, since that's what they were trying to
+// do) vs 'addtocart' (closing should just dismiss it and leave them where they are).
+function showAddSellPopup(html, context) {
+    removeAddSellPopup();
     $('body').append(html);
     $('#you-may-also-need').attr('data-context', context);
     setDeferredImages();
@@ -761,7 +768,7 @@ function showAddSellPopup(html, context) {
 function proceedToCheckout() {
     if ($('#you-may-also-need').length) {
         // Popup already open/shown - a second click on Proceed skips straight through.
-        $('#you-may-also-need').remove();
+        removeAddSellPopup();
         window.location.href = '/checkout/';
         return;
     }
@@ -2216,17 +2223,18 @@ $(function () {
     // The popup's own "Proceed to Checkout" button (mobile only) always means checkout,
     // regardless of how the popup was opened.
     $(document).on('click', '#you-may-also-need .ymn-proceed', function () {
-        $('#you-may-also-need').remove();
+        removeAddSellPopup();
         window.location.href = '/checkout/';
     });
 
-    // The X/close button only forces a checkout redirect if the popup was opened from the
-    // mini-cart's Proceed to Checkout click. If it was opened after a plain "Add to Basket"
-    // (from a product page, category listing, etc.), closing it should just dismiss it and
-    // leave the customer where they were.
-    $(document).on('click', '#you-may-also-need .ymn-close', function () {
+    // The X/close button and the transparent backdrop behind the popup both "skip" it the same
+    // way: only force a checkout redirect if the popup was opened from the mini-cart's Proceed
+    // to Checkout click. If it was opened after a plain "Add to Basket" (from a product page,
+    // category listing, etc.), skipping it should just dismiss it and leave the customer where
+    // they were.
+    $(document).on('click', '#you-may-also-need .ymn-close, #you-may-also-need-backdrop', function () {
         var context = $('#you-may-also-need').attr('data-context');
-        $('#you-may-also-need').remove();
+        removeAddSellPopup();
         if (context === 'checkout') {
             window.location.href = '/checkout/';
         }
@@ -2578,7 +2586,7 @@ $(function () {
             // Spec: "transparent overlay added to the background of the screen, so that the
             // tray has more definition" - dim the rest of the page while the mini-cart is open.
             if (!$('.offcanvas-backdrop').length) {
-                //$('body').append('<div class="offcanvas-backdrop"></div>');
+                $('body').append('<div class="offcanvas-backdrop"></div>');
             }
         });
 

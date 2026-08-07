@@ -1,0 +1,31 @@
+@model netGiant.Intranet.BusinessLayer.ViewModels.PMS.Export.ExportProductAddonViewModel
+
+@{
+    ViewBag.Title = "Export Product Add Ons";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="placeHolder">
+    <div class="placeHolderBody">
+
+        <h4>@ViewBag.Title</h4>
+
+        <div class="g-m-t-20">
+            This exports every product that currently has one or more Add Ons configured, one row per product.
+            Column A is the product's SKU; column B is a semicolon-separated list of its Add On SKUs, in display order.
+        </div>
+
+        <div class="g-m-t-10">
+            <strong>@Model.ProductAddonCount</strong> product(s) currently have Add Ons configured.
+        </div>
+
+        @using (Html.BeginForm("ExportProductAddon", "Export", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="g-m-t-20">
+                <input type="submit" value="Export to CSV" class="btn btn-default" />
+            </div>
+        }
+
+    </div>
+</div>
