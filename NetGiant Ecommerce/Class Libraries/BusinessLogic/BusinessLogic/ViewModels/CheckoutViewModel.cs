@@ -103,7 +103,12 @@ namespace BusinessLogic.ViewModels
                     BasketContents[i].CrossSellingAvailability = int.Parse(dr["CrossSellingAvailability"].ToString());
                     BasketContents[i].CrossSellingDescription = dr["CrossSellingDescription"].ToString();
                     BasketContents[i].ExcludeFromUpSell = dr["ManufacturerName"].ToString() == "HP" ? true : false;
-                    //BasketContents[i].CrossSellingImageURL = dr["CrossSellingDescription"].ToString();
+                    BasketContents[i].CrossSellingImageURL = dt.Columns.Contains("CrossSellingImageURL") && dr["CrossSellingImageURL"] != DBNull.Value
+                        ? dr["CrossSellingImageURL"].ToString()
+                        : "";
+                    BasketContents[i].CrossSellingProductUrl = dt.Columns.Contains("CrossSellingProductURL") && dr["CrossSellingProductURL"] != DBNull.Value
+                        ? dr["CrossSellingProductURL"].ToString()
+                        : "";
                 }
             }
             HttpContext.Current.Session["B_BasketArray"] = BasketContents;

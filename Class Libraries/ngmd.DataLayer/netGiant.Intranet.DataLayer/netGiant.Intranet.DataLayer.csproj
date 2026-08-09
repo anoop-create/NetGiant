@@ -458,6 +458,9 @@
     <Compile Include="NetgiantMasterData\interimProductOverride.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="NetgiantMasterData\IntranetErrorLog.cs">
+      <DependentUpon>ngmdContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="NetgiantMasterData\JobStatus.cs">
       <DependentUpon>ngmdContext.tt</DependentUpon>
     </Compile>

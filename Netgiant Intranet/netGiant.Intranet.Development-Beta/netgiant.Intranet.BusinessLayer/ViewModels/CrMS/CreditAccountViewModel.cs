@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web.Mvc;
 using CusAccount = netGiant.Intranet.DataLayer.CustomerData.Account;
+using EntityState = System.Data.Entity.EntityState;
 
 namespace netGiant.Intranet.BusinessLayer.ViewModels.CrMS
 {

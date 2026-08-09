@@ -240,9 +240,15 @@ namespace netGiant.Intranet.Controllers
 
         public ActionResult Error()
         {
-            var model = new ErrorViewModel(Server.GetLastError() ?? new Exception());
+            // Server.GetLastError() only returns something if ASP.NET's own pipeline captured an
+            // unhandled error IN THIS SAME request - but CustomErrorHandling.OnException always redirects
+            // here as a brand new request, so GetLastError() is normally null. TempData["LastError"] is
+            // set by CustomErrorHandling.OnException right before it redirects here, and survives exactly
+            // this one redirect, so check that first for the real exception.
+            Exception ex = (TempData["LastError"] as Exception) ?? Server.GetLastError() ?? new Exception();
+            var model = new ErrorViewModel(ex);
 
             return View("~/Views/Shared/Error.cshtml", model);
-        }        
+        }
     }
 }

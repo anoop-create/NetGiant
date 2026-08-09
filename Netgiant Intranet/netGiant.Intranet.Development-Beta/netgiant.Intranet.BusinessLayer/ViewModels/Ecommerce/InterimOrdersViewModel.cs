@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Data.Entity;
 using netGiant.Intranet.DataLayer.NetgiantMasterData;
+using EntityState = System.Data.Entity.EntityState;
 
 namespace netGiant.Intranet.BusinessLayer.ViewModels.Ecommerce
 {

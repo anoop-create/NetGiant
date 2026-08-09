@@ -112,6 +112,10 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <!-- Needed for System.Data.EntityClient.EntityConnectionStringBuilder, used by CustomErrorHandling.cs
+         to extract the plain ADO.NET connection string out of the "ngmdEntities" EF connection string so
+         error logging can reuse it without a separate, hand-maintained connection string. -->
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>

@@ -19,7 +19,7 @@
             <strong>@Model.ProductAddonCount</strong> product(s) currently have Add Ons configured.
         </div>
 
-        @using (Html.BeginForm("ExportProductAddon", "Export", FormMethod.Post))
+        @using (Html.BeginForm("ExportAddOnMappings", "Export", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
             <div class="g-m-t-20">

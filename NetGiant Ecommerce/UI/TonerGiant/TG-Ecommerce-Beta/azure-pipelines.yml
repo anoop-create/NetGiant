@@ -1,0 +1,80 @@
+# TonerGiant Ecommerce - Build & FTP Deploy
+#
+# Builds TG-Ecommerce-Website.sln (TG-Ecommerce-Website + its CommonUI / BusinessLogic /
+# DataAccess class libraries), MSBuild-publishes it to a clean filesystem folder (this runs
+# any Web.config transforms and excludes .cs/obj/etc - it's the same "Publish" step Visual
+# Studio's right-click Publish would do, just from the command line), then FTPs that folder
+# to the web server.
+#
+# Requires a Windows agent (vs2022-windows / windows-latest) - this is a .NET Framework 4.8,
+# packages.config-style solution, not .NET Core/5+, so it needs real MSBuild + VS Build Tools,
+# not `dotnet build`.
+#
+# Place this file at:
+#   NetGiant Ecommerce/UI/TonerGiant/TG-Ecommerce-Beta/azure-pipelines.yml
+# and point the Azure DevOps pipeline's "YAML file path" at that location when you create it
+# (see setup notes below) - kept next to the solution rather than at the repo root, since this
+# repo also holds the Intranet, API, and other sites' solutions.
+
+trigger:
+  branches:
+    include:
+      - main # change to whatever branch you actually deploy from
+  paths:
+    include:
+      # Only trigger on changes that could actually affect this site - this is a shared
+      # monorepo with Intranet/API/other sites in it, so without this filter every commit
+      # anywhere in the repo would kick off a TonerGiant deploy.
+      - NetGiant Ecommerce/UI/TonerGiant/*
+      - NetGiant Ecommerce/Class Libraries/BusinessLogic/*
+      - NetGiant Ecommerce/Class Libraries/DataAccess/*
+      - NetGiant Ecommerce/Class Libraries/CommonUI/*
+
+pool:
+  vmImage: 'windows-2022'
+
+variables:
+  solution: 'NetGiant Ecommerce/UI/TonerGiant/TG-Ecommerce-Beta/TG-Ecommerce-Website.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  publishFolder: '$(Build.ArtifactStagingDirectory)\publish'
+
+steps:
+  - task: NuGetToolInstaller@1
+    displayName: 'Install NuGet'
+
+  - task: NuGetCommand@2
+    displayName: 'NuGet restore'
+    inputs:
+      restoreSolution: '$(solution)'
+
+  # This is the same as Visual Studio's right-click "Publish" -> "Folder": it runs Web.config
+  # transforms for the chosen configuration, excludes source/obj/etc, and drops a clean,
+  # deploy-ready site into publishFolder. FTP-ing this folder (not the raw bin output) is what
+  # keeps the FTP upload from also pushing junk like .cs files, obj/, or *.csproj to the server.
+  - task: VSBuild@1
+    displayName: 'Build & publish to filesystem'
+    inputs:
+      solution: '$(solution)'
+      msbuildArgs: >
+        /p:DeployOnBuild=true
+        /p:WebPublishMethod=FileSystem
+        /p:publishUrl="$(publishFolder)"
+        /p:DeleteExistingFiles=true
+      platform: '$(buildPlatform)'
+      configuration: '$(buildConfiguration)'
+
+  # Credentials come from an Azure DevOps "FTP" service connection (Project Settings ->
+  # Service connections -> New -> FTP), never from anything in this file. See setup notes.
+  - task: FtpUpload@2
+    displayName: 'FTP upload to web server'
+    inputs:
+      credentialsOption: 'serviceEndpoint'
+      serverEndpoint: 'TonerGiant-FTP' # <- name of the FTP service connection you create (see notes)
+      rootDirectory: '$(publishFolder)'
+      filePatterns: '**'
+      remoteDirectory: '/' # <- change to the actual target path on the FTP server, e.g. /httpdocs or /wwwroot
+      clean: false
+      cleanContents: false
+      preservePaths: true
+      trustSSL: false

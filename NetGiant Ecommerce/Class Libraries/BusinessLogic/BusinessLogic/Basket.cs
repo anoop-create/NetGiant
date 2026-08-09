@@ -862,7 +862,7 @@ namespace BusinessLogic
                 sqlParm = new SqlParameter("@Account", SqlDbType.VarChar);
                 sqlParm.Value = account;
                 sqlParms.Add(sqlParm);
-                DataTable dt = SQL.ExecuteReadStoredProcedure("netgiantmasterdata", "ngmd.GetSummaryData", sqlParms,
+                DataTable dt = SQL.ExecuteReadStoredProcedure("netgiantmasterdata", "ngmd.GetSummaryData1", sqlParms,
                     "summarydata").Tables[0];
 
                 foreach (DataRow dr in dt.Rows)
@@ -938,12 +938,6 @@ namespace BusinessLogic
                         {
                             lbcEntry.Description = desc;
                         }
-
-                        // Switch & Save / cross-sell data - previously only ever populated once the
-                        // full /checkout/ page had loaded (CheckoutViewModel.ExtendBasket), which meant
-                        // the mini-cart showed no Switch & Save block until then. Populate it here too,
-                        // from the same GetSummaryData result set, so the mini-cart is correct immediately
-                        // after an add-to-basket.
                         lbcEntry.CrossSellingStockRef = dt.Columns.Contains("CrossSellingStockRef") && dr["CrossSellingStockRef"] != DBNull.Value
                             ? dr["CrossSellingStockRef"].ToString()
                             : "";
@@ -958,6 +952,9 @@ namespace BusinessLogic
                             : "";
                         lbcEntry.CrossSellingImageURL = dt.Columns.Contains("CrossSellingImageURL") && dr["CrossSellingImageURL"] != DBNull.Value
                             ? dr["CrossSellingImageURL"].ToString()
+                            : "";
+                        lbcEntry.CrossSellingProductUrl = dt.Columns.Contains("CrossSellingProductURL") && dr["CrossSellingProductURL"] != DBNull.Value
+                            ? dr["CrossSellingProductURL"].ToString()
                             : "";
                         lbcEntry.ExcludeFromUpSell = dt.Columns.Contains("ManufacturerName") && dr["ManufacturerName"].ToString() == "HP";
                         lbcEntry.IsVatExempt = isVatExempt;

@@ -1,0 +1,765 @@
+CREATE TABLE ProductAddon
+(
+    ProductAddonId INT IDENTITY(1,1) PRIMARY KEY,
+
+    ProductId INT NOT NULL,
+
+    AddonProductId INT NOT NULL,
+
+    DisplayOrder INT NOT NULL DEFAULT(1),
+
+    IsActive BIT NOT NULL DEFAULT(1),
+
+    CreatedDate DATETIME NOT NULL DEFAULT(GETDATE()),
+
+    CreatedBy NVARCHAR(100) NULL
+);
+
+
+ALTER TABLE ProductAddon
+ADD CONSTRAINT FK_ProductAddon_Product
+FOREIGN KEY (ProductId)
+REFERENCES [ngmd].[product](ProductId);
+
+ALTER TABLE ProductAddon
+ADD CONSTRAINT FK_ProductAddon_AddonProduct
+FOREIGN KEY (AddonProductId)
+REFERENCES [ngmd].[product](ProductId);
+
+
+
+
+  
+  
+-- =============================================  
+-- Author:  Glen Dale  
+-- Create date: 26/06/2015  
+-- Description: Gets information about specific products and related cross sell  
+-- Test:  [ngmd].[GetProductResultsById] 2, '6194', ''   --Compatible  
+--    [ngmd].[GetProductResultsById] 1, '1953', ''   
+--    [ngmd].[GetProductResultsById] 1, '100244', ''   
+--    [ngmd].[GetProductResultsById] 1, '20246', ''   
+--    [ngmd].[GetProductResultsById] 1, '12208', '' -- Q6000A  
+--    [ngmd].[GetProductResultsById] 2, '20595', '' -- Solid Ink  
+---   [ngmd].[GetProductResultsById] 1, '1957',''           
+-- =============================================  
+CREATE PROCEDURE [ngmd].[GetProductResultsById]  
+ @WebsiteID int,  
+ @ProductID int,  
+ @Account varchar(13)  
+AS  
+  
+ SET NOCOUNT ON  
+  
+BEGIN  
+  
+ DECLARE @ProductRef VARCHAR(20)
+ SELECT @ProductRef = AF.stockReference FROM ngmd.AxisFields AF WHERE AF.productFK=@ProductID
+  DECLARE @siteRoot VARCHAR(100)  
+ DECLARE @vn VARCHAR(20)  
+ DECLARE @cslRef VARCHAR(20)  
+ DECLARE @cslId INT  
+  
+ DECLARE @images TABLE (  
+  partNo VARCHAR(50),  
+  manufacturer VARCHAR(50),  
+  url VARCHAR(800),  
+  Thumbnail int,  
+  Main int,  
+  DataSource int  
+ )  
+ DECLARE @climages TABLE (  
+  partNo VARCHAR(50),  
+  manufacturer VARCHAR(50),  
+  url VARCHAR(800),  
+  Thumbnail int,  
+  Main int,  
+  DataSource int  
+ )  
+  
+ SET @cslId = (SELECT TOP 1   
+  CASE   
+   WHEN aProductFK = AF.productFK THEN bProductFK  
+   WHEN bProductFK = AF.productFK THEN aProductFK  
+  END As [CrossProductID]  
+ FROM ngmd.AxisFields AF  
+ INNER JOIN ngmd.crossSellingLink CSL ON (CSL.aProductFK = AF.productFK OR CSL.bProductFK = AF.productFK) 
+ AND CSL.crossSellingLinkTypeFK = 1  
+ WHERE AF.productFK = @ProductID)  
+  
+ SET @cslRef = (SELECT TOP 1 ISNULL(AF.stockReference, '') FROM ngmd.AxisFields AF WHERE AF.productFK = @cslId)  
+  
+ INSERT INTO @images EXEC ngmd.GetImages @WebsiteId = @WebsiteID, @ProductRefArray = @ProductRef  
+ INSERT INTO @climages EXEC ngmd.GetImages @WebsiteId = @WebsiteID, @ProductRefArray = @cslRef  
+  
+ SELECT   
+  @vn = MAX(CASE WHEN settingName = 'VersionNumber' THEN settingValue END),  
+  @siteRoot = 'https://' + MAX(CASE WHEN settingName = 'siteRoot' THEN settingValue END)  
+ FROM ngmd.configurationSetting  
+ WHERE sectionName = 'Website Application Variables'   
+ AND websiteFK = @WebsiteID;   
+  
+ -- Retrieve Product Info  
+ SELECT TOP 1  --*,  
+  ngmd.GenerateProductURL(P.productName + '-' + P.partNo + '-' + AF.stockReference) AS [ProductURL],  
+  ngmd.GenerateImageURL(@WebsiteID,   
+   (SELECT TOP 1 URL FROM @images piv  
+    WHERE(piv.partNo = P.partNo   
+     OR (piv.partNo = P.manuReference AND P.manuReference <> ''))  
+    AND PIV.manufacturer = M.manufacturerName),  
+   @vn,   
+   @siteRoot,   
+   'L') AS [ImageURL],   
+  ISNULL(P.partNo, '') AS [PartNo],  
+  ISNULL(P.manuReference, '') AS [ManuRef],  
+  ISNULL(REPLACE(REPLACE(REPLACE(P.barcode, ' ', ''), '-', ''), ',', ''), '') AS [BarCode],  
+  P.productName + ' ' + ISNULL(AF.spec1, '') As [Description],   
+  M.manufacturerName As [Brand],  
+  ngmd.GetAvailability(P.supplierStock, AF.defaultDeliveryToCust) As [Availability],  
+  ISNULL(AF.attr4, 0) As [AttribValue4],  
+  ISNULL(AF.attr5, 0) As [AttribValue5],  
+  ISNULL(AF.attr6, 0) As [AttribValue6],  
+  ISNULL(AF.attr7, 0) As [AttribValue7],  
+  ISNULL(AF.attr8, 0) As [AttribValue8],  
+  ISNULL(AF.attr9, 0) As [AttribValue9],  
+  M.manufacturerID As [ManufacturerId],  
+  ISNULL(AF.attr10, 0) As [AXISBrandNo],  
+  ISNULL(ATT6.attrValueDesc, '') As [AttribDesc6],  
+  ISNULL(ATT8.attrValueDesc, '') As [AttribDesc8],  
+  ISNULL(ATT9.attrValueDesc, '') As [AttribDesc9],  
+  ISNULL(AF.spec1, '') As [SpecLine1],  
+  ISNULL(AF.spec2, '') As [SpecLine2],  
+  ISNULL(AF.spec3, '') As [SpecLine3],  
+  ISNULL(AF.spec4, '') As [SpecLine4],  
+  ISNULL(AF.spec6, '') As [SpecLine6],  
+  P.productItemTypeFK As [ProductItemType],  
+  ISNULL(AF.stockReference, '') As [ProductReference],  
+  P.productID As [ProductID],  
+  CASE  
+   WHEN M.manufacturerName = 'Own Brand' THEN 2  
+   WHEN M.manufacturerName = 'Katun' THEN 2  
+   ELSE 1  
+  END As [BrandFlag],  
+  ROUND(CONVERT(float, ISNULL(PP.priceIncVat, 999)), 2) AS [PriceRetail],  
+  CASE   
+   WHEN PP.tradePrice != 0 THEN ROUND(CONVERT(float, ISNULL(PP.tradePrice, 999)), 2)  
+   ELSE ROUND(CONVERT(float, ISNULL(PP.price, 999)), 2)  
+  END AS [PriceTrade],  
+  --ROUND(CONVERT(float, ISNULL(PP.tradePrice, 999)), 2) AS [PriceTrade],  
+  ISNULL(AFA.breakQuantity1, 1) AS [BreakQty1],  
+  ISNULL(AFA.breakQuantity2, 2) AS [BreakQty2],  
+  ISNULL(AFA.breakQuantity3, 99999999) AS [BreakQty3],  
+  ROUND(CONVERT(float, ISNULL(PP.breakPrice1IncVat, 999)), 2) AS [BreakPrice2],  
+  ROUND(CONVERT(float, ISNULL(PP.breakPrice2IncVat, 999)), 2) AS [BreakPrice3],  
+  ISNULL(P.pageYield, 0) As [PageYield],  
+  ISNULL(P.capacity, '') As [Capacity],  
+  CASE WHEN Components.basePrice IS NOT NULL THEN  
+    ISNULL(Components.basePrice - PP1.price, ISNULL(Components.basePrice - PP2.price, 0))  
+   ELSE  
+    ISNULL(ComponentsFallback.basePrice - PP1.price, ISNULL(ComponentsFallback.basePrice - PP2.price, 0))  
+   END As [AssemblySaving],  
+  ISNULL((SELECT SUM(quantity) FROM ngmd.assemblyComponent AC WHERE AC.assemblyProductFK = P.productID GROUP BY AC.assemblyProductFK), 0) As [AssemblyCount],  
+  ISNULL(AFA.stockNoteDesc, '') As [ProductNotes],  
+  RTRIM(CC.AXISGroupNo) As [AxisGroupNo],  
+  ISNULL(CC.isPartOfSale, 0) As [IsStationerySaleItem],  
+  PG.productGroupNo As [ProductGroup],  
+  ISNULL(CC.categoryCodeName, '') As [CategoryCodeName],  
+  ISNULL(PT.AltLookupId, 0) As [ProductTypeID],  
+  ISNULL(PT.LookupName, '') As [ProductType],  
+  ISNULL(AF.additionalInfoUrl, '') As [ProductVideoURL],  
+  ngmd.GenerateProductURL(CLP.productName + '-' + CLP.partNo + '-' + CLP.stockReference) AS [CrossSellProductURL],  
+  ISNULL(CLP.productID, 0) As [CrossSellProductID],  
+  CLP.productName As [CrossSellDescription],  
+  CLP.manufacturerName As [CrossSellBrand],  
+  CLP.productStatusFK As [CrossSellStatus],  
+  ROUND(CONVERT(float, ISNULL(CLPP.priceIncVat, 999)), 2) AS [CrossSellPrice],  
+  ngmd.GenerateImageURL(@WebsiteID,   
+   (SELECT TOP 1 URL FROM @climages piv  
+    WHERE(piv.partNo = CLP.partNo   
+     OR (piv.partNo = CLP.manuReference AND CLP.manuReference <> ''))  
+    AND piv.manufacturer = CLP.manufacturerName),  
+   @vn,   
+   @siteRoot,   
+   'L') AS [CrossSellImage],   
+  CLP.stockReference As [CrossSellRef],  
+  ISNULL(CLP.pageYield, 0) As  [CrossSellPageYield],  
+  '' As [DSNotes],  
+  AFA.priorityNote As [PriorityNote],  
+  AF.supressOpenRangeSpec As [DSSuppress],  
+  ISNULL(AFA.metaTitle, '') As [MetaTitle],   
+  ISNULL(AFA.metaDesc, '') As [MetaDesc],   
+  ISNULL(AFA.metaKeywords, '') As [MetaKeywords],  
+  FF.Kount As [FeeFoCount],  
+  FF.Rating As [FeeFoRating],  
+  PRO.promotionalGroupName As [promotionalGroupName],  
+  'P' As [recordType]  
+ FROM ngmd.product P WITH (NOLOCK)  
+ INNER JOIN ngmd.manufacturer M ON M.manufacturerID = P.manufacturerFK  
+ INNER JOIN ngmd.AxisFields AF ON AF.productFK = P.productID  
+ INNER JOIN ngmd.AxisFieldsAdditional AFA ON AFA.productFK = P.productID AND AFA.websiteFK = @WebsiteID  
+ INNER JOIN ngmd.websiteInventory WI1 ON WI1.productFK = P.productID AND WI1.websiteFK = @WebsiteID  
+ LEFT OUTER JOIN ngmd.websiteInventory WI2 ON WI2.productFK = P.productID AND WI2.websiteFK = 1  
+ LEFT OUTER JOIN ngmd.promotionalGroup PRO on PRO.promotionalGroupId = WI1.promotionalGroupFK AND PRO.active = 1  
+ INNER JOIN ngmd.productGroup PG ON PG.productGroupID = P.productGroupFK  
+ OUTER APPLY (SELECT TOP 1 L.*  
+  FROM ngmd.Lookup L   
+  INNER JOIN ngmd.LookupType LT ON LT.LookupTypeId = L.LookupTypeFk AND LT.LookupTypeName = 'ProductType'  
+  WHERE L.AltLookupId = PG.productTypeFK) PT  
+ OUTER APPLY (SELECT TOP 1 pp.basePrice, pp.price FROM ngmd.productPrice pp WITH (NOLOCK) WHERE pp.websiteInventoryFK = WI1.websiteInventoryID ORDER BY pp.dateLastUpdated DESC) PP1   
+ OUTER APPLY (SELECT TOP 1 pp.basePrice, pp.price FROM ngmd.productPrice pp WITH (NOLOCK) WHERE pp.websiteInventoryFK = WI2.websiteInventoryID ORDER BY pp.dateLastUpdated DESC) PP2  
+ LEFT OUTER JOIN ngmd.categoryCode CC ON CC.categoryCodeID = WI1.categoryCodeFK  
+ LEFT OUTER JOIN ngmd.AxisValueLookup ATT6 ON ATT6.axisTypeNameFK = 1 AND ATT6.attrNameFK = 6 AND ATT6.attrValueID = AF.attr6  
+ LEFT OUTER JOIN ngmd.AxisValueLookup ATT8 ON ATT8.axisTypeNameFK = 1 AND ATT8.attrNameFK = 8 AND ATT8.attrValueID = AF.attr8  
+ LEFT OUTER JOIN ngmd.AxisValueLookup ATT9 ON ATT9.axisTypeNameFK = 1 AND ATT9.attrNameFK = 9 AND ATT9.attrValueID = AF.attr9  
+ LEFT OUTER JOIN ngmd.AxisValueLookup ATT10 ON ATT10.axisTypeNameFK = 1 AND ATT10.attrNameFK = 10 AND ATT6.attrValueID = AF.attr10  
+ OUTER APPLY (  
+  SELECT Count(*) As Kount,  
+  ISNULL(ROUND(AVG(CAST(productRating AS FLOAT)), 2), 0) As [Rating]  
+  FROM ngmd.feefoFeedback WHERE productFK = P.productID AND websiteFK = @WebsiteID AND (isHidden is null or isHidden = 0)) FF  
+ OUTER APPLY (SELECT TOP 1 *  
+  FROM ngmd.productPrice pp WITH (NOLOCK)  
+  WHERE pp.websiteInventoryFK = WI1.websiteInventoryID  
+  ORDER BY pp.dateLastUpdated DESC) PP  
+ OUTER APPLY (SELECT TOP 1 p.productID, productName, partNo, manuReference, productStatusFK, pageYield, manufacturerName, af.stockReference, af.supressOpenRangeImage, wi.websiteInventoryID   
+  FROM ngmd.product p   
+  INNER JOIN ngmd.manufacturer m ON m.manufacturerID = p.manufacturerFK AND (p.productStatusFK = 1 OR p.productStatusFK = 8)  
+  INNER JOIN ngmd.AxisFields af ON af.productFK = p.productID  
+  INNER JOIN ngmd.websiteInventory wi ON wi.productFK = p.productID AND wi.websiteFK = @WebsiteID  
+  WHERE productID = @cslId) CLP  
+ OUTER APPLY (SELECT TOP 1 *  
+  FROM ngmd.productPrice pp WITH (NOLOCK)  
+  WHERE pp.websiteInventoryFK = CLP.websiteInventoryID  
+  ORDER BY pp.dateLastUpdated DESC) CLPP  
+ OUTER APPLY (  
+  SELECT   
+   SUM(componentPrice.price) basePrice, SUM(componentPrice.cheapestCostPrice) costPrice  
+  FROM ngmd.assemblyComponent ass  
+  INNER JOIN ngmd.product prd ON ass.assemblyComponentFK = prd.productID  
+  INNER JOIN ngmd.websiteInventory wi ON prd.productID = wi.productFK  
+  OUTER APPLY (  
+   SELECT TOP 1   
+    pp.price, pp.cheapestCostPrice  
+   FROM ngmd.productPrice pp WITH (NOLOCK)  
+   WHERE pp.websiteInventoryFK = wi.websiteInventoryID  
+   ORDER BY pp.productPriceID DESC  
+  ) componentPrice  
+  WHERE ass.assemblyProductFK = P.productID  
+   AND wi.websiteFK = @WebsiteID  
+ ) Components  
+ OUTER APPLY (  
+  SELECT   
+   SUM(componentPrice.price) basePrice, SUM(componentPrice.cheapestCostPrice) costPrice  
+  FROM ngmd.assemblyComponent ass  
+  INNER JOIN ngmd.product prd ON ass.assemblyComponentFK = prd.productID  
+  INNER JOIN ngmd.websiteInventory wi ON prd.productID = wi.productFK  
+  OUTER APPLY (  
+   SELECT  
+   TOP 1 pp.price, pp.cheapestCostPrice  
+   FROM ngmd.productPrice pp WITH (NOLOCK)  
+   WHERE pp.websiteInventoryFK = wi.websiteInventoryID  
+   ORDER  
+   BY  pp.productPriceID DESC  
+  ) componentPrice  
+  WHERE ass.assemblyProductFK = P.productID  
+   AND wi.websiteFK = 1  
+ ) ComponentsFallback  
+  
+ WHERE (P.productStatusFK = 1 OR P.productStatusFK = 8)   --Active  
+   AND P.productID = @ProductID  
+ ORDER BY BrandFlag DESC, AF.Attr5 ASC, AF.attr8 ASC, PP.priceIncVat DESC  
+  
+  
+ -- Retrieve Cross Selling Product information  
+ IF @cslId IS NOT NULL  
+ BEGIN  
+  SELECT TOP 1  --*,  
+   '/' + ngmd.GenerateProductURL(P.productName + '-' + P.partNo + '-' + AF.stockReference) AS [ProductURL],  
+   ngmd.GenerateImageURL(@WebsiteID,   
+   (SELECT TOP 1 URL FROM @climages piv  
+    WHERE(piv.partNo = P.partNo   
+     OR (piv.partNo = P.manuReference AND P.manuReference <> ''))  
+    AND PIV.manufacturer = M.manufacturerName),  
+   @vn,   
+   @siteRoot,   
+   'L') AS [ImageURL],   
+   ISNULL(P.partNo, '') AS [PartNo],  
+   ISNULL(P.manuReference, '') AS [ManuRef],  
+   ISNULL(REPLACE(REPLACE(REPLACE(P.barcode, ' ', ''), '-', ''), ',', ''), '') AS [BarCode],  
+   P.productName + ' ' + ISNULL(AF.spec1, '') As [Description],   
+   M.manufacturerName As [Brand],  
+   ngmd.GetAvailability(P.supplierStock, AF.defaultDeliveryToCust) As [Availability],  
+   ISNULL(AF.attr4, 0) As [AttribValue4],  
+   ISNULL(AF.attr5, 0) As [AttribValue5],  
+   ISNULL(AF.attr6, 0) As [AttribValue6],  
+   ISNULL(AF.attr7, 0) As [AttribValue7],  
+   ISNULL(AF.attr8, 0) As [AttribValue8],  
+   ISNULL(AF.attr9, 0) As [AttribValue9],  
+   M.manufacturerID As [ManufacturerId],  
+   ISNULL(AF.attr10, 0) As [AXISBrandNo],  
+   ISNULL(ATT6.attrValueDesc, '') As [AttribDesc6],  
+   ISNULL(ATT8.attrValueDesc, '') As [AttribDesc8],  
+   ISNULL(ATT9.attrValueDesc, '') As [AttribDesc9],  
+   ISNULL(AF.spec1, '') As [SpecLine1],  
+   ISNULL(AF.spec2, '') As [SpecLine2],  
+   ISNULL(AF.spec3, '') As [SpecLine3],  
+   ISNULL(AF.spec4, '') As [SpecLine4],  
+   ISNULL(AF.spec6, '') As [SpecLine6],  
+   P.productItemTypeFK As [ProductItemType],  
+   ISNULL(AF.stockReference, '') As [ProductReference],  
+   P.productID As [ProductID],  
+   CASE  
+    WHEN M.manufacturerName = 'Own Brand' THEN 2  
+    WHEN M.manufacturerName = 'Katun' THEN 2  
+    ELSE 1  
+   END As [BrandFlag],  
+   ROUND(CONVERT(float, ISNULL(PP.priceIncVat, 999)), 2) AS [PriceRetail],  
+   CASE   
+    WHEN PP.tradePrice != 0 THEN ROUND(CONVERT(float, ISNULL(PP.tradePrice, 999)), 2)  
+    ELSE ROUND(CONVERT(float, ISNULL(PP.price, 999)), 2)  
+   END AS [PriceTrade],  
+   --ROUND(CONVERT(float, ISNULL(PP.tradePrice, 999)), 2) AS [PriceTrade],  
+   ISNULL(AFA.breakQuantity1, 1) AS [BreakQty1],  
+   ISNULL(AFA.breakQuantity2, 2) AS [BreakQty2],  
+   ISNULL(AFA.breakQuantity3, 99999999) AS [BreakQty3],  
+   ROUND(CONVERT(float, ISNULL(PP.breakPrice1IncVat, 999)), 2) AS [BreakPrice2],  
+   ROUND(CONVERT(float, ISNULL(PP.breakPrice2IncVat, 999)), 2) AS [BreakPrice3],  
+   ISNULL(P.pageYield, 0) As [PageYield],  
+   CASE WHEN Components.basePrice IS NOT NULL THEN  
+     ISNULL(Components.basePrice - PP1.price, ISNULL(Components.basePrice - PP2.price, 0))  
+    ELSE  
+     ISNULL(ComponentsFallback.basePrice - PP1.price, ISNULL(ComponentsFallback.basePrice - PP2.price, 0))  
+    END As [AssemblySaving],  
+   ISNULL((SELECT SUM(quantity) FROM ngmd.assemblyComponent AC WHERE AC.assemblyProductFK = P.productID GROUP BY AC.assemblyProductFK), 0) As [AssemblyCount],  
+   RTRIM(CC.AXISGroupNo) As [AxisGroupNo],  
+   ISNULL(CC.isPartOfSale, 0) As [IsStationerySaleItem],  
+   PG.productGroupNo As [ProductGroup],  
+   ISNULL(CC.categoryCodeName, '') As [CategoryCodeName],  
+   ISNULL(PT.AltLookupId, 0) As [ProductTypeID],  
+   ISNULL(PT.LookupName, '') As [ProductType],  
+   ISNULL(AF.additionalInfoUrl, '') As [ProductVideoURL],  
+   ISNULL(AFA.metaTitle, '') As [MetaTitle],   
+   ISNULL(AFA.metaDesc, '') As [MetaDesc],   
+   ISNULL(AFA.metaKeywords, '') As [MetaKeywords],  
+   FF.Kount As [FeeFoCount],  
+   FF.Rating As [FeeFoRating],  
+   PRO.promotionalGroupName As [promotionalGroupName],  
+   'X' As [recordType]  
+  FROM ngmd.product P  
+  INNER JOIN ngmd.manufacturer M ON M.manufacturerID = P.manufacturerFK  
+  INNER JOIN ngmd.AxisFields AF ON AF.productFK = P.productID  
+  INNER JOIN ngmd.AxisFieldsAdditional AFA ON AFA.productFK = P.productID AND AFA.websiteFK = @WebsiteID  
+  INNER JOIN ngmd.websiteInventory WI1 ON WI1.productFK = P.productID AND WI1.websiteFK = @WebsiteID  
+  LEFT OUTER JOIN ngmd.websiteInventory WI2 ON WI2.productFK = P.productID AND WI2.websiteFK = 1  
+  LEFT OUTER JOIN ngmd.promotionalGroup PRO on PRO.promotionalGroupId = WI1.promotionalGroupFK AND PRO.active = 1  
+  INNER JOIN ngmd.productGroup PG ON PG.productGroupID = P.productGroupFK  
+  OUTER APPLY (SELECT TOP 1 L.*  
+   FROM ngmd.Lookup L   
+   INNER JOIN ngmd.LookupType LT ON LT.LookupTypeId = L.LookupTypeFk AND LT.LookupTypeName = 'ProductType'  
+   WHERE L.AltLookupId = PG.productTypeFK) PT  
+  OUTER APPLY (SELECT TOP 1 pp.basePrice, pp.price FROM ngmd.productPrice pp WITH (NOLOCK) WHERE pp.websiteInventoryFK = WI1.websiteInventoryID ORDER BY pp.dateLastUpdated DESC) PP1   
+  OUTER APPLY (SELECT TOP 1 pp.basePrice, pp.price FROM ngmd.productPrice pp WITH (NOLOCK) WHERE pp.websiteInventoryFK = WI2.websiteInventoryID ORDER BY pp.dateLastUpdated DESC) PP2  
+  LEFT OUTER JOIN ngmd.categoryCode CC ON CC.categoryCodeID = WI1.categoryCodeFK  
+  LEFT OUTER JOIN ngmd.AxisValueLookup ATT6 ON ATT6.axisTypeNameFK = 1 AND ATT6.attrNameFK = 6 AND ATT6.attrValueID = AF.attr6  
+  LEFT OUTER JOIN ngmd.AxisValueLookup ATT8 ON ATT8.axisTypeNameFK = 1 AND ATT8.attrNameFK = 8 AND ATT8.attrValueID = AF.attr8  
+  LEFT OUTER JOIN ngmd.AxisValueLookup ATT9 ON ATT9.axisTypeNameFK = 1 AND ATT9.attrNameFK = 9 AND ATT9.attrValueID = AF.attr9  
+  LEFT OUTER JOIN ngmd.AxisValueLookup ATT10 ON ATT10.axisTypeNameFK = 1 AND ATT10.attrNameFK = 10 AND ATT6.attrValueID = AF.attr10  
+  OUTER APPLY (  
+  SELECT Count(*) As Kount,  
+  ISNULL(ROUND(AVG(CAST(productRating AS FLOAT)), 2), 0) As [Rating]  
+  FROM ngmd.feefoFeedback WHERE productFK = P.productID AND websiteFK = @WebsiteID AND (isHidden is null or isHidden = 0)) FF  
+  OUTER APPLY (SELECT TOP 1 *  
+   FROM ngmd.productPrice pp WITH (NOLOCK)  
+   WHERE pp.websiteInventoryFK = WI1.websiteInventoryID  
+   ORDER BY pp.dateLastUpdated DESC) PP  
+  OUTER APPLY (  
+   SELECT   
+    SUM(componentPrice.price) basePrice, SUM(componentPrice.cheapestCostPrice) costPrice  
+   FROM ngmd.assemblyComponent ass  
+   INNER JOIN ngmd.product prd ON ass.assemblyComponentFK = prd.productID  
+   INNER JOIN ngmd.websiteInventory wi ON prd.productID = wi.productFK  
+   OUTER APPLY (  
+    SELECT TOP 1   
+     pp.price, pp.cheapestCostPrice  
+    FROM ngmd.productPrice pp WITH (NOLOCK)  
+    WHERE pp.websiteInventoryFK = wi.websiteInventoryID  
+    ORDER BY pp.productPriceID DESC  
+   ) componentPrice  
+   WHERE ass.assemblyProductFK = P.productID  
+    AND wi.websiteFK = @WebsiteID  
+  ) Components  
+  OUTER APPLY (  
+   SELECT   
+    SUM(componentPrice.price) basePrice, SUM(componentPrice.cheapestCostPrice) costPrice  
+   FROM ngmd.assemblyComponent ass  
+   INNER JOIN ngmd.product prd ON ass.assemblyComponentFK = prd.productID  
+   INNER JOIN ngmd.websiteInventory wi ON prd.productID = wi.productFK  
+   OUTER APPLY (  
+    SELECT  
+    TOP 1 pp.price, pp.cheapestCostPrice  
+    FROM ngmd.productPrice pp WITH (NOLOCK)  
+    WHERE pp.websiteInventoryFK = wi.websiteInventoryID  
+    ORDER  
+    BY  pp.productPriceID DESC  
+   ) componentPrice  
+   WHERE ass.assemblyProductFK = P.productID  
+    AND wi.websiteFK = 1  
+  ) ComponentsFallback  
+  
+  WHERE (P.productStatusFK = 1 OR P.productStatusFK = 8)   --Active  
+    AND P.productID = @cslId  
+  ORDER BY BrandFlag DESC, AF.Attr5 ASC, AF.attr8 ASC, PP.priceIncVat DESC  
+ END   
+END  
+  
+  
+  
+  
+  
+  
+SET ANSI_NULLS ON  
+  
+  
+  
+  
+/****** Object:  StoredProcedure [ngmd].[GetSearchResults]    Script Date: 20/05/2026 12:27:28 ******/  
+SET ANSI_NULLS ON  
+
+
+
+-----------------------------------------
+
+/* ============================================================================
+   WebsiteInfoCard - shared content table for the basket-page sidebar widgets
+   (sale banner, "Free Next Day Delivery", "Trusted By 25,000+",
+   "Exclusive Trade Pricing", and any similar card added later).
+
+   One table, discriminated by Category. Managed by the Intranet project;
+   read directly by the Ecommerce site (both already point at the same
+   "ngmd" database via their own Database-First EF model, exactly like the
+   existing cmsEntry/cmsSection tables).
+
+   Run this against the ngmd database, then see the "NEXT STEPS" comment
+   at the bottom of this file.
+   ============================================================================ */
+
+IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'WebsiteInfoCard' AND schema_id = SCHEMA_ID('dbo'))
+BEGIN
+    CREATE TABLE dbo.WebsiteInfoCard
+    (
+        WebsiteInfoCardId   INT IDENTITY(1,1)   NOT NULL,
+        WebsiteId           INT                 NOT NULL,
+        Category            NVARCHAR(50)        NOT NULL,   -- 'Banner', 'Delivery', 'Trust', 'TradePricing', ...
+        IconClass           NVARCHAR(50)        NULL,       -- e.g. 'fa fa-truck' - not used by 'Banner'
+        Title               NVARCHAR(200)       NULL,       -- card header text - not used by 'Banner'
+        BodyText            NVARCHAR(500)       NULL,       -- short teaser shown before "Find Out More"
+        FindOutMoreContent  NVARCHAR(MAX)       NULL,       -- HTML shown when "Find Out More" is expanded
+        ImageUrl            NVARCHAR(500)       NULL,       -- banner image (or any card image, if ever needed)
+        LinkUrl             NVARCHAR(500)       NULL,       -- optional click-through, e.g. banner -> sale page
+        DisplayOrder        INT                 NOT NULL CONSTRAINT DF_WebsiteInfoCard_DisplayOrder DEFAULT (0),
+        IsActive            BIT                 NOT NULL CONSTRAINT DF_WebsiteInfoCard_IsActive DEFAULT (1),
+        CreatedDate         DATETIME            NOT NULL CONSTRAINT DF_WebsiteInfoCard_CreatedDate DEFAULT (GETDATE()),
+        CreatedBy           NVARCHAR(100)       NULL,
+        ModifiedDate        DATETIME            NULL,
+        ModifiedBy          NVARCHAR(100)       NULL,
+
+        CONSTRAINT PK_WebsiteInfoCard PRIMARY KEY CLUSTERED (WebsiteInfoCardId),
+        CONSTRAINT FK_WebsiteInfoCard_Website FOREIGN KEY (WebsiteId) REFERENCES [ngmd].[Website] (WebsiteID)
+    );
+
+    CREATE NONCLUSTERED INDEX IX_WebsiteInfoCard_Website_Category
+        ON dbo.WebsiteInfoCard (WebsiteId, Category, IsActive, DisplayOrder);
+END
+GO
+
+/* ----------------------------------------------------------------------------
+   Seed data - matches what's currently hardcoded in BasketDetails.cshtml,
+   plus one inactive placeholder row for the sale banner (activate it once
+   you have a real image/link to put in).
+
+   IMPORTANT: verify the WebsiteName below actually matches your TonerGiant
+   row before running (SELECT WebsiteID, WebsiteName, FriendlyName FROM
+   dbo.Website to check) - swap to FriendlyName or Abbreviation if needed.
+   ---------------------------------------------------------------------------- */
+DECLARE @WebsiteId INT = (SELECT WebsiteID FROM [ngmd].[Website] WHERE WebsiteName = 'TonerGiant');
+
+IF @WebsiteId IS NULL
+BEGIN
+    PRINT 'Could not find a Website row named ''TonerGiant'' - skipping seed data. Check dbo.Website and re-run the INSERTs below manually with the correct WebsiteId.';
+END
+ELSE IF NOT EXISTS (SELECT 1 FROM dbo.WebsiteInfoCard WHERE WebsiteId = @WebsiteId)
+BEGIN
+    INSERT INTO dbo.WebsiteInfoCard
+        (WebsiteId, Category, IconClass, Title, BodyText, FindOutMoreContent, ImageUrl, LinkUrl, DisplayOrder, IsActive, CreatedBy)
+    VALUES
+    (@WebsiteId, 'Banner', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 'Migration'),
+
+    (@WebsiteId, 'Delivery', 'fa fa-truck', 'Free Next Day Delivery',
+        'Order before <strong>5:30 Mon-Thu</strong>, &amp; <strong>5pm Fri</strong> for next working day delivery.',
+        '<p>We dispatch all in-stock orders placed before the cut-off time on the same working day. Orders placed after the cut-off will be dispatched the following working day.</p><p>Delivery is available Monday to Friday excluding public holidays.</p>',
+        NULL, NULL, 1, 1, 'Migration'),
+
+    (@WebsiteId, 'Trust', 'fa fa-star-o', 'Trusted By 25,000+',
+        'Thousands of businesses trust us for office supplies, printer cartridges and workplace essentials.',
+        '<p>We dispatch all in-stock orders placed before the cut-off time on the same working day. Orders placed after the cut-off will be dispatched the following working day.</p><p>Delivery is available Monday to Friday excluding public holidays.</p>',
+        NULL, NULL, 2, 1, 'Migration'),
+
+    (@WebsiteId, 'TradePricing', 'fa fa-gbp', 'Exclusive Trade Pricing',
+        'Register for a trade account and receive exclusive business pricing.',
+        '<p>We dispatch all in-stock orders placed before the cut-off time on the same working day. Orders placed after the cut-off will be dispatched the following working day.</p><p>Delivery is available Monday to Friday excluding public holidays.</p>',
+        NULL, NULL, 3, 1, 'Migration');
+END
+GO
+
+/* ============================================================================
+   NEXT STEPS (manual, in Visual Studio - not something this script can do)
+
+   1. Run this script against the ngmd database.
+
+   2. In BOTH projects that model this database, refresh the Database-First
+      EF model so the new table becomes an entity class:
+        - NetGiant Ecommerce: Class Libraries/DataAccess/DataAccess/EntityFramework/Ngmd.edmx
+        - Intranet:           netgiant.Intranet.BusinessLayer (its Ngmd/NetgiantMasterData model)
+      Open the .edmx designer -> right-click -> "Update Model from Database" ->
+      Add -> Tables -> WebsiteInfoCard -> Finish. This generates a
+      "WebsiteInfoCard" POCO class (matching the ProductAddon.cs pattern
+      already in the Ecommerce project) in each project - nothing else to
+      hand-write for the entity itself.
+
+   3. Add a menu entry in the Intranet's actionLink table so
+      "Website Info Cards" shows up in the admin nav next to CMS. Find the
+      existing CMS menu's parentLevelID first:
+        SELECT * FROM dbo.actionLink WHERE controllerName = 'CMS';
+      then insert a sibling row, e.g.:
+        INSERT INTO dbo.actionLink
+            (actionLinkDesc, actionLinkLevel, parentLevelID, actionLinkURL, actionName, controllerName, active, dateLastUpdate, roles, area)
+        VALUES
+            ('Website Info Cards', 2, <parentLevelID from above>, '/WebsiteInfoCard/Index', 'Index', 'WebsiteInfoCard', 1, GETDATE(), 'IntranetAdmin, PMSAdmin, SEO', '');
+      Adjust actionLinkLevel/parentLevelID/area to match the sibling CMS row
+      exactly (the query above will show you its real values).
+   ============================================================================ */
+
+
+
+INSERT INTO [ngmd].[actionLink]
+    (actionLinkDesc, actionLinkLevel, parentLevelID, actionLinkURL, 
+    actionName, controllerName, active, dateLastUpdate, roles, area)
+VALUES
+    ('Website Info Cards', 3, 17, '/WebsiteInfoCard/Index',
+    'Index', 'WebsiteInfoCard', 1, GETDATE(), 'IntranetAdmin,PMSAdmin,PMSReader', NULL);
+
+UPDATE [ngmd].[actionLink]
+SET parentLevelID = 94,
+    actionLinkLevel = 3,
+    area = NULL
+WHERE controllerName = 'WebsiteInfoCard';
+
+
+INSERT INTO [ngmd].[actionLink]
+    (actionLinkDesc, actionLinkLevel,
+    parentLevelID, actionLinkURL, actionName, 
+    controllerName, active, dateLastUpdate, roles, area)
+VALUES
+    ('Export Product Add Ons', 3, 49, NULL, 'ProductAddon', 
+    'Export', 1, GETDATE(), 'IntranetAdmin,PMSAdmin', NULL);
+	
+	
+	
+	--------------------------------------
+	
+  
+  
+-- =============================================  
+-- Author:  Glen Dale  
+-- Create date: 18/05/2015  
+-- Description: Gets data about items in the basket  
+-- Test:  [ngmd].[GetSummaryData] 1, '5365, 95782, 86513, 19878', '01/277278'  
+-- Test:  [ngmd].[GetSummaryData] 1, '2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21', ''  
+-- Test:  [ngmd].[GetSummaryData] 1, '14810, 8406', '' 
+-- Test:  [ngmd].[GetSummaryData] 1, '20646', '204309'
+-- =============================================  
+  
+Alter PROCEDURE [ngmd].[GetSummaryData]  
+ @WebsiteID int,  
+ @ProductIDArray varchar(8000),  
+ @Account varchar(13)  
+AS  
+  
+ SET NOCOUNT ON  
+  
+BEGIN TRY  
+  
+ DECLARE @siteRoot VARCHAR(100)  
+ DECLARE @vn varchar(20)  
+   
+ DECLARE @images TABLE (  
+  partNo VARCHAR(50),  
+  manufacturer VARCHAR(50),  
+  url VARCHAR(800),  
+  Thumbnail int,  
+  Main int,  
+  DataSource int  
+ )  
+ DECLARE @products TABLE (  
+  axisref VARCHAR(20)  
+ )  
+ DECLARE @IDTable TABLE(  
+  ID varchar(20),   
+  seq int  
+ )  
+ INSERT INTO @IDTable  
+  SELECT item, seq from ngmd.fnSplit(@ProductIDArray, ',')  
+  
+ INSERT INTO @images EXEC ngmd.GetImages @WebsiteId = @WebsiteID, @ProductRefArray = @ProductIDArray  
+  
+ SELECT   
+  @vn = MAX(CASE WHEN settingName = 'VersionNumber' THEN settingValue END),  
+  @siteRoot = 'https://' + MAX(CASE WHEN settingName = 'siteRoot' THEN settingValue END)  
+ FROM ngmd.configurationSetting  
+ WHERE sectionName = 'Website Application Variables'   
+ AND (websiteFK = @WebsiteID OR websiteFK IS NULL);   
+  
+ SELECT TOP (SELECT COUNT(*) FROM @IDTable)   
+  AF.stockReference,  
+  P.productID,  
+  '/' + ngmd.GenerateProductURL(P.productName + '-' + P.partNo + '-' + AF.stockReference) AS [ProductURL],  
+  P.productName AS [Description],  
+  ngmd.GenerateImageURL(@WebsiteID,   
+   PIV.url,  
+   @vn,   
+   @siteRoot,   
+   'S') AS [ImageURL],   
+  ngmd.GetAvailability(P.supplierStock, AF.defaultDeliveryToCust) As [Availability],  
+  CASE  
+   WHEN M.manufacturerName = 'Own Brand' THEN 2  
+   WHEN M.manufacturerName = 'Katun' THEN 2  
+   ELSE 1  
+  END As [BrandFlag],  
+  M.manufacturerName As [ManufacturerName],  
+  CSAF.stockReference As [CrossSellingStockRef],  
+  ISNULL(CSPP.price, 0) As [CrossSellingPriceEx],  
+  ngmd.GetAvailability(CSP.supplierStock, CSAF.defaultDeliveryToCust) AS [CrossSellingAvailability],  
+  ISNULL(CSP.productName, '') As [CrossSellingDescription],  
+  '/' + ngmd.GenerateProductURL(
+    CSP.productName + '-' + CSP.partNo + '-' + CSAF.stockReference
+) AS [CrossSellingProductURL],
+
+ngmd.GenerateImageURL(
+    @WebsiteID,
+    CSPIMG.URL,
+    @vn,
+    @siteRoot,
+    'S'
+) AS [CrossSellingImageURL],
+  ISNULL(AF.spec6, '') As [SpecLine6],    
+  EBM.eBusinessRef As [GroupNo],  
+  WI.categoryCodeFK As [CategoryNo],  
+  EB.affiliateCommissionGroup [AffiliateCommissionGroup],  
+  EB.description As [EBGName],  
+  'ngmd' As [Source],  
+  P.partNo AS [partNo],   
+  AF.stockReference AS [axisRef],   
+  CASE @WebsiteID  
+   WHEN 3 THEN 5  
+   ELSE @WebsiteID  
+  END As [language],   
+  2 AS priceTypeID,   
+  NULL AS account,  
+  ISNULL(AFA.breakQuantity1, 1) AS breakQuantity1,  
+  ROUND(CONVERT(float, ISNULL(PP.price, 999)), 2) AS [retailPriceExVat],  
+  CASE   
+   WHEN PP.tradePrice != 0 THEN ROUND(CONVERT(float, ISNULL(PP.tradePrice, 999)), 2)  
+   ELSE ROUND(CONVERT(float, ISNULL(PP.price, 999)), 2)  
+  END AS [tradePriceExVat],  
+  --ROUND(CONVERT(float, ISNULL(PP.tradePrice, 999)), 2) AS [tradePriceExVat],   
+  ROUND(CONVERT(float, ISNULL(PP.priceIncVat, 999)), 2) AS [retailPriceIncVat],  
+  CASE   
+   WHEN PP.tradePrice != 0 THEN ROUND(CONVERT(float, ISNULL(PP.tradePriceIncVat, 999)), 2)  
+   ELSE ROUND(CONVERT(float, ISNULL(PP.priceIncVat, 999)), 2)  
+  END AS [tradePriceIncVat],  
+  --ROUND(CONVERT(float, ISNULL(PP.tradePriceIncVat, 999)), 2) AS [tradePriceIncVat],  
+  ISNULL(AFA.breakQuantity2, 2) AS breakQuantity2,  
+  ROUND(CONVERT(float, ISNULL(PP.breakPrice1, 999)), 2) AS [breakPrice2ExVat],   
+  ROUND(CONVERT(float, ISNULL(PP.breakPrice1IncVat, 999)), 2) AS [breakPrice2IncVat],   
+  ISNULL(AFA.breakQuantity3, 99999999) AS breakQuantity3,   
+  ROUND(CONVERT(float, ISNULL(PP.breakPrice2, 999)), 2) AS [breakPrice3ExVat],   
+  ROUND(CONVERT(float, ISNULL(PP.breakPrice2IncVat, 999)), 2) AS [breakPrice3IncVat]  
+ FROM ngmd.product P  
+ INNER JOIN ngmd.websiteInventory WI ON WI.productFK = P.productID AND WI.websiteFK = @WebsiteID  
+ INNER JOIN ngmd.AxisFields AF ON AF.productFK = P.productID  
+ INNER JOIN ngmd.AxisFieldsAdditional AFA ON AFA.productFK = P.productID AND AFA.websiteFK = @WebsiteID  
+ INNER JOIN ngmd.AxisEbusinessMapping EBM ON EBM.productFK = P.productID AND EBM.eBusinessPrimary = 1  
+ INNER JOIN ngmd.AxisEbusiness EB ON EB.eBusinessRef = EBM.eBusinessRef  
+ INNER JOIN ngmd.manufacturer M ON M.manufacturerID = P.manufacturerFK  
+ OUTER APPLY (SELECT TOP 1 *  
+  FROM ngmd.productPrice pp  
+  WHERE pp.websiteInventoryFK = WI.websiteInventoryID  
+  ORDER BY pp.dateLastUpdated DESC) PP  
+ OUTER APPLY (SELECT TOP 1 * FROM @images i WHERE i.partNo = P.partNo) PIV  
+ OUTER APPLY (SELECT TOP 1   
+     CASE  
+      WHEN aProductFK = AF.productFK THEN bProductFK  
+      WHEN bProductFK = AF.productFK THEN aProductFK  
+     END AS [ProductFK]  
+    FROM ngmd.crossSellingLink  
+    WHERE crossSellingLinkTypeFK = 1  
+    AND (aProductFK = AF.productFK OR bProductFK = AF.productFK)) CSL  
+ LEFT OUTER JOIN ngmd.product CSP ON CSP.productID = CSL.ProductFK AND CSP.productStatusFK IN (1,8)  
+ LEFT OUTER JOIN ngmd.AxisFields CSAF ON CSAF.productFK = CSP.ProductID  
+ LEFT OUTER JOIN ngmd.websiteInventory CSWI ON CSWI.productFK = CSP.ProductID AND CSWI.websiteFK = @WebsiteID   
+ OUTER APPLY
+(
+    SELECT TOP (1)
+           PIV.URL
+    FROM ngmd.ProductImagesView PIV
+    WHERE PIV.productID = CSP.ProductID
+      AND PIV.websiteFK = @WebsiteID
+    ORDER BY
+        CASE WHEN PIV.Main = 1 THEN 0 ELSE 1 END,
+        CASE WHEN PIV.Thumbnail = 1 THEN 0 ELSE 1 END,
+        PIV.DataSource DESC
+) CSPIMG
+ OUTER APPLY (SELECT TOP 1 *  
+  FROM ngmd.productPrice pp  
+  WHERE pp.websiteInventoryFK = CSWI.websiteInventoryID  
+  ORDER BY pp.dateLastUpdated DESC) CSPP  
+  
+ WHERE AF.stockReference IN (SELECT ID FROM @IDTable)  
+ AND (P.productStatusFK = 1 OR P.productStatusFK = 8)  
+   
+END TRY  
+BEGIN CATCH  
+ SELECT Top 0 1  
+END CATCH  
+  
+  
+  
+  
+  
+SET ANSI_NULLS ON  
+  
+  
+  
+/****** Object:  StoredProcedure [ngmd].[GetXSells]    Script Date: 20/05/2026 12:29:25 ******/  
+SET ANSI_NULLS ON  
+
+
+-----------------------------------------
+
+-- Run this once against netgiantMasterData (the same database the app's "ngmdEntities"
+-- connection already points to) to create the table that will capture unhandled
+-- exceptions from netGiant.Intranet going forward.
+
+CREATE TABLE dbo.IntranetErrorLog (
+    ErrorLogId       INT IDENTITY(1,1) PRIMARY KEY,
+    EventTime        DATETIME        NOT NULL DEFAULT GETDATE(),
+    ExceptionType    NVARCHAR(500)   NULL,
+    ExceptionMessage NVARCHAR(MAX)   NULL,
+    StackTrace       NVARCHAR(MAX)   NULL,
+    InnerException   NVARCHAR(MAX)   NULL,
+    RequestUrl       NVARCHAR(1000)  NULL,
+    RequestPath      NVARCHAR(1000)  NULL,
+    UserName         NVARCHAR(200)   NULL,
+    RemoteAddr       NVARCHAR(100)   NULL,
+    UserAgent        NVARCHAR(1000)  NULL
+);
+GO

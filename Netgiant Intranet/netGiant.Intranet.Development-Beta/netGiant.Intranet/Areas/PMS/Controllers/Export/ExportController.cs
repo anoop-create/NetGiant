@@ -161,8 +161,9 @@ namespace netGiant.Intranet.Areas.PMS.Export
         [HttpPost]
         [ValidateAntiForgeryToken]
         [DeleteFile]
-        public FileResult ExportProductAddon(ExportProductAddonViewModel model)
+        public FileResult ExportProductAddon()
         {
+            ExportProductAddonViewModel model=new ExportProductAddonViewModel();
             Configuration machineConfig = ConfigurationManager.OpenMachineConfiguration();
             model.LocalDirectory = machineConfig.AppSettings.Settings["LocalDirectory"].Value.ToString();
 
@@ -172,6 +173,7 @@ namespace netGiant.Intranet.Areas.PMS.Export
                 MediaTypeNames.Application.Octet,
                 "PMSExport_" + DateTime.Now.ToString("dd_MM_yyyy_H_mm_ss") + ".csv");
         }
+
     }
 
     public class DeleteFileAttribute : ActionFilterAttribute

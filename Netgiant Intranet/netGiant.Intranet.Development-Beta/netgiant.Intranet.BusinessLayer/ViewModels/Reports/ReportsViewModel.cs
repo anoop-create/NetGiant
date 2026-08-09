@@ -9,6 +9,7 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using netGiant.Intranet.BusinessLayer.Utilities;
 using System.Configuration;
+using EntityState = System.Data.Entity.EntityState;
 
 namespace netGiant.Intranet.BusinessLayer.ViewModels.Reports
 {

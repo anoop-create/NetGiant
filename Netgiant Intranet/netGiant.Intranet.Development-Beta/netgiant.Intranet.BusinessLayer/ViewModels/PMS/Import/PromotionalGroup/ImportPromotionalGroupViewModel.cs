@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using EntityState = System.Data.Entity.EntityState;
 
 namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Import.PromotionalGroup
 {

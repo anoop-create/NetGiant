@@ -5,6 +5,22 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="netgiantMasterDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="IntranetErrorLog">
+          <Key>
+            <PropertyRef Name="ErrorLogId" />
+          </Key>
+          <Property Name="ErrorLogId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventTime" Type="datetime" Nullable="false" />
+          <Property Name="ExceptionType" Type="nvarchar" MaxLength="500" />
+          <Property Name="ExceptionMessage" Type="nvarchar(max)" />
+          <Property Name="StackTrace" Type="nvarchar(max)" />
+          <Property Name="InnerException" Type="nvarchar(max)" />
+          <Property Name="RequestUrl" Type="nvarchar" MaxLength="1000" />
+          <Property Name="RequestPath" Type="nvarchar" MaxLength="1000" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="200" />
+          <Property Name="RemoteAddr" Type="nvarchar" MaxLength="100" />
+          <Property Name="UserAgent" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
         <EntityType Name="ProductAddon">
           <Key>
             <PropertyRef Name="ProductAddonId" />
@@ -3545,6 +3561,7 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
           <Parameter Name="OrderNo" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="netgiantMasterDataModelStoreContainer">
+          <EntitySet Name="IntranetErrorLog" EntityType="Self.IntranetErrorLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductAddon" EntityType="Self.ProductAddon" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebsiteInfoCard" EntityType="Self.WebsiteInfoCard" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="actionLink" EntityType="Self.actionLink" Schema="ngmd" store:Type="Tables" />
@@ -5480,6 +5497,7 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
             <Parameter Name="ProductID" Mode="In" Type="Int32" />
             <Parameter Name="Account" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="IntranetErrorLog" EntityType="netgiantMasterDataModel.IntranetErrorLog" />
           </EntityContainer>
         <EntityType Name="actionLink">
           <Key>
@@ -9414,6 +9432,22 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
           <Property Type="String" Name="promotionalGroupName" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="recordType" Nullable="false" MaxLength="1" />
         </ComplexType>
+        <EntityType Name="IntranetErrorLog">
+          <Key>
+            <PropertyRef Name="ErrorLogId" />
+          </Key>
+          <Property Name="ErrorLogId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExceptionType" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ExceptionMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StackTrace" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InnerException" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RequestUrl" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="RequestPath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="RemoteAddr" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UserAgent" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -12303,6 +12337,23 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="IntranetErrorLog">
+            <EntityTypeMapping TypeName="netgiantMasterDataModel.IntranetErrorLog">
+              <MappingFragment StoreEntitySet="IntranetErrorLog">
+                <ScalarProperty Name="UserAgent" ColumnName="UserAgent" />
+                <ScalarProperty Name="RemoteAddr" ColumnName="RemoteAddr" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="RequestPath" ColumnName="RequestPath" />
+                <ScalarProperty Name="RequestUrl" ColumnName="RequestUrl" />
+                <ScalarProperty Name="InnerException" ColumnName="InnerException" />
+                <ScalarProperty Name="StackTrace" ColumnName="StackTrace" />
+                <ScalarProperty Name="ExceptionMessage" ColumnName="ExceptionMessage" />
+                <ScalarProperty Name="ExceptionType" ColumnName="ExceptionType" />
+                <ScalarProperty Name="EventTime" ColumnName="EventTime" />
+                <ScalarProperty Name="ErrorLogId" ColumnName="ErrorLogId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <!--<FunctionImportMapping FunctionImportName="GetProductSuppliers1" FunctionName="netgiantMasterDataModel.Store.GetProductSuppliers1">
             <ResultMapping>
               <ComplexTypeMapping TypeName="netgiantMasterDataModel.GetProductSuppliers1_Result">

@@ -1199,14 +1199,14 @@
                                                 <div class="switch-save-card">
                                                     <div class="col-lg-2 col-md-3 col-sm-3 col-4">
                                                         @{
-                                                            var productUrl1 = bc.ProductUrl.StartsWith("/")
-                                                                ? bc.ProductUrl
-                                                                : "/" + bc.ProductUrl;
+                                                            var CrossSellingProductUrl = bc.CrossSellingProductUrl.StartsWith("/")
+                                                                ? bc.CrossSellingProductUrl
+                                                                : "/" + bc.CrossSellingProductUrl;
                                                         }
-                                                        <a href="@productUrl1" class="basket-card-image">
+                                                        <a href="@CrossSellingProductUrl" class="basket-card-image">
 
-                                                            <img src="@bc.ImageUrl"
-                                                                 alt="@bc.Description"
+                                                            <img src="@bc.CrossSellingImageURL"
+                                                                 alt="@bc.CrossSellingDescription"
                                                                  class="img-responsive"
                                                                  onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
 

@@ -148,6 +148,7 @@ namespace netGiant.Intranet.DataLayer.NetgiantMasterData
         public virtual DbSet<PriceCompView> PriceCompView { get; set; }
         public virtual DbSet<ProductAddon> ProductAddon { get; set; }
         public virtual DbSet<WebsiteInfoCard> WebsiteInfoCard { get; set; }
+        public virtual DbSet<IntranetErrorLog> IntranetErrorLog { get; set; }
     
         [DbFunction("ngmdEntities", "GetProductPrices")]
         public virtual IQueryable<GetProductPrices_Result> GetProductPrices(string altRef)

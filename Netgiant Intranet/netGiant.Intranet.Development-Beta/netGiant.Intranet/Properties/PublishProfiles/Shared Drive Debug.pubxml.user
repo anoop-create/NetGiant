@@ -5,8 +5,8 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 -->
 <Project>
   <PropertyGroup>
-    <_PublishTargetUrl>C:\Anoop\Publish\Intranet\Release</_PublishTargetUrl>
-    <History>True|2026-08-08T10:43:17.6014888Z||;True|2026-08-08T15:50:22.0378624+05:30||;True|2026-08-08T14:21:38.5931486+05:30||;</History>
+    <_PublishTargetUrl>C:\Anoop\Publish\Intranet\Debug</_PublishTargetUrl>
+    <History>True|2026-08-09T09:51:05.5256456Z||;True|2026-08-08T17:27:02.1593251+05:30||;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -260,7 +260,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2026 17:03:25</publishTime>
     </File>
     <File Include="Areas/PMS/Views/Product/CreateProduct.cshtml">
-      <publishTime>04/08/2026 23:30:52</publishTime>
+      <publishTime>08/04/2026 23:30:52</publishTime>
     </File>
     <File Include="Areas/PMS/Views/Product/CreateProductGroup.cshtml">
       <publishTime>07/07/2026 17:03:25</publishTime>
@@ -419,10 +419,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2026 17:03:52</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>08/09/2026 15:48:45</publishTime>
+      <publishTime>08/09/2026 15:20:54</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>08/09/2026 15:48:45</publishTime>
+      <publishTime>08/09/2026 15:20:54</publishTime>
     </File>
     <File Include="bin/BeginCollectionItem.dll">
       <publishTime>07/07/2026 17:03:52</publishTime>
@@ -515,28 +515,28 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2026 17:04:18</publishTime>
     </File>
     <File Include="bin/netGiant.Intranet.BusinessLayer.dll">
-      <publishTime>08/09/2026 15:03:28</publishTime>
+      <publishTime>08/09/2026 15:20:27</publishTime>
     </File>
     <File Include="bin/netGiant.Intranet.BusinessLayer.dll.config">
       <publishTime>07/07/2026 17:03:41</publishTime>
     </File>
     <File Include="bin/netGiant.Intranet.BusinessLayer.pdb">
-      <publishTime>08/09/2026 15:03:28</publishTime>
+      <publishTime>08/09/2026 15:20:27</publishTime>
     </File>
     <File Include="bin/netGiant.Intranet.DataLayer.dll">
-      <publishTime>08/08/2026 16:13:07</publishTime>
+      <publishTime>08/09/2026 15:20:25</publishTime>
     </File>
     <File Include="bin/netGiant.Intranet.DataLayer.dll.config">
-      <publishTime>06/08/2026 12:03:48</publishTime>
+      <publishTime>08/06/2026 12:03:48</publishTime>
     </File>
     <File Include="bin/netGiant.Intranet.DataLayer.pdb">
-      <publishTime>08/08/2026 16:13:07</publishTime>
+      <publishTime>08/09/2026 15:20:25</publishTime>
     </File>
     <File Include="bin/netGiant.Intranet.dll">
-      <publishTime>08/09/2026 15:03:29</publishTime>
+      <publishTime>08/09/2026 15:20:28</publishTime>
     </File>
     <File Include="bin/netGiant.Intranet.pdb">
-      <publishTime>08/09/2026 15:03:29</publishTime>
+      <publishTime>08/09/2026 15:20:28</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>07/07/2026 17:04:20</publishTime>
@@ -1085,7 +1085,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2026 17:03:18</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>08/09/2026 15:48:21</publishTime>
+      <publishTime>08/09/2026 15:20:34</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>07/07/2026 17:03:35</publishTime>
@@ -1538,25 +1538,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2026 17:03:36</publishTime>
     </File>
     <File Include="Views/WebsiteInfoCard/CreateEntry.cshtml">
-      <publishTime>06/08/2026 18:41:46</publishTime>
+      <publishTime>08/06/2026 18:41:46</publishTime>
     </File>
     <File Include="Views/WebsiteInfoCard/Index.cshtml">
-      <publishTime>06/08/2026 11:49:39</publishTime>
+      <publishTime>08/06/2026 11:49:39</publishTime>
     </File>
     <File Include="Views/_ViewStart.cshtml">
       <publishTime>07/07/2026 17:03:36</publishTime>
     </File>
-    <File Include="Web.config">
-      <publishTime>08/08/2026 15:50:10</publishTime>
-    </File>
-    <File Include="Web1.config">
-      <publishTime>08/08/2026 14:54:59</publishTime>
-    </File>
-    <File Include="Web1.Debug.config">
-      <publishTime>07/07/2026 17:03:18</publishTime>
-    </File>
-    <File Include="Web1.Release.config">
-      <publishTime>07/07/2026 17:03:18</publishTime>
+    <File Include="web.config">
+      <publishTime>08/09/2026 15:20:31</publishTime>
     </File>
   </ItemGroup>
 </Project>

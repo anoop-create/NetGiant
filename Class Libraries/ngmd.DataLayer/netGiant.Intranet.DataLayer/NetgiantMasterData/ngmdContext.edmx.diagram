@@ -234,6 +234,7 @@
         <AssociationConnector Association="netgiantMasterDataModel.FK_ProductAddon_Product" />
         <EntityTypeShape EntityType="netgiantMasterDataModel.WebsiteInfoCard" Width="1.5" PointX="3" PointY="82.25" />
         <AssociationConnector Association="netgiantMasterDataModel.FK_WebsiteInfoCard_Website" />
+        <EntityTypeShape EntityType="netgiantMasterDataModel.IntranetErrorLog" Width="1.5" PointX="23.375" PointY="25.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

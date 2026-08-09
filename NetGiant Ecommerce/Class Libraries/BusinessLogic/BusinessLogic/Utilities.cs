@@ -1366,6 +1366,7 @@ namespace BusinessLogic
         public string CrossSellingDescription { get; set; }
         public bool ExcludeFromUpSell { get; set; } = false;
         public string CrossSellingImageURL { get; set; }
+        public string CrossSellingProductUrl { get; set; }
         public List<BasketContents> AddonProducts = new List<BasketContents>();
     }
 
