@@ -1,3 +1,22 @@
 # Build output - never commit compiled artifacts, only source
 [Bb]in/
 [Oo]bj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet restored packages
+[Pp]ackages/
+*.nupkg
+
+# Test results
+[Tt]est[Rr]esult*/
+
+# OS / editor junk
+Thumbs.db
+.DS_Store
+*.log
