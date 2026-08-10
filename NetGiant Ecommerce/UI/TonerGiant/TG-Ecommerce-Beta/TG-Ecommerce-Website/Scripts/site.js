@@ -2585,9 +2585,9 @@ $(function () {
 
             // Spec: "transparent overlay added to the background of the screen, so that the
             // tray has more definition" - dim the rest of the page while the mini-cart is open.
-            if (!$('.offcanvas-backdrop').length) {
-                $('body').append('<div class="offcanvas-backdrop"></div>');
-            }
+            // if (!$('.offcanvas-backdrop').length) {
+            //     $('body').append('<div class="offcanvas-backdrop"></div>');
+            // }
         });
 
     $(document).on('click', '.offcanvas-backdrop', function () {

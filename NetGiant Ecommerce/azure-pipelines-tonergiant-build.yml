@@ -1,0 +1,42 @@
+# Build pipeline for TonerGiant Ecommerce (beta).
+#
+# Same pattern as the Intranet build: restore, build, FileSystem-publish using the EXISTING
+# "SBS Release" publish profile already checked into this repo (TG-Ecommerce-Website/
+# Properties/PublishProfiles/SBS Release.pubxml), overriding only publishUrl so the output
+# lands in the pipeline's artifact staging directory instead of C:\Anoop\Publish\TG\Release.
+#
+# SETUP: Azure DevOps > Pipelines > New pipeline > "Existing Azure Pipelines YAML file" >
+# select this file in the NetGiant Ecommerce repo.
+
+trigger:
+  branches:
+    include:
+      - main # TODO: change to whichever branch you actually deploy from beta with
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: 'UI/TonerGiant/TG-Ecommerce-Beta/TG-Ecommerce-Website.sln'
+  buildConfiguration: 'Release' # matches "SBS Release" publish profile
+  buildPlatform: 'Any CPU'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:PublishProfile="SBS Release" /p:publishUrl="$(Build.ArtifactStagingDirectory)\TonerGiant"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\TonerGiant'
+    ArtifactName: 'TonerGiantPublish'
+    publishLocation: 'Container'

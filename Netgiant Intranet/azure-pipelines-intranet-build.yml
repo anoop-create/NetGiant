@@ -1,0 +1,49 @@
+# Build pipeline for netGiant.Intranet (beta).
+#
+# Restores NuGet packages, builds the solution, and does a FileSystem publish using the
+# EXISTING "Shared Drive Debug" publish profile already checked into this repo
+# (netGiant.Intranet/Properties/PublishProfiles/Shared Drive Debug.pubxml) - this profile
+# already has PrecompileBeforePublish/EnableUpdateable/DeleteExistingFiles set correctly to
+# match how this app has always been published manually. We only override publishUrl on the
+# command line so the output lands in the pipeline's artifact staging directory instead of
+# C:\Anoop\Publish\Intranet\Debug.
+#
+# The published output is then uploaded as a pipeline artifact named "IntranetPublish" for
+# the Release pipeline to pick up and FTP to beta.
+#
+# SETUP: Azure DevOps > Pipelines > New pipeline > "Existing Azure Pipelines YAML file" >
+# select this file. Needs a Windows agent with Visual Studio/MSBuild + NuGet - the
+# Microsoft-hosted "windows-latest" pool below already has both.
+
+trigger:
+  branches:
+    include:
+      - main # TODO: change to whichever branch you actually deploy from beta with
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: 'netGiant.Intranet.sln'
+  buildConfiguration: 'Debug' # matches "Shared Drive Debug" publish profile
+  buildPlatform: 'Any CPU'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:PublishProfile="Shared Drive Debug" /p:publishUrl="$(Build.ArtifactStagingDirectory)\Intranet"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\Intranet'
+    ArtifactName: 'IntranetPublish'
+    publishLocation: 'Container'

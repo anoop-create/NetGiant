@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\Anoop\Publish\TG\Release</_PublishTargetUrl>
-    <History>True|2026-08-07T20:46:52.9541242Z||;True|2026-08-08T00:38:23.7089502+05:30||;True|2026-08-08T00:07:45.6463448+05:30||;True|2026-08-07T22:13:21.9063751+05:30||;True|2026-08-07T11:52:58.9158901+05:30||;</History>
+    <History>True|2026-08-10T11:51:03.2381412Z||;True|2026-08-10T16:33:36.4963657+05:30||;True|2026-08-10T15:54:38.9625902+05:30||;True|2026-08-10T15:00:49.4149105+05:30||;True|2026-08-10T14:42:01.0951996+05:30||;True|2026-08-10T14:08:50.5377397+05:30||;True|2026-08-08T02:16:52.9541242+05:30||;True|2026-08-08T00:38:23.7089502+05:30||;True|2026-08-08T00:07:45.6463448+05:30||;True|2026-08-07T22:13:21.9063751+05:30||;True|2026-08-07T11:52:58.9158901+05:30||;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -20,10 +20,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/22/2013 14:13:40</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>08/08/2026 02:07:51</publishTime>
+      <publishTime>08/10/2026 18:07:50</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>08/08/2026 02:07:51</publishTime>
+      <publishTime>08/10/2026 18:07:50</publishTime>
     </File>
     <File Include="bin/BCrypt.Net.dll">
       <publishTime>07/07/2026 16:53:40</publishTime>
@@ -32,22 +32,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2026 16:55:29</publishTime>
     </File>
     <File Include="bin/BusinessLogic.dll">
-      <publishTime>08/08/2026 02:05:26</publishTime>
+      <publishTime>08/10/2026 17:15:57</publishTime>
     </File>
     <File Include="bin/BusinessLogic.dll.config">
       <publishTime>07/22/2026 20:24:52</publishTime>
     </File>
     <File Include="bin/BusinessLogic.pdb">
-      <publishTime>08/08/2026 02:05:26</publishTime>
+      <publishTime>08/10/2026 17:15:57</publishTime>
     </File>
     <File Include="bin/CommonUI.dll">
-      <publishTime>08/08/2026 02:05:28</publishTime>
+      <publishTime>08/10/2026 18:06:51</publishTime>
     </File>
     <File Include="bin/CommonUI.dll.config">
       <publishTime>07/26/2026 07:47:13</publishTime>
     </File>
     <File Include="bin/CommonUI.pdb">
-      <publishTime>08/08/2026 02:05:28</publishTime>
+      <publishTime>08/10/2026 18:06:51</publishTime>
     </File>
     <File Include="bin/DataAccess.dll">
       <publishTime>08/07/2026 11:43:18</publishTime>
@@ -317,10 +317,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2026 17:00:11</publishTime>
     </File>
     <File Include="bin/TG-Ecommerce-Website.dll">
-      <publishTime>08/08/2026 02:05:33</publishTime>
+      <publishTime>08/10/2026 18:06:53</publishTime>
     </File>
     <File Include="bin/TG-Ecommerce-Website.pdb">
-      <publishTime>08/08/2026 02:05:33</publishTime>
+      <publishTime>08/10/2026 18:06:53</publishTime>
     </File>
     <File Include="bin/UAParser.dll">
       <publishTime>05/27/2021 01:10:22</publishTime>
@@ -88844,7 +88844,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/23/2026 11:32:19</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>08/08/2026 02:07:25</publishTime>
+      <publishTime>08/10/2026 18:07:41</publishTime>
     </File>
     <File Include="Scripts/bootstrap-select.js">
       <publishTime>07/07/2026 17:00:53</publishTime>
@@ -89213,7 +89213,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2026 17:00:56</publishTime>
     </File>
     <File Include="Scripts/site.js">
-      <publishTime>08/06/2026 19:24:46</publishTime>
+      <publishTime>08/10/2026 13:39:42</publishTime>
     </File>
     <File Include="Scripts/tracking.js">
       <publishTime>07/07/2026 17:00:56</publishTime>
@@ -89240,7 +89240,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2026 17:00:59</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/08/2026 00:01:34</publishTime>
+      <publishTime>08/10/2026 13:55:50</publishTime>
     </File>
   </ItemGroup>
 </Project>
