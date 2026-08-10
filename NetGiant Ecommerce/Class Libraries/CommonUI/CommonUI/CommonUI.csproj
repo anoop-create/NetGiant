@@ -752,6 +752,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Lockout.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Shared\MiniBasket.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MiniBasket.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shared\StandardModal.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1384,6 +1389,10 @@
     <Content Include="Views\Shared\YouMayAlsoNeed.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>YouMayAlsoNeed.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Shared\MiniBasket.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>MiniBasket.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

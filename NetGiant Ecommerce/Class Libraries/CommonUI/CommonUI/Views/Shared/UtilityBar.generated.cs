@@ -78,7 +78,7 @@ WriteLiteral("\r\n\r\n");
             
             #line 11 "..\..\Views\Shared\UtilityBar.cshtml"
   
-    Html.RenderPartial("~/Views/Shared/BasketSummary.cshtml");
+    Html.RenderPartial("~/Views/Shared/MiniBasket.cshtml");
 
             
             #line default
@@ -192,14 +192,14 @@ WriteLiteral("/");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 1429), Tuple.Create("\"", 1450)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 1426), Tuple.Create("\"", 1447)
             
             #line 31 "..\..\Views\Shared\UtilityBar.cshtml"
-                                                                                                           , Tuple.Create(Tuple.Create("", 1435), Tuple.Create<System.Object, System.Int32>(rv.Description
+                                                                                                           , Tuple.Create(Tuple.Create("", 1432), Tuple.Create<System.Object, System.Int32>(rv.Description
             
             #line default
             #line hidden
-, 1435), false)
+, 1432), false)
 );
 
 WriteLiteral(" />\r\n                        </div>\r\n                        <div");
@@ -223,14 +223,14 @@ WriteLiteral("</div>\r\n                            <a");
 
 WriteLiteral(" class=\"btn g-butt-second-reg g-butt-xl g-m-t-10\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1688), Tuple.Create("\"", 1702)
+WriteAttribute("href", Tuple.Create(" href=\"", 1685), Tuple.Create("\"", 1699)
             
             #line 35 "..\..\Views\Shared\UtilityBar.cshtml"
-      , Tuple.Create(Tuple.Create("", 1695), Tuple.Create<System.Object, System.Int32>(rv.Url
+      , Tuple.Create(Tuple.Create("", 1692), Tuple.Create<System.Object, System.Int32>(rv.Url
             
             #line default
             #line hidden
-, 1695), false)
+, 1692), false)
 );
 
 WriteLiteral(" role=\"button\"");
@@ -295,9 +295,9 @@ WriteLiteral(">Toggle My Printers</span>\r\n        <img");
 
 WriteLiteral(" class=\"msp_printer\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 2608), Tuple.Create("\"", 2643)
-, Tuple.Create(Tuple.Create("", 2614), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 2614), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2605), Tuple.Create("\"", 2640)
+, Tuple.Create(Tuple.Create("", 2611), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 2611), false)
 );
 
 WriteLiteral(" />\r\n        <span");
@@ -343,33 +343,33 @@ WriteLiteral(" />\r\n");
 
 WriteLiteral("                    <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 3328), Tuple.Create("\"", 3434)
-, Tuple.Create(Tuple.Create("", 3336), Tuple.Create("myprinter-entry", 3336), true)
-, Tuple.Create(Tuple.Create(" ", 3351), Tuple.Create("g-m-t-10", 3352), true)
-, Tuple.Create(Tuple.Create(" ", 3360), Tuple.Create("clearfix", 3361), true)
-, Tuple.Create(Tuple.Create(" ", 3369), Tuple.Create("g-flex-vcenter", 3370), true)
-, Tuple.Create(Tuple.Create(" ", 3384), Tuple.Create("myprinter-id-", 3385), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 3325), Tuple.Create("\"", 3431)
+, Tuple.Create(Tuple.Create("", 3333), Tuple.Create("myprinter-entry", 3333), true)
+, Tuple.Create(Tuple.Create(" ", 3348), Tuple.Create("g-m-t-10", 3349), true)
+, Tuple.Create(Tuple.Create(" ", 3357), Tuple.Create("clearfix", 3358), true)
+, Tuple.Create(Tuple.Create(" ", 3366), Tuple.Create("g-flex-vcenter", 3367), true)
+, Tuple.Create(Tuple.Create(" ", 3381), Tuple.Create("myprinter-id-", 3382), true)
             
             #line 70 "..\..\Views\Shared\UtilityBar.cshtml"
-              , Tuple.Create(Tuple.Create("", 3398), Tuple.Create<System.Object, System.Int32>(dr["FavouritePrinterID"].ToString()
+              , Tuple.Create(Tuple.Create("", 3395), Tuple.Create<System.Object, System.Int32>(dr["FavouritePrinterID"].ToString()
             
             #line default
             #line hidden
-, 3398), false)
+, 3395), false)
 );
 
 WriteLiteral("\r\n                         xdata-toggle=\"tooltip\"");
 
 WriteLiteral("\r\n                         xdata-placement=\"bottom\"");
 
-WriteAttribute("xtitle", Tuple.Create("\r\n                         xtitle=\"", 3535), Tuple.Create("\"", 3603)
+WriteAttribute("xtitle", Tuple.Create("\r\n                         xtitle=\"", 3532), Tuple.Create("\"", 3600)
             
             #line 73 "..\..\Views\Shared\UtilityBar.cshtml"
-, Tuple.Create(Tuple.Create("", 3570), Tuple.Create<System.Object, System.Int32>(dr["ModelName"].ToSafeString()
+, Tuple.Create(Tuple.Create("", 3567), Tuple.Create<System.Object, System.Int32>(dr["ModelName"].ToSafeString()
             
             #line default
             #line hidden
-, 3570), false)
+, 3567), false)
 );
 
 WriteLiteral(">\r\n                        <div");
@@ -393,24 +393,24 @@ WriteLiteral(" data-original=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 3785), Tuple.Create("\"", 3818)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 3782), Tuple.Create("\"", 3815)
             
             #line 75 "..\..\Views\Shared\UtilityBar.cshtml"
-                                                       , Tuple.Create(Tuple.Create("", 3791), Tuple.Create<System.Object, System.Int32>(dr["ModelName"].ToString()
+                                                       , Tuple.Create(Tuple.Create("", 3788), Tuple.Create<System.Object, System.Int32>(dr["ModelName"].ToString()
             
             #line default
             #line hidden
-, 3791), false)
+, 3788), false)
 );
 
-WriteAttribute("title", Tuple.Create(" title=\"", 3819), Tuple.Create("\"", 3860)
+WriteAttribute("title", Tuple.Create(" title=\"", 3816), Tuple.Create("\"", 3857)
             
             #line 75 "..\..\Views\Shared\UtilityBar.cshtml"
-                                                                                            , Tuple.Create(Tuple.Create("", 3827), Tuple.Create<System.Object, System.Int32>(dr["ModelName"].ToSafeString()
+                                                                                            , Tuple.Create(Tuple.Create("", 3824), Tuple.Create<System.Object, System.Int32>(dr["ModelName"].ToSafeString()
             
             #line default
             #line hidden
-, 3827), false)
+, 3824), false)
 );
 
 WriteLiteral(" />\r\n                        </div>\r\n                        <div");
@@ -419,14 +419,14 @@ WriteLiteral(" class=\"g-m-l-10 g-fs-sm\"");
 
 WriteLiteral(">\r\n                            <div");
 
-WriteAttribute("title", Tuple.Create(" title=\"", 3986), Tuple.Create("\"", 4027)
+WriteAttribute("title", Tuple.Create(" title=\"", 3983), Tuple.Create("\"", 4024)
             
             #line 78 "..\..\Views\Shared\UtilityBar.cshtml"
-, Tuple.Create(Tuple.Create("", 3994), Tuple.Create<System.Object, System.Int32>(dr["ModelName"].ToSafeString()
+, Tuple.Create(Tuple.Create("", 3991), Tuple.Create<System.Object, System.Int32>(dr["ModelName"].ToSafeString()
             
             #line default
             #line hidden
-, 3994), false)
+, 3991), false)
 );
 
 WriteLiteral(">");
@@ -442,24 +442,24 @@ WriteLiteral("</div>\r\n                            <a");
 
 WriteLiteral(" class=\"btn g-butt-second-reg g-butt-xl g-m-t-10\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 4128), Tuple.Create("\"", 4252)
-, Tuple.Create(Tuple.Create("", 4135), Tuple.Create("/model/", 4135), true)
+WriteAttribute("href", Tuple.Create(" href=\"", 4125), Tuple.Create("\"", 4249)
+, Tuple.Create(Tuple.Create("", 4132), Tuple.Create("/model/", 4132), true)
             
             #line 79 "..\..\Views\Shared\UtilityBar.cshtml"
-             , Tuple.Create(Tuple.Create("", 4142), Tuple.Create<System.Object, System.Int32>(dr["modelName"].ToString().Replace(" ", "-")
+             , Tuple.Create(Tuple.Create("", 4139), Tuple.Create<System.Object, System.Int32>(dr["modelName"].ToString().Replace(" ", "-")
             
             #line default
             #line hidden
-, 4142), false)
-, Tuple.Create(Tuple.Create("", 4187), Tuple.Create("-", 4187), true)
+, 4139), false)
+, Tuple.Create(Tuple.Create("", 4184), Tuple.Create("-", 4184), true)
             
             #line 79 "..\..\Views\Shared\UtilityBar.cshtml"
-                                                           , Tuple.Create(Tuple.Create("", 4188), Tuple.Create<System.Object, System.Int32>(dr["CartridgeTypeName"].ToString().Replace(" ", "-").ToLower()
+                                                           , Tuple.Create(Tuple.Create("", 4185), Tuple.Create<System.Object, System.Int32>(dr["CartridgeTypeName"].ToString().Replace(" ", "-").ToLower()
             
             #line default
             #line hidden
-, 4188), false)
-, Tuple.Create(Tuple.Create("", 4251), Tuple.Create("/", 4251), true)
+, 4185), false)
+, Tuple.Create(Tuple.Create("", 4248), Tuple.Create("/", 4248), true)
 );
 
 WriteLiteral(" role=\"button\"");
@@ -561,9 +561,9 @@ WriteLiteral(">Toggle Quick Reorder</span>\r\n        <img");
 
 WriteLiteral(" class=\"msp_quickreorder\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 5376), Tuple.Create("\"", 5411)
-, Tuple.Create(Tuple.Create("", 5382), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 5382), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 5373), Tuple.Create("\"", 5408)
+, Tuple.Create(Tuple.Create("", 5379), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 5379), false)
 );
 
 WriteLiteral(" />\r\n        <span");
@@ -602,19 +602,19 @@ WriteLiteral(" />\r\n");
 
 WriteLiteral("                    <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 5819), Tuple.Create("\"", 5917)
-, Tuple.Create(Tuple.Create("", 5827), Tuple.Create("quickreorder-entry", 5827), true)
-, Tuple.Create(Tuple.Create(" ", 5845), Tuple.Create("g-m-t-10", 5846), true)
-, Tuple.Create(Tuple.Create(" ", 5854), Tuple.Create("clearfix", 5855), true)
-, Tuple.Create(Tuple.Create(" ", 5863), Tuple.Create("g-flex-vcenter", 5864), true)
-, Tuple.Create(Tuple.Create(" ", 5878), Tuple.Create("product-id-", 5879), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 5816), Tuple.Create("\"", 5914)
+, Tuple.Create(Tuple.Create("", 5824), Tuple.Create("quickreorder-entry", 5824), true)
+, Tuple.Create(Tuple.Create(" ", 5842), Tuple.Create("g-m-t-10", 5843), true)
+, Tuple.Create(Tuple.Create(" ", 5851), Tuple.Create("clearfix", 5852), true)
+, Tuple.Create(Tuple.Create(" ", 5860), Tuple.Create("g-flex-vcenter", 5861), true)
+, Tuple.Create(Tuple.Create(" ", 5875), Tuple.Create("product-id-", 5876), true)
             
             #line 114 "..\..\Views\Shared\UtilityBar.cshtml"
-               , Tuple.Create(Tuple.Create("", 5890), Tuple.Create<System.Object, System.Int32>(dr["ProductID"].ToString()
+               , Tuple.Create(Tuple.Create("", 5887), Tuple.Create<System.Object, System.Int32>(dr["ProductID"].ToString()
             
             #line default
             #line hidden
-, 5890), false)
+, 5887), false)
 );
 
 WriteLiteral(">\r\n                        <div");
@@ -638,14 +638,14 @@ WriteLiteral(" data-original=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 6099), Tuple.Create("\"", 6134)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 6096), Tuple.Create("\"", 6131)
             
             #line 116 "..\..\Views\Shared\UtilityBar.cshtml"
-                                                       , Tuple.Create(Tuple.Create("", 6105), Tuple.Create<System.Object, System.Int32>(dr["Description"].ToString()
+                                                       , Tuple.Create(Tuple.Create("", 6102), Tuple.Create<System.Object, System.Int32>(dr["Description"].ToString()
             
             #line default
             #line hidden
-, 6105), false)
+, 6102), false)
 );
 
 WriteLiteral(" />\r\n                        </div>\r\n                        <div");

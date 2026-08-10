@@ -103,11 +103,11 @@ namespace ASP
     int switchCount = 0;
 
     bool isTradeCustomer = HttpContext.Current.Session["U_IsTradeCustomer"] != null && Convert.ToBoolean(HttpContext.Current.Session["U_IsTradeCustomer"]);
-
-    // TonerGiant delivery message: a constant "Free Next Day Delivery" up to the order cutoff
     // (17:30 Mon-Thu, 17:00 Fri), switching to "Free Next Working Day Delivery" after that -
     // this covers Friday evening through the weekend until Monday's cutoff. TG has no spend
     // threshold for free delivery (that's a CartridgeMonkey-only rule).
+
+
     DateTime nowLocal = DateTime.Now;
     TimeSpan orderCutoff = nowLocal.DayOfWeek == DayOfWeek.Friday ? new TimeSpan(17, 0, 0) : new TimeSpan(17, 30, 0);
     bool isDeliveryWeekday = nowLocal.DayOfWeek >= DayOfWeek.Monday && nowLocal.DayOfWeek <= DayOfWeek.Friday;
@@ -186,33 +186,36 @@ WriteLiteral("@media (min-width: 992px) {\r\n.hdr-utility-menu {\r\nbackground-c
 "checkout-btn:hover {\r\nbackground: #008f45;\r\n}\r\n.sidebar-offcanvas * {\r\ncolor: bl" +
 "ack !important;\r\n}\r\n/*16-08-26*/\r\n");
 
-WriteLiteral(@"@media (min-width: 992px) {
-.hdr-utility-menu .navbar-toggle>div {
-padding: 0 0px !important;
-}
-.hdr-utility-menu .active .header {
-padding: 0px 10px !important;
-}
-.hdr-utility-menu .active .header span { color:#fff !important; font-size:18px}
-.mini-cart__header small {color:#fff !important; font-weight:500 !important;}
-.mini-cart__header button i {color:#fff !important;  font-weight:500 !important;}
-.free-delivery span {color:#00a651 !important; font-weight:500;}
-.free-delivery i {color:#00a651 !important; font-weight:500;}
-.stock-status.in-stock span, .stock-status.in-stock i {color:#00a651 !important; font-weight:600}
-.stock-status.in-stock span, .stock-status.in-stock i {color:#00a651 !important; font-weight:600; margin-bottom:8px}
-.delivery-cutoff  {color:#262626 !important; margin-bottom:8px}
-.delivery-cutoff i {color:#262626 !important; }
-.cart-item__price {color:#09c !important}
-.switch-save__price strong {color:#09c !important}
-.switch-save__save {color:#09c !important; font-size:16px; margin-top:6px;}
-.cart-item__remove i{ color:#ff0000ad !important; font-size:18px}
-.sidebar-offcanvas .checkout-btn {color: #fff !important;}
-.view-basket-link {display:block; text-align:center; margin-top:12px;}
-.view-basket-link:hover { text-decoration:underline}
-}
-</style>
-
-<div");
+WriteLiteral("@media (min-width: 992px) {\r\n.hdr-utility-menu .navbar-toggle>div {\r\npadding: 0 0" +
+"px !important;\r\n}\r\n.hdr-utility-menu .active .header {\r\npadding: 0px 10px !impor" +
+"tant;\r\n}\r\n.hdr-utility-menu .active .header span { color:#fff !important; font-s" +
+"ize:18px}\r\n.mini-cart__header small {color:#fff !important; font-weight:500 !imp" +
+"ortant;}\r\n.mini-cart__header button i {color:#fff !important;  font-weight:500 !" +
+"important;}\r\n.free-delivery span {color:#00a651 !important; font-weight:500;}\r\n." +
+"free-delivery i {color:#00a651 !important; font-weight:500;}\r\n.stock-status.in-s" +
+"tock span, .stock-status.in-stock i {color:#00a651 !important; font-weight:600}\r" +
+"\n.stock-status.in-stock span, .stock-status.in-stock i {color:#00a651 !important" +
+"; font-weight:600; margin-bottom:8px}\r\n.delivery-cutoff  {color:#262626 !importa" +
+"nt; margin-bottom:8px}\r\n.delivery-cutoff i {color:#262626 !important; }\r\n.cart-i" +
+"tem__price {color:#09c !important}\r\n.switch-save__price strong {color:#09c !impo" +
+"rtant}\r\n.switch-save__save {color:#09c !important; font-size:16px; margin-top:6p" +
+"x;}\r\n.cart-item__remove i{ color:#ff0000ad !important; font-size:18px}\r\n.sidebar" +
+"-offcanvas .checkout-btn {color: #fff !important;}\r\n.view-basket-link {display:b" +
+"lock; text-align:center; margin-top:12px;}\r\n/*.view-basket-link:hover { text-dec" +
+"oration:underline}\r\n\r\n    .hdr-utility-menu {\r\n        background-color: transpa" +
+"rent !important;\r\n        box-shadow: none !important;\r\n    }\r\n\r\n        .hdr-ut" +
+"ility-menu.active {\r\n            background-color: rgb(255 255 255) !important;\r" +
+"\n            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;\r\n        }\r\n" +
+"\r\n        .hdr-utility-menu .navbar-toggle .header {\r\n            padding: 0 10p" +
+"x !important;\r\n        }\r\n\r\n        .hdr-utility-menu .header {\r\n            bac" +
+"kground-color: #069;\r\n        }\r\n\r\n        .hdr-utility-menu .content > * {\r\n   " +
+"         width: 100% !important;\r\n        }\r\n\r\n        .hdr-utility-menu .header" +
+" span {\r\n            color: #fff !important;\r\n            font-size: 18px;\r\n    " +
+"    }\r\n    hdr-utility-menu .navbar-toggle.active .header {\r\n        display: no" +
+"ne;\r\n        overflow: hidden\r\n    }\r\n\r\n    .tab-open[data-toggle=\"offcanvas-clo" +
+"se\"] {\r\n        display: none!important\r\n    }\r\n\r\n    .hdr-utility-menu .content" +
+" > * {\r\n        border: none;\r\n    }\r\n    .navbar-toggle.active > .header {\r\n   " +
+"     display: none !important\r\n    }*/\r\n}\r\n</style>\r\n\r\n<div");
 
 WriteLiteral(" id=\"basket\"");
 
@@ -240,9 +243,9 @@ WriteLiteral(">Toggle Basket</span>\r\n        <img");
 
 WriteLiteral(" class=\"msp_basket\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 9044), Tuple.Create("\"", 9079)
-, Tuple.Create(Tuple.Create("", 9050), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 9050), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 10012), Tuple.Create("\"", 10047)
+, Tuple.Create(Tuple.Create("", 10018), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 10018), false)
 );
 
 WriteLiteral(" />\r\n        <span");
@@ -251,7 +254,7 @@ WriteLiteral(" class=\"g-fs-lg g-p-l-20\"");
 
 WriteLiteral(">Basket</span>\r\n    </div>\r\n    <div");
 
-WriteLiteral(" class=\"\"");
+WriteLiteral(" class=\"content clearfix\"");
 
 WriteLiteral(">\r\n        <div");
 
@@ -284,16 +287,16 @@ WriteLiteral("></i>\r\n                </button>\r\n            </div>\r\n      
 
 WriteLiteral(" class=\"mini-cart__body\"");
 
-WriteLiteral(">\r\n               \r\n");
+WriteLiteral(">\r\n");
 
             
-            #line 418 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 459 "..\..\Views\Shared\BasketSummary.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 418 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 459 "..\..\Views\Shared\BasketSummary.cshtml"
                  if (lbc.Count > 0)
                 {
                     //bool isAdminDiscount = false;// Model.BasketContents.Exists(y => y.ItemType == BasketItemType.AdminDiscount);
@@ -370,7 +373,7 @@ WriteLiteral(">\r\n\r\n                                Switch &amp; Save\r\n\r\n
 "         <p>\r\n                                    Save £");
 
             
-            #line 482 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 523 "..\..\Views\Shared\BasketSummary.cshtml"
                                      Write(string.Format("{0:N2}", basketSwitchSaving));
 
             
@@ -392,7 +395,7 @@ WriteLiteral(">\r\n                                Switch All Products\r\n      
 "   </button>\r\n\r\n                        </div>\r\n");
 
             
-            #line 494 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 535 "..\..\Views\Shared\BasketSummary.cshtml"
                     }
                     foreach (BasketContents bc in list)
                     {
@@ -439,7 +442,7 @@ WriteLiteral(" class=\"cart-item atb-entry\"");
 WriteLiteral(" data-productid=\"");
 
             
-            #line 530 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 571 "..\..\Views\Shared\BasketSummary.cshtml"
                                                                             Write(bc.StockRef);
 
             
@@ -450,13 +453,13 @@ WriteLiteral("\"");
 WriteLiteral(">\r\n");
 
             
-            #line 531 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 572 "..\..\Views\Shared\BasketSummary.cshtml"
                                     
             
             #line default
             #line hidden
             
-            #line 531 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 572 "..\..\Views\Shared\BasketSummary.cshtml"
                                       
                                         var productUrl = bc.ProductUrl.StartsWith("/")
                                             ? bc.ProductUrl
@@ -468,52 +471,52 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n                                    <!-- Product Image -->\r\n                   " +
 "                 <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 15696), Tuple.Create("\"", 15714)
+WriteAttribute("href", Tuple.Create(" href=\"", 16663), Tuple.Create("\"", 16681)
             
-            #line 537 "..\..\Views\Shared\BasketSummary.cshtml"
-, Tuple.Create(Tuple.Create("", 15703), Tuple.Create<System.Object, System.Int32>(productUrl
+            #line 578 "..\..\Views\Shared\BasketSummary.cshtml"
+, Tuple.Create(Tuple.Create("", 16670), Tuple.Create<System.Object, System.Int32>(productUrl
             
             #line default
             #line hidden
-, 15703), false)
+, 16670), false)
 );
 
 WriteLiteral(" class=\"cart-item__link\"");
 
 WriteLiteral(">\r\n                                        <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 15786), Tuple.Create("\"", 15804)
+WriteAttribute("src", Tuple.Create(" src=\"", 16753), Tuple.Create("\"", 16771)
             
-            #line 538 "..\..\Views\Shared\BasketSummary.cshtml"
-, Tuple.Create(Tuple.Create("", 15792), Tuple.Create<System.Object, System.Int32>(bc.ImageUrl
+            #line 579 "..\..\Views\Shared\BasketSummary.cshtml"
+, Tuple.Create(Tuple.Create("", 16759), Tuple.Create<System.Object, System.Int32>(bc.ImageUrl
             
             #line default
             #line hidden
-, 15792), false)
+, 16759), false)
 );
 
-WriteAttribute("alt", Tuple.Create("\r\n                                             alt=\"", 15805), Tuple.Create("\"", 15872)
+WriteAttribute("alt", Tuple.Create("\r\n                                             alt=\"", 16772), Tuple.Create("\"", 16839)
             
-            #line 539 "..\..\Views\Shared\BasketSummary.cshtml"
-, Tuple.Create(Tuple.Create("", 15857), Tuple.Create<System.Object, System.Int32>(bc.Description
+            #line 580 "..\..\Views\Shared\BasketSummary.cshtml"
+, Tuple.Create(Tuple.Create("", 16824), Tuple.Create<System.Object, System.Int32>(bc.Description
             
             #line default
             #line hidden
-, 15857), false)
+, 16824), false)
 );
 
 WriteLiteral("\r\n                                             class=\"cart-item__img\"");
 
-WriteAttribute("onerror", Tuple.Create("\r\n                                             onerror=\"", 15942), Tuple.Create("\"", 16069)
-, Tuple.Create(Tuple.Create("", 15998), Tuple.Create("this.src=\'", 15998), true)
+WriteAttribute("onerror", Tuple.Create("\r\n                                             onerror=\"", 16909), Tuple.Create("\"", 17036)
+, Tuple.Create(Tuple.Create("", 16965), Tuple.Create("this.src=\'", 16965), true)
             
-            #line 541 "..\..\Views\Shared\BasketSummary.cshtml"
-, Tuple.Create(Tuple.Create("", 16008), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+            #line 582 "..\..\Views\Shared\BasketSummary.cshtml"
+, Tuple.Create(Tuple.Create("", 16975), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
             
             #line default
             #line hidden
-, 16008), false)
-, Tuple.Create(Tuple.Create("", 16048), Tuple.Create("/Images/noImage.jpg\';", 16048), true)
+, 16975), false)
+, Tuple.Create(Tuple.Create("", 17015), Tuple.Create("/Images/noImage.jpg\';", 17015), true)
 );
 
 WriteLiteral(" />\r\n                                    </a>\r\n\r\n                                " +
@@ -523,14 +526,14 @@ WriteLiteral(" class=\"cart-item__details\"");
 
 WriteLiteral(">\r\n\r\n                                        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 16295), Tuple.Create("\"", 16313)
+WriteAttribute("href", Tuple.Create(" href=\"", 17262), Tuple.Create("\"", 17280)
             
-            #line 547 "..\..\Views\Shared\BasketSummary.cshtml"
-, Tuple.Create(Tuple.Create("", 16302), Tuple.Create<System.Object, System.Int32>(productUrl
+            #line 588 "..\..\Views\Shared\BasketSummary.cshtml"
+, Tuple.Create(Tuple.Create("", 17269), Tuple.Create<System.Object, System.Int32>(productUrl
             
             #line default
             #line hidden
-, 16302), false)
+, 17269), false)
 );
 
 WriteLiteral(" class=\"cart-item__title\"");
@@ -540,7 +543,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                                            ");
 
             
-            #line 548 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 589 "..\..\Views\Shared\BasketSummary.cshtml"
                                        Write(bc.Description);
 
             
@@ -554,7 +557,7 @@ WriteLiteral(" class=\"cart-item__sku\"");
 WriteLiteral(">\r\n                                            Product Code: ");
 
             
-            #line 552 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 593 "..\..\Views\Shared\BasketSummary.cshtml"
                                                      Write(bc.PartNo);
 
             
@@ -575,14 +578,14 @@ WriteLiteral(">\r\n\r\n");
 WriteLiteral("                                            ");
 
             
-            #line 562 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 603 "..\..\Views\Shared\BasketSummary.cshtml"
                                        Write(neg);
 
             
             #line default
             #line hidden
             
-            #line 562 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 603 "..\..\Views\Shared\BasketSummary.cshtml"
                                            Write(string.Format("{0:N2}", bc.PriceEx));
 
             
@@ -597,7 +600,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                                                ");
 
             
-            #line 565 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 606 "..\..\Views\Shared\BasketSummary.cshtml"
                                             Write(isTradeCustomer ? "Trade Price, ex VAT" : "Ex VAT");
 
             
@@ -606,13 +609,13 @@ WriteLiteral("                                                ");
 WriteLiteral("\r\n                                            </span>\r\n\r\n");
 
             
-            #line 568 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 609 "..\..\Views\Shared\BasketSummary.cshtml"
                                             
             
             #line default
             #line hidden
             
-            #line 568 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 609 "..\..\Views\Shared\BasketSummary.cshtml"
                                              if (discUnitPrice > 0)
                                             {
 
@@ -626,7 +629,7 @@ WriteLiteral(" class=\"price-saving\"");
 WriteLiteral(">\r\n                                                    Save ");
 
             
-            #line 571 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 612 "..\..\Views\Shared\BasketSummary.cshtml"
                                                     Write(string.Format("{0:N2}", bc.PriceEx - discUnitPrice));
 
             
@@ -635,7 +638,7 @@ WriteLiteral(">\r\n                                                    Save ");
 WriteLiteral("\r\n                                                </div>\r\n");
 
             
-            #line 573 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 614 "..\..\Views\Shared\BasketSummary.cshtml"
                                             }
 
             
@@ -650,13 +653,13 @@ WriteLiteral(" class=\"cart-item__actions\"");
 WriteLiteral(">\r\n\r\n");
 
             
-            #line 582 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 623 "..\..\Views\Shared\BasketSummary.cshtml"
                                         
             
             #line default
             #line hidden
             
-            #line 582 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 623 "..\..\Views\Shared\BasketSummary.cshtml"
                                          if (!bc.IsFreeGift)
                                         {
 
@@ -670,7 +673,7 @@ WriteLiteral(" class=\"cart-item__remove basket-remove delete\"");
 WriteLiteral("\r\n                                                    data-productid=\"");
 
             
-            #line 585 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 626 "..\..\Views\Shared\BasketSummary.cshtml"
                                                                Write(bc.StockRef);
 
             
@@ -687,7 +690,7 @@ WriteLiteral(" class=\"fa fa-trash\"");
 WriteLiteral("></i>\r\n                                            </button>\r\n");
 
             
-            #line 589 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 630 "..\..\Views\Shared\BasketSummary.cshtml"
 
 
             
@@ -704,7 +707,7 @@ WriteLiteral(" type=\"button\"");
 WriteLiteral("\r\n                                                        ");
 
             
-            #line 593 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 634 "..\..\Views\Shared\BasketSummary.cshtml"
                                                     Write(bc.Quantity <= 1 ? "disabled" : "");
 
             
@@ -714,7 +717,7 @@ WriteLiteral("\r\n                                                        onclic
 "y(\'");
 
             
-            #line 594 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 635 "..\..\Views\Shared\BasketSummary.cshtml"
                                                                              Write(bc.StockRef);
 
             
@@ -723,7 +726,7 @@ WriteLiteral("\r\n                                                        onclic
 WriteLiteral("\', ");
 
             
-            #line 594 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 635 "..\..\Views\Shared\BasketSummary.cshtml"
                                                                                              Write(Math.Max(1, bc.Quantity-1));
 
             
@@ -737,38 +740,38 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral("\r\n                                                       readonly");
 
-WriteAttribute("value", Tuple.Create("\r\n                                                       value=\"", 18891), Tuple.Create("\"", 18967)
+WriteAttribute("value", Tuple.Create("\r\n                                                       value=\"", 19858), Tuple.Create("\"", 19934)
             
-            #line 600 "..\..\Views\Shared\BasketSummary.cshtml"
-, Tuple.Create(Tuple.Create("", 18955), Tuple.Create<System.Object, System.Int32>(bc.Quantity
+            #line 641 "..\..\Views\Shared\BasketSummary.cshtml"
+, Tuple.Create(Tuple.Create("", 19922), Tuple.Create<System.Object, System.Int32>(bc.Quantity
             
             #line default
             #line hidden
-, 18955), false)
+, 19922), false)
 );
 
 WriteLiteral(" />\r\n\r\n                                                <button");
 
 WriteLiteral(" type=\"button\"");
 
-WriteAttribute("onclick", Tuple.Create("\r\n                                                        onclick=\"", 19044), Tuple.Create("\"", 19160)
-, Tuple.Create(Tuple.Create("", 19111), Tuple.Create("changeBasketQty(\'", 19111), true)
+WriteAttribute("onclick", Tuple.Create("\r\n                                                        onclick=\"", 20011), Tuple.Create("\"", 20127)
+, Tuple.Create(Tuple.Create("", 20078), Tuple.Create("changeBasketQty(\'", 20078), true)
             
-            #line 603 "..\..\Views\Shared\BasketSummary.cshtml"
- , Tuple.Create(Tuple.Create("", 19128), Tuple.Create<System.Object, System.Int32>(bc.StockRef
-            
-            #line default
-            #line hidden
-, 19128), false)
-, Tuple.Create(Tuple.Create("", 19140), Tuple.Create("\',", 19140), true)
-            
-            #line 603 "..\..\Views\Shared\BasketSummary.cshtml"
-                , Tuple.Create(Tuple.Create(" ", 19142), Tuple.Create<System.Object, System.Int32>(bc.Quantity+1
+            #line 644 "..\..\Views\Shared\BasketSummary.cshtml"
+ , Tuple.Create(Tuple.Create("", 20095), Tuple.Create<System.Object, System.Int32>(bc.StockRef
             
             #line default
             #line hidden
-, 19143), false)
-, Tuple.Create(Tuple.Create("", 19159), Tuple.Create(")", 19159), true)
+, 20095), false)
+, Tuple.Create(Tuple.Create("", 20107), Tuple.Create("\',", 20107), true)
+            
+            #line 644 "..\..\Views\Shared\BasketSummary.cshtml"
+                , Tuple.Create(Tuple.Create(" ", 20109), Tuple.Create<System.Object, System.Int32>(bc.Quantity+1
+            
+            #line default
+            #line hidden
+, 20110), false)
+, Tuple.Create(Tuple.Create("", 20126), Tuple.Create(")", 20126), true)
 );
 
 WriteLiteral(">\r\n                                                    +\r\n                       " +
@@ -776,7 +779,7 @@ WriteLiteral(">\r\n                                                    +\r\n    
 "  </div>\r\n");
 
             
-            #line 608 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 649 "..\..\Views\Shared\BasketSummary.cshtml"
                                         }
 
             
@@ -785,13 +788,13 @@ WriteLiteral(">\r\n                                                    +\r\n    
 WriteLiteral("\r\n");
 
             
-            #line 610 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 651 "..\..\Views\Shared\BasketSummary.cshtml"
                                         
             
             #line default
             #line hidden
             
-            #line 610 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 651 "..\..\Views\Shared\BasketSummary.cshtml"
                                          if (Session["V_Voucher"] != null)
                                         {
                                             VoucherPromo vp = (VoucherPromo)Session["V_Voucher"];
@@ -815,7 +818,7 @@ WriteLiteral("></i>\r\n                                                    Vouch
 "                                           </div>\r\n");
 
             
-            #line 621 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 662 "..\..\Views\Shared\BasketSummary.cshtml"
                                             }
                                         }
 
@@ -828,13 +831,13 @@ WriteLiteral("\r\n                                    </div>\r\n\r\n            
 WriteLiteral("\r\n");
 
             
-            #line 632 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 673 "..\..\Views\Shared\BasketSummary.cshtml"
                                 
             
             #line default
             #line hidden
             
-            #line 632 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 673 "..\..\Views\Shared\BasketSummary.cshtml"
                                  if (!bc.IsCompatible && !String.IsNullOrEmpty(bc.CrossSellingStockRef) && !bc.ExcludeFromUpSell)
                                 {
                                     List<int> inStock = new List<int> { 1, 7 };
@@ -868,51 +871,51 @@ WriteLiteral(" class=\"switch-save__content\"");
 
 WriteLiteral(">\r\n\r\n                                                    <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 22078), Tuple.Create("\"", 22099)
+WriteAttribute("href", Tuple.Create(" href=\"", 23045), Tuple.Create("\"", 23066)
             
-            #line 653 "..\..\Views\Shared\BasketSummary.cshtml"
-, Tuple.Create(Tuple.Create("", 22085), Tuple.Create<System.Object, System.Int32>(bc.ProductUrl
+            #line 694 "..\..\Views\Shared\BasketSummary.cshtml"
+, Tuple.Create(Tuple.Create("", 23052), Tuple.Create<System.Object, System.Int32>(bc.ProductUrl
             
             #line default
             #line hidden
-, 22085), false)
+, 23052), false)
 );
 
 WriteLiteral(">\r\n\r\n                                                        <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 22165), Tuple.Create("\"", 22260)
+WriteAttribute("src", Tuple.Create(" src=\"", 23132), Tuple.Create("\"", 23227)
             
-            #line 655 "..\..\Views\Shared\BasketSummary.cshtml"
-, Tuple.Create(Tuple.Create("", 22171), Tuple.Create<System.Object, System.Int32>(!String.IsNullOrEmpty(bc.CrossSellingImageURL) ? bc.CrossSellingImageURL : bc.ImageUrl
+            #line 696 "..\..\Views\Shared\BasketSummary.cshtml"
+, Tuple.Create(Tuple.Create("", 23138), Tuple.Create<System.Object, System.Int32>(!String.IsNullOrEmpty(bc.CrossSellingImageURL) ? bc.CrossSellingImageURL : bc.ImageUrl
             
             #line default
             #line hidden
-, 22171), false)
+, 23138), false)
 );
 
-WriteAttribute("alt", Tuple.Create("\r\n                                                             alt=\"", 22261), Tuple.Create("\"", 22356)
+WriteAttribute("alt", Tuple.Create("\r\n                                                             alt=\"", 23228), Tuple.Create("\"", 23323)
             
-            #line 656 "..\..\Views\Shared\BasketSummary.cshtml"
-, Tuple.Create(Tuple.Create("", 22329), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingDescription
+            #line 697 "..\..\Views\Shared\BasketSummary.cshtml"
+, Tuple.Create(Tuple.Create("", 23296), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingDescription
             
             #line default
             #line hidden
-, 22329), false)
+, 23296), false)
 );
 
 WriteLiteral("\r\n                                                             class=\"switch-save" +
 "__img\"");
 
-WriteAttribute("onerror", Tuple.Create("\r\n                                                             onerror=\"", 22444), Tuple.Create("\"", 22587)
-, Tuple.Create(Tuple.Create("", 22516), Tuple.Create("this.src=\'", 22516), true)
+WriteAttribute("onerror", Tuple.Create("\r\n                                                             onerror=\"", 23411), Tuple.Create("\"", 23554)
+, Tuple.Create(Tuple.Create("", 23483), Tuple.Create("this.src=\'", 23483), true)
             
-            #line 658 "..\..\Views\Shared\BasketSummary.cshtml"
-, Tuple.Create(Tuple.Create("", 22526), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+            #line 699 "..\..\Views\Shared\BasketSummary.cshtml"
+, Tuple.Create(Tuple.Create("", 23493), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
             
             #line default
             #line hidden
-, 22526), false)
-, Tuple.Create(Tuple.Create("", 22566), Tuple.Create("/Images/noImage.jpg\';", 22566), true)
+, 23493), false)
+, Tuple.Create(Tuple.Create("", 23533), Tuple.Create("/Images/noImage.jpg\';", 23533), true)
 );
 
 WriteLiteral(" />\r\n\r\n                                                    </a>\r\n\r\n              " +
@@ -922,14 +925,14 @@ WriteLiteral(" style=\"flex:1;\"");
 
 WriteLiteral(">\r\n\r\n                                                        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 22790), Tuple.Create("\"", 22811)
+WriteAttribute("href", Tuple.Create(" href=\"", 23757), Tuple.Create("\"", 23778)
             
-            #line 664 "..\..\Views\Shared\BasketSummary.cshtml"
-, Tuple.Create(Tuple.Create("", 22797), Tuple.Create<System.Object, System.Int32>(bc.ProductUrl
+            #line 705 "..\..\Views\Shared\BasketSummary.cshtml"
+, Tuple.Create(Tuple.Create("", 23764), Tuple.Create<System.Object, System.Int32>(bc.ProductUrl
             
             #line default
             #line hidden
-, 22797), false)
+, 23764), false)
 );
 
 WriteLiteral("\r\n                                                           class=\"switch-save__" +
@@ -940,7 +943,7 @@ WriteLiteral(">\r\n\r\n");
 WriteLiteral("                                                            ");
 
             
-            #line 667 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 708 "..\..\Views\Shared\BasketSummary.cshtml"
                                                        Write(bc.CrossSellingDescription);
 
             
@@ -954,7 +957,7 @@ WriteLiteral(" class=\"switch-save__sku\"");
 WriteLiteral(">\r\n                                                            Compatible for ");
 
             
-            #line 672 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 713 "..\..\Views\Shared\BasketSummary.cshtml"
                                                                       Write(bc.PartNo);
 
             
@@ -968,7 +971,7 @@ WriteLiteral(" class=\"switch-save__price\"");
 WriteLiteral(">\r\n                                                            £");
 
             
-            #line 676 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 717 "..\..\Views\Shared\BasketSummary.cshtml"
                                                         Write(string.Format("{0:N2}", switchLinePriceEx));
 
             
@@ -983,7 +986,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                                                                ");
 
             
-            #line 678 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 719 "..\..\Views\Shared\BasketSummary.cshtml"
                                                             Write(isTradeCustomer ? "Trade Price, ex VAT" : "exc. VAT");
 
             
@@ -998,7 +1001,7 @@ WriteLiteral(" class=\"switch-save__save\"");
 WriteLiteral(">\r\n                                                            Save £");
 
             
-            #line 683 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 724 "..\..\Views\Shared\BasketSummary.cshtml"
                                                              Write(string.Format("{0:N2}", saving));
 
             
@@ -1013,7 +1016,7 @@ WriteLiteral("\r\n                                                              
 "\"");
 
             
-            #line 687 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 728 "..\..\Views\Shared\BasketSummary.cshtml"
                                                                            Write(bc.CrossSellingStockRef);
 
             
@@ -1024,7 +1027,7 @@ WriteLiteral("\"");
 WriteLiteral("\r\n                                                                data-price=\"");
 
             
-            #line 688 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 729 "..\..\Views\Shared\BasketSummary.cshtml"
                                                                        Write(bc.CrossSellingPriceEx);
 
             
@@ -1036,7 +1039,7 @@ WriteLiteral("\r\n                                                              
 "");
 
             
-            #line 689 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 730 "..\..\Views\Shared\BasketSummary.cshtml"
                                                                           Write(bc.StockRef);
 
             
@@ -1047,7 +1050,7 @@ WriteLiteral("\"");
 WriteLiteral("\r\n                                                                data-qty=\"");
 
             
-            #line 690 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 731 "..\..\Views\Shared\BasketSummary.cshtml"
                                                                      Write(bc.Quantity);
 
             
@@ -1069,7 +1072,7 @@ WriteLiteral(@">
 ");
 
             
-            #line 701 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 742 "..\..\Views\Shared\BasketSummary.cshtml"
                                         }
                                     }
                                 }
@@ -1080,7 +1083,7 @@ WriteLiteral(@">
 WriteLiteral("                            </div>\r\n");
 
             
-            #line 705 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 746 "..\..\Views\Shared\BasketSummary.cshtml"
 
                         }
                         if (bc.ItemType == BasketItemType.CompatibleDiscount)
@@ -1107,7 +1110,7 @@ WriteLiteral(">\r\n                    <span>Total Payable</span>\r\n\r\n       
 "                        £");
 
             
-            #line 722 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 763 "..\..\Views\Shared\BasketSummary.cshtml"
                     Write(bt.GrandTotalIncVat.ToString("0.00"));
 
             
@@ -1116,13 +1119,13 @@ WriteLiteral(">\r\n                    <span>Total Payable</span>\r\n\r\n       
 WriteLiteral("\r\n                    </span>\r\n                </div>\r\n\r\n");
 
             
-            #line 726 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 767 "..\..\Views\Shared\BasketSummary.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 726 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 767 "..\..\Views\Shared\BasketSummary.cshtml"
                  if (Session["B_VoucherCode"].ToSafeString() != "")
                 {
                     decimal totalSaving = bt.Voucher + bt.VoucherVat;
@@ -1151,7 +1154,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                                ");
 
             
-            #line 739 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 780 "..\..\Views\Shared\BasketSummary.cshtml"
                            Write(Session["B_VoucherCode"]);
 
             
@@ -1177,7 +1180,7 @@ WriteLiteral(" class=\"promo-applied__saving\"");
 WriteLiteral(">\r\n                                -£");
 
             
-            #line 749 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 790 "..\..\Views\Shared\BasketSummary.cshtml"
                              Write(Math.Abs(totalSaving).ToString("0.00"));
 
             
@@ -1187,7 +1190,7 @@ WriteLiteral("\r\n                            </span>\r\n\r\n                   
 "              </details>\r\n");
 
             
-            #line 755 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 796 "..\..\Views\Shared\BasketSummary.cshtml"
                 }
                 else
                 {
@@ -1228,7 +1231,7 @@ WriteLiteral(" class=\"promo-error g-v-h\"");
 WriteLiteral("></div>\r\n\r\n                    </details>\r\n");
 
             
-            #line 782 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 823 "..\..\Views\Shared\BasketSummary.cshtml"
                 }
 
             
@@ -1247,7 +1250,7 @@ WriteLiteral("></i>\r\n\r\n                    <span>\r\n");
 WriteLiteral("                        ");
 
             
-            #line 789 "..\..\Views\Shared\BasketSummary.cshtml"
+            #line 830 "..\..\Views\Shared\BasketSummary.cshtml"
                    Write(deliveryMessage);
 
             
