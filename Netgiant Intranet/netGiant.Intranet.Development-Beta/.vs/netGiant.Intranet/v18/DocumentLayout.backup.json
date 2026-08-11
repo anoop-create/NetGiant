@@ -3,24 +3,20 @@
   "WorkspaceRootPath": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|c:\\anoop\\git\\netgiant\\netgiant intranet\\netgiant.intranet.development-beta\\netgiant.intranet\\areas\\pms\\views\\product\\createproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|solutionrelative:netgiant.intranet\\areas\\pms\\views\\product\\createproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|c:\\anoop\\git\\netgiant\\netgiant intranet\\netgiant.intranet.development-beta\\netgiant.intranet\\areas\\pms\\controllers\\product\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|solutionrelative:netgiant.intranet\\areas\\pms\\controllers\\product\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|c:\\anoop\\git\\netgiant\\netgiant intranet\\netgiant.intranet.development-beta\\netgiant.intranet\\areas\\pms\\controllers\\export\\exportcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|solutionrelative:netgiant.intranet\\areas\\pms\\controllers\\export\\exportcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|c:\\anoop\\git\\netgiant\\netgiant intranet\\netgiant.intranet.development-beta\\netgiant.intranet\\areas\\pms\\views\\equipment\\createequipmembership.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|solutionrelative:netgiant.intranet\\areas\\pms\\views\\equipment\\createequipmembership.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netgiant.intranet\\areas\\pms\\views\\export\\exportaddonmappings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|solutionrelative:netgiant.intranet\\areas\\pms\\views\\export\\exportaddonmappings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netgiant.intranet\\areas\\pms\\views\\export\\exportproductaddon.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|solutionrelative:netgiant.intranet\\areas\\pms\\views\\export\\exportproductaddon.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netgiant.intranet\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|solutionrelative:netgiant.intranet\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+      "AbsoluteMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|c:\\anoop\\git\\netgiant\\netgiant intranet\\netgiant.intranet.development-beta\\netgiant.intranet\\areas\\pms\\controllers\\equipment\\equipmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|solutionrelative:netgiant.intranet\\areas\\pms\\controllers\\equipment\\equipmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,19 +26,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
+              "Title": "CreateEquipMembership.cshtml",
+              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Equipment\\CreateEquipMembership.cshtml",
+              "RelativeDocumentMoniker": "netGiant.Intranet\\Areas\\PMS\\Views\\Equipment\\CreateEquipMembership.cshtml",
+              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Equipment\\CreateEquipMembership.cshtml",
+              "RelativeToolTip": "netGiant.Intranet\\Areas\\PMS\\Views\\Equipment\\CreateEquipMembership.cshtml",
+              "ViewState": "AgIAABUAAAAAAAAAAAAwwB4AAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-11T06:50:02.95Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EquipmentController.cs",
+              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Controllers\\Equipment\\EquipmentController.cs",
+              "RelativeDocumentMoniker": "netGiant.Intranet\\Areas\\PMS\\Controllers\\Equipment\\EquipmentController.cs",
+              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Controllers\\Equipment\\EquipmentController.cs",
+              "RelativeToolTip": "netGiant.Intranet\\Areas\\PMS\\Controllers\\Equipment\\EquipmentController.cs",
+              "ViewState": "AgIAAOEAAAAAAAAAAAAowOYAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-11T06:49:54.007Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "ProductController.cs",
               "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Controllers\\Product\\ProductController.cs",
               "RelativeDocumentMoniker": "netGiant.Intranet\\Areas\\PMS\\Controllers\\Product\\ProductController.cs",
               "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Controllers\\Product\\ProductController.cs",
               "RelativeToolTip": "netGiant.Intranet\\Areas\\PMS\\Controllers\\Product\\ProductController.cs",
-              "ViewState": "AgIAAEEBAAAAAAAAAAAkwEcBAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAAAgBAAAAAAAAAAAswEwBAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-10T09:25:03.619Z",
+              "WhenOpened": "2026-08-11T06:49:38.213Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CreateProduct.cshtml",
+              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Product\\CreateProduct.cshtml",
+              "RelativeDocumentMoniker": "netGiant.Intranet\\Areas\\PMS\\Views\\Product\\CreateProduct.cshtml",
+              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Product\\CreateProduct.cshtml",
+              "RelativeToolTip": "netGiant.Intranet\\Areas\\PMS\\Views\\Product\\CreateProduct.cshtml",
+              "ViewState": "AgIAALEDAAAAAAAAAAAIwMADAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-11T06:47:41.311Z",
               "EditorCaption": ""
             },
             {
@@ -52,56 +87,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ExportAddOnMappings.cshtml",
-              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Export\\ExportAddOnMappings.cshtml",
-              "RelativeDocumentMoniker": "netGiant.Intranet\\Areas\\PMS\\Views\\Export\\ExportAddOnMappings.cshtml",
-              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Export\\ExportAddOnMappings.cshtml",
-              "RelativeToolTip": "netGiant.Intranet\\Areas\\PMS\\Views\\Export\\ExportAddOnMappings.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-08-09T10:33:46.988Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ExportController.cs",
-              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Controllers\\Export\\ExportController.cs",
-              "RelativeDocumentMoniker": "netGiant.Intranet\\Areas\\PMS\\Controllers\\Export\\ExportController.cs",
-              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Controllers\\Export\\ExportController.cs",
-              "RelativeToolTip": "netGiant.Intranet\\Areas\\PMS\\Controllers\\Export\\ExportController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJoAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-08T11:29:09.573Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ExportProductAddon.cshtml",
-              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Export\\ExportProductAddon.cshtml",
-              "RelativeDocumentMoniker": "netGiant.Intranet\\Areas\\PMS\\Views\\Export\\ExportProductAddon.cshtml",
-              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Export\\ExportProductAddon.cshtml",
-              "RelativeToolTip": "netGiant.Intranet\\Areas\\PMS\\Views\\Export\\ExportProductAddon.cshtml",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAuwBMAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-08-08T11:36:14.086Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "web.config",
-              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Web.config",
-              "RelativeDocumentMoniker": "netGiant.Intranet\\Web.config",
-              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Web.config",
-              "RelativeToolTip": "netGiant.Intranet\\Web.config",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2026-08-08T15:39:26.72Z",
-              "EditorCaption": ""
             }
           ]
         }

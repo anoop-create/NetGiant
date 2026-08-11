@@ -947,7 +947,8 @@ isSelected == true ? (object)new { @class = "form-control g-smallCell g-d-i catC
 
             return false;
         }); $(function () {
-
+            var searchProductsUrl = '@Url.Action("SearchProducts", "Product", new { area = "PMS" })';
+            console.log("SearchProducts URL:", searchProductsUrl);
             $("#addOnProduct").select2({
 
                 placeholder: "Search products",
@@ -957,9 +958,7 @@ isSelected == true ? (object)new { @class = "form-control g-smallCell g-d-i catC
                 width: "100%",
 
                 ajax: {
-
-                    url: "/PMS/Product/SearchProducts",
-
+                    url: searchProductsUrl,
                     dataType: "json",
 
                     delay: 300,
@@ -979,7 +978,7 @@ isSelected == true ? (object)new { @class = "form-control g-smallCell g-d-i catC
                         return {
 
                             results: $.map(data, function (item) {
-                                debugger;
+
                                 return {
 
                                     id: item.value,

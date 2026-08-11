@@ -109,7 +109,7 @@
 
     $(document).on("click", ".lnkProductDelete", function () {
         setupOptionsArrayDelete($(this));
-        debugger;
+   
         ajaxDeleteTelerikRow(optionsArray, $('#DeleteProductURL').val(), '#productDeleteDialog');
         return false;
     });

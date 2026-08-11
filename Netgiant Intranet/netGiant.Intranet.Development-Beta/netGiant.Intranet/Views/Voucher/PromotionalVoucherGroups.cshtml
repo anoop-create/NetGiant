@@ -62,7 +62,7 @@
 
     $(document).on("click", ".lnkPromotionalVoucherGroupDelete", function () {
         setupOptionsArrayDelete($(this));
-        debugger;
+   
         ajaxDeleteTelerikRow(optionsArray, $('#DeletePromotionalVoucherGroupURL').val(), '#promotionalVoucherGroupsDeleteDialog');
         return false;
     });

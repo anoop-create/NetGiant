@@ -113,256 +113,314 @@ namespace ASP
             
             #line default
             #line hidden
-WriteLiteral("\n<style>\n    ");
+WriteLiteral("\r\n<style>\r\n    :root {\r\n        --dark: #2b2b2b;\r\n        --pink: #e6007e;\r\n     " +
+"   --green: #00a651;\r\n        --border: #e5e5e5;\r\n        --text: #333;\r\n       " +
+" --muted: #777;\r\n    }\r\n    /* Floating cart button */\r\n    .cart-fab {\r\n       " +
+" position: fixed;\r\n        right: 6px;\r\n        top: 36px;\r\n        transform: t" +
+"ranslateY(-50%);\r\n        z-index: 9998;\r\n        width: 56px;\r\n        height: " +
+"56px;\r\n        border-radius: 4px;\r\n        background: #0099cc;\r\n        color:" +
+" #fff;\r\n        border: none;\r\n        cursor: pointer;\r\n        display: flex;\r" +
+"\n        align-items: center;\r\n        justify-content: center;\r\n    }\r\n\r\n      " +
+"  .cart-fab:hover {\r\n            background: #000;\r\n        }\r\n\r\n    .cart-fab__" +
+"count {\r\n        position: absolute;\r\n        top: -4px;\r\n        right: -4px;\r\n" +
+"        background: var(--pink);\r\n        color: #fff;\r\n        font-size: 11px;" +
+"\r\n        font-weight: 700;\r\n        min-width: 18px;\r\n        height: 18px;\r\n  " +
+"      border-radius: 9px;\r\n        display: flex;\r\n        align-items: center;\r" +
+"\n        justify-content: center;\r\n        padding: 0 4px;\r\n    }\r\n    /* Overla" +
+"y + slide-in panel */\r\n    .mini-cart-overlay {\r\n        position: fixed;\r\n     " +
+"   inset: 0;\r\n        background: rgba(0,0,0,0.4);\r\n        z-index: 9999;\r\n    " +
+"    opacity: 0;\r\n        pointer-events: none;\r\n        transition: opacity .25s" +
+" ease;\r\n    }\r\n\r\n        .mini-cart-overlay.is-open {\r\n            opacity: 1;\r\n" +
+"            pointer-events: auto;\r\n        }\r\n\r\n    .mini-cart-wrap {\r\n        p" +
+"osition: fixed;\r\n        top: 0;\r\n        right: 0;\r\n        height: auto;\r\n    " +
+"    z-index: 10000;\r\n        transform: translateX(100%);\r\n        transition: t" +
+"ransform .25s ease;\r\n    }\r\n\r\n    .mini-cart-overlay.is-open .mini-cart-wrap {\r\n" +
+"        transform: translateX(0);\r\n    }\r\n\r\n    .mini-cart {\r\n        max-width:" +
+" 300px;\r\n        width: 300px;\r\n        background: #fff;\r\n        display: flex" +
+";\r\n        flex-direction: column;\r\n        height: 100%;\r\n        max-height: 1" +
+"00vh;\r\n    }\r\n\r\n    .mini-cart__header {\r\n        background: var(--dark);\r\n    " +
+"    color: #fff;\r\n        padding: 14px 16px;\r\n        display: flex;\r\n        a" +
+"lign-items: center;\r\n        justify-content: space-between;\r\n        font-size:" +
+" 16px;\r\n        font-weight: 600;\r\n    }\r\n\r\n    .mini-cart__close {\r\n        bac" +
+"kground: none;\r\n        border: none;\r\n        color: #fff;\r\n        font-size: " +
+"18px;\r\n        line-height: 1;\r\n        cursor: pointer;\r\n        width: 26px;\r\n" +
+"        height: 26px;\r\n        border: 1px solid #666;\r\n        border-radius: 5" +
+"0%;\r\n        display: flex;\r\n        align-items: center;\r\n        justify-conte" +
+"nt: center;\r\n        padding: 0;\r\n    }\r\n\r\n        .mini-cart__close:hover {\r\n  " +
+"          background: rgba(255,255,255,0.15);\r\n        }\r\n\r\n    .mini-cart__body" +
+" {\r\n        flex: 1;\r\n        overflow-y: auto;\r\n        padding: 12px 16px;\r\n  " +
+"  }\r\n    /* Cart item */\r\n    .cart-item {\r\n        display: flex;\r\n        gap:" +
+" 10px;\r\n        padding: 14px 0;\r\n        border-bottom: 1px solid var(--border)" +
+";\r\n    }\r\n\r\n    .cart-item__link {\r\n        flex-shrink: 0;\r\n        display: bl" +
+"ock;\r\n    }\r\n\r\n    .cart-item__img {\r\n        width: 48px;\r\n        height: 48px" +
+";\r\n        object-fit: contain;\r\n        flex-shrink: 0;\r\n    }\r\n\r\n    .cart-ite" +
+"m__details {\r\n        flex: 1;\r\n        min-width: 0;\r\n    }\r\n\r\n    .cart-item__" +
+"title {\r\n        display: block;\r\n        font-size: 13px;\r\n        font-weight:" +
+" 600;\r\n        color: var(--text);\r\n        margin: 0 0 11px;\r\n        line-heig" +
+"ht: 1.3;\r\n        text-decoration: none;\r\n    }\r\n\r\n        .cart-item__title:hov" +
+"er {\r\n            color: #000;\r\n            text-decoration: underline;\r\n       " +
+" }\r\n\r\n    .cart-item__sku {\r\n        font-size: 11px;\r\n        color: var(--mute" +
+"d);\r\n        margin: 0 0 6px;\r\n    }\r\n\r\n    .cart-item__price {\r\n        font-si" +
+"ze: 17px;\r\n        font-weight: 700;\r\n        color: #09c;\r\n        margin: 0;\r\n" +
+"    }\r\n\r\n        .cart-item__price .vat {\r\n            font-size: 11px;\r\n       " +
+"     font-weight: 400;\r\n            color: var(--muted);\r\n        }\r\n\r\n    .cart" +
+"-item__actions {\r\n        display: flex;\r\n        flex-direction: column;\r\n     " +
+"   align-items: flex-end;\r\n        justify-content: space-between;\r\n        gap:" +
+" 8px;\r\n    }\r\n\r\n    .cart-item__remove {\r\n        background: none;\r\n        bor" +
+"der: none;\r\n        cursor: pointer;\r\n        color: var(--muted);\r\n        font" +
+"-size: 14px;\r\n    }\r\n\r\n    .qty-stepper {\r\n        display: flex;\r\n        align" +
+"-items: center;\r\n        border: 1px solid var(--border);\r\n        border-radius" +
+": 4px;\r\n        overflow: hidden;\r\n    }\r\n\r\n        .qty-stepper button {\r\n     " +
+"       background: #fafafa;\r\n            border: none;\r\n            width: 24px;" +
+"\r\n            height: 24px;\r\n            cursor: pointer;\r\n            font-size" +
+": 14px;\r\n            line-height: 1;\r\n            color: #000000;\r\n        }\r\n\r\n" +
+"        .qty-stepper input {\r\n            width: 28px;\r\n            text-align: " +
+"center;\r\n            border: none;\r\n            border-left: 1px solid var(--bor" +
+"der);\r\n            border-right: 1px solid var(--border);\r\n            font-size" +
+": 13px;\r\n            height: 24px;\r\n            color: #000000;\r\n        }\r\n    " +
+"/* Switch & Save */\r\n    .switch-save {\r\n        border: 1px solid var(--pink);\r" +
+"\n        border-radius: 6px;\r\n        padding: 14px;\r\n        margin: 10px 0 16p" +
+"x;\r\n        position: relative;\r\n    }\r\n\r\n    .switch-save__label {\r\n        pos" +
+"ition: absolute;\r\n        top: -9px;\r\n        left: 12px;\r\n        background: #" +
+"fff;\r\n        padding: 0 6px;\r\n        color: var(--pink);\r\n        font-size: 1" +
+"2px;\r\n        font-weight: 700;\r\n    }\r\n\r\n    .switch-save__content {\r\n        d" +
+"isplay: flex;\r\n        gap: 10px;\r\n    }\r\n\r\n    .switch-save__img {\r\n        wid" +
+"th: 48px;\r\n        height: 48px;\r\n        object-fit: contain;\r\n        flex-shr" +
+"ink: 0;\r\n    }\r\n\r\n    .switch-save__title {\r\n        display: block;\r\n        fo" +
+"nt-size: 13px;\r\n        font-weight: 600;\r\n        color: var(--text);\r\n        " +
+"text-decoration: none;\r\n        margin: 0 0 4px;\r\n    }\r\n\r\n        .switch-save_" +
+"_title:hover {\r\n            color: var(--pink);\r\n            text-decoration: un" +
+"derline;\r\n        }\r\n\r\n    .switch-save__sku {\r\n        font-size: 11px;\r\n      " +
+"  color: var(--muted);\r\n        margin: 0 0 6px;\r\n    }\r\n\r\n    .switch-save__pri" +
+"ce {\r\n        font-size: 14px;\r\n        font-weight: 700;\r\n        margin: 0 0 2" +
+"px;\r\n        color: #000000;\r\n    }\r\n\r\n    .switch-save__save {\r\n        font-si" +
+"ze: 12px;\r\n        font-weight: 700;\r\n        color: var(--pink);\r\n        margi" +
+"n: 0 0 10px;\r\n    }\r\n\r\n    .switch-save__btn {\r\n        display: block;\r\n       " +
+" width: 100%;\r\n        background: #fff;\r\n        border: 1px solid var(--pink);" +
+"\r\n        color: var(--pink);\r\n        font-weight: 700;\r\n        font-size: 13p" +
+"x;\r\n        padding: 8px;\r\n        border-radius: 4px;\r\n        cursor: pointer;" +
+"\r\n    }\r\n    /* Footer */\r\n    .mini-cart__footer {\r\n        border-top: 1px sol" +
+"id var(--border);\r\n        padding: 14px 16px 16px;\r\n    }\r\n\r\n    .total-row {\r\n" +
+"        display: flex;\r\n        justify-content: space-between;\r\n        align-i" +
+"tems: center;\r\n        font-size: 16px;\r\n        font-weight: 700;\r\n        marg" +
+"in-bottom: 10px;\r\n        color: #000000;\r\n    }\r\n\r\n    .promo {\r\n        margin" +
+"-bottom: 12px;\r\n    }\r\n\r\n        .promo summary {\r\n            font-size: 13px;\r" +
+"\n            color: #000;\r\n            cursor: pointer;\r\n            list-style:" +
+" none;\r\n            display: flex;\r\n            justify-content: space-between;\r" +
+"\n            align-items: center;\r\n            padding: 4px 0;\r\n        }\r\n\r\n   " +
+"         .promo summary::-webkit-details-marker {\r\n                display: none" +
+";\r\n            }\r\n\r\n            .promo summary::after {\r\n                content" +
+": \"▾\";\r\n                transition: transform .2s;\r\n                font-size: 2" +
+"0px;\r\n            }\r\n\r\n        .promo[open] summary::after {\r\n            transf" +
+"orm: rotate(180deg);\r\n        }\r\n\r\n    .promo-form {\r\n        display: flex;\r\n  " +
+"      gap: 8px;\r\n        margin-top: 8px;\r\n    }\r\n\r\n        .promo-form input {\r" +
+"\n            flex: 1;\r\n            border: 1px solid var(--border);\r\n           " +
+" border-radius: 4px;\r\n            padding: 8px 10px;\r\n            font-size: 13p" +
+"x;\r\n        }\r\n\r\n        .promo-form button {\r\n            background: var(--gre" +
+"en);\r\n            color: #fff;\r\n            border: none;\r\n            border-ra" +
+"dius: 4px;\r\n            padding: 8px 16px;\r\n            font-size: 13px;\r\n      " +
+"      font-weight: 600;\r\n            cursor: pointer;\r\n        }\r\n\r\n    .free-de" +
+"livery {\r\n        display: flex;\r\n        align-items: center;\r\n        gap: 6px" +
+";\r\n        font-size: 12px;\r\n        color: var(--green);\r\n        margin-bottom" +
+": 12px;\r\n    }\r\n\r\n    .checkout-btn {\r\n        display: block;\r\n        width: 1" +
+"00%;\r\n        background: var(--green);\r\n        color: #fff;\r\n        border: n" +
+"one;\r\n        border-radius: 4px;\r\n        padding: 14px;\r\n        font-size: 15" +
+"px;\r\n        font-weight: 700;\r\n        cursor: pointer;\r\n    }\r\n\r\n        .chec" +
+"kout-btn:hover {\r\n            background: #008f45;\r\n        }\r\n</style>\r\n<!-- Fl" +
+"oating button to open mini cart -->\r\n<button");
 
-WriteLiteral("@media (min-width: 992px) {\n        .hdr-utility-menu {\n            background-co" +
-"lor: rgb(255 255 255 / 100%) !important;\n            box-shadow: 0 4px 12px rgba" +
-"(0, 0, 0, 0.15);\n        }\n    }\n\n    :root {\n        --dark: #2b2b2b;\n        -" +
-"-pink: #e6007e;\n        --green: #00a651;\n        --border: #e5e5e5;\n        --t" +
-"ext: #333;\n        --muted: #777;\n    }\n\n    .mini-cart {\n        max-width: 100" +
-"%;\n        margin: 0 auto;\n        background: #fff;\n        border: 1px solid v" +
-"ar(--border);\n        display: flex;\n        flex-direction: column;\n        max" +
-"-height: 90vh;\n    }\n\n    .mini-cart__header {\n        background: var(--dark);\n" +
-"        color: #fff;\n        padding: 14px 16px;\n        display: flex;\n        " +
-"align-items: center;\n        justify-content: space-between;\n        font-size: " +
-"16px;\n        font-weight: 600;\n    }\n\n    .mini-cart__close {\n        backgroun" +
-"d: none;\n        border: none;\n        color: #fff;\n        font-size: 16px;\n   " +
-"     cursor: pointer;\n        width: 26px;\n        height: 26px;\n        border:" +
-" 1px solid #666;\n        border-radius: 50%;\n    }\n\n    .mini-cart__body {\n     " +
-"   flex: 1;\n        overflow-y: auto;\n        padding: 12px 16px;\n    }\n    /* C" +
-"art item */\n    .cart-item {\n        display: flex;\n        gap: 10px;\n        p" +
-"adding: 14px 0;\n        border-bottom: 1px solid var(--border);\n    }\n\n    .cart" +
-"-item__link {\n        flex-shrink: 0;\n        display: block;\n    }\n\n    .cart-i" +
-"tem__img {\n        width: 48px;\n        height: 48px;\n        object-fit: contai" +
-"n;\n        flex-shrink: 0;\n    }\n\n    .cart-item__details {\n        flex: 1;\n   " +
-"     min-width: 0;\n    }\n\n    .cart-item__title {\n        display: block;\n      " +
-"  font-size: 13px;\n        font-weight: 600;\n        color: var(--text);\n       " +
-" margin: 0 0 6px;\n        line-height: 1.3;\n        text-decoration: none;\n    }" +
-"\n\n        .cart-item__title:hover {\n            color: #000;\n            text-de" +
-"coration: underline;\n        }\n\n    .cart-item__sku {\n        font-size: 11px;\n " +
-"       color: var(--muted);\n        margin: 0 0 6px;\n    }\n\n    .cart-item__pric" +
-"e {\n        font-size: 17px;\n        font-weight: 700;\n        color: #09c;\n    " +
-"    margin: 0;\n    }\n\n        .cart-item__price .vat {\n            font-size: 11" +
-"px;\n            font-weight: 400;\n            color: var(--muted);\n        }\n\n  " +
-"  .cart-item__actions {\n        display: flex;\n        flex-direction: column;\n " +
-"       align-items: flex-end;\n        justify-content: space-between;\n        ga" +
-"p: 8px;\n    }\n\n    .cart-item__remove {\n        background: none;\n        border" +
-": none;\n        cursor: pointer;\n        color: var(--muted);\n        font-size:" +
-" 14px;\n    }\n\n    .qty-stepper {\n        display: flex;\n        align-items: cen" +
-"ter;\n        border: 1px solid var(--border);\n        border-radius: 4px;\n      " +
-"  overflow: hidden;\n    }\n\n        .qty-stepper button {\n            background:" +
-" #fafafa;\n            border: none;\n            width: 24px;\n            height:" +
-" 24px;\n            cursor: pointer;\n            font-size: 14px;\n            lin" +
-"e-height: 1;\n            color: #000000;\n        }\n\n        .qty-stepper input {" +
-"\n            width: 28px;\n            text-align: center;\n            border: no" +
-"ne;\n            border-left: 1px solid var(--border);\n            border-right: " +
-"1px solid var(--border);\n            font-size: 13px;\n            height: 24px;\n" +
-"            color: #000000;\n        }\n    /* Switch & Save */\n    .switch-save {" +
-"\n        border: 1px solid var(--pink);\n        border-radius: 6px;\n        padd" +
-"ing: 14px;\n        margin: 10px 0 16px;\n        position: relative;\n    }\n\n    ." +
-"switch-save__label {\n        position: absolute;\n        top: -9px;\n        left" +
-": 12px;\n        background: #fff;\n        padding: 0 6px;\n        color: var(--p" +
-"ink);\n        font-size: 12px;\n        font-weight: 700;\n    }\n\n    .switch-save" +
-"__content {\n        display: flex;\n        gap: 10px;\n    }\n\n    .switch-save__i" +
-"mg {\n        width: 48px;\n        height: 48px;\n        object-fit: contain;\n   " +
-"     flex-shrink: 0;\n    }\n\n    .switch-save__title {\n        display: block;\n  " +
-"      font-size: 13px;\n        font-weight: 600;\n        color: var(--text);\n   " +
-"     text-decoration: none;\n        margin: 0 0 4px;\n    }\n\n        .switch-save" +
-"__title:hover {\n            color: var(--pink);\n            text-decoration: und" +
-"erline;\n        }\n\n    .switch-save__sku {\n        font-size: 11px;\n        colo" +
-"r: var(--muted);\n        margin: 0 0 6px;\n    }\n\n    .switch-save__price {\n     " +
-"   font-size: 14px;\n        font-weight: 700;\n        margin: 0 0 2px;\n        c" +
-"olor: #000000;\n    }\n\n    .switch-save__save {\n        font-size: 12px;\n        " +
-"font-weight: 700;\n        color: var(--pink);\n        margin: 0 0 10px;\n    }\n\n " +
-"   .switch-save__btn {\n        display: block;\n        width: 100%;\n        back" +
-"ground: #fff;\n        border: 1px solid var(--pink);\n        color: var(--pink);" +
-"\n        font-weight: 700;\n        font-size: 13px;\n        padding: 8px;\n      " +
-"  border-radius: 4px;\n        cursor: pointer;\n    }\n    /* Footer */\n    .mini-" +
-"cart__footer {\n        border-top: 1px solid var(--border);\n        padding: 14p" +
-"x 16px 16px;\n    }\n\n    .total-row {\n        display: flex;\n        justify-cont" +
-"ent: space-between;\n        align-items: center;\n        font-size: 16px;\n      " +
-"  font-weight: 700;\n        margin-bottom: 10px;\n        color: #000000;\n    }\n\n" +
-"    .promo {\n        margin-bottom: 12px;\n    }\n\n        .promo summary {\n      " +
-"      font-size: 13px;\n            color: #000;\n            cursor: pointer;\n   " +
-"         list-style: none;\n            display: flex;\n            justify-conten" +
-"t: space-between;\n            align-items: center;\n            padding: 4px 0;\n " +
-"       }\n\n            .promo summary::-webkit-details-marker {\n                d" +
-"isplay: none;\n            }\n\n            .promo summary::after {\n               " +
-" content: \"▾\";\n                transition: transform .2s;\n                font-s" +
-"ize: 20px;\n            }\n\n        .promo[open] summary::after {\n            tran" +
-"sform: rotate(180deg);\n        }\n\n    .promo-form {\n        display: flex;\n     " +
-"   gap: 8px;\n        margin-top: 8px;\n    }\n\n        .promo-form input {\n       " +
-"     flex: 1;\n            border: 1px solid var(--border);\n            border-ra" +
-"dius: 4px;\n            padding: 8px 10px;\n            font-size: 13px;\n        }" +
-"\n\n        .promo-form button {\n            background: var(--green);\n           " +
-" color: #fff !important;\n            border: none;\n            border-radius: 4p" +
-"x;\n            padding: 8px 16px;\n            font-size: 13px;\n            font-" +
-"weight: 600;\n            cursor: pointer;\n        }\n\n    .free-delivery {\n      " +
-"  display: flex;\n        align-items: center;\n        gap: 6px;\n        font-siz" +
-"e: 12px;\n        color: var(--green);\n        margin-bottom: 12px;\n    }\n\n    .c" +
-"heckout-btn {\n        display: block;\n        width: 100%;\n        background: v" +
-"ar(--green);\n        color: #fff !important;\n        border: none;\n        borde" +
-"r-radius: 4px;\n        padding: 14px;\n        font-size: 15px;\n        font-weig" +
-"ht: 700;\n        cursor: pointer;\n    }\n\n        .checkout-btn:hover {\n         " +
-"   background: #008f45;\n        }\n\n    .sidebar-offcanvas * {\n        color: bla" +
-"ck !important;\n    }\n    /*16-08-26*/\n    ");
+WriteLiteral(" class=\"cart-fab\"");
 
-WriteLiteral("@media (min-width: 992px) {\n        .hdr-utility-menu .navbar-toggle > div {\n    " +
-"        padding: 0 0px !important;\n        }\n\n        .hdr-utility-menu .active " +
-".header {\n            padding: 0px 10px !important;\n        }\n\n            .hdr-" +
-"utility-menu .active .header span {\n                color: #fff !important;\n    " +
-"            font-size: 18px\n            }\n\n        .mini-cart__header small {\n  " +
-"          color: #fff !important;\n            font-weight: 500 !important;\n     " +
-"   }\n\n        .mini-cart__header button i {\n            color: #fff !important;\n" +
-"            font-weight: 500 !important;\n        }\n\n        .free-delivery span " +
-"{\n            color: #00a651 !important;\n            font-weight: 500;\n        }" +
-"\n\n        .free-delivery i {\n            color: #00a651 !important;\n            " +
-"font-weight: 500;\n        }\n\n        .stock-status.in-stock span, .stock-status." +
-"in-stock i {\n            color: #00a651 !important;\n            font-weight: 600" +
-"\n        }\n\n        .stock-status.in-stock span, .stock-status.in-stock i {\n    " +
-"        color: #00a651 !important;\n            font-weight: 600;\n            mar" +
-"gin-bottom: 8px\n        }\n\n        .delivery-cutoff {\n            color: #262626" +
-" !important;\n            margin-bottom: 8px\n        }\n\n            .delivery-cut" +
-"off i {\n                color: #262626 !important;\n            }\n\n        .cart-" +
-"item__price {\n            color: #09c !important\n        }\n\n        .switch-save" +
-"__price strong {\n            color: #09c !important\n        }\n\n        .switch-s" +
-"ave__save {\n            color: #09c !important;\n            font-size: 16px;\n   " +
-"         margin-top: 6px;\n        }\n\n        .cart-item__remove i {\n            " +
-"color: #ff0000ad !important;\n            font-size: 18px\n        }\n\n        .sid" +
-"ebar-offcanvas .checkout-btn {\n            color: #fff !important;\n        }\n\n  " +
-"      .view-basket-link {\n            display: block;\n            text-align: ce" +
-"nter;\n            margin-top: 12px;\n        }\n        .view-basket-link:hover { " +
-"text-decoration:underline}\n\n    .hdr-utility-menu {\n        background-color: tr" +
-"ansparent !important;\n        box-shadow: none !important;\n    }\n\n        .hdr-u" +
-"tility-menu.active {\n            background-color: rgb(255 255 255) !important;\n" +
-"            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;\n        }\n\n  " +
-"      .hdr-utility-menu .navbar-toggle .header {\n            padding: 0 10px !im" +
-"portant;\n        }\n\n        .hdr-utility-menu .header {\n            background-c" +
-"olor: #069;\n        }\n\n        .hdr-utility-menu .content > * {\n            widt" +
-"h: 100% !important;\n        }\n\n        .hdr-utility-menu .header span {\n        " +
-"    color: #fff !important;\n            font-size: 18px;\n        }\n    hdr-utili" +
-"ty-menu .navbar-toggle.active .header {\n        display: none;\n        overflow:" +
-" hidden\n    }\n\n    .tab-open[data-toggle=\"offcanvas-close\"] {\n        display: n" +
-"one!important\n    }\n\n    .hdr-utility-menu .content > * {\n        border: none;\n" +
-"    }\n    .navbar-toggle.active > .header {\n        display: none !important\n   " +
-" }\n    }\n</style>\n\n<div");
+WriteLiteral("\r\n        id=\"cartFab\"");
 
-WriteLiteral(" id=\"basket\"");
+WriteLiteral("\r\n        aria-label=\"Open cart\"");
 
-WriteLiteral(" class=\"navbar-toggle offcanvas-toggle collapsed pull-left\"");
+WriteLiteral("\r\n        aria-haspopup=\"dialog\"");
 
-WriteLiteral(" type=\"button\"");
+WriteLiteral("\r\n        aria-controls=\"miniCartOverlay\"");
 
-WriteLiteral(" data-toggle=\"offcanvas-open\"");
+WriteLiteral(">\r\n\r\n    <svg");
 
-WriteLiteral("\n     data-target=\"#utility-bar\"");
+WriteLiteral(" xmlns=\"http://www.w3.org/2000/svg\"");
 
-WriteLiteral(" aria-expanded=\"false\"");
+WriteLiteral("\r\n         viewBox=\"0 0 24 24\"");
 
-WriteLiteral(">\n    <div");
+WriteLiteral("\r\n         width=\"26\"");
 
-WriteLiteral(" class=\"header g-flex-vcenter\"");
+WriteLiteral("\r\n         height=\"26\"");
 
-WriteLiteral(" data-label=\"View Basket\"");
+WriteLiteral("\r\n         fill=\"none\"");
 
-WriteLiteral(">\n        <span");
+WriteLiteral("\r\n         stroke=\"#fff\"");
 
-WriteLiteral(" class=\"sr-only\"");
+WriteLiteral("\r\n         stroke-width=\"2\"");
 
-WriteLiteral(">Toggle Basket</span>\n        <img");
+WriteLiteral("\r\n         stroke-linecap=\"round\"");
 
-WriteLiteral(" class=\"msp_basket\"");
+WriteLiteral("\r\n         stroke-linejoin=\"round\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 12758), Tuple.Create("\"", 12793)
-, Tuple.Create(Tuple.Create("", 12764), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 12764), false)
-);
+WriteLiteral(">\r\n\r\n        <circle");
 
-WriteLiteral(" />\n        <span");
+WriteLiteral(" cx=\"9\"");
 
-WriteLiteral(" class=\"g-fs-lg g-p-l-20\"");
+WriteLiteral(" cy=\"21\"");
 
-WriteLiteral(">Basket</span>\n    </div>\n    <div");
+WriteLiteral(" r=\"1\"");
 
-WriteLiteral(" class=\"content clearfix\"");
+WriteLiteral("></circle>\r\n        <circle");
 
-WriteLiteral(">\n        <div");
+WriteLiteral(" cx=\"20\"");
+
+WriteLiteral(" cy=\"21\"");
+
+WriteLiteral(" r=\"1\"");
+
+WriteLiteral("></circle>\r\n        <path");
+
+WriteLiteral(" d=\"M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6\"");
+
+WriteLiteral("></path>\r\n    </svg>\r\n    <span");
+
+WriteLiteral(" class=\"cart-fab__count\"");
+
+WriteLiteral(" id=\"cartFabCount\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("        ");
+
+            
+            #line 457 "..\..\Views\Shared\MiniBasket.cshtml"
+    Write(lbc == null
+        ? 0
+        : lbc.Where(x => x.ItemType == BasketItemType.Item ||
+                         x.ItemType == BasketItemType.AdminDiscount)
+             .Sum(x => x.Quantity));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n    </span>\r\n</button>\r\n\r\n\r\n<!-- Overlay + Mini cart panel -->\r\n<div");
+
+WriteLiteral(" class=\"mini-cart-overlay\"");
+
+WriteLiteral("\r\n     id=\"miniCartOverlay\"");
+
+WriteLiteral("\r\n     role=\"dialog\"");
+
+WriteLiteral("\r\n     aria-modal=\"true\"");
+
+WriteLiteral("\r\n     aria-label=\"Mini cart\"");
+
+WriteLiteral(">\r\n\r\n    <div");
+
+WriteLiteral(" class=\"mini-cart-wrap\"");
+
+WriteLiteral(">\r\n\r\n        <div");
 
 WriteLiteral(" class=\"mini-cart\"");
 
-WriteLiteral(">\n            <div");
+WriteLiteral(">\r\n\r\n            <!-- Header -->\r\n            <div");
 
 WriteLiteral(" class=\"mini-cart__header\"");
 
-WriteLiteral(">\n                <span");
-
-WriteLiteral(" style=\" color: white !important; \"");
-
-WriteLiteral(">\n                    Summary\n                </span>\n                <button");
+WriteLiteral(">\r\n\r\n                <span>\r\n                    Summary\r\n                </span>" +
+"\r\n\r\n                <button");
 
 WriteLiteral(" type=\"button\"");
 
-WriteLiteral("\n                        class=\"mini-cart__close\"");
+WriteLiteral("\r\n                        class=\"mini-cart__close\"");
 
-WriteLiteral("\n                        data-toggle=\"offcanvas-close\"");
+WriteLiteral("\r\n                        id=\"miniCartClose\"");
 
-WriteLiteral("\n                        data-target=\"#utility-bar\"");
+WriteLiteral("\r\n                        aria-label=\"Close cart\"");
 
-WriteLiteral(">\n                    <i");
+WriteLiteral(">\r\n\r\n                    <i");
 
 WriteLiteral(" class=\"fa fa-times\"");
 
-WriteLiteral("></i>\n                </button>\n            </div>\n            <div");
+WriteLiteral("></i>\r\n\r\n                </button>\r\n\r\n            </div>\r\n\r\n\r\n            <!-- Bo" +
+"dy -->\r\n            <div");
 
 WriteLiteral(" class=\"mini-cart__body\"");
 
-WriteLiteral(">\n");
+WriteLiteral(">\r\n\r\n");
 
             
-            #line 518 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 499 "..\..\Views\Shared\MiniBasket.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 518 "..\..\Views\Shared\MiniBasket.cshtml"
-                 if (lbc.Count > 0)
+            #line 499 "..\..\Views\Shared\MiniBasket.cshtml"
+                 if (lbc != null && lbc.Count > 0)
                 {
                     bool isMultiBuy = false;
                     decimal multibuyAmount = decimal.Zero;
-                    // Counts real product cards actually rendered below - lbc.Count > 0 only
-                    // tells us the basket has SOME lines (could be delivery/discount-only
-                    // lines with no ItemType == Item/AdminDiscount). Without this, a basket
-                    // that has lines but nothing renderable falls through silently blank.
+
                     int cardsRendered = 0;
-                    var list = lbc;
-                    if (list != null && list.Count > 1)
+
+                    /*
+                     * Find products which have a compatible/cross-selling
+                     * alternative that is cheaper.
+                     */
+                    foreach (BasketContents item in lbc)
                     {
-                        foreach (BasketContents item in lbc)
+                        if (item.ItemType != BasketItemType.Item)
                         {
-                            if (item.ItemType != BasketItemType.Item)
-                            { continue; }
-                            if (item.IsCompatible)
-                            { continue; }
-                            if (item.ExcludeFromUpSell)
-                            { continue; }
-                            if (item.CrossSellingStockRef == null || item.CrossSellingStockRef == "")
-                            {
-                                continue;
-                            }
-                            if (item.CrossSellingAvailability != 1 &&
+                            continue;
+                        }
+
+                        if (item.IsCompatible)
+                        {
+                            continue;
+                        }
+
+                        if (item.ExcludeFromUpSell)
+                        {
+                            continue;
+                        }
+
+                        if (String.IsNullOrEmpty(item.CrossSellingStockRef))
+                        {
+                            continue;
+                        }
+
+                        if (item.CrossSellingAvailability != 1 &&
                             item.CrossSellingAvailability != 7)
-                            { continue; }
-                            decimal lineSaving =
+                        {
+                            continue;
+                        }
+
+                        decimal lineSaving =
                             (item.PriceEx - item.CrossSellingPriceEx) * item.Quantity;
-                            if (lineSaving <= 0)
-                            { continue; }
-                            basketSwitchSaving += lineSaving;
+
+                        if (lineSaving <= 0)
+                        {
+                            continue;
+                        }
+
+                        if (!switchProducts.Any(x => x.StockRef == item.StockRef))
+                        {
                             switchProducts.Add(item);
                         }
-                        hasSwitchProducts = switchProducts.Count > 0;
-                        switchCount = switchProducts.Count;
                     }
+
+                    hasSwitchProducts = switchProducts.Count > 0;
+                    switchCount = switchProducts.Count;
+
+                    /*
+                     * Calculate total Switch & Save saving once.
+                     */
+                    basketSwitchSaving = switchProducts.Sum(x =>
+                        (x.PriceEx - x.CrossSellingPriceEx) * x.Quantity
+                    );
+
+
+                    /*
+                     * Switch All
+                     */
                     if (hasSwitchProducts && switchCount > 1)
                     {
 
@@ -373,245 +431,286 @@ WriteLiteral("                        <div");
 
 WriteLiteral(" class=\"switch-save switch-save--all\"");
 
-WriteLiteral(">\n                            <span");
+WriteLiteral(">\r\n\r\n                            <span");
 
 WriteLiteral(" class=\"switch-save__label\"");
 
-WriteLiteral(">\n                                SWITCH &amp; SAVE\n                            <" +
-"/span>\n                            <div");
+WriteLiteral(">\r\n                                SWITCH &amp; SAVE\r\n                           " +
+" </span>\r\n\r\n                            <div");
 
 WriteLiteral(" class=\"switch-save-all__body\"");
 
-WriteLiteral(">\n                                <p");
+WriteLiteral(">\r\n\r\n                                <p");
 
 WriteLiteral(" class=\"switch-save-all__msg\"");
 
-WriteLiteral(">\n                                    Save £");
+WriteLiteral(">\r\n                                    Save £");
 
             
-            #line 563 "..\..\Views\Shared\MiniBasket.cshtml"
-                                     Write(string.Format("{0:N2}", basketSwitchSaving));
+            #line 577 "..\..\Views\Shared\MiniBasket.cshtml"
+                                     Write(basketSwitchSaving.ToString("N2"));
 
             
             #line default
             #line hidden
-WriteLiteral(" by switching your whole basket to compatible products.\n                         " +
-"       </p>\n                                <button");
+WriteLiteral("\r\n                                    by switching your whole basket to compatibl" +
+"e products.\r\n                                </p>\r\n\r\n                           " +
+"     <button");
 
 WriteLiteral(" id=\"btnSwitchAll\"");
 
-WriteLiteral(" type=\"button\"");
+WriteLiteral("\r\n                                        type=\"button\"");
 
-WriteLiteral(" class=\"switch-save__btn\"");
+WriteLiteral("\r\n                                        class=\"switch-save__btn\"");
 
-WriteLiteral(">\n                                    Switch All Products\n                       " +
-"         </button>\n                            </div>\n                        </" +
-"div>\n");
+WriteLiteral(">\r\n\r\n                                    Switch All Products\r\n\r\n                 " +
+"               </button>\r\n\r\n                            </div>\r\n\r\n              " +
+"          </div>\r\n");
 
             
-            #line 570 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 592 "..\..\Views\Shared\MiniBasket.cshtml"
                     }
-                    foreach (BasketContents bc in list)
+
+
+                    /*
+                     * Render basket products
+                     */
+                    foreach (BasketContents bc in lbc)
                     {
-                        if (bc.ItemType == BasketItemType.Item || bc.ItemType == BasketItemType.AdminDiscount)
+                        if (bc.ItemType == BasketItemType.Item ||
+                            bc.ItemType == BasketItemType.AdminDiscount)
                         {
                             cardsRendered++;
-                            // Guard against a null/malformed ProductUrl - if a line's data is
-                            // incomplete, a bare @bc.ProductUrl renders a broken href="" instead
-                            // of failing loudly, so normalize it here and use productUrl below.
-                            var productUrl = !string.IsNullOrEmpty(bc.ProductUrl) && bc.ProductUrl.StartsWith("/")
-                                ? bc.ProductUrl
-                                : "/" + (bc.ProductUrl ?? "");
-                            string neg = bc.ItemType == BasketItemType.AdminDiscount ? "-" : "";
-                            string strike = "";
-                            string discClass = "g-d-n";
-                            decimal discUnitPrice = decimal.Zero;
-                            decimal subt = bc.PriceEx * bc.Quantity;
-                            decimal discountRate = Utilities.GetUpsellRate();
-                            if (!bc.IsCompatible &&
-                            !String.IsNullOrEmpty(bc.CrossSellingStockRef) &&
-                            !bc.ExcludeFromUpSell &&
-                            (bc.CrossSellingAvailability == 1 || bc.CrossSellingAvailability == 7))
+
+                            /*
+                             * Product URL
+                             */
+                            string productUrl = "#";
+
+                            if (!String.IsNullOrEmpty(bc.ProductUrl))
                             {
-                                decimal lineSaving = (bc.PriceEx - bc.CrossSellingPriceEx) * bc.Quantity;
-                                if (lineSaving > 0)
-                                {
-                                    basketSwitchSaving += lineSaving;
-                                    hasSwitchProducts = true;
-                                }
+                                productUrl = bc.ProductUrl.StartsWith("/")
+                                    ? bc.ProductUrl
+                                    : "/" + bc.ProductUrl;
                             }
-                            if (bc.IsCompatible && Session["V_Voucher"] == null &&
-                                Convert.ToBoolean(ConfigurationManager.AppSettings["IsCompatibleUpsellActive"]) &&
-                                !Convert.ToBoolean(Session["U_IsTradeCustomer"]) &&
+
+
+                            /*
+                             * Admin discount
+                             */
+                            string neg =
+                                    bc.ItemType == BasketItemType.AdminDiscount
+                                    ? "-"
+                                    : "";
+
+
+                            /*
+                             * Compatible product discount
+                             */
+                            decimal discUnitPrice = decimal.Zero;
+
+                            decimal discountRate =
+                                Utilities.GetUpsellRate();
+
+
+                            /*
+                             * Normal subtotal
+                             */
+                            decimal subt =
+                                bc.PriceEx * bc.Quantity;
+
+
+                            /*
+                             * Compatible upsell discount
+                             */
+                            if (bc.IsCompatible &&
+                                Session["V_Voucher"] == null &&
+                                Convert.ToBoolean(
+                                    ConfigurationManager.AppSettings[
+                                        "IsCompatibleUpsellActive"
+                                    ]) &&
+                                !isTradeCustomer &&
                                 !isAdminDiscount &&
                                 bc.Quantity > bc.QtyStart)
                             {
-                                discUnitPrice = Math.Round(bc.PriceEx, 2) - Math.Round(bc.PriceEx * discountRate / 100, 2);
-                                subt = discUnitPrice * bc.Quantity;
-                                strike = "g-s";
-                                discClass = "";
+                                discUnitPrice =
+                                    Math.Round(bc.PriceEx, 2)
+                                    -
+                                    Math.Round(
+                                        bc.PriceEx * discountRate / 100,
+                                        2
+                                    );
+
+                                subt =
+                                    discUnitPrice * bc.Quantity;
                             }
+
+
 
             
             #line default
             #line hidden
-WriteLiteral("                            <div>\n                                <div");
+WriteLiteral("                            <div>\r\n\r\n                                <!-- Basket " +
+"Item -->\r\n                                <div");
 
 WriteLiteral(" class=\"cart-item atb-entry\"");
 
-WriteLiteral(" data-productid=\"");
+WriteLiteral("\r\n                                     data-productid=\"");
 
             
-            #line 612 "..\..\Views\Shared\MiniBasket.cshtml"
-                                                                            Write(bc.StockRef);
+            #line 673 "..\..\Views\Shared\MiniBasket.cshtml"
+                                                Write(bc.StockRef);
 
             
             #line default
             #line hidden
 WriteLiteral("\"");
 
-WriteLiteral(">\n                                    <a");
+WriteLiteral(">\r\n\r\n\r\n                                    <!-- Product image -->\r\n              " +
+"                      <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 19077), Tuple.Create("\"", 19095)
+WriteAttribute("href", Tuple.Create(" href=\"", 19570), Tuple.Create("\"", 19588)
             
-            #line 613 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 19084), Tuple.Create<System.Object, System.Int32>(productUrl
-            
-            #line default
-            #line hidden
-, 19084), false)
-);
-
-WriteLiteral(" class=\"cart-item__link\"");
-
-WriteLiteral(">\n                                        <img");
-
-WriteAttribute("src", Tuple.Create(" src=\"", 19166), Tuple.Create("\"", 19184)
-            
-            #line 614 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 19172), Tuple.Create<System.Object, System.Int32>(bc.ImageUrl
+            #line 677 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 19577), Tuple.Create<System.Object, System.Int32>(productUrl
             
             #line default
             #line hidden
-, 19172), false)
+, 19577), false)
 );
 
-WriteAttribute("alt", Tuple.Create("\n                                             alt=\"", 19185), Tuple.Create("\"", 19251)
+WriteLiteral("\r\n                                       class=\"cart-item__link\"");
+
+WriteLiteral(">\r\n\r\n                                        <img");
+
+WriteAttribute("src", Tuple.Create(" src=\"", 19702), Tuple.Create("\"", 19720)
             
-            #line 615 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 19236), Tuple.Create<System.Object, System.Int32>(bc.Description
+            #line 680 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 19708), Tuple.Create<System.Object, System.Int32>(bc.ImageUrl
             
             #line default
             #line hidden
-, 19236), false)
+, 19708), false)
 );
 
-WriteLiteral("\n                                             class=\"cart-item__img\"");
-
-WriteAttribute("onerror", Tuple.Create("\n                                             onerror=\"", 19320), Tuple.Create("\"", 19446)
-, Tuple.Create(Tuple.Create("", 19375), Tuple.Create("this.src=\'", 19375), true)
+WriteAttribute("alt", Tuple.Create("\r\n                                             alt=\"", 19721), Tuple.Create("\"", 19788)
             
-            #line 617 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 19385), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+            #line 681 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 19773), Tuple.Create<System.Object, System.Int32>(bc.Description
             
             #line default
             #line hidden
-, 19385), false)
-, Tuple.Create(Tuple.Create("", 19425), Tuple.Create("/Images/noImage.jpg\';", 19425), true)
+, 19773), false)
 );
 
-WriteLiteral(" />\n                                    </a>\n                                    " +
-"<div");
+WriteLiteral("\r\n                                             class=\"cart-item__img\"");
+
+WriteAttribute("onerror", Tuple.Create("\r\n                                             onerror=\"", 19858), Tuple.Create("\"", 19985)
+, Tuple.Create(Tuple.Create("", 19914), Tuple.Create("this.src=\'", 19914), true)
+            
+            #line 683 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 19924), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+            
+            #line default
+            #line hidden
+, 19924), false)
+, Tuple.Create(Tuple.Create("", 19964), Tuple.Create("/Images/noImage.jpg\';", 19964), true)
+);
+
+WriteLiteral(" />\r\n\r\n                                    </a>\r\n\r\n\r\n                            " +
+"        <!-- Product details -->\r\n                                    <div");
 
 WriteLiteral(" class=\"cart-item__details\"");
 
-WriteLiteral(">\n                                        <a");
+WriteLiteral(">\r\n\r\n                                        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 19603), Tuple.Create("\"", 19621)
+WriteAttribute("href", Tuple.Create(" href=\"", 20215), Tuple.Create("\"", 20233)
             
-            #line 620 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 19610), Tuple.Create<System.Object, System.Int32>(productUrl
+            #line 691 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 20222), Tuple.Create<System.Object, System.Int32>(productUrl
             
             #line default
             #line hidden
-, 19610), false)
+, 20222), false)
 );
 
-WriteLiteral(" class=\"cart-item__title\"");
+WriteLiteral("\r\n                                           class=\"cart-item__title\"");
 
-WriteLiteral(">\n");
+WriteLiteral(">\r\n\r\n");
 
 WriteLiteral("                                            ");
 
             
-            #line 621 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 694 "..\..\Views\Shared\MiniBasket.cshtml"
                                        Write(bc.Description);
 
             
             #line default
             #line hidden
-WriteLiteral("\n                                        </a>\n                                   " +
-"     <div");
+WriteLiteral("\r\n\r\n                                        </a>\r\n\r\n                             " +
+"           <div");
 
 WriteLiteral(" class=\"cart-item__sku\"");
 
-WriteLiteral(">\n                                            Product Code: ");
+WriteLiteral(">\r\n                                            Product Code: ");
 
             
-            #line 624 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 699 "..\..\Views\Shared\MiniBasket.cshtml"
                                                      Write(bc.PartNo);
 
             
             #line default
             #line hidden
-WriteLiteral("\n                                        </div>\n                                 " +
-"       <div");
+WriteLiteral("\r\n                                        </div>\r\n\r\n                             " +
+"           <div");
 
 WriteLiteral(" class=\"cart-item__price\"");
 
-WriteLiteral(">\n");
+WriteLiteral(">\r\n\r\n");
 
 WriteLiteral("                                            ");
 
             
-            #line 627 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 704 "..\..\Views\Shared\MiniBasket.cshtml"
                                        Write(neg);
 
             
             #line default
             #line hidden
             
-            #line 627 "..\..\Views\Shared\MiniBasket.cshtml"
-                                           Write(string.Format("{0:N2}", bc.PriceEx));
+            #line 704 "..\..\Views\Shared\MiniBasket.cshtml"
+                                           Write(bc.PriceEx.ToString("N2"));
 
             
             #line default
             #line hidden
-WriteLiteral("\n                                            <span");
+WriteLiteral("\r\n\r\n                                            <span");
 
 WriteLiteral(" class=\"vat\"");
 
-WriteLiteral(">\n");
+WriteLiteral(">\r\n");
 
 WriteLiteral("                                                ");
 
             
-            #line 629 "..\..\Views\Shared\MiniBasket.cshtml"
-                                            Write(isTradeCustomer ? "Trade Price, ex VAT" : "Ex VAT");
+            #line 707 "..\..\Views\Shared\MiniBasket.cshtml"
+                                            Write(isTradeCustomer
+                                                    ? "Trade Price, ex VAT"
+                                                    : "Ex VAT");
 
             
             #line default
             #line hidden
-WriteLiteral("\n                                            </span>\n");
+WriteLiteral("\r\n                                            </span>\r\n\r\n");
 
             
-            #line 631 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 712 "..\..\Views\Shared\MiniBasket.cshtml"
                                             
             
             #line default
             #line hidden
             
-            #line 631 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 712 "..\..\Views\Shared\MiniBasket.cshtml"
                                              if (discUnitPrice > 0)
                                             {
 
@@ -622,39 +721,41 @@ WriteLiteral("                                                <div");
 
 WriteLiteral(" class=\"price-saving\"");
 
-WriteLiteral(">\n                                                    Save ");
+WriteLiteral(">\r\n                                                    Save\r\n                    " +
+"                                £");
 
             
-            #line 634 "..\..\Views\Shared\MiniBasket.cshtml"
-                                                    Write(string.Format("{0:N2}", bc.PriceEx - discUnitPrice));
+            #line 716 "..\..\Views\Shared\MiniBasket.cshtml"
+                                                 Write(bc.PriceEx - discUnitPrice);
 
             
             #line default
             #line hidden
-WriteLiteral("\n                                                </div>\n");
+WriteLiteral(".ToString(\"N2\")\r\n                                                </div>\r\n");
 
             
-            #line 636 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 718 "..\..\Views\Shared\MiniBasket.cshtml"
                                             }
 
             
             #line default
             #line hidden
-WriteLiteral("                                        </div>\n                                  " +
-"  </div>\n                                    <div");
+WriteLiteral("\r\n                                        </div>\r\n\r\n                             " +
+"       </div>\r\n\r\n\r\n                                    <!-- Actions -->\r\n       " +
+"                             <div");
 
 WriteLiteral(" class=\"cart-item__actions\"");
 
-WriteLiteral(">\n");
+WriteLiteral(">\r\n\r\n");
 
             
-            #line 640 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 728 "..\..\Views\Shared\MiniBasket.cshtml"
                                         
             
             #line default
             #line hidden
             
-            #line 640 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 728 "..\..\Views\Shared\MiniBasket.cshtml"
                                          if (!bc.IsFreeGift)
                                         {
 
@@ -665,10 +766,10 @@ WriteLiteral("                                            <button");
 
 WriteLiteral(" class=\"cart-item__remove basket-remove delete\"");
 
-WriteLiteral("\n                                                    data-productid=\"");
+WriteLiteral("\r\n                                                    data-productid=\"");
 
             
-            #line 643 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 731 "..\..\Views\Shared\MiniBasket.cshtml"
                                                                Write(bc.StockRef);
 
             
@@ -676,36 +777,46 @@ WriteLiteral("\n                                                    data-product
             #line hidden
 WriteLiteral("\"");
 
-WriteLiteral("\n                                                    type=\"button\"");
+WriteLiteral("\r\n                                                    type=\"button\"");
 
-WriteLiteral(">\n                                                <i");
+WriteLiteral("\r\n                                                    aria-label=\"Remove item\"");
+
+WriteLiteral(">\r\n\r\n                                                <i");
 
 WriteLiteral(" class=\"fa fa-trash\"");
 
-WriteLiteral("></i>\n                                            </button>\n");
+WriteLiteral("></i>\r\n\r\n                                            </button>\r\n");
 
+            
+            #line 738 "..\..\Views\Shared\MiniBasket.cshtml"
+
+
+
+            
+            #line default
+            #line hidden
 WriteLiteral("                                            <div");
 
 WriteLiteral(" class=\"qty-stepper\"");
 
-WriteLiteral(">\n                                                <button");
+WriteLiteral(">\r\n\r\n                                                <button");
 
 WriteLiteral(" type=\"button\"");
 
-WriteLiteral("\n                                                        ");
+WriteLiteral("\r\n                                                        ");
 
             
-            #line 649 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 743 "..\..\Views\Shared\MiniBasket.cshtml"
                                                     Write(bc.Quantity <= 1 ? "disabled" : "");
 
             
             #line default
             #line hidden
-WriteLiteral("\n                                                        onclick=\"changeBasketQty" +
-"(\'");
+WriteLiteral("\r\n                                                        onclick=\"changeBasketQt" +
+"y(\'");
 
             
-            #line 650 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 744 "..\..\Views\Shared\MiniBasket.cshtml"
                                                                              Write(bc.StockRef);
 
             
@@ -714,74 +825,83 @@ WriteLiteral("\n                                                        onclick=
 WriteLiteral("\', ");
 
             
-            #line 650 "..\..\Views\Shared\MiniBasket.cshtml"
-                                                                                             Write(Math.Max(1, bc.Quantity-1));
+            #line 744 "..\..\Views\Shared\MiniBasket.cshtml"
+                                                                                             Write(Math.Max(1, bc.Quantity - 1));
 
             
             #line default
             #line hidden
-WriteLiteral(")\">\n                                                    -\n                       " +
-"                         </button>\n                                             " +
-"   <input");
+WriteLiteral(")\">\r\n\r\n                                                    -\r\n\r\n                 " +
+"                               </button>\r\n\r\n                                    " +
+"            <input");
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral("\n                                                       readonly");
+WriteLiteral("\r\n                                                       readonly");
 
-WriteAttribute("value", Tuple.Create("\n                                                       value=\"", 21958), Tuple.Create("\"", 22033)
+WriteAttribute("value", Tuple.Create("\r\n                                                       value=\"", 22964), Tuple.Create("\"", 23040)
             
-            #line 655 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 22021), Tuple.Create<System.Object, System.Int32>(bc.Quantity
+            #line 752 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 23028), Tuple.Create<System.Object, System.Int32>(bc.Quantity
             
             #line default
             #line hidden
-, 22021), false)
+, 23028), false)
 );
 
-WriteLiteral(" />\n                                                <button");
+WriteLiteral(" />\r\n\r\n                                                <button");
 
 WriteLiteral(" type=\"button\"");
 
-WriteAttribute("onclick", Tuple.Create("\n                                                        onclick=\"", 22107), Tuple.Create("\"", 22222)
-, Tuple.Create(Tuple.Create("", 22173), Tuple.Create("changeBasketQty(\'", 22173), true)
+WriteAttribute("onclick", Tuple.Create("\r\n                                                        onclick=\"", 23117), Tuple.Create("\"", 23235)
+, Tuple.Create(Tuple.Create("", 23184), Tuple.Create("changeBasketQty(\'", 23184), true)
             
-            #line 657 "..\..\Views\Shared\MiniBasket.cshtml"
- , Tuple.Create(Tuple.Create("", 22190), Tuple.Create<System.Object, System.Int32>(bc.StockRef
-            
-            #line default
-            #line hidden
-, 22190), false)
-, Tuple.Create(Tuple.Create("", 22202), Tuple.Create("\',", 22202), true)
-            
-            #line 657 "..\..\Views\Shared\MiniBasket.cshtml"
-                , Tuple.Create(Tuple.Create(" ", 22204), Tuple.Create<System.Object, System.Int32>(bc.Quantity+1
+            #line 755 "..\..\Views\Shared\MiniBasket.cshtml"
+ , Tuple.Create(Tuple.Create("", 23201), Tuple.Create<System.Object, System.Int32>(bc.StockRef
             
             #line default
             #line hidden
-, 22205), false)
-, Tuple.Create(Tuple.Create("", 22221), Tuple.Create(")", 22221), true)
+, 23201), false)
+, Tuple.Create(Tuple.Create("", 23213), Tuple.Create("\',", 23213), true)
+            
+            #line 755 "..\..\Views\Shared\MiniBasket.cshtml"
+                , Tuple.Create(Tuple.Create(" ", 23215), Tuple.Create<System.Object, System.Int32>(bc.Quantity + 1
+            
+            #line default
+            #line hidden
+, 23216), false)
+, Tuple.Create(Tuple.Create("", 23234), Tuple.Create(")", 23234), true)
 );
 
-WriteLiteral(">\n                                                    +\n                         " +
-"                       </button>\n                                            </d" +
-"iv>\n");
+WriteLiteral(">\r\n\r\n                                                    +\r\n\r\n                   " +
+"                             </button>\r\n\r\n                                      " +
+"      </div>\r\n");
 
             
-            #line 661 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 762 "..\..\Views\Shared\MiniBasket.cshtml"
                                         }
 
             
             #line default
             #line hidden
-WriteLiteral("                                        ");
+WriteLiteral("\r\n\r\n");
 
             
-            #line 662 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 765 "..\..\Views\Shared\MiniBasket.cshtml"
+                                        
+            
+            #line default
+            #line hidden
+            
+            #line 765 "..\..\Views\Shared\MiniBasket.cshtml"
                                          if (Session["V_Voucher"] != null)
                                         {
-                                            VoucherPromo vp = (VoucherPromo)Session["V_Voucher"];
+                                            VoucherPromo vp =
+                                                (VoucherPromo)Session["V_Voucher"];
+
                                             if (bc.IsVoucherQualifyingItem &&
-                                                vp.VoucherTypeFk == (int)VmVoucherType.Percentage)
+                                                vp.VoucherTypeFk ==
+                                                (int)VmVoucherType.Percentage)
                                             {
 
             
@@ -791,41 +911,59 @@ WriteLiteral("                                                <div");
 
 WriteLiteral(" class=\"voucher-applied\"");
 
-WriteLiteral(">\n                                                    <i");
+WriteLiteral(">\r\n\r\n                                                    <i");
 
 WriteLiteral(" class=\"fa fa-check-circle\"");
 
-WriteLiteral("></i>\n                                                    Voucher Applied\n       " +
-"                                         </div>\n");
+WriteLiteral("></i>\r\n\r\n                                                    Voucher Applied\r\n\r\n " +
+"                                               </div>\r\n");
 
             
-            #line 672 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 781 "..\..\Views\Shared\MiniBasket.cshtml"
                                             }
                                         }
 
             
             #line default
             #line hidden
-WriteLiteral("                                    </div>\n                                </div>" +
-"\n");
+WriteLiteral("\r\n                                    </div>\r\n\r\n                                <" +
+"/div>\r\n\r\n\r\n                                <!-- Switch & Save for this product -" +
+"->\r\n");
 
             
-            #line 676 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 790 "..\..\Views\Shared\MiniBasket.cshtml"
                                 
             
             #line default
             #line hidden
             
-            #line 676 "..\..\Views\Shared\MiniBasket.cshtml"
-                                 if (!bc.IsCompatible && !String.IsNullOrEmpty(bc.CrossSellingStockRef) && !bc.ExcludeFromUpSell)
+            #line 790 "..\..\Views\Shared\MiniBasket.cshtml"
+                                 if (!bc.IsCompatible &&
+                                    !String.IsNullOrEmpty(bc.CrossSellingStockRef) &&
+                                    !bc.ExcludeFromUpSell)
                                 {
-                                    List<int> inStock = new List<int> { 1, 7 };
-                                    if (inStock.Contains(bc.CrossSellingAvailability))
+                                    List<int> inStock =
+                                        new List<int> { 1, 7 };
+
+                                    if (inStock.Contains(
+                                        bc.CrossSellingAvailability))
                                     {
-                                        decimal switchUnitPriceEx = bc.CrossSellingPriceEx;
-                                        decimal switchLinePriceEx = switchUnitPriceEx * bc.Quantity;
-                                        decimal switchLinePriceInc = switchLinePriceEx * Model.VatMultiplier;
-                                        decimal saving = (bc.PriceEx - switchUnitPriceEx) * bc.Quantity;
+                                        decimal switchUnitPriceEx =
+                                            bc.CrossSellingPriceEx;
+
+                                        decimal switchLinePriceEx =
+                                            switchUnitPriceEx * bc.Quantity;
+
+                                        decimal switchLinePriceInc =
+                                            switchLinePriceEx *
+                                            Model.VatMultiplier;
+
+                                        decimal saving =
+                                            (bc.PriceEx -
+                                             switchUnitPriceEx) *
+                                            bc.Quantity;
+
+
                                         if (saving > 0)
                                         {
 
@@ -836,174 +974,207 @@ WriteLiteral("                                            <div");
 
 WriteLiteral(" class=\"switch-save\"");
 
-WriteLiteral(">\n                                                <span");
+WriteLiteral(">\r\n\r\n                                                <span");
 
 WriteLiteral(" class=\"switch-save__label\"");
 
-WriteLiteral(">\n                                                    SWITCH &amp; SAVE\n         " +
-"                                       </span>\n                                 " +
-"               <div");
+WriteLiteral(">\r\n                                                    SWITCH &amp; SAVE\r\n       " +
+"                                         </span>\r\n\r\n                            " +
+"                    <div");
 
 WriteLiteral(" class=\"switch-save__content\"");
 
-WriteLiteral(">\n                                                    <a");
+WriteLiteral(">\r\n\r\n                                                    <!-- Switch product imag" +
+"e -->\r\n                                                    <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 24616), Tuple.Create("\"", 24649)
+WriteAttribute("href", Tuple.Create(" href=\"", 26435), Tuple.Create("\"", 26468)
             
-            #line 692 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 24623), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingProductUrl
+            #line 827 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 26442), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingProductUrl
             
             #line default
             #line hidden
-, 24623), false)
+, 26442), false)
 );
 
-WriteLiteral(">\n                                                        <img");
+WriteLiteral(">\r\n\r\n                                                        <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 24712), Tuple.Create("\"", 24807)
+WriteAttribute("src", Tuple.Create(" src=\"", 26534), Tuple.Create("\"", 26937)
             
-            #line 693 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 24718), Tuple.Create<System.Object, System.Int32>(!String.IsNullOrEmpty(bc.CrossSellingImageURL) ? bc.CrossSellingImageURL : bc.ImageUrl
+            #line 829 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 26540), Tuple.Create<System.Object, System.Int32>(
+                                                            !String.IsNullOrEmpty(
+                                                                bc.CrossSellingImageURL)
+                                                            ? bc.CrossSellingImageURL
+                                                            : bc.ImageUrl
+                                                        
             
             #line default
             #line hidden
-, 24718), false)
+, 26540), false)
 );
 
-WriteAttribute("alt", Tuple.Create("\n                                                             alt=\"", 24808), Tuple.Create("\"", 24902)
+WriteAttribute("alt", Tuple.Create("\r\n                                                             alt=\"", 26938), Tuple.Create("\"", 27033)
             
-            #line 694 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 24875), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingDescription
+            #line 835 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 27006), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingDescription
             
             #line default
             #line hidden
-, 24875), false)
+, 27006), false)
 );
 
-WriteLiteral("\n                                                             class=\"switch-save_" +
-"_img\"");
+WriteLiteral("\r\n                                                             class=\"switch-save" +
+"__img\"");
 
-WriteAttribute("onerror", Tuple.Create("\n                                                             onerror=\"", 24989), Tuple.Create("\"", 25131)
-, Tuple.Create(Tuple.Create("", 25060), Tuple.Create("this.src=\'", 25060), true)
+WriteAttribute("onerror", Tuple.Create("\r\n                                                             onerror=\"", 27121), Tuple.Create("\"", 27264)
+, Tuple.Create(Tuple.Create("", 27193), Tuple.Create("this.src=\'", 27193), true)
             
-            #line 696 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 25070), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+            #line 837 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 27203), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
             
             #line default
             #line hidden
-, 25070), false)
-, Tuple.Create(Tuple.Create("", 25110), Tuple.Create("/Images/noImage.jpg\';", 25110), true)
+, 27203), false)
+, Tuple.Create(Tuple.Create("", 27243), Tuple.Create("/Images/noImage.jpg\';", 27243), true)
 );
 
-WriteLiteral(" />\n                                                    </a>\n                    " +
-"                                <div");
+WriteLiteral(" />\r\n\r\n                                                    </a>\r\n\r\n\r\n            " +
+"                                        <div");
 
 WriteLiteral(" style=\"flex:1;\"");
 
-WriteLiteral(">\n                                                        <a");
+WriteLiteral(">\r\n\r\n                                                        <!-- Switch product " +
+"name -->\r\n                                                        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 25325), Tuple.Create("\"", 25358)
+WriteAttribute("href", Tuple.Create(" href=\"", 27555), Tuple.Create("\"", 27588)
             
-            #line 699 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 25332), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingProductUrl
+            #line 845 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 27562), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingProductUrl
             
             #line default
             #line hidden
-, 25332), false)
+, 27562), false)
 );
 
-WriteLiteral("\n                                                           class=\"switch-save__t" +
-"itle\"");
+WriteLiteral("\r\n                                                           class=\"switch-save__" +
+"title\"");
 
-WriteLiteral(">\n");
+WriteLiteral(">\r\n\r\n");
 
 WriteLiteral("                                                            ");
 
             
-            #line 701 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 848 "..\..\Views\Shared\MiniBasket.cshtml"
                                                        Write(bc.CrossSellingDescription);
 
             
             #line default
             #line hidden
-WriteLiteral("\n                                                        </a>\n                   " +
-"                                     <div");
+WriteLiteral("\r\n\r\n                                                        </a>\r\n\r\n\r\n           " +
+"                                             <!-- Product reference -->\r\n       " +
+"                                                 <div");
 
 WriteLiteral(" class=\"switch-save__sku\"");
 
-WriteLiteral(">\n                                                            Compatible for ");
+WriteLiteral(">\r\n\r\n                                                            Compatible for ");
 
             
-            #line 704 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 856 "..\..\Views\Shared\MiniBasket.cshtml"
                                                                       Write(bc.PartNo);
 
             
             #line default
             #line hidden
-WriteLiteral("\n                                                        </div>\n                 " +
-"                                       <div");
+WriteLiteral("\r\n\r\n                                                        </div>\r\n\r\n\r\n         " +
+"                                               <!-- Availability -->\r\n          " +
+"                                              <div");
 
 WriteLiteral(" class=\"stock-status in-stock\"");
 
-WriteLiteral(">\n                                                            <i");
+WriteLiteral(">\r\n\r\n                                                            <i");
 
 WriteLiteral(" class=\"fa fa-check-circle\"");
 
-WriteLiteral("></i>\n                                                            <span>In Stock<" +
-"/span>\n                                                        </div>\n          " +
-"                                              <div");
+WriteLiteral(@"></i>
+
+                                                            <span>
+                                                                In Stock
+                                                            </span>
+
+                                                        </div>
+
+
+                                                        <!-- Switch price -->
+                                                        <div");
 
 WriteLiteral(" class=\"switch-save__price\"");
 
-WriteLiteral(">\n                                                            £");
+WriteLiteral(">\r\n\r\n                                                            £");
 
             
-            #line 711 "..\..\Views\Shared\MiniBasket.cshtml"
-                                                        Write(string.Format("{0:N2}", switchLinePriceEx));
+            #line 876 "..\..\Views\Shared\MiniBasket.cshtml"
+                                                        Write(switchLinePriceEx.ToString("N2"));
 
             
             #line default
             #line hidden
-WriteLiteral("\n                                                            <span");
+WriteLiteral("\r\n\r\n                                                            <span");
 
 WriteLiteral(" class=\"vat\"");
 
-WriteLiteral(">\n");
+WriteLiteral(">\r\n\r\n");
 
 WriteLiteral("                                                                ");
 
             
-            #line 713 "..\..\Views\Shared\MiniBasket.cshtml"
-                                                            Write(isTradeCustomer ? "Trade Price, ex VAT" : "exc. VAT");
+            #line 880 "..\..\Views\Shared\MiniBasket.cshtml"
+                                                            Write(isTradeCustomer
+                                                                    ? "Trade Price, ex VAT"
+                                                                    : "exc. VAT");
 
             
             #line default
             #line hidden
-WriteLiteral("\n                                                            </span>\n            " +
-"                                            </div>\n                             " +
-"                           <div");
+WriteLiteral(@"
+
+                                                            </span>
+
+                                                        </div>
+
+
+                                                        <!-- Saving -->
+                                                        <div");
 
 WriteLiteral(" class=\"switch-save__save\"");
 
-WriteLiteral(">\n                                                            Save £");
+WriteLiteral(">\r\n\r\n                                                            Save £");
 
             
-            #line 717 "..\..\Views\Shared\MiniBasket.cshtml"
-                                                             Write(string.Format("{0:N2}", saving));
+            #line 892 "..\..\Views\Shared\MiniBasket.cshtml"
+                                                             Write(saving.ToString("N2"));
 
             
             #line default
             #line hidden
-WriteLiteral(" ex VAT\n                                                        </div>\n          " +
-"                                              <button");
+WriteLiteral(@"
+                                                            ex VAT
+
+                                                        </div>
+
+
+                                                        <!-- Switch button -->
+                                                        <button");
 
 WriteLiteral(" class=\"switch-save__btn atb-replace\"");
 
-WriteLiteral("\n                                                                data-productid=\"" +
-"");
+WriteLiteral("\r\n                                                                type=\"button\"");
+
+WriteLiteral("\r\n                                                                data-productid=" +
+"\"");
 
             
-            #line 720 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 901 "..\..\Views\Shared\MiniBasket.cshtml"
                                                                            Write(bc.CrossSellingStockRef);
 
             
@@ -1011,10 +1182,10 @@ WriteLiteral("\n                                                                
             #line hidden
 WriteLiteral("\"");
 
-WriteLiteral("\n                                                                data-price=\"");
+WriteLiteral("\r\n                                                                data-price=\"");
 
             
-            #line 721 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 902 "..\..\Views\Shared\MiniBasket.cshtml"
                                                                        Write(bc.CrossSellingPriceEx);
 
             
@@ -1022,10 +1193,11 @@ WriteLiteral("\n                                                                
             #line hidden
 WriteLiteral("\"");
 
-WriteLiteral("\n                                                                data-removeid=\"");
+WriteLiteral("\r\n                                                                data-removeid=\"" +
+"");
 
             
-            #line 722 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 903 "..\..\Views\Shared\MiniBasket.cshtml"
                                                                           Write(bc.StockRef);
 
             
@@ -1033,10 +1205,10 @@ WriteLiteral("\n                                                                
             #line hidden
 WriteLiteral("\"");
 
-WriteLiteral("\n                                                                data-qty=\"");
+WriteLiteral("\r\n                                                                data-qty=\"");
 
             
-            #line 723 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 904 "..\..\Views\Shared\MiniBasket.cshtml"
                                                                      Write(bc.Quantity);
 
             
@@ -1045,15 +1217,20 @@ WriteLiteral("\n                                                                
 WriteLiteral("\"");
 
 WriteLiteral(@">
+
                                                             Switch Now
+
                                                         </button>
+
                                                     </div>
+
                                                 </div>
+
                                             </div>
 ");
 
             
-            #line 729 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 915 "..\..\Views\Shared\MiniBasket.cshtml"
                                         }
                                     }
                                 }
@@ -1061,11 +1238,16 @@ WriteLiteral(@">
             
             #line default
             #line hidden
-WriteLiteral("                            </div>\n");
+WriteLiteral("\r\n                            </div>\r\n");
 
             
-            #line 733 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 920 "..\..\Views\Shared\MiniBasket.cshtml"
                         }
+
+
+                        /*
+                         * Compatible discount / multibuy line
+                         */
                         if (bc.ItemType == BasketItemType.CompatibleDiscount)
                         {
                             isMultiBuy = true;
@@ -1073,6 +1255,10 @@ WriteLiteral("                            </div>\n");
                         }
                     }
 
+
+                    /*
+                     * Basket contains lines but no actual products.
+                     */
                     if (cardsRendered == 0)
                     {
 
@@ -1083,11 +1269,11 @@ WriteLiteral("                        <div");
 
 WriteLiteral(" class=\"mini-cart__empty\"");
 
-WriteLiteral(">\n                            We\'re just updating your basket - please refresh th" +
-"is page.\n                        </div>\n");
+WriteLiteral(">\r\n\r\n                            We\'re just updating your basket -\r\n             " +
+"               please refresh this page.\r\n\r\n                        </div>\r\n");
 
             
-            #line 746 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 945 "..\..\Views\Shared\MiniBasket.cshtml"
                     }
                 }
                 else
@@ -1100,46 +1286,50 @@ WriteLiteral("                    <div");
 
 WriteLiteral(" class=\"mini-cart__empty\"");
 
-WriteLiteral(">\n                        Your basket is empty.\n                    </div>\n");
+WriteLiteral(">\r\n\r\n                        Your basket is empty.\r\n\r\n                    </div>\r" +
+"\n");
 
             
-            #line 753 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 954 "..\..\Views\Shared\MiniBasket.cshtml"
                 }
 
             
             #line default
             #line hidden
-WriteLiteral("            </div>\n            <div");
+WriteLiteral("\r\n            </div>\r\n\r\n\r\n            <!-- Footer -->\r\n            <div");
 
 WriteLiteral(" class=\"mini-cart__footer\"");
 
-WriteLiteral(">\n                <div");
+WriteLiteral(">\r\n\r\n\r\n                <!-- Total -->\r\n                <div");
 
 WriteLiteral(" class=\"total-row\"");
 
-WriteLiteral(">\n                    <span>Total Payable</span>\n                    <span>\n     " +
-"                   £");
+WriteLiteral(">\r\n\r\n                    <span>\r\n                        Total Payable\r\n         " +
+"           </span>\r\n\r\n                    <span>\r\n                        £");
 
             
-            #line 759 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 971 "..\..\Views\Shared\MiniBasket.cshtml"
                     Write(bt.GrandTotalIncVat.ToString("0.00"));
 
             
             #line default
             #line hidden
-WriteLiteral("\n                    </span>\n                </div>\n");
+WriteLiteral("\r\n                    </span>\r\n\r\n                </div>\r\n\r\n\r\n                <!--" +
+" Voucher -->\r\n");
 
             
-            #line 762 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 978 "..\..\Views\Shared\MiniBasket.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 762 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 978 "..\..\Views\Shared\MiniBasket.cshtml"
                  if (Session["B_VoucherCode"].ToSafeString() != "")
                 {
-                    decimal totalSaving = bt.Voucher + bt.VoucherVat;
+                    decimal totalSaving =
+                        bt.Voucher + bt.VoucherVat;
+
 
             
             #line default
@@ -1150,56 +1340,57 @@ WriteLiteral(" class=\"promo\"");
 
 WriteLiteral(" open=\"open\"");
 
-WriteLiteral(">\n                        <summary>\n                            Promotion Code\n  " +
-"                      </summary>\n                        <div");
+WriteLiteral(">\r\n\r\n                        <summary>\r\n                            Promotion Cod" +
+"e\r\n                        </summary>\r\n\r\n                        <div");
 
 WriteLiteral(" class=\"promo-applied\"");
 
-WriteLiteral(">\n                            <span");
+WriteLiteral(">\r\n\r\n                            <span");
 
 WriteLiteral(" class=\"promo-applied__code\"");
 
-WriteLiteral(">\n");
+WriteLiteral(">\r\n");
 
 WriteLiteral("                                ");
 
             
-            #line 771 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 992 "..\..\Views\Shared\MiniBasket.cshtml"
                            Write(Session["B_VoucherCode"]);
 
             
             #line default
             #line hidden
-WriteLiteral("\n                            </span>\n                            <button");
+WriteLiteral("\r\n                            </span>\r\n\r\n                            <button");
 
 WriteLiteral(" type=\"button\"");
 
-WriteLiteral("\n                                    class=\"voucher-remove\"");
+WriteLiteral("\r\n                                    class=\"voucher-remove\"");
 
-WriteLiteral("\n                                    title=\"Remove voucher code\"");
+WriteLiteral("\r\n                                    title=\"Remove voucher code\"");
 
-WriteLiteral(">\n                                <i");
+WriteLiteral(">\r\n\r\n                                <i");
 
 WriteLiteral(" class=\"fa fa-times\"");
 
-WriteLiteral("></i>\n                            </button>\n                            <span");
+WriteLiteral("></i>\r\n\r\n                            </button>\r\n\r\n                            <sp" +
+"an");
 
 WriteLiteral(" class=\"promo-applied__saving\"");
 
-WriteLiteral(">\n                                -£");
+WriteLiteral(">\r\n\r\n                                -£");
 
             
-            #line 779 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 1005 "..\..\Views\Shared\MiniBasket.cshtml"
                              Write(Math.Abs(totalSaving).ToString("0.00"));
 
             
             #line default
             #line hidden
-WriteLiteral("\n                            </span>\n                        </div>\n             " +
-"       </details>\n");
+WriteLiteral("\r\n\r\n                            </span>\r\n\r\n                        </div>\r\n\r\n    " +
+"                </details>\r\n");
 
             
-            #line 783 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 1012 "..\..\Views\Shared\MiniBasket.cshtml"
                 }
                 else
                 {
@@ -1211,77 +1402,97 @@ WriteLiteral("                    <details");
 
 WriteLiteral(" class=\"promo\"");
 
-WriteLiteral(">\n                        <summary>\n                            Promotion Code\n  " +
-"                      </summary>\n                        <div");
+WriteLiteral(">\r\n\r\n                        <summary>\r\n                            Promotion Cod" +
+"e\r\n                        </summary>\r\n\r\n                        <div");
 
 WriteLiteral(" class=\"promo-form\"");
 
-WriteLiteral(">\n                            <input");
+WriteLiteral(">\r\n\r\n                            <input");
 
 WriteLiteral(" id=\"voucher-code1\"");
 
-WriteLiteral("\n                                   type=\"text\"");
+WriteLiteral("\r\n                                   type=\"text\"");
 
-WriteLiteral("\n                                   placeholder=\"Enter voucher code\"");
+WriteLiteral("\r\n                                   placeholder=\"Enter voucher code\"");
 
-WriteLiteral(" />\n                            <button");
+WriteLiteral(" />\r\n\r\n                            <button");
 
 WriteLiteral(" id=\"apply-voucher\"");
 
-WriteLiteral("\n                                    type=\"button\"");
+WriteLiteral("\r\n                                    type=\"button\"");
 
-WriteLiteral(">\n                                Apply\n                            </button>\n   " +
-"                     </div>\n                        <div");
+WriteLiteral(">\r\n\r\n                                Apply\r\n\r\n                            </butto" +
+"n>\r\n\r\n                        </div>\r\n\r\n                        <div");
 
 WriteLiteral(" id=\"voucher-code-error\"");
 
-WriteLiteral(" class=\"promo-error g-v-h\"");
+WriteLiteral("\r\n                             class=\"promo-error g-v-h\"");
 
-WriteLiteral("></div>\n                    </details>\n");
+WriteLiteral(">\r\n                        </div>\r\n\r\n                    </details>\r\n");
 
             
-            #line 801 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 1041 "..\..\Views\Shared\MiniBasket.cshtml"
                 }
 
             
             #line default
             #line hidden
-WriteLiteral("                <div");
+WriteLiteral("\r\n\r\n                <!-- Delivery -->\r\n                <div");
 
 WriteLiteral(" class=\"free-delivery\"");
 
-WriteLiteral(">\n                    <i");
+WriteLiteral(">\r\n\r\n                    <i");
 
 WriteLiteral(" class=\"fa fa-truck\"");
 
-WriteLiteral("></i>\n                    <span>\n");
+WriteLiteral("></i>\r\n\r\n                    <span>\r\n");
 
 WriteLiteral("                        ");
 
             
-            #line 805 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 1050 "..\..\Views\Shared\MiniBasket.cshtml"
                    Write(deliveryMessage);
 
             
             #line default
             #line hidden
-WriteLiteral("\n                    </span>\n                </div>\n                <button");
+WriteLiteral("\r\n                    </span>\r\n\r\n                </div>\r\n\r\n\r\n                <!--" +
+" Checkout -->\r\n                <button");
 
 WriteLiteral(" class=\"checkout-btn\"");
 
-WriteLiteral("\n                        type=\"button\"");
+WriteLiteral("\r\n                        type=\"button\"");
 
-WriteLiteral("\n                        onclick=\"proceedToCheckout()\"");
+WriteLiteral("\r\n                        onclick=\"proceedToCheckout()\"");
 
-WriteLiteral(">\n                    Proceed to Checkout\n                </button>\n             " +
-"   <a");
+WriteLiteral(">\r\n\r\n                    Proceed to Checkout\r\n\r\n                </button>\r\n\r\n\r\n  " +
+"              <!-- View basket -->\r\n                <a");
 
 WriteLiteral(" href=\"/checkout/\"");
 
-WriteLiteral("\n                   class=\"view-basket-link\"");
+WriteLiteral("\r\n                   class=\"view-basket-link\"");
 
-WriteLiteral(">\n                    View / Edit Basket\n                </a>\n            </div>\n" +
-"        </div>\n    </div>\n</div>\n");
+WriteLiteral(">\r\n\r\n                    View / Edit Basket\r\n\r\n                </a>\r\n\r\n          " +
+"  </div>\r\n\r\n        </div>\r\n\r\n    </div>\r\n\r\n</div>\r\n<script>\r\n    // Open / clos" +
+"e mini cart\r\n    var cartFab = document.getElementById(\'cartFab\');\r\n    var over" +
+"lay = document.getElementById(\'miniCartOverlay\');\r\n    var closeBtn = document.g" +
+"etElementById(\'miniCartClose\');\r\n\r\n    function openCart() {\r\n        overlay.cl" +
+"assList.add(\'is-open\');\r\n        document.body.style.overflow = \'hidden\';\r\n    }" +
+"\r\n    function closeCart() {\r\n        overlay.classList.remove(\'is-open\');\r\n    " +
+"    document.body.style.overflow = \'\';\r\n    }\r\n\r\n    cartFab.addEventListener(\'c" +
+"lick\', openCart);\r\n    closeBtn.addEventListener(\'click\', closeCart);\r\n    overl" +
+"ay.addEventListener(\'click\', function (e) {\r\n        if (e.target === overlay) {" +
+" closeCart(); } // click outside panel closes it\r\n    });\r\n    document.addEvent" +
+"Listener(\'keydown\', function (e) {\r\n        if (e.key === \'Escape\') { closeCart(" +
+"); }\r\n    });\r\n\r\n    document.querySelectorAll(\'.qty-stepper\').forEach(function " +
+"(stepper) {\r\n        var input = stepper.querySelector(\'input\');\r\n        var mi" +
+"nusBtn = stepper.querySelector(\'.qty-minus\');\r\n        var plusBtn = stepper.que" +
+"rySelector(\'.qty-plus\');\r\n        var min = 1;\r\n\r\n        minusBtn.addEventListe" +
+"ner(\'click\', function () {\r\n            var val = parseInt(input.value, 10) || m" +
+"in;\r\n            if (val > min) {\r\n                input.value = val - 1;\r\n     " +
+"       }\r\n        });\r\n\r\n        plusBtn.addEventListener(\'click\', function () {" +
+"\r\n            var val = parseInt(input.value, 10) || min;\r\n            input.val" +
+"ue = val + 1;\r\n        });\r\n    });\r\n</script>\r\n");
 
         }
     }
