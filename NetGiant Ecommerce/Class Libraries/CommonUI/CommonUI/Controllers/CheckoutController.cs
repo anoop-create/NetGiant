@@ -1372,10 +1372,12 @@ namespace CommonUI.Controllers
                 }
 
                 // Also render the mini-cart summary so it can be refreshed in place when the
-                // voucher is applied from there (previously this was left blank and only the
-                // full basket page picked up the applied voucher).
+                // voucher is applied from there. This must render MiniBasket.cshtml (the live
+                // #minibasket-widget markup site.js swaps in via replaceWith) - the retired
+                // BasketSummary.cshtml has no #minibasket-widget wrapper, so replaceWith was
+                // silently matching nothing and the mini-cart never visibly updated.
                 basketSummary = RenderPartialViewToString(
-                    "~/Views/Shared/BasketSummary.cshtml",
+                    "~/Views/Shared/MiniBasket.cshtml",
                     model);
 
                 sr.Html = RenderPartialViewToString(
@@ -1425,7 +1427,10 @@ namespace CommonUI.Controllers
             }
 
             sr.Html = RenderPartialViewToString("~/Views/Checkout/BasketDetails.cshtml", model);
-            string basketSummary = RenderPartialViewToString("~/Views/Shared/BasketSummary.cshtml", model);
+            // basketSummary feeds the mini-cart widget (#minibasket-widget in MiniBasket.cshtml)
+            // via site.js's $('#minibasket-widget').replaceWith(...) - render that view here
+            // instead of the retired BasketSummary.cshtml.
+            string basketSummary = RenderPartialViewToString("~/Views/Shared/MiniBasket.cshtml", model);
 
             BasketTotals bt = (BasketTotals)Session["B_BasketTotals"];
             return Json(new
@@ -1521,7 +1526,10 @@ namespace CommonUI.Controllers
                 }
 
                 sr.Html = RenderPartialViewToString("~/Views/Checkout/BasketDetails.cshtml", model);
-                basketSummary = RenderPartialViewToString("~/Views/Shared/BasketSummary.cshtml", model);
+                // basketSummary feeds the mini-cart widget (#minibasket-widget in
+                // MiniBasket.cshtml) via site.js's $('#minibasket-widget').replaceWith(...) -
+                // render that view here instead of the retired BasketSummary.cshtml.
+                basketSummary = RenderPartialViewToString("~/Views/Shared/MiniBasket.cshtml", model);
             }
 
             BasketTotals bt = (BasketTotals)Session["B_BasketTotals"];
@@ -1704,7 +1712,10 @@ namespace CommonUI.Controllers
             }
 
             sr.Html = RenderPartialViewToString("~/Views/Checkout/BasketDetails.cshtml", model);
-            string basketSummary = RenderPartialViewToString("~/Views/Shared/BasketSummary.cshtml", model);
+            // basketSummary feeds the mini-cart widget (#minibasket-widget in MiniBasket.cshtml)
+            // via site.js's $('#minibasket-widget').replaceWith(...) - render that view here
+            // instead of the retired BasketSummary.cshtml.
+            string basketSummary = RenderPartialViewToString("~/Views/Shared/MiniBasket.cshtml", model);
 
             BasketTotals bt = (BasketTotals)Session["B_BasketTotals"];
             return Json(new

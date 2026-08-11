@@ -582,66 +582,6 @@ function isNumber(evt) {
     return true;
 }
 
-// function changeBasketComplete(data, thisbutton) {
-//     if (!data.savereturn.IsSuccess) {
-//         launchPopup('IsInCheckoutAtb', 'popup');
-//         return false;
-//     }
-//     var ref = thisbutton.attr('data-productid');
-//     var quickreorder = thisbutton.closest('#quick-order').length;
-//     var utilbasketentry = $('#basket > .content');
-//     var itemtype = '1';
-//     if (typeof thisbutton.attr('data-itemtype') !== 'undefined') {
-//         itemtype = thisbutton.attr('data-itemtype');
-//     }
-
-//     $('.basketQuantity').html(data.basketQuantity);
-//     $('.basketTotal').html(data.basketTotal);
-//     $('.basket-counter').html(data.basketQuantity);
-
-//     var t = $('<section>').append($.parseHTML(data.basketSummary));
-//     var h = t.find('div[data-productid="' + ref + '"]');
-
-//     $('#utility-bar #basket').replaceWith(data.basketSummary);
-//     if ($('.hdr-utility-menu.active').length > 0 && quickreorder === 0) {
-//         // utility bar is open, show the basket in the utility bar
-//         utilbasketentry.prev().trigger('click');
-//     } else {
-//         // trigger the added to basket pop up
-//         $('#basketItem, #mobileBasketItem').html(h);
-
-//         if (quickreorder === 0) {
-//             $('.basketMessage').css('right', '105px');
-//         } else {
-//             $('.basketMessage').css('right', '385px');
-//         }
-//         $('.basketMessage').animate({
-//             opacity: 'show',
-//             right: '-=50px'
-//         },
-//             500).delay(3000).animate({
-//                 opacity: 'hide'
-//             },
-//                 500,
-//                 function () {
-//                     $(this).css('right', 105);
-//                 });
-//         $('body').append('<div class="mobileBasketBackdrop hidden-lg hidden-md g-cur-p"/>');
-//         $('.mobileBasketMessage').slideDown(500, function () {
-//             $('.mobileBasketClose').show();
-//         });
-//     }
-
-//     if ($('.product-info-message').length > 0) {
-//         var productentry = $('.body-content button[data-productid="' + ref + '"]').closest('.atb-entry');
-//         productentry.find('.product-info-message').html(data.productInfoMessage).removeClass('g-v-h');
-//         //productentry.find('.product-price-message').html(data.productPriceMessage);
-//     }
-//     setDeferredImages();
-//     if (itemtype === '3') { //= Alert (only actioned from viewbasket or stage1)
-//         refreshViewBasket();
-//     }
-// }
 function changeBasketComplete(data, thisbutton) {
     if (!data.savereturn.IsSuccess) {
         launchPopup('IsInCheckoutAtb', 'popup');
@@ -661,13 +601,15 @@ function changeBasketComplete(data, thisbutton) {
     var t = $('<section>').append($.parseHTML(data.basketSummary));
     var h = t.find('div[data-productid="' + ref + '"]');
 
-    $('#utility-bar #basket').replaceWith(data.basketSummary);
-    if ($('.hdr-utility-menu.active').length > 0 && quickreorder === 0) {
-        // utility bar is open, show the basket in the utility bar.
-        // Query #basket fresh here rather than reusing a reference captured before
-        // replaceWith - replaceWith detaches the old #basket entirely, so a stale reference
-        // has no DOM siblings any more and .prev() on it silently finds nothing.
-        $('#basket > .content').prev().trigger('click');
+    $('#minibasket-widget').replaceWith(data.basketSummary);
+    if ($('#miniCartOverlay').hasClass('is-open') && quickreorder === 0) {
+        // The mini-cart is the new floating-button/overlay widget (#cartFab/#miniCartOverlay
+        // in MiniBasket.cshtml), not the old offcanvas tray - #minibasket-widget was just
+        // replaced wholesale with fresh markup that starts closed by default, so re-open it
+        // by re-adding the 'is-open' class rather than the old "trigger a click on .content"
+        // approach, which doesn't exist in this markup at all.
+        $('#miniCartOverlay').addClass('is-open');
+        $('body').css('overflow', 'hidden');
     } else {
         // trigger the added to basket pop up
         $('#basketItem, #mobileBasketItem').html(h);
@@ -729,7 +671,7 @@ function refreshVbFields(data) {
     $('.basketQuantity').html(data.basketQuantity);
     $('.basketTotal').html(data.basketTotal);
     $('.basket-counter').html(data.basketQuantity);
-    $('#basket').replaceWith(data.basketSummary);
+    $('#minibasket-widget').replaceWith(data.basketSummary);
     setDeferredImages();
     $('input[id^="qty-"]').each(function () {
         $(this).kendoNumericTextBox({
@@ -740,45 +682,98 @@ function refreshVbFields(data) {
     });
 }
 
-// Sets a basket line to an absolute quantity - used by the qty stepper buttons in the
-// mini-cart (BasketSummary.cshtml) and the full basket page (BasketDetails.cshtml).
-// function changeBasketQty(productref, qty) {
-//     var isCheckout = isCurrentPage('/checkout');
+// Sets a basket line to an absolute quantity - used ONLY by the full basket page
+// (BasketDetails.cshtml / BasketDetailsv2.cshtml: qty stepper buttons + the Kendo
+// NumericTextBox Change/Spin handlers above). This was previously commented out entirely
+// while its two call sites above (in refreshVbFields) still referenced it - meaning every
+// call to refreshVbFields threw "changeBasketQty is not defined" and the Kendo qty spinner
+// on the full basket page silently never got wired up. Restored to working order and left
+// otherwise unchanged - the mini-cart has its own independent changeMiniBasketQty() below,
+// so nothing here needs to know about the mini-cart's markup at all.
+function changeBasketQty(productref, qty) {
+    var isCheckout = isCurrentPage('/checkout');
 
-//     $.ajax({
-//         url: "/Product/BasketUpdateQty/",
-//         dataType: 'json',
-//         traditional: true,
-//         type: 'POST',
-//         cache: false,
-//         data: {
-//             productref: productref,
-//             qty: qty
-//         },
-//         async: false,
-//         success: function (data) {
-//             if (!data.savereturn.IsSuccess) {
-//                 launchPopup('IsInCheckout', 'popup');
-//                 return false;
-//             }
+    $.ajax({
+        url: "/Product/BasketUpdateQty/",
+        dataType: 'json',
+        traditional: true,
+        type: 'POST',
+        cache: false,
+        data: {
+            productref: productref,
+            qty: qty
+        },
+        async: false,
+        success: function (data) {
+            if (!data.savereturn.IsSuccess) {
+                launchPopup('IsInCheckout', 'popup');
+                return false;
+            }
 
-//             if (isCheckout) {
-//                 refreshViewBasket();
-//             } else {
-//                 $('#utility-bar #basket').replaceWith(data.basketSummary);
-//                 $('.basketQuantity').html(data.basketQuantity);
-//                 $('.basketTotal').html(data.basketTotal);
-//                 $('.basket-counter').html(data.basketQuantity);
-//                 setDeferredImages();
-//             }
+            if (isCheckout) {
+                refreshViewBasket();
+            } else {
+                $('#minibasket-widget').replaceWith(data.basketSummary);
+                $('.basketQuantity').html(data.basketQuantity);
+                $('.basketTotal').html(data.basketTotal);
+                $('.basket-counter').html(data.basketQuantity);
+                setDeferredImages();
+            }
 
-//             renderPaypalButtonV2();
-//         },
-//         error: function (xhr, textStatus, thrownError) {
-//             logAjaxScriptError("/Product/BasketUpdateQty/", xhr, textStatus, thrownError);
-//         }
-//     });
-// }
+            renderPaypalButtonV2();
+        },
+        error: function (xhr, textStatus, thrownError) {
+            logAjaxScriptError("/Product/BasketUpdateQty/", xhr, textStatus, thrownError);
+        }
+    });
+}
+
+// Sets a basket line to an absolute quantity - used ONLY by the mini-cart's own qty
+// stepper buttons (MiniBasket.cshtml: onclick="changeMiniBasketQty(...)"). Kept fully
+// independent from changeBasketQty above (which the full basket page uses) so a mini-cart
+// fix can never change basket-detail-page behaviour, and vice versa. No isCheckout branch
+// is needed here because this function is never wired up to anything on that page.
+function changeMiniBasketQty(productref, qty) {
+    $.ajax({
+        url: "/Product/BasketUpdateQty/",
+        dataType: 'json',
+        traditional: true,
+        type: 'POST',
+        cache: false,
+        data: {
+            productref: productref,
+            qty: qty
+        },
+        async: false,
+        success: function (data) {
+            if (!data.savereturn.IsSuccess) {
+                launchPopup('IsInCheckout', 'popup');
+                return false;
+            }
+
+            var wasOpen = $('#miniCartOverlay').hasClass('is-open');
+
+            $('#minibasket-widget').replaceWith(data.basketSummary);
+            $('.basketQuantity').html(data.basketQuantity);
+            $('.basketTotal').html(data.basketTotal);
+            $('.basket-counter').html(data.basketQuantity);
+            setDeferredImages();
+
+            if (wasOpen) {
+                // #minibasket-widget's markup was just replaced wholesale and comes back in
+                // its default closed state - re-open it so changing qty from inside the
+                // mini-cart itself doesn't leave the panel looking collapsed/blank.
+                $('#miniCartOverlay').addClass('is-open');
+                $('body').css('overflow', 'hidden');
+            }
+
+            renderPaypalButtonV2();
+        },
+        error: function (xhr, textStatus, thrownError) {
+            logAjaxScriptError("/Product/BasketUpdateQty/", xhr, textStatus, thrownError);
+        }
+    });
+}
 
 // Shared "You May Also Need" lookup - asks the server whether the current basket has any
 // eligible add-on products (in stock, not already in the basket). Calls onEligible(html) if
@@ -820,6 +815,16 @@ function showAddSellPopup(html, context) {
     $('body').append(html);
     $('#you-may-also-need').attr('data-context', context);
     setDeferredImages();
+
+    if (context === 'addtocart') {
+        // The popup is offering add-ons for what was just added - show the mini-cart open
+        // behind it (even if it wasn't already open) so the customer can see what's actually
+        // in their basket right now, instead of just a flying "added" toast with no popup-open
+        // mini-cart behind it. The 'checkout' context (proceedToCheckout) doesn't need this -
+        // that popup is only ever shown from inside an already-open mini-cart.
+        $('#miniCartOverlay').addClass('is-open');
+        $('body').css('overflow', 'hidden');
+    }
 }
 
 // Mini-cart "Proceed to Checkout" click. Checks for eligible "You May Also Need" add-on
@@ -2059,6 +2064,14 @@ $(function () {
                 });
         });
 
+    // Removes a basket line - used ONLY by the full basket page's own remove button
+    // (BasketDetails.cshtml: <button class="basket-remove delete">). This entire success
+    // callback was found commented out - meaning clicking remove on the full basket page
+    // deleted the item server-side but never updated anything on screen. Restored to working
+    // order (keeping the page's original "thisparent captured before replaceWith" approach
+    // unchanged, since that's this handler's pre-existing behaviour, not something to fix
+    // here) - the mini-cart now has its own independent .minibasket-remove handler below so
+    // this one only ever needs to worry about the full basket page.
     $(document).on('click',
         '.basket-remove',
         function () {
@@ -2079,37 +2092,96 @@ $(function () {
                 },
                 async: false,
                 success: function (data) {
-                    // if (!data.savereturn.IsSuccess) {
-                    //     launchPopup('IsInCheckout', 'popup');
-                    //     return false;
-                    // }
-                    // if (isCheckout) {
-                    //     refreshViewBasket();
-                    // } else {
-                    //     $('#utility-bar #basket').replaceWith(data.basketSummary);
-                    //     if ($('.hdr-utility-menu.active').length > 0) {
-                    //         thisparent.prev().trigger('click');
-                    //     }
+                    if (!data.savereturn.IsSuccess) {
+                        launchPopup('IsInCheckout', 'popup');
+                        return false;
+                    }
+                    if (isCheckout) {
+                        refreshViewBasket();
+                    } else {
+                        $('#minibasket-widget').replaceWith(data.basketSummary);
+                        if ($('#miniCartOverlay').hasClass('is-open')) {
+                            $('#miniCartOverlay').addClass('is-open');
+                            $('body').css('overflow', 'hidden');
+                        }
 
-                    //     $('.basketQuantity').html(data.basketQuantity);
-                    //     $('.basketTotal').html(data.basketTotal);
-                    //     $('.basket-counter').html(data.basketQuantity);
+                        $('.basketQuantity').html(data.basketQuantity);
+                        $('.basketTotal').html(data.basketTotal);
+                        $('.basket-counter').html(data.basketQuantity);
 
-                    //     setDeferredImages();
+                        setDeferredImages();
 
-                    //     //See if we can find an entry in the current page
-                    //     var prodentry = $('.body-content .atb-add[data-productid=' + ref + ']');
-                    //     if (prodentry.length > 0) {
-                    //         var thisentry = prodentry.closest('.atb-entry').first();
-                    //         thisentry.find('.atb-count').html('0').parent().addClass('g-v-h');
-                    //         if (thisentry.find('.product-info-message').length > 0) {
-                    //             thisentry.find('.product-info-message').html(data.productInfoMessage).removeClass('g-v-h');
-                    //             thisentry.find('.product-price-message').html(data.productPriceMessage);
-                    //         }
-                    //     }
-                    // }
+                        //See if we can find an entry in the current page
+                        var prodentry = $('.body-content .atb-add[data-productid=' + ref + ']');
+                        if (prodentry.length > 0) {
+                            var thisentry = prodentry.closest('.atb-entry').first();
+                            thisentry.find('.atb-count').html('0').parent().addClass('g-v-h');
+                            if (thisentry.find('.product-info-message').length > 0) {
+                                thisentry.find('.product-info-message').html(data.productInfoMessage).removeClass('g-v-h');
+                                thisentry.find('.product-price-message').html(data.productPriceMessage);
+                            }
+                        }
+                    }
 
-                    // renderPaypalButtonV2();
+                    renderPaypalButtonV2();
+                },
+                error: function (xhr, textStatus, thrownError) {
+                    logAjaxScriptError("/Product/BasketDelete/", xhr, textStatus, thrownError);
+                }
+            });
+        });
+
+    // Removes a basket line - used ONLY by the mini-cart's own remove button
+    // (MiniBasket.cshtml: <button class="minibasket-remove delete">). Kept fully
+    // independent from .basket-remove above (which the full basket page uses) so a
+    // mini-cart fix can never change basket-detail-page behaviour, and vice versa.
+    $(document).on('click',
+        '.minibasket-remove',
+        function () {
+            var ref = $(this).attr('data-productid');
+
+            $.ajax({
+                url: "/Product/BasketDelete/",
+                dataType: 'json',
+                traditional: true,
+                type: 'POST',
+                cache: false,
+                data: {
+                    productref: ref
+                },
+                async: false,
+                success: function (data) {
+                    if (!data.savereturn.IsSuccess) {
+                        launchPopup('IsInCheckout', 'popup');
+                        return false;
+                    }
+
+                    var wasOpen = $('#miniCartOverlay').hasClass('is-open');
+
+                    $('#minibasket-widget').replaceWith(data.basketSummary);
+
+                    if (wasOpen) {
+                        $('#miniCartOverlay').addClass('is-open');
+                        $('body').css('overflow', 'hidden');
+                    }
+
+                    $('.basketQuantity').html(data.basketQuantity);
+                    $('.basketTotal').html(data.basketTotal);
+                    $('.basket-counter').html(data.basketQuantity);
+
+                    setDeferredImages();
+
+                    var prodentry = $('.body-content .atb-add[data-productid=' + ref + ']');
+                    if (prodentry.length > 0) {
+                        var thisentry = prodentry.closest('.atb-entry').first();
+                        thisentry.find('.atb-count').html('0').parent().addClass('g-v-h');
+                        if (thisentry.find('.product-info-message').length > 0) {
+                            thisentry.find('.product-info-message').html(data.productInfoMessage).removeClass('g-v-h');
+                            thisentry.find('.product-price-message').html(data.productPriceMessage);
+                        }
+                    }
+
+                    renderPaypalButtonV2();
                 },
                 error: function (xhr, textStatus, thrownError) {
                     logAjaxScriptError("/Product/BasketDelete/", xhr, textStatus, thrownError);
@@ -2153,6 +2225,55 @@ $(function () {
                 }
             });
         });
+    // Mini-cart's own "Switch Now" button - independent of the shared .atb-replace used on the
+    // basket-detail page (which goes through refreshViewBasket()). This one talks to
+    // /Product/BasketReplace/ directly and swaps in data.basketSummary itself, so it needs its
+    // own wasOpen/reopen handling for the overlay.
+    $(document).on('click',
+        '.minibasket-replace',
+        function () {
+            var ref = $(this).attr('data-productid');
+            var price = 0;
+            var qty = $(this).attr('data-qty');
+            var refremove = $(this).attr('data-removeid');
+            var wasOpen = $('#miniCartOverlay').hasClass('is-open');
+
+            $.ajax({
+                url: "/Product/BasketReplace/",
+                dataType: 'json',
+                traditional: true,
+                type: 'POST',
+                cache: false,
+                data: {
+                    productref: ref,
+                    productprice: price,
+                    productqty: qty,
+                    productrefremove: refremove
+                },
+                async: false,
+                success: function (data) {
+                    if (!data.savereturn.IsSuccess) {
+                        launchPopup('IsInCheckout', 'popup');
+                        return false;
+                    }
+                    $('#minibasket-widget').replaceWith(data.basketSummary);
+                    $('.basketQuantity').html(data.basketQuantity);
+                    $('.basketTotal').html(data.basketTotal);
+                    $('.basket-counter').html(data.basketQuantity);
+                    setDeferredImages();
+                    if (wasOpen) {
+                        $('#miniCartOverlay').addClass('is-open');
+                        $('body').css('overflow', 'hidden');
+                    }
+                    renderPaypalButtonV2();
+                    maybeShowAddSellPopupAfterAdd();
+
+                },
+                error: function (xhr, textStatus, thrownError) {
+                    logAjaxScriptError("/Product/BasketReplace/", xhr, textStatus, thrownError);
+                }
+            });
+        });
     $(document).on("click", "#btnSwitchAll", function () {
         $.ajax({
             url: "/Product/BasketReplaceAll/",
@@ -2177,14 +2298,61 @@ $(function () {
             }
         });
     });
-    // Mini-cart promotion code - apply
-    $(document).on('click', '#apply-voucher', function () {
-        var code = $.trim($('#voucher-code1').val());
-        var $error = $('#voucher-code-error');
+    // Mini-cart "Switch All" button - independent of the shared #btnSwitchAll used on the
+    // basket-detail page (which goes through refreshViewBasket()). This one talks to
+    // /Product/BasketReplaceAll/ directly and swaps in data.basketSummary itself, so it needs
+    // its own wasOpen/reopen handling for the overlay.
+    $(document).on('click', '#btnMiniBasketSwitchAll', function () {
+        var wasOpen = $('#miniCartOverlay').hasClass('is-open');
+        $.ajax({
+            url: "/Product/BasketReplaceAll/",
+            type: "POST",
+            dataType: "json",
+            cache: false,
+
+            success: function (data) {
+
+                if (!data.savereturn.IsSuccess) {
+                    launchPopup('IsInCheckout', 'popup');
+                    return;
+                }
+
+                $('#minibasket-widget').replaceWith(data.basketSummary);
+                $('.basketQuantity').html(data.basketQuantity);
+                $('.basketTotal').html(data.basketTotal);
+                $('.basket-counter').html(data.basketQuantity);
+                setDeferredImages();
+                if (wasOpen) {
+                    $('#miniCartOverlay').addClass('is-open');
+                    $('body').css('overflow', 'hidden');
+                }
+                renderPaypalButtonV2();
+                maybeShowAddSellPopupAfterAdd();
+            },
+
+            error: function (xhr, textStatus, thrownError) {
+                logAjaxScriptError("/Product/BasketReplaceAll/", xhr, textStatus, thrownError);
+            }
+        });
+    });
+
+    // Mini-cart promotion code - apply. Independent of the basket-detail page's own Apply
+    // Voucher button/flow (id="apply-voucher", handled in checkout.js reading #voucher-code).
+    // This used to share the "#apply-voucher" id with the mini-cart's old markup, which meant
+    // this handler (reading the mini-cart's own field) fired redundantly every time the
+    // basket-detail page's own button was clicked too. The mini-cart's button/field now have
+    // their own dedicated class/id (.minibasket-apply-voucher / #minibasket-voucher-code), so
+    // this handler is scoped to the mini-cart only and no longer collides with checkout.js's
+    // handler for the basket-detail page.
+    $(document).on('click', '.minibasket-apply-voucher', function () {
+        var code = $.trim($('#minibasket-voucher-code').val());
+        var $error = $('#minibasket-voucher-code-error');
 
         if (!code) {
             return false;
         }
+
+        var wasOpen = $('#miniCartOverlay').hasClass('is-open');
 
         $.ajax({
             url: "/Checkout/ApplyVoucher/",
@@ -2204,11 +2372,15 @@ $(function () {
                     return false;
                 }
 
-                $('#utility-bar #basket').replaceWith(data.basketSummary);
+                $('#minibasket-widget').replaceWith(data.basketSummary);
                 $('.basketQuantity').html(data.basketQuantity);
                 $('.basketTotal').html(data.basketTotal);
                 $('.basket-counter').html(data.basketQuantity);
                 setDeferredImages();
+                if (wasOpen) {
+                    $('#miniCartOverlay').addClass('is-open');
+                    $('body').css('overflow', 'hidden');
+                }
                 renderPaypalButtonV2();
             },
             error: function (xhr, textStatus, thrownError) {
@@ -2217,8 +2389,11 @@ $(function () {
         });
     });
 
-    // Mini-cart promotion code - remove
-    $(document).on('click', '.voucher-remove', function () {
+    // Mini-cart promotion code - remove. Independent of the basket-detail page's own
+    // ".remove-voucher" link (handled separately in checkout.js) - the mini-cart's own remove
+    // button uses its own ".minibasket-voucher-remove" class, not shared with that page.
+    $(document).on('click', '.minibasket-voucher-remove', function () {
+        var wasOpen = $('#miniCartOverlay').hasClass('is-open');
         $.ajax({
             url: "/Checkout/RemoveVoucher/",
             dataType: 'json',
@@ -2227,11 +2402,15 @@ $(function () {
             cache: false,
             async: false,
             success: function (data) {
-                $('#utility-bar #basket').replaceWith(data.basketSummary);
+                $('#minibasket-widget').replaceWith(data.basketSummary);
                 $('.basketQuantity').html(data.basketQuantity);
                 $('.basketTotal').html(data.basketTotal);
                 $('.basket-counter').html(data.basketQuantity);
                 setDeferredImages();
+                if (wasOpen) {
+                    $('#miniCartOverlay').addClass('is-open');
+                    $('body').css('overflow', 'hidden');
+                }
                 renderPaypalButtonV2();
             },
             error: function (xhr, textStatus, thrownError) {
@@ -2307,6 +2486,7 @@ $(function () {
     $(document).on('click', '.ymn-add', function () {
         var ref = $(this).attr('data-productid');
         var thisbutton = $(this);
+        var wasOpen = $('#miniCartOverlay').hasClass('is-open');
 
         $.ajax({
             url: "/Product/BasketAdd/",
@@ -2327,11 +2507,15 @@ $(function () {
                     return false;
                 }
 
-                $('#utility-bar #basket').replaceWith(data.basketSummary);
+                $('#minibasket-widget').replaceWith(data.basketSummary);
                 $('.basketQuantity').html(data.basketQuantity);
                 $('.basketTotal').html(data.basketTotal);
                 $('.basket-counter').html(data.basketQuantity);
                 setDeferredImages();
+                if (wasOpen) {
+                    $('#miniCartOverlay').addClass('is-open');
+                    $('body').css('overflow', 'hidden');
+                }
                 thisbutton.text('Added').prop('disabled', true);
             },
             error: function (xhr, textStatus, thrownError) {
