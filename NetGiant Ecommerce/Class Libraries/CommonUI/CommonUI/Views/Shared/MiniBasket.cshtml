@@ -387,6 +387,59 @@
         .checkout-btn:hover {
             background: #008f45;
         }
+    a.view-basket-link {
+        text-align: center;
+        display: block;
+        font-size: 12px;
+        margin-top: 9px;
+        color: #666;
+        text-decoration: none;
+    }
+
+        a.view-basket-link:hover {
+            text-align: center;
+            color: #09c;
+        }
+
+        a.view-basket-link:focus {
+            outline: none;
+            border: none
+        }
+
+    .stock-status.in-stock {
+        color: #008340
+    }
+
+    .switch-save p {
+        color: #2E2E2E;
+        line-height: 18px;
+    }
+
+    .cart-item__sku, .switch-save__sku {
+        color: #333333;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .cart-item__actions i {
+        color: #0099ccab;
+        font-size: 18px;
+    }
+
+    .cart-item__actions i:hover {
+            color: #09c;
+        }
+
+    .mini-cart {
+        max-width: 360px !important;
+        width: 360px !important;
+    }
+
+    .switch-save__price {
+        font-size: 14px;
+        color: #09c;
+    }
+
 </style>
 <!-- Single stable wrapper around the whole widget (button + overlay + its script) so AJAX
      handlers in site.js have exactly one element to target with replaceWith(data.basketSummary) -
@@ -504,7 +557,7 @@
                                 </span>
                                 <div class="switch-save-all__body">
                                     <p class="switch-save-all__msg">
-                                        Save £@basketSwitchSaving.ToString("N2")
+                                        Save <strong>£@(basketSwitchSaving.ToString("N2"))</strong>
                                         by switching your whole basket to compatible products.
                                     </p>
                                     <button id="btnMiniBasketSwitchAll"
@@ -837,10 +890,12 @@
                         Proceed to Checkout
                     </button>
                     <!-- View basket -->
-                    <a href="/checkout/"
-                       class="view-basket-link">
-                        View / Edit Basket
-                    </a>
+                    <div class="checkout-edit">
+                        <a href="/checkout/"
+                           class="view-basket-link">
+                            View / Edit Basket
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
