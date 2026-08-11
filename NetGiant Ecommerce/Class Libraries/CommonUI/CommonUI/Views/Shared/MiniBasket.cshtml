@@ -30,791 +30,552 @@
     string deliveryMessage = beforeDeliveryCutoff ? "Free Next Day Delivery" : "Free Next Working Day Delivery";
 }
 <style>
-    @@media (min-width: 992px) {
-        .hdr-utility-menu {
-            background-color: rgb(255 255 255 / 100%) !important;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-    }
+:root {
+ --dark:#2b2b2b;
+ --pink:#e6007e;
+ --green:#00a651;
+ --border:#e5e5e5;
+ --text:#333;
+ --muted:#777;
+}
+/* Floating cart button */
+.cart-fab {
+	position: fixed;
+	right: 6px;
+	top: 36px;
+	transform: translateY(-50%);
+	z-index: 9998;
+	width: 56px;
+	height: 56px;
+	border-radius: 4px;
+	background: #0099cc;
+	color: #fff;
+	border: none;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.cart-fab:hover { background:#000; }
+.cart-fab__count {
+	position:absolute;
+	top:-4px;
+	right:-4px;
+	background:var(--pink);
+	color:#fff;
+	font-size:11px;
+	font-weight:700;
+	min-width:18px;
+	height:18px;
+	border-radius:9px;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	padding:0 4px;
+}
+/* Overlay + slide-in panel */
+.mini-cart-overlay {
+	position:fixed;
+	inset:0;
+	background:rgba(0,0,0,0.4);
+	z-index:9999;
+	opacity:0;
+	pointer-events:none;
+	transition:opacity .25s ease;
+}
+.mini-cart-overlay.is-open {
+	opacity:1;
+	pointer-events:auto;
+}
+.mini-cart-wrap {
+	position:fixed;
+	top:0;
+	right:0;
+	height:auto;
+	z-index:10000;
+	transform:translateX(100%);
+	transition:transform .25s ease;
+}
+.mini-cart-overlay.is-open .mini-cart-wrap {
+	transform:translateX(0);
+}
+.mini-cart {
+	max-width:300px;
+	width:300px;
+	background:#fff;
+	display:flex;
+	flex-direction:column;
+	height:100%;
+	max-height:100vh;
+}
+.mini-cart__header {
+	background:var(--dark);
+	color:#fff;
+	padding:14px 16px;
+	display:flex;
+	align-items:center;
+	justify-content:space-between;
+	font-size:16px;
+	font-weight:600;
+}
+.mini-cart__close {
+	background:none;
+	border:none;
+	color:#fff;
+	font-size:18px;
+	line-height:1;
+	cursor:pointer;
+	width:26px;
+	height:26px;
+	border:1px solid #666;
+	border-radius:50%;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	padding:0;
+}
+.mini-cart__close:hover {
+	background:rgba(255,255,255,0.15);
+}
+.mini-cart__body {
+	flex:1;
+	overflow-y:auto;
+	padding:12px 16px;
+}
+/* Cart item */
+  .cart-item {
+	display:flex;
+	gap:10px;
+	padding:14px 0;
+	border-bottom:1px solid var(--border);
+}
+.cart-item__link {
+	flex-shrink:0;
+	display:block;
+}
+.cart-item__img {
+	width:48px;
+	height:48px;
+	object-fit:contain;
+	flex-shrink:0;
+}
+.cart-item__details {
+	flex:1;
+	min-width:0;
+}
+.cart-item__title {
+	display:block;
+	font-size:13px;
+	font-weight:600;
+	color:var(--text);
+	margin:0 0 11px;
+	line-height:1.3;
+	text-decoration:none;
+}
+.cart-item__title:hover {
+	color:#000;
+	text-decoration:underline;
+}
+.cart-item__sku {
+	font-size:11px;
+	color:var(--muted);
+	margin:0 0 6px;
+}
+.cart-item__price {
+	font-size:17px;
+	font-weight:700;
+	color:#09c;
+	margin:0;
+}
+.cart-item__price .vat {
+	font-size:11px;
+	font-weight:400;
+	color:var(--muted);
+}
+.cart-item__actions {
+	display:flex;
+	flex-direction:column;
+	align-items:flex-end;
+	justify-content:space-between;
+	gap:8px;
+}
+.cart-item__remove {
+	background:none;
+	border:none;
+	cursor:pointer;
+	color:var(--muted);
+	font-size:14px;
+}
+.qty-stepper {
+	display:flex;
+	align-items:center;
+	border:1px solid var(--border);
+	border-radius:4px;
+	overflow:hidden;
+}
+.qty-stepper button {
+	background:#fafafa;
+	border:none;
+	width:24px;
+	height:24px;
+	cursor:pointer;
+	font-size:14px;
+	line-height:1;
+	color:#000000;
+}
+.qty-stepper input {
+	width:28px;
+	text-align:center;
+	border:none;
+	border-left:1px solid var(--border);
+	border-right:1px solid var(--border);
+	font-size:13px;
+	height:24px;
+	color:#000000;
+}
+/* Switch & Save */
+  .switch-save {
+	border:1px solid var(--pink);
+	border-radius:6px;
+	padding:14px;
+	margin:10px 0 16px;
+	position:relative;
+}
+.switch-save__label {
+	position:absolute;
+	top:-9px;
+	left:12px;
+	background:#fff;
+	padding:0 6px;
+	color:var(--pink);
+	font-size:12px;
+	font-weight:700;
+}
+.switch-save__content {
+	display:flex;
+	gap:10px;
+}
+.switch-save__img {
+	width:48px;
+	height:48px;
+	object-fit:contain;
+	flex-shrink:0;
+}
+.switch-save__title {
+	display:block;
+	font-size:13px;
+	font-weight:600;
+	color:var(--text);
+	text-decoration:none;
+	margin:0 0 4px;
+}
+.switch-save__title:hover {
+	color:var(--pink);
+	text-decoration:underline;
+}
+.switch-save__sku {
+	font-size:11px;
+	color:var(--muted);
+	margin:0 0 6px;
+}
+.switch-save__price {
+	font-size:14px;
+	font-weight:700;
+	margin:0 0 2px;
+	color:#000000;
+}
+.switch-save__save {
+	font-size:12px;
+	font-weight:700;
+	color:var(--pink);
+	margin:0 0 10px;
+}
+.switch-save__btn {
+	display:block;
+	width:100%;
+	background:#fff;
+	border:1px solid var(--pink);
+	color:var(--pink);
+	font-weight:700;
+	font-size:13px;
+	padding:8px;
+	border-radius:4px;
+	cursor:pointer;
+}
+/* Footer */
+  .mini-cart__footer {
+	border-top:1px solid var(--border);
+	padding:14px 16px 16px;
+}
+.total-row {
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+	font-size:16px;
+	font-weight:700;
+	margin-bottom:10px;
+	color:#000000;
+}
+.promo {
+	margin-bottom:12px;
+}
+.promo summary {
+	font-size:13px;
+	color:#000;
+	cursor:pointer;
+	list-style:none;
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+	padding:4px 0;
+}
+ .promo summary::-webkit-details-marker {
+display:none;
+}
+ .promo summary::after {
+ content:"▾";
+ transition:transform .2s;
+ font-size: 20px;
+}
+ .promo[open] summary::after {
+ transform:rotate(180deg);
+}
+.promo-form {
+	display:flex;
+	gap:8px;
+	margin-top:8px;
+}
+.promo-form input {
+	flex:1;
+	border:1px solid var(--border);
+	border-radius:4px;
+	padding:8px 10px;
+	font-size:13px;
+}
+.promo-form button {
+	background:var(--green);
+	color:#fff;
+	border:none;
+	border-radius:4px;
+	padding:8px 16px;
+	font-size:13px;
+	font-weight:600;
+	cursor:pointer;
+}
+.free-delivery {
+	display:flex;
+	align-items:center;
+	gap:6px;
+	font-size:12px;
+	color:var(--green);
+	margin-bottom:12px;
+}
+.checkout-btn {
+	display:block;
+	width:100%;
+	background:var(--green);
+	color:#fff;
+	border:none;
+	border-radius:4px;
+	padding:14px;
+	font-size:15px;
+	font-weight:700;
+	cursor:pointer;
+}
+.checkout-btn:hover {
+	background:#008f45;
+}
 
-    :root {
-        --dark: #2b2b2b;
-        --pink: #e6007e;
-        --green: #00a651;
-        --border: #e5e5e5;
-        --text: #333;
-        --muted: #777;
-    }
-
-    .mini-cart {
-        max-width: 100%;
-        margin: 0 auto;
-        background: #fff;
-        border: 1px solid var(--border);
-        display: flex;
-        flex-direction: column;
-        max-height: 90vh;
-    }
-
-    .mini-cart__header {
-        background: var(--dark);
-        color: #fff;
-        padding: 14px 16px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 16px;
-        font-weight: 600;
-    }
-
-    .mini-cart__close {
-        background: none;
-        border: none;
-        color: #fff;
-        font-size: 16px;
-        cursor: pointer;
-        width: 26px;
-        height: 26px;
-        border: 1px solid #666;
-        border-radius: 50%;
-    }
-
-    .mini-cart__body {
-        flex: 1;
-        overflow-y: auto;
-        padding: 12px 16px;
-    }
-    /* Cart item */
-    .cart-item {
-        display: flex;
-        gap: 10px;
-        padding: 14px 0;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .cart-item__link {
-        flex-shrink: 0;
-        display: block;
-    }
-
-    .cart-item__img {
-        width: 48px;
-        height: 48px;
-        object-fit: contain;
-        flex-shrink: 0;
-    }
-
-    .cart-item__details {
-        flex: 1;
-        min-width: 0;
-    }
-
-    .cart-item__title {
-        display: block;
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--text);
-        margin: 0 0 6px;
-        line-height: 1.3;
-        text-decoration: none;
-    }
-
-        .cart-item__title:hover {
-            color: #000;
-            text-decoration: underline;
-        }
-
-    .cart-item__sku {
-        font-size: 11px;
-        color: var(--muted);
-        margin: 0 0 6px;
-    }
-
-    .cart-item__price {
-        font-size: 17px;
-        font-weight: 700;
-        color: #09c;
-        margin: 0;
-    }
-
-        .cart-item__price .vat {
-            font-size: 11px;
-            font-weight: 400;
-            color: var(--muted);
-        }
-
-    .cart-item__actions {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        justify-content: space-between;
-        gap: 8px;
-    }
-
-    .cart-item__remove {
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: var(--muted);
-        font-size: 14px;
-    }
-
-    .qty-stepper {
-        display: flex;
-        align-items: center;
-        border: 1px solid var(--border);
-        border-radius: 4px;
-        overflow: hidden;
-    }
-
-        .qty-stepper button {
-            background: #fafafa;
-            border: none;
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            font-size: 14px;
-            line-height: 1;
-            color: #000000;
-        }
-
-        .qty-stepper input {
-            width: 28px;
-            text-align: center;
-            border: none;
-            border-left: 1px solid var(--border);
-            border-right: 1px solid var(--border);
-            font-size: 13px;
-            height: 24px;
-            color: #000000;
-        }
-    /* Switch & Save */
-    .switch-save {
-        border: 1px solid var(--pink);
-        border-radius: 6px;
-        padding: 14px;
-        margin: 10px 0 16px;
-        position: relative;
-    }
-
-    .switch-save__label {
-        position: absolute;
-        top: -9px;
-        left: 12px;
-        background: #fff;
-        padding: 0 6px;
-        color: var(--pink);
-        font-size: 12px;
-        font-weight: 700;
-    }
-
-    .switch-save__content {
-        display: flex;
-        gap: 10px;
-    }
-
-    .switch-save__img {
-        width: 48px;
-        height: 48px;
-        object-fit: contain;
-        flex-shrink: 0;
-    }
-
-    .switch-save__title {
-        display: block;
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--text);
-        text-decoration: none;
-        margin: 0 0 4px;
-    }
-
-        .switch-save__title:hover {
-            color: var(--pink);
-            text-decoration: underline;
-        }
-
-    .switch-save__sku {
-        font-size: 11px;
-        color: var(--muted);
-        margin: 0 0 6px;
-    }
-
-    .switch-save__price {
-        font-size: 14px;
-        font-weight: 700;
-        margin: 0 0 2px;
-        color: #000000;
-    }
-
-    .switch-save__save {
-        font-size: 12px;
-        font-weight: 700;
-        color: var(--pink);
-        margin: 0 0 10px;
-    }
-
-    .switch-save__btn {
-        display: block;
-        width: 100%;
-        background: #fff;
-        border: 1px solid var(--pink);
-        color: var(--pink);
-        font-weight: 700;
-        font-size: 13px;
-        padding: 8px;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-    /* Footer */
-    .mini-cart__footer {
-        border-top: 1px solid var(--border);
-        padding: 14px 16px 16px;
-    }
-
-    .total-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 16px;
-        font-weight: 700;
-        margin-bottom: 10px;
-        color: #000000;
-    }
-
-    .promo {
-        margin-bottom: 12px;
-    }
-
-        .promo summary {
-            font-size: 13px;
-            color: #000;
-            cursor: pointer;
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 4px 0;
-        }
-
-            .promo summary::-webkit-details-marker {
-                display: none;
-            }
-
-            .promo summary::after {
-                content: "▾";
-                transition: transform .2s;
-                font-size: 20px;
-            }
-
-        .promo[open] summary::after {
-            transform: rotate(180deg);
-        }
-
-    .promo-form {
-        display: flex;
-        gap: 8px;
-        margin-top: 8px;
-    }
-
-        .promo-form input {
-            flex: 1;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            padding: 8px 10px;
-            font-size: 13px;
-        }
-
-        .promo-form button {
-            background: var(--green);
-            color: #fff !important;
-            border: none;
-            border-radius: 4px;
-            padding: 8px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-    .free-delivery {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 12px;
-        color: var(--green);
-        margin-bottom: 12px;
-    }
-
-    .checkout-btn {
-        display: block;
-        width: 100%;
-        background: var(--green);
-        color: #fff !important;
-        border: none;
-        border-radius: 4px;
-        padding: 14px;
-        font-size: 15px;
-        font-weight: 700;
-        cursor: pointer;
-    }
-
-        .checkout-btn:hover {
-            background: #008f45;
-        }
-
-    .sidebar-offcanvas * {
-        color: black !important;
-    }
-    /*16-08-26*/
-    @@media (min-width: 992px) {
-        .hdr-utility-menu .navbar-toggle > div {
-            padding: 0 0px !important;
-        }
-
-        .hdr-utility-menu .active .header {
-            padding: 0px 10px !important;
-        }
-
-            .hdr-utility-menu .active .header span {
-                color: #fff !important;
-                font-size: 18px
-            }
-
-        .mini-cart__header small {
-            color: #fff !important;
-            font-weight: 500 !important;
-        }
-
-        .mini-cart__header button i {
-            color: #fff !important;
-            font-weight: 500 !important;
-        }
-
-        .free-delivery span {
-            color: #00a651 !important;
-            font-weight: 500;
-        }
-
-        .free-delivery i {
-            color: #00a651 !important;
-            font-weight: 500;
-        }
-
-        .stock-status.in-stock span, .stock-status.in-stock i {
-            color: #00a651 !important;
-            font-weight: 600
-        }
-
-        .stock-status.in-stock span, .stock-status.in-stock i {
-            color: #00a651 !important;
-            font-weight: 600;
-            margin-bottom: 8px
-        }
-
-        .delivery-cutoff {
-            color: #262626 !important;
-            margin-bottom: 8px
-        }
-
-            .delivery-cutoff i {
-                color: #262626 !important;
-            }
-
-        .cart-item__price {
-            color: #09c !important
-        }
-
-        .switch-save__price strong {
-            color: #09c !important
-        }
-
-        .switch-save__save {
-            color: #09c !important;
-            font-size: 16px;
-            margin-top: 6px;
-        }
-
-        .cart-item__remove i {
-            color: #ff0000ad !important;
-            font-size: 18px
-        }
-
-        .sidebar-offcanvas .checkout-btn {
-            color: #fff !important;
-        }
-
-        .view-basket-link {
-            display: block;
-            text-align: center;
-            margin-top: 12px;
-        }
-        .view-basket-link:hover { text-decoration:underline}
-
-    .hdr-utility-menu {
-        background-color: transparent !important;
-        box-shadow: none !important;
-    }
-
-        .hdr-utility-menu.active {
-            background-color: rgb(255 255 255) !important;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-        }
-
-        .hdr-utility-menu .navbar-toggle .header {
-            padding: 0 10px !important;
-        }
-
-        .hdr-utility-menu .header {
-            background-color: #069;
-        }
-
-        .hdr-utility-menu .content > * {
-            width: 100% !important;
-        }
-
-        .hdr-utility-menu .header span {
-            color: #fff !important;
-            font-size: 18px;
-        }
-    hdr-utility-menu .navbar-toggle.active .header {
-        display: none;
-        overflow: hidden
-    }
-
-    .tab-open[data-toggle="offcanvas-close"] {
-        display: none!important
-    }
-
-    .hdr-utility-menu .content > * {
-        border: none;
-    }
-    .navbar-toggle.active > .header {
-        display: none !important
-    }
-    }
 </style>
+<!-- Floating button to open mini cart -->
+<button class="cart-fab" id="cartFab" aria-label="Open cart" aria-haspopup="dialog" aria-controls="miniCartOverlay">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1"></circle>
+        <circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+    </svg>
+    <span class="cart-fab__count" id="cartFabCount">4</span>
+</button>
 
-<div id="basket" class="navbar-toggle offcanvas-toggle collapsed pull-left" type="button" data-toggle="offcanvas-open"
-     data-target="#utility-bar" aria-expanded="false">
-    <div class="header g-flex-vcenter" data-label="View Basket">
-        <span class="sr-only">Toggle Basket</span>
-        <img class="msp_basket" src="~/Content/Images/1pxTrans.png" />
-        <span class="g-fs-lg g-p-l-20">Basket</span>
-    </div>
-    <div class="content clearfix">
+<!-- Overlay + Mini cart panel (hidden by default) -->
+<div class="mini-cart-overlay" id="miniCartOverlay" role="dialog" aria-modal="true" aria-label="Mini cart">
+    <div class="mini-cart-wrap">
         <div class="mini-cart">
             <div class="mini-cart__header">
-                <span style=" color: white !important; ">
-                    Summary
-                </span>
-                <button type="button"
-                        class="mini-cart__close"
-                        data-toggle="offcanvas-close"
-                        data-target="#utility-bar">
-                    <i class="fa fa-times"></i>
-                </button>
+                <span>Summary</span>
+                <button class="mini-cart__close" id="miniCartClose" aria-label="Close cart">&times;</button>
             </div>
             <div class="mini-cart__body">
-                @if (lbc.Count > 0)
-                {
-                    bool isMultiBuy = false;
-                    decimal multibuyAmount = decimal.Zero;
-                    // Counts real product cards actually rendered below - lbc.Count > 0 only
-                    // tells us the basket has SOME lines (could be delivery/discount-only
-                    // lines with no ItemType == Item/AdminDiscount). Without this, a basket
-                    // that has lines but nothing renderable falls through silently blank.
-                    int cardsRendered = 0;
-                    var list = lbc;
-                    if (list != null && list.Count > 1)
-                    {
-                        foreach (BasketContents item in lbc)
-                        {
-                            if (item.ItemType != BasketItemType.Item)
-                            { continue; }
-                            if (item.IsCompatible)
-                            { continue; }
-                            if (item.ExcludeFromUpSell)
-                            { continue; }
-                            if (item.CrossSellingStockRef == null || item.CrossSellingStockRef == "")
-                            {
-                                continue;
-                            }
-                            if (item.CrossSellingAvailability != 1 &&
-                            item.CrossSellingAvailability != 7)
-                            { continue; }
-                            decimal lineSaving =
-                            (item.PriceEx - item.CrossSellingPriceEx) * item.Quantity;
-                            if (lineSaving <= 0)
-                            { continue; }
-                            basketSwitchSaving += lineSaving;
-                            switchProducts.Add(item);
-                        }
-                        hasSwitchProducts = switchProducts.Count > 0;
-                        switchCount = switchProducts.Count;
-                    }
-                    if (hasSwitchProducts && switchCount > 1)
-                    {
-                        <div class="switch-save switch-save--all">
-                            <span class="switch-save__label">
-                                SWITCH &amp; SAVE
-                            </span>
-                            <div class="switch-save-all__body">
-                                <p class="switch-save-all__msg">
-                                    Save £@string.Format("{0:N2}", basketSwitchSaving) by switching your whole basket to compatible products.
-                                </p>
-                                <button id="btnSwitchAll" type="button" class="switch-save__btn">
-                                    Switch All Products
-                                </button>
-                            </div>
-                        </div>
-                    }
-                    foreach (BasketContents bc in list)
-                    {
-                        if (bc.ItemType == BasketItemType.Item || bc.ItemType == BasketItemType.AdminDiscount)
-                        {
-                            cardsRendered++;
-                            // Guard against a null/malformed ProductUrl - if a line's data is
-                            // incomplete, a bare @bc.ProductUrl renders a broken href="" instead
-                            // of failing loudly, so normalize it here and use productUrl below.
-                            var productUrl = !string.IsNullOrEmpty(bc.ProductUrl) && bc.ProductUrl.StartsWith("/")
-                                ? bc.ProductUrl
-                                : "/" + (bc.ProductUrl ?? "");
-                            string neg = bc.ItemType == BasketItemType.AdminDiscount ? "-" : "";
-                            string strike = "";
-                            string discClass = "g-d-n";
-                            decimal discUnitPrice = decimal.Zero;
-                            decimal subt = bc.PriceEx * bc.Quantity;
-                            decimal discountRate = Utilities.GetUpsellRate();
-                            if (!bc.IsCompatible &&
-                            !String.IsNullOrEmpty(bc.CrossSellingStockRef) &&
-                            !bc.ExcludeFromUpSell &&
-                            (bc.CrossSellingAvailability == 1 || bc.CrossSellingAvailability == 7))
-                            {
-                                decimal lineSaving = (bc.PriceEx - bc.CrossSellingPriceEx) * bc.Quantity;
-                                if (lineSaving > 0)
-                                {
-                                    basketSwitchSaving += lineSaving;
-                                    hasSwitchProducts = true;
-                                }
-                            }
-                            if (bc.IsCompatible && Session["V_Voucher"] == null &&
-                                Convert.ToBoolean(ConfigurationManager.AppSettings["IsCompatibleUpsellActive"]) &&
-                                !Convert.ToBoolean(Session["U_IsTradeCustomer"]) &&
-                                !isAdminDiscount &&
-                                bc.Quantity > bc.QtyStart)
-                            {
-                                discUnitPrice = Math.Round(bc.PriceEx, 2) - Math.Round(bc.PriceEx * discountRate / 100, 2);
-                                subt = discUnitPrice * bc.Quantity;
-                                strike = "g-s";
-                                discClass = "";
-                            }
-                            <div>
-                                <div class="cart-item atb-entry" data-productid="@bc.StockRef">
-                                    <a href="@productUrl" class="cart-item__link">
-                                        <img src="@bc.ImageUrl"
-                                             alt="@bc.Description"
-                                             class="cart-item__img"
-                                             onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
-                                    </a>
-                                    <div class="cart-item__details">
-                                        <a href="@productUrl" class="cart-item__title">
-                                            @bc.Description
-                                        </a>
-                                        <div class="cart-item__sku">
-                                            Product Code: @bc.PartNo
-                                        </div>
-                                        <div class="cart-item__price">
-                                            @neg@string.Format("{0:N2}", bc.PriceEx)
-                                            <span class="vat">
-                                                @(isTradeCustomer ? "Trade Price, ex VAT" : "Ex VAT")
-                                            </span>
-                                            @if (discUnitPrice > 0)
-                                            {
-                                                <div class="price-saving">
-                                                    Save @string.Format("{0:N2}", bc.PriceEx - discUnitPrice)
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                    <div class="cart-item__actions">
-                                        @if (!bc.IsFreeGift)
-                                        {
-                                            <button class="cart-item__remove basket-remove delete"
-                                                    data-productid="@bc.StockRef"
-                                                    type="button">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                            <div class="qty-stepper">
-                                                <button type="button"
-                                                        @(bc.Quantity <= 1 ? "disabled" : "")
-                                                        onclick="changeBasketQty('@bc.StockRef', @(Math.Max(1, bc.Quantity-1)))">
-                                                    -
-                                                </button>
-                                                <input type="text"
-                                                       readonly
-                                                       value="@bc.Quantity" />
-                                                <button type="button"
-                                                        onclick="changeBasketQty('@bc.StockRef', @(bc.Quantity+1))">
-                                                    +
-                                                </button>
-                                            </div>
-                                        }
-                                        @if (Session["V_Voucher"] != null)
-                                        {
-                                            VoucherPromo vp = (VoucherPromo)Session["V_Voucher"];
-                                            if (bc.IsVoucherQualifyingItem &&
-                                                vp.VoucherTypeFk == (int)VmVoucherType.Percentage)
-                                            {
-                                                <div class="voucher-applied">
-                                                    <i class="fa fa-check-circle"></i>
-                                                    Voucher Applied
-                                                </div>
-                                            }
-                                        }
-                                    </div>
-                                </div>
-                                @if (!bc.IsCompatible && !String.IsNullOrEmpty(bc.CrossSellingStockRef) && !bc.ExcludeFromUpSell)
-                                {
-                                    List<int> inStock = new List<int> { 1, 7 };
-                                    if (inStock.Contains(bc.CrossSellingAvailability))
-                                    {
-                                        decimal switchUnitPriceEx = bc.CrossSellingPriceEx;
-                                        decimal switchLinePriceEx = switchUnitPriceEx * bc.Quantity;
-                                        decimal switchLinePriceInc = switchLinePriceEx * Model.VatMultiplier;
-                                        decimal saving = (bc.PriceEx - switchUnitPriceEx) * bc.Quantity;
-                                        if (saving > 0)
-                                        {
-                                            <div class="switch-save">
-                                                <span class="switch-save__label">
-                                                    SWITCH &amp; SAVE
-                                                </span>
-                                                <div class="switch-save__content">
-                                                    <a href="@bc.CrossSellingProductUrl">
-                                                        <img src="@(!String.IsNullOrEmpty(bc.CrossSellingImageURL) ? bc.CrossSellingImageURL : bc.ImageUrl)"
-                                                             alt="@bc.CrossSellingDescription"
-                                                             class="switch-save__img"
-                                                             onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
-                                                    </a>
-                                                    <div style="flex:1;">
-                                                        <a href="@bc.CrossSellingProductUrl"
-                                                           class="switch-save__title">
-                                                            @bc.CrossSellingDescription
-                                                        </a>
-                                                        <div class="switch-save__sku">
-                                                            Compatible for @bc.PartNo
-                                                        </div>
-                                                        <div class="stock-status in-stock">
-                                                            <i class="fa fa-check-circle"></i>
-                                                            <span>In Stock</span>
-                                                        </div>
-                                                        <div class="switch-save__price">
-                                                            £@string.Format("{0:N2}", switchLinePriceEx)
-                                                            <span class="vat">
-                                                                @(isTradeCustomer ? "Trade Price, ex VAT" : "exc. VAT")
-                                                            </span>
-                                                        </div>
-                                                        <div class="switch-save__save">
-                                                            Save £@string.Format("{0:N2}", saving) ex VAT
-                                                        </div>
-                                                        <button class="switch-save__btn atb-replace"
-                                                                data-productid="@bc.CrossSellingStockRef"
-                                                                data-price="@bc.CrossSellingPriceEx"
-                                                                data-removeid="@bc.StockRef"
-                                                                data-qty="@bc.Quantity">
-                                                            Switch Now
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
-                                    }
-                                }
-                            </div>
-                        }
-                        if (bc.ItemType == BasketItemType.CompatibleDiscount)
-                        {
-                            isMultiBuy = true;
-                            multibuyAmount = bc.PriceEx;
-                        }
-                    }
-
-                    if (cardsRendered == 0)
-                    {
-                        <div class="mini-cart__empty">
-                            We're just updating your basket - please refresh this page.
-                        </div>
-                    }
-                }
-                else
-                {
-                    <div class="mini-cart__empty">
-                        Your basket is empty.
+                <!-- Cart Item 1 -->
+                <div class="cart-item">
+                    <a href="/product/canon-c-exv8-toner-pack" class="cart-item__link"> <img class="cart-item__img" src="https://s3-eu-west-1.amazonaws.com/cdn.production.aws.eu-w1.pimberly.com/public/asset/raw/5c59ada1cea10b002eb87a89/2441cba6/5f11a80c40807d0018fe1023" alt="Compatible Canon C-EXV8 Toner"> </a>
+                    <div class="cart-item__details">
+                        <a href="/product/canon-c-exv8-toner-pack" class="cart-item__title">Compatible Canon C-EXV8 B/C/M/Y Toner Value Pack</a>
+                        <p class="cart-item__sku">REF: EXV8PACK</p>
+                        <p class="cart-item__price">£14.78 <span class="vat">exc. VAT</span></p>
                     </div>
-                }
+                    <div class="cart-item__actions">
+                        <button class="cart-item__remove" aria-label="Remove item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#e30613" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="4" y1="7" x2="20" y2="7"></line>
+                                <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                <path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"></path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                        </button>
+                        <div class="qty-stepper">
+                            <button type="button" class="qty-minus">−</button>
+                            <input type="text" value="1" readonly>
+                            <button type="button" class="qty-plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Cart Item 2 -->
+                <div class="cart-item">
+                    <a href="/product/canon-c-exv8-toner-pack" class="cart-item__link"> <img class="cart-item__img" src="https://s3-eu-west-1.amazonaws.com/cdn.production.aws.eu-w1.pimberly.com/public/asset/raw/5c59ada1cea10b002eb87a89/2441cba6/5f11a80c40807d0018fe1023" alt="Compatible Canon C-EXV8 Toner"> </a>
+                    <div class="cart-item__details">
+                        <a href="/product/canon-c-exv8-toner-pack" class="cart-item__title">Compatible Canon C-EXV8 B/C/M/Y Toner Value Pack</a>
+                        <p class="cart-item__sku">REF: EXV8PACK</p>
+                        <p class="cart-item__price">£14.78 <span class="vat">exc. VAT</span></p>
+                    </div>
+                    <div class="cart-item__actions">
+                        <button class="cart-item__remove" aria-label="Remove item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#e30613" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="4" y1="7" x2="20" y2="7"></line>
+                                <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                <path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"></path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                        </button>
+                        <div class="qty-stepper">
+                            <button type="button" class="qty-minus">−</button>
+                            <input type="text" value="1" readonly>
+                            <button type="button" class="qty-plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Cart Item 3 -->
+                <div class="cart-item">
+                    <a href="/product/canon-c-exv8-toner-pack" class="cart-item__link"> <img class="cart-item__img" src="https://s3-eu-west-1.amazonaws.com/cdn.production.aws.eu-w1.pimberly.com/public/asset/raw/5c59ada1cea10b002eb87a89/2441cba6/5f11a80c40807d0018fe1023" alt="Compatible Canon C-EXV8 Toner"> </a>
+                    <div class="cart-item__details">
+                        <a href="/product/canon-c-exv8-toner-pack" class="cart-item__title">Compatible Canon C-EXV8 B/C/M/Y Toner Value Pack</a>
+                        <p class="cart-item__sku">REF: EXV8PACK</p>
+                        <p class="cart-item__price">£14.78 <span class="vat">exc. VAT</span></p>
+                    </div>
+                    <div class="cart-item__actions">
+                        <button class="cart-item__remove" aria-label="Remove item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#e30613" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="4" y1="7" x2="20" y2="7"></line>
+                                <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                <path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"></path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                        </button>
+                        <div class="qty-stepper">
+                            <button type="button" class="qty-minus">−</button>
+                            <input type="text" value="1" readonly>
+                            <button type="button" class="qty-plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Cart Item 4 -->
+                <div class="cart-item">
+                    <a href="/product/canon-c-exv8-toner-pack" class="cart-item__link"> <img class="cart-item__img" src="https://s3-eu-west-1.amazonaws.com/cdn.production.aws.eu-w1.pimberly.com/public/asset/raw/5c59ada1cea10b002eb87a89/2441cba6/5f11a80c40807d0018fe1023" alt="Compatible Canon C-EXV8 Toner"> </a>
+                    <div class="cart-item__details">
+                        <a href="/product/canon-c-exv8-toner-pack" class="cart-item__title">Compatible Canon C-EXV8 B/C/M/Y Toner Value Pack</a>
+                        <p class="cart-item__sku">REF: EXV8PACK</p>
+                        <p class="cart-item__price">£14.78 <span class="vat">exc. VAT</span></p>
+                    </div>
+                    <div class="cart-item__actions">
+                        <button class="cart-item__remove" aria-label="Remove item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#e30613" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="4" y1="7" x2="20" y2="7"></line>
+                                <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                <path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"></path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                        </button>
+                        <div class="qty-stepper">
+                            <button type="button" class="qty-minus">−</button>
+                            <input type="text" value="1" readonly>
+                            <button type="button" class="qty-plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Switch & Save -->
+                <div class="switch-save">
+                    <span class="switch-save__label">Switch &amp; Save</span>
+                    <div class="switch-save__content">
+                        <a href="/product/canon-c-exv8-toner-pack-switch" class="cart-item__link"> <img class="switch-save__img" src="https://s3-eu-west-1.amazonaws.com/cdn.production.aws.eu-w1.pimberly.com/public/asset/raw/5c59ada1cea10b002eb87a89/2441cba6/5f11a80c40807d0018fe1023" alt="Switch and save product"> </a>
+                        <div>
+                            <a href="/product/canon-c-exv8-toner-pack-switch" class="switch-save__title">Compatible Canon C-EXV8 B/C/M/Y Toner Value Pack</a>
+                            <p class="switch-save__sku">REF: EXV8PACK</p>
+                            <p class="switch-save__price">£14.78 exc. VAT</p>
+                            <p class="switch-save__save">Save £4.50 ex VAT</p>
+                        </div>
+                    </div>
+                    <button class="switch-save__btn" type="button">Switch Now</button>
+                </div>
             </div>
             <div class="mini-cart__footer">
-                <div class="total-row">
-                    <span>Total Payable</span>
-                    <span>
-                        £@bt.GrandTotalIncVat.ToString("0.00")
-                    </span>
-                </div>
-                @if (Session["B_VoucherCode"].ToSafeString() != "")
-                {
-                    decimal totalSaving = bt.Voucher + bt.VoucherVat;
-                    <details class="promo" open="open">
-                        <summary>
-                            Promotion Code
-                        </summary>
-                        <div class="promo-applied">
-                            <span class="promo-applied__code">
-                                @Session["B_VoucherCode"]
-                            </span>
-                            <button type="button"
-                                    class="voucher-remove"
-                                    title="Remove voucher code">
-                                <i class="fa fa-times"></i>
-                            </button>
-                            <span class="promo-applied__saving">
-                                -£@Math.Abs(totalSaving).ToString("0.00")
-                            </span>
-                        </div>
-                    </details>
-                }
-                else
-                {
-                    <details class="promo">
-                        <summary>
-                            Promotion Code
-                        </summary>
-                        <div class="promo-form">
-                            <input id="voucher-code1"
-                                   type="text"
-                                   placeholder="Enter voucher code" />
-                            <button id="apply-voucher"
-                                    type="button">
-                                Apply
-                            </button>
-                        </div>
-                        <div id="voucher-code-error" class="promo-error g-v-h"></div>
-                    </details>
-                }
-                <div class="free-delivery">
-                    <i class="fa fa-truck"></i>
-                    <span>
-                        @deliveryMessage
-                    </span>
-                </div>
-                <button class="checkout-btn"
-                        type="button"
-                        onclick="proceedToCheckout()">
-                    Proceed to Checkout
-                </button>
-                <a href="/checkout/"
-                   class="view-basket-link">
-                    View / Edit Basket
-                </a>
+                <div class="total-row"> <span>Total Payable</span> <span>£1260.00</span> </div>
+                <details class="promo" open>
+                    <summary>Promotion Code</summary>
+                    <div class="promo-form">
+                        <input type="text" placeholder="Enter Code">
+                        <button type="button">Apply</button>
+                    </div>
+                </details>
+                <p class="free-delivery">🚚 Spend £20 more for free delivery</p>
+                <button class="checkout-btn" type="button">Proceed to Checkout</button>
             </div>
         </div>
     </div>
 </div>
+<script>
+    // Open / close mini cart
+    var cartFab = document.getElementById('cartFab');
+    var overlay = document.getElementById('miniCartOverlay');
+    var closeBtn = document.getElementById('miniCartClose');
+
+    function openCart() {
+        overlay.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeCart() {
+        overlay.classList.remove('is-open');
+        document.body.style.overflow = '';
+    }
+
+    cartFab.addEventListener('click', openCart);
+    closeBtn.addEventListener('click', closeCart);
+    overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) { closeCart(); } // click outside panel closes it
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { closeCart(); }
+    });
+
+    document.querySelectorAll('.qty-stepper').forEach(function (stepper) {
+        var input = stepper.querySelector('input');
+        var minusBtn = stepper.querySelector('.qty-minus');
+        var plusBtn = stepper.querySelector('.qty-plus');
+        var min = 1;
+
+        minusBtn.addEventListener('click', function () {
+            var val = parseInt(input.value, 10) || min;
+            if (val > min) {
+                input.value = val - 1;
+            }
+        });
+
+        plusBtn.addEventListener('click', function () {
+            var val = parseInt(input.value, 10) || min;
+            input.value = val + 1;
+        });
+    });
+</script>
