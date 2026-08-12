@@ -1,0 +1,100 @@
+@using System.Configuration;
+@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using CommonUI.Models;
+
+@model ProductViewModel
+
+@{
+    var supplies = Model.PrinterSupplies ?? new List<MiniProductEntry>();
+    var multiPack = supplies.Where(s => s.PrimarySortSeq.Equals(ProductFlag.Assembly)).ToList();
+    var black = supplies.Where(s => !s.PrimarySortSeq.Equals(ProductFlag.Assembly) && s.AttDesc8 == "Black").ToList();
+    var cyan = supplies.Where(s => !s.PrimarySortSeq.Equals(ProductFlag.Assembly) && s.AttDesc8 == "Cyan").ToList();
+    var magenta = supplies.Where(s => !s.PrimarySortSeq.Equals(ProductFlag.Assembly) && s.AttDesc8 == "Magenta").ToList();
+    var yellow = supplies.Where(s => !s.PrimarySortSeq.Equals(ProductFlag.Assembly) && s.AttDesc8 == "Yellow").ToList();
+    var known = new System.Collections.Generic.HashSet<string> { "Black", "Cyan", "Magenta", "Yellow" };
+    var other = supplies.Where(s => !s.PrimarySortSeq.Equals(ProductFlag.Assembly) && !known.Contains(s.AttDesc8)).ToList();
+
+    var tabs = new List<Tuple<string, string, List<MiniProductEntry>>>();
+    if (multiPack.Count > 0) { tabs.Add(Tuple.Create("multipack", "Multi Pack Bundles", multiPack)); }
+    if (black.Count > 0) { tabs.Add(Tuple.Create("black", "Black", black)); }
+    if (cyan.Count > 0) { tabs.Add(Tuple.Create("cyan", "Cyan", cyan)); }
+    if (magenta.Count > 0) { tabs.Add(Tuple.Create("magenta", "Magenta", magenta)); }
+    if (yellow.Count > 0) { tabs.Add(Tuple.Create("yellow", "Yellow", yellow)); }
+    if (other.Count > 0) { tabs.Add(Tuple.Create("other", "Other", other)); }
+}
+
+@if (tabs.Count > 0)
+{
+    <div class="ppdp-compatibles">
+        <div class="ppdp-switchsave-banner">
+            <i class="fa fa-exchange g-p-r-5"></i>
+            Switch to compatible cartridges and save - same guarantee, lower price.
+        </div>
+
+        <div class="ppdp-tabs-nav">
+            @for (int i = 0; i < tabs.Count; i++)
+            {
+                <button type="button" class="ppdp-tab-btn @(i == 0 ? "is-active" : "")" data-ppdp-tab="@tabs[i].Item1">
+                    @tabs[i].Item2 <span class="g-fc-s">(@tabs[i].Item3.Count)</span>
+                </button>
+            }
+        </div>
+
+        @for (int i = 0; i < tabs.Count; i++)
+        {
+            <div class="ppdp-tab-panel @(i == 0 ? "is-active" : "")" data-ppdp-tab-panel="@tabs[i].Item1">
+                <div class="mini-product-container clearfix">
+                    @foreach (MiniProductEntry mpe in tabs[i].Item3)
+                    {
+                        decimal mainPrice = 0;
+                        string mainPriceVAT = "";
+                        decimal tradePrice = mpe.PriceTrExVat;
+                        if (ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "1")
+                        {
+                            mainPrice = mpe.PriceRetIncVat;
+                            mainPriceVAT = "inc VAT";
+                        }
+                        else
+                        {
+                            mainPrice = Decimal.Divide(mpe.PriceRetIncVat, Model.VatMultiplier);
+                            mainPriceVAT = "ex VAT";
+                        }
+                        <div class="mini-product-entry atb-entry">
+                            <div class="g-b-1-p g-bc-s">
+                                <div class="mini-chip g-fs-sm g-fc-st cc-@mpe.AttValue8">@mpe.AttDesc8</div>
+                                <div class="mini-product-image">
+                                    <a href="@mpe.Url">
+                                        <img class="lazy" src="/Content/Images/1pxTrans.png" data-original="@mpe.ImageUrl" alt="@mpe.Description" onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
+                                        <noscript><img src="@mpe.ImageUrl" alt="@mpe.Description" onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" /></noscript>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="g-m-t-10 g-h-40 g-of-h">
+                                <a class="primary" href="@mpe.Url">@mpe.Description</a>
+                            </div>
+                            <div class="g-m-t-10">
+                                &pound;@mainPrice.ToString("#,###,##0.00") <span class="g-fs-sm">@mainPriceVAT</span>
+                            </div>
+                            <div class="g-fc-st text-center g-m-t-10 g-fs-sm g-lh-20">
+                                @Html.ProductAvailability(mpe.Availability, Convert.ToBoolean(Model.CommonData["DeliveryDateIsOverridden"].ToString()), true)
+                            </div>
+                            @if (mpe.Availability != 13)
+                            {
+                                <div class="g-m-t-10 g-w-100p">
+                                    <button class="atb-add g-butt-primary g-butt-100p"
+                                            data-productid="@mpe.Reference"
+                                            data-partno="@mpe.PartNo"
+                                            data-imageurl="@mpe.ImageUrl"
+                                            data-desc="@mpe.Description">
+                                        Add to Basket
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}

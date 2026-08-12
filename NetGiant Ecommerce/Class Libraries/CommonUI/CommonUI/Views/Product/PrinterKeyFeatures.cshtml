@@ -1,0 +1,27 @@
+@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@model ProductViewModel
+@{
+    var keyInfoGroup = Model.AttributeGroups.FirstOrDefault(g => g.GroupName == "Key Information");
+    var features = keyInfoGroup != null ? keyInfoGroup.Attributes.Take(6).ToList() : new List<SpecAttributeRow>();
+}
+
+@if (features.Count > 0)
+{
+    <div class="row g-m-t-20">
+        <div class="col-xs-12">
+            <div class="ppdp-keyfeatures g-boxshadow g-bc-s g-p-20 clearfix">
+                @foreach (var f in features)
+                {
+                    <div class="ppdp-keyfeature-item">
+                        <i class="fa fa-check-circle g-fc-pm ppdp-keyfeature-icon"></i>
+                        <div class="ppdp-keyfeature-text">
+                            <div class="ppdp-keyfeature-label">@f.Name</div>
+                            <div class="ppdp-keyfeature-value">@f.Value</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

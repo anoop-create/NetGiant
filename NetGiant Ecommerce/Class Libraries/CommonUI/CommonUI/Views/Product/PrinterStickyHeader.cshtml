@@ -1,0 +1,47 @@
+@using System.Configuration;
+@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+
+@model ProductViewModel
+
+@*
+    Printer PDP - sticky header (brief page 3): title/price/Add to Basket bar that appears
+    once the user has scrolled past the main buy box, so the CTA stays reachable on long
+    printer pages. Only rendered when Model.IsPrinterProduct is true (see Views/Product/
+    Index.cshtml) - a no-op include for every existing consumable product page.
+
+    Hidden by default (no "is-visible" class); Scripts/printer-pdp.js toggles that class based
+    on scroll position past #price-box. The Add to Basket button here is a second, independent
+    .atb-add button (its own .atb-entry) rather than a clone/mirror of the one in the main buy
+    box, so it goes through the exact same existing site.js flow unmodified.
+*@
+@{
+    ProductEntry pe = Model.Product;
+    decimal stickyPrice = ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "1"
+        ? pe.PriceRetIncVat
+        : Decimal.Divide(pe.PriceRetIncVat, Model.VatMultiplier);
+    string stickyVatLabel = ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "1" ? "inc VAT" : "ex VAT";
+}
+
+<div id="ppdp-sticky-header" class="ppdp-sticky-header">
+    <div class="container">
+        <div class="ppdp-sticky-inner clearfix">
+            <div class="ppdp-sticky-image">
+                <img src="@pe.ImageUrl" alt="@pe.Description" onerror="this.src = '@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
+            </div>
+            <div class="ppdp-sticky-title">@pe.Description</div>
+            <div class="ppdp-sticky-price">
+                &pound;@stickyPrice.ToString("#,###,##0.00") <span class="g-fs-sm">@stickyVatLabel</span>
+            </div>
+            <div class="ppdp-sticky-atb atb-entry">
+                <button class="atb-add g-butt-primary"
+                        data-productid="@pe.Reference"
+                        data-partno="@pe.PartNo"
+                        data-imageurl="@pe.ImageUrl"
+                        data-desc="@pe.Description">
+                    Add to Basket
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

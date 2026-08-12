@@ -56,66 +56,73 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("\n<style>\n    /* Default/checkout context: sits beside the still-open mini-cart tr" +
-"ay. */\n    #you-may-also-need {\n        position: fixed;\n        top: 0;\n       " +
-" right: 400px;\n        width: 620px;\n        max-width: calc(100vw - 20px);\n    " +
-"    max-height: 100vh;\n        overflow-y: auto;\n        background: #fff;\n     " +
-"   border: 1px solid #d9d9d9;\n        border-radius: 6px;\n        z-index: 1060;" +
-"\n        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);\n        font-family: Arial," +
-" Helvetica, sans-serif;\n    }\n\n    /* Add-to-basket context: no mini-cart tray i" +
-"s open alongside it, so sit flush to the\n       right edge instead of leaving a " +
-"gap where the tray would normally be. */\r\n    #you-may-also-need[data-context=\"a" +
-"ddtocart\"] {\r\n            position: fixed;\r\n            top: 50%;\r\n            l" +
-"eft: 50%;\r\n            transform: translate(-50%, -50%);\r\n            z-index: 1" +
-"000;\r\n     }\n\n    #you-may-also-need .ymn-header {\n        background: #0d7397;\n" +
-"        color: #fff;\n        padding: 14px 18px;\n        display: flex;\n        " +
-"align-items: center;\n        justify-content: space-between;\n        font-size: " +
-"20px;\n        font-weight: 600;\n        border-radius: 6px 6px 0 0;\n    }\n\n    #" +
-"you-may-also-need .ymn-close {\n        background: none;\n        border: none;\n " +
-"       color: #fff;\n        font-size: 18px;\n        cursor: pointer;\n    }\n\n   " +
-" /* Card row - matches the inline \"You May Also Need\" carousel on the full baske" +
-"t page\n       (BasketDetails.cshtml: .you-may-need-wrapper / .need-arrow / .need" +
-"-product etc), just\n       scoped under #you-may-also-need since this partial is" +
-" rendered standalone via AJAX and\n       can\'t rely on that page\'s own <style> b" +
-"lock being present. Reusing the same class names\n       also means the existing " +
-"carousel click handlers in site.js ($(document).on(\'click\',\n       \'.need-arrow." +
-"prev\'/\'.next\', ...)) work here automatically with no JS changes. */\n    #you-may" +
-"-also-need .you-may-need-wrapper {\n        display: flex;\n        align-items: c" +
-"enter;\n        gap: 8px;\n        padding: 20px;\n    }\n\n    #you-may-also-need .n" +
-"eed-arrow {\n        flex: 0 0 auto;\n        width: 36px;\n        height: 36px;\n " +
-"       border-radius: 50%;\n        border: 1px solid #d9d9d9;\n        background" +
-": #fff;\n        color: #0d7397;\n        font-size: 14px;\n        cursor: pointer" +
-";\n    }\n\n        #you-may-also-need .need-arrow:disabled {\n            color: #c" +
-"cc;\n            cursor: default;\n        }\n\n    #you-may-also-need .you-may-need" +
-"-products {\n        flex: 1;\n        overflow: hidden;\n    }\n\n    #you-may-also-" +
-"need .you-may-need-track {\n        display: flex;\n        gap: 20px;\n        tra" +
-"nsition: transform 0.3s ease;\n    }\n\n    #you-may-also-need .need-product {\n    " +
-"    flex: 0 0 calc((100% - 40px) / 3);\n        max-width: calc((100% - 40px) / 3" +
-");\n        text-align: center;\n    }\n\n        #you-may-also-need .need-product i" +
-"mg {\n            width: 120px;\n            height: 90px;\n            object-fit:" +
-" contain;\n            margin-bottom: 12px;\n        }\n\n    #you-may-also-need .ne" +
-"ed-title {\n        display: block;\n        color: #333;\n        font-size: 13px;" +
-"\n        line-height: 18px;\n        min-height: 55px;\n        text-decoration: n" +
-"one;\n        font-weight: 600;\n    }\n\n        #you-may-also-need .need-title:hov" +
-"er {\n            color: #0099cc;\n        }\n\n    #you-may-also-need .need-price {" +
-"\n        font-size: 18px;\n        color: #0099cc;\n        font-weight: 700;\n    " +
-"    margin: 12px 0;\n    }\n\n        #you-may-also-need .need-price small {\n      " +
-"      display: block;\n            font-size: 12px;\n            color: #666;\n    " +
-"        font-weight: 400;\n        }\n\n    /* Kept as its own class (not .atb-add)" +
-" - this is the \"quiet\" add-to-basket that just\n       refreshes the mini-cart wi" +
-"thout closing the popup or re-triggering this same popup\n       again. Styled to" +
-" look identical to the carousel\'s green \"Add to Basket\" button. */\n    #you-may-" +
-"also-need .ymn-add {\n        width: 100%;\n        background: #00a651;\n        c" +
-"olor: #fff;\n        border: none;\n        border-radius: 4px;\n        padding: 1" +
-"0px 20px;\n        font-size: 14px;\n        font-weight: 600;\n        cursor: poi" +
-"nter;\n    }\n\n        #you-may-also-need .ymn-add:disabled {\n            backgrou" +
-"nd: #9ecdb3;\n            cursor: default;\n        }\n\n    #you-may-also-need .ymn" +
-"-proceed {\n        display: none;\n        width: 100%;\n        background: #00a6" +
-"51;\n        color: #fff;\n        border: none;\n        padding: 14px;\n        fo" +
-"nt-size: 15px;\n        font-weight: 700;\n        cursor: pointer;\n        border" +
-"-radius: 0 0 6px 6px;\n    }\n\n    /* Mobile: full-screen, one card per row, own P" +
-"roceed to Checkout button since the\n       mini-cart isn\'t visible at the same t" +
-"ime there */\n    ");
+WriteLiteral("\n<style>\n    /* Spec: \"the user can skip by clicking the x off the modal or on th" +
+"e transparent\n       background\". Fully transparent (not dimmed) on purpose - wh" +
+"en this popup opens\n       alongside the still-open mini-cart, the mini-cart\'s o" +
+"wn dark backdrop is already\n       covering the page; this element only exists t" +
+"o catch the click and dismiss the popup,\n       not to add a second layer of dim" +
+"ming. Sits one z-index below #you-may-also-need. */\n    #you-may-also-need-backd" +
+"rop {\n        position: fixed;\n        top: 0;\n        left: 0;\n        right: 0" +
+";\n        bottom: 0;\n        background: transparent;\n        z-index: 1059;\n   " +
+" }\n\n    /* Default/checkout context: sits beside the still-open mini-cart tray. " +
+"*/\n    #you-may-also-need {\n        position: fixed;\n        top: 0;\n        rig" +
+"ht: 400px;\n        width: 620px;\n        max-width: calc(100vw - 20px);\n        " +
+"max-height: 100vh;\n        overflow-y: auto;\n        background: #fff;\n        b" +
+"order: 1px solid #d9d9d9;\n        border-radius: 6px;\n        z-index: 1060;\n   " +
+"     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);\n        font-family: Arial, Hel" +
+"vetica, sans-serif;\n    }\n\n    /* Add-to-basket context: no mini-cart tray is op" +
+"en alongside it, so sit flush to the\n       right edge instead of leaving a gap " +
+"where the tray would normally be. */\n    #you-may-also-need[data-context=\"addtoc" +
+"art\"] {\n        right: 20px;\n        top: 20px;\n        max-height: calc(100vh -" +
+" 40px);\n    }\n\n    #you-may-also-need .ymn-header {\n        background: #0d7397;" +
+"\n        color: #fff;\n        padding: 14px 18px;\n        display: flex;\n       " +
+" align-items: center;\n        justify-content: space-between;\n        font-size:" +
+" 20px;\n        font-weight: 600;\n        border-radius: 6px 6px 0 0;\n    }\n\n    " +
+"#you-may-also-need .ymn-close {\n        background: none;\n        border: none;\n" +
+"        color: #fff;\n        font-size: 18px;\n        cursor: pointer;\n    }\n\n  " +
+"  /* Card row - matches the inline \"You May Also Need\" carousel on the full bask" +
+"et page\n       (BasketDetails.cshtml: .you-may-need-wrapper / .need-arrow / .nee" +
+"d-product etc), just\n       scoped under #you-may-also-need since this partial i" +
+"s rendered standalone via AJAX and\n       can\'t rely on that page\'s own <style> " +
+"block being present. Reusing the same class names\n       also means the existing" +
+" carousel click handlers in site.js ($(document).on(\'click\',\n       \'.need-arrow" +
+".prev\'/\'.next\', ...)) work here automatically with no JS changes. */\n    #you-ma" +
+"y-also-need .you-may-need-wrapper {\n        display: flex;\n        align-items: " +
+"center;\n        gap: 8px;\n        padding: 20px;\n    }\n\n    #you-may-also-need ." +
+"need-arrow {\n        flex: 0 0 auto;\n        width: 36px;\n        height: 36px;\n" +
+"        border-radius: 50%;\n        border: 1px solid #d9d9d9;\n        backgroun" +
+"d: #fff;\n        color: #0d7397;\n        font-size: 14px;\n        cursor: pointe" +
+"r;\n    }\n\n        #you-may-also-need .need-arrow:disabled {\n            color: #" +
+"ccc;\n            cursor: default;\n        }\n\n    #you-may-also-need .you-may-nee" +
+"d-products {\n        flex: 1;\n        overflow: hidden;\n    }\n\n    #you-may-also" +
+"-need .you-may-need-track {\n        display: flex;\n        gap: 20px;\n        tr" +
+"ansition: transform 0.3s ease;\n    }\n\n    #you-may-also-need .need-product {\n   " +
+"     flex: 0 0 calc((100% - 40px) / 3);\n        max-width: calc((100% - 40px) / " +
+"3);\n        text-align: center;\n    }\n\n        #you-may-also-need .need-product " +
+"img {\n            width: 120px;\n            height: 90px;\n            object-fit" +
+": contain;\n            margin-bottom: 12px;\n        }\n\n    #you-may-also-need .n" +
+"eed-title {\n        display: block;\n        color: #333;\n        font-size: 13px" +
+";\n        line-height: 18px;\n        min-height: 55px;\n        text-decoration: " +
+"none;\n        font-weight: 600;\n    }\n\n        #you-may-also-need .need-title:ho" +
+"ver {\n            color: #0099cc;\n        }\n\n    #you-may-also-need .need-price " +
+"{\n        font-size: 18px;\n        color: #0099cc;\n        font-weight: 700;\n   " +
+"     margin: 12px 0;\n    }\n\n        #you-may-also-need .need-price small {\n     " +
+"       display: block;\n            font-size: 12px;\n            color: #666;\n   " +
+"         font-weight: 400;\n        }\n\n    /* Kept as its own class (not .atb-add" +
+") - this is the \"quiet\" add-to-basket that just\n       refreshes the mini-cart w" +
+"ithout closing the popup or re-triggering this same popup\n       again. Styled t" +
+"o look identical to the carousel\'s green \"Add to Basket\" button. */\n    #you-may" +
+"-also-need .ymn-add {\n        width: 100%;\n        background: #00a651;\n        " +
+"color: #fff;\n        border: none;\n        border-radius: 4px;\n        padding: " +
+"10px 20px;\n        font-size: 14px;\n        font-weight: 600;\n        cursor: po" +
+"inter;\n    }\n\n        #you-may-also-need .ymn-add:disabled {\n            backgro" +
+"und: #9ecdb3;\n            cursor: default;\n        }\n\n    #you-may-also-need .ym" +
+"n-proceed {\n        display: none;\n        width: 100%;\n        background: #00a" +
+"651;\n        color: #fff;\n        border: none;\n        padding: 14px;\n        f" +
+"ont-size: 15px;\n        font-weight: 700;\n        cursor: pointer;\n        borde" +
+"r-radius: 0 0 6px 6px;\n    }\n\n    /* Mobile: full-screen, one card per row, own " +
+"Proceed to Checkout button since the\n       mini-cart isn\'t visible at the same " +
+"time there */\n    ");
 
 WriteLiteral(@"@media (max-width: 767px) {
         #you-may-also-need {
@@ -139,13 +146,17 @@ WriteLiteral(@"@media (max-width: 767px) {
 
 <div");
 
+WriteLiteral(" id=\"you-may-also-need-backdrop\"");
+
+WriteLiteral("></div>\n\n<div");
+
 WriteLiteral(" id=\"you-may-also-need\"");
 
 WriteLiteral(">\n\n    <div");
 
 WriteLiteral(" class=\"ymn-header\"");
 
-WriteLiteral(">\n        <span>Dont Miss Out On These Essentials.</span>\n\n        <button");
+WriteLiteral(">\n        <span>You May Also Need...</span>\n\n        <button");
 
 WriteLiteral(" type=\"button\"");
 
@@ -166,13 +177,13 @@ WriteLiteral(" data-index=\"0\"");
 WriteLiteral(">\n\n");
 
             
-            #line 214 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            #line 220 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 214 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            #line 220 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
          if (Model.Count > 3)
         {
 
@@ -196,7 +207,7 @@ WriteLiteral(" class=\"fa fa-chevron-left\"");
 WriteLiteral("></i>\n            </button>\n");
 
             
-            #line 219 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            #line 225 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
         }
 
             
@@ -213,13 +224,13 @@ WriteLiteral(" class=\"you-may-need-track\"");
 WriteLiteral(">\n\n");
 
             
-            #line 224 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            #line 230 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 224 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            #line 230 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
                  foreach (BasketContents addOn in Model)
                 {
 
@@ -230,80 +241,62 @@ WriteLiteral("                    <div");
 
 WriteLiteral(" class=\"need-product\"");
 
-WriteLiteral(">\n\n");
+WriteLiteral(">\n\n                        <a");
 
-            
-            #line 228 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-                        
-            
-            #line default
-            #line hidden
-            
-            #line 228 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-                          
-                            var productUrl = addOn.ProductUrl.StartsWith("/")
-                                ? addOn.ProductUrl
-                                : "/" + addOn.ProductUrl;
-                        
-            
-            #line default
-            #line hidden
-WriteLiteral("\n\n                        <a");
-
-WriteAttribute("href", Tuple.Create(" href=\"", 6975), Tuple.Create("\"", 6993)
+WriteAttribute("href", Tuple.Create(" href=\"", 6615), Tuple.Create("\"", 6639)
             
             #line 234 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 6982), Tuple.Create<System.Object, System.Int32>(productUrl
+, Tuple.Create(Tuple.Create("", 6622), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
             
             #line default
             #line hidden
-, 6982), false)
+, 6622), false)
 );
 
 WriteLiteral(">\n                            <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 7028), Tuple.Create("\"", 7049)
+WriteAttribute("src", Tuple.Create(" src=\"", 6674), Tuple.Create("\"", 6695)
             
             #line 235 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 7034), Tuple.Create<System.Object, System.Int32>(addOn.ImageUrl
+, Tuple.Create(Tuple.Create("", 6680), Tuple.Create<System.Object, System.Int32>(addOn.ImageUrl
             
             #line default
             #line hidden
-, 7034), false)
+, 6680), false)
 );
 
-WriteAttribute("alt", Tuple.Create("\n                                 alt=\"", 7050), Tuple.Create("\"", 7107)
+WriteAttribute("alt", Tuple.Create("\n                                 alt=\"", 6696), Tuple.Create("\"", 6753)
             
             #line 236 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 7089), Tuple.Create<System.Object, System.Int32>(addOn.Description
+, Tuple.Create(Tuple.Create("", 6735), Tuple.Create<System.Object, System.Int32>(addOn.Description
             
             #line default
             #line hidden
-, 7089), false)
+, 6735), false)
 );
 
-WriteAttribute("onerror", Tuple.Create("\n                                 onerror=\"", 7108), Tuple.Create("\"", 7222)
-, Tuple.Create(Tuple.Create("", 7151), Tuple.Create("this.src=\'", 7151), true)
+WriteAttribute("onerror", Tuple.Create("\n                                 onerror=\"", 6754), Tuple.Create("\"", 6868)
+, Tuple.Create(Tuple.Create("", 6797), Tuple.Create("this.src=\'", 6797), true)
             
             #line 237 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 7161), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+, Tuple.Create(Tuple.Create("", 6807), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
             
             #line default
             #line hidden
-, 7161), false)
-, Tuple.Create(Tuple.Create("", 7201), Tuple.Create("/Images/noImage.jpg\';", 7201), true)
+, 6807), false)
+, Tuple.Create(Tuple.Create("", 6847), Tuple.Create("/Images/noImage.jpg\';", 6847), true)
 );
 
 WriteLiteral(" />\n                        </a>\n\n                        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 7283), Tuple.Create("\"", 7301)
+WriteAttribute("href", Tuple.Create(" href=\"", 6929), Tuple.Create("\"", 6953)
             
             #line 240 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 7290), Tuple.Create<System.Object, System.Int32>(productUrl
+, Tuple.Create(Tuple.Create("", 6936), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
             
             #line default
             #line hidden
-, 7290), false)
+, 6936), false)
 );
 
 WriteLiteral(" class=\"need-title\"");

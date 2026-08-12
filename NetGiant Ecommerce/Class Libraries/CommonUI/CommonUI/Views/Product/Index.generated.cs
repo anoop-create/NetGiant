@@ -76,14 +76,14 @@ namespace ASP
     public partial class _Views_Product_Index_cshtml : System.Web.Mvc.WebViewPage<ProductViewModel>
     {
 
-#line 1051 "..\..\Views\Product\Index.cshtml"
+#line 1089 "..\..\Views\Product\Index.cshtml"
 public System.Web.WebPages.HelperResult RenderBuyMore(ProductEntry pe, decimal mainPrice, decimal mainB1Price, decimal mainB2Price, decimal subB1Price, decimal subB2Price, string subPriceVAT)
 {
 #line default
 #line hidden
 return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
-#line 1052 "..\..\Views\Product\Index.cshtml"
+#line 1090 "..\..\Views\Product\Index.cshtml"
  
     if ((mainPrice != mainB1Price && mainPrice != mainB2Price) && (mainB1Price != 0 || mainB2Price != 0))
     {
@@ -123,13 +123,13 @@ WriteLiteralTo(__razor_helper_writer, " class=\"g-p-10\"");
 WriteLiteralTo(__razor_helper_writer, ">\r\n\r\n");
 
 
-#line 1066 "..\..\Views\Product\Index.cshtml"
+#line 1104 "..\..\Views\Product\Index.cshtml"
                 
 
 #line default
 #line hidden
 
-#line 1066 "..\..\Views\Product\Index.cshtml"
+#line 1104 "..\..\Views\Product\Index.cshtml"
                   
                     var sBreakQty2 = (pe.BreakQty1 + 1).ToString("#0");
                     var sBreakQty3 = (pe.BreakQty2 + 1).ToString("#0") + "+";
@@ -153,7 +153,7 @@ WriteLiteralTo(__razor_helper_writer, " class=\"col-xs-2\"");
 WriteLiteralTo(__razor_helper_writer, ">");
 
 
-#line 1077 "..\..\Views\Product\Index.cshtml"
+#line 1115 "..\..\Views\Product\Index.cshtml"
             WriteTo(__razor_helper_writer, sBreakQty2);
 
 
@@ -166,7 +166,7 @@ WriteLiteralTo(__razor_helper_writer, " class=\"col-xs-4\"");
 WriteLiteralTo(__razor_helper_writer, ">&pound;");
 
 
-#line 1078 "..\..\Views\Product\Index.cshtml"
+#line 1116 "..\..\Views\Product\Index.cshtml"
                    WriteTo(__razor_helper_writer, mainB1Price.ToString("#,###,##0.00"));
 
 
@@ -179,7 +179,7 @@ WriteLiteralTo(__razor_helper_writer, " class=\"col-xs-6 g-fc-tt\"");
 WriteLiteralTo(__razor_helper_writer, ">\r\n                        (&pound;");
 
 
-#line 1080 "..\..\Views\Product\Index.cshtml"
+#line 1118 "..\..\Views\Product\Index.cshtml"
   WriteTo(__razor_helper_writer, subB1Price.ToString("#,###,##0.00"));
 
 
@@ -192,7 +192,7 @@ WriteLiteralTo(__razor_helper_writer, " class=\"g-fs-sm\"");
 WriteLiteralTo(__razor_helper_writer, ">");
 
 
-#line 1080 "..\..\Views\Product\Index.cshtml"
+#line 1118 "..\..\Views\Product\Index.cshtml"
                                                              WriteTo(__razor_helper_writer, subPriceVAT);
 
 
@@ -210,7 +210,7 @@ WriteLiteralTo(__razor_helper_writer, " class=\"col-xs-2\"");
 WriteLiteralTo(__razor_helper_writer, ">");
 
 
-#line 1084 "..\..\Views\Product\Index.cshtml"
+#line 1122 "..\..\Views\Product\Index.cshtml"
             WriteTo(__razor_helper_writer, sBreakQty3);
 
 
@@ -223,7 +223,7 @@ WriteLiteralTo(__razor_helper_writer, " class=\"col-xs-4\"");
 WriteLiteralTo(__razor_helper_writer, ">&pound;");
 
 
-#line 1085 "..\..\Views\Product\Index.cshtml"
+#line 1123 "..\..\Views\Product\Index.cshtml"
                    WriteTo(__razor_helper_writer, mainB2Price.ToString("#,###,##0.00"));
 
 
@@ -236,7 +236,7 @@ WriteLiteralTo(__razor_helper_writer, " class=\"col-xs-6 g-fc-tt\"");
 WriteLiteralTo(__razor_helper_writer, ">\r\n                        (&pound;");
 
 
-#line 1087 "..\..\Views\Product\Index.cshtml"
+#line 1125 "..\..\Views\Product\Index.cshtml"
   WriteTo(__razor_helper_writer, subB2Price.ToString("#,###,##0.00"));
 
 
@@ -249,7 +249,7 @@ WriteLiteralTo(__razor_helper_writer, " class=\"g-fs-sm\"");
 WriteLiteralTo(__razor_helper_writer, ">");
 
 
-#line 1087 "..\..\Views\Product\Index.cshtml"
+#line 1125 "..\..\Views\Product\Index.cshtml"
                                                              WriteTo(__razor_helper_writer, subPriceVAT);
 
 
@@ -259,7 +259,7 @@ WriteLiteralTo(__razor_helper_writer, ")</span>\r\n                    </div>\r\
 "\n        </div>\r\n");
 
 
-#line 1092 "..\..\Views\Product\Index.cshtml"
+#line 1130 "..\..\Views\Product\Index.cshtml"
     }
 
 
@@ -267,19 +267,19 @@ WriteLiteralTo(__razor_helper_writer, ")</span>\r\n                    </div>\r\
 #line hidden
 });
 
-#line 1093 "..\..\Views\Product\Index.cshtml"
+#line 1131 "..\..\Views\Product\Index.cshtml"
 }
 #line default
 #line hidden
 
-#line 1095 "..\..\Views\Product\Index.cshtml"
+#line 1133 "..\..\Views\Product\Index.cshtml"
 public System.Web.WebPages.HelperResult RenderCompatiblePrinters(ProductEntry pe)
 {
 #line default
 #line hidden
 return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
-#line 1096 "..\..\Views\Product\Index.cshtml"
+#line 1134 "..\..\Views\Product\Index.cshtml"
  
     if (pe.Type == "Toner" || pe.Type == "Ink" || pe.Type == "Franking" || pe.Type == "Solid Ink")
     {
@@ -325,13 +325,13 @@ WriteLiteralTo(__razor_helper_writer, " data-scroll-offset=\"80\"");
 WriteLiteralTo(__razor_helper_writer, ">\r\n");
 
 
-#line 1109 "..\..\Views\Product\Index.cshtml"
+#line 1147 "..\..\Views\Product\Index.cshtml"
                     
 
 #line default
 #line hidden
 
-#line 1109 "..\..\Views\Product\Index.cshtml"
+#line 1147 "..\..\Views\Product\Index.cshtml"
                      for (int i = 0; i < Model.ModelList.Count; i++)
                     {
                         ExtdSelectListItem sli = Model.ModelList[i];
@@ -350,30 +350,30 @@ WriteLiteralTo(__razor_helper_writer, ">\r\n                            <a");
 
 WriteLiteralTo(__razor_helper_writer, " class=\"primary\"");
 
-WriteAttributeTo(__razor_helper_writer, "href", Tuple.Create(" href=\"", 72906), Tuple.Create("\"", 72993)
-, Tuple.Create(Tuple.Create("", 72913), Tuple.Create("/model/", 72913), true)
+WriteAttributeTo(__razor_helper_writer, "href", Tuple.Create(" href=\"", 75069), Tuple.Create("\"", 75156)
+, Tuple.Create(Tuple.Create("", 75076), Tuple.Create("/model/", 75076), true)
 
-#line 1116 "..\..\Views\Product\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 72920), Tuple.Create<System.Object, System.Int32>(sli.Text.Replace(" ", "-").Replace(".", "-" )
-
-#line default
-#line hidden
-, 72920), false)
-, Tuple.Create(Tuple.Create("", 72968), Tuple.Create("-", 72968), true)
-
-#line 1116 "..\..\Views\Product\Index.cshtml"
-                             , Tuple.Create(Tuple.Create("", 72969), Tuple.Create<System.Object, System.Int32>(ctype.RangeReplace()
+#line 1154 "..\..\Views\Product\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 75083), Tuple.Create<System.Object, System.Int32>(sli.Text.Replace(" ", "-").Replace(".", "-" )
 
 #line default
 #line hidden
-, 72969), false)
-, Tuple.Create(Tuple.Create("", 72992), Tuple.Create("/", 72992), true)
+, 75083), false)
+, Tuple.Create(Tuple.Create("", 75131), Tuple.Create("-", 75131), true)
+
+#line 1154 "..\..\Views\Product\Index.cshtml"
+                             , Tuple.Create(Tuple.Create("", 75132), Tuple.Create<System.Object, System.Int32>(ctype.RangeReplace()
+
+#line default
+#line hidden
+, 75132), false)
+, Tuple.Create(Tuple.Create("", 75155), Tuple.Create("/", 75155), true)
 );
 
 WriteLiteralTo(__razor_helper_writer, ">");
 
 
-#line 1116 "..\..\Views\Product\Index.cshtml"
+#line 1154 "..\..\Views\Product\Index.cshtml"
                                                                                                          WriteTo(__razor_helper_writer, sli.Text);
 
 
@@ -382,7 +382,7 @@ WriteLiteralTo(__razor_helper_writer, ">");
 WriteLiteralTo(__razor_helper_writer, "</a>\r\n                        </div>\r\n");
 
 
-#line 1118 "..\..\Views\Product\Index.cshtml"
+#line 1156 "..\..\Views\Product\Index.cshtml"
                     }
 
 
@@ -391,7 +391,7 @@ WriteLiteralTo(__razor_helper_writer, "</a>\r\n                        </div>\r\
 WriteLiteralTo(__razor_helper_writer, "                </div>\r\n            </div>\r\n        </div>\r\n");
 
 
-#line 1122 "..\..\Views\Product\Index.cshtml"
+#line 1160 "..\..\Views\Product\Index.cshtml"
     }
 
 
@@ -399,7 +399,7 @@ WriteLiteralTo(__razor_helper_writer, "                </div>\r\n            </d
 #line hidden
 });
 
-#line 1123 "..\..\Views\Product\Index.cshtml"
+#line 1161 "..\..\Views\Product\Index.cshtml"
 }
 #line default
 #line hidden
@@ -624,13 +624,63 @@ WriteAttribute("href", Tuple.Create(" href=\"", 7752), Tuple.Create("\"", 7811)
 
 WriteLiteral(" />\r\n");
 
+            
+            #line 202 "..\..\Views\Product\Index.cshtml"
+    
+            
+            #line default
+            #line hidden
+            
+            #line 202 "..\..\Views\Product\Index.cshtml"
+     if (Model.IsPrinterProduct)
+    {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("        <link");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteAttribute("href", Tuple.Create(" href=\"", 7888), Tuple.Create("\"", 7920)
+, Tuple.Create(Tuple.Create("", 7895), Tuple.Create<System.Object, System.Int32>(Href("~/Content/printer-pdp.css")
+, 7895), false)
+);
+
+WriteLiteral(" />\r\n");
+
+            
+            #line 205 "..\..\Views\Product\Index.cshtml"
+    }
+
+            
+            #line default
+            #line hidden
 });
 
 WriteLiteral("\r\n<div");
 
 WriteLiteral(" class=\"product\"");
 
-WriteLiteral(">\r\n    <section");
+WriteLiteral(">\r\n");
+
+            
+            #line 209 "..\..\Views\Product\Index.cshtml"
+    
+            
+            #line default
+            #line hidden
+            
+            #line 209 "..\..\Views\Product\Index.cshtml"
+     if (Model.IsPrinterProduct)
+    {
+        Html.RenderPartial("~/Views/Product/PrinterStickyHeader.cshtml", Model);
+    }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("    <section");
 
 WriteLiteral(" id=\"loadbg\"");
 
@@ -643,7 +693,7 @@ WriteLiteral(" data-stellar-ratio=\"1\"");
 WriteLiteral(" data-bgimg=\"");
 
             
-            #line 205 "..\..\Views\Product\Index.cshtml"
+            #line 213 "..\..\Views\Product\Index.cshtml"
                                                                                                     Write(Html.RawFromDict(Model.CommonData, "FeatureBackground"));
 
             
@@ -666,13 +716,13 @@ WriteLiteral(" class=\"col-md-12 comm-title-banner xg-h-150-md g-fc-st\"");
 WriteLiteral(">\r\n");
 
             
-            #line 209 "..\..\Views\Product\Index.cshtml"
+            #line 217 "..\..\Views\Product\Index.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 209 "..\..\Views\Product\Index.cshtml"
+            #line 217 "..\..\Views\Product\Index.cshtml"
                      if (!Model.IsMobile)
                     {
 
@@ -686,13 +736,13 @@ WriteLiteral(" class=\"bread-crumb hidden-xs hidden-sm\"");
 WriteLiteral(">\r\n");
 
             
-            #line 212 "..\..\Views\Product\Index.cshtml"
+            #line 220 "..\..\Views\Product\Index.cshtml"
                             
             
             #line default
             #line hidden
             
-            #line 212 "..\..\Views\Product\Index.cshtml"
+            #line 220 "..\..\Views\Product\Index.cshtml"
                              foreach (KeyValuePair<string, string> bc in Model.BreadcrumbTrail)
                             {
 
@@ -703,21 +753,21 @@ WriteLiteral("                                <a");
 
 WriteLiteral(" class=\"second\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 8480), Tuple.Create("\"", 8497)
-, Tuple.Create(Tuple.Create("", 8487), Tuple.Create("/", 8487), true)
+WriteAttribute("href", Tuple.Create(" href=\"", 8726), Tuple.Create("\"", 8743)
+, Tuple.Create(Tuple.Create("", 8733), Tuple.Create("/", 8733), true)
             
-            #line 214 "..\..\Views\Product\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 8488), Tuple.Create<System.Object, System.Int32>(bc.Value
+            #line 222 "..\..\Views\Product\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 8734), Tuple.Create<System.Object, System.Int32>(bc.Value
             
             #line default
             #line hidden
-, 8488), false)
+, 8734), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 214 "..\..\Views\Product\Index.cshtml"
+            #line 222 "..\..\Views\Product\Index.cshtml"
                                                                Write(bc.Key);
 
             
@@ -732,7 +782,7 @@ WriteLiteral(" class=\"fa fa-chevron-right g-fs-xs-i\"");
 WriteLiteral("></i>\r\n");
 
             
-            #line 216 "..\..\Views\Product\Index.cshtml"
+            #line 224 "..\..\Views\Product\Index.cshtml"
                             }
 
             
@@ -741,7 +791,7 @@ WriteLiteral("></i>\r\n");
 WriteLiteral("                        </div>\r\n");
 
             
-            #line 218 "..\..\Views\Product\Index.cshtml"
+            #line 226 "..\..\Views\Product\Index.cshtml"
                     }
 
             
@@ -753,15 +803,15 @@ WriteLiteral(" class=\"comm-title-margin g-m-t-a\"");
 
 WriteLiteral(">\r\n\r\n                        <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 8770), Tuple.Create("\"", 8804)
+WriteAttribute("class", Tuple.Create(" class=\"", 9016), Tuple.Create("\"", 9050)
             
-            #line 222 "..\..\Views\Product\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 8778), Tuple.Create<System.Object, System.Int32>(tooltipHighlight
+            #line 230 "..\..\Views\Product\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 9024), Tuple.Create<System.Object, System.Int32>(tooltipHighlight
             
             #line default
             #line hidden
-, 8778), false)
-, Tuple.Create(Tuple.Create(" ", 8795), Tuple.Create("clearfix", 8796), true)
+, 9024), false)
+, Tuple.Create(Tuple.Create(" ", 9041), Tuple.Create("clearfix", 9042), true)
 );
 
 WriteLiteral(" data-tooltipname=\"PricePromise\"");
@@ -773,7 +823,7 @@ WriteLiteral(" class=\"g-w-630\"");
 WriteLiteral(">");
 
             
-            #line 223 "..\..\Views\Product\Index.cshtml"
+            #line 231 "..\..\Views\Product\Index.cshtml"
                                            Write(pe.Description);
 
             
@@ -790,7 +840,7 @@ WriteLiteral(" class=\"pull-left g-p-t-5\"");
 WriteLiteral("><strong>Product Code:</strong> ");
 
             
-            #line 225 "..\..\Views\Product\Index.cshtml"
+            #line 233 "..\..\Views\Product\Index.cshtml"
                                                                                          Write(pe.PartNo);
 
             
@@ -799,13 +849,13 @@ WriteLiteral("><strong>Product Code:</strong> ");
 WriteLiteral("</div>\r\n");
 
             
-            #line 226 "..\..\Views\Product\Index.cshtml"
+            #line 234 "..\..\Views\Product\Index.cshtml"
                                 
             
             #line default
             #line hidden
             
-            #line 226 "..\..\Views\Product\Index.cshtml"
+            #line 234 "..\..\Views\Product\Index.cshtml"
                                  if (!Model.IsMobile)
                                 {
 
@@ -829,7 +879,7 @@ WriteLiteral(">\r\n                                                Ask a Questio
 " </div>\r\n                                    </div>\r\n");
 
             
-            #line 236 "..\..\Views\Product\Index.cshtml"
+            #line 244 "..\..\Views\Product\Index.cshtml"
                                 }
 
             
@@ -838,13 +888,13 @@ WriteLiteral(">\r\n                                                Ask a Questio
 WriteLiteral("                            </div>\r\n                        </div>\r\n\r\n");
 
             
-            #line 240 "..\..\Views\Product\Index.cshtml"
+            #line 248 "..\..\Views\Product\Index.cshtml"
                         
             
             #line default
             #line hidden
             
-            #line 240 "..\..\Views\Product\Index.cshtml"
+            #line 248 "..\..\Views\Product\Index.cshtml"
                          if (Model.FeeFoList.Count > 0)
                         {
 
@@ -861,42 +911,42 @@ WriteLiteral("\r\n                                 data-toggle=\"tooltip\"");
 
 WriteLiteral("\r\n                                 data-placement=\"bottom\"");
 
-WriteAttribute("title", Tuple.Create("\r\n                                 title=\"", 10170), Tuple.Create("\"", 10284)
+WriteAttribute("title", Tuple.Create("\r\n                                 title=\"", 10416), Tuple.Create("\"", 10530)
             
-            #line 246 "..\..\Views\Product\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 10212), Tuple.Create<System.Object, System.Int32>(pe.FeeFoCount
-            
-            #line default
-            #line hidden
-, 10212), false)
-, Tuple.Create(Tuple.Create(" ", 10226), Tuple.Create("reviews,", 10227), true)
-, Tuple.Create(Tuple.Create(" ", 10235), Tuple.Create("average", 10236), true)
-, Tuple.Create(Tuple.Create(" ", 10243), Tuple.Create("rating:", 10244), true)
-            
-            #line 246 "..\..\Views\Product\Index.cshtml"
-, Tuple.Create(Tuple.Create(" ", 10251), Tuple.Create<System.Object, System.Int32>(pe.FeeFoRating.ToString("0.00")
+            #line 254 "..\..\Views\Product\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 10458), Tuple.Create<System.Object, System.Int32>(pe.FeeFoCount
             
             #line default
             #line hidden
-, 10252), false)
+, 10458), false)
+, Tuple.Create(Tuple.Create(" ", 10472), Tuple.Create("reviews,", 10473), true)
+, Tuple.Create(Tuple.Create(" ", 10481), Tuple.Create("average", 10482), true)
+, Tuple.Create(Tuple.Create(" ", 10489), Tuple.Create("rating:", 10490), true)
+            
+            #line 254 "..\..\Views\Product\Index.cshtml"
+, Tuple.Create(Tuple.Create(" ", 10497), Tuple.Create<System.Object, System.Int32>(pe.FeeFoRating.ToString("0.00")
+            
+            #line default
+            #line hidden
+, 10498), false)
 );
 
 WriteLiteral(">\r\n                                <div");
 
 WriteLiteral(" class=\"pull-left g-of-h g-m-l-m15\"");
 
-WriteAttribute("style", Tuple.Create(" style=\"", 10359), Tuple.Create("\"", 10410)
-, Tuple.Create(Tuple.Create("", 10367), Tuple.Create("white-space:", 10367), true)
-, Tuple.Create(Tuple.Create(" ", 10379), Tuple.Create("nowrap;", 10380), true)
-, Tuple.Create(Tuple.Create(" ", 10387), Tuple.Create("width:", 10388), true)
+WriteAttribute("style", Tuple.Create(" style=\"", 10605), Tuple.Create("\"", 10656)
+, Tuple.Create(Tuple.Create("", 10613), Tuple.Create("white-space:", 10613), true)
+, Tuple.Create(Tuple.Create(" ", 10625), Tuple.Create("nowrap;", 10626), true)
+, Tuple.Create(Tuple.Create(" ", 10633), Tuple.Create("width:", 10634), true)
             
-            #line 247 "..\..\Views\Product\Index.cshtml"
-                          , Tuple.Create(Tuple.Create(" ", 10394), Tuple.Create<System.Object, System.Int32>(feefowidth
+            #line 255 "..\..\Views\Product\Index.cshtml"
+                          , Tuple.Create(Tuple.Create(" ", 10640), Tuple.Create<System.Object, System.Int32>(feefowidth
             
             #line default
             #line hidden
-, 10395), false)
-, Tuple.Create(Tuple.Create("", 10408), Tuple.Create("px", 10408), true)
+, 10641), false)
+, Tuple.Create(Tuple.Create("", 10654), Tuple.Create("px", 10654), true)
 );
 
 WriteLiteral(">\r\n                                    <i");
@@ -927,7 +977,7 @@ WriteLiteral(" class=\"pull-left g-p-l-5\"");
 WriteLiteral(">\r\n                                    (");
 
             
-            #line 255 "..\..\Views\Product\Index.cshtml"
+            #line 263 "..\..\Views\Product\Index.cshtml"
                                 Write(pe.FeeFoCount.ToString());
 
             
@@ -937,7 +987,7 @@ WriteLiteral(" Reviews)\r\n                                </div>\r\n           
 "div>\r\n");
 
             
-            #line 258 "..\..\Views\Product\Index.cshtml"
+            #line 266 "..\..\Views\Product\Index.cshtml"
                         }
                         else
                         {
@@ -952,7 +1002,7 @@ WriteLiteral(" class=\"g-h-30\"");
 WriteLiteral("></div>\r\n");
 
             
-            #line 262 "..\..\Views\Product\Index.cshtml"
+            #line 270 "..\..\Views\Product\Index.cshtml"
                         }
 
             
@@ -964,47 +1014,47 @@ WriteLiteral(" class=\"comm-title-image g-b-1-p g-bc-s g-flex-allcenter hidden-x
 
 WriteLiteral(">\r\n                        <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 11357), Tuple.Create("\"", 11484)
+WriteAttribute("src", Tuple.Create(" src=\"", 11603), Tuple.Create("\"", 11730)
             
-            #line 266 "..\..\Views\Product\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 11363), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
-            
-            #line default
-            #line hidden
-, 11363), false)
-, Tuple.Create(Tuple.Create("", 11403), Tuple.Create("/Images/BannerLogos/", 11403), true)
-            
-            #line 266 "..\..\Views\Product\Index.cshtml"
-              , Tuple.Create(Tuple.Create("", 11423), Tuple.Create<System.Object, System.Int32>(pe.Brand.Replace(' ', '-').Replace("-&", "").ToLower()
+            #line 274 "..\..\Views\Product\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 11609), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
             
             #line default
             #line hidden
-, 11423), false)
-, Tuple.Create(Tuple.Create("", 11480), Tuple.Create(".jpg", 11480), true)
+, 11609), false)
+, Tuple.Create(Tuple.Create("", 11649), Tuple.Create("/Images/BannerLogos/", 11649), true)
+            
+            #line 274 "..\..\Views\Product\Index.cshtml"
+              , Tuple.Create(Tuple.Create("", 11669), Tuple.Create<System.Object, System.Int32>(pe.Brand.Replace(' ', '-').Replace("-&", "").ToLower()
+            
+            #line default
+            #line hidden
+, 11669), false)
+, Tuple.Create(Tuple.Create("", 11726), Tuple.Create(".jpg", 11726), true)
 );
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 11485), Tuple.Create("\"", 11500)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 11731), Tuple.Create("\"", 11746)
             
-            #line 266 "..\..\Views\Product\Index.cshtml"
-                                                                                 , Tuple.Create(Tuple.Create("", 11491), Tuple.Create<System.Object, System.Int32>(pe.Brand
+            #line 274 "..\..\Views\Product\Index.cshtml"
+                                                                                 , Tuple.Create(Tuple.Create("", 11737), Tuple.Create<System.Object, System.Int32>(pe.Brand
             
             #line default
             #line hidden
-, 11491), false)
+, 11737), false)
 );
 
-WriteAttribute("onerror", Tuple.Create(" onerror=\"", 11501), Tuple.Create("\"", 11584)
-, Tuple.Create(Tuple.Create("", 11511), Tuple.Create("this.src", 11511), true)
-, Tuple.Create(Tuple.Create(" ", 11519), Tuple.Create("=", 11520), true)
-, Tuple.Create(Tuple.Create(" ", 11521), Tuple.Create("\'", 11522), true)
+WriteAttribute("onerror", Tuple.Create(" onerror=\"", 11747), Tuple.Create("\"", 11830)
+, Tuple.Create(Tuple.Create("", 11757), Tuple.Create("this.src", 11757), true)
+, Tuple.Create(Tuple.Create(" ", 11765), Tuple.Create("=", 11766), true)
+, Tuple.Create(Tuple.Create(" ", 11767), Tuple.Create("\'", 11768), true)
             
-            #line 266 "..\..\Views\Product\Index.cshtml"
-                                                                                                                 , Tuple.Create(Tuple.Create("", 11523), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+            #line 274 "..\..\Views\Product\Index.cshtml"
+                                                                                                                 , Tuple.Create(Tuple.Create("", 11769), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
             
             #line default
             #line hidden
-, 11523), false)
-, Tuple.Create(Tuple.Create("", 11563), Tuple.Create("/Images/noImage.jpg\';", 11563), true)
+, 11769), false)
+, Tuple.Create(Tuple.Create("", 11809), Tuple.Create("/Images/noImage.jpg\';", 11809), true)
 );
 
 WriteLiteral(" />\r\n                    </div>\r\n                </div>\r\n            </div>\r\n    " +
@@ -1044,7 +1094,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                                    ");
 
             
-            #line 284 "..\..\Views\Product\Index.cshtml"
+            #line 292 "..\..\Views\Product\Index.cshtml"
                                Write(Html.Raw(ViewBag.ImageSash));
 
             
@@ -1071,54 +1121,54 @@ WriteLiteral(">\r\n                                                <img");
 
 WriteLiteral(" id=\"prd-image\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 12730), Tuple.Create("\"", 12748)
+WriteAttribute("src", Tuple.Create(" src=\"", 12976), Tuple.Create("\"", 12994)
             
-            #line 291 "..\..\Views\Product\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 12736), Tuple.Create<System.Object, System.Int32>(pe.ImageUrl
+            #line 299 "..\..\Views\Product\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 12982), Tuple.Create<System.Object, System.Int32>(pe.ImageUrl
             
             #line default
             #line hidden
-, 12736), false)
+, 12982), false)
 );
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 12749), Tuple.Create("\"", 12770)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 12995), Tuple.Create("\"", 13016)
             
-            #line 291 "..\..\Views\Product\Index.cshtml"
-           , Tuple.Create(Tuple.Create("", 12755), Tuple.Create<System.Object, System.Int32>(pe.Description
+            #line 299 "..\..\Views\Product\Index.cshtml"
+           , Tuple.Create(Tuple.Create("", 13001), Tuple.Create<System.Object, System.Int32>(pe.Description
             
             #line default
             #line hidden
-, 12755), false)
+, 13001), false)
 );
 
 WriteLiteral(" data-toggle=\"modal\"");
 
 WriteLiteral(" data-target=\"#imageModal\"");
 
-WriteAttribute("onerror", Tuple.Create("\r\n                                                     onerror=\"", 12817), Tuple.Create("\"", 12954)
-, Tuple.Create(Tuple.Create("", 12881), Tuple.Create("this.src", 12881), true)
-, Tuple.Create(Tuple.Create(" ", 12889), Tuple.Create("=", 12890), true)
-, Tuple.Create(Tuple.Create(" ", 12891), Tuple.Create("\'", 12892), true)
+WriteAttribute("onerror", Tuple.Create("\r\n                                                     onerror=\"", 13063), Tuple.Create("\"", 13200)
+, Tuple.Create(Tuple.Create("", 13127), Tuple.Create("this.src", 13127), true)
+, Tuple.Create(Tuple.Create(" ", 13135), Tuple.Create("=", 13136), true)
+, Tuple.Create(Tuple.Create(" ", 13137), Tuple.Create("\'", 13138), true)
             
-            #line 292 "..\..\Views\Product\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 12893), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+            #line 300 "..\..\Views\Product\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 13139), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
             
             #line default
             #line hidden
-, 12893), false)
-, Tuple.Create(Tuple.Create("", 12933), Tuple.Create("/Images/noImage.jpg\';", 12933), true)
+, 13139), false)
+, Tuple.Create(Tuple.Create("", 13179), Tuple.Create("/Images/noImage.jpg\';", 13179), true)
 );
 
 WriteLiteral(" />\r\n");
 
             
-            #line 293 "..\..\Views\Product\Index.cshtml"
+            #line 301 "..\..\Views\Product\Index.cshtml"
                                                 
             
             #line default
             #line hidden
             
-            #line 293 "..\..\Views\Product\Index.cshtml"
+            #line 301 "..\..\Views\Product\Index.cshtml"
                                                  if (Model.ImageList.Count > 0)
                                                 {
 
@@ -1139,7 +1189,7 @@ WriteLiteral(" alt=\"zoom\"");
 WriteLiteral(" />\r\n                                                    </span>\r\n");
 
             
-            #line 298 "..\..\Views\Product\Index.cshtml"
+            #line 306 "..\..\Views\Product\Index.cshtml"
                                                 }
 
             
@@ -1157,13 +1207,13 @@ WriteLiteral(" class=\"g-flex-allcenter g-lh-30 g-w-100p g-m-lr-a\"");
 WriteLiteral(">\r\n");
 
             
-            #line 302 "..\..\Views\Product\Index.cshtml"
+            #line 310 "..\..\Views\Product\Index.cshtml"
                                                     
             
             #line default
             #line hidden
             
-            #line 302 "..\..\Views\Product\Index.cshtml"
+            #line 310 "..\..\Views\Product\Index.cshtml"
                                                      if (Model.ImageList.Count > 1)
                                                     {
                                                         Html.RenderPartial("~/Views/Product/ImageCarousel.cshtml", Model);
@@ -1196,13 +1246,13 @@ WriteLiteral(" class=\"visible-xs visible-sm g-m-t-20\"");
 WriteLiteral("></div>\r\n");
 
             
-            #line 315 "..\..\Views\Product\Index.cshtml"
+            #line 323 "..\..\Views\Product\Index.cshtml"
                                                 
             
             #line default
             #line hidden
             
-            #line 315 "..\..\Views\Product\Index.cshtml"
+            #line 323 "..\..\Views\Product\Index.cshtml"
                                                  if (pe.BrandFlag.Equals(BrandFlag.Original))
                                                 {
 
@@ -1229,7 +1279,7 @@ WriteLiteral(" class=\"g-d-ib\"");
 WriteLiteral(">\r\n                                                            <span>Original ");
 
             
-            #line 322 "..\..\Views\Product\Index.cshtml"
+            #line 330 "..\..\Views\Product\Index.cshtml"
                                                                       Write(pe.Brand);
 
             
@@ -1239,7 +1289,7 @@ WriteLiteral(" Product</span>\r\n                                               
 "                                                    </div>\r\n");
 
             
-            #line 325 "..\..\Views\Product\Index.cshtml"
+            #line 333 "..\..\Views\Product\Index.cshtml"
                                                 }
 
             
@@ -1248,13 +1298,13 @@ WriteLiteral(" Product</span>\r\n                                               
 WriteLiteral("\r\n");
 
             
-            #line 327 "..\..\Views\Product\Index.cshtml"
+            #line 335 "..\..\Views\Product\Index.cshtml"
                                                 
             
             #line default
             #line hidden
             
-            #line 327 "..\..\Views\Product\Index.cshtml"
+            #line 335 "..\..\Views\Product\Index.cshtml"
                                                  if (pe.Type == "Toner" || pe.Type == "Ink" || pe.Type == "Franking" || pe.Type == "Solid Ink")
                                                 {
 
@@ -1291,7 +1341,7 @@ WriteLiteral(">\r\n                                                            <
 "    </div>\r\n                                                    </div>\r\n");
 
             
-            #line 337 "..\..\Views\Product\Index.cshtml"
+            #line 345 "..\..\Views\Product\Index.cshtml"
                                                 }
 
             
@@ -1300,13 +1350,13 @@ WriteLiteral(">\r\n                                                            <
 WriteLiteral("\r\n");
 
             
-            #line 339 "..\..\Views\Product\Index.cshtml"
+            #line 347 "..\..\Views\Product\Index.cshtml"
                                                 
             
             #line default
             #line hidden
             
-            #line 339 "..\..\Views\Product\Index.cshtml"
+            #line 347 "..\..\Views\Product\Index.cshtml"
                                                  if (pe.BrandFlag.Equals(BrandFlag.Compatible))
                                                 {
 
@@ -1378,7 +1428,7 @@ WriteLiteral(">\r\n                                                            <
 "/div>\r\n                                                    </div>\r\n");
 
             
-            #line 363 "..\..\Views\Product\Index.cshtml"
+            #line 371 "..\..\Views\Product\Index.cshtml"
                                                 }
 
             
@@ -1387,13 +1437,13 @@ WriteLiteral(">\r\n                                                            <
 WriteLiteral("\r\n");
 
             
-            #line 365 "..\..\Views\Product\Index.cshtml"
+            #line 373 "..\..\Views\Product\Index.cshtml"
                                                 
             
             #line default
             #line hidden
             
-            #line 365 "..\..\Views\Product\Index.cshtml"
+            #line 373 "..\..\Views\Product\Index.cshtml"
                                                  if (pe.AttValue6 != 0 && pe.OfferBullet != null)
                                                 {
 
@@ -1409,7 +1459,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                                                        ");
 
             
-            #line 368 "..\..\Views\Product\Index.cshtml"
+            #line 376 "..\..\Views\Product\Index.cshtml"
                                                    Write(Html.Raw(pe.OfferBullet));
 
             
@@ -1418,7 +1468,7 @@ WriteLiteral("                                                        ");
 WriteLiteral("\r\n                                                    </div>\r\n");
 
             
-            #line 370 "..\..\Views\Product\Index.cshtml"
+            #line 378 "..\..\Views\Product\Index.cshtml"
                                                 }
 
             
@@ -1427,13 +1477,13 @@ WriteLiteral("\r\n                                                    </div>\r\n
 WriteLiteral("\r\n");
 
             
-            #line 372 "..\..\Views\Product\Index.cshtml"
+            #line 380 "..\..\Views\Product\Index.cshtml"
                                                 
             
             #line default
             #line hidden
             
-            #line 372 "..\..\Views\Product\Index.cshtml"
+            #line 380 "..\..\Views\Product\Index.cshtml"
                                                  if (Model.ProductPdfs.Count > 0)
                                                 {
 
@@ -1486,13 +1536,13 @@ WriteLiteral(">\r\n                                                             
 "                  </div>\r\n");
 
             
-            #line 388 "..\..\Views\Product\Index.cshtml"
+            #line 396 "..\..\Views\Product\Index.cshtml"
                                                                         
             
             #line default
             #line hidden
             
-            #line 388 "..\..\Views\Product\Index.cshtml"
+            #line 396 "..\..\Views\Product\Index.cshtml"
                                                                            var count = 1; 
             
             #line default
@@ -1500,13 +1550,13 @@ WriteLiteral(">\r\n                                                             
 WriteLiteral("\r\n");
 
             
-            #line 389 "..\..\Views\Product\Index.cshtml"
+            #line 397 "..\..\Views\Product\Index.cshtml"
                                                                         
             
             #line default
             #line hidden
             
-            #line 389 "..\..\Views\Product\Index.cshtml"
+            #line 397 "..\..\Views\Product\Index.cshtml"
                                                                          foreach (var pdf in Model.ProductPdfs)
                                                                         {
 
@@ -1517,14 +1567,14 @@ WriteLiteral("                                                                  
 "\r\n                                                                              " +
 "  <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 20995), Tuple.Create("\"", 21010)
+WriteAttribute("href", Tuple.Create(" href=\"", 21241), Tuple.Create("\"", 21256)
             
-            #line 392 "..\..\Views\Product\Index.cshtml"
-        , Tuple.Create(Tuple.Create("", 21002), Tuple.Create<System.Object, System.Int32>(pdf.Url
+            #line 400 "..\..\Views\Product\Index.cshtml"
+        , Tuple.Create(Tuple.Create("", 21248), Tuple.Create<System.Object, System.Int32>(pdf.Url
             
             #line default
             #line hidden
-, 21002), false)
+, 21248), false)
 );
 
 WriteLiteral(" target=\"_blank\"");
@@ -1532,7 +1582,7 @@ WriteLiteral(" target=\"_blank\"");
 WriteLiteral(">");
 
             
-            #line 392 "..\..\Views\Product\Index.cshtml"
+            #line 400 "..\..\Views\Product\Index.cshtml"
                                                                                                                Write(pdf.Description ?? "Document " + count);
 
             
@@ -1542,7 +1592,7 @@ WriteLiteral("</a>\r\n                                                          
 " </div>\r\n");
 
             
-            #line 394 "..\..\Views\Product\Index.cshtml"
+            #line 402 "..\..\Views\Product\Index.cshtml"
 
                                                                             count++;
                                                                         }
@@ -1558,7 +1608,7 @@ WriteLiteral(@"                                                                 
 ");
 
             
-            #line 402 "..\..\Views\Product\Index.cshtml"
+            #line 410 "..\..\Views\Product\Index.cshtml"
                                                 }
 
             
@@ -1567,13 +1617,13 @@ WriteLiteral(@"                                                                 
 WriteLiteral("\r\n");
 
             
-            #line 404 "..\..\Views\Product\Index.cshtml"
+            #line 412 "..\..\Views\Product\Index.cshtml"
                                                 
             
             #line default
             #line hidden
             
-            #line 404 "..\..\Views\Product\Index.cshtml"
+            #line 412 "..\..\Views\Product\Index.cshtml"
                                                  if (pe.Type == "Stationery")
                                                 {
                                                     if (pe.PageYield > 1)
@@ -1605,9 +1655,9 @@ WriteLiteral(" class=\"g-d-ib g-w-35\"");
 
 WriteLiteral(">\r\n                                                                    <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 22592), Tuple.Create("\"", 22627)
-, Tuple.Create(Tuple.Create("", 22598), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 22598), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 22838), Tuple.Create("\"", 22873)
+, Tuple.Create(Tuple.Create("", 22844), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 22844), false)
 );
 
 WriteLiteral(" class=\"msp_packSize\"");
@@ -1623,7 +1673,7 @@ WriteLiteral(">\r\n                                                             
 " Quantity: ");
 
             
-            #line 417 "..\..\Views\Product\Index.cshtml"
+            #line 425 "..\..\Views\Product\Index.cshtml"
                                                                                     Write(pe.PageYield);
 
             
@@ -1634,7 +1684,7 @@ WriteLiteral("</span>\r\n                                                       
 "                                            </div>\r\n");
 
             
-            #line 421 "..\..\Views\Product\Index.cshtml"
+            #line 429 "..\..\Views\Product\Index.cshtml"
                                                     }
                                                 }
 
@@ -1644,13 +1694,13 @@ WriteLiteral("</span>\r\n                                                       
 WriteLiteral("\r\n");
 
             
-            #line 424 "..\..\Views\Product\Index.cshtml"
+            #line 432 "..\..\Views\Product\Index.cshtml"
                                                 
             
             #line default
             #line hidden
             
-            #line 424 "..\..\Views\Product\Index.cshtml"
+            #line 432 "..\..\Views\Product\Index.cshtml"
                                                  if (Model.Product.SpecLine6 == "Paper" || Model.Product.SpecLine6 == "Printer" || Model.Product.SpecLine6 == "Stationery"
                                                     || Model.Product.SpecLine6 == "Audio Visual")
                                                 {
@@ -1669,7 +1719,7 @@ WriteLiteral(" id=\"flix-minisite\"");
 WriteLiteral("></div>\r\n                                                    </div>\r\n");
 
             
-            #line 430 "..\..\Views\Product\Index.cshtml"
+            #line 438 "..\..\Views\Product\Index.cshtml"
                                                 }
 
             
@@ -1682,13 +1732,13 @@ WriteLiteral(" class=\"row clearfix\"");
 WriteLiteral(">\r\n");
 
             
-            #line 433 "..\..\Views\Product\Index.cshtml"
+            #line 441 "..\..\Views\Product\Index.cshtml"
                                                     
             
             #line default
             #line hidden
             
-            #line 433 "..\..\Views\Product\Index.cshtml"
+            #line 441 "..\..\Views\Product\Index.cshtml"
                                                      if (pe.PrimarySortSeq.Equals(ProductFlag.Assembly))
                                                     {
                                                         if (pe.AssemblySaving > 0)
@@ -1708,7 +1758,7 @@ WriteLiteral("\r\n                                                              
 "nts=\"savingamount=&pound;");
 
             
-            #line 439 "..\..\Views\Product\Index.cshtml"
+            #line 447 "..\..\Views\Product\Index.cshtml"
                                                                                                    Write(pe.AssemblySaving.ToString("#,###,##0.00"));
 
             
@@ -1724,9 +1774,9 @@ WriteLiteral("\r\n                                                              
 
 WriteLiteral(">\r\n                                                                <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 24862), Tuple.Create("\"", 24897)
-, Tuple.Create(Tuple.Create("", 24868), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 24868), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 25108), Tuple.Create("\"", 25143)
+, Tuple.Create(Tuple.Create("", 25114), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 25114), false)
 );
 
 WriteLiteral(" class=\"msp_multibox\"");
@@ -1745,7 +1795,7 @@ WriteLiteral(" class=\"g-p-l-5\"");
 WriteLiteral(">&pound;");
 
             
-            #line 444 "..\..\Views\Product\Index.cshtml"
+            #line 452 "..\..\Views\Product\Index.cshtml"
                                                                                         Write(pe.AssemblySaving.ToString("#,###,##0.00"));
 
             
@@ -1754,7 +1804,7 @@ WriteLiteral(">&pound;");
 WriteLiteral("</span>\r\n                                                            </div>\r\n");
 
             
-            #line 446 "..\..\Views\Product\Index.cshtml"
+            #line 454 "..\..\Views\Product\Index.cshtml"
                                                         }
                                                         foreach (ProductComponent ce in pe.ComponentList)
                                                         {
@@ -1784,7 +1834,7 @@ WriteLiteral(" class=\"g-m-l-10 g-f-l\"");
 WriteLiteral(">");
 
             
-            #line 455 "..\..\Views\Product\Index.cshtml"
+            #line 463 "..\..\Views\Product\Index.cshtml"
                                                                                             Write(ce.AttValue9 != 2 ? ce.PackQuantity.ToString() + " x" : "");
 
             
@@ -1792,25 +1842,25 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</div>\r\n                                                                    <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 26320), Tuple.Create("\"", 26375)
-, Tuple.Create(Tuple.Create("", 26328), Tuple.Create("pl-chip", 26328), true)
-, Tuple.Create(Tuple.Create(" ", 26335), Tuple.Create("g-fc-st", 26336), true)
-, Tuple.Create(Tuple.Create(" ", 26343), Tuple.Create("g-m-lr-5", 26344), true)
-, Tuple.Create(Tuple.Create(" ", 26352), Tuple.Create("g-f-l", 26353), true)
-, Tuple.Create(Tuple.Create(" ", 26358), Tuple.Create("cc-", 26359), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 26566), Tuple.Create("\"", 26621)
+, Tuple.Create(Tuple.Create("", 26574), Tuple.Create("pl-chip", 26574), true)
+, Tuple.Create(Tuple.Create(" ", 26581), Tuple.Create("g-fc-st", 26582), true)
+, Tuple.Create(Tuple.Create(" ", 26589), Tuple.Create("g-m-lr-5", 26590), true)
+, Tuple.Create(Tuple.Create(" ", 26598), Tuple.Create("g-f-l", 26599), true)
+, Tuple.Create(Tuple.Create(" ", 26604), Tuple.Create("cc-", 26605), true)
             
-            #line 456 "..\..\Views\Product\Index.cshtml"
-                                 , Tuple.Create(Tuple.Create("", 26362), Tuple.Create<System.Object, System.Int32>(ce.AttValue8
+            #line 464 "..\..\Views\Product\Index.cshtml"
+                                 , Tuple.Create(Tuple.Create("", 26608), Tuple.Create<System.Object, System.Int32>(ce.AttValue8
             
             #line default
             #line hidden
-, 26362), false)
+, 26608), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 456 "..\..\Views\Product\Index.cshtml"
+            #line 464 "..\..\Views\Product\Index.cshtml"
                                                                                                                             Write(ce.AttDesc8);
 
             
@@ -1819,7 +1869,7 @@ WriteLiteral(">");
 WriteLiteral("</div>\r\n                                                                </div>\r\n");
 
             
-            #line 458 "..\..\Views\Product\Index.cshtml"
+            #line 466 "..\..\Views\Product\Index.cshtml"
                                                             }
                                                             else
                                                             {
@@ -1847,7 +1897,7 @@ WriteLiteral(" class=\"g-m-l-10\"");
 WriteLiteral(">");
 
             
-            #line 465 "..\..\Views\Product\Index.cshtml"
+            #line 473 "..\..\Views\Product\Index.cshtml"
                                                                                       Write(ce.AttValue9 != 2 ? ce.PackQuantity.ToString() + " x" : "");
 
             
@@ -1855,24 +1905,24 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</div>\r\n                                                                    <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 27316), Tuple.Create("\"", 27365)
-, Tuple.Create(Tuple.Create("", 27324), Tuple.Create("pl-chip", 27324), true)
-, Tuple.Create(Tuple.Create(" ", 27331), Tuple.Create("g-fc-st", 27332), true)
-, Tuple.Create(Tuple.Create(" ", 27339), Tuple.Create("g-m-lr-5", 27340), true)
-, Tuple.Create(Tuple.Create(" ", 27348), Tuple.Create("cc-", 27349), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 27562), Tuple.Create("\"", 27611)
+, Tuple.Create(Tuple.Create("", 27570), Tuple.Create("pl-chip", 27570), true)
+, Tuple.Create(Tuple.Create(" ", 27577), Tuple.Create("g-fc-st", 27578), true)
+, Tuple.Create(Tuple.Create(" ", 27585), Tuple.Create("g-m-lr-5", 27586), true)
+, Tuple.Create(Tuple.Create(" ", 27594), Tuple.Create("cc-", 27595), true)
             
-            #line 466 "..\..\Views\Product\Index.cshtml"
-                           , Tuple.Create(Tuple.Create("", 27352), Tuple.Create<System.Object, System.Int32>(ce.AttValue8
+            #line 474 "..\..\Views\Product\Index.cshtml"
+                           , Tuple.Create(Tuple.Create("", 27598), Tuple.Create<System.Object, System.Int32>(ce.AttValue8
             
             #line default
             #line hidden
-, 27352), false)
+, 27598), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 466 "..\..\Views\Product\Index.cshtml"
+            #line 474 "..\..\Views\Product\Index.cshtml"
                                                                                                                       Write(ce.AttDesc8);
 
             
@@ -1881,13 +1931,13 @@ WriteLiteral(">");
 WriteLiteral("</div>\r\n");
 
             
-            #line 467 "..\..\Views\Product\Index.cshtml"
+            #line 475 "..\..\Views\Product\Index.cshtml"
                                                                     
             
             #line default
             #line hidden
             
-            #line 467 "..\..\Views\Product\Index.cshtml"
+            #line 475 "..\..\Views\Product\Index.cshtml"
                                                                      if (ce.PageYield > 0)
                                                                     {
 
@@ -1897,7 +1947,7 @@ WriteLiteral("</div>\r\n");
 WriteLiteral("                                                                        <div>");
 
             
-            #line 469 "..\..\Views\Product\Index.cshtml"
+            #line 477 "..\..\Views\Product\Index.cshtml"
                                                                         Write(ce.PageYield.ToString("#,###,##0"));
 
             
@@ -1906,7 +1956,7 @@ WriteLiteral("                                                                  
 WriteLiteral(" Pages</div>\r\n");
 
             
-            #line 470 "..\..\Views\Product\Index.cshtml"
+            #line 478 "..\..\Views\Product\Index.cshtml"
                                                                     }
 
             
@@ -1915,7 +1965,7 @@ WriteLiteral(" Pages</div>\r\n");
 WriteLiteral("                                                                    ");
 
             
-            #line 471 "..\..\Views\Product\Index.cshtml"
+            #line 479 "..\..\Views\Product\Index.cshtml"
                                                                      if (ce.Capacity.ToSafeString() != "")
                                                                     {
 
@@ -1929,7 +1979,7 @@ WriteLiteral(" class=\"pull-left g-p-l-5 g-fc-tt\"");
 WriteLiteral(">(");
 
             
-            #line 473 "..\..\Views\Product\Index.cshtml"
+            #line 481 "..\..\Views\Product\Index.cshtml"
                                                                                                            Write(ce.Capacity.ToSafeString());
 
             
@@ -1938,7 +1988,7 @@ WriteLiteral(">(");
 WriteLiteral("ml)</div>\r\n");
 
             
-            #line 474 "..\..\Views\Product\Index.cshtml"
+            #line 482 "..\..\Views\Product\Index.cshtml"
                                                                     }
 
             
@@ -1947,7 +1997,7 @@ WriteLiteral("ml)</div>\r\n");
 WriteLiteral("                                                                </div>\r\n");
 
             
-            #line 476 "..\..\Views\Product\Index.cshtml"
+            #line 484 "..\..\Views\Product\Index.cshtml"
                                                             }
                                                         }
                                                     }
@@ -1958,13 +2008,13 @@ WriteLiteral("                                                                </
 WriteLiteral("\r\n");
 
             
-            #line 480 "..\..\Views\Product\Index.cshtml"
+            #line 488 "..\..\Views\Product\Index.cshtml"
                                                     
             
             #line default
             #line hidden
             
-            #line 480 "..\..\Views\Product\Index.cshtml"
+            #line 488 "..\..\Views\Product\Index.cshtml"
                                                      if (pe.Type == "Toner" || pe.Type == "Ink" || pe.Type == "Franking" || pe.Type == "Solid Ink")
                                                     {
                                                         if (pe.PageYield > 1)
@@ -2008,7 +2058,7 @@ WriteLiteral(" class=\"g-m-l-10\"");
 WriteLiteral(">Cost per page ");
 
             
-            #line 492 "..\..\Views\Product\Index.cshtml"
+            #line 500 "..\..\Views\Product\Index.cshtml"
                                                                                                  Write((mainPrice * 100 / pe.PageYield).ToString("#,###,##0.00"));
 
             
@@ -2017,7 +2067,7 @@ WriteLiteral(">Cost per page ");
 WriteLiteral("p</span>\r\n                                                            </div>\r\n");
 
             
-            #line 494 "..\..\Views\Product\Index.cshtml"
+            #line 502 "..\..\Views\Product\Index.cshtml"
                                                         }
                                                         if (pe.PrimarySortSeq.Equals(ProductFlag.Ancillary))
                                                         {
@@ -2047,30 +2097,30 @@ WriteLiteral(" class=\"g-m-l-10\"");
 WriteLiteral(">1 x</div>\r\n                                                                    <" +
 "div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 30779), Tuple.Create("\"", 30828)
-, Tuple.Create(Tuple.Create("", 30787), Tuple.Create("pl-chip", 30787), true)
-, Tuple.Create(Tuple.Create(" ", 30794), Tuple.Create("g-fc-st", 30795), true)
-, Tuple.Create(Tuple.Create(" ", 30802), Tuple.Create("g-m-lr-5", 30803), true)
-, Tuple.Create(Tuple.Create(" ", 30811), Tuple.Create("cc-", 30812), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 31025), Tuple.Create("\"", 31074)
+, Tuple.Create(Tuple.Create("", 31033), Tuple.Create("pl-chip", 31033), true)
+, Tuple.Create(Tuple.Create(" ", 31040), Tuple.Create("g-fc-st", 31041), true)
+, Tuple.Create(Tuple.Create(" ", 31048), Tuple.Create("g-m-lr-5", 31049), true)
+, Tuple.Create(Tuple.Create(" ", 31057), Tuple.Create("cc-", 31058), true)
             
-            #line 504 "..\..\Views\Product\Index.cshtml"
-                           , Tuple.Create(Tuple.Create("", 30815), Tuple.Create<System.Object, System.Int32>(pe.AttValue8
+            #line 512 "..\..\Views\Product\Index.cshtml"
+                           , Tuple.Create(Tuple.Create("", 31061), Tuple.Create<System.Object, System.Int32>(pe.AttValue8
             
             #line default
             #line hidden
-, 30815), false)
+, 31061), false)
 );
 
 WriteLiteral(">\r\n");
 
             
-            #line 505 "..\..\Views\Product\Index.cshtml"
+            #line 513 "..\..\Views\Product\Index.cshtml"
                                                                         
             
             #line default
             #line hidden
             
-            #line 505 "..\..\Views\Product\Index.cshtml"
+            #line 513 "..\..\Views\Product\Index.cshtml"
                                                                          if (pe.AttDesc8 == "Maintenance")
                                                                         {
 
@@ -2084,7 +2134,7 @@ WriteLiteral(" class=\"fa fa-wrench\"");
 WriteLiteral("></i>\r\n");
 
             
-            #line 508 "..\..\Views\Product\Index.cshtml"
+            #line 516 "..\..\Views\Product\Index.cshtml"
                                                                         }
 
             
@@ -2093,13 +2143,13 @@ WriteLiteral("></i>\r\n");
 WriteLiteral("                                                                    </div>\r\n");
 
             
-            #line 510 "..\..\Views\Product\Index.cshtml"
+            #line 518 "..\..\Views\Product\Index.cshtml"
                                                                     
             
             #line default
             #line hidden
             
-            #line 510 "..\..\Views\Product\Index.cshtml"
+            #line 518 "..\..\Views\Product\Index.cshtml"
                                                                      if (pe.PageYield > 1)
                                                                     {
 
@@ -2109,7 +2159,7 @@ WriteLiteral("                                                                  
 WriteLiteral("                                                                        <div>");
 
             
-            #line 512 "..\..\Views\Product\Index.cshtml"
+            #line 520 "..\..\Views\Product\Index.cshtml"
                                                                         Write(pe.PageYield.ToString("#,###,##0"));
 
             
@@ -2118,7 +2168,7 @@ WriteLiteral("                                                                  
 WriteLiteral(" Cycles</div>\r\n");
 
             
-            #line 513 "..\..\Views\Product\Index.cshtml"
+            #line 521 "..\..\Views\Product\Index.cshtml"
                                                                     }
 
             
@@ -2127,7 +2177,7 @@ WriteLiteral(" Cycles</div>\r\n");
 WriteLiteral("                                                                </div>\r\n");
 
             
-            #line 515 "..\..\Views\Product\Index.cshtml"
+            #line 523 "..\..\Views\Product\Index.cshtml"
                                                             }
                                                         }
                                                         if (pe.AttValue8 > 0)
@@ -2154,13 +2204,13 @@ WriteLiteral("\r\n                                                              
 WriteLiteral(">\r\n\r\n");
 
             
-            #line 526 "..\..\Views\Product\Index.cshtml"
+            #line 534 "..\..\Views\Product\Index.cshtml"
                                                                     
             
             #line default
             #line hidden
             
-            #line 526 "..\..\Views\Product\Index.cshtml"
+            #line 534 "..\..\Views\Product\Index.cshtml"
                                                                      if (pe.AttValue9 != 2)
                                                                     {
 
@@ -2174,7 +2224,7 @@ WriteLiteral(" class=\"g-m-l-10\"");
 WriteLiteral(">1 x</div>\r\n");
 
             
-            #line 529 "..\..\Views\Product\Index.cshtml"
+            #line 537 "..\..\Views\Product\Index.cshtml"
                                                                     }
 
             
@@ -2182,31 +2232,31 @@ WriteLiteral(">1 x</div>\r\n");
             #line hidden
 WriteLiteral("\r\n                                                                    <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 32971), Tuple.Create("\"", 33066)
-, Tuple.Create(Tuple.Create("", 32979), Tuple.Create("pl-chip", 32979), true)
-, Tuple.Create(Tuple.Create(" ", 32986), Tuple.Create("g-fc-st", 32987), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 33217), Tuple.Create("\"", 33312)
+, Tuple.Create(Tuple.Create("", 33225), Tuple.Create("pl-chip", 33225), true)
+, Tuple.Create(Tuple.Create(" ", 33232), Tuple.Create("g-fc-st", 33233), true)
             
-            #line 531 "..\..\Views\Product\Index.cshtml"
-               , Tuple.Create(Tuple.Create(" ", 32994), Tuple.Create<System.Object, System.Int32>(pe.AttValue9 != 2 ? "g-m-l-10" : "g-m-l-5"
-            
-            #line default
-            #line hidden
-, 32995), false)
-, Tuple.Create(Tuple.Create(" ", 33040), Tuple.Create("g-m-r-10", 33041), true)
-, Tuple.Create(Tuple.Create(" ", 33049), Tuple.Create("cc-", 33050), true)
-            
-            #line 531 "..\..\Views\Product\Index.cshtml"
-                                                                         , Tuple.Create(Tuple.Create("", 33053), Tuple.Create<System.Object, System.Int32>(pe.AttValue8
+            #line 539 "..\..\Views\Product\Index.cshtml"
+               , Tuple.Create(Tuple.Create(" ", 33240), Tuple.Create<System.Object, System.Int32>(pe.AttValue9 != 2 ? "g-m-l-10" : "g-m-l-5"
             
             #line default
             #line hidden
-, 33053), false)
+, 33241), false)
+, Tuple.Create(Tuple.Create(" ", 33286), Tuple.Create("g-m-r-10", 33287), true)
+, Tuple.Create(Tuple.Create(" ", 33295), Tuple.Create("cc-", 33296), true)
+            
+            #line 539 "..\..\Views\Product\Index.cshtml"
+                                                                         , Tuple.Create(Tuple.Create("", 33299), Tuple.Create<System.Object, System.Int32>(pe.AttValue8
+            
+            #line default
+            #line hidden
+, 33299), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 531 "..\..\Views\Product\Index.cshtml"
+            #line 539 "..\..\Views\Product\Index.cshtml"
                                                                                                                                                                     Write(pe.AttDesc8);
 
             
@@ -2215,13 +2265,13 @@ WriteLiteral(">");
 WriteLiteral("</div>\r\n");
 
             
-            #line 532 "..\..\Views\Product\Index.cshtml"
+            #line 540 "..\..\Views\Product\Index.cshtml"
                                                                     
             
             #line default
             #line hidden
             
-            #line 532 "..\..\Views\Product\Index.cshtml"
+            #line 540 "..\..\Views\Product\Index.cshtml"
                                                                      if (pe.PageYield > 1)
                                                                     {
 
@@ -2231,7 +2281,7 @@ WriteLiteral("</div>\r\n");
 WriteLiteral("                                                                        <div>");
 
             
-            #line 534 "..\..\Views\Product\Index.cshtml"
+            #line 542 "..\..\Views\Product\Index.cshtml"
                                                                         Write(pe.PageYield.ToString("#,###,##0"));
 
             
@@ -2240,7 +2290,7 @@ WriteLiteral("                                                                  
 WriteLiteral(" Pages</div>\r\n");
 
             
-            #line 535 "..\..\Views\Product\Index.cshtml"
+            #line 543 "..\..\Views\Product\Index.cshtml"
                                                                     }
 
             
@@ -2249,7 +2299,7 @@ WriteLiteral(" Pages</div>\r\n");
 WriteLiteral("                                                                    ");
 
             
-            #line 536 "..\..\Views\Product\Index.cshtml"
+            #line 544 "..\..\Views\Product\Index.cshtml"
                                                                      if (pe.Capacity.ToSafeString() != "")
                                                                     {
 
@@ -2263,7 +2313,7 @@ WriteLiteral(" class=\"pull-left g-p-l-5 g-fc-tt\"");
 WriteLiteral(">(");
 
             
-            #line 538 "..\..\Views\Product\Index.cshtml"
+            #line 546 "..\..\Views\Product\Index.cshtml"
                                                                                                            Write(pe.Capacity.ToSafeString());
 
             
@@ -2272,7 +2322,7 @@ WriteLiteral(">(");
 WriteLiteral("ml)</div>\r\n");
 
             
-            #line 539 "..\..\Views\Product\Index.cshtml"
+            #line 547 "..\..\Views\Product\Index.cshtml"
                                                                     }
 
             
@@ -2281,7 +2331,7 @@ WriteLiteral("ml)</div>\r\n");
 WriteLiteral("                                                                </div>\r\n");
 
             
-            #line 541 "..\..\Views\Product\Index.cshtml"
+            #line 549 "..\..\Views\Product\Index.cshtml"
                                                             }
                                                         }
                                                     }
@@ -2304,19 +2354,19 @@ WriteLiteral("></div>\r\n\r\n                                <!-- Price Box -->\
 
 WriteLiteral(" id=\"price-box\"");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 34524), Tuple.Create("\"", 34611)
-, Tuple.Create(Tuple.Create("", 34532), Tuple.Create("g-boxshadow", 34532), true)
-, Tuple.Create(Tuple.Create(" ", 34543), Tuple.Create("g-bc-s", 34544), true)
-, Tuple.Create(Tuple.Create(" ", 34550), Tuple.Create("g-p-lr-30", 34551), true)
-, Tuple.Create(Tuple.Create(" ", 34560), Tuple.Create("g-p-t-30", 34561), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 34770), Tuple.Create("\"", 34857)
+, Tuple.Create(Tuple.Create("", 34778), Tuple.Create("g-boxshadow", 34778), true)
+, Tuple.Create(Tuple.Create(" ", 34789), Tuple.Create("g-bc-s", 34790), true)
+, Tuple.Create(Tuple.Create(" ", 34796), Tuple.Create("g-p-lr-30", 34797), true)
+, Tuple.Create(Tuple.Create(" ", 34806), Tuple.Create("g-p-t-30", 34807), true)
             
-            #line 553 "..\..\Views\Product\Index.cshtml"
-                , Tuple.Create(Tuple.Create(" ", 34569), Tuple.Create<System.Object, System.Int32>(showCrossSell ? "" : "g-p-b-30"
+            #line 561 "..\..\Views\Product\Index.cshtml"
+                , Tuple.Create(Tuple.Create(" ", 34815), Tuple.Create<System.Object, System.Int32>(showCrossSell ? "" : "g-p-b-30"
             
             #line default
             #line hidden
-, 34570), false)
-, Tuple.Create(Tuple.Create(" ", 34604), Tuple.Create("g-va-t", 34605), true)
+, 34816), false)
+, Tuple.Create(Tuple.Create(" ", 34850), Tuple.Create("g-va-t", 34851), true)
 );
 
 WriteLiteral(">\r\n                                    <div");
@@ -2326,13 +2376,13 @@ WriteLiteral(" class=\"atb-entry g-ps-r clearfix\"");
 WriteLiteral(">\r\n");
 
             
-            #line 555 "..\..\Views\Product\Index.cshtml"
+            #line 563 "..\..\Views\Product\Index.cshtml"
                                         
             
             #line default
             #line hidden
             
-            #line 555 "..\..\Views\Product\Index.cshtml"
+            #line 563 "..\..\Views\Product\Index.cshtml"
                                           
                                             bool productHasOffer = false;
                                             if (pe.BrandFlag.Equals(BrandFlag.Compatible) && !Convert.ToBoolean(HttpContext.Current.Session["U_IsTradeCustomer"]))
@@ -2349,14 +2399,14 @@ WriteLiteral(">\r\n");
             #line default
             #line hidden
             
-            #line 566 "..\..\Views\Product\Index.cshtml"
+            #line 574 "..\..\Views\Product\Index.cshtml"
                                                Write(Html.RawFromDict(Model.ProductData, "CompatibleOverlayCss"));
 
             
             #line default
             #line hidden
             
-            #line 566 "..\..\Views\Product\Index.cshtml"
+            #line 574 "..\..\Views\Product\Index.cshtml"
                                                                                                                 
 
 
@@ -2365,17 +2415,17 @@ WriteLiteral(">\r\n");
             #line hidden
 WriteLiteral("                                                    <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 35825), Tuple.Create("\"", 35876)
+WriteAttribute("class", Tuple.Create(" class=\"", 36071), Tuple.Create("\"", 36122)
             
-            #line 568 "..\..\Views\Product\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 35833), Tuple.Create<System.Object, System.Int32>(offerClass
+            #line 576 "..\..\Views\Product\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 36079), Tuple.Create<System.Object, System.Int32>(offerClass
             
             #line default
             #line hidden
-, 35833), false)
-, Tuple.Create(Tuple.Create(" ", 35844), Tuple.Create("offer-overlay", 35845), true)
-, Tuple.Create(Tuple.Create(" ", 35858), Tuple.Create("g-fc-st", 35859), true)
-, Tuple.Create(Tuple.Create(" ", 35866), Tuple.Create("g-ps-r-md", 35867), true)
+, 36079), false)
+, Tuple.Create(Tuple.Create(" ", 36090), Tuple.Create("offer-overlay", 36091), true)
+, Tuple.Create(Tuple.Create(" ", 36104), Tuple.Create("g-fc-st", 36105), true)
+, Tuple.Create(Tuple.Create(" ", 36112), Tuple.Create("g-ps-r-md", 36113), true)
 );
 
 WriteLiteral(">\r\n                                                        <div");
@@ -2389,7 +2439,7 @@ WriteLiteral(" class=\"pull-left\"");
 WriteLiteral(">\r\n                                                                <strong>");
 
             
-            #line 571 "..\..\Views\Product\Index.cshtml"
+            #line 579 "..\..\Views\Product\Index.cshtml"
                                                                     Write(Model.IsCompatibleSaleActive ? "SALE PRICE" : "EXCLUSIVE OFFER PRICE");
 
             
@@ -2428,7 +2478,7 @@ WriteLiteral(" class=\"g-fs-xl g-p-lr-5\"");
 WriteLiteral(">\r\n                                                            &pound;");
 
             
-            #line 583 "..\..\Views\Product\Index.cshtml"
+            #line 591 "..\..\Views\Product\Index.cshtml"
                                                               Write(salePrice.ToString("#,###,##0.00"));
 
             
@@ -2441,7 +2491,7 @@ WriteLiteral(" class=\"g-fc-st g-fs-sm\"");
 WriteLiteral(">");
 
             
-            #line 583 "..\..\Views\Product\Index.cshtml"
+            #line 591 "..\..\Views\Product\Index.cshtml"
                                                                                                                                 Write(mainPriceVAT);
 
             
@@ -2456,7 +2506,7 @@ WriteLiteral(">\r\n                                                            W
 " <strong>");
 
             
-            #line 586 "..\..\Views\Product\Index.cshtml"
+            #line 594 "..\..\Views\Product\Index.cshtml"
                                                                                   Write(voucher);
 
             
@@ -2466,7 +2516,7 @@ WriteLiteral("</strong>\r\n                                                     
 "                                              </div>\r\n");
 
             
-            #line 589 "..\..\Views\Product\Index.cshtml"
+            #line 597 "..\..\Views\Product\Index.cshtml"
                                                 }
                                             }
                                             if (pe.BrandFlag.Equals(BrandFlag.Original) && !Convert.ToBoolean(HttpContext.Current.Session["U_IsTradeCustomer"]))
@@ -2483,14 +2533,14 @@ WriteLiteral("</strong>\r\n                                                     
             #line default
             #line hidden
             
-            #line 600 "..\..\Views\Product\Index.cshtml"
+            #line 608 "..\..\Views\Product\Index.cshtml"
                                                Write(Html.RawFromDict(Model.ProductData, "OEMOverlayCss"));
 
             
             #line default
             #line hidden
             
-            #line 600 "..\..\Views\Product\Index.cshtml"
+            #line 608 "..\..\Views\Product\Index.cshtml"
                                                                                                          
 
 
@@ -2499,17 +2549,17 @@ WriteLiteral("</strong>\r\n                                                     
             #line hidden
 WriteLiteral("                                                    <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 38834), Tuple.Create("\"", 38885)
+WriteAttribute("class", Tuple.Create(" class=\"", 39080), Tuple.Create("\"", 39131)
             
-            #line 602 "..\..\Views\Product\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 38842), Tuple.Create<System.Object, System.Int32>(offerClass
+            #line 610 "..\..\Views\Product\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 39088), Tuple.Create<System.Object, System.Int32>(offerClass
             
             #line default
             #line hidden
-, 38842), false)
-, Tuple.Create(Tuple.Create(" ", 38853), Tuple.Create("offer-overlay", 38854), true)
-, Tuple.Create(Tuple.Create(" ", 38867), Tuple.Create("g-fc-st", 38868), true)
-, Tuple.Create(Tuple.Create(" ", 38875), Tuple.Create("g-ps-r-md", 38876), true)
+, 39088), false)
+, Tuple.Create(Tuple.Create(" ", 39099), Tuple.Create("offer-overlay", 39100), true)
+, Tuple.Create(Tuple.Create(" ", 39113), Tuple.Create("g-fc-st", 39114), true)
+, Tuple.Create(Tuple.Create(" ", 39121), Tuple.Create("g-ps-r-md", 39122), true)
 );
 
 WriteLiteral(">\r\n                                                        <div");
@@ -2523,7 +2573,7 @@ WriteLiteral(" class=\"pull-left\"");
 WriteLiteral(">\r\n                                                                <strong>");
 
             
-            #line 605 "..\..\Views\Product\Index.cshtml"
+            #line 613 "..\..\Views\Product\Index.cshtml"
                                                                     Write(Model.IsOEMSaleActive ? "SALE PRICE" : "EXCLUSIVE OFFER PRICE");
 
             
@@ -2562,7 +2612,7 @@ WriteLiteral(" class=\"g-fs-xl g-p-lr-5\"");
 WriteLiteral(">\r\n                                                            &pound;");
 
             
-            #line 617 "..\..\Views\Product\Index.cshtml"
+            #line 625 "..\..\Views\Product\Index.cshtml"
                                                               Write(salePrice.ToString("#,###,##0.00"));
 
             
@@ -2575,7 +2625,7 @@ WriteLiteral(" class=\"g-fc-st g-fs-sm\"");
 WriteLiteral(">");
 
             
-            #line 617 "..\..\Views\Product\Index.cshtml"
+            #line 625 "..\..\Views\Product\Index.cshtml"
                                                                                                                                 Write(mainPriceVAT);
 
             
@@ -2590,7 +2640,7 @@ WriteLiteral(">\r\n                                                            W
 " <strong>");
 
             
-            #line 620 "..\..\Views\Product\Index.cshtml"
+            #line 628 "..\..\Views\Product\Index.cshtml"
                                                                                   Write(voucher);
 
             
@@ -2600,7 +2650,7 @@ WriteLiteral("</strong>\r\n                                                     
 "                                              </div>\r\n");
 
             
-            #line 623 "..\..\Views\Product\Index.cshtml"
+            #line 631 "..\..\Views\Product\Index.cshtml"
                                                 }
                                                 else
                                                 {
@@ -2612,14 +2662,14 @@ WriteLiteral("</strong>\r\n                                                     
             #line default
             #line hidden
             
-            #line 629 "..\..\Views\Product\Index.cshtml"
+            #line 637 "..\..\Views\Product\Index.cshtml"
                                                    Write(Html.RawFromDict(Model.ProductData, "StationeryOverlayCss"));
 
             
             #line default
             #line hidden
             
-            #line 629 "..\..\Views\Product\Index.cshtml"
+            #line 637 "..\..\Views\Product\Index.cshtml"
                                                                                                                     
 
 
@@ -2628,17 +2678,17 @@ WriteLiteral("</strong>\r\n                                                     
             #line hidden
 WriteLiteral("                                                        <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 41334), Tuple.Create("\"", 41385)
+WriteAttribute("class", Tuple.Create(" class=\"", 41580), Tuple.Create("\"", 41631)
             
-            #line 631 "..\..\Views\Product\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 41342), Tuple.Create<System.Object, System.Int32>(offerClass
+            #line 639 "..\..\Views\Product\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 41588), Tuple.Create<System.Object, System.Int32>(offerClass
             
             #line default
             #line hidden
-, 41342), false)
-, Tuple.Create(Tuple.Create(" ", 41353), Tuple.Create("offer-overlay", 41354), true)
-, Tuple.Create(Tuple.Create(" ", 41367), Tuple.Create("g-fc-st", 41368), true)
-, Tuple.Create(Tuple.Create(" ", 41375), Tuple.Create("g-ps-r-md", 41376), true)
+, 41588), false)
+, Tuple.Create(Tuple.Create(" ", 41599), Tuple.Create("offer-overlay", 41600), true)
+, Tuple.Create(Tuple.Create(" ", 41613), Tuple.Create("g-fc-st", 41614), true)
+, Tuple.Create(Tuple.Create(" ", 41621), Tuple.Create("g-ps-r-md", 41622), true)
 );
 
 WriteLiteral(">\r\n\r\n                                                            <div");
@@ -2652,7 +2702,7 @@ WriteLiteral(" class=\"pull-left\"");
 WriteLiteral(">\r\n                                                                    <strong>");
 
             
-            #line 635 "..\..\Views\Product\Index.cshtml"
+            #line 643 "..\..\Views\Product\Index.cshtml"
                                                                         Write(Model.IsOEMSaleActive ? "SALE PRICE" : "EXCLUSIVE OFFER PRICE");
 
             
@@ -2691,7 +2741,7 @@ WriteLiteral(" class=\"g-fs-xl g-p-lr-5\"");
 WriteLiteral(">\r\n                                                                &pound;");
 
             
-            #line 647 "..\..\Views\Product\Index.cshtml"
+            #line 655 "..\..\Views\Product\Index.cshtml"
                                                                   Write(salePrice.ToString("#,###,##0.00"));
 
             
@@ -2704,7 +2754,7 @@ WriteLiteral(" class=\"g-fc-st g-fs-sm\"");
 WriteLiteral(">");
 
             
-            #line 647 "..\..\Views\Product\Index.cshtml"
+            #line 655 "..\..\Views\Product\Index.cshtml"
                                                                                                                                     Write(mainPriceVAT);
 
             
@@ -2719,7 +2769,7 @@ WriteLiteral(">\r\n                                                             
 "ode: <strong>");
 
             
-            #line 650 "..\..\Views\Product\Index.cshtml"
+            #line 658 "..\..\Views\Product\Index.cshtml"
                                                                                       Write(voucher);
 
             
@@ -2729,7 +2779,7 @@ WriteLiteral("</strong>\r\n                                                     
 "                                                      </div>\r\n");
 
             
-            #line 653 "..\..\Views\Product\Index.cshtml"
+            #line 661 "..\..\Views\Product\Index.cshtml"
                                                     }
                                                     else
                                                     {
@@ -2780,7 +2830,7 @@ WriteLiteral(" class=\"g-fs-xl g-p-lr-5\"");
 WriteLiteral(">\r\n                                                                    &pound;");
 
             
-            #line 669 "..\..\Views\Product\Index.cshtml"
+            #line 677 "..\..\Views\Product\Index.cshtml"
                                                                       Write(cashbackPrice1.ToString("#,###,##0.00"));
 
             
@@ -2793,7 +2843,7 @@ WriteLiteral(" class=\"g-fc-st g-fs-sm\"");
 WriteLiteral(">");
 
             
-            #line 670 "..\..\Views\Product\Index.cshtml"
+            #line 678 "..\..\Views\Product\Index.cshtml"
                                                                                              Write(mainPriceVAT);
 
             
@@ -2807,7 +2857,7 @@ WriteLiteral(" class=\"g-p-lr-5\"");
 WriteLiteral(">\r\n                                                                    &pound;");
 
             
-            #line 673 "..\..\Views\Product\Index.cshtml"
+            #line 681 "..\..\Views\Product\Index.cshtml"
                                                                       Write(cashbackPrice2.ToString("#,###,##0.00"));
 
             
@@ -2820,7 +2870,7 @@ WriteLiteral(" class=\"g-fc-st g-fs-sm\"");
 WriteLiteral(">");
 
             
-            #line 674 "..\..\Views\Product\Index.cshtml"
+            #line 682 "..\..\Views\Product\Index.cshtml"
                                                                                              Write(subPriceVAT);
 
             
@@ -2830,7 +2880,7 @@ WriteLiteral("</span>\r\n                                                       
 "                                                            </div>\r\n");
 
             
-            #line 677 "..\..\Views\Product\Index.cshtml"
+            #line 685 "..\..\Views\Product\Index.cshtml"
                                                         }
                                                     }
                                                 }
@@ -2841,27 +2891,27 @@ WriteLiteral("</span>\r\n                                                       
             #line hidden
 WriteLiteral("                                            <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 45849), Tuple.Create("\"", 45930)
-, Tuple.Create(Tuple.Create("", 45857), Tuple.Create("product-price-message", 45857), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 46095), Tuple.Create("\"", 46176)
+, Tuple.Create(Tuple.Create("", 46103), Tuple.Create("product-price-message", 46103), true)
             
-            #line 681 "..\..\Views\Product\Index.cshtml"
-, Tuple.Create(Tuple.Create(" ", 45878), Tuple.Create<System.Object, System.Int32>(productHasOffer ? "g-m-t-m30-md" : "g-m-t-20-xs"
+            #line 689 "..\..\Views\Product\Index.cshtml"
+, Tuple.Create(Tuple.Create(" ", 46124), Tuple.Create<System.Object, System.Int32>(productHasOffer ? "g-m-t-m30-md" : "g-m-t-20-xs"
             
             #line default
             #line hidden
-, 45879), false)
+, 46125), false)
 );
 
 WriteLiteral(">\r\n");
 
             
-            #line 682 "..\..\Views\Product\Index.cshtml"
+            #line 690 "..\..\Views\Product\Index.cshtml"
                                                 
             
             #line default
             #line hidden
             
-            #line 682 "..\..\Views\Product\Index.cshtml"
+            #line 690 "..\..\Views\Product\Index.cshtml"
                                                   
                                                     Html.RenderPartial("~/Views/Product/InfoMessage.cshtml", ViewBag.BasketContents as BasketContents, new ViewDataDictionary {
                                                 {"Section", "Price"},
@@ -2878,7 +2928,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n                                            </div>\r\n");
 
             
-            #line 693 "..\..\Views\Product\Index.cshtml"
+            #line 701 "..\..\Views\Product\Index.cshtml"
                                         
             
             #line default
@@ -2886,13 +2936,13 @@ WriteLiteral("\r\n                                            </div>\r\n");
 WriteLiteral("\r\n\r\n                                        <!-- Add to Basket Box -->\r\n");
 
             
-            #line 696 "..\..\Views\Product\Index.cshtml"
+            #line 704 "..\..\Views\Product\Index.cshtml"
                                         
             
             #line default
             #line hidden
             
-            #line 696 "..\..\Views\Product\Index.cshtml"
+            #line 704 "..\..\Views\Product\Index.cshtml"
                                          if (pe.Availability != 13)
                                         {
 
@@ -2916,7 +2966,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                                                        ");
 
             
-            #line 701 "..\..\Views\Product\Index.cshtml"
+            #line 709 "..\..\Views\Product\Index.cshtml"
                                                     Write(Html.Kendo().NumericTextBox<int>()
                                                         .Format("#")
                                                         .Name("qty")
@@ -2942,7 +2992,7 @@ WriteLiteralTo(__razor_template_writer, @"
 WriteLiteralTo(__razor_template_writer, "\r\n");
 
             
-            #line 717 "..\..\Views\Product\Index.cshtml"
+            #line 725 "..\..\Views\Product\Index.cshtml"
 })                                                                    )
                                                                     .Spin(
                                                                     item => new System.Web.WebPages.HelperResult(__razor_template_writer => {
@@ -2959,7 +3009,7 @@ WriteLiteralTo(__razor_template_writer, @"
 WriteLiteralTo(__razor_template_writer, "\r\n");
 
             
-            #line 724 "..\..\Views\Product\Index.cshtml"
+            #line 732 "..\..\Views\Product\Index.cshtml"
 }))
 )
                                                         );
@@ -2979,7 +3029,7 @@ WriteLiteral(" class=\"atb-add g-butt-primary g-butt-100p\"");
 WriteLiteral("\r\n                                                                data-price=\"");
 
             
-            #line 731 "..\..\Views\Product\Index.cshtml"
+            #line 739 "..\..\Views\Product\Index.cshtml"
                                                                        Write(mainPrice.ToString("N2"));
 
             
@@ -2991,7 +3041,7 @@ WriteLiteral("\r\n                                                              
 "\"");
 
             
-            #line 732 "..\..\Views\Product\Index.cshtml"
+            #line 740 "..\..\Views\Product\Index.cshtml"
                                                                            Write(pe.Reference);
 
             
@@ -3002,7 +3052,7 @@ WriteLiteral("\"");
 WriteLiteral("\r\n                                                                data-partno=\"");
 
             
-            #line 733 "..\..\Views\Product\Index.cshtml"
+            #line 741 "..\..\Views\Product\Index.cshtml"
                                                                         Write(pe.PartNo);
 
             
@@ -3014,7 +3064,7 @@ WriteLiteral("\r\n                                                              
 "");
 
             
-            #line 734 "..\..\Views\Product\Index.cshtml"
+            #line 742 "..\..\Views\Product\Index.cshtml"
                                                                           Write(pe.ImageUrl);
 
             
@@ -3025,7 +3075,7 @@ WriteLiteral("\"");
 WriteLiteral("\r\n                                                                data-desc=\"");
 
             
-            #line 735 "..\..\Views\Product\Index.cshtml"
+            #line 743 "..\..\Views\Product\Index.cshtml"
                                                                       Write(pe.Description);
 
             
@@ -3037,13 +3087,13 @@ WriteLiteral(">\r\n                                                            A
 "                                                     </button>\r\n");
 
             
-            #line 738 "..\..\Views\Product\Index.cshtml"
+            #line 746 "..\..\Views\Product\Index.cshtml"
                                                         
             
             #line default
             #line hidden
             
-            #line 738 "..\..\Views\Product\Index.cshtml"
+            #line 746 "..\..\Views\Product\Index.cshtml"
                                                          if (ViewBag.BasketCount > 0)
                                                         {
                                                             hideBasketCount = "";
@@ -3054,31 +3104,31 @@ WriteLiteral(">\r\n                                                            A
             #line hidden
 WriteLiteral("                                                        <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 50566), Tuple.Create("\"", 50649)
-, Tuple.Create(Tuple.Create("", 50574), Tuple.Create("product-info-message", 50574), true)
-, Tuple.Create(Tuple.Create(" ", 50594), Tuple.Create("g-fs-sm", 50595), true)
-, Tuple.Create(Tuple.Create(" ", 50602), Tuple.Create("g-m-t-10", 50603), true)
-, Tuple.Create(Tuple.Create(" ", 50611), Tuple.Create("g-m-b-10", 50612), true)
-, Tuple.Create(Tuple.Create(" ", 50620), Tuple.Create("text-center", 50621), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 50812), Tuple.Create("\"", 50895)
+, Tuple.Create(Tuple.Create("", 50820), Tuple.Create("product-info-message", 50820), true)
+, Tuple.Create(Tuple.Create(" ", 50840), Tuple.Create("g-fs-sm", 50841), true)
+, Tuple.Create(Tuple.Create(" ", 50848), Tuple.Create("g-m-t-10", 50849), true)
+, Tuple.Create(Tuple.Create(" ", 50857), Tuple.Create("g-m-b-10", 50858), true)
+, Tuple.Create(Tuple.Create(" ", 50866), Tuple.Create("text-center", 50867), true)
             
-            #line 742 "..\..\Views\Product\Index.cshtml"
-                                             , Tuple.Create(Tuple.Create(" ", 50632), Tuple.Create<System.Object, System.Int32>(hideBasketCount
+            #line 750 "..\..\Views\Product\Index.cshtml"
+                                             , Tuple.Create(Tuple.Create(" ", 50878), Tuple.Create<System.Object, System.Int32>(hideBasketCount
             
             #line default
             #line hidden
-, 50633), false)
+, 50879), false)
 );
 
 WriteLiteral(">\r\n");
 
             
-            #line 743 "..\..\Views\Product\Index.cshtml"
+            #line 751 "..\..\Views\Product\Index.cshtml"
                                                             
             
             #line default
             #line hidden
             
-            #line 743 "..\..\Views\Product\Index.cshtml"
+            #line 751 "..\..\Views\Product\Index.cshtml"
                                                              if (ViewBag.BasketContents != null)
                                                             {
                                                                 Html.RenderPartial("~/Views/Product/InfoMessage.cshtml", ViewBag.BasketContents as BasketContents, new ViewDataDictionary {
@@ -3095,7 +3145,7 @@ WriteLiteral("                                                        </div>\r\n
 "           </div>\r\n                                            </div>\r\n");
 
             
-            #line 754 "..\..\Views\Product\Index.cshtml"
+            #line 762 "..\..\Views\Product\Index.cshtml"
                                         }
 
             
@@ -3108,13 +3158,13 @@ WriteLiteral(" class=\"g-fs-15\"");
 WriteLiteral(">\r\n");
 
             
-            #line 757 "..\..\Views\Product\Index.cshtml"
+            #line 765 "..\..\Views\Product\Index.cshtml"
                                             
             
             #line default
             #line hidden
             
-            #line 757 "..\..\Views\Product\Index.cshtml"
+            #line 765 "..\..\Views\Product\Index.cshtml"
                                              if (productHasOffer)
                                             {
                                                 if (Model.Product.OEMSaleIsApplicable && pe.BrandFlag == BrandFlag.Original)
@@ -3145,7 +3195,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                                                        ");
 
             
-            #line 766 "..\..\Views\Product\Index.cshtml"
+            #line 774 "..\..\Views\Product\Index.cshtml"
                                                    Write(Html.RawFromDict(Model.SaleData, "ProductMarketingOEM"));
 
             
@@ -3154,7 +3204,7 @@ WriteLiteral("                                                        ");
 WriteLiteral("\r\n                                                    </div>\r\n");
 
             
-            #line 768 "..\..\Views\Product\Index.cshtml"
+            #line 776 "..\..\Views\Product\Index.cshtml"
                                                 }
                                                 if (Model.Product.CompatibleSaleIsApplicable && pe.BrandFlag == BrandFlag.Compatible)
                                                 {
@@ -3184,7 +3234,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                                                        ");
 
             
-            #line 776 "..\..\Views\Product\Index.cshtml"
+            #line 784 "..\..\Views\Product\Index.cshtml"
                                                    Write(Html.RawFromDict(Model.SaleData, "ProductMarketingCompatible"));
 
             
@@ -3193,7 +3243,7 @@ WriteLiteral("                                                        ");
 WriteLiteral("\r\n                                                    </div>\r\n");
 
             
-            #line 778 "..\..\Views\Product\Index.cshtml"
+            #line 786 "..\..\Views\Product\Index.cshtml"
                                                 }
                                             }
 
@@ -3213,7 +3263,7 @@ WriteLiteral(" />\r\n");
 WriteLiteral("                                                ");
 
             
-            #line 782 "..\..\Views\Product\Index.cshtml"
+            #line 790 "..\..\Views\Product\Index.cshtml"
                                            Write(Html.NewProductAvailability(@pe.Availability, Convert.ToBoolean(Model.CommonData["DeliveryDateIsOverridden"].ToString())));
 
             
@@ -3226,13 +3276,13 @@ WriteLiteral(" class=\"g-m-tb-20\"");
 WriteLiteral(" />\r\n");
 
             
-            #line 785 "..\..\Views\Product\Index.cshtml"
+            #line 793 "..\..\Views\Product\Index.cshtml"
                                                 
             
             #line default
             #line hidden
             
-            #line 785 "..\..\Views\Product\Index.cshtml"
+            #line 793 "..\..\Views\Product\Index.cshtml"
                                                  if (pe.AttValue6 == 25)
                                                 {
                                                     
@@ -3240,14 +3290,14 @@ WriteLiteral(" />\r\n");
             #line default
             #line hidden
             
-            #line 787 "..\..\Views\Product\Index.cshtml"
+            #line 795 "..\..\Views\Product\Index.cshtml"
                                                Write(Html.RawFromDict(Model.ProductData, "DeliveryMessageOverride"));
 
             
             #line default
             #line hidden
             
-            #line 787 "..\..\Views\Product\Index.cshtml"
+            #line 795 "..\..\Views\Product\Index.cshtml"
                                                                                                                    ;
                                                 }
                                                 else
@@ -3269,7 +3319,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                                                            ");
 
             
-            #line 793 "..\..\Views\Product\Index.cshtml"
+            #line 801 "..\..\Views\Product\Index.cshtml"
                                                        Write(Html.RawFromDict(Model.ProductData, "DeliveryMessage"));
 
             
@@ -3279,7 +3329,7 @@ WriteLiteral("\r\n                                                        </div>
 "                                     </div>\r\n");
 
             
-            #line 796 "..\..\Views\Product\Index.cshtml"
+            #line 804 "..\..\Views\Product\Index.cshtml"
                                                 }
 
             
@@ -3288,13 +3338,13 @@ WriteLiteral("\r\n                                                        </div>
 WriteLiteral("\r\n");
 
             
-            #line 798 "..\..\Views\Product\Index.cshtml"
+            #line 806 "..\..\Views\Product\Index.cshtml"
                                                 
             
             #line default
             #line hidden
             
-            #line 798 "..\..\Views\Product\Index.cshtml"
+            #line 806 "..\..\Views\Product\Index.cshtml"
                                                  if (pe.BrandFlag.Equals(BrandFlag.Compatible))
                                                 {
 
@@ -3324,9 +3374,9 @@ WriteLiteral(" class=\"col-xs-2\"");
 
 WriteLiteral(">\r\n                                                            <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 55443), Tuple.Create("\"", 55478)
-, Tuple.Create(Tuple.Create("", 55449), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 55449), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 55689), Tuple.Create("\"", 55724)
+, Tuple.Create(Tuple.Create("", 55695), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 55695), false)
 );
 
 WriteLiteral(" class=\"msp_bullGuarantee\"");
@@ -3346,7 +3396,7 @@ WriteLiteral(@">
 ");
 
             
-            #line 813 "..\..\Views\Product\Index.cshtml"
+            #line 821 "..\..\Views\Product\Index.cshtml"
                                                 }
 
             
@@ -3356,13 +3406,13 @@ WriteLiteral("                                            </div>\r\n            
 "           </div>\r\n\r\n");
 
             
-            #line 817 "..\..\Views\Product\Index.cshtml"
+            #line 825 "..\..\Views\Product\Index.cshtml"
                                         
             
             #line default
             #line hidden
             
-            #line 817 "..\..\Views\Product\Index.cshtml"
+            #line 825 "..\..\Views\Product\Index.cshtml"
                                          if (showCrossSell)
                                         {
                                             decimal main_pagePrice = 0;
@@ -3396,13 +3446,13 @@ WriteLiteral(" class=\"fa fa-check-circle g-p-r-5\"");
 WriteLiteral("></i>\r\n");
 
             
-            #line 837 "..\..\Views\Product\Index.cshtml"
+            #line 845 "..\..\Views\Product\Index.cshtml"
                                                     
             
             #line default
             #line hidden
             
-            #line 837 "..\..\Views\Product\Index.cshtml"
+            #line 845 "..\..\Views\Product\Index.cshtml"
                                                      if (main_pagePrice - xs_pagePrice > 0)
                                                     {
 
@@ -3413,7 +3463,7 @@ WriteLiteral("></i>\r\n");
 WriteLiteral("                                                        <strong>Best Value - ");
 
             
-            #line 840 "..\..\Views\Product\Index.cshtml"
+            #line 848 "..\..\Views\Product\Index.cshtml"
                                                                          Write((main_pagePrice - xs_pagePrice).ToString("#,###,##0.00"));
 
             
@@ -3422,7 +3472,7 @@ WriteLiteral("                                                        <strong>Be
 WriteLiteral("p per page cheaper</strong>\r\n");
 
             
-            #line 841 "..\..\Views\Product\Index.cshtml"
+            #line 849 "..\..\Views\Product\Index.cshtml"
                                                     }
                                                     else
                                                     {
@@ -3434,7 +3484,7 @@ WriteLiteral("                                                        <strong>Be
 "g>\r\n");
 
             
-            #line 845 "..\..\Views\Product\Index.cshtml"
+            #line 853 "..\..\Views\Product\Index.cshtml"
                                                     }
 
             
@@ -3453,16 +3503,16 @@ WriteLiteral(">\r\n                                                        <a");
 
 WriteLiteral(" class=\"\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 58636), Tuple.Create("\"", 58668)
-, Tuple.Create(Tuple.Create("", 58643), Tuple.Create<System.Object, System.Int32>(Href("~/")
-, 58643), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 58882), Tuple.Create("\"", 58914)
+, Tuple.Create(Tuple.Create("", 58889), Tuple.Create<System.Object, System.Int32>(Href("~/")
+, 58889), false)
             
-            #line 849 "..\..\Views\Product\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 58645), Tuple.Create<System.Object, System.Int32>(pe.CrossSellProductURL
+            #line 857 "..\..\Views\Product\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 58891), Tuple.Create<System.Object, System.Int32>(pe.CrossSellProductURL
             
             #line default
             #line hidden
-, 58645), false)
+, 58891), false)
 );
 
 WriteLiteral(">\r\n                                                            <img");
@@ -3474,7 +3524,7 @@ WriteLiteral(" class=\"g-va-m g-objf g-p-5 lazy\"");
 WriteLiteral(" data-original=\"");
 
             
-            #line 850 "..\..\Views\Product\Index.cshtml"
+            #line 858 "..\..\Views\Product\Index.cshtml"
                                                                                                                                                Write(pe.CrossSellImage);
 
             
@@ -3482,14 +3532,14 @@ WriteLiteral(" data-original=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 58839), Tuple.Create("\"", 58860)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 59085), Tuple.Create("\"", 59106)
             
-            #line 850 "..\..\Views\Product\Index.cshtml"
-                                                                                            , Tuple.Create(Tuple.Create("", 58845), Tuple.Create<System.Object, System.Int32>(pe.Description
+            #line 858 "..\..\Views\Product\Index.cshtml"
+                                                                                            , Tuple.Create(Tuple.Create("", 59091), Tuple.Create<System.Object, System.Int32>(pe.Description
             
             #line default
             #line hidden
-, 58845), false)
+, 59091), false)
 );
 
 WriteLiteral(" />\r\n                                                        </a>\r\n              " +
@@ -3503,28 +3553,28 @@ WriteLiteral(">\r\n                                                        <div>
 
 WriteLiteral(" class=\"primary\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 59215), Tuple.Create("\"", 59247)
-, Tuple.Create(Tuple.Create("", 59222), Tuple.Create<System.Object, System.Int32>(Href("~/")
-, 59222), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 59461), Tuple.Create("\"", 59493)
+, Tuple.Create(Tuple.Create("", 59468), Tuple.Create<System.Object, System.Int32>(Href("~/")
+, 59468), false)
             
-            #line 855 "..\..\Views\Product\Index.cshtml"
-      , Tuple.Create(Tuple.Create("", 59224), Tuple.Create<System.Object, System.Int32>(pe.CrossSellProductURL
+            #line 863 "..\..\Views\Product\Index.cshtml"
+      , Tuple.Create(Tuple.Create("", 59470), Tuple.Create<System.Object, System.Int32>(pe.CrossSellProductURL
             
             #line default
             #line hidden
-, 59224), false)
+, 59470), false)
 );
 
 WriteLiteral(">\r\n");
 
             
-            #line 856 "..\..\Views\Product\Index.cshtml"
+            #line 864 "..\..\Views\Product\Index.cshtml"
                                                                 
             
             #line default
             #line hidden
             
-            #line 856 "..\..\Views\Product\Index.cshtml"
+            #line 864 "..\..\Views\Product\Index.cshtml"
                                                                  if (pe.BrandFlag.Equals(BrandFlag.Original))
                                                                 {
 
@@ -3535,7 +3585,7 @@ WriteLiteral("                                                                  
 "ble Alternative</span>\r\n");
 
             
-            #line 859 "..\..\Views\Product\Index.cshtml"
+            #line 867 "..\..\Views\Product\Index.cshtml"
                                                                 }
                                                                 else
                                                                 {
@@ -3547,7 +3597,7 @@ WriteLiteral("                                                                  
 "l Alternative</span>\r\n");
 
             
-            #line 863 "..\..\Views\Product\Index.cshtml"
+            #line 871 "..\..\Views\Product\Index.cshtml"
                                                                 }
 
             
@@ -3560,28 +3610,28 @@ WriteLiteral("                                                            </a>\r
 
 WriteLiteral(" class=\"primary\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 60179), Tuple.Create("\"", 60211)
-, Tuple.Create(Tuple.Create("", 60186), Tuple.Create<System.Object, System.Int32>(Href("~/")
-, 60186), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 60425), Tuple.Create("\"", 60457)
+, Tuple.Create(Tuple.Create("", 60432), Tuple.Create<System.Object, System.Int32>(Href("~/")
+, 60432), false)
             
-            #line 867 "..\..\Views\Product\Index.cshtml"
-      , Tuple.Create(Tuple.Create("", 60188), Tuple.Create<System.Object, System.Int32>(pe.CrossSellProductURL
+            #line 875 "..\..\Views\Product\Index.cshtml"
+      , Tuple.Create(Tuple.Create("", 60434), Tuple.Create<System.Object, System.Int32>(pe.CrossSellProductURL
             
             #line default
             #line hidden
-, 60188), false)
+, 60434), false)
 );
 
 WriteLiteral(">\r\n");
 
             
-            #line 868 "..\..\Views\Product\Index.cshtml"
+            #line 876 "..\..\Views\Product\Index.cshtml"
                                                                 
             
             #line default
             #line hidden
             
-            #line 868 "..\..\Views\Product\Index.cshtml"
+            #line 876 "..\..\Views\Product\Index.cshtml"
                                                                  if (xsSaving > 1 && pe.BrandFlag == BrandFlag.Original)
                                                                 {
 
@@ -3596,7 +3646,7 @@ WriteLiteral(" class=\"g-fc-s\"");
 WriteLiteral(">&pound;");
 
             
-            #line 870 "..\..\Views\Product\Index.cshtml"
+            #line 878 "..\..\Views\Product\Index.cshtml"
                                                                                                         Write(xsSaving.ToString("#,###,##0.00"));
 
             
@@ -3605,7 +3655,7 @@ WriteLiteral(">&pound;");
 WriteLiteral("</span> Today!</strong> ");
 
             
-            #line 870 "..\..\Views\Product\Index.cshtml"
+            #line 878 "..\..\Views\Product\Index.cshtml"
                                                                                                                                                                        }
                                                                 else
                                                                 {
@@ -3617,7 +3667,7 @@ WriteLiteral("                                                                  
 "d;");
 
             
-            #line 873 "..\..\Views\Product\Index.cshtml"
+            #line 881 "..\..\Views\Product\Index.cshtml"
                                                                               Write(crossSellPrice.ToString("#,###,##0.00"));
 
             
@@ -3632,7 +3682,7 @@ WriteLiteral(" class=\"g-fc-tt g-fs-sm\"");
 WriteLiteral(">");
 
             
-            #line 873 "..\..\Views\Product\Index.cshtml"
+            #line 881 "..\..\Views\Product\Index.cshtml"
                                                                                                                                                               Write(mainPriceVAT);
 
             
@@ -3641,7 +3691,7 @@ WriteLiteral(">");
 WriteLiteral("</span>\r\n");
 
             
-            #line 874 "..\..\Views\Product\Index.cshtml"
+            #line 882 "..\..\Views\Product\Index.cshtml"
                                                                 }
 
             
@@ -3658,16 +3708,16 @@ WriteLiteral(">\r\n                                                        <a");
 
 WriteLiteral(" class=\"\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 61297), Tuple.Create("\"", 61329)
-, Tuple.Create(Tuple.Create("", 61304), Tuple.Create<System.Object, System.Int32>(Href("~/")
-, 61304), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 61543), Tuple.Create("\"", 61575)
+, Tuple.Create(Tuple.Create("", 61550), Tuple.Create<System.Object, System.Int32>(Href("~/")
+, 61550), false)
             
-            #line 879 "..\..\Views\Product\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 61306), Tuple.Create<System.Object, System.Int32>(pe.CrossSellProductURL
+            #line 887 "..\..\Views\Product\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 61552), Tuple.Create<System.Object, System.Int32>(pe.CrossSellProductURL
             
             #line default
             #line hidden
-, 61306), false)
+, 61552), false)
 );
 
 WriteLiteral(">\r\n                                                            <i");
@@ -3679,7 +3729,7 @@ WriteLiteral("></i>\r\n                                                        <
 "                </div>\r\n                                            </div>\r\n");
 
             
-            #line 885 "..\..\Views\Product\Index.cshtml"
+            #line 893 "..\..\Views\Product\Index.cshtml"
                                         }
 
             
@@ -3688,13 +3738,13 @@ WriteLiteral("></i>\r\n                                                        <
 WriteLiteral("\r\n");
 
             
-            #line 887 "..\..\Views\Product\Index.cshtml"
+            #line 895 "..\..\Views\Product\Index.cshtml"
                                         
             
             #line default
             #line hidden
             
-            #line 887 "..\..\Views\Product\Index.cshtml"
+            #line 895 "..\..\Views\Product\Index.cshtml"
                                          if (pe.CrossSellProductID != 0
                                             && Model.CrossSellSuppress
                                             && xsSaving > 0
@@ -3730,7 +3780,7 @@ WriteLiteral(" class=\"g-fc-s\"");
 WriteLiteral(">&pound;");
 
             
-            #line 897 "..\..\Views\Product\Index.cshtml"
+            #line 905 "..\..\Views\Product\Index.cshtml"
                                                                                             Write(xsSaving.ToString("#,###,##0.00"));
 
             
@@ -3745,7 +3795,7 @@ WriteLiteral(@"</span> Today.<br />Find out more
 ");
 
             
-            #line 903 "..\..\Views\Product\Index.cshtml"
+            #line 911 "..\..\Views\Product\Index.cshtml"
                                         }
 
             
@@ -3753,8 +3803,26 @@ WriteLiteral(@"</span> Today.<br />Find out more
             #line hidden
 WriteLiteral("                                    </div>\r\n                                </div" +
 ">\r\n                            </div>\r\n                        </div>\r\n         " +
-"           </div>\r\n                </div>\r\n            </div>\r\n\r\n            <di" +
-"v");
+"           </div>\r\n                </div>\r\n            </div>\r\n\r\n");
+
+            
+            #line 920 "..\..\Views\Product\Index.cshtml"
+            
+            
+            #line default
+            #line hidden
+            
+            #line 920 "..\..\Views\Product\Index.cshtml"
+             if (Model.IsPrinterProduct)
+            {
+                Html.RenderPartial("~/Views/Product/PrinterKeyFeatures.cshtml", Model);
+                Html.RenderPartial("~/Views/Product/PrinterBundles.cshtml", Model);
+            }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n            <div");
 
 WriteLiteral(" class=\"row g-m-t-30\"");
 
@@ -3835,17 +3903,19 @@ WriteLiteral(" data-target=\"#popup\"");
 WriteLiteral(" data-toggle=\"modal\"");
 
 WriteLiteral(">Returns Info</button></div>\r\n                    </div>\r\n                </div>\r" +
-"\n            </div>\r\n\r\n            <!-- Printer Supplies -->\r\n");
+"\n            </div>\r\n\r\n            <!-- Printer Supplies -->\r\n            ");
+
+WriteLiteral("\r\n");
 
             
-            #line 926 "..\..\Views\Product\Index.cshtml"
+            #line 945 "..\..\Views\Product\Index.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 926 "..\..\Views\Product\Index.cshtml"
-             if (Model.PrinterSupplies.Count > 0)
+            #line 945 "..\..\Views\Product\Index.cshtml"
+             if (!Model.IsPrinterProduct && Model.PrinterSupplies.Count > 0)
             {
                 Model.MiniProductEntries = Model.PrinterSupplies;
                 ViewBag.MiniProductEntryTitle = "Supplies for this printer";
@@ -3859,7 +3929,42 @@ WriteLiteral("\r\n            <hr");
 
 WriteLiteral(" class=\"g-m-tb-20\"");
 
-WriteLiteral(" />\r\n\r\n            <!-- Product Details -->\r\n            <h2");
+WriteLiteral(" />\r\n\r\n");
+
+            
+            #line 954 "..\..\Views\Product\Index.cshtml"
+            
+            
+            #line default
+            #line hidden
+            
+            #line 954 "..\..\Views\Product\Index.cshtml"
+             if (Model.IsPrinterProduct)
+            {
+
+            
+            #line default
+            #line hidden
+WriteLiteral(@"                <!-- Printer PDP accordion (Product Summary / grouped Specification / Downloads /
+                     Consumables / Reviews) replaces the flat blocks below for printer products only -
+                     see PrinterAccordion.cshtml. The flat blocks in the ");
+
+WriteLiteral("@else branch are completely\r\n                     unchanged and still render for " +
+"every non-printer product. -->\r\n");
+
+            
+            #line 960 "..\..\Views\Product\Index.cshtml"
+                Html.RenderPartial("~/Views/Product/PrinterAccordion.cshtml", Model);
+            }
+            else
+            {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                <!-- Product Details -->\r\n");
+
+WriteLiteral("                <h2");
 
 WriteLiteral(" id=\"product-info\"");
 
@@ -3868,66 +3973,37 @@ WriteLiteral(" class=\"g-lh-30\"");
 WriteLiteral(">");
 
             
-            #line 936 "..\..\Views\Product\Index.cshtml"
-                                             Write(pe.Description);
+            #line 965 "..\..\Views\Product\Index.cshtml"
+                                                 Write(pe.Description);
 
             
             #line default
             #line hidden
-WriteLiteral(" Product Details</h2>\r\n            <div");
+WriteLiteral(" Product Details</h2>\r\n");
+
+WriteLiteral("                <div");
 
 WriteLiteral(" class=\"g-fs-15\"");
 
-WriteLiteral(">\r\n                <div");
+WriteLiteral(">\r\n                    <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 65315), Tuple.Create("\"", 65381)
+WriteAttribute("class", Tuple.Create(" class=\"", 66862), Tuple.Create("\"", 66928)
             
-            #line 938 "..\..\Views\Product\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 65323), Tuple.Create<System.Object, System.Int32>(string.IsNullOrEmpty(pe.PriorityNote) ? "" : "g-m-t-10"
+            #line 967 "..\..\Views\Product\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 66870), Tuple.Create<System.Object, System.Int32>(string.IsNullOrEmpty(pe.PriorityNote) ? "" : "g-m-t-10"
             
             #line default
             #line hidden
-, 65323), false)
+, 66870), false)
 );
-
-WriteLiteral(">\r\n");
-
-WriteLiteral("                    ");
-
-            
-            #line 939 "..\..\Views\Product\Index.cshtml"
-               Write(Html.Raw(pe.PriorityNote));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                </div>\r\n");
-
-            
-            #line 941 "..\..\Views\Product\Index.cshtml"
-                
-            
-            #line default
-            #line hidden
-            
-            #line 941 "..\..\Views\Product\Index.cshtml"
-                 if (pe.ProductNotes != "")
-                {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                    <div");
-
-WriteLiteral(" class=\"g-m-t-10 g-m-b-20 clearfix\"");
 
 WriteLiteral(">\r\n");
 
 WriteLiteral("                        ");
 
             
-            #line 944 "..\..\Views\Product\Index.cshtml"
-                   Write(Html.Raw(pe.ProductNotes));
+            #line 968 "..\..\Views\Product\Index.cshtml"
+                   Write(Html.Raw(pe.PriorityNote));
 
             
             #line default
@@ -3935,51 +4011,112 @@ WriteLiteral("                        ");
 WriteLiteral("\r\n                    </div>\r\n");
 
             
-            #line 946 "..\..\Views\Product\Index.cshtml"
-                }
+            #line 970 "..\..\Views\Product\Index.cshtml"
+                    
+            
+            #line default
+            #line hidden
+            
+            #line 970 "..\..\Views\Product\Index.cshtml"
+                     if (pe.ProductNotes != "")
+                    {
 
             
             #line default
             #line hidden
-WriteLiteral("            </div>\r\n\r\n            <hr");
+WriteLiteral("                        <div");
+
+WriteLiteral(" class=\"g-m-t-10 g-m-b-20 clearfix\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("                            ");
+
+            
+            #line 973 "..\..\Views\Product\Index.cshtml"
+                       Write(Html.Raw(pe.ProductNotes));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n                        </div>\r\n");
+
+            
+            #line 975 "..\..\Views\Product\Index.cshtml"
+                    }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                </div>\r\n");
+
+            
+            #line 977 "..\..\Views\Product\Index.cshtml"
+
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                <hr");
 
 WriteLiteral(" class=\"g-m-tb-20\"");
 
-WriteLiteral(" />\r\n\r\n            <!-- Product Specification -->\r\n            <div");
+WriteLiteral(" />\r\n");
+
+            
+            #line 979 "..\..\Views\Product\Index.cshtml"
+
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                <!-- Product Specification -->\r\n");
+
+WriteLiteral("                <div");
 
 WriteLiteral(" id=\"product-spec\"");
 
 WriteLiteral(" class=\"prd-details g-b-1-p g-bc-s\"");
 
-WriteLiteral(">\r\n                <div");
+WriteLiteral(">\r\n                    <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                    <div");
+WriteLiteral(">\r\n                        <div");
 
 WriteLiteral(" class=\"col-md-12\"");
 
-WriteLiteral(">\r\n                        <div");
+WriteLiteral(">\r\n                            <div");
 
 WriteLiteral(" class=\"g-p-tb-5\"");
 
-WriteLiteral(">\r\n                            <strong>Product Specification</strong>\r\n          " +
-"              </div>\r\n                    </div>\r\n                </div>\r\n\r\n");
+WriteLiteral(">\r\n                                <strong>Product Specification</strong>\r\n      " +
+"                      </div>\r\n                        </div>\r\n                  " +
+"  </div>\r\n\r\n");
 
             
-            #line 961 "..\..\Views\Product\Index.cshtml"
-                
+            #line 990 "..\..\Views\Product\Index.cshtml"
+                    
             
             #line default
             #line hidden
             
-            #line 961 "..\..\Views\Product\Index.cshtml"
-                   Html.RenderPartial("~/Views/Product/Specification.cshtml", Model); 
+            #line 990 "..\..\Views\Product\Index.cshtml"
+                       Html.RenderPartial("~/Views/Product/Specification.cshtml", Model); 
             
             #line default
             #line hidden
-WriteLiteral("\r\n            </div>\r\n\r\n            <!-- Compatible Printers -->\r\n            <di" +
-"v>\r\n                <hr");
+WriteLiteral("\r\n                </div>\r\n");
+
+            
+            #line 992 "..\..\Views\Product\Index.cshtml"
+            }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n            <!-- Compatible Printers -->\r\n            <div>\r\n                <h" +
+"r");
 
 WriteLiteral(" class=\"g-m-tb-20\"");
 
@@ -3988,7 +4125,7 @@ WriteLiteral(" />\r\n");
 WriteLiteral("                ");
 
             
-            #line 967 "..\..\Views\Product\Index.cshtml"
+            #line 997 "..\..\Views\Product\Index.cshtml"
            Write(RenderCompatiblePrinters(pe));
 
             
@@ -3997,13 +4134,13 @@ WriteLiteral("                ");
 WriteLiteral("\r\n            </div>\r\n\r\n");
 
             
-            #line 970 "..\..\Views\Product\Index.cshtml"
+            #line 1000 "..\..\Views\Product\Index.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 970 "..\..\Views\Product\Index.cshtml"
+            #line 1000 "..\..\Views\Product\Index.cshtml"
                Html.RenderPartial("~/Views/Shared/Faq.cshtml", Model.FaqList); 
             
             #line default
@@ -4011,13 +4148,13 @@ WriteLiteral("\r\n            </div>\r\n\r\n");
 WriteLiteral("\r\n\r\n");
 
             
-            #line 972 "..\..\Views\Product\Index.cshtml"
+            #line 1002 "..\..\Views\Product\Index.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 972 "..\..\Views\Product\Index.cshtml"
+            #line 1002 "..\..\Views\Product\Index.cshtml"
              if (Model.XsProduct != null && pe.BrandFlag == BrandFlag.Original)
             {
 
@@ -4031,7 +4168,7 @@ WriteLiteral(" class=\"g-m-tb-20\"");
 WriteLiteral(" />\r\n");
 
             
-            #line 975 "..\..\Views\Product\Index.cshtml"
+            #line 1005 "..\..\Views\Product\Index.cshtml"
 
                 string h2 = "";
                 if (xsSaving > 1)
@@ -4050,7 +4187,7 @@ WriteLiteral(" id=\"compatibleSaving\"");
 WriteLiteral(">");
 
             
-            #line 982 "..\..\Views\Product\Index.cshtml"
+            #line 1012 "..\..\Views\Product\Index.cshtml"
                                       Write(Html.Raw(h2));
 
             
@@ -4059,7 +4196,7 @@ WriteLiteral(">");
 WriteLiteral("High Quality ");
 
             
-            #line 982 "..\..\Views\Product\Index.cshtml"
+            #line 1012 "..\..\Views\Product\Index.cshtml"
                                                                  Write(Html.RawFromDict(Model.CommonData, "ShortSiteName"));
 
             
@@ -4078,13 +4215,13 @@ WriteLiteral(" class=\"col-md-12\"");
 WriteLiteral(">\r\n");
 
             
-            #line 985 "..\..\Views\Product\Index.cshtml"
+            #line 1015 "..\..\Views\Product\Index.cshtml"
                         
             
             #line default
             #line hidden
             
-            #line 985 "..\..\Views\Product\Index.cshtml"
+            #line 1015 "..\..\Views\Product\Index.cshtml"
                           
                             string imageSash = Model.GetImageSash(true);
                             Html.RenderPartial("~/Views/Product/ProductEntry.cshtml", Model, new ViewDataDictionary { { "ImageSash", imageSash }, { "ShowSavings", ViewBag.ShowSavings }, { "UseXSell", true }, { "IsFullWidth", true } });
@@ -4095,7 +4232,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n                    </div>\r\n                </div>\r\n");
 
             
-            #line 991 "..\..\Views\Product\Index.cshtml"
+            #line 1021 "..\..\Views\Product\Index.cshtml"
             }
 
             
@@ -4104,13 +4241,13 @@ WriteLiteral("\r\n                    </div>\r\n                </div>\r\n");
 WriteLiteral("\r\n            <!-- Usually Bought Together -->\r\n");
 
             
-            #line 994 "..\..\Views\Product\Index.cshtml"
+            #line 1024 "..\..\Views\Product\Index.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 994 "..\..\Views\Product\Index.cshtml"
+            #line 1024 "..\..\Views\Product\Index.cshtml"
              if (Model.SecondaryXSellList.Count > 0)
             {
                 Model.MiniProductEntries = Model.SecondaryXSellList;
@@ -4125,13 +4262,13 @@ WriteLiteral("\r\n            <!-- Usually Bought Together -->\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 1002 "..\..\Views\Product\Index.cshtml"
+            #line 1032 "..\..\Views\Product\Index.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 1002 "..\..\Views\Product\Index.cshtml"
+            #line 1032 "..\..\Views\Product\Index.cshtml"
               
                 if (Model.Product.SpecLine6 == "Paper" || Model.Product.SpecLine6 == "Printer" || Model.Product.SpecLine6 == "Stationery"
                     || Model.Product.SpecLine6 == "Audio Visual" || Model.Product.SpecLine6 == "")
@@ -4158,10 +4295,14 @@ WriteLiteral(" class=\"g-b-1-p g-bc-s\"");
 WriteLiteral("></div>\r\n                    </div>\r\n");
 
             
-            #line 1011 "..\..\Views\Product\Index.cshtml"
+            #line 1041 "..\..\Views\Product\Index.cshtml"
                 }
 
-                if (Model.FeeFoList.Count > 0)
+                // For printer products, Reviews.cshtml is already rendered once from inside
+                // PrinterAccordion.cshtml's "Reviews" panel above - skip the second render here
+                // so printer pages don't show the reviews list twice. Unaffected for every
+                // other product (IsPrinterProduct is always false today).
+                if (!Model.IsPrinterProduct && Model.FeeFoList.Count > 0)
                 {
                     Html.RenderPartial("~/Views/Product/Reviews.cshtml", Model);
                 }
@@ -4178,13 +4319,13 @@ WriteLiteral(" class=\"g-m-t-60\"");
 WriteLiteral(">\r\n");
 
             
-            #line 1022 "..\..\Views\Product\Index.cshtml"
+            #line 1056 "..\..\Views\Product\Index.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 1022 "..\..\Views\Product\Index.cshtml"
+            #line 1056 "..\..\Views\Product\Index.cshtml"
                   
                     Html.RenderPartial("~/Views/Shared/LiveChat.cshtml", Model);
                 
@@ -4194,7 +4335,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n");
 
             
-            #line 1030 "..\..\Views\Product\Index.cshtml"
+            #line 1064 "..\..\Views\Product\Index.cshtml"
   
     Html.RenderPartial("~/Views/Product/ImageModal.cshtml", Model.CarouselList);
 
@@ -4208,13 +4349,13 @@ DefineSection("scripts", () => {
 WriteLiteral("\r\n");
 
             
-            #line 1035 "..\..\Views\Product\Index.cshtml"
+            #line 1069 "..\..\Views\Product\Index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 1035 "..\..\Views\Product\Index.cshtml"
+            #line 1069 "..\..\Views\Product\Index.cshtml"
      if (Model.Product.Type == "Paper" || Model.Product.Type == "Printers" || Model.Product.Type == "Stationery" || Model.Product.SpecLine6 == "")
     {
 
@@ -4232,7 +4373,7 @@ WriteLiteral(" src=\"https://media.flixfacts.com/js/loader.js\"");
 WriteLiteral(" data-flix-distributor=\"");
 
             
-            #line 1037 "..\..\Views\Product\Index.cshtml"
+            #line 1071 "..\..\Views\Product\Index.cshtml"
                                                                                                                         Write(Model.ProductData["FlixDataSiteId"]);
 
             
@@ -4245,7 +4386,7 @@ WriteLiteral(" data-flix-language=\"EN\"");
 WriteLiteral("\r\n                data-flix-brand=\"");
 
             
-            #line 1038 "..\..\Views\Product\Index.cshtml"
+            #line 1072 "..\..\Views\Product\Index.cshtml"
                             Write(Model.Product.Brand);
 
             
@@ -4256,7 +4397,7 @@ WriteLiteral("\"");
 WriteLiteral(" data-flix-mpn=\"");
 
             
-            #line 1038 "..\..\Views\Product\Index.cshtml"
+            #line 1072 "..\..\Views\Product\Index.cshtml"
                                                                  Write(Model.Product.PartNo);
 
             
@@ -4281,7 +4422,35 @@ WriteLiteral(" data-flix-price=\"\"");
 WriteLiteral(">\r\n        </script>\r\n");
 
             
-            #line 1041 "..\..\Views\Product\Index.cshtml"
+            #line 1075 "..\..\Views\Product\Index.cshtml"
+    }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("    ");
+
+            
+            #line 1076 "..\..\Views\Product\Index.cshtml"
+     if (Model.IsPrinterProduct)
+    {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("        <script");
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteAttribute("src", Tuple.Create(" src=\"", 71916), Tuple.Create("\"", 71946)
+, Tuple.Create(Tuple.Create("", 71922), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/printer-pdp.js")
+, 71922), false)
+);
+
+WriteLiteral("></script>\r\n");
+
+            
+            #line 1079 "..\..\Views\Product\Index.cshtml"
     }
 
             
@@ -4296,13 +4465,13 @@ DefineSection("AddScript", () => {
 WriteLiteral("\r\n");
 
             
-            #line 1045 "..\..\Views\Product\Index.cshtml"
+            #line 1083 "..\..\Views\Product\Index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 1045 "..\..\Views\Product\Index.cshtml"
+            #line 1083 "..\..\Views\Product\Index.cshtml"
       
         Html.RenderPartial("~/Views/Product/JSTracking.cshtml", Model);
     
@@ -4314,7 +4483,7 @@ WriteLiteral("\r\n");
 WriteLiteral("    ");
 
             
-            #line 1048 "..\..\Views\Product\Index.cshtml"
+            #line 1086 "..\..\Views\Product\Index.cshtml"
 Write(Scripts.Render("~/bundles/productBundle.js"));
 
             
@@ -4337,7 +4506,7 @@ WriteLiteral("\r\n    [\r\n");
 WriteLiteral("    ");
 
             
-            #line 1127 "..\..\Views\Product\Index.cshtml"
+            #line 1165 "..\..\Views\Product\Index.cshtml"
 Write(Html.Raw(ViewBag.BreadcrumbJson));
 
             
@@ -4348,7 +4517,7 @@ WriteLiteral("\r\n    ,\r\n");
 WriteLiteral("    ");
 
             
-            #line 1129 "..\..\Views\Product\Index.cshtml"
+            #line 1167 "..\..\Views\Product\Index.cshtml"
 Write(Html.Raw(ViewBag.ProductJson));
 
             
@@ -4359,7 +4528,7 @@ WriteLiteral("\r\n");
 WriteLiteral("    ");
 
             
-            #line 1130 "..\..\Views\Product\Index.cshtml"
+            #line 1168 "..\..\Views\Product\Index.cshtml"
 Write(Html.Raw(ViewBag.FaqJson));
 
             

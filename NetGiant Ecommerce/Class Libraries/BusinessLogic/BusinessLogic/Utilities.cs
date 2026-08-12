@@ -2071,6 +2071,65 @@ namespace BusinessLogic
         public string Url { get; set; }
     }
 
+    // --- Printer PDP support classes -------------------------------------------------------
+    // Small DTOs for ProductViewModel.GetPrinterBundles/GetAttributeGroups/GetDownloads. Kept
+    // here alongside the other lightweight product DTOs (ProductPdf, MiniProductEntry, etc.)
+    // rather than as EF entities, since the new tables behind these are queried via the same
+    // raw stored-procedure/ADO pattern already used for ngmd.GetPrinter3Results and friends -
+    // no EF/.edmx changes were needed for this feature.
+
+    /// <summary>
+    /// One side of a printer bundle (brief page 4: "Save When You Buy A Printer Bundle") - the
+    /// addon product (a compatible or original ink/toner multipack) linked to a printer via the
+    /// existing ProductAddon table, the same table that already powers the mini-cart's "You May
+    /// Also Need" popup. IsCompatible comes from the addon's own BrandFlag - no new "bundle
+    /// type" column was needed.
+    /// </summary>
+    public class PrinterBundleGroup
+    {
+        public bool IsCompatible { get; set; }
+        public ProductEntry AddonProduct { get; set; }
+        public decimal BundlePriceIncVat { get; set; }
+        /// <summary>
+        /// Per-ml cost for the "£X.XX per ml" badge. Only populated when AddonProduct.Capacity
+        /// parses as a positive number of ml - left at 0 (and hidden in the view) otherwise,
+        /// since Capacity's exact format/units aren't guaranteed for every product.
+        /// </summary>
+        public decimal PerMlCost { get; set; }
+    }
+
+    /// <summary>
+    /// One named accordion section of grouped spec attributes (brief page 5: "these are printer
+    /// attributes, I want to organise these into these accordions"). Populated from
+    /// ngmd.GetProductAttributeGroups, which joins the existing ds_attributeView (the same
+    /// source Specification.cshtml already reads) against the new productAttributeGroup /
+    /// productAttributeGroupItem mapping tables.
+    /// </summary>
+    public class AttributeGroup
+    {
+        public string GroupName { get; set; }
+        public int Sequence { get; set; }
+        public bool DefaultOpen { get; set; }
+        public List<SpecAttributeRow> Attributes { get; set; } = new List<SpecAttributeRow>();
+    }
+
+    public class SpecAttributeRow
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
+
+    /// <summary>
+    /// One row from the new productDownload table (brief page 5: "we need somewhere against
+    /// the product to hold files that a customer can download").
+    /// </summary>
+    public class ProductDownloadEntry
+    {
+        public string FileName { get; set; }
+        public string FileUrl { get; set; }
+    }
+    // --- end Printer PDP support classes ---------------------------------------------------
+
     public class RecentlyViewed
     {
         public string Type { get; set; }

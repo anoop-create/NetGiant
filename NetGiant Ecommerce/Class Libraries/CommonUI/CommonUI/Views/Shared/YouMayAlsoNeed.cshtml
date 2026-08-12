@@ -3,16 +3,7 @@
 @using BusinessLogic.ViewModels
 @model List<BasketContents>
 @*
-    "You May Also Need..." popup - shown when the customer clicks Proceed to Checkout in the
-    mini-cart, if any basket item has in-stock add-on products linked via ProductAddon.
-    Desktop: sits alongside the still-open mini-cart, laid out as a row of up to 3 cards
-    (matching the look of the inline "You May Also Need" section on the full basket page).
-    Mobile: full-screen, single column, includes its own Proceed to Checkout button since the
-    mini-cart isn't visible at the same time there.
-
-    Positioning is a best-effort default (right: 400px, offset to sit next to the mini-cart
-    tray) - please check this against the real offcanvas tray width and adjust if it doesn't
-    line up visually.
+   
 *@
 <style>
     /* Spec: "the user can skip by clicking the x off the modal or on the transparent

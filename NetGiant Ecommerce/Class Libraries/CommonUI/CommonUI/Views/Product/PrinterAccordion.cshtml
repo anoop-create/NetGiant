@@ -1,0 +1,97 @@
+@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+
+@model ProductViewModel
+@{
+    ProductEntry pe = Model.Product;
+    int panelIndex = 0;
+}
+
+<div id="product-info" class="ppdp-accordion">
+
+    <div class="ppdp-accordion-item is-open">
+        <button type="button" class="ppdp-accordion-header">
+            <span>Product Summary</span>
+            <i class="fa fa-chevron-down ppdp-accordion-caret"></i>
+        </button>
+        <div class="ppdp-accordion-body" style="display:block;">
+            <div class="g-fs-15">
+                <div class="@(string.IsNullOrEmpty(pe.PriorityNote) ? "" : "g-m-t-10")">
+                    @Html.Raw(pe.PriorityNote)
+                </div>
+                @if (pe.ProductNotes != "")
+                {
+                    <div class="g-m-t-10 g-m-b-20 clearfix">
+                        @Html.Raw(pe.ProductNotes)
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    @foreach (var group in Model.AttributeGroups)
+    {
+        panelIndex++;
+        <div class="ppdp-accordion-item @(group.DefaultOpen ? "is-open" : "")">
+            <button type="button" class="ppdp-accordion-header">
+                <span>@group.GroupName</span>
+                <i class="fa fa-chevron-down ppdp-accordion-caret"></i>
+            </button>
+            <div class="ppdp-accordion-body" style="display:@(group.DefaultOpen ? "block" : "none");">
+                <div id="product-spec" class="prd-details g-b-1-p g-bc-s">
+                    @foreach (var attr in group.Attributes)
+                    {
+                        <div class="row g-b-t-1">
+                            <div class="col-md-4"><strong>@attr.Name</strong></div>
+                            <div class="col-md-8 g-of-bw">@System.Text.RegularExpressions.Regex.Replace(attr.Value ?? "", @"[\u0000-\u001F]", string.Empty)</div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (Model.Downloads.Count > 0)
+    {
+        <div class="ppdp-accordion-item">
+            <button type="button" class="ppdp-accordion-header">
+                <span>Downloads</span>
+                <i class="fa fa-chevron-down ppdp-accordion-caret"></i>
+            </button>
+            <div class="ppdp-accordion-body" style="display:none;">
+                <ul class="ppdp-downloads-list">
+                    @foreach (var d in Model.Downloads)
+                    {
+                        <li><a href="@d.FileUrl" target="_blank"><i class="fa fa-file-pdf-o g-p-r-5"></i>@d.FileName</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+
+    @if (Model.PrinterSupplies.Count > 0)
+    {
+        <div class="ppdp-accordion-item">
+            <button type="button" class="ppdp-accordion-header">
+                <span>Consumables</span>
+                <i class="fa fa-chevron-down ppdp-accordion-caret"></i>
+            </button>
+            <div class="ppdp-accordion-body" style="display:none;">
+                @{ Html.RenderPartial("~/Views/Product/PrinterCompatibles.cshtml", Model); }
+            </div>
+        </div>
+    }
+
+    @if (Model.FeeFoList.Count > 0)
+    {
+        <div class="ppdp-accordion-item">
+            <button type="button" class="ppdp-accordion-header">
+                <span>Reviews (@Model.FeeFoList.Count)</span>
+                <i class="fa fa-chevron-down ppdp-accordion-caret"></i>
+            </button>
+            <div class="ppdp-accordion-body" style="display:none;">
+                @{ Html.RenderPartial("~/Views/Product/Reviews.cshtml", Model); }
+            </div>
+        </div>
+    }
+</div>

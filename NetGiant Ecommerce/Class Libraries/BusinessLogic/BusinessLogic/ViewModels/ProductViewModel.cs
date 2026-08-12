@@ -51,6 +51,18 @@ namespace BusinessLogic.ViewModels
         public DataTable DataSupplierSpec { get; set; }
         public List<MiniProductEntry> PrinterSupplies { get; set; }
         public List<MiniProductEntry> MiniProductEntries { get; set; }
+
+        // --- Printer PDP additions --------------------------------------------------------
+        // Gates every new Printer PDP section. Reuses the exact same check GetPrinterSupplies()
+        // already uses (Product.Type == "Printers") rather than introducing a second, possibly
+        // inconsistent, flag - defaults to false for every existing consumable product, so
+        // nothing about the current PDP changes.
+        public bool IsPrinterProduct => Product != null && Product.Type == "Printers";
+        public List<PrinterBundleGroup> PrinterBundles { get; set; } = new List<PrinterBundleGroup>();
+        public decimal PrinterBundleDiscount { get; set; }
+        public List<AttributeGroup> AttributeGroups { get; set; } = new List<AttributeGroup>();
+        public List<ProductDownloadEntry> Downloads { get; set; } = new List<ProductDownloadEntry>();
+        // --- end Printer PDP additions -----------------------------------------------------
         public List<ProductPdf> ProductPdfs { get; set; }
         public bool PpcSuppress { get; set; }
         public bool CrossSellSuppress { get; set; }
@@ -184,6 +196,16 @@ namespace BusinessLogic.ViewModels
                 }
 
                 GetPrinterSupplies();
+
+                // Printer PDP sections - each method self-guards on Product.Type == "Printers"
+                // (IsPrinterProduct), same as GetPrinterSupplies() above, so this is a no-op for
+                // every existing consumable product.
+                if (IsPrinterProduct)
+                {
+                    GetPrinterBundles();
+                    GetAttributeGroups();
+                    GetDownloads();
+                }
 
                 GetProductPdfs();
             }
@@ -1326,6 +1348,149 @@ namespace BusinessLogic.ViewModels
 
             return mpe;
         }
+        /// <summary>
+        /// Printer bundle cross-sells (brief page 4: "Save When You Buy A Printer Bundle").
+        /// Reuses the existing ProductAddon table via the same EF DbContext pattern
+        /// CheckoutViewModel.GetAddOn() already uses for the mini-cart's "You May Also Need"
+        /// popup - no new relational table was needed for the compatible/original link itself.
+        /// Splits by the addon product's own BrandFlag (already used elsewhere in Index.cshtml
+        /// to tell Original apart from Compatible) rather than adding a new "bundle type"
+        /// column. Only in-stock addons are offered, matching GetAddOn()'s own rule.
+        /// </summary>
+        private void GetPrinterBundles()
+        {
+            PrinterBundles = new List<PrinterBundleGroup>();
+            PrinterBundleDiscount = 0;
+
+            using (Ngmd db = new Ngmd())
+            {
+                var addonIds = db.ProductAddons
+                    .Where(x => x.ProductId == Product.ProductId && x.IsActive)
+                    .OrderBy(x => x.DisplayOrder)
+                    .Select(x => x.AddonProductId)
+                    .ToList();
+
+                foreach (var addonId in addonIds)
+                {
+                    ProductEntry addon = GetProductDetailById(addonId);
+                    if (addon == null || (addon.Availability != 1 && addon.Availability != 7))
+                    {
+                        continue;
+                    }
+
+                    decimal perMlCost = 0;
+                    if (decimal.TryParse(addon.Capacity, out decimal capacityMl) && capacityMl > 0)
+                    {
+                        perMlCost = Math.Round(addon.PriceTrExVat / capacityMl, 2);
+                    }
+
+                    PrinterBundles.Add(new PrinterBundleGroup
+                    {
+                        IsCompatible = addon.BrandFlag == BrandFlag.Compatible,
+                        AddonProduct = addon,
+                        BundlePriceIncVat = Product.PriceRetIncVat + addon.PriceRetIncVat,
+                        PerMlCost = perMlCost
+                    });
+                }
+            }
+
+            List<SqlParameter> sqlParms = new List<SqlParameter>
+            {
+                new SqlParameter("@ProductID", SqlDbType.Int) { Value = Product.ProductId }
+            };
+            DataTable discountTable = SQL
+                .ExecuteReadStoredProcedure("netgiantmasterdata", "ngmd.GetPrinterBundleDiscount", sqlParms, "discount")
+                .Tables[0];
+            if (discountTable.Rows.Count > 0)
+            {
+                PrinterBundleDiscount = Convert.ToDecimal(discountTable.Rows[0]["DiscountAmount"]);
+            }
+        }
+
+        /// <summary>
+        /// Groups the product's existing spec attributes (ds_attributeView - the same source
+        /// Specification.cshtml already reads) into named accordion sections, via the new
+        /// ngmd.GetProductAttributeGroups proc. Anything not yet mapped to a named group still
+        /// comes back in a "Specification" fallback bucket, so nothing silently disappears just
+        /// because a mapping hasn't been added for it yet.
+        /// </summary>
+        private void GetAttributeGroups()
+        {
+            AttributeGroups = new List<AttributeGroup>();
+
+            List<SqlParameter> sqlParms = new List<SqlParameter>
+            {
+                new SqlParameter("@PartNo", SqlDbType.VarChar) { Value = Product.PartNo },
+                new SqlParameter("@ManufacturerName", SqlDbType.VarChar) { Value = Product.Brand }
+            };
+            DataSet ds = SQL.ExecuteReadStoredProcedure("netgiantmasterdata", "ngmd.GetProductAttributeGroups", sqlParms, "attributeGroups");
+
+            var groupsById = new Dictionary<int, AttributeGroup>();
+            if (ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    int groupId = Convert.ToInt32(dr["groupID"]);
+                    if (!groupsById.ContainsKey(groupId))
+                    {
+                        groupsById[groupId] = new AttributeGroup
+                        {
+                            GroupName = dr["groupName"].ToString(),
+                            Sequence = Convert.ToInt32(dr["sequence"]),
+                            DefaultOpen = Convert.ToBoolean(dr["defaultOpen"])
+                        };
+                    }
+
+                    groupsById[groupId].Attributes.Add(new SpecAttributeRow
+                    {
+                        Name = dr["attrName"].ToString(),
+                        Value = dr["attrValue"].ToString()
+                    });
+                }
+            }
+            AttributeGroups = groupsById.Values.OrderBy(g => g.Sequence).ToList();
+
+            if (ds.Tables.Count > 1 && ds.Tables[1].Rows.Count > 0)
+            {
+                var fallback = new AttributeGroup { GroupName = "Specification", Sequence = int.MaxValue, DefaultOpen = false };
+                foreach (DataRow dr in ds.Tables[1].Rows)
+                {
+                    fallback.Attributes.Add(new SpecAttributeRow
+                    {
+                        Name = dr["attrName"].ToString(),
+                        Value = dr["attrValue"].ToString()
+                    });
+                }
+                AttributeGroups.Add(fallback);
+            }
+        }
+
+        /// <summary>
+        /// Downloadable files against this product (brief page 5), via the new
+        /// ngmd.GetProductDownloads proc / productDownload table.
+        /// </summary>
+        private void GetDownloads()
+        {
+            Downloads = new List<ProductDownloadEntry>();
+
+            List<SqlParameter> sqlParms = new List<SqlParameter>
+            {
+                new SqlParameter("@ProductID", SqlDbType.Int) { Value = Product.ProductId }
+            };
+            DataTable dt = SQL
+                .ExecuteReadStoredProcedure("netgiantmasterdata", "ngmd.GetProductDownloads", sqlParms, "downloads")
+                .Tables[0];
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                Downloads.Add(new ProductDownloadEntry
+                {
+                    FileName = dr["fileName"].ToString(),
+                    FileUrl = dr["fileURL"].ToString()
+                });
+            }
+        }
+
         public ProductEntry GetProductDetailById(int masterId)
         {
             List<SqlParameter> sqlParms = new List<SqlParameter>();

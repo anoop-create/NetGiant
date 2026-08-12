@@ -199,9 +199,17 @@
 
 @section AddTags {
     <link rel="canonical" href="@("https://" + Model.DomainNameTrunc + ViewBag.cUrl)" />
+    @if (Model.IsPrinterProduct)
+    {
+        <link rel="stylesheet" href="~/Content/printer-pdp.css" />
+    }
 }
 
 <div class="product">
+    @if (Model.IsPrinterProduct)
+    {
+        Html.RenderPartial("~/Views/Product/PrinterStickyHeader.cshtml", Model);
+    }
     <section id="loadbg" class="" data-stellar-background-ratio="0.5" data-stellar-ratio="1" data-bgimg="@Html.RawFromDict(Model.CommonData, "FeatureBackground")">
         <div class="container body-content">
             <div class="row">
@@ -909,6 +917,12 @@
                 </div>
             </div>
 
+            @if (Model.IsPrinterProduct)
+            {
+                Html.RenderPartial("~/Views/Product/PrinterKeyFeatures.cshtml", Model);
+                Html.RenderPartial("~/Views/Product/PrinterBundles.cshtml", Model);
+            }
+
             <div class="row g-m-t-30">
                 <div class="col-xs-12 g-p-lr-0">
                     <div class="prd-quick-links g-fs-16">
@@ -923,7 +937,12 @@
             </div>
 
             <!-- Printer Supplies -->
-            @if (Model.PrinterSupplies.Count > 0)
+            @* For printer products, the same PrinterSupplies data is shown inside the tabbed
+               "Consumables" accordion panel below (PrinterCompatibles.cshtml) instead of this
+               flat grid, so it isn't shown twice on the same page. Unchanged for every other
+               product - IsPrinterProduct is false for all of them, so this condition evaluates
+               exactly as it did before. *@
+            @if (!Model.IsPrinterProduct && Model.PrinterSupplies.Count > 0)
             {
                 Model.MiniProductEntries = Model.PrinterSupplies;
                 ViewBag.MiniProductEntryTitle = "Supplies for this printer";
@@ -932,34 +951,45 @@
 
             <hr class="g-m-tb-20" />
 
-            <!-- Product Details -->
-            <h2 id="product-info" class="g-lh-30">@pe.Description Product Details</h2>
-            <div class="g-fs-15">
-                <div class="@(string.IsNullOrEmpty(pe.PriorityNote) ? "" : "g-m-t-10")">
-                    @Html.Raw(pe.PriorityNote)
-                </div>
-                @if (pe.ProductNotes != "")
-                {
-                    <div class="g-m-t-10 g-m-b-20 clearfix">
-                        @Html.Raw(pe.ProductNotes)
+            @if (Model.IsPrinterProduct)
+            {
+                <!-- Printer PDP accordion (Product Summary / grouped Specification / Downloads /
+                     Consumables / Reviews) replaces the flat blocks below for printer products only -
+                     see PrinterAccordion.cshtml. The flat blocks in the else branch below are
+                     completely unchanged and still render for every non-printer product. -->
+                Html.RenderPartial("~/Views/Product/PrinterAccordion.cshtml", Model);
+            }
+            else
+            {
+                <!-- Product Details -->
+                <h2 id="product-info" class="g-lh-30">@pe.Description Product Details</h2>
+                <div class="g-fs-15">
+                    <div class="@(string.IsNullOrEmpty(pe.PriorityNote) ? "" : "g-m-t-10")">
+                        @Html.Raw(pe.PriorityNote)
                     </div>
-                }
-            </div>
+                    @if (pe.ProductNotes != "")
+                    {
+                        <div class="g-m-t-10 g-m-b-20 clearfix">
+                            @Html.Raw(pe.ProductNotes)
+                        </div>
+                    }
+                </div>
 
-            <hr class="g-m-tb-20" />
+                <hr class="g-m-tb-20" />
 
-            <!-- Product Specification -->
-            <div id="product-spec" class="prd-details g-b-1-p g-bc-s">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="g-p-tb-5">
-                            <strong>Product Specification</strong>
+                <!-- Product Specification -->
+                <div id="product-spec" class="prd-details g-b-1-p g-bc-s">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="g-p-tb-5">
+                                <strong>Product Specification</strong>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                @{ Html.RenderPartial("~/Views/Product/Specification.cshtml", Model); }
-            </div>
+                    @{ Html.RenderPartial("~/Views/Product/Specification.cshtml", Model); }
+                </div>
+            }
 
             <!-- Compatible Printers -->
             <div>
@@ -1010,7 +1040,11 @@
                     </div>
                 }
 
-                if (Model.FeeFoList.Count > 0)
+                // For printer products, Reviews.cshtml is already rendered once from inside
+                // PrinterAccordion.cshtml's "Reviews" panel above - skip the second render here
+                // so printer pages don't show the reviews list twice. Unaffected for every
+                // other product (IsPrinterProduct is always false today).
+                if (!Model.IsPrinterProduct && Model.FeeFoList.Count > 0)
                 {
                     Html.RenderPartial("~/Views/Product/Reviews.cshtml", Model);
                 }
@@ -1038,6 +1072,10 @@
                 data-flix-brand="@Model.Product.Brand" data-flix-mpn="@Model.Product.PartNo" data-flix-ean="" data-flix-sku="" data-flix-button="flix-minisite" data-flix-inpage="flix-data"
                 data-flix-button-image="/Content/Images/1pxTrans.png" data-flix-fallback-language="" data-flix-price="">
         </script>
+    }
+    @if (Model.IsPrinterProduct)
+    {
+        <script type="text/javascript" src="~/Scripts/printer-pdp.js"></script>
     }
 }
 

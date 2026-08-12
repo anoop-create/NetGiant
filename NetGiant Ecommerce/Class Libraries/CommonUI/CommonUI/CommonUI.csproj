@@ -637,10 +637,35 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PopularPrinters.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Product\PrinterAccordion.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PrinterAccordion.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Product\PrinterBundles.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PrinterBundles.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Product\PrinterCompatibles.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PrinterCompatibles.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Product\PrinterKeyFeatures.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PrinterKeyFeatures.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Product\PrintersForProducts.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PrintersForProducts.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Product\PrinterStickyHeader.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PrinterStickyHeader.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Views\Product\ProductAltFilters.generated.cs">
       <AutoGen>True</AutoGen>
@@ -1393,6 +1418,26 @@
     <Content Include="Views\Shared\MiniBasket.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>MiniBasket.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Product\PrinterKeyFeatures.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PrinterKeyFeatures.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Product\PrinterBundles.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PrinterBundles.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Product\PrinterStickyHeader.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PrinterStickyHeader.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Product\PrinterCompatibles.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PrinterCompatibles.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Product\PrinterAccordion.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PrinterAccordion.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
