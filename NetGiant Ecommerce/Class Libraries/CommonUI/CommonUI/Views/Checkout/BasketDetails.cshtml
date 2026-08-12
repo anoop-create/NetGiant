@@ -1031,8 +1031,7 @@
                                                 </h4>
 
                                                 <div class="basket-product-code">
-                                                    <strong>Product Code:</strong>
-                                                    @bc.PartNo
+                                                    <strong>@bc.PartNo</strong>
                                                 </div>
 
                                                 <div class="basket-status g-m-t-15">
@@ -1157,13 +1156,13 @@
                                                 <div class="basket-price-box">
 
                                                     <div class="price-row">
+                                                        <strong>£@neg@string.Format("{0:N2}", bc.PriceEx)</strong>
                                                         <span>Ex VAT</span>
-                                                        <strong>@neg@string.Format("{0:N2}", bc.PriceEx)</strong>
                                                     </div>
 
                                                     <div class="price-row">
+                                                        <strong>£@string.Format("{0:N2}", bc.PriceInc)</strong>
                                                         <span>Inc VAT</span>
-                                                        <strong>@string.Format("{0:N2}", bc.PriceInc)</strong>
                                                     </div>
 
                                                     @if (discUnitPrice > 0)
@@ -1172,7 +1171,7 @@
 
                                                             Save
                                                             <strong>
-                                                                @string.Format("{0:N2}", bc.PriceEx - discUnitPrice)
+                                                                £@string.Format("{0:N2}", bc.PriceEx - discUnitPrice)
                                                             </strong>
 
                                                         </div>
@@ -1302,12 +1301,12 @@
 
                                                             <div class="basket-price-box">
                                                                 <div class="price-row ex-vat">
+                                                                    <strong>£@string.Format("{0:N2}", switchLinePriceEx)</strong>
                                                                     <span>Ex VAT</span>
-                                                                    <strong>@string.Format("{0:N2}", switchLinePriceEx)</strong>
                                                                 </div>
                                                                 <div class="price-row inc-vat">
+                                                                    <strong>£@string.Format("{0:N2}", switchLinePriceInc)</strong>
                                                                     <span>Inc VAT</span>
-                                                                    <strong>@string.Format("{0:N2}", switchLinePriceInc)</strong>
                                                                 </div>
                                                                 <div class="price-row save-saving">
                                                                     <span>Save</span>

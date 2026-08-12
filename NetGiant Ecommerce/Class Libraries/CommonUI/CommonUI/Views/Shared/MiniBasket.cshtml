@@ -439,6 +439,9 @@
         font-size: 14px;
         color: #09c;
     }
+    .promo-applied {
+        color: black;
+    }
 
 </style>
 <!-- Single stable wrapper around the whole widget (button + overlay + its script) so AJAX
@@ -647,10 +650,10 @@
                                                 @bc.Description
                                             </a>
                                             <div class="cart-item__sku">
-                                                Product Code: @bc.PartNo
+                                                @bc.PartNo
                                             </div>
                                             <div class="cart-item__price">
-                                                @neg@bc.PriceEx.ToString("N2")
+                                                £@neg@bc.PriceEx.ToString("N2")
                                                 <span class="vat">
                                                     @(isTradeCustomer
                                                         ? "Trade Price, ex VAT"
@@ -756,13 +759,7 @@
                                                             <div class="switch-save__sku">
                                                                 Compatible for @bc.PartNo
                                                             </div>
-                                                            <!-- Availability -->
-                                                            <div class="stock-status in-stock">
-                                                                <i class="fa fa-check-circle"></i>
-                                                                <span>
-                                                                    In Stock
-                                                                </span>
-                                                            </div>
+                                                            
                                                             <!-- Switch price -->
                                                             <div class="switch-save__price">
                                                                 £@switchLinePriceEx.ToString("N2")

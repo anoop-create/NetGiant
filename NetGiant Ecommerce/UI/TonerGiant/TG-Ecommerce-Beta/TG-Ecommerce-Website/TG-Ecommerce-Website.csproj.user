@@ -10,6 +10,7 @@
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NameOfLastUsedPublishProfile>C:\Anoop\Git\NetGiant\NetGiant Ecommerce\UI\TonerGiant\TG-Ecommerce-Beta\TG-Ecommerce-Website\Properties\PublishProfiles\SBS Release.pubxml</NameOfLastUsedPublishProfile>
+    <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
