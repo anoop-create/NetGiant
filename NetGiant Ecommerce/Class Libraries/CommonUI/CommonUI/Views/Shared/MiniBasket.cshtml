@@ -442,12 +442,23 @@
     .promo-applied {
         color: black;
     }
-    .minibasket-voucher-code-error {
+    #minibasket-voucher-code-error {
         margin-top: 10px!important;
         color: red!important;
     }
-    .minibasket-voucher-code{
+    #minibasket-voucher-code{
         color:black;
+    }
+    .voucher-applied {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        background: #eaf8ef;
+        color: #1e7e34;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
     }
 </style>
 <!-- Single stable wrapper around the whole widget (button + overlay + its script) so AJAX
@@ -713,6 +724,7 @@
                                                     </div>
                                                 }
                                             }
+
                                         </div>
                                     </div>
                                     <!-- Switch & Save for this product -->
