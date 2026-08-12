@@ -442,7 +442,13 @@
     .promo-applied {
         color: black;
     }
-
+    .minibasket-voucher-code-error {
+        margin-top: 10px!important;
+        color: red!important;
+    }
+    .minibasket-voucher-code{
+        color:black;
+    }
 </style>
 <!-- Single stable wrapper around the whole widget (button + overlay + its script) so AJAX
      handlers in site.js have exactly one element to target with replaceWith(data.basketSummary) -
@@ -566,7 +572,7 @@
                                     <button id="btnMiniBasketSwitchAll"
                                             type="button"
                                             class="switch-save__btn">
-                                        Switch All Products
+                                        Switch All Items
                                     </button>
                                 </div>
                             </div>
@@ -757,7 +763,7 @@
                                                             </a>
                                                             <!-- Product reference -->
                                                             <div class="switch-save__sku">
-                                                                Compatible for @bc.PartNo
+                                                                @bc.PartNo
                                                             </div>
                                                             
                                                             <!-- Switch price -->
@@ -772,7 +778,9 @@
                                                             <!-- Saving -->
                                                             <div class="switch-save__save">
                                                                 Save £@saving.ToString("N2")
-                                                                ex VAT
+                                                                @(isTradeCustomer
+                                                                  ? "Trade Price, ex VAT"
+                                                                  : "exc. VAT")
                                                             </div>
                                                             <!-- Switch button -->
                                                             <button class="switch-save__btn minibasket-replace"
@@ -845,11 +853,15 @@
                                 <button type="button"
                                         class="minibasket-voucher-remove"
                                         title="Remove voucher code">
-                                    <i class="fa fa-times"></i>
+                                    <i class="fa fa-trash"></i>
                                 </button>
                                 <span class="promo-applied__saving">
                                     -£@Math.Abs(totalSaving).ToString("0.00")
                                 </span>
+                                <div class="voucher-applied">
+                                    <i class="fa fa-check-circle"></i>
+                                    Voucher Applied
+                                </div>
                             </div>
                         </details>
                     }

@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\Anoop\Publish\TG\Release</_PublishTargetUrl>
-    <History>True|2026-08-12T06:55:55.3906747Z||;True|2026-08-10T17:21:03.2381412+05:30||;True|2026-08-10T16:33:36.4963657+05:30||;True|2026-08-10T15:54:38.9625902+05:30||;True|2026-08-10T15:00:49.4149105+05:30||;True|2026-08-10T14:42:01.0951996+05:30||;True|2026-08-10T14:08:50.5377397+05:30||;True|2026-08-08T02:16:52.9541242+05:30||;True|2026-08-08T00:38:23.7089502+05:30||;True|2026-08-08T00:07:45.6463448+05:30||;True|2026-08-07T22:13:21.9063751+05:30||;True|2026-08-07T11:52:58.9158901+05:30||;</History>
+    <History>True|2026-08-12T12:29:16.1505908Z||;False|2026-08-12T15:43:23.1305671+05:30||;True|2026-08-12T14:17:56.4871802+05:30||;True|2026-08-12T13:29:19.8896174+05:30||;True|2026-08-12T12:45:56.2178839+05:30||;True|2026-08-12T12:25:55.3906747+05:30||;True|2026-08-10T17:21:03.2381412+05:30||;True|2026-08-10T16:33:36.4963657+05:30||;True|2026-08-10T15:54:38.9625902+05:30||;True|2026-08-10T15:00:49.4149105+05:30||;True|2026-08-10T14:42:01.0951996+05:30||;True|2026-08-10T14:08:50.5377397+05:30||;True|2026-08-08T02:16:52.9541242+05:30||;True|2026-08-08T00:38:23.7089502+05:30||;True|2026-08-08T00:07:45.6463448+05:30||;True|2026-08-07T22:13:21.9063751+05:30||;True|2026-08-07T11:52:58.9158901+05:30||;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -20,10 +20,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/22/2013 14:13:40</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>08/12/2026 12:19:44</publishTime>
+      <publishTime>08/12/2026 18:13:36</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>08/12/2026 12:19:44</publishTime>
+      <publishTime>08/12/2026 18:13:36</publishTime>
     </File>
     <File Include="bin/BCrypt.Net.dll">
       <publishTime>07/07/2026 16:53:40</publishTime>
@@ -41,13 +41,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/12/2026 12:16:23</publishTime>
     </File>
     <File Include="bin/CommonUI.dll">
-      <publishTime>08/12/2026 12:16:25</publishTime>
+      <publishTime>08/12/2026 18:12:20</publishTime>
     </File>
     <File Include="bin/CommonUI.dll.config">
       <publishTime>07/26/2026 07:47:13</publishTime>
     </File>
     <File Include="bin/CommonUI.pdb">
-      <publishTime>08/12/2026 12:16:25</publishTime>
+      <publishTime>08/12/2026 18:12:20</publishTime>
     </File>
     <File Include="bin/DataAccess.dll">
       <publishTime>08/12/2026 12:16:22</publishTime>
@@ -317,10 +317,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2026 17:00:11</publishTime>
     </File>
     <File Include="bin/TG-Ecommerce-Website.dll">
-      <publishTime>08/12/2026 12:16:28</publishTime>
+      <publishTime>08/12/2026 18:12:23</publishTime>
     </File>
     <File Include="bin/TG-Ecommerce-Website.pdb">
-      <publishTime>08/12/2026 12:16:28</publishTime>
+      <publishTime>08/12/2026 18:12:23</publishTime>
     </File>
     <File Include="bin/UAParser.dll">
       <publishTime>05/27/2021 01:10:22</publishTime>
@@ -88354,6 +88354,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="cdn/Images/Stu-sig.JPG">
       <publishTime>08/05/2026 01:09:39</publishTime>
     </File>
+    <File Include="cdn/Images/switch-save.png">
+      <publishTime>08/12/2026 15:52:08</publishTime>
+    </File>
     <File Include="cdn/Images/switchandsave.png">
       <publishTime>08/05/2026 01:09:39</publishTime>
     </File>
@@ -88844,7 +88847,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/23/2026 11:32:19</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>08/12/2026 12:19:22</publishTime>
+      <publishTime>08/12/2026 18:13:21</publishTime>
     </File>
     <File Include="Scripts/bootstrap-select.js">
       <publishTime>07/07/2026 17:00:53</publishTime>

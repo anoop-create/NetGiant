@@ -234,12 +234,14 @@ WriteLiteral("\n<style>\n    :root {\n        --dark: #2b2b2b;\n        --pink: 
 "item__actions i:hover {\r\n            color: #09c;\r\n        }\r\n\r\n    .mini-cart {" +
 "\r\n        max-width: 360px !important;\r\n        width: 360px !important;\r\n    }\r" +
 "\n\r\n    .switch-save__price {\r\n        font-size: 14px;\r\n        color: #09c;\r\n  " +
-"  }\r\n    .promo-applied {\r\n        color: black;\r\n    }\n\n</style>\n<!-- Single st" +
-"able wrapper around the whole widget (button + overlay + its script) so AJAX\n   " +
-"  handlers in site.js have exactly one element to target with replaceWith(data.b" +
-"asketSummary) -\n     the button and the overlay used to be two unwrapped sibling" +
-" roots, which left nothing for\n     a basket-mutating AJAX call to swap out as a" +
-" unit. -->\n<div");
+"  }\r\n    .promo-applied {\r\n        color: black;\r\n    }\r\n    .minibasket-voucher" +
+"-code-error {\r\n        margin-top: 10px!important;\r\n        color: red!important" +
+";\r\n    }\r\n    .minibasket-voucher-code{\n        color:black;\n    }\n</style>\n<!--" +
+" Single stable wrapper around the whole widget (button + overlay + its script) s" +
+"o AJAX\n     handlers in site.js have exactly one element to target with replaceW" +
+"ith(data.basketSummary) -\n     the button and the overlay used to be two unwrapp" +
+"ed sibling roots, which left nothing for\n     a basket-mutating AJAX call to swa" +
+"p out as a unit. -->\n<div");
 
 WriteLiteral(" id=\"minibasket-widget\"");
 
@@ -306,7 +308,7 @@ WriteLiteral(">\n");
 WriteLiteral("            ");
 
             
-            #line 472 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 478 "..\..\Views\Shared\MiniBasket.cshtml"
         Write(lbc == null
             ? 0
             : lbc.Where(x => x.ItemType == BasketItemType.Item ||
@@ -363,13 +365,13 @@ WriteLiteral(" class=\"mini-cart__body\"");
 WriteLiteral(">\n");
 
             
-            #line 501 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 507 "..\..\Views\Shared\MiniBasket.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 501 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 507 "..\..\Views\Shared\MiniBasket.cshtml"
                      if (lbc != null && lbc.Count > 0)
                     {
                         bool isMultiBuy = false;
@@ -450,7 +452,7 @@ WriteLiteral(" class=\"switch-save-all__msg\"");
 WriteLiteral(">\n                                        Save <strong>£");
 
             
-            #line 563 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 569 "..\..\Views\Shared\MiniBasket.cshtml"
                                                   Write(basketSwitchSaving.ToString("N2"));
 
             
@@ -466,12 +468,12 @@ WriteLiteral("\n                                            type=\"button\"");
 
 WriteLiteral("\n                                            class=\"switch-save__btn\"");
 
-WriteLiteral(">\n                                        Switch All Products\n                   " +
-"                 </button>\n                                </div>\n              " +
-"              </div>\n");
+WriteLiteral(">\n                                        Switch All Items\n                      " +
+"              </button>\n                                </div>\n                 " +
+"           </div>\n");
 
             
-            #line 573 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 579 "..\..\Views\Shared\MiniBasket.cshtml"
                         }
                         /*
                          * Render basket products
@@ -545,7 +547,7 @@ WriteLiteral(" class=\"cart-item atb-entry\"");
 WriteLiteral("\n                                         data-productid=\"");
 
             
-            #line 637 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 643 "..\..\Views\Shared\MiniBasket.cshtml"
                                                     Write(bc.StockRef);
 
             
@@ -556,52 +558,52 @@ WriteLiteral("\"");
 WriteLiteral(">\n                                        <!-- Product image -->\n                " +
 "                        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 21031), Tuple.Create("\"", 21049)
+WriteAttribute("href", Tuple.Create(" href=\"", 21198), Tuple.Create("\"", 21216)
             
-            #line 639 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 21038), Tuple.Create<System.Object, System.Int32>(productUrl
+            #line 645 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 21205), Tuple.Create<System.Object, System.Int32>(productUrl
             
             #line default
             #line hidden
-, 21038), false)
+, 21205), false)
 );
 
 WriteLiteral("\n                                           class=\"cart-item__link\"");
 
 WriteLiteral(">\n                                            <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 21167), Tuple.Create("\"", 21185)
+WriteAttribute("src", Tuple.Create(" src=\"", 21334), Tuple.Create("\"", 21352)
             
-            #line 641 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 21173), Tuple.Create<System.Object, System.Int32>(bc.ImageUrl
+            #line 647 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 21340), Tuple.Create<System.Object, System.Int32>(bc.ImageUrl
             
             #line default
             #line hidden
-, 21173), false)
+, 21340), false)
 );
 
-WriteAttribute("alt", Tuple.Create("\n                                                 alt=\"", 21186), Tuple.Create("\"", 21256)
+WriteAttribute("alt", Tuple.Create("\n                                                 alt=\"", 21353), Tuple.Create("\"", 21423)
             
-            #line 642 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 21241), Tuple.Create<System.Object, System.Int32>(bc.Description
+            #line 648 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 21408), Tuple.Create<System.Object, System.Int32>(bc.Description
             
             #line default
             #line hidden
-, 21241), false)
+, 21408), false)
 );
 
 WriteLiteral("\n                                                 class=\"cart-item__img\"");
 
-WriteAttribute("onerror", Tuple.Create("\n                                                 onerror=\"", 21329), Tuple.Create("\"", 21459)
-, Tuple.Create(Tuple.Create("", 21388), Tuple.Create("this.src=\'", 21388), true)
+WriteAttribute("onerror", Tuple.Create("\n                                                 onerror=\"", 21496), Tuple.Create("\"", 21626)
+, Tuple.Create(Tuple.Create("", 21555), Tuple.Create("this.src=\'", 21555), true)
             
-            #line 644 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 21398), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+            #line 650 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 21565), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
             
             #line default
             #line hidden
-, 21398), false)
-, Tuple.Create(Tuple.Create("", 21438), Tuple.Create("/Images/noImage.jpg\';", 21438), true)
+, 21565), false)
+, Tuple.Create(Tuple.Create("", 21605), Tuple.Create("/Images/noImage.jpg\';", 21605), true)
 );
 
 WriteLiteral(" />\n                                        </a>\n                                " +
@@ -611,14 +613,14 @@ WriteLiteral(" class=\"cart-item__details\"");
 
 WriteLiteral(">\n                                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 21693), Tuple.Create("\"", 21711)
+WriteAttribute("href", Tuple.Create(" href=\"", 21860), Tuple.Create("\"", 21878)
             
-            #line 648 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 21700), Tuple.Create<System.Object, System.Int32>(productUrl
+            #line 654 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 21867), Tuple.Create<System.Object, System.Int32>(productUrl
             
             #line default
             #line hidden
-, 21700), false)
+, 21867), false)
 );
 
 WriteLiteral("\n                                               class=\"cart-item__title\"");
@@ -628,7 +630,7 @@ WriteLiteral(">\n");
 WriteLiteral("                                                ");
 
             
-            #line 650 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 656 "..\..\Views\Shared\MiniBasket.cshtml"
                                            Write(bc.Description);
 
             
@@ -644,7 +646,7 @@ WriteLiteral(">\n");
 WriteLiteral("                                                ");
 
             
-            #line 653 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 659 "..\..\Views\Shared\MiniBasket.cshtml"
                                            Write(bc.PartNo);
 
             
@@ -658,14 +660,14 @@ WriteLiteral(" class=\"cart-item__price\"");
 WriteLiteral(">\n                                                £");
 
             
-            #line 656 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 662 "..\..\Views\Shared\MiniBasket.cshtml"
                                             Write(neg);
 
             
             #line default
             #line hidden
             
-            #line 656 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 662 "..\..\Views\Shared\MiniBasket.cshtml"
                                                 Write(bc.PriceEx.ToString("N2"));
 
             
@@ -680,7 +682,7 @@ WriteLiteral(">\n");
 WriteLiteral("                                                    ");
 
             
-            #line 658 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 664 "..\..\Views\Shared\MiniBasket.cshtml"
                                                 Write(isTradeCustomer
                                                         ? "Trade Price, ex VAT"
                                                         : "Ex VAT");
@@ -691,13 +693,13 @@ WriteLiteral("                                                    ");
 WriteLiteral("\n                                                </span>\n");
 
             
-            #line 662 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 668 "..\..\Views\Shared\MiniBasket.cshtml"
                                                 
             
             #line default
             #line hidden
             
-            #line 662 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 668 "..\..\Views\Shared\MiniBasket.cshtml"
                                                  if (discUnitPrice > 0)
                                                 {
 
@@ -712,7 +714,7 @@ WriteLiteral(">\n                                                        Save\n 
 "                                      £");
 
             
-            #line 666 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 672 "..\..\Views\Shared\MiniBasket.cshtml"
                                                      Write((bc.PriceEx - discUnitPrice).ToString("N2"));
 
             
@@ -721,7 +723,7 @@ WriteLiteral(">\n                                                        Save\n 
 WriteLiteral("\n                                                    </div>\n");
 
             
-            #line 668 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 674 "..\..\Views\Shared\MiniBasket.cshtml"
                                                 }
 
             
@@ -736,13 +738,13 @@ WriteLiteral(" class=\"cart-item__actions\"");
 WriteLiteral(">\n");
 
             
-            #line 673 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 679 "..\..\Views\Shared\MiniBasket.cshtml"
                                             
             
             #line default
             #line hidden
             
-            #line 673 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 679 "..\..\Views\Shared\MiniBasket.cshtml"
                                              if (!bc.IsFreeGift)
                                             {
 
@@ -756,7 +758,7 @@ WriteLiteral(" class=\"cart-item__remove minibasket-remove delete\"");
 WriteLiteral("\n                                                        data-productid=\"");
 
             
-            #line 676 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 682 "..\..\Views\Shared\MiniBasket.cshtml"
                                                                    Write(bc.StockRef);
 
             
@@ -786,7 +788,7 @@ WriteLiteral(" type=\"button\"");
 WriteLiteral("\n                                                            ");
 
             
-            #line 683 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 689 "..\..\Views\Shared\MiniBasket.cshtml"
                                                         Write(bc.Quantity <= 1 ? "disabled" : "");
 
             
@@ -796,7 +798,7 @@ WriteLiteral("\n                                                            oncl
 "asketQty(\'");
 
             
-            #line 684 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 690 "..\..\Views\Shared\MiniBasket.cshtml"
                                                                                      Write(bc.StockRef);
 
             
@@ -805,7 +807,7 @@ WriteLiteral("\n                                                            oncl
 WriteLiteral("\', ");
 
             
-            #line 684 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 690 "..\..\Views\Shared\MiniBasket.cshtml"
                                                                                                      Write(Math.Max(1, bc.Quantity - 1));
 
             
@@ -819,38 +821,38 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral("\n                                                           readonly");
 
-WriteAttribute("value", Tuple.Create("\n                                                           value=\"", 24519), Tuple.Create("\"", 24598)
+WriteAttribute("value", Tuple.Create("\n                                                           value=\"", 24686), Tuple.Create("\"", 24765)
             
-            #line 689 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 24586), Tuple.Create<System.Object, System.Int32>(bc.Quantity
+            #line 695 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 24753), Tuple.Create<System.Object, System.Int32>(bc.Quantity
             
             #line default
             #line hidden
-, 24586), false)
+, 24753), false)
 );
 
 WriteLiteral(" />\n                                                    <button");
 
 WriteLiteral(" type=\"button\"");
 
-WriteAttribute("onclick", Tuple.Create("\n                                                            onclick=\"", 24676), Tuple.Create("\"", 24801)
-, Tuple.Create(Tuple.Create("", 24746), Tuple.Create("changeMiniBasketQty(\'", 24746), true)
+WriteAttribute("onclick", Tuple.Create("\n                                                            onclick=\"", 24843), Tuple.Create("\"", 24968)
+, Tuple.Create(Tuple.Create("", 24913), Tuple.Create("changeMiniBasketQty(\'", 24913), true)
             
-            #line 691 "..\..\Views\Shared\MiniBasket.cshtml"
-         , Tuple.Create(Tuple.Create("", 24767), Tuple.Create<System.Object, System.Int32>(bc.StockRef
-            
-            #line default
-            #line hidden
-, 24767), false)
-, Tuple.Create(Tuple.Create("", 24779), Tuple.Create("\',", 24779), true)
-            
-            #line 691 "..\..\Views\Shared\MiniBasket.cshtml"
-                        , Tuple.Create(Tuple.Create(" ", 24781), Tuple.Create<System.Object, System.Int32>(bc.Quantity + 1
+            #line 697 "..\..\Views\Shared\MiniBasket.cshtml"
+         , Tuple.Create(Tuple.Create("", 24934), Tuple.Create<System.Object, System.Int32>(bc.StockRef
             
             #line default
             #line hidden
-, 24782), false)
-, Tuple.Create(Tuple.Create("", 24800), Tuple.Create(")", 24800), true)
+, 24934), false)
+, Tuple.Create(Tuple.Create("", 24946), Tuple.Create("\',", 24946), true)
+            
+            #line 697 "..\..\Views\Shared\MiniBasket.cshtml"
+                        , Tuple.Create(Tuple.Create(" ", 24948), Tuple.Create<System.Object, System.Int32>(bc.Quantity + 1
+            
+            #line default
+            #line hidden
+, 24949), false)
+, Tuple.Create(Tuple.Create("", 24967), Tuple.Create(")", 24967), true)
 );
 
 WriteLiteral(">\n                                                        +\n                     " +
@@ -858,7 +860,7 @@ WriteLiteral(">\n                                                        +\n    
 "         </div>\n");
 
             
-            #line 695 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 701 "..\..\Views\Shared\MiniBasket.cshtml"
                                             }
 
             
@@ -867,7 +869,7 @@ WriteLiteral(">\n                                                        +\n    
 WriteLiteral("                                            ");
 
             
-            #line 696 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 702 "..\..\Views\Shared\MiniBasket.cshtml"
                                              if (Session["V_Voucher"] != null)
                                             {
                                                 VoucherPromo vp =
@@ -892,7 +894,7 @@ WriteLiteral("></i>\n                                                        Vou
 "                                                 </div>\n");
 
             
-            #line 708 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 714 "..\..\Views\Shared\MiniBasket.cshtml"
                                                 }
                                             }
 
@@ -904,13 +906,13 @@ WriteLiteral("                                        </div>\n                  
 " -->\n");
 
             
-            #line 713 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 719 "..\..\Views\Shared\MiniBasket.cshtml"
                                     
             
             #line default
             #line hidden
             
-            #line 713 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 719 "..\..\Views\Shared\MiniBasket.cshtml"
                                      if (!bc.IsCompatible &&
                                         !String.IsNullOrEmpty(bc.CrossSellingStockRef) &&
                                         !bc.ExcludeFromUpSell)
@@ -954,22 +956,22 @@ WriteLiteral(" class=\"switch-save__content\"");
 WriteLiteral(">\n                                                        <!-- Switch product ima" +
 "ge -->\n                                                        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 28107), Tuple.Create("\"", 28140)
+WriteAttribute("href", Tuple.Create(" href=\"", 28274), Tuple.Create("\"", 28307)
             
-            #line 741 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 28114), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingProductUrl
+            #line 747 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 28281), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingProductUrl
             
             #line default
             #line hidden
-, 28114), false)
+, 28281), false)
 );
 
 WriteLiteral(">\n                                                            <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 28207), Tuple.Create("\"", 28625)
+WriteAttribute("src", Tuple.Create(" src=\"", 28374), Tuple.Create("\"", 28792)
             
-            #line 742 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 28213), Tuple.Create<System.Object, System.Int32>(
+            #line 748 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 28380), Tuple.Create<System.Object, System.Int32>(
                                                                 !String.IsNullOrEmpty(
                                                                     bc.CrossSellingImageURL)
                                                                 ? bc.CrossSellingImageURL
@@ -978,32 +980,32 @@ WriteAttribute("src", Tuple.Create(" src=\"", 28207), Tuple.Create("\"", 28625)
             
             #line default
             #line hidden
-, 28213), false)
+, 28380), false)
 );
 
-WriteAttribute("alt", Tuple.Create("\n                                                                 alt=\"", 28626), Tuple.Create("\"", 28724)
+WriteAttribute("alt", Tuple.Create("\n                                                                 alt=\"", 28793), Tuple.Create("\"", 28891)
             
-            #line 748 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 28697), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingDescription
+            #line 754 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 28864), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingDescription
             
             #line default
             #line hidden
-, 28697), false)
+, 28864), false)
 );
 
 WriteLiteral("\n                                                                 class=\"switch-s" +
 "ave__img\"");
 
-WriteAttribute("onerror", Tuple.Create("\n                                                                 onerror=\"", 28815), Tuple.Create("\"", 28961)
-, Tuple.Create(Tuple.Create("", 28890), Tuple.Create("this.src=\'", 28890), true)
+WriteAttribute("onerror", Tuple.Create("\n                                                                 onerror=\"", 28982), Tuple.Create("\"", 29128)
+, Tuple.Create(Tuple.Create("", 29057), Tuple.Create("this.src=\'", 29057), true)
             
-            #line 750 "..\..\Views\Shared\MiniBasket.cshtml"
-   , Tuple.Create(Tuple.Create("", 28900), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+            #line 756 "..\..\Views\Shared\MiniBasket.cshtml"
+   , Tuple.Create(Tuple.Create("", 29067), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
             
             #line default
             #line hidden
-, 28900), false)
-, Tuple.Create(Tuple.Create("", 28940), Tuple.Create("/Images/noImage.jpg\';", 28940), true)
+, 29067), false)
+, Tuple.Create(Tuple.Create("", 29107), Tuple.Create("/Images/noImage.jpg\';", 29107), true)
 );
 
 WriteLiteral(" />\n                                                        </a>\n                " +
@@ -1014,14 +1016,14 @@ WriteLiteral(" style=\"flex:1;\"");
 WriteLiteral(">\n                                                            <!-- Switch product" +
 " name -->\n                                                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 29256), Tuple.Create("\"", 29289)
+WriteAttribute("href", Tuple.Create(" href=\"", 29423), Tuple.Create("\"", 29456)
             
-            #line 754 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 29263), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingProductUrl
+            #line 760 "..\..\Views\Shared\MiniBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 29430), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingProductUrl
             
             #line default
             #line hidden
-, 29263), false)
+, 29430), false)
 );
 
 WriteLiteral("\n                                                               class=\"switch-sav" +
@@ -1032,7 +1034,7 @@ WriteLiteral(">\n");
 WriteLiteral("                                                                ");
 
             
-            #line 756 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 762 "..\..\Views\Shared\MiniBasket.cshtml"
                                                            Write(bc.CrossSellingDescription);
 
             
@@ -1044,12 +1046,13 @@ WriteLiteral("\n                                                            </a>
 
 WriteLiteral(" class=\"switch-save__sku\"");
 
-WriteLiteral(">\n                                                                Compatible for " +
-"");
+WriteLiteral(">\n");
+
+WriteLiteral("                                                                ");
 
             
-            #line 760 "..\..\Views\Shared\MiniBasket.cshtml"
-                                                                          Write(bc.PartNo);
+            #line 766 "..\..\Views\Shared\MiniBasket.cshtml"
+                                                           Write(bc.PartNo);
 
             
             #line default
@@ -1065,7 +1068,7 @@ WriteLiteral(" class=\"switch-save__price\"");
 WriteLiteral(">\n                                                                £");
 
             
-            #line 765 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 771 "..\..\Views\Shared\MiniBasket.cshtml"
                                                             Write(switchLinePriceEx.ToString("N2"));
 
             
@@ -1080,7 +1083,7 @@ WriteLiteral(">\n");
 WriteLiteral("                                                                    ");
 
             
-            #line 767 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 773 "..\..\Views\Shared\MiniBasket.cshtml"
                                                                 Write(isTradeCustomer
                                                                         ? "Trade Price, ex VAT"
                                                                         : "exc. VAT");
@@ -1099,17 +1102,28 @@ WriteLiteral(" class=\"switch-save__save\"");
 WriteLiteral(">\n                                                                Save £");
 
             
-            #line 774 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 780 "..\..\Views\Shared\MiniBasket.cshtml"
                                                                  Write(saving.ToString("N2"));
 
             
             #line default
             #line hidden
-WriteLiteral(@"
-                                                                ex VAT
-                                                            </div>
-                                                            <!-- Switch button -->
-                                                            <button");
+WriteLiteral("\n");
+
+WriteLiteral("                                                                ");
+
+            
+            #line 781 "..\..\Views\Shared\MiniBasket.cshtml"
+                                                            Write(isTradeCustomer
+                                                                  ? "Trade Price, ex VAT"
+                                                                  : "exc. VAT");
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\n                                                            </div>\n             " +
+"                                               <!-- Switch button -->\n          " +
+"                                                  <button");
 
 WriteLiteral(" class=\"switch-save__btn minibasket-replace\"");
 
@@ -1120,7 +1134,7 @@ WriteLiteral("\n                                                                
 "id=\"");
 
             
-            #line 780 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 788 "..\..\Views\Shared\MiniBasket.cshtml"
                                                                                Write(bc.CrossSellingStockRef);
 
             
@@ -1132,7 +1146,7 @@ WriteLiteral("\n                                                                
 "");
 
             
-            #line 781 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 789 "..\..\Views\Shared\MiniBasket.cshtml"
                                                                            Write(bc.CrossSellingPriceEx);
 
             
@@ -1144,7 +1158,7 @@ WriteLiteral("\n                                                                
 "d=\"");
 
             
-            #line 782 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 790 "..\..\Views\Shared\MiniBasket.cshtml"
                                                                               Write(bc.StockRef);
 
             
@@ -1155,7 +1169,7 @@ WriteLiteral("\"");
 WriteLiteral("\n                                                                    data-qty=\"");
 
             
-            #line 783 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 791 "..\..\Views\Shared\MiniBasket.cshtml"
                                                                          Write(bc.Quantity);
 
             
@@ -1172,7 +1186,7 @@ WriteLiteral(@">
 ");
 
             
-            #line 789 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 797 "..\..\Views\Shared\MiniBasket.cshtml"
                                             }
                                         }
                                     }
@@ -1183,7 +1197,7 @@ WriteLiteral(@">
 WriteLiteral("                                </div>\n");
 
             
-            #line 793 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 801 "..\..\Views\Shared\MiniBasket.cshtml"
                             }
                             /*
                              * Compatible discount / multibuy line
@@ -1212,7 +1226,7 @@ WriteLiteral(">\n                                We\'re just updating your baske
 "");
 
             
-            #line 812 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 820 "..\..\Views\Shared\MiniBasket.cshtml"
                         }
                     }
                     else
@@ -1229,7 +1243,7 @@ WriteLiteral(">\n                            Your basket is empty.\n            
 ">\n");
 
             
-            #line 819 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 827 "..\..\Views\Shared\MiniBasket.cshtml"
                     }
 
             
@@ -1248,7 +1262,7 @@ WriteLiteral(">\n                        <span>\n                            Tot
 "     £");
 
             
-            #line 829 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 837 "..\..\Views\Shared\MiniBasket.cshtml"
                         Write(bt.GrandTotalIncVat.ToString("0.00"));
 
             
@@ -1258,13 +1272,13 @@ WriteLiteral("\n                        </span>\n                    </div>\n   
 "!-- Voucher -->\n");
 
             
-            #line 833 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 841 "..\..\Views\Shared\MiniBasket.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 833 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 841 "..\..\Views\Shared\MiniBasket.cshtml"
                      if (Session["B_VoucherCode"].ToSafeString() != "")
                     {
                         decimal totalSaving =
@@ -1293,7 +1307,7 @@ WriteLiteral(">\n");
 WriteLiteral("                                    ");
 
             
-            #line 843 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 851 "..\..\Views\Shared\MiniBasket.cshtml"
                                Write(Session["B_VoucherCode"]);
 
             
@@ -1309,7 +1323,7 @@ WriteLiteral("\n                                        title=\"Remove voucher c
 
 WriteLiteral(">\n                                    <i");
 
-WriteLiteral(" class=\"fa fa-times\"");
+WriteLiteral(" class=\"fa fa-trash\"");
 
 WriteLiteral("></i>\n                                </button>\n                                <" +
 "span");
@@ -1319,17 +1333,26 @@ WriteLiteral(" class=\"promo-applied__saving\"");
 WriteLiteral(">\n                                    -£");
 
             
-            #line 851 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 859 "..\..\Views\Shared\MiniBasket.cshtml"
                                  Write(Math.Abs(totalSaving).ToString("0.00"));
 
             
             #line default
             #line hidden
-WriteLiteral("\n                                </span>\n                            </div>\n     " +
-"                   </details>\n");
+WriteLiteral("\n                                </span>\n                                <div");
+
+WriteLiteral(" class=\"voucher-applied\"");
+
+WriteLiteral(">\n                                    <i");
+
+WriteLiteral(" class=\"fa fa-check-circle\"");
+
+WriteLiteral("></i>\n                                    Voucher Applied\n                       " +
+"         </div>\n                            </div>\n                        </det" +
+"ails>\n");
 
             
-            #line 855 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 867 "..\..\Views\Shared\MiniBasket.cshtml"
                     }
                     else
                     {
@@ -1370,7 +1393,7 @@ WriteLiteral("\n                                 class=\"promo-error g-v-h\"");
 WriteLiteral(">\n                            </div>\n                        </details>\n");
 
             
-            #line 875 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 887 "..\..\Views\Shared\MiniBasket.cshtml"
                     }
 
             
@@ -1389,7 +1412,7 @@ WriteLiteral("></i>\n                        <span>\n");
 WriteLiteral("                            ");
 
             
-            #line 880 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 892 "..\..\Views\Shared\MiniBasket.cshtml"
                        Write(deliveryMessage);
 
             

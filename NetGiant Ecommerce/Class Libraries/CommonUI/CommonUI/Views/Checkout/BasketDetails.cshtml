@@ -637,7 +637,7 @@
         color: #333;
         font-size: 13px;
         line-height: 18px;
-        min-height: 55px;
+        min-height: 35px;
         text-decoration: none;
         font-weight: 600;
     }
@@ -874,6 +874,9 @@
         border-color: #D5008B !important;
         color: #D5008B !important;
     }
+    .checkout1 {
+        background: var(--green)!important;
+    }
 </style>
 
 @if (Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery > 0)
@@ -940,9 +943,7 @@
 
 
                             <div class="basket-switch-save">
-                                <button class="btn switchsave">
-                                    Switch &amp; Save
-                                </button>
+                                <img src="/cdn/Images/switch-save.png" alt="Visa" style="height: 44px;">
                                 <div style="font-weight: bold;">
 
                                     Switch &amp; Save
@@ -955,9 +956,7 @@
 
                                 <div class="basket-switch-btn">
 
-                                </div><button id="btnSwitchAll" class="btn replaceall">
-                                    Switch All Products
-                                </button>
+                                </div><button id="btnSwitchAll" class="btn replaceall">Switch All Items</button>
 
                             </div>
                         }
@@ -1395,10 +1394,11 @@
                                                        href="@productUrl">
                                                         @addOn.Description
                                                     </a>
-
+                                                    <a href="@addOn.ProductUrl" class="need-title">
+                                                        @addOn.PartNo
+                                                    </a>
                                                     <div class="need-price">
-                                                        £@string.Format("{0:N2}", addOn.PriceEx)
-                                                        <small>Ex VAT</small>
+                                                        £@string.Format("{0:N2}", addOn.PriceEx)Ex VAT
                                                     </div>
 
                                                     <button class="btn btn-success atb-add"
@@ -1682,7 +1682,7 @@
                 <div id="voucherResult" class="g-m-t-10"></div>
             }
         }
-        <button type="button" class="checkout-button btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-right" title="Checkout">Proceed to Checkout</button>
+        <button type="button" class="checkout-button checkout1 btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-right" title="Checkout">Proceed to Checkout</button>
         @Html.AntiForgeryToken()
         <form id="co-form" method="post" action="~/Checkout/Stage1/">
             @Html.HiddenFor(x => x.CheckoutDetails.IsNewCustomer)
