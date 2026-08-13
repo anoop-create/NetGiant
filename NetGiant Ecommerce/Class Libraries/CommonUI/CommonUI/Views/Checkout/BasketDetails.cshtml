@@ -626,8 +626,8 @@
     }
 
         .need-product img {
-            width: 120px;
-            height: 90px;
+            width: 250px;
+            height: 100px;
             object-fit: contain;
             margin-bottom: 12px;
         }
@@ -667,7 +667,7 @@
         }
 
     .need-product .btn {
-        width: 100%;
+        width: 80%;
         border-radius: 4px;
         font-size: 14px;
         font-weight: 600;
@@ -876,6 +876,11 @@
     }
     .checkout1 {
         background: var(--green)!important;
+    }
+    .price-row.ex-vat1 > strong {
+        color: #0099cc;
+        font-size: 14px;
+        font-weight: 600;
     }
 </style>
 
@@ -1153,14 +1158,12 @@
 
                                             <div class="basket-card-actions">
                                                 <div class="basket-price-box">
-
-                                                    <div class="price-row">
+                                                    <div class="price-row ex-vat1">
                                                         <strong>£@neg@string.Format("{0:N2}", bc.PriceEx)</strong>
-                                                        <span>Ex VAT</span>
+                                                        <strong>Ex VAT</strong>
                                                     </div>
-
                                                     <div class="price-row">
-                                                        <strong>£@string.Format("{0:N2}", bc.PriceInc)</strong>
+                                                        <span>£@string.Format("{0:N2}", bc.PriceInc)</span>
                                                         <span>Inc VAT</span>
                                                     </div>
 
