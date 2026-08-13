@@ -85,7 +85,8 @@ namespace BusinessLogic.ViewModels
                 ? HttpContext.Current.Session["U_AccountNo"].ToString()
                 : "";
             sqlParms.Add(sqlParm);
-            DataSet ds = SQL.ExecuteReadStoredProcedure("netgiantmasterdata", "ngmd.GetProductResults", sqlParms, "p3results");
+            DataSet ds = SQL
+                .ExecuteReadStoredProcedure("netgiantmasterdata", "ngmd.GetProductResults", sqlParms, "p3results");
 
             DataTable productDetail = ds.Tables[0];
             DataTable xsProductDetail = new DataTable();
@@ -1508,18 +1509,21 @@ namespace BusinessLogic.ViewModels
                 .ExecuteReadStoredProcedure("netgiantmasterdata", "ngmd.GetProductResultsById", sqlParms, "p3results");
 
             DataTable productDetail = ds.Tables[0];
-            DataTable xsProductDetail = new DataTable();
-            if (ds.Tables.Count > 1)
-            {
-                xsProductDetail = ds.Tables[1];
-            }
 
+            // IMPORTANT: build and return a LOCAL ProductEntry here - do NOT assign to the
+            // shared `Product` property. This method is used to look up *other* products
+            // (e.g. bundle/addon products in GetPrinterBundles(), or "You May Also Need"
+            // add-ons in CheckoutViewModel) while `Product` on this same ViewModel instance
+            // is still the page's actual/primary product. Previously this overwrote `Product`
+            // with whichever addon was looked up last, so after GetPrinterBundles() ran, the
+            // printer PDP's own canonical-URL check (ProductController.Index) redirected to
+            // the last bundle addon product instead of the printer itself.
+            ProductEntry result = null;
             if (productDetail.Rows.Count > 0)
             {
-                Product = new ProductEntry();
-                Product = CreateProductEntry(productDetail.Rows[0]);
+                result = CreateProductEntry(productDetail.Rows[0]);
             }
-            return Product;
+            return result;
         }
         public BasketContents CreateBasketContent(ProductEntry product)
         {
