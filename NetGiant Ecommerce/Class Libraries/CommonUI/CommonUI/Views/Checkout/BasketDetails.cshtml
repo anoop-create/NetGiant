@@ -671,6 +671,7 @@
         border-radius: 4px;
         font-size: 14px;
         font-weight: 600;
+        padding: 10px 10px;
     }
     .basket-sidebar-info {
         margin-top: 20px;
@@ -881,6 +882,174 @@
         color: #0099cc;
         font-size: 14px;
         font-weight: 600;
+    }
+    @@media (max-width:991px) {
+        body:has(#vbBasketDetails), html:has(#vbBasketDetails) {
+            overflow-x: hidden;
+        }
+
+        .switch-save-card {
+            margin-bottom: 15px;
+        }
+
+        .basket-switch-save {
+            flex-wrap: wrap
+        }
+
+        div:has( > div#vbBasketDetails) {
+            margin: 0 !important;
+            padding: 8px !important;
+        }
+
+            div:has( > div#vbBasketDetails) > div > div {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+        div#basketSummary > div {
+            margin-right: 0 !important;
+            padding: 15px !important;
+        }
+
+        .replaceall {
+            min-width: 100%;
+        }
+
+        .basket-switch-save > img {
+            margin-right: 12px;
+        }
+
+        .basket-switch-save > div[style="font-weight: bold;"] {
+            width: calc(100% - 110px)
+        }
+
+
+
+        #basketSummary .basket-card {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        #basketSummary .basket-card  .dv-basket-card   {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        #basketSummary .basket-card .dv-basket-card {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+            #basketSummary .basket-card .dv-basket-card > div:first-child {
+                margin: 0px 0px 0px 0px !important;
+                padding: 0px !important;
+                max-width: 70px;
+            }
+
+            #basketSummary .basket-card .dv-basket-card > div:nth-child(2) {
+                margin: 0px 10px 0px 0px !important;
+                padding: 0px !important;
+                width: calc(100% - 110px)
+            }
+
+            #basketSummary .basket-card .dv-basket-card > div:nth-child(3) {
+                width: 100%;
+            }
+
+                #basketSummary .basket-card .dv-basket-card > div:nth-child(3) .basket-card-actions {
+                    display: flex
+                }
+
+
+
+            #basketSummary .basket-card .dv-basket-card > div:nth-child(3) {
+                position: initial;
+            }
+
+        #basketSummary .basket-card .dv-basket-card {
+            position: relative;
+        }
+
+        #basketSummary .basket-card .dv-basket-card {
+            padding-top: 5px !important;
+            padding-bottom: 15px !important;
+        }
+
+            #basketSummary .basket-card .dv-basket-card .basket-remove-container {
+                position: absolute;
+                bottom: 4px;
+                right: 8px;
+                margin: 0px;
+                padding: 0px;
+            }
+
+        #basketSummary .qty-label {
+            display: none;
+        }
+
+        #basketSummary .basket-card-actions {
+            justify-content: center;
+            align-items: center;
+            gap: 15px
+        }
+
+            #basketSummary .basket-card-actions .basket-price-box {
+                order: 2;
+            }
+
+        #basketSummary .basket-qty-wrapper {
+            margin-top: 0px;
+        }
+
+        .switch-save-card {
+            display: flex;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+            .switch-save-card > div:nth-child(1) {
+                margin: 0 10px 0 0 !important;
+                padding: 0px !important;
+                max-width: 70px
+            }
+
+            .switch-save-card > div:nth-child(2) {
+                width: calc(100% - 80px);
+                flex-wrap: wrap;
+            }
+
+                .switch-save-card > div:nth-child(2) > div:last-child {
+                    margin-left: initial;
+                    text-align: left
+                }
+
+        .switch-heading {
+            left: -87px;
+        }
+
+        .switch-save-card > div:nth-child(2) > div {
+            margin: 0px 0px 0px 0px;
+            padding: 0 0 0 15px;
+        }
+
+        #vbBasketDetails > div.dv-basket-card {
+            padding: 12px !important
+        }
+
+        .dv-basket-card {
+            border: none;
+        }
+        #basketSummary .basket-card {
+            padding: 12px 12px 2px 12px !important;
+        }
+    }
+    .dv-basket-card { border:none;}
+    #basketSummary .basket-card {
+    border: 1px solid #DCDCDC;
+    margin-bottom: 20px !important;
+    padding: 12px 12px 12px 12px !important;
+    border-radius: 8px;
+    background: #fff;
     }
 </style>
 
