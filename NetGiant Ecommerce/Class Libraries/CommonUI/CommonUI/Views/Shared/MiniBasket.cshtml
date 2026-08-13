@@ -439,7 +439,27 @@
         font-size: 14px;
         color: #09c;
     }
-
+    .promo-applied {
+        color: black;
+    }
+    #minibasket-voucher-code-error {
+        margin-top: 10px!important;
+        color: red!important;
+    }
+    #minibasket-voucher-code{
+        color:black;
+    }
+    .voucher-applied {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        background: #eaf8ef;
+        color: #1e7e34;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+    }
 </style>
 <!-- Single stable wrapper around the whole widget (button + overlay + its script) so AJAX
      handlers in site.js have exactly one element to target with replaceWith(data.basketSummary) -
@@ -563,7 +583,7 @@
                                     <button id="btnMiniBasketSwitchAll"
                                             type="button"
                                             class="switch-save__btn">
-                                        Switch All Products
+                                        Switch All Items
                                     </button>
                                 </div>
                             </div>
@@ -647,10 +667,10 @@
                                                 @bc.Description
                                             </a>
                                             <div class="cart-item__sku">
-                                                Product Code: @bc.PartNo
+                                                @bc.PartNo
                                             </div>
                                             <div class="cart-item__price">
-                                                @neg@bc.PriceEx.ToString("N2")
+                                                £@neg@bc.PriceEx.ToString("N2")
                                                 <span class="vat">
                                                     @(isTradeCustomer
                                                         ? "Trade Price, ex VAT"
@@ -704,6 +724,7 @@
                                                     </div>
                                                 }
                                             }
+
                                         </div>
                                     </div>
                                     <!-- Switch & Save for this product -->
@@ -754,15 +775,9 @@
                                                             </a>
                                                             <!-- Product reference -->
                                                             <div class="switch-save__sku">
-                                                                Compatible for @bc.PartNo
+                                                                @bc.PartNo
                                                             </div>
-                                                            <!-- Availability -->
-                                                            <div class="stock-status in-stock">
-                                                                <i class="fa fa-check-circle"></i>
-                                                                <span>
-                                                                    In Stock
-                                                                </span>
-                                                            </div>
+                                                            
                                                             <!-- Switch price -->
                                                             <div class="switch-save__price">
                                                                 £@switchLinePriceEx.ToString("N2")
@@ -775,7 +790,9 @@
                                                             <!-- Saving -->
                                                             <div class="switch-save__save">
                                                                 Save £@saving.ToString("N2")
-                                                                ex VAT
+                                                                @(isTradeCustomer
+                                                                  ? "Trade Price, ex VAT"
+                                                                  : "exc. VAT")
                                                             </div>
                                                             <!-- Switch button -->
                                                             <button class="switch-save__btn minibasket-replace"
@@ -848,11 +865,15 @@
                                 <button type="button"
                                         class="minibasket-voucher-remove"
                                         title="Remove voucher code">
-                                    <i class="fa fa-times"></i>
+                                    <i class="fa fa-trash"></i>
                                 </button>
                                 <span class="promo-applied__saving">
                                     -£@Math.Abs(totalSaving).ToString("0.00")
                                 </span>
+                                <div class="voucher-applied">
+                                    <i class="fa fa-check-circle"></i>
+                                    Voucher Applied
+                                </div>
                             </div>
                         </details>
                     }

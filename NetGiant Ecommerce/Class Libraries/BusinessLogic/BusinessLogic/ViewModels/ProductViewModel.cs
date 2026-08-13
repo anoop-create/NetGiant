@@ -85,8 +85,7 @@ namespace BusinessLogic.ViewModels
                 ? HttpContext.Current.Session["U_AccountNo"].ToString()
                 : "";
             sqlParms.Add(sqlParm);
-            DataSet ds = SQL
-                .ExecuteReadStoredProcedure("netgiantmasterdata", "ngmd.GetProductResults", sqlParms, "p3results");
+            DataSet ds = SQL.ExecuteReadStoredProcedure("netgiantmasterdata", "ngmd.GetProductResults", sqlParms, "p3results");
 
             DataTable productDetail = ds.Tables[0];
             DataTable xsProductDetail = new DataTable();

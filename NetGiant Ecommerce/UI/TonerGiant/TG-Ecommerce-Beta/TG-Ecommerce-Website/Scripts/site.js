@@ -1577,6 +1577,7 @@ $(function () {
                         changeBasketComplete(data, thisbutton);
                         refreshViewBasket();
                         maybeShowAddSellPopupAfterAdd();
+                        openCart();
                     },
                     error: function (xhr, textStatus, thrownError) {
                         logAjaxScriptError("/Product/BasketAdd/", xhr, textStatus, thrownError);
