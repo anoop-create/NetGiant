@@ -780,7 +780,7 @@
     }
     #basketSummary .row.dv-basket-card {
         margin-right: 0;
-        margin-left: 0; 
+        margin-left: 0;
     }
 
     .switch-heading {
@@ -1022,7 +1022,7 @@
     @@media (max-width:1199px){
     body, html {overflow-x:hidden}
     section#utility-bar {display:block!important;}
-    .mobileBasketMessage, .mobileBasketBackdrop, .g-bc-secondary, .cart-fab, .basketMessage, .printerMessage, .tab-open.g-flex-allcenter[data-toggle="offcanvas-close"] { display:none !important}
+    .mobileBasketMessage, .mobileBasketBackdrop, .g-bc-secondary, .basketMessage, .printerMessage, .tab-open.g-flex-allcenter[data-toggle="offcanvas-close"] { display:none !important}
     .navbar-inverse .small-screen-links a {outline: none;}
     }
     /* =========================================
@@ -1137,6 +1137,18 @@
                 width: 100%;
                 float: none !important;
             }
+}
+        body:has(#vbBasketDetails) .container.body-content > .row.g-m-t-20 { margin-top:0px !important}
+@@media (max-width: 767px) {
+.mobile-checkout-btn {
+margin-top:0px !important;
+}
+}
+.basket-switch-save {
+	border: none;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
 }
 </style>
 

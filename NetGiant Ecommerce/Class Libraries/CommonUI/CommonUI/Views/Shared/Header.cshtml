@@ -27,7 +27,7 @@
     <img src="~/Content/Images/1pxTrans.png" class="msp_goToTop g-cur-p" style="padding-left: 50%; margin-left: -20px" alt="Go to top" />
 </section>
 
-@if (!Model.IsMobile)
+@if (!Model.IsMobile) 
 {
     <section class="g-ps-f g-btm-50 hidden-xs hidden-sm">
         @if (ConfigurationManager.AppSettings["ChatIsOn"] == "True")
@@ -77,6 +77,24 @@
             <div id="printerItem" class="g-m-b-10 g-flex-vcenter"></div>
         </div>
     </section>
+}
+else
+{
+    @* Mobile: this whole branch used to render nothing at all, which is the actual root
+       cause of "Add to Basket does nothing / no popup on mobile" investigated across this
+       entire session - #cartFab / #miniCartOverlay / the openCart()/closeCart() functions
+       all live inside MiniBasket.cshtml, and with the section above skipped on every mobile
+       request, none of that markup ever reached the page, so there was nothing for site.js
+       to open no matter how many JS-level fixes were made there. The commented-out legacy
+       "Mobile Add To Basket Popup" block below (kept for reference) is not a working
+       substitute either - it's disabled and its .mobileBasketBackdrop/.mobileBasketMessage
+       elements are what was showing the earlier full-screen black overlay.
+       Render just the floating cart button + slide-in mini-cart here (not the full
+       UtilityBar.cshtml, whose Recently Viewed / My Printers / Quick Reorder trays are
+       desktop offcanvas panels that are already force-hidden with
+       style="display:none !important;" everywhere and aren't needed for this button
+       to work), so mobile gets the same working mini-cart as desktop. *@
+    Html.RenderPartial("~/Views/Shared/MiniBasket.cshtml");
 }
 
 @* Mobile Add To Basket Popup *@
