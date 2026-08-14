@@ -10,7 +10,45 @@
 }
 
 <section id="loadbg" class="" data-stellar-background-ratio="0.5" data-stellar-ratio="1" data-bgimg="@Html.RawFromDict(Model.WizardData, "FeatureBackground")">
+    <!-- Site audit (May 2026) item 13: the homepage opened straight into the printer finder
+         wizard with no headline/value-prop above the fold - useful for returning customers who
+         already know their printer, but gives a new visitor nothing to read. This banner sits
+         above the wizard (which stays as-is, per the audit's own recommendation that it remain
+         a secondary element) using the audit's suggested copy. Its own dark semi-transparent
+         background (rather than relying on Model.WizardData's "FeatureBackground" image/colour
+         being light or dark) keeps the text legible regardless of what that CMS-driven
+         background currently contains. -->
+    <style>
+        .hm-hero-banner {
+            background: rgba(0, 0, 0, 0.55);
+            color: #fff;
+            padding: 20px 24px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+            .hm-hero-banner h1 {
+                margin: 0 0 8px;
+                font-size: 28px;
+                font-weight: 700;
+                color: #fff;
+            }
+
+            .hm-hero-banner p {
+                margin: 0 0 14px;
+                font-size: 15px;
+            }
+    </style>
     <div class="container body-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hm-hero-banner">
+                    <h1>Ink &amp; Toner Cartridges &mdash; Free Next-Day Delivery</h1>
+                    <p>Trusted by thousands of customers &middot; Feefo Platinum Award 2026</p>
+                    <a href="#pop-printers" class="g-butt-primary g-butt-lg">Find My Cartridges</a>
+                </div>
+            </div>
+        </div>
         <div class="row">
             @{
                 <div class="col-lg-6">
@@ -49,6 +87,26 @@
 
         @if (int.Parse(ConfigurationManager.AppSettings["WebsiteId"]) != 3)
         {
+            @* Site audit (May 2026) items 14/18: the trust bar and testimonials were both
+               buried well below the fold (Confidence used to render after the brand wizard;
+               Testimonials was desktop-only and sat near the very bottom of the page, after
+               the blog feed). Moved both up here, right below the hero, and dropped
+               Testimonials' "!Model.IsMobile" gate so mobile gets the same social proof as
+               desktop (item 42). Neither block's own CMS content was changed, only where it
+               renders. The old Testimonials location further down this file was removed to
+               avoid showing it twice. *@
+            <div class="row">
+                @Html.RawFromDict(Model.HomeData, "Confidence")
+            </div>
+
+            <div class="row g-m-t-10 g-m-b-20">
+                <div class="col-md-12">
+                    @Html.RawFromDict(Model.HomeData, "Testimonials")
+                </div>
+            </div>
+
+            <hr class="g-m-t-20 g-m-b-20" />
+
             <div class="row g-m-t-20">
                 <div class="col-md-12">
                     <h2>Shop Ink & Toner Cartridges by Printer Brand</h2>
@@ -60,9 +118,18 @@
 
             <hr class="g-m-t-60 g-m-b-20" />
 
-            <div class="row">
-                @Html.RawFromDict(Model.HomeData, "Confidence")
-            </div>
+            @* Site audit item 16: homepage had no individual products/Add to Basket above the
+               "Popular Printer Brands" logo grid. Product/BestSellers.cshtml already existed
+               (built for the WebsiteId==3 site) and needed no changes - HomeController.Index
+               now also calls GetBestSellers() for this site so Model.BestSellers1/2 are
+               populated here too. The partial renders its own full-width rows/headings and is
+               a no-op (renders nothing) if either list is empty, so this is safe even before
+               that data is confirmed populated for every environment. *@
+            @{
+                Html.RenderPartial("~/Views/Product/BestSellers.cshtml", Model);
+            }
+
+            <hr class="g-m-t-60 g-m-b-20" />
 
             <div class="row g-m-t-20 hm-our-services">
                 <div class="col-md-12">
@@ -133,14 +200,6 @@
 
         @if (!Model.IsMobile)
         {
-            <div class="row g-m-t-10 g-m-b-40 hidden-xs">
-                <div class="col-md-12">
-                    @Html.RawFromDict(Model.HomeData, "Testimonials")
-                </div>
-            </div>
-
-            <hr class="g-m-t-60 g-m-b-20 hidden-xs" />
-
             <div class="row g-m-t-10 g-m-b-40 hidden-xs">
                 @Html.RawFromDict(Model.HomeData, "HelpfulGuides")
             </div>

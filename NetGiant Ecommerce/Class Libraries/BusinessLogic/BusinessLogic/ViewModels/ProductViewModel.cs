@@ -1189,10 +1189,42 @@ namespace BusinessLogic.ViewModels
                     p = Decimal.Divide(Product.PriceSaleIncVat, VatMultiplier);
                 }
             }
+            // Site audit (May 2026) item 41: this always claimed "InStock" regardless of the
+            // product's actual Availability code, even though CommonUI.Models.HtmlHelper's own
+            // ProductAvailability()/NewProductAvailability() helpers (used elsewhere on this same
+            // page) already have a confirmed mapping for every Availability value the site uses.
+            // Mismatched availability between structured data and the visible page is a common
+            // Google Merchant/Search Console flag, so this maps to the matching schema.org enum
+            // instead. Unmapped/unexpected codes default to OutOfStock rather than InStock -
+            // safer to under-claim availability in structured data than to over-claim it.
+            string schemaAvailability;
+            switch (Product.Availability)
+            {
+                case 1:
+                case 7:
+                    schemaAvailability = "https://schema.org/InStock";
+                    break;
+                case 3:
+                case 8:
+                case 12:
+                    schemaAvailability = "https://schema.org/BackOrder";
+                    break;
+                case 2:
+                case 4:
+                case 10:
+                    schemaAvailability = "https://schema.org/LimitedAvailability";
+                    break;
+                case 0:
+                    schemaAvailability = "https://schema.org/Discontinued";
+                    break;
+                default:
+                    schemaAvailability = "https://schema.org/OutOfStock";
+                    break;
+            }
             json += ",\"offers\": {" +
                     "\"@context\" : \"http://schema.org\"," +
                     "\"@type\" : \"Offer\"," +
-                    "\"availability\" : \"http://schema.org/InStock\"," +
+                    "\"availability\" : \"" + schemaAvailability + "\"," +
                     "\"itemCondition\" : \"https://schema.org/NewCondition\"," +
                     "\"url\" : \"https://" + Utilities.GetItemFromDict(CommonData, "DomainName") + Product.Url + "\"," +
                     "\"priceValidUntil\" : " + JsonConvert.ToString(DateTime.Now.Add(new TimeSpan(0, 1, 0, 0)).ToString("s")) + "," +

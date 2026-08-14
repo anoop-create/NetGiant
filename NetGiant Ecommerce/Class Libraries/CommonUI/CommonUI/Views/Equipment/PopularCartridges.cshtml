@@ -7,6 +7,21 @@
 
 @if (Model.PopularCartridges != null)
 {
+    <style>
+        /* Scoped to this partial's own badge rather than reusing a guessed-at "g-fc-w"/"g-p-2-6"
+           utility class name that isn't confirmed to exist elsewhere in this codebase - explicit
+           and self-contained is safer than a plausible-looking class that might silently do
+           nothing. */
+        .pop-cart-badge {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            color: #fff;
+            font-size: 12px;
+            padding: 2px 8px;
+        }
+    </style>
     <div class="row">
         <div class="col-md-12">
             <h2>Best Selling <span class="pw-manu-name">@(Model.Manufacturer == null ? "" : Model.Manufacturer.manufacturerName)</span> @Model.CartridgeTypeName</h2>
@@ -18,20 +33,54 @@
                 @foreach (DataRow dr in Model.PopularCartridges.Rows)
                 {
                     decimal mainPrice = 0;
+                    decimal subPrice = 0;
                     string mainPriceVAT = "";
+                    string subPriceVAT = "";
                     decimal tradePrice = Convert.ToDecimal(dr["PriceTrade"]);
+                    // Site audit (May 2026) item 21: this tile only ever showed one price
+                    // (ex VAT or inc VAT, whichever UseVatInclusivePrices picks) - Product/GridEntry.cshtml's
+                    // equivalent tile already shows both, so mirroring that here rather than inventing a
+                    // new pattern.
                     if (ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "1")
                     {
                         mainPrice = Convert.ToDecimal(dr["PriceRetail"]);
+                        subPrice = Decimal.Divide(Convert.ToDecimal(dr["PriceRetail"]), Model.VatMultiplier);
                         mainPriceVAT = "inc VAT";
+                        subPriceVAT = "ex VAT";
                     }
                     else
                     {
                         mainPrice = Decimal.Divide(Convert.ToDecimal(dr["PriceRetail"]), Model.VatMultiplier);
+                        subPrice = Convert.ToDecimal(dr["PriceRetail"]);
                         mainPriceVAT = "ex VAT";
+                        subPriceVAT = "inc VAT";
                     }
                     decimal basketPrice = Convert.ToBoolean(HttpContext.Current.Session["U_IsTradeCustomer"]) ? tradePrice : mainPrice;
-                    <div class="mini-product-entry atb-entry" style="height:410px;">
+                    // Site audit item 21: "Compatible"/"Original" badge - dr["BrandFlag"] is the same
+                    // column BusinessLogic.ViewModels.ProductViewModel.CreateProductEntry(DataRow) reads
+                    // from this exact stored proc (ngmd.GetSearchResults) elsewhere, so this isn't a guess
+                    // at an unconfirmed column. 1 = Original, anything else = Compatible (same mapping
+                    // CreateProductEntry uses).
+                    bool hasBrandFlag = dr.Table.Columns.Contains("BrandFlag");
+                    bool isOriginal = hasBrandFlag && dr["BrandFlag"] != DBNull.Value && int.Parse(dr["BrandFlag"].ToString()) == 1;
+                    // Site audit item 21: star rating - dr["FeeFoRating"]/dr["FeeFoCount"] are the same
+                    // columns CreateProductEntry(DataRow) reads from this same proc for the product/search
+                    // pages' own star-rating widget (Views/Product/ProductEntry.cshtml) - reusing that
+                    // exact markup/CSS-clip technique here rather than inventing a new one. Guarded so this
+                    // silently no-ops (no rating shown) rather than throwing if a given result set doesn't
+                    // include these columns.
+                    bool hasRating = dr.Table.Columns.Contains("FeeFoRating") && dr.Table.Columns.Contains("FeeFoCount")
+                        && dr["FeeFoRating"] != DBNull.Value && dr["FeeFoCount"] != DBNull.Value;
+                    decimal feefoRating = hasRating ? Convert.ToDecimal(dr["FeeFoRating"]) : 0;
+                    int feefoCount = hasRating ? int.Parse(dr["FeeFoCount"].ToString()) : 0;
+                    decimal feefowidth = (feefoRating * 14) + 5;
+                    <div class="mini-product-entry atb-entry g-ps-r" style="height:410px;">
+                        @if (hasBrandFlag)
+                        {
+                            <div class="pop-cart-badge g-bc-secondary">
+                                @(isOriginal ? "Original" : "Compatible")
+                            </div>
+                        }
                         <div class="g-b-1-p g-bc-s">
                             <div class="mini-product-image">
                                 <a href="@dr["ProductURL"].ToSafeString()">
@@ -47,6 +96,25 @@
                                 <strong>@dr["Description"].ToSafeString()</strong>
                             </a>
                         </div>
+                        @if (hasRating)
+                        {
+                            <div class="clearfix g-cur-p"
+                                 onclick="window.location = '@(dr["ProductURL"].ToSafeString())#reviews';"
+                                 data-toggle="tooltip"
+                                 data-placement="bottom"
+                                 title="@feefoCount reviews, average rating: @feefoRating.ToString("0.00")">
+                                <div class="pull-left g-of-h g-p-l-5 g-fs-sm" style="white-space: nowrap; width: @(feefowidth)px">
+                                    <i class="fa fa-star g-fc-ff"></i>
+                                    <i class="fa fa-star g-fc-ff"></i>
+                                    <i class="fa fa-star g-fc-ff"></i>
+                                    <i class="fa fa-star g-fc-ff"></i>
+                                    <i class="fa fa-star g-fc-ff"></i>
+                                </div>
+                                <div class="pull-left g-p-l-5 g-fs-sm">
+                                    (@feefoCount Reviews)
+                                </div>
+                            </div>
+                        }
                         <div class="product-price-message">
                             @{
                                 Html.RenderPartial("~/Views/Product/InfoMessage.cshtml", null, new ViewDataDictionary                                                            {
@@ -55,6 +123,9 @@
                                     {"TradePriceEx", tradePrice}
                                 });
                             }
+                        </div>
+                        <div class="g-fs-n text-center">
+                            &pound;@subPrice.ToString("#,###,##0.00") <span class="g-fc-tt g-fs-sm">@subPriceVAT</span>
                         </div>
                         <div class="g-fc-st text-center g-m-t-10 g-fs-sm g-lh-20">
                             @Html.ProductAvailability(int.Parse(dr["Availability"].ToString()), Convert.ToBoolean(Model.CommonData["DeliveryDateIsOverridden"].ToString()), true)

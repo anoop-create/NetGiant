@@ -22,6 +22,13 @@ namespace CommonUI.Controllers
             if (int.Parse(ConfigurationManager.AppSettings["WebsiteId"].ToString()) != 3)
             {
                 model.GetPopularPrinters(0, 0, 24);
+                // Site audit (May 2026) item 16: homepage had no "Best Sellers" row with
+                // Add to Basket - Product/BestSellers.cshtml already exists (built for the
+                // WebsiteId==3 site below) and needs no changes, it just wasn't being
+                // populated for this site. GetBestSellers() reads via the same cached
+                // ngmd.GetBestSellers stored-proc call already used elsewhere - no new
+                // backend work, just calling the existing method here too.
+                model.GetBestSellers();
                 if (Convert.ToBoolean(model.HomeData["ShowBlog"]) && ConfigurationManager.AppSettings["Environment"] != "Local")
                 {
                     model.GetBlogFeed("https://blog." + Utilities.GetItemFromDict(model.CommonData, "SiteName").ToLower() + "/feed/");

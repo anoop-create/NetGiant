@@ -336,38 +336,40 @@
                                                     </div>
                                                 }
 
-                                                @if (pe.BrandFlag.Equals(BrandFlag.Compatible))
-                                                {
-                                                    <div class="popup g-cur-p g-m-b-20 g-lh-25 clearfix"
-                                                         data-popupname="CompatibleGuarantee"
-                                                         data-toggle="modal"
-                                                         data-target="#popup">
-                                                        <div class="g-d-ib g-w-35">
+                                                @* Site audit (May 2026) items 25/32: these USP badges (guarantee/warranty/
+                                                   offer bullet) previously rendered as separate stacked "clearfix" rows,
+                                                   each with a small sprite icon and a line of text - visually reading more
+                                                   like a strip of small marketing thumbnails than a clear USP list. Wrapped
+                                                   in a single horizontal bar (icon-over-text, side by side) per the audit's
+                                                   recommendation. Every existing data-toggle/data-popupname attribute (the
+                                                   info popups) and condition is unchanged - this is a layout/CSS change
+                                                   only, nothing that opens these popups was touched. *@
+                                                <div class="prd-usp-bar clearfix">
+                                                    @if (pe.BrandFlag.Equals(BrandFlag.Compatible))
+                                                    {
+                                                        <div class="prd-usp-item popup g-cur-p"
+                                                             data-popupname="CompatibleGuarantee"
+                                                             data-toggle="modal"
+                                                             data-target="#popup">
                                                             <img src="/Content/Images/1pxTrans.png" class="msp_bullGuarantee" alt="BulletInfo" />
-                                                        </div>
-                                                        <div class="g-d-ib">
                                                             <span>3 Year Guarantee</span>
                                                         </div>
-                                                    </div>
-                                                    <div class="popup g-cur-p g-m-b-20 g-lh-25 clearfix text-nowrap"
-                                                         data-popupname="CompatibleWarranty"
-                                                         data-toggle="modal"
-                                                         data-target="#popup">
-                                                        <div class="g-d-ib g-w-35">
+                                                        <div class="prd-usp-item popup g-cur-p"
+                                                             data-popupname="CompatibleWarranty"
+                                                             data-toggle="modal"
+                                                             data-target="#popup">
                                                             <img src="/Content/Images/1pxTrans.png" class="msp_bullOffer2" alt="Printer Warranty Protected" />
-                                                        </div>
-                                                        <div class="g-d-ib">
                                                             <span>Printer Warranty Protected</span>
                                                         </div>
-                                                    </div>
-                                                }
+                                                    }
 
-                                                @if (pe.AttValue6 != 0 && pe.OfferBullet != null)
-                                                {
-                                                    <div class="g-cur-p g-m-b-20 g-lh-25 clearfix">
-                                                        @Html.Raw(pe.OfferBullet)
-                                                    </div>
-                                                }
+                                                    @if (pe.AttValue6 != 0 && pe.OfferBullet != null)
+                                                    {
+                                                        <div class="prd-usp-item g-cur-p">
+                                                            @Html.Raw(pe.OfferBullet)
+                                                        </div>
+                                                    }
+                                                </div>
 
                                                 @if (Model.ProductPdfs.Count > 0)
                                                 {
@@ -696,8 +698,45 @@
                                         @if (pe.Availability != 13)
                                         {
                                             <div class="clearfix">
+                                                @* Site audit (May 2026) item 28: the qty stepper already exists (Kendo
+                                                   NumericTextBox, min 1 / max 1000 / manual entry all already working) -
+                                                   the audit's own scrape just couldn't see the +/- controls because
+                                                   Kendo renders them client-side after page load, and by default they're
+                                                   small up/down chevrons rather than clear +/- buttons. This CSS makes
+                                                   the existing spinner buttons bigger and swaps the icons for explicit
+                                                   +/- glyphs - no change to the widget's min/max/validation behaviour. *@
+                                                <style>
+                                                    .atb-qty-wrap .k-numerictextbox {
+                                                        height: 34px;
+                                                    }
+
+                                                        .atb-qty-wrap .k-numerictextbox .k-select {
+                                                            width: 26px;
+                                                        }
+
+                                                            .atb-qty-wrap .k-numerictextbox .k-select .k-link {
+                                                                height: 17px;
+                                                                display: flex;
+                                                                align-items: center;
+                                                                justify-content: center;
+                                                            }
+
+                                                                .atb-qty-wrap .k-numerictextbox .k-select .k-link .k-icon {
+                                                                    display: none;
+                                                                }
+
+                                                                .atb-qty-wrap .k-numerictextbox .k-select .k-link-increase::after {
+                                                                    content: "+";
+                                                                    font-weight: bold;
+                                                                }
+
+                                                                .atb-qty-wrap .k-numerictextbox .k-select .k-link-decrease::after {
+                                                                    content: "\2212";
+                                                                    font-weight: bold;
+                                                                }
+                                                </style>
                                                 <div class="row g-m-t-10">
-                                                    <div class="col-md-4 col-xs-4">
+                                                    <div class="col-md-4 col-xs-4 atb-qty-wrap">
                                                         @(Html.Kendo().NumericTextBox<int>()
                                                         .Format("#")
                                                         .Name("qty")
@@ -990,11 +1029,17 @@
                 </div>
             }
 
-            <!-- Usually Bought Together -->
+            <!-- You May Also Like -->
             @if (Model.SecondaryXSellList.Count > 0)
             {
+                // Site audit (May 2026) item 32: renamed from "Usually bought together" per the
+                // audit's suggested copy - reads more naturally. The "only 1 product shown"
+                // finding is driven by ngmd.GetXSells' own result set for this SKU (this view/
+                // ViewModel render every row it returns, with no artificial Take(1) or similar
+                // limit in this code path) - expanding to 3-6 products needs more cross-sell
+                // relationships configured for this product in that data, not a template change.
                 Model.MiniProductEntries = Model.SecondaryXSellList;
-                ViewBag.MiniProductEntryTitle = "Usually bought together";
+                ViewBag.MiniProductEntryTitle = "You May Also Like";
                 ViewBag.IsSingleColumn = true;
                 Html.RenderPartial("~/Views/Product/MiniProductEntry.cshtml", Model);
             }

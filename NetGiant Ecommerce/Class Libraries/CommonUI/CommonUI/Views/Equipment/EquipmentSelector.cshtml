@@ -32,7 +32,12 @@
                 "Select Printer Manufacturer",
                 new { @class = "selectpicker", size = "auto", data_size = "8" })
         }
-        <label for="wiz-manufacturer" class="g-d-n">Select Printer Manufacturer</label>
+        <!-- "sr-only" (Bootstrap's built-in visually-hidden-but-accessible utility), not "g-d-n"
+             (display:none) - a display:none label is removed from the accessibility tree
+             entirely, same as having no label at all, which is exactly the site-audit finding
+             for these printer-wizard dropdowns. sr-only keeps it invisible on screen while still
+             reachable by assistive tech. -->
+        <label for="wiz-manufacturer" class="sr-only">Select Printer Manufacturer</label>
         <div class="wiz-manufacturer-image hidden-xs hidden-sm hidden-md">
             <img src="@ConfigurationManager.AppSettings["CDN"]/Images/BannerLogos/@(ViewBag.ManufacturerName).jpg" alt="manufacturer" onerror="this.src = '/Content/Images/1pxTrans.png'">
         </div>
@@ -73,7 +78,7 @@
                "Select Printer Family or Series",
                new { @class = "selectpicker", size = "auto", data_size = "8" })
         }
-        <label for="wiz-family" class="g-d-n">Select Printer Family</label>
+        <label for="wiz-family" class="sr-only">Select Printer Family</label>
     </div>
     <div id="wiz-equipment-container">
         <span class="fa-stack g-fc-st hidden-xs hidden-sm hidden-md">
@@ -111,5 +116,5 @@
                "Select Printer Model",
                new { @class = "selectpicker", size = "auto", data_size = "8" })
         }
-        <label for="wiz-equipment" class="g-d-n">Select Printer Model</label>
+        <label for="wiz-equipment" class="sr-only">Select Printer Model</label>
     </div>

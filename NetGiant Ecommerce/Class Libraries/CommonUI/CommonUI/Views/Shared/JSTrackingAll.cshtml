@@ -165,12 +165,11 @@
     }
 
     <text>
-        (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-
+        // Legacy Universal Analytics loader (ga.js) removed - UA was deprecated/retired by
+        // Google in 2023/2024 and this script only added dead weight (an 18 KiB transfer plus
+        // main-thread execution time on every page). GA4 (gtag.js) above is the only analytics
+        // script this site should load; it already sets its own first-party "_ga" cookie, so
+        // _goog_id() below (which just reads that cookie) keeps working unchanged.
         function _goog_id() {
         var id, a, c = document.cookie.split('; ');
         for(i in c){a = c[i].split('=');if(a[0]=='_ga'){id = a[1].split('.')[2];}}

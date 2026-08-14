@@ -2878,9 +2878,14 @@ footer {
 // Product
 .prd-main-entry {
 
+    // Site audit (May 2026) item 25: main product image was capped at 300x300 -
+    // below the audit's recommended 500x500px minimum. The hover-to-reveal zoom
+    // icon (#image-zoom, shown via the :hover rule below) and click-to-modal zoom
+    // (ImageModal.cshtml) already exist and are unchanged - this only affects the
+    // image's own display size.
     #prd-image {
-        max-width: 300px;
-        max-height: 300px;
+        max-width: 500px;
+        max-height: 500px;
         width: auto;
         height: auto;
     }
@@ -2893,7 +2898,7 @@ footer {
     }
 
     .prd-image-container {
-        height: 300px;
+        height: 500px;
 
         &:hover #image-zoom {
             display: block;
@@ -2905,6 +2910,26 @@ footer {
             top: 0;
             bottom: 0;
             margin: auto;
+        }
+    }
+
+    // Site audit (May 2026) items 25/32: horizontal USP bar replacing the old
+    // stacked guarantee/warranty/offer-bullet rows - see Product/Index.cshtml.
+    .prd-usp-bar {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+
+        .prd-usp-item {
+            display: flex;
+            align-items: center;
+            margin-right: 25px;
+            margin-bottom: 10px;
+            line-height: 18px;
+
+            img {
+                margin-right: 8px;
+            }
         }
     }
 

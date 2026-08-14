@@ -121,6 +121,34 @@
                     }
                 </div>
 
+                <!-- Site audit (May 2026) item 23: this SEO intro text (manufacturer note /
+                     cartridge-type note, both CMS-authored raw HTML - length unknown/variable)
+                     used to always render in full above the product listings. Trimmed to a
+                     ~90px preview with a "Read More" toggle, per the audit's recommendation,
+                     so the product tiles further down aren't pushed below several paragraphs
+                     of text. The toggle only appears if the content actually overflows the
+                     preview height (checked via scrollHeight after render) - short content
+                     just renders normally with no non-functional "Read More" link. Falls back
+                     to showing full content if JS doesn't run, since the collapsed class is
+                     only ever added by the script below. -->
+                <style>
+                    #manu-text.intro-text-collapsed {
+                        max-height: 90px;
+                        overflow: hidden;
+                        position: relative;
+                    }
+
+                        #manu-text.intro-text-collapsed::after {
+                            content: '';
+                            position: absolute;
+                            bottom: 0;
+                            left: 0;
+                            right: 0;
+                            height: 36px;
+                            background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
+                            pointer-events: none;
+                        }
+                </style>
                 <div id="manu-text">
                     @if (Model.Manufacturer != null)
                     {
@@ -146,6 +174,28 @@
                         @Html.Raw(Model.WizDropDowns.CartridgeTypeNote)
                     }
                 </div>
+                <div class="text-center g-m-t-10" id="manu-text-toggle-wrap" style="display:none;">
+                    <a href="javascript:void(0);" id="manu-text-toggle" class="second">Read More</a>
+                </div>
+                <script type="text/javascript">
+                    (function () {
+                        var el = document.getElementById('manu-text');
+                        var wrap = document.getElementById('manu-text-toggle-wrap');
+                        var toggle = document.getElementById('manu-text-toggle');
+                        if (!el || !wrap || !toggle) { return; }
+                        var collapsedHeight = 90;
+                        el.classList.add('intro-text-collapsed');
+                        if (el.scrollHeight > collapsedHeight + 20) {
+                            wrap.style.display = 'block';
+                            toggle.addEventListener('click', function () {
+                                var collapsed = el.classList.toggle('intro-text-collapsed');
+                                toggle.textContent = collapsed ? 'Read More' : 'Read Less';
+                            });
+                        } else {
+                            el.classList.remove('intro-text-collapsed');
+                        }
+                    })();
+                </script>
 
                 <div id="printer-links">
                     @{

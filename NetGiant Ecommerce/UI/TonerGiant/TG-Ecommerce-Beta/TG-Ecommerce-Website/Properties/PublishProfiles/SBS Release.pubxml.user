@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\Anoop\Publish\TG\Release</_PublishTargetUrl>
-    <History>True|2026-08-14T15:43:01.7814730Z||;True|2026-08-14T20:51:40.9751823+05:30||;True|2026-08-14T20:24:45.7979071+05:30||;True|2026-08-14T19:26:55.2459669+05:30||;True|2026-08-14T18:57:58.2109396+05:30||;True|2026-08-14T18:32:47.4864273+05:30||;True|2026-08-14T18:07:16.8026907+05:30||;True|2026-08-14T17:26:12.8507266+05:30||;True|2026-08-14T17:13:37.8577429+05:30||;True|2026-08-14T16:41:59.4248998+05:30||;True|2026-08-14T16:19:18.3720587+05:30||;True|2026-08-14T15:49:35.3426388+05:30||;True|2026-08-14T15:06:08.5835163+05:30||;True|2026-08-14T14:49:45.2597230+05:30||;True|2026-08-14T14:40:01.6185869+05:30||;True|2026-08-14T14:15:28.8100237+05:30||;True|2026-08-14T12:05:44.3588561+05:30||;True|2026-08-14T11:36:42.0109756+05:30||;True|2026-08-13T17:18:37.9374674+05:30||;True|2026-08-12T17:59:16.1505908+05:30||;False|2026-08-12T15:43:23.1305671+05:30||;True|2026-08-12T14:17:56.4871802+05:30||;True|2026-08-12T13:29:19.8896174+05:30||;True|2026-08-12T12:45:56.2178839+05:30||;True|2026-08-12T12:25:55.3906747+05:30||;True|2026-08-10T17:21:03.2381412+05:30||;True|2026-08-10T16:33:36.4963657+05:30||;True|2026-08-10T15:54:38.9625902+05:30||;True|2026-08-10T15:00:49.4149105+05:30||;True|2026-08-10T14:42:01.0951996+05:30||;True|2026-08-10T14:08:50.5377397+05:30||;True|2026-08-08T02:16:52.9541242+05:30||;True|2026-08-08T00:38:23.7089502+05:30||;True|2026-08-08T00:07:45.6463448+05:30||;True|2026-08-07T22:13:21.9063751+05:30||;True|2026-08-07T11:52:58.9158901+05:30||;</History>
+    <History>True|2026-08-14T16:50:07.8276380Z||;True|2026-08-14T21:57:48.0593182+05:30||;True|2026-08-14T21:13:01.7814730+05:30||;True|2026-08-14T20:51:40.9751823+05:30||;True|2026-08-14T20:24:45.7979071+05:30||;True|2026-08-14T19:26:55.2459669+05:30||;True|2026-08-14T18:57:58.2109396+05:30||;True|2026-08-14T18:32:47.4864273+05:30||;True|2026-08-14T18:07:16.8026907+05:30||;True|2026-08-14T17:26:12.8507266+05:30||;True|2026-08-14T17:13:37.8577429+05:30||;True|2026-08-14T16:41:59.4248998+05:30||;True|2026-08-14T16:19:18.3720587+05:30||;True|2026-08-14T15:49:35.3426388+05:30||;True|2026-08-14T15:06:08.5835163+05:30||;True|2026-08-14T14:49:45.2597230+05:30||;True|2026-08-14T14:40:01.6185869+05:30||;True|2026-08-14T14:15:28.8100237+05:30||;True|2026-08-14T12:05:44.3588561+05:30||;True|2026-08-14T11:36:42.0109756+05:30||;True|2026-08-13T17:18:37.9374674+05:30||;True|2026-08-12T17:59:16.1505908+05:30||;False|2026-08-12T15:43:23.1305671+05:30||;True|2026-08-12T14:17:56.4871802+05:30||;True|2026-08-12T13:29:19.8896174+05:30||;True|2026-08-12T12:45:56.2178839+05:30||;True|2026-08-12T12:25:55.3906747+05:30||;True|2026-08-10T17:21:03.2381412+05:30||;True|2026-08-10T16:33:36.4963657+05:30||;True|2026-08-10T15:54:38.9625902+05:30||;True|2026-08-10T15:00:49.4149105+05:30||;True|2026-08-10T14:42:01.0951996+05:30||;True|2026-08-10T14:08:50.5377397+05:30||;True|2026-08-08T02:16:52.9541242+05:30||;True|2026-08-08T00:38:23.7089502+05:30||;True|2026-08-08T00:07:45.6463448+05:30||;True|2026-08-07T22:13:21.9063751+05:30||;True|2026-08-07T11:52:58.9158901+05:30||;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -20,10 +20,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/22/2013 14:13:40</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>08/14/2026 21:06:55</publishTime>
+      <publishTime>08/14/2026 22:14:40</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>08/14/2026 21:06:55</publishTime>
+      <publishTime>08/14/2026 22:14:40</publishTime>
     </File>
     <File Include="bin/BCrypt.Net.dll">
       <publishTime>07/07/2026 16:53:40</publishTime>
@@ -41,13 +41,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/14/2026 11:31:26</publishTime>
     </File>
     <File Include="bin/CommonUI.dll">
-      <publishTime>08/14/2026 21:05:33</publishTime>
+      <publishTime>08/14/2026 21:50:37</publishTime>
     </File>
     <File Include="bin/CommonUI.dll.config">
       <publishTime>07/26/2026 07:47:13</publishTime>
     </File>
     <File Include="bin/CommonUI.pdb">
-      <publishTime>08/14/2026 21:05:33</publishTime>
+      <publishTime>08/14/2026 21:50:37</publishTime>
     </File>
     <File Include="bin/DataAccess.dll">
       <publishTime>08/12/2026 12:16:22</publishTime>
@@ -317,10 +317,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2026 17:00:11</publishTime>
     </File>
     <File Include="bin/TG-Ecommerce-Website.dll">
-      <publishTime>08/14/2026 21:05:36</publishTime>
+      <publishTime>08/14/2026 22:13:23</publishTime>
     </File>
     <File Include="bin/TG-Ecommerce-Website.pdb">
-      <publishTime>08/14/2026 21:05:36</publishTime>
+      <publishTime>08/14/2026 22:13:23</publishTime>
     </File>
     <File Include="bin/UAParser.dll">
       <publishTime>05/27/2021 01:10:22</publishTime>
@@ -88766,7 +88766,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2026 17:00:50</publishTime>
     </File>
     <File Include="Content/overrides-xs.less">
-      <publishTime>07/07/2026 17:00:50</publishTime>
+      <publishTime>08/14/2026 22:09:26</publishTime>
     </File>
     <File Include="Content/site.less">
       <publishTime>07/07/2026 17:00:50</publishTime>
@@ -88847,7 +88847,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/23/2026 11:32:19</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>08/14/2026 21:06:42</publishTime>
+      <publishTime>08/14/2026 22:14:29</publishTime>
     </File>
     <File Include="Scripts/bootstrap-select.js">
       <publishTime>07/07/2026 17:00:53</publishTime>
@@ -89216,7 +89216,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2026 17:00:56</publishTime>
     </File>
     <File Include="Scripts/site.js">
-      <publishTime>08/14/2026 21:02:51</publishTime>
+      <publishTime>08/14/2026 21:47:40</publishTime>
     </File>
     <File Include="Scripts/tracking.js">
       <publishTime>07/07/2026 17:00:56</publishTime>
