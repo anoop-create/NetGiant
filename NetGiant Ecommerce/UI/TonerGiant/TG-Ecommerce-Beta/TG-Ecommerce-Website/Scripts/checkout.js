@@ -260,6 +260,13 @@ $(function () {
         '#apply-voucher',
         function () {
 
+            // Same empty-code guard as the mini-cart's .minibasket-apply-voucher handler in
+            // site.js, so clicking Apply with a blank field behaves identically in both widgets.
+            var voucherCode = $.trim($('#voucher-code').val());
+            if (!voucherCode) {
+                return false;
+            }
+
             var isValid = checkSessionExists("C_IsInCheckout") === true ? false : true;
 
             if (isValid) {
@@ -270,7 +277,7 @@ $(function () {
                     type: 'POST',
                     cache: false,
                     data: {
-                        voucherCode: $('#voucher-code').val()
+                        voucherCode: voucherCode
                     },
                     async: false,
                     success: function (data) {

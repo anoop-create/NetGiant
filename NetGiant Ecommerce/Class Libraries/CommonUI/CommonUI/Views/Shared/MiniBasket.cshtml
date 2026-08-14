@@ -304,6 +304,25 @@
         border-radius: 4px;
         cursor: pointer;
     }
+    /* Buy More & Save - same pill shape as .switch-save__btn above, green instead of
+       pink/magenta so it doesn't read as the same offer as Switch & Save (this is
+       "buy more of what's already in your basket", not "switch to a different item") */
+    .qty-upsell-btn {
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+        background: #fff;
+        border: 1px solid var(--green);
+        color: var(--green);
+        font-weight: 700;
+        font-size: 13px;
+        padding: 8px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+        .qty-upsell-btn:hover {
+            background: #eaf8ef;
+        }
     /* Footer */
     .mini-cart__footer {
         border-top: 1px solid var(--border);
@@ -665,6 +684,26 @@
                                     subt =
                                         discUnitPrice * bc.Quantity;
                                 }
+                                /*
+                                 * "Buy more, save an extra X%" qty-upsell offer - same
+                                 * eligibility rule as the discount above (CompatibleUpsellRates
+                                 * config), just evaluated without the "already past threshold"
+                                 * gate so it can also prompt before the discount kicks in. This
+                                 * mirrors the "Buy More & Save" card added to the full basket
+                                 * page (Views/Checkout/BasketDetails.cshtml) - was missing here.
+                                 */
+                                decimal upsellPerItemSaving =
+                                    Math.Round(bc.PriceEx * discountRate / 100, 2);
+                                bool showQtyUpsell =
+                                    bc.IsCompatible &&
+                                    Session["V_Voucher"] == null &&
+                                    Convert.ToBoolean(
+                                        ConfigurationManager.AppSettings[
+                                            "IsCompatibleUpsellActive"
+                                        ]) &&
+                                    !isTradeCustomer &&
+                                    !isAdminDiscount &&
+                                    upsellPerItemSaving > 0;
                                 <div>
                                     <!-- Basket Item -->
                                     <div class="cart-item atb-entry"
@@ -826,6 +865,26 @@
                                             }
                                         }
                                     }
+                                    <!-- Buy More & Save for this product -->
+                                    @if (showQtyUpsell)
+                                    {
+                                        if (bc.Quantity <= bc.QtyStart)
+                                        {
+                                            <button class="qty-upsell-btn"
+                                                    type="button"
+                                                    onclick="changeMiniBasketQty('@bc.StockRef', @(bc.QtyStart + 1))">
+                                                Buy @(bc.QtyStart + 1 - bc.Quantity) More, Save @discountRate%
+                                            </button>
+                                        }
+                                        else if (bc.Quantity > 1)
+                                        {
+                                            <button class="qty-upsell-btn"
+                                                    type="button"
+                                                    onclick="changeMiniBasketQty('@bc.StockRef', @(bc.Quantity + 1))">
+                                                Add Another, Save @discountRate%
+                                            </button>
+                                        }
+                                    }
                                 </div>
                             }
                             /*
@@ -882,15 +941,11 @@
                                 <button type="button"
                                         class="minibasket-voucher-remove"
                                         title="Remove voucher code">
-                                    <i class="fa fa-trash"></i>
+                                    <i class="fa fa-times"></i>
                                 </button>
                                 <span class="promo-applied__saving">
                                     -£@Math.Abs(totalSaving).ToString("0.00")
                                 </span>
-                                <div class="voucher-applied">
-                                    <i class="fa fa-check-circle"></i>
-                                    Voucher Applied
-                                </div>
                             </div>
                         </details>
                     }

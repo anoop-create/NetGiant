@@ -1354,7 +1354,7 @@ WriteLiteral("\r\n                                        title=\"Remove voucher
 
 WriteLiteral(">\r\n                                    <i");
 
-WriteLiteral(" class=\"fa fa-trash\"");
+WriteLiteral(" class=\"fa fa-times\"");
 
 WriteLiteral("></i>\r\n                                </button>\r\n                               " +
 " <span");
@@ -1370,20 +1370,11 @@ WriteLiteral(">\r\n                                    -£");
             
             #line default
             #line hidden
-WriteLiteral("\r\n                                </span>\r\n                                <div");
-
-WriteLiteral(" class=\"voucher-applied\"");
-
-WriteLiteral(">\r\n                                    <i");
-
-WriteLiteral(" class=\"fa fa-check-circle\"");
-
-WriteLiteral("></i>\r\n                                    Voucher Applied\r\n                     " +
-"           </div>\r\n                            </div>\r\n                        <" +
-"/details>\r\n");
+WriteLiteral("\r\n                                </span>\r\n                            </div>\r\n  " +
+"                      </details>\r\n");
 
             
-            #line 896 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 892 "..\..\Views\Shared\MiniBasket.cshtml"
                     }
                     else
                     {
@@ -1425,7 +1416,7 @@ WriteLiteral("\r\n                                 class=\"promo-error g-v-h\"")
 WriteLiteral(">\r\n                            </div>\r\n                        </details>\r\n");
 
             
-            #line 916 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 912 "..\..\Views\Shared\MiniBasket.cshtml"
                     }
 
             
@@ -1444,7 +1435,7 @@ WriteLiteral("></i>\r\n                        <span>\r\n");
 WriteLiteral("                            ");
 
             
-            #line 921 "..\..\Views\Shared\MiniBasket.cshtml"
+            #line 917 "..\..\Views\Shared\MiniBasket.cshtml"
                        Write(deliveryMessage);
 
             
