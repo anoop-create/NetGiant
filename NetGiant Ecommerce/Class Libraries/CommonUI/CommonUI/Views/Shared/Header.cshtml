@@ -100,7 +100,7 @@
 
 @if (Model.ShowCustomerAlert && !Convert.ToBoolean(Session["SuppressCustomerAlert"] ?? false))
 {
-    <section class="ca-message">
+    <section class="ca-message"> 
         @if (ConfigurationManager.AppSettings["AlertLevel"] == "4")
         {
             @Html.RawFromDict(Model.CommonData, "Alert4Message")

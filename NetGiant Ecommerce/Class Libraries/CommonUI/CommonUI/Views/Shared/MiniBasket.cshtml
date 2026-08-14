@@ -489,7 +489,7 @@
             display: block !important;
         }
 
-        .mobileBasketMessage, .mobileBasketBackdrop, .g-bc-secondary, .cart-fab, .basketMessage, .printerMessage, .tab-open.g-flex-allcenter[data-toggle="offcanvas-close"] {
+        .mobileBasketMessage, .mobileBasketBackdrop, .g-bc-secondary, .basketMessage, .printerMessage, .tab-open.g-flex-allcenter[data-toggle="offcanvas-close"] {
             display: none !important
         }
 
@@ -498,7 +498,7 @@
         }
     }
     #you-may-also-need[data-context="addtocart"] {
-        z-index: 999999999;
+        z-index: 999999999!important;
     }
 
     #you-may-also-need {
@@ -530,6 +530,9 @@
     div#you-may-also-need-backdrop {
         background: #00000091;
         z-index: 99999
+    }
+    #you-may-also-need[data-context="addtocart"] {
+        z-index: 999999999 !important;
     }
 </style>
 <!-- Single stable wrapper around the whole widget (button + overlay + its script) so AJAX

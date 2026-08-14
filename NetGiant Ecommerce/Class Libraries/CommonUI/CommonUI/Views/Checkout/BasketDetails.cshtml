@@ -1353,7 +1353,7 @@
                                                         </div>
                                                     }
                                                     else if (bc.Availability == 10)
-                        {
+                                                    {
                                                         <div class="stock-status special-order">
 
                                                             <i class="fa fa-info-circle"></i>
@@ -1373,7 +1373,7 @@
                                                         </div>
                                                     }
                                                     else if (bc.Availability == 11 || bc.Availability == 13)
-                        {
+                                                    {
                                                         <div class="stock-status out-of-stock">
 
                                                             <i class="fa fa-times-circle"></i>
@@ -1389,7 +1389,7 @@
                                                         </div>
                                                     }
                                                     else if (bc.Availability == 2 || bc.Availability == 4)
-                        {
+                                                    {
                                                         <div class="stock-status availability">
 
                                                             <i class="fa fa-clock-o"></i>
@@ -1405,7 +1405,7 @@
                                                         </div>
                                                     }
                                                     else
-                        {
+                                                    {
                                                         <div class="stock-status back-order">
 
                                                             <i class="fa fa-history"></i>
@@ -1483,54 +1483,55 @@
                                                     </div>
 
                                                     @* ---------------- Buy More & Save (Promotional Lozenge) ----------------
-                                                       Per the "Basket Switch & Save / Add Ons" design spec: a small pill
-                                                       sitting directly under the qty stepper on this same product card,
-                                                       not a separate promo card. *@
-                                                    @if (showUpsellLozenge)
-                                                    {
-                                                        if (bc.Quantity <= bc.QtyStart)
-                                                        {
-                                                            <button class="qty-upsell-pill"
-                                                                    type="button"
-                                                                    title="Click to get this offer"
-                                                                    onclick="changeBasketQty('@bc.StockRef', @(bc.QtyStart + 1))">
-                                                                Buy @(bc.QtyStart + 1 - bc.Quantity) More, Save @discountRate%
-                                                            </button>
-                                                        }
-                                                        else if (bc.Quantity > 1)
-                                                        {
-                                                            <button class="qty-upsell-pill"
-                                                                    type="button"
-                                                                    title="Click to add another and keep saving"
-                                                                    onclick="changeBasketQty('@bc.StockRef', @(bc.Quantity + 1))">
-                                                                Add Another, Save @discountRate%
-                                                            </button>
-                                                        }
-                                                    }
+                    Per the "Basket Switch & Save / Add Ons" design spec: a small pill
+                    sitting directly under the qty stepper on this same product card,
+                    not a separate promo card. *@
+
                                                 }
 
 
-                                                @if (Session["V_Voucher"] != null)
-                                                    {
-                            VoucherPromo vp = (VoucherPromo)Session["V_Voucher"];
 
-                            if (bc.IsVoucherQualifyingItem &&
-                                vp.VoucherTypeFk == (int)VmVoucherType.Percentage)
-                            {
-                                                        <div class="voucher-applied g-m-t-10">
-
-                                                            <i class="fa fa-check-circle"></i>
-
-                                                            Voucher Applied
-
-                                                        </div>
-                                                    }
-                                                }
 
                                             </div>
 
                                         </div>
+                                        @if (Session["V_Voucher"] != null)
+                                        {
+                                            VoucherPromo vp = (VoucherPromo)Session["V_Voucher"];
 
+                                            if (bc.IsVoucherQualifyingItem &&
+                                                vp.VoucherTypeFk == (int)VmVoucherType.Percentage)
+                                            {
+                                                <div class="voucher-applied g-m-t-10">
+
+                                                    <i class="fa fa-check-circle"></i>
+
+                                                    Voucher Applied
+
+                                                </div>
+                                            }
+                                        }
+                                        @if (showUpsellLozenge)
+                                        {
+                                            if (bc.Quantity <= bc.QtyStart)
+                                            {
+                                                <button class="qty-upsell-pill"
+                                                        type="button"
+                                                        title="Click to get this offer"
+                                                        onclick="changeBasketQty('@bc.StockRef', @(bc.QtyStart + 1))">
+                                                    Buy @(bc.QtyStart + 1 - bc.Quantity) More, Save @discountRate%
+                                                </button>
+                                            }
+                                            else if (bc.Quantity > 1)
+                                            {
+                                                <button class="qty-upsell-pill"
+                                                        type="button"
+                                                        title="Click to add another and keep saving"
+                                                        onclick="changeBasketQty('@bc.StockRef', @(bc.Quantity + 1))">
+                                                    Add Another, Save @discountRate%
+                                                </button>
+                                            }
+                                        }
                                     </div>
                                     @* ---------------- Switch & Save ----------------
                         Fully data-bound - every value below comes from bc / Model,
