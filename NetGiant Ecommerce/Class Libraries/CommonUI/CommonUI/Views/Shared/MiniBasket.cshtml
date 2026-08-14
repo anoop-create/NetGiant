@@ -460,6 +460,23 @@
         font-size: 13px;
         font-weight: 600;
     }
+    @@media (max-width:1199px) {
+        body, html {
+            overflow-x: hidden
+        }
+
+        section#utility-bar {
+            display: block !important;
+        }
+
+        .mobileBasketMessage, .mobileBasketBackdrop, .g-bc-secondary, .cart-fab, .basketMessage, .printerMessage, .tab-open.g-flex-allcenter[data-toggle="offcanvas-close"] {
+            display: none !important
+        }
+
+        .navbar-inverse .small-screen-links a {
+            outline: none;
+        }
+    }
 </style>
 <!-- Single stable wrapper around the whole widget (button + overlay + its script) so AJAX
      handlers in site.js have exactly one element to target with replaceWith(data.basketSummary) -

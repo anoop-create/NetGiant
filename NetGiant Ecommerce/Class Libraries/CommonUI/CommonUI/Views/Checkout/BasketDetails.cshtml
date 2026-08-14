@@ -1051,6 +1051,12 @@
     border-radius: 8px;
     background: #fff;
     }
+    @@media (max-width:1199px){
+    body, html {overflow-x:hidden}
+    section#utility-bar {display:block!important;}
+    .mobileBasketMessage, .mobileBasketBackdrop, .g-bc-secondary, .cart-fab, .basketMessage, .printerMessage, .tab-open.g-flex-allcenter[data-toggle="offcanvas-close"] { display:none !important}
+    .navbar-inverse .small-screen-links a {outline: none;}
+    }
 </style>
 
 @if (Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery > 0)
