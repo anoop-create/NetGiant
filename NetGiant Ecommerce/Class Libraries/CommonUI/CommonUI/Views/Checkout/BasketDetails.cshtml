@@ -780,7 +780,7 @@
     }
     #basketSummary .row.dv-basket-card {
         margin-right: 0;
-        margin-left: 0;
+        margin-left: 0; 
     }
 
     .switch-heading {
@@ -1103,25 +1103,41 @@
 
         /* =========================================
    QTY UPSELL - "increase qty in your basket, save an extra X%" offer for
-   compatible/own-brand cartridges (CompatibleUpsellRates config). Re-skinned
-   port of the button that used to live on the old, now-unreachable
-   Views/Checkout/BasketDetailsv2.cshtml page - reusing the existing
-   Switch & Save card layout (.switch-save-card/.switch-heading/etc. above)
-   rather than inventing a new component, so both basket-line promos share
-   one visual language. Green border distinguishes it from Switch & Save's
-   brand-magenta border since it's a different offer (buy more of the same
-   item vs switch to a different item).
-   ========================================= */
+   compatible/own-brand cartridges (CompatibleUpsellRates config). Per the
+   "Basket Switch & Save / Add Ons" design spec (Promotional Lozenge), this
+   is a small pill/badge sitting directly under the qty stepper on the
+   product's own card - NOT a separate promo card like Switch & Save.
+   Same brand pink used throughout the basket, no green. */
 
-        .switch-save-card.qty-upsell-card {
-            border-color: #00a651;
+        .qty-upsell-pill {
+            display: inline-block;
+            margin-top: 10px;
+            background: #fff;
+            border: 1px solid #d5007f;
+            color: #d5007f;
+            font-weight: 700;
+            font-size: 12px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            white-space: nowrap;
         }
 
-        button.btn.btn-success.qty-upsell-btn {
-            padding: 7px 16px;
-            margin-top: 12px;
-            border-radius: 6px !important;
+            .qty-upsell-pill:hover {
+                background: #fdeaf3;
+            }
+        .mobile-checkout-btn {
+            display: none !important;
         }
+
+        /* Visible on mobile */
+        @@media (max-width: 767px) {
+            .mobile-checkout-btn {
+                display: block !important;
+                width: 100%;
+                float: none !important;
+            }
+}
 </style>
 
 @if (Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery > 0)
@@ -1131,7 +1147,11 @@
     <div class="col-md-9">
         <div class="row">
             <div class="col-md-12">
-
+                <button type="button"
+                    class="checkout-button checkout1 btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-right mobile-checkout-btn"
+                    title="Checkout">
+                Proceed to Checkout
+            </button>
                 <div id="basketSummary" class="basketSummaryContainer">
                     @{
                         bool isMultiBuy = false;
@@ -1461,6 +1481,32 @@
                                                             <i class="fa fa-trash"></i>
                                                         </button>
                                                     </div>
+
+                                                    @* ---------------- Buy More & Save (Promotional Lozenge) ----------------
+                                                       Per the "Basket Switch & Save / Add Ons" design spec: a small pill
+                                                       sitting directly under the qty stepper on this same product card,
+                                                       not a separate promo card. *@
+                                                    @if (showUpsellLozenge)
+                                                    {
+                                                        if (bc.Quantity <= bc.QtyStart)
+                                                        {
+                                                            <button class="qty-upsell-pill"
+                                                                    type="button"
+                                                                    title="Click to get this offer"
+                                                                    onclick="changeBasketQty('@bc.StockRef', @(bc.QtyStart + 1))">
+                                                                Buy @(bc.QtyStart + 1 - bc.Quantity) More, Save @discountRate%
+                                                            </button>
+                                                        }
+                                                        else if (bc.Quantity > 1)
+                                                        {
+                                                            <button class="qty-upsell-pill"
+                                                                    type="button"
+                                                                    title="Click to add another and keep saving"
+                                                                    onclick="changeBasketQty('@bc.StockRef', @(bc.Quantity + 1))">
+                                                                Add Another, Save @discountRate%
+                                                            </button>
+                                                        }
+                                                    }
                                                 }
 
 
@@ -1531,7 +1577,7 @@
                                                             </div>
                                                             <div class="stock-status in-stock">
                                                                 <i class="fa fa-check-circle"></i>
-                                                                <span>In Stock</span>
+                                                                <span>In Stock</span> 
                                                             </div>
 
                                                         </div>
@@ -1566,78 +1612,6 @@
                                                 </div>
                                             }
                                         }
-                                    }
-                                    @* ---------------- Buy More & Save ----------------
-                        Qty-upsell offer for compatible/own-brand cartridges (rate from
-                        CompatibleUpsellRates, see showUpsellLozenge/upsellPerItemSaving
-                        above). Re-skinned port of the button that used to live on the old,
-                        now-unreachable Views/Checkout/BasketDetailsv2.cshtml page, reusing
-                        the Switch & Save card layout above so both basket-line promos share
-                        one visual language (green border here instead of Switch & Save's
-                        brand magenta, since it's a different kind of offer). *@
-                                    @if (showUpsellLozenge)
-                                    {
-                                        <div class="switch-save-card qty-upsell-card">
-                                            <div class="col-lg-2 col-md-3 col-sm-3 col-4">
-                                                <a href="@productUrl" class="basket-card-image">
-
-                                                    <img src="@bc.ImageUrl"
-                                                         alt="@bc.Description"
-                                                         class="img-responsive"
-                                                         onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
-
-                                                </a>
-
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-5 col-sm-12">
-
-                                                    <div class="switch-heading"> Buy More &amp; Save </div>
-
-                                                    @if (bc.Quantity <= bc.QtyStart)
-                                                    {
-                                                        <div class="switch-product-name">
-                                                            Add @(bc.QtyStart + 1)+ @bc.Description to your basket and save @discountRate% on each
-                                                        </div>
-                                                    }
-                                                    else
-                                                    {
-                                                        <div class="switch-product-name">
-                                                            You're saving @discountRate% on each @bc.Description
-                                                        </div>
-                                                    }
-
-                                                </div>
-                                                <div class="col-md-4 col-sm-12 text-right">
-
-                                                    <div class="basket-price-box">
-                                                        <div class="price-row save-saving">
-                                                            <span>Save</span>
-                                                            <strong>£@upsellPerItemSaving.ToString("0.00")</strong>
-                                                            <span>Ex. VAT / item</span>
-                                                        </div>
-                                                    </div>
-
-                                                    @if (bc.Quantity <= bc.QtyStart)
-                                                    {
-                                                        <button class="btn btn-success qty-upsell-btn"
-                                                                title="Click to get this offer"
-                                                                onclick="changeBasketQty('@bc.StockRef', @(bc.QtyStart + 1))">
-                                                            Add More
-                                                        </button>
-                                                    }
-                                                    else if (bc.Quantity > 1)
-                                                    {
-                                                        <button class="btn btn-success qty-upsell-btn"
-                                                                title="Click to add another and keep saving"
-                                                                onclick="changeBasketQty('@bc.StockRef', @(bc.Quantity + 1))">
-                                                            Add Another
-                                                        </button>
-                                                    }
-
-                                                </div>
-                                            </div>
-                                        </div>
                                     }
                                 </div>
 

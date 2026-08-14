@@ -304,24 +304,25 @@
         border-radius: 4px;
         cursor: pointer;
     }
-    /* Buy More & Save - same pill shape as .switch-save__btn above, green instead of
-       pink/magenta so it doesn't read as the same offer as Switch & Save (this is
-       "buy more of what's already in your basket", not "switch to a different item") */
-    .qty-upsell-btn {
-        display: block;
-        width: 100%;
+    /* Buy More & Save (Promotional Lozenge) - per the "Basket Switch & Save / Add Ons"
+       design spec, this is a small pill/badge under the qty stepper on this same
+       product row, not a full-width card/button like Switch & Save. Same pink/magenta
+       accent used throughout the basket - no green anywhere in the spec. */
+    .qty-upsell-pill {
+        display: inline-block;
         margin-top: 10px;
         background: #fff;
-        border: 1px solid var(--green);
-        color: var(--green);
+        border: 1px solid var(--pink);
+        color: var(--pink);
         font-weight: 700;
-        font-size: 13px;
-        padding: 8px;
-        border-radius: 4px;
+        font-size: 11px;
+        padding: 5px 12px;
+        border-radius: 999px;
         cursor: pointer;
+        white-space: nowrap;
     }
-        .qty-upsell-btn:hover {
-            background: #eaf8ef;
+        .qty-upsell-pill:hover {
+            background: #fdeaf3;
         }
     /* Footer */
     .mini-cart__footer {
@@ -495,6 +496,40 @@
         .navbar-inverse .small-screen-links a {
             outline: none;
         }
+    }
+    #you-may-also-need[data-context="addtocart"] {
+        z-index: 999999999;
+    }
+
+    #you-may-also-need {
+        height: 410px;
+        max-height: initial !important;
+    }
+
+        #you-may-also-need[data-context="addtocart"] .ymn-proceed {
+            display: none !important;
+        }
+
+    .promo-applied {
+        display: flex;
+        align-items: center;
+    }
+
+        .promo-applied button {
+            margin-left: auto;
+            border: none;
+            margin-right: 4px;
+            color: #B10000;
+            background: transparent;
+        }
+
+        .promo-applied .promo-applied__saving {
+            font-weight: 600;
+        }
+
+    div#you-may-also-need-backdrop {
+        background: #00000091;
+        z-index: 99999
     }
 </style>
 <!-- Single stable wrapper around the whole widget (button + overlay + its script) so AJAX
@@ -870,7 +905,7 @@
                                     {
                                         if (bc.Quantity <= bc.QtyStart)
                                         {
-                                            <button class="qty-upsell-btn"
+                                            <button class="qty-upsell-pill"
                                                     type="button"
                                                     onclick="changeMiniBasketQty('@bc.StockRef', @(bc.QtyStart + 1))">
                                                 Buy @(bc.QtyStart + 1 - bc.Quantity) More, Save @discountRate%
@@ -878,7 +913,7 @@
                                         }
                                         else if (bc.Quantity > 1)
                                         {
-                                            <button class="qty-upsell-btn"
+                                            <button class="qty-upsell-pill"
                                                     type="button"
                                                     onclick="changeMiniBasketQty('@bc.StockRef', @(bc.Quantity + 1))">
                                                 Add Another, Save @discountRate%
