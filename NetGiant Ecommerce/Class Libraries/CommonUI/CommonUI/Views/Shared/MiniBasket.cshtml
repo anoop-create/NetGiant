@@ -497,11 +497,15 @@
             outline: none;
         }
     } 
-    #you-may-also-need[data-context="addtocart"] {
-        z-index: 999999999!important;
-    }
-
+    /* Must always beat this file's own #you-may-also-need-backdrop (z-index: 99999, below,
+       unconditional - not scoped to any data-context). This used to only apply when
+       [data-context="addtocart"], which left the "checkout" context (opened from the
+       mini-cart's own Proceed to Checkout button) with no boost at all - its z-index stayed at
+       YouMayAlsoNeed.cshtml's own base value (1060), well below the backdrop's 99999, so the
+       backdrop rendered on top of the popup's actual content: a solid near-black screen with
+       nothing visible on it. Unconditional now so both contexts sit above their own backdrop. */
     #you-may-also-need {
+        z-index: 999999999!important;
         height: 410px;
         max-height: initial !important;
     }
@@ -530,9 +534,6 @@
     div#you-may-also-need-backdrop {
         background: #00000091;
         z-index: 99999
-    }
-    #you-may-also-need[data-context="addtocart"] {
-        z-index: 999999999 !important;
     }
 </style>
 <!-- Single stable wrapper around the whole widget (button + overlay + its script) so AJAX
@@ -1017,14 +1018,9 @@
                     <!-- Checkout -->
                     <button class="checkout-btn checkout-button"
                             type="button"
-                            > 
+                            >
                         Proceed to Checkout
                     </button>
-                    @*<button type="button"
-                            class="checkout-button checkout1 btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-right mobile-checkout-btn"
-                            title="Checkout">
-                        Proceed to Checkout
-                    </button>*@
                     <!-- View basket -->
                     <div class="checkout-edit">
                         <a href="/checkout/"

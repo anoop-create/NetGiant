@@ -828,39 +828,54 @@ function showAddSellPopup(html, context) {
 
     if (context === 'addtocart') {
         // The popup is offering add-ons for what was just added - show the mini-cart open
-        // behind it (even if it wasn't already open) so the customer can see what's actually
-        // in their basket right now, instead of just a flying "added" toast with no popup-open
-        // mini-cart behind it. The 'checkout' context (proceedToCheckout) doesn't need this -
-        // that popup is only ever shown from inside an already-open mini-cart.
+        // behind/underneath it (even if it wasn't already open), on every device, so that:
+        // add-on popup along with mini-cart should open together (the explicit requirement
+        // this whole mini-cart/add-to-basket flow was built against from the start) is actually
+        // true, and so that dismissing the popup lands the customer on an already-open mini-cart
+        // instead of the bare page. The 'checkout' context (proceedToCheckout) doesn't need this
+        // - that popup is only ever shown from inside an already-open mini-cart.
         //
-        // Desktop only: on mobile this used to run unconditionally, which meant TWO overlays
-        // stacked on top of each other every time - the mini-cart's own dim backdrop
-        // (.mini-cart-overlay, ~40% black) AND this popup's own near-opaque backdrop
-        // (#you-may-also-need-backdrop, styled #00000091 by MiniBasket.cshtml) - directly
-        // contradicting YouMayAlsoNeed.cshtml's own mobile CSS comment ("Mobile: full-screen...
-        // since the mini-cart isn't visible at the same time there"). That double-backdrop
-        // stack is the most likely cause of the "add to basket opens a black screen instead of
-        // the mini-cart" report on mobile. proceedToCheckout() below already treats mobile
-        // differently (closes the mini-cart tray under 768px) - matching that same convention.
-        //
-        // Explicitly REMOVE (not just skip-adding) is-open on mobile: the .atb-add success
-        // handler in this file calls openCart() unconditionally straight after triggering this
-        // popup lookup, and since that lookup is now async (see requestAddSellPopup above),
-        // openCart() can already have run and added is-open by the time this callback fires -
-        // just skipping the addClass here wouldn't undo that.
-        if ($(window).width() < 768) {
-            $('#miniCartOverlay').removeClass('is-open');
-        } else {
-            $('#miniCartOverlay').addClass('is-open');
-        }
+        // This used to explicitly REMOVE is-open below 768px instead (mini-cart and popup were
+        // mutually exclusive on mobile), on the theory that stacking the mini-cart's own dim
+        // backdrop (.mini-cart-overlay, ~40% black) with this popup's own near-opaque backdrop
+        // (#you-may-also-need-backdrop, #00000091, much higher z-index) was the cause of an
+        // earlier "add to basket shows a black screen" report. That turned out to be wrong: the
+        // actual cause was a completely different, unconditional legacy element
+        // (.mobileBasketBackdrop in global.less, since disabled) that fired on every add-to-
+        // basket regardless of add-ons or overlay stacking - see the mini-basket-progress doc's
+        // "black screen culprit" pass. With that real cause fixed, there's no remaining reason to
+        // keep the mini-cart and this popup mutually exclusive on mobile, and doing so only
+        // fought the original requirement. The popup's own backdrop still visually sits on top
+        // while it's showing (by design, via z-index) - this only changes the mini-cart's actual
+        // open/closed *state* underneath, which is what matters once the popup is dismissed.
+        $('#miniCartOverlay').addClass('is-open');
         $('body').css('overflow', 'hidden');
     }
+}
+
+// Header.cshtml always renders the site's nav-collapse wrapper with either "authenticated" or
+// "not-authenticated" on it (see .navbar-collapse in Header.cshtml) - on every page, mobile and
+// desktop alike. Reuse that existing marker rather than adding a new one.
+function isNotAuthenticated() {
+    return $('.navbar-collapse').hasClass('not-authenticated');
 }
 
 // Mini-cart "Proceed to Checkout" click. Checks for eligible "You May Also Need" add-on
 // products first; if there are none (or the popup has already been shown/skipped this visit),
 // goes straight to /checkout/.
 function proceedToCheckout() {
+    if (isNotAuthenticated()) {
+        // Not signed in - skip the add-on popup entirely and go straight to checkout, the same
+        // way basket's own Checkout button behaves for a signed-out customer (that button never
+        // shows an add-on popup either - it's straight to "Secure Checkout" login or bust). The
+        // login popup itself (#ident-modal) only exists in the DOM on the checkout page, so it
+        // can't be shown from here - ?showlogin=1 tells ViewBasket.cshtml to run its own
+        // Checkout button action automatically on load, which is what actually shows it.
+        removeAddSellPopup();
+        window.location.href = '/checkout/?showlogin=1';
+        return;
+    }
+
     if ($('#you-may-also-need').length) {
         // Popup already open/shown - a second click on Proceed skips straight through.
         removeAddSellPopup();

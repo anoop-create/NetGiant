@@ -103,29 +103,29 @@
         Html.RenderPartial("~/Views/Checkout/Ident.cshtml", Model);
     }
 }
-
+ 
 @section scripts
 {
     <script type="text/javascript">
 
-        $(document).on('click',
-            '.checkout-button',
-            function () {
-                //if ($('.hdr-basket .basketTotal').html() == '0.00') {
-                //    return;
-                //}
-                if (checkSessionExists('C_IsInCheckout')) {
-                    launchPopup('IsInCheckout', 'popup', 'lg', '');
-                    return;
-                }
-                if ('@(Authentication.IsFullyAuthenticated())' == 'True') {
-                    // Authenticated
-                    $('#co-form').submit();
-                } else {
-                    // Not Authenticated - so ask to Login/Register
-                    $('#ident-modal').modal();
-                }
-            });
+        function runCheckoutButtonAction() {
+            //if ($('.hdr-basket .basketTotal').html() == '0.00') {
+            //    return;
+            //}
+            if (checkSessionExists('C_IsInCheckout')) {
+                launchPopup('IsInCheckout', 'popup', 'lg', '');
+                return;
+            }
+            if ('@(Authentication.IsFullyAuthenticated())' == 'True') {
+                // Authenticated
+                $('#co-form').submit();
+            } else {
+                // Not Authenticated - so ask to Login/Register
+                $('#ident-modal').modal();
+            }
+        }
+
+        $(document).on('click', '.checkout-button', runCheckoutButtonAction);
 
         $(function () {
             if (checkSessionExists('C_IsInCheckout')) {
@@ -133,6 +133,16 @@
                 $('#voucher-code, #apply-voucher').prop('disabled', true);
             } else {
                 $('#voucher-code, #apply-voucher').prop('disabled', false);
+            }
+
+            // The mini-cart's "Proceed to Checkout" (site.js, proceedToCheckout()) sends the
+            // customer here with ?showlogin=1 when it already knew, client-side, that they
+            // weren't signed in. Run this page's own Checkout button action once, automatically,
+            // so arriving here after that click behaves exactly like clicking Checkout on this
+            // page does (the "Secure Checkout" login popup) - instead of silently landing on the
+            // basket with no prompt until the customer clicks Checkout a second time.
+            if (window.location.search.indexOf('showlogin=1') !== -1) {
+                runCheckoutButtonAction();
             }
         });
 
