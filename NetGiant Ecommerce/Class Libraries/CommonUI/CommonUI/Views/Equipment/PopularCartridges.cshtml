@@ -21,6 +21,35 @@
             font-size: 12px;
             padding: 2px 8px;
         }
+
+        /* Site audit (May 2026) item 21: "no Quick View option for customers to see product
+           details without leaving the page". These tiles already have a fixed-height layout
+           (style="height:410px;" below) with an absolutely-positioned badge in the same corner
+           pattern (.pop-cart-badge above), so the button below follows that same convention -
+           shown only on hover, positioned over the image area. */
+        .quick-view-btn {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 95px;
+            transform: translateX(-50%);
+            z-index: 3;
+            background: rgba(255,255,255,0.95);
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 6px 14px;
+            font-size: 12px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .mini-product-entry:hover .quick-view-btn {
+            display: block;
+        }
+
+        .qv-content-tpl {
+            display: none;
+        }
     </style>
     <div class="row">
         <div class="col-md-12">
@@ -30,8 +59,15 @@
     <div class="row">
         <div class="col-md-12">
             <div class="mini-product-container single-column clearfix">
+                @{
+                    // Site audit item 21: unique per-tile id for the hidden Quick View content
+                    // template below - StockRef/PartNo can contain characters that aren't safe
+                    // in a raw HTML id, so a simple counter is used instead of the data itself.
+                    int qvIndex = 0;
+                }
                 @foreach (DataRow dr in Model.PopularCartridges.Rows)
                 {
+                    qvIndex++;
                     decimal mainPrice = 0;
                     decimal subPrice = 0;
                     string mainPriceVAT = "";
@@ -91,6 +127,7 @@
                                 </a>
                             </div>
                         </div>
+                        <button type="button" class="quick-view-btn" data-qv-target="qv-content-@qvIndex">Quick View</button>
                         <div class="g-m-t-10 g-h-40 g-of-h">
                             <a class="primary" href="@dr["ProductURL"].ToSafeString()">
                                 <strong>@dr["Description"].ToSafeString()</strong>
@@ -140,9 +177,88 @@
                                 Add to Basket
                             </button>
                         </div>
+
+                        @* Site audit item 21: hidden Quick View body for this exact tile - built
+                           from the same mainPrice/subPrice/feefoRating/availability variables
+                           already computed above for the visible tile, so there's no risk of the
+                           popup showing different data to what's on the card itself. Populated
+                           into the single shared #qv-modal (below the foreach) by the
+                           .quick-view-btn click handler - no new controller action/AJAX call. *@
+                        <div class="qv-content-tpl" id="qv-content-@qvIndex">
+                            <div class="text-center g-m-b-10">
+                                <img src="/Content/Images/1pxTrans.png" class="lazy img-responsive" data-original="@dr["ImageURL"].ToSafeString()" alt="@dr["Description"].ToSafeString()" style="max-height:220px;" onerror="this.src = '@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
+                            </div>
+                            <h4>@dr["Description"].ToSafeString()</h4>
+                            @if (hasBrandFlag)
+                            {
+                                <div class="g-m-b-10">
+                                    <span class="g-bc-secondary g-fc-w g-fs-sm" style="display:inline-block; padding:2px 8px;">@(isOriginal ? "Original" : "Compatible")</span>
+                                </div>
+                            }
+                            @if (hasRating)
+                            {
+                                <div class="g-m-b-10" title="@feefoCount reviews, average rating: @feefoRating.ToString("0.00")">
+                                    <div class="g-of-h" style="white-space: nowrap; width: @(feefowidth)px; display:inline-block;">
+                                        <i class="fa fa-star g-fc-ff"></i>
+                                        <i class="fa fa-star g-fc-ff"></i>
+                                        <i class="fa fa-star g-fc-ff"></i>
+                                        <i class="fa fa-star g-fc-ff"></i>
+                                        <i class="fa fa-star g-fc-ff"></i>
+                                    </div>
+                                    <span class="g-fs-sm">(@feefoCount Reviews)</span>
+                                </div>
+                            }
+                            <div class="g-fs-n">
+                                &pound;@mainPrice.ToString("#,###,##0.00") <span class="g-fc-tt g-fs-sm">@mainPriceVAT</span>
+                                &nbsp;&middot;&nbsp;
+                                &pound;@subPrice.ToString("#,###,##0.00") <span class="g-fc-tt g-fs-sm">@subPriceVAT</span>
+                            </div>
+                            <div class="g-fc-st g-fs-sm g-m-t-5 g-m-b-15">
+                                @Html.ProductAvailability(int.Parse(dr["Availability"].ToString()), Convert.ToBoolean(Model.CommonData["DeliveryDateIsOverridden"].ToString()), true)
+                            </div>
+                            <button class="atb-add g-butt-primary g-butt-100p"
+                                    data-price="@basketPrice.ToString("N2")"
+                                    data-productid="@dr["ProductReference"].ToSafeString()"
+                                    data-partno="@dr["PartNo"].ToSafeString()"
+                                    data-imageurl="@dr["ImageURL"].ToSafeString()"
+                                    data-desc="@dr["Description"].ToSafeString()">
+                                Add to Basket
+                            </button>
+                            <div class="text-center g-m-t-10">
+                                <a href="@dr["ProductURL"].ToSafeString()" class="g-fs-sm">View Full Details</a>
+                            </div>
+                        </div>
                     </div>
                 }
             </div>
         </div>
     </div>
+
+    @* Site audit item 21: one shared Quick View modal for every tile above, populated by
+       swapping in the clicked tile's own .qv-content-tpl markup - reuses the exact same modal
+       markup convention as Views/Product/ImageModal.cshtml (class="modal fade custom-popup
+       donotremove", the fa-times close icon with data-dismiss="modal") so it matches existing
+       styling with no new CSS needed. "donotremove" protects it from launchPopup()'s
+       "$('.modal, .modal-backdrop').not('.donotremove').remove();" call elsewhere on the site.
+       The modal-shown lazy-load trigger already wired sitewide
+       ($(document).on('shown.bs.modal', function(e){ $('.lazy', e.target).lazyload(); }); in
+       site.js) picks up this modal's image automatically - no extra JS needed for that part. *@
+    <div id="qv-modal" class="modal fade custom-popup donotremove" tabindex="-1" role="dialog" aria-labelledby="qvModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="g-ps-a g-top-0 g-rt-0 g-fc-st g-m-10 g-flex-allcenter">
+                    <i class="fa fa-times fa-lg g-cur-p g-fc-pt" data-dismiss="modal" aria-label="Close"></i>
+                </div>
+                <div class="modal-body g-p-20" id="qv-modal-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).on('click', '.quick-view-btn', function () {
+            var targetId = $(this).attr('data-qv-target');
+            $('#qv-modal-body').html($('#' + targetId).html());
+            $('#qv-modal').modal('show');
+        });
+    </script>
 }

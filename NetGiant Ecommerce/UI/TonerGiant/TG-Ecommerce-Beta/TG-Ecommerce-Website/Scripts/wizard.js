@@ -225,7 +225,21 @@ $(function () {
                         populatePrinterLinks(data);
                         populateManuText(data);
                         populateEquipLinks(data);
-                        $("img.lazy").lazyload();
+                        // Site audit (May 2026) item 21: "several product images are showing
+                        // the 1pxTrans.png placeholder (lazy load not triggering correctly in
+                        // some contexts)" - this call was passing no options, which defaults
+                        // jquery.lazyload's failure_limit to 0. That setting assumes images are
+                        // laid out in strict top-to-bottom page order and stops checking further
+                        // images the first time one isn't yet visible - fine for a normal page,
+                        // but populatePopularCartridges() above renders its tiles inside a
+                        // jScrollPane horizontal scroll strip (.mini-product-container), where
+                        // visibility isn't top-to-bottom at all. The very next tile past the
+                        // visible viewport edge would trip that check and every tile after it
+                        // would never get its real src swapped in. site.js's own document-ready
+                        // call (the one every other page relies on) already passes
+                        // {threshold:200, failure_limit:999} for exactly this reason - matching
+                        // it here so newly-injected wizard tiles behave the same way.
+                        $("img.lazy").lazyload({ threshold: 200, failure_limit: 999 });
                         $('.pw-manu-name').html(manuname);
                     },
                     error: function (xhr, textStatus, thrownError) {
