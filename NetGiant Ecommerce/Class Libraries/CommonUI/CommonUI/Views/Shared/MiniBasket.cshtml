@@ -779,6 +779,26 @@
                                                     </div>
                                                 }
                                             </div>
+                                            <!-- Buy More & Save for this product -->
+                                            @if (showQtyUpsell)
+                                            {
+                                                if (bc.Quantity <= bc.QtyStart)
+                                                {
+                                                    <button class="qty-upsell-pill"
+                                                            type="button"
+                                                            onclick="changeMiniBasketQty('@bc.StockRef', @(bc.QtyStart + 1))">
+                                                        Buy @(bc.QtyStart + 1 - bc.Quantity) More, Save @discountRate%
+                                                    </button>
+                                                }
+                                                else if (bc.Quantity > 1)
+                                                {
+                                                    <button class="qty-upsell-pill"
+                                                            type="button"
+                                                            onclick="changeMiniBasketQty('@bc.StockRef', @(bc.Quantity + 1))">
+                                                        Add Another, Save @discountRate%
+                                                    </button>
+                                                }
+                                            }
                                         </div>
                                         <!-- Actions -->
                                         <div class="cart-item__actions">
@@ -904,26 +924,7 @@
                                             }
                                         }
                                     }
-                                    <!-- Buy More & Save for this product -->
-                                    @if (showQtyUpsell)
-                                    {
-                                        if (bc.Quantity <= bc.QtyStart)
-                                        {
-                                            <button class="qty-upsell-pill"
-                                                    type="button"
-                                                    onclick="changeMiniBasketQty('@bc.StockRef', @(bc.QtyStart + 1))">
-                                                Buy @(bc.QtyStart + 1 - bc.Quantity) More, Save @discountRate%
-                                            </button>
-                                        }
-                                        else if (bc.Quantity > 1)
-                                        {
-                                            <button class="qty-upsell-pill"
-                                                    type="button"
-                                                    onclick="changeMiniBasketQty('@bc.StockRef', @(bc.Quantity + 1))">
-                                                Add Another, Save @discountRate%
-                                            </button>
-                                        }
-                                    }
+                                    
                                 </div>
                             }
                             /*

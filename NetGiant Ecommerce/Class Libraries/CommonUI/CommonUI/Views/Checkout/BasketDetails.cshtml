@@ -1445,7 +1445,27 @@ margin-top:0px !important;
                                                     }
 
                                                 </div>
-
+                                                @if (showUpsellLozenge)
+                                                {
+                                                    if (bc.Quantity <= bc.QtyStart)
+                                                    {
+                                                        <button class="qty-upsell-pill"
+                                                                type="button"
+                                                                title="Click to get this offer"
+                                                                onclick="changeBasketQty('@bc.StockRef', @(bc.QtyStart + 1))">
+                                                            Buy @(bc.QtyStart + 1 - bc.Quantity) More, Save @discountRate%
+                                                        </button>
+                                                    }
+                                                    else if (bc.Quantity > 1)
+                                                    {
+                                                        <button class="qty-upsell-pill"
+                                                                type="button"
+                                                                title="Click to add another and keep saving"
+                                                                onclick="changeBasketQty('@bc.StockRef', @(bc.Quantity + 1))">
+                                                            Add Another, Save @discountRate%
+                                                        </button>
+                                                    }
+                                                }
                                             </div>
 
                                         </div>
@@ -1534,27 +1554,7 @@ margin-top:0px !important;
                                                 </div>
                                             }
                                         }
-                                        @if (showUpsellLozenge)
-                                        {
-                                            if (bc.Quantity <= bc.QtyStart)
-                                            {
-                                                <button class="qty-upsell-pill"
-                                                        type="button"
-                                                        title="Click to get this offer"
-                                                        onclick="changeBasketQty('@bc.StockRef', @(bc.QtyStart + 1))">
-                                                    Buy @(bc.QtyStart + 1 - bc.Quantity) More, Save @discountRate%
-                                                </button>
-                                            }
-                                            else if (bc.Quantity > 1)
-                                            {
-                                                <button class="qty-upsell-pill"
-                                                        type="button"
-                                                        title="Click to add another and keep saving"
-                                                        onclick="changeBasketQty('@bc.StockRef', @(bc.Quantity + 1))">
-                                                    Add Another, Save @discountRate%
-                                                </button>
-                                            }
-                                        }
+                                        
                                     </div>
                                     @* ---------------- Switch & Save ----------------
                         Fully data-bound - every value below comes from bc / Model,
