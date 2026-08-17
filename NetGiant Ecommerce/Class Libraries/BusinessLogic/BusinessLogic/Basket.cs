@@ -235,6 +235,24 @@ namespace BusinessLogic
                             : " "
                         , bypassSql);
                 }
+
+                // Snapshot the qty-upsell starting quantity here, at the point an item is
+                // actually added/updated in the basket - not only when the full basket page
+                // is later viewed (CheckoutViewModel.SetBasketCounts() only runs for the
+                // ViewBasket/AmazonPaySummary actions). Without this, an item added and only
+                // ever seen via the mini-basket (never the basket page) keeps QtyStart at its
+                // default 0 forever, so the "Buy More & Save"/"Add Another" pill never renders
+                // at qty 1, and the MULTIBUY discount in ApplyCompatibleDiscount() (which also
+                // gates on QtyStart > 0) never applies either.
+                foreach (BasketContents item in lbc)
+                {
+                    if (item.QtyStart == 0 && item.IsCompatible)
+                    {
+                        item.QtyStart = item.Quantity;
+                        item.IsUpsellTriggered = true;
+                    }
+                }
+
                 HttpContext.Current.Session["B_BasketArray"] = lbc;
 
                 UpdateBasketSession(lbc);
@@ -288,6 +306,16 @@ namespace BusinessLogic
                     //    lbc[i].IsUpsellTriggered = true;
                     //}
                     lbc[i].Quantity = qty;
+
+                    // Same QtyStart snapshot as in Update() above - the qty stepper (mini-basket
+                    // or basket page) goes through this method, and without this guard an item
+                    // whose QtyStart was never initialised (added outside the basket page) would
+                    // never show/apply the upsell.
+                    if (lbc[i].QtyStart == 0 && lbc[i].IsCompatible)
+                    {
+                        lbc[i].QtyStart = lbc[i].Quantity;
+                        lbc[i].IsUpsellTriggered = true;
+                    }
                 }
                 else
                 {
