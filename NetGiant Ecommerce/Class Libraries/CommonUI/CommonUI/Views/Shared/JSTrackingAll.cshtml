@@ -165,11 +165,19 @@
     }
 
     <text>
-        (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
+        // Site audit (May 2026) item 2: "Legacy Google Analytics (ga.js): Remove and standardise
+        // on Google Tag Manager / GA4." ga.js was the deprecated Universal Analytics loader -
+        // Google retired UA processing entirely in July 2024, and GA4 (gtag.js, loaded further
+        // up this file) is the only analytics this site needs. Removing this IIFE only drops
+        // the dead ga.js script tag itself; _goog_id() below (reads the _ga cookie, used
+        // elsewhere on the site) still works fine without it, since gtag.js sets that same
+        // cookie on its own.
+        //
+        // This exact block was found back in the file on a later re-check after already being
+        // removed once - if it reappears again, something upstream (a git revert, a stale
+        // branch merge, or an editor auto-restoring an old version) is putting it back rather
+        // than this being a one-off. Worth checking `git log -p` on this file if it keeps
+        // resurfacing.
 
         function _goog_id() {
         var id, a, c = document.cookie.split('; ');

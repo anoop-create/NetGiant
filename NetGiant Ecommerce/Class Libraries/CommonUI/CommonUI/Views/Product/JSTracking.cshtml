@@ -65,7 +65,13 @@
         }
         }
     </script>
-    <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>
+    @* Site audit (May 2026) item 3: this legacy Google Ads remarketing tag had no async/defer,
+       making it a genuinely render-blocking third-party script on every product page (the
+       site's highest-traffic template type). google_conversion_id/google_custom_params/
+       google_remarketing_only are already assigned above, in the preceding <script> block,
+       so by the time the parser reaches this tag those globals are already set - safe to load
+       async without changing what values conversion.js reads. *@
+    <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js" async></script>
     <noscript>
         <div style="display:inline;">
             <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/@adwordsId2/?guid=ON&amp;script=0" inspectlet-src="/Content/Images/1pxTrans.png" />

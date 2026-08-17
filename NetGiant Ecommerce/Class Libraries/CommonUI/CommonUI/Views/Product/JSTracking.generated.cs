@@ -185,13 +185,26 @@ WriteLiteral("\r\n");
             #line hidden
 WriteLiteral("    </script>\r\n");
 
+            
+            #line 68 "..\..\Views\Product\JSTracking.cshtml"
+    
+            
+            #line default
+            #line hidden
+            
+            #line 73 "..\..\Views\Product\JSTracking.cshtml"
+                                                                 
+
+            
+            #line default
+            #line hidden
 WriteLiteral("    <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral(" src=\"//www.googleadservices.com/pagead/conversion.js\"");
 
-WriteLiteral("></script>\r\n");
+WriteLiteral(" async></script>\r\n");
 
 WriteLiteral("    <noscript>\r\n        <div");
 
@@ -207,16 +220,16 @@ WriteLiteral(" style=\"border-style:none;\"");
 
 WriteLiteral(" alt=\"\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 2129), Tuple.Create("\"", 2227)
-, Tuple.Create(Tuple.Create("", 2135), Tuple.Create("//googleads.g.doubleclick.net/pagead/viewthroughconversion/", 2135), true)
+WriteAttribute("src", Tuple.Create(" src=\"", 2670), Tuple.Create("\"", 2768)
+, Tuple.Create(Tuple.Create("", 2676), Tuple.Create("//googleads.g.doubleclick.net/pagead/viewthroughconversion/", 2676), true)
             
-            #line 71 "..\..\Views\Product\JSTracking.cshtml"
-                                                        , Tuple.Create(Tuple.Create("", 2194), Tuple.Create<System.Object, System.Int32>(adwordsId2
+            #line 77 "..\..\Views\Product\JSTracking.cshtml"
+                                                        , Tuple.Create(Tuple.Create("", 2735), Tuple.Create<System.Object, System.Int32>(adwordsId2
             
             #line default
             #line hidden
-, 2194), false)
-, Tuple.Create(Tuple.Create("", 2205), Tuple.Create("/?guid=ON&amp;script=0", 2205), true)
+, 2735), false)
+, Tuple.Create(Tuple.Create("", 2746), Tuple.Create("/?guid=ON&amp;script=0", 2746), true)
 );
 
 WriteLiteral(" inspectlet-src=\"/Content/Images/1pxTrans.png\"");
@@ -224,7 +237,7 @@ WriteLiteral(" inspectlet-src=\"/Content/Images/1pxTrans.png\"");
 WriteLiteral(" />\r\n        </div>\r\n    </noscript>\r\n");
 
             
-            #line 74 "..\..\Views\Product\JSTracking.cshtml"
+            #line 80 "..\..\Views\Product\JSTracking.cshtml"
 
             
             #line default

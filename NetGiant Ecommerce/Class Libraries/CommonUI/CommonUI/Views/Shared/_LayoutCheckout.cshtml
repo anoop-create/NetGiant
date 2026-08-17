@@ -64,10 +64,18 @@
 
     @Styles.Render("~/Content/cssBundle.css")
     @RenderSection("AddTags", required: false)
-    @Scripts.Render("~/bundles/jqueryBundle.js")
 </head>
 
 <body class="g-ps-r">
+    @* Site audit (May 2026) item 6: same fix as _Layout.cshtml - jqueryBundle.js used to render in
+       <head> with no async/defer (genuinely render-blocking). Nothing between its old position
+       and </head> touches $, so moving it here (first thing in <body>, before the mobile nav
+       markup) removes the render-blocking-resources flag without changing execution order -
+       jQuery still loads before RenderBody() and the $(document).on(...) handlers further down
+       this page. Not using `defer` for the same reason as _Layout.cshtml: non-deferred inline
+       scripts lower in <body> call $(...) immediately and would break if jQuery's execution were
+       pushed later than theirs. *@
+    @Scripts.Render("~/bundles/jqueryBundle.js")
 
     <section class="navbar navbar-inverse visible-xs visible-sm">
         <div class="container">

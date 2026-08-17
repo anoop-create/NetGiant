@@ -53,7 +53,6 @@
 
     @Styles.Render("~/Content/cssBundle.css")
     @RenderSection("AddTags", required: false)
-    @Scripts.Render("~/bundles/jqueryBundle.js")
     @if (ConfigurationManager.AppSettings["ChatIsOn"] == "True")
     {
         <script type="text/javascript" src="https://@(Html.RawFromDict(Model.CommonData, "DomainName"))data/static-files/cpy_sfliveagent.js" defer></script>
@@ -67,6 +66,19 @@
 </head>
 
 <body class="g-ps-r @(Model.IsStationerySaleActive || Model.IsOEMSaleActive || Model.IsCompatibleSaleActive ? "saleIsActive" : "")">
+    @* Site audit (May 2026) item 6: jqueryBundle.js used to render in <head>, with no async/defer -
+       a genuinely render-blocking script that delayed <head>'s own parsing (and so delayed
+       discovery of everything in <body>) until jQuery downloaded and executed. Nothing between
+       its old position and </head> touches $ (confirmed: the chat-widget script and
+       JSTrackingAllHdr.cshtml's Piwik/Clarity snippets are both vanilla JS), so moving the tag
+       here - first thing in <body>, before anything that does use $ - removes it from the
+       render-blocking-resources Lighthouse flag without changing execution order at all: jQuery
+       still loads and runs before Header.cshtml, RenderBody(), Footer.cshtml, and the
+       $(document).on(...) handlers further down this same page. Deliberately not using `defer`
+       instead - several inline <script> blocks lower in <body> call $(...) immediately at their
+       point in the document, and a deferred script only executes after the whole document has
+       parsed, so defer would make those throw "$ is not defined". *@
+    @Scripts.Render("~/bundles/jqueryBundle.js")
     @{
         Html.RenderPartial("~/Views/Shared/Header.cshtml");
     }
@@ -126,6 +138,16 @@
     <![endif]-->
 
     @{ string siteName = string.Join("-", Utilities.SplitCamelCase(Utilities.GetItemFromDict(Model.CommonData, "ShortSiteName"))).ToLower(); }
-    <script type="text/javascript" src="https://api.feefo.com/api/javascript/@siteName" async></script>
+    @* Site audit (May 2026) item 3: Feefo's bootstrap script was already async, but as soon as it
+       loads it immediately fires ~7 API calls (widget config, translations, reviews list/summary,
+       interaction tracking) plus 3 custom webfonts - on every page, regardless of whether the
+       review widget is anywhere near the viewport. deferScriptLoad() (defined in
+       JSTrackingAll.cshtml, rendered earlier in this same page) waits for the window "load" event
+       before injecting the script tag - the same already-proven pattern this codebase already
+       uses for the Affiliate Window script - so this pushes all of that off the critical
+       rendering path without changing what eventually loads or how the widget behaves once it's up. *@
+    <script type="text/javascript">
+        deferScriptLoad("script", "https://api.feefo.com/api/javascript/@siteName");
+    </script>
 </body>
 </html>

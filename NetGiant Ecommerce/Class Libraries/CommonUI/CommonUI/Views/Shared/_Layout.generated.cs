@@ -866,22 +866,22 @@ WriteLiteral("\');\r\n        </script>\r\n    <![endif]-->\r\n\r\n");
             
             #line default
             #line hidden
+WriteLiteral("\r\n    ");
+
 WriteLiteral("\r\n    <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 5630), Tuple.Create("\"", 5682)
-, Tuple.Create(Tuple.Create("", 5636), Tuple.Create("https://api.feefo.com/api/javascript/", 5636), true)
+WriteLiteral(">\r\n        deferScriptLoad(\"script\", \"https://api.feefo.com/api/javascript/");
+
             
-            #line 129 "..\..\Views\Shared\_Layout.cshtml"
-, Tuple.Create(Tuple.Create("", 5673), Tuple.Create<System.Object, System.Int32>(siteName
+            #line 138 "..\..\Views\Shared\_Layout.cshtml"
+                                                                   Write(siteName);
+
             
             #line default
             #line hidden
-, 5673), false)
-);
-
-WriteLiteral(" async></script>\r\n</body>\r\n</html>\r\n");
+WriteLiteral("\");\r\n    </script>\r\n</body>\r\n</html>\r\n");
 
         }
     }

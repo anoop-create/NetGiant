@@ -362,43 +362,51 @@ WriteLiteral("\r\n");
             #line hidden
 WriteLiteral("    ");
 
-WriteLiteral("\r\n        (function() {\r\n        var ga = document.createElement(\'script\'); ga.ty" +
-"pe = \'text/javascript\'; ga.async = true;\r\n        ga.src = (\'https:\' == document" +
-".location.protocol ? \'https://ssl\' : \'http://www\') + \'.google-analytics.com/ga.j" +
-"s\';\r\n        var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.in" +
-"sertBefore(ga, s);\r\n        })();\r\n\r\n        function _goog_id() {\r\n        var " +
-"id, a, c = document.cookie.split(\'; \');\r\n        for(i in c){a = c[i].split(\'=\')" +
-";if(a[0]==\'_ga\'){id = a[1].split(\'.\')[2];}}\r\n        return id || \'unknown\';\r\n  " +
-"      }\r\n\r\n        function deferScriptLoad(fileType, fileAddress, fileOptions, " +
-"fileInsert) {\r\n        if (window.attachEvent) {\r\n        // If the browser supp" +
-"orts attachEvent (e.g. IE)\r\n        window.attachEvent(\"onload\",\r\n        functi" +
-"on () { async_load(fileType, fileAddress, fileOptions, fileInsert); });\r\n       " +
-" } else {\r\n        // If the browser does not support attachEvent (e.g. FireFox)" +
-"\r\n        window.addEventListener(\"load\",\r\n        function () { async_load(file" +
-"Type, fileAddress, fileOptions, fileInsert); },\r\n        false);\r\n        }\r\n   " +
-"     }\r\n\r\n        function async_load(fileType, fileAddress, fileOptions, fileIn" +
-"sert) {\r\n        //The code block being created (e.g. script or link)\r\n        v" +
-"ar s = document.createElement(fileType);\r\n        //Finds the tag in the page an" +
-"d places the new code block before it\r\n        var x = document.getElementsByTag" +
-"Name(fileType)[0];\r\n        if (fileType == \"link\") {\r\n        //If the file typ" +
-"e is link (stylesheet)\r\n        //Set the type, rel, href and media attributes o" +
-"f the code block\r\n        s.type = \"text/css\";\r\n        s.rel = \"stylesheet\";\r\n " +
-"       s.href = fileAddress;\r\n        s.media = \"print\";\r\n        x.parentNode.i" +
-"nsertBefore(s, x);\r\n        } else if (fileType == \"script\") {\r\n        //If the" +
-" file type is script\r\n        //Set the type, async (only supported by HTML5) an" +
-"d src attributes of the code block\r\n        s.type = \"text/javascript\";\r\n       " +
-" s.async = true;\r\n        s.src = fileAddress;\r\n        x.parentNode.insertBefor" +
-"e(s, x);\r\n        } else if (fileType == \"img\") {\r\n        //If the file type is" +
-" img\r\n        //Set the type, async (only supported by HTML5) and src attributes" +
-" of the code block\r\n        s.src = fileAddress;\r\n        for (var prop in fileO" +
-"ptions) {\r\n        s[prop] = fileOptions[prop];\r\n        }\r\n        x = document" +
-".getElementById(fileInsert);\r\n        x.appendChild(s);\r\n        }\r\n        }\r\n " +
-"   ");
+WriteLiteral("\r\n        // Site audit (May 2026) item 2: \"Legacy Google Analytics (ga.js): Remo" +
+"ve and standardise\r\n        // on Google Tag Manager / GA4.\" ga.js was the depre" +
+"cated Universal Analytics loader -\r\n        // Google retired UA processing enti" +
+"rely in July 2024, and GA4 (gtag.js, loaded further\r\n        // up this file) is" +
+" the only analytics this site needs. Removing this IIFE only drops\r\n        // t" +
+"he dead ga.js script tag itself; _goog_id() below (reads the _ga cookie, used\r\n " +
+"       // elsewhere on the site) still works fine without it, since gtag.js sets" +
+" that same\r\n        // cookie on its own.\r\n        //\r\n        // This exact blo" +
+"ck was found back in the file on a later re-check after already being\r\n        /" +
+"/ removed once - if it reappears again, something upstream (a git revert, a stal" +
+"e\r\n        // branch merge, or an editor auto-restoring an old version) is putti" +
+"ng it back rather\r\n        // than this being a one-off. Worth checking `git log" +
+" -p` on this file if it keeps\r\n        // resurfacing.\r\n\r\n        function _goog" +
+"_id() {\r\n        var id, a, c = document.cookie.split(\'; \');\r\n        for(i in c" +
+"){a = c[i].split(\'=\');if(a[0]==\'_ga\'){id = a[1].split(\'.\')[2];}}\r\n        return" +
+" id || \'unknown\';\r\n        }\r\n\r\n        function deferScriptLoad(fileType, fileA" +
+"ddress, fileOptions, fileInsert) {\r\n        if (window.attachEvent) {\r\n        /" +
+"/ If the browser supports attachEvent (e.g. IE)\r\n        window.attachEvent(\"onl" +
+"oad\",\r\n        function () { async_load(fileType, fileAddress, fileOptions, file" +
+"Insert); });\r\n        } else {\r\n        // If the browser does not support attac" +
+"hEvent (e.g. FireFox)\r\n        window.addEventListener(\"load\",\r\n        function" +
+" () { async_load(fileType, fileAddress, fileOptions, fileInsert); },\r\n        fa" +
+"lse);\r\n        }\r\n        }\r\n\r\n        function async_load(fileType, fileAddress" +
+", fileOptions, fileInsert) {\r\n        //The code block being created (e.g. scrip" +
+"t or link)\r\n        var s = document.createElement(fileType);\r\n        //Finds t" +
+"he tag in the page and places the new code block before it\r\n        var x = docu" +
+"ment.getElementsByTagName(fileType)[0];\r\n        if (fileType == \"link\") {\r\n    " +
+"    //If the file type is link (stylesheet)\r\n        //Set the type, rel, href a" +
+"nd media attributes of the code block\r\n        s.type = \"text/css\";\r\n        s.r" +
+"el = \"stylesheet\";\r\n        s.href = fileAddress;\r\n        s.media = \"print\";\r\n " +
+"       x.parentNode.insertBefore(s, x);\r\n        } else if (fileType == \"script\"" +
+") {\r\n        //If the file type is script\r\n        //Set the type, async (only s" +
+"upported by HTML5) and src attributes of the code block\r\n        s.type = \"text/" +
+"javascript\";\r\n        s.async = true;\r\n        s.src = fileAddress;\r\n        x.p" +
+"arentNode.insertBefore(s, x);\r\n        } else if (fileType == \"img\") {\r\n        " +
+"//If the file type is img\r\n        //Set the type, async (only supported by HTML" +
+"5) and src attributes of the code block\r\n        s.src = fileAddress;\r\n        f" +
+"or (var prop in fileOptions) {\r\n        s[prop] = fileOptions[prop];\r\n        }\r" +
+"\n        x = document.getElementById(fileInsert);\r\n        x.appendChild(s);\r\n  " +
+"      }\r\n        }\r\n    ");
 
 WriteLiteral("\r\n");
 
             
-            #line 225 "..\..\Views\Shared\JSTrackingAll.cshtml"
+            #line 233 "..\..\Views\Shared\JSTrackingAll.cshtml"
 
             
             #line default
