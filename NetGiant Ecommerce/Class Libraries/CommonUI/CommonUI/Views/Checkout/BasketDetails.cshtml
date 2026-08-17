@@ -1150,6 +1150,17 @@ margin-top:0px !important;
 	flex-wrap: wrap;
 	align-items: center;
 }
+    #basketSummary .row.dv-basket-card > div {
+        text-align: left
+    }
+
+    #basketSummary .row.dv-basket-card {
+        text-align: center
+    }
+
+        #basketSummary .row.dv-basket-card > button.qty-upsell-pill {
+            margin-top: 15px
+        }
 </style>
 
 @if (Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery > 0)
