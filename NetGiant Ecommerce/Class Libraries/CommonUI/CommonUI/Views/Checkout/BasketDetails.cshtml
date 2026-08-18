@@ -422,23 +422,6 @@
             line-height: 18px
         }
 
-        .bkt-voucher {
-            display: flex;
-            gap: 6px;
-            border: none
-        }
-
-            .bkt-voucher input#voucher-code {
-                width: calc(100% - 115px);
-                border-radius: 5px !important;
-                border: 1px solid #cbcbcb
-            }
-
-        button#apply-voucher {
-            width: 115px;
-            border-radius: 5px;
-            background: #5cb85c;
-        }
     .basket-switch-left {
         display: flex;
         flex-direction: column;
@@ -626,8 +609,8 @@
     }
 
         .need-product img {
-            width: 120px;
-            height: 90px;
+            width: 250px;
+            height: 100px;
             object-fit: contain;
             margin-bottom: 12px;
         }
@@ -667,10 +650,11 @@
         }
 
     .need-product .btn {
-        width: 100%;
+        width: 80%;
         border-radius: 4px;
         font-size: 14px;
         font-weight: 600;
+        padding: 10px 10px;
     }
     .basket-sidebar-info {
         margin-top: 20px;
@@ -782,21 +766,6 @@
     .sidebar-card.active .card-toggle i {
         transform: rotate(180deg);
     }
-    .voucher-success {
-        background: #e8f8ea;
-        border: 1px solid #5cb85c;
-        color: #2e7d32;
-        padding: 10px;
-        border-radius: 4px;
-    }
-
-    .voucher-error {
-        background: #fdeaea;
-        border: 1px solid #dc3545;
-        color: #b00020;
-        padding: 10px;
-        border-radius: 4px;
-    }
     .atb-add:hover {
         color: #fff !important;
         background-color: #5cb85c !important;
@@ -877,6 +846,321 @@
     .checkout1 {
         background: var(--green)!important;
     }
+    .price-row.ex-vat1 > strong {
+        color: #0099cc;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    @@media (max-width:991px) {
+        body:has(#vbBasketDetails), html:has(#vbBasketDetails) {
+            overflow-x: hidden;
+        }
+
+        .switch-save-card {
+            margin-bottom: 15px;
+        }
+
+        .basket-switch-save {
+            flex-wrap: wrap
+        }
+
+        div:has( > div#vbBasketDetails) {
+            margin: 0 !important;
+            padding: 8px !important;
+        }
+
+            div:has( > div#vbBasketDetails) > div > div {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+        div#basketSummary > div {
+            margin-right: 0 !important;
+            padding: 15px !important;
+        }
+
+        .replaceall {
+            min-width: 100%;
+        }
+
+        .basket-switch-save > img {
+            margin-right: 12px;
+        }
+
+        .basket-switch-save > div[style="font-weight: bold;"] {
+            width: calc(100% - 110px)
+        }
+
+
+
+        #basketSummary .basket-card {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        #basketSummary .basket-card  .dv-basket-card   {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        #basketSummary .basket-card .dv-basket-card {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+            #basketSummary .basket-card .dv-basket-card > div:first-child {
+                margin: 0px 0px 0px 0px !important;
+                padding: 0px !important;
+                max-width: 70px;
+            }
+
+            #basketSummary .basket-card .dv-basket-card > div:nth-child(2) {
+                margin: 0px 10px 0px 0px !important;
+                padding: 0px !important;
+                width: calc(100% - 110px)
+            }
+
+            #basketSummary .basket-card .dv-basket-card > div:nth-child(3) {
+                width: 100%;
+            }
+
+                #basketSummary .basket-card .dv-basket-card > div:nth-child(3) .basket-card-actions {
+                    display: flex
+                }
+
+
+
+            #basketSummary .basket-card .dv-basket-card > div:nth-child(3) {
+                position: initial;
+            }
+
+        #basketSummary .basket-card .dv-basket-card {
+            position: relative;
+        }
+
+        #basketSummary .basket-card .dv-basket-card {
+            padding-top: 5px !important;
+            padding-bottom: 15px !important;
+        }
+
+            #basketSummary .basket-card .dv-basket-card .basket-remove-container {
+                position: absolute;
+                bottom: 4px;
+                right: 8px;
+                margin: 0px;
+                padding: 0px;
+            }
+
+        #basketSummary .qty-label {
+            display: none;
+        }
+
+        #basketSummary .basket-card-actions {
+            justify-content: center;
+            align-items: center;
+            gap: 15px
+        }
+
+            #basketSummary .basket-card-actions .basket-price-box {
+                order: 2;
+            }
+
+        #basketSummary .basket-qty-wrapper {
+            margin-top: 0px;
+        }
+
+        .switch-save-card {
+            display: flex;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+            .switch-save-card > div:nth-child(1) {
+                margin: 0 10px 0 0 !important;
+                padding: 0px !important;
+                max-width: 70px
+            }
+
+            .switch-save-card > div:nth-child(2) {
+                width: calc(100% - 80px);
+                flex-wrap: wrap;
+            }
+
+                .switch-save-card > div:nth-child(2) > div:last-child {
+                    margin-left: initial;
+                    text-align: left
+                }
+
+        .switch-heading {
+            left: -87px;
+        }
+
+        .switch-save-card > div:nth-child(2) > div {
+            margin: 0px 0px 0px 0px;
+            padding: 0 0 0 15px;
+        }
+
+        #vbBasketDetails > div.dv-basket-card {
+            padding: 12px !important
+        }
+
+        .dv-basket-card {
+            border: none;
+        }
+        #basketSummary .basket-card {
+            padding: 12px 12px 2px 12px !important;
+        }
+    }
+    .dv-basket-card { border:none;}
+    #basketSummary .basket-card {
+    border: 1px solid #DCDCDC;
+    margin-bottom: 20px !important;
+    padding: 12px 12px 12px 12px !important;
+    border-radius: 8px;
+    background: #fff;
+    }
+    @@media (max-width:1199px){
+    body, html {overflow-x:hidden}
+    section#utility-bar {display:block!important;}
+    .mobileBasketMessage, .mobileBasketBackdrop, .g-bc-secondary, .basketMessage, .printerMessage, .tab-open.g-flex-allcenter[data-toggle="offcanvas-close"] { display:none !important}
+    .navbar-inverse .small-screen-links a {outline: none;}
+    }
+    /* =========================================
+   PROMO CODE - byte-for-byte copy of Views/Shared/MiniBasket.cshtml's
+   collapsible "Promotion Code" widget rules (that file has no CSS vars
+   defined at these exact property names, so this reproduces its
+   var(--green)/var(--border) as the same #00a651/#e5e5e5 hex values).
+   Do not "improve" these values without also updating MiniBasket.cshtml -
+   the whole point is the two stay pixel-identical.
+   ========================================= */
+
+        .promo {
+            margin-bottom: 12px;
+        }
+
+            .promo summary {
+                font-size: 13px;
+                color: #000;
+                cursor: pointer;
+                list-style: none;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 4px 0;
+            }
+
+                .promo summary::-webkit-details-marker {
+                    display: none;
+                }
+
+                .promo summary::after {
+                    content: "▾";
+                    transition: transform .2s;
+                    font-size: 20px;
+                }
+
+            .promo[open] summary::after {
+                transform: rotate(180deg);
+            }
+
+        .promo-form {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+            .promo-form input {
+                flex: 1;
+                border: 1px solid #e5e5e5;
+                border-radius: 4px;
+                padding: 8px 10px;
+                font-size: 13px;
+            }
+
+            .promo-form button {
+                background: #00a651;
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                padding: 8px 16px;
+                font-size: 13px;
+                font-weight: 600;
+                cursor: pointer;
+            }
+
+        .promo-applied {
+            color: black;
+        }
+
+        /* Apply/remove feedback - scoped to the promo widget only, since
+           .error-message/#error-message is a sitewide shared convention
+           (see Scripts/site.js) reused elsewhere for unrelated messages.
+           Same margin-top/color as mini-basket's #minibasket-voucher-code-error. */
+        .promo .error-message {
+            margin-top: 10px !important;
+            color: red !important;
+        }
+
+        /* =========================================
+   QTY UPSELL - "increase qty in your basket, save an extra X%" offer for
+   compatible/own-brand cartridges (CompatibleUpsellRates config). Per the
+   "Basket Switch & Save / Add Ons" design spec (Promotional Lozenge), this
+   is a small pill/badge sitting directly under the qty stepper on the
+   product's own card - NOT a separate promo card like Switch & Save.
+   Same brand pink used throughout the basket, no green. */
+
+        .qty-upsell-pill {
+            display: inline-block;
+            margin-top: 10px;
+            background: #fff;
+            border: 1px solid #d5007f;
+            color: #d5007f;
+            font-weight: 700;
+            font-size: 12px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+            .qty-upsell-pill:hover {
+                background: #fdeaf3;
+            }
+        .mobile-checkout-btn {
+            display: none !important;
+        }
+
+        /* Visible on mobile */
+        @@media (max-width: 767px) {
+            .mobile-checkout-btn {
+                display: block !important;
+                width: 100%;
+                float: none !important;
+            }
+}
+        body:has(#vbBasketDetails) .container.body-content > .row.g-m-t-20 { margin-top:0px !important}
+@@media (max-width: 767px) {
+.mobile-checkout-btn {
+margin-top:0px !important;
+}
+}
+.basket-switch-save {
+	border: none;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+    #basketSummary .row.dv-basket-card > div {
+        text-align: left
+    }
+
+    #basketSummary .row.dv-basket-card {
+        text-align: center
+    }
+
+        #basketSummary .row.dv-basket-card > button.qty-upsell-pill {
+            margin-top: 15px
+        }
 </style>
 
 @if (Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery > 0)
@@ -886,7 +1170,11 @@
     <div class="col-md-9">
         <div class="row">
             <div class="col-md-12">
-
+                <button type="button"
+                    class="checkout-button checkout1 btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-right mobile-checkout-btn"
+                    title="Checkout">
+                Proceed to Checkout
+            </button>
                 <div id="basketSummary" class="basketSummaryContainer">
                     @{
                         bool isMultiBuy = false;
@@ -970,6 +1258,20 @@
                             decimal discUnitPrice = decimal.Zero;
                             decimal subt = bc.PriceEx * bc.Quantity;
                             decimal discountRate = Utilities.GetUpsellRate();
+                            // "Increase qty in your basket, save an extra X%" lozenge - the same
+                            // qty-upsell offer/rate (CompatibleUpsellRates) as the discount logic
+                            // below, but evaluated without the "already past threshold" gate so
+                            // it can also show the "not yet unlocked" prompt state. This mechanic
+                            // used to be a clickable button on the old Views/Checkout/BasketDetailsv2.cshtml
+                            // page (now unreachable - no controller action renders it) and was lost
+                            // when the basket page was redesigned; restored here re-skinned to match
+                            // this page's current look.
+                            decimal upsellPerItemSaving = Math.Round(bc.PriceEx * discountRate / 100, 2);
+                            bool showUpsellLozenge = bc.IsCompatible && Session["V_Voucher"] == null &&
+                                Convert.ToBoolean(ConfigurationManager.AppSettings["IsCompatibleUpsellActive"]) &&
+                                !Convert.ToBoolean(Session["U_IsTradeCustomer"]) &&
+                                !isAdminDiscount &&
+                                upsellPerItemSaving > 0;
                                 if (!bc.IsCompatible &&
                                 !String.IsNullOrEmpty(bc.CrossSellingStockRef) &&
                                 !bc.ExcludeFromUpSell &&
@@ -1074,7 +1376,7 @@
                                                         </div>
                                                     }
                                                     else if (bc.Availability == 10)
-                        {
+                                                    {
                                                         <div class="stock-status special-order">
 
                                                             <i class="fa fa-info-circle"></i>
@@ -1094,7 +1396,7 @@
                                                         </div>
                                                     }
                                                     else if (bc.Availability == 11 || bc.Availability == 13)
-                        {
+                                                    {
                                                         <div class="stock-status out-of-stock">
 
                                                             <i class="fa fa-times-circle"></i>
@@ -1110,7 +1412,7 @@
                                                         </div>
                                                     }
                                                     else if (bc.Availability == 2 || bc.Availability == 4)
-                        {
+                                                    {
                                                         <div class="stock-status availability">
 
                                                             <i class="fa fa-clock-o"></i>
@@ -1126,7 +1428,7 @@
                                                         </div>
                                                     }
                                                     else
-                        {
+                                                    {
                                                         <div class="stock-status back-order">
 
                                                             <i class="fa fa-history"></i>
@@ -1143,7 +1445,27 @@
                                                     }
 
                                                 </div>
-
+                                                @if (showUpsellLozenge)
+                                                {
+                                                    if (bc.Quantity <= bc.QtyStart)
+                                                    {
+                                                        <button class="qty-upsell-pill"
+                                                                type="button"
+                                                                title="Click to get this offer"
+                                                                onclick="changeBasketQty('@bc.StockRef', @(bc.QtyStart + 1))">
+                                                            Buy @(bc.QtyStart + 1 - bc.Quantity) More, Save @discountRate%
+                                                        </button>
+                                                    }
+                                                    else if (bc.Quantity > 1)
+                                                    {
+                                                        <button class="qty-upsell-pill"
+                                                                type="button"
+                                                                title="Click to add another and keep saving"
+                                                                onclick="changeBasketQty('@bc.StockRef', @(bc.Quantity + 1))">
+                                                            Add Another, Save @discountRate%
+                                                        </button>
+                                                    }
+                                                }
                                             </div>
 
                                         </div>
@@ -1153,28 +1475,14 @@
 
                                             <div class="basket-card-actions">
                                                 <div class="basket-price-box">
-
-                                                    <div class="price-row">
+                                                    <div class="price-row ex-vat1">
                                                         <strong>£@neg@string.Format("{0:N2}", bc.PriceEx)</strong>
-                                                        <span>Ex VAT</span>
+                                                        <strong>Ex VAT</strong>
                                                     </div>
-
                                                     <div class="price-row">
-                                                        <strong>£@string.Format("{0:N2}", bc.PriceInc)</strong>
+                                                        <span>£@string.Format("{0:N2}", bc.PriceInc)</span>
                                                         <span>Inc VAT</span>
                                                     </div>
-
-                                                    @if (discUnitPrice > 0)
-                                                    {
-                                                        <div class="price-saving">
-
-                                                            Save
-                                                            <strong>
-                                                                £@string.Format("{0:N2}", bc.PriceEx - discUnitPrice)
-                                                            </strong>
-
-                                                        </div>
-                                                    }
 
                                                 </div>
                                                 @if (!bc.IsFreeGift)
@@ -1216,30 +1524,37 @@
                                                             <i class="fa fa-trash"></i>
                                                         </button>
                                                     </div>
+
+                                                    @* ---------------- Buy More & Save (Promotional Lozenge) ----------------
+                    Per the "Basket Switch & Save / Add Ons" design spec: a small pill
+                    sitting directly under the qty stepper on this same product card,
+                    not a separate promo card. *@
+
                                                 }
 
 
-                                                @if (Session["V_Voucher"] != null)
-                                                    {
-                            VoucherPromo vp = (VoucherPromo)Session["V_Voucher"];
 
-                            if (bc.IsVoucherQualifyingItem &&
-                                vp.VoucherTypeFk == (int)VmVoucherType.Percentage)
-                            {
-                                                        <div class="voucher-applied g-m-t-10">
-
-                                                            <i class="fa fa-check-circle"></i>
-
-                                                            Voucher Applied
-
-                                                        </div>
-                                                    }
-                                                }
 
                                             </div>
 
                                         </div>
+                                        @if (Session["V_Voucher"] != null)
+                                        {
+                                            VoucherPromo vp = (VoucherPromo)Session["V_Voucher"];
 
+                                            if (bc.IsVoucherQualifyingItem &&
+                                                vp.VoucherTypeFk == (int)VmVoucherType.Percentage)
+                                            {
+                                                <div class="voucher-applied g-m-t-10">
+
+                                                    <i class="fa fa-check-circle"></i>
+
+                                                    Voucher Applied
+
+                                                </div>
+                                            }
+                                        }
+                                        
                                     </div>
                                     @* ---------------- Switch & Save ----------------
                         Fully data-bound - every value below comes from bc / Model,
@@ -1263,36 +1578,30 @@
                                                     <div class="col-lg-2 col-md-3 col-sm-3 col-4">
                                                         @{
                                                             var CrossSellingProductUrl = bc.CrossSellingProductUrl.StartsWith("/")
-                                                                ? bc.CrossSellingProductUrl
-                                                                : "/" + bc.CrossSellingProductUrl;
+                                                            ? bc.CrossSellingProductUrl
+                                                            : "/" + bc.CrossSellingProductUrl;
                                                         }
                                                         <a href="@CrossSellingProductUrl" class="basket-card-image">
 
                                                             <img src="@bc.CrossSellingImageURL"
                                                                  alt="@bc.CrossSellingDescription"
                                                                  class="img-responsive"
-                                                                 onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
+                                                                 onerror="this.src='@ConfigurationManager.AppSettings[" CDN"] /Images/noImage.jpg';" />
 
                                                         </a>
-
                                                     </div>
-                                                    <div class="row">
+                                                    <div class="row"> 
                                                         <div class="col-md-5 col-sm-12">
 
                                                             <div class="switch-heading"> Switch &amp; Save </div>
 
                                                             <div class="switch-product-name"> @bc.CrossSellingDescription </div>
-
-                                                            @*<div class="switch-price">
-                                                    <span>@string.Format("{0:C}", switchLinePriceEx)</span>
-                                                    <small>
-                                                        Ex VAT (@bc.Quantity &times; @string.Format("{0:C}", switchUnitPriceEx))
-                                                    </small>
-                                                </div>*@
-
+                                                            <div class="basket-product-code">
+                                                                <strong>@bc.PartNo</strong>
+                                                            </div>
                                                             <div class="stock-status in-stock">
                                                                 <i class="fa fa-check-circle"></i>
-                                                                <span>In Stock</span>
+                                                                <span>In Stock</span> 
                                                             </div>
 
                                                         </div>
@@ -1647,39 +1956,65 @@
         {
             if (Session["B_VoucherCode"].ToSafeString() != "")
             {
-                <div class="g-fc-secondary g-m-t-10">
-                    <strong>Voucher code</strong>
-                </div>
-                <div id="voucher-msg" class="g-m-t-10">
-                    <span>Voucher<strong> @Session["B_VoucherCode"].ToSafeString()</strong> has been recognised. Please note that only one offer can be applied to an order.</span>
-                    <span>
-                        <a class="remove-voucher">[Remove]</a>
-                    </span>
-                </div>
-                if (!string.IsNullOrEmpty(ViewBag.VoucherMessage))
-                {
-                    <div class="g-d-ib">
-                        <div class="error-message g-m-t-10">
+                <details class="promo" open="open">
+                    <summary>
+                        Promotion Code
+                    </summary>
+
+                    <div class="promo-applied">
+
+                        <span class="promo-applied__code">
+                            @Session["B_VoucherCode"].ToSafeString()
+                        </span>
+
+                        <button type="button"
+                                class="remove-voucher"
+                                title="Remove voucher code">
+                            <i class="fa fa-trash"></i>
+                        </button>
+
+                        <span class="promo-applied__saving">
+                            -&pound;@Math.Abs(Model.BasketTotals.Voucher + Model.BasketTotals.VoucherVat).ToString("0.00")
+                        </span>
+
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(ViewBag.VoucherMessage))
+                    {
+                        <div class="error-message">
                             @Html.Raw(ViewBag.VoucherMessage)
                         </div>
-                    </div>
-                }
+                    }
+
+                </details>
             }
             else
             {
-                <div class="g-fc-secondary g-m-t-10">
-                    <strong>Add a voucher code</strong>
-                </div>
-                <div class="bkt-voucher input-group g-m-t-10">
-                    <input id="voucher-code" class="form-control g-h-40 pull-left" placeholder="Enter Voucher Code ..." type="text">
-                    <span class="input-group-btn">
-                        <button id="apply-voucher" class="g-butt-secondary g-butt-lg g-fs-n" type="button">Apply Voucher</button>
-                    </span>
-                </div>
-                <div id="error-message" class="error-message" style="display:none;">
-                    <p></p>
-                </div>
-                <div id="voucherResult" class="g-m-t-10"></div>
+                <details class="promo">
+                    <summary>
+                        Promotion Code
+                    </summary>
+
+                    <div class="promo-form">
+
+                        <input id="voucher-code"
+                               type="text"
+                               placeholder="Enter voucher code">
+
+                        <button id="apply-voucher"
+                                type="button">
+                            Apply
+                        </button>
+
+                    </div>
+
+                    <div id="error-message"
+                         class="error-message"
+                         style="display:none;">
+                        <p></p>
+                    </div>
+
+                </details>
             }
         }
         <button type="button" class="checkout-button checkout1 btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-right" title="Checkout">Proceed to Checkout</button>

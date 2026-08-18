@@ -630,7 +630,7 @@ function changeBasketComplete(data, thisbutton) {
                 function () {
                     $(this).css('right', 105);
                 });
-        $('body').append('<div class="mobileBasketBackdrop hidden-lg hidden-md g-cur-p"/>');
+        //$('body').append('<div class="mobileBasketBackdrop hidden-lg hidden-md g-cur-p"/>');
         $('.mobileBasketMessage').slideDown(500, function () {
             $('.mobileBasketClose').show();
         });
@@ -785,7 +785,17 @@ function requestAddSellPopup(onEligible, onNotEligible) {
         dataType: 'json',
         type: 'POST',
         cache: false,
-        async: false,
+        // Was async: false (synchronous XHR). This call sits directly in the "tap Add to
+        // Basket -> mini-cart/You May Also Need popup opens" chain on mobile (it's fired from
+        // maybeShowAddSellPopupAfterAdd(), itself called from the .atb-add success handler,
+        // right after that handler's own BasketAdd call - which had the same problem and was
+        // already fixed). Two back-to-back main-thread-blocking synchronous XHRs in the same
+        // click handler is exactly the kind of pattern iOS/WebKit's synchronous-XHR
+        // restrictions can silently break: the backdrop/overlay markup gets appended to the
+        // DOM, but the browser doesn't get a chance to reliably paint the popup panel that's
+        // supposed to sit on top of it - matching the "black screen, nothing else visible"
+        // report. onEligible/onNotEligible are already invoked from inside success/error below,
+        // so removing async:false needs no caller changes.
         success: function (data) {
             if (data && data.hasAddSell) {
                 if (onEligible) { onEligible(data.html); }
@@ -818,19 +828,54 @@ function showAddSellPopup(html, context) {
 
     if (context === 'addtocart') {
         // The popup is offering add-ons for what was just added - show the mini-cart open
-        // behind it (even if it wasn't already open) so the customer can see what's actually
-        // in their basket right now, instead of just a flying "added" toast with no popup-open
-        // mini-cart behind it. The 'checkout' context (proceedToCheckout) doesn't need this -
-        // that popup is only ever shown from inside an already-open mini-cart.
+        // behind/underneath it (even if it wasn't already open), on every device, so that:
+        // add-on popup along with mini-cart should open together (the explicit requirement
+        // this whole mini-cart/add-to-basket flow was built against from the start) is actually
+        // true, and so that dismissing the popup lands the customer on an already-open mini-cart
+        // instead of the bare page. The 'checkout' context (proceedToCheckout) doesn't need this
+        // - that popup is only ever shown from inside an already-open mini-cart.
+        //
+        // This used to explicitly REMOVE is-open below 768px instead (mini-cart and popup were
+        // mutually exclusive on mobile), on the theory that stacking the mini-cart's own dim
+        // backdrop (.mini-cart-overlay, ~40% black) with this popup's own near-opaque backdrop
+        // (#you-may-also-need-backdrop, #00000091, much higher z-index) was the cause of an
+        // earlier "add to basket shows a black screen" report. That turned out to be wrong: the
+        // actual cause was a completely different, unconditional legacy element
+        // (.mobileBasketBackdrop in global.less, since disabled) that fired on every add-to-
+        // basket regardless of add-ons or overlay stacking - see the mini-basket-progress doc's
+        // "black screen culprit" pass. With that real cause fixed, there's no remaining reason to
+        // keep the mini-cart and this popup mutually exclusive on mobile, and doing so only
+        // fought the original requirement. The popup's own backdrop still visually sits on top
+        // while it's showing (by design, via z-index) - this only changes the mini-cart's actual
+        // open/closed *state* underneath, which is what matters once the popup is dismissed.
         $('#miniCartOverlay').addClass('is-open');
         $('body').css('overflow', 'hidden');
     }
+}
+
+// Header.cshtml always renders the site's nav-collapse wrapper with either "authenticated" or
+// "not-authenticated" on it (see .navbar-collapse in Header.cshtml) - on every page, mobile and
+// desktop alike. Reuse that existing marker rather than adding a new one.
+function isNotAuthenticated() {
+    return $('.navbar-collapse').hasClass('not-authenticated');
 }
 
 // Mini-cart "Proceed to Checkout" click. Checks for eligible "You May Also Need" add-on
 // products first; if there are none (or the popup has already been shown/skipped this visit),
 // goes straight to /checkout/.
 function proceedToCheckout() {
+    if (isNotAuthenticated()) {
+        // Not signed in - skip the add-on popup entirely and go straight to checkout, the same
+        // way basket's own Checkout button behaves for a signed-out customer (that button never
+        // shows an add-on popup either - it's straight to "Secure Checkout" login or bust). The
+        // login popup itself (#ident-modal) only exists in the DOM on the checkout page, so it
+        // can't be shown from here - ?showlogin=1 tells ViewBasket.cshtml to run its own
+        // Checkout button action automatically on load, which is what actually shows it.
+        removeAddSellPopup();
+        window.location.href = '/checkout/?showlogin=1';
+        return;
+    }
+
     if ($('#you-may-also-need').length) {
         // Popup already open/shown - a second click on Proceed skips straight through.
         removeAddSellPopup();
@@ -971,28 +1016,37 @@ function logAjaxFormError(xhr, textStatus, thrownError) {
 }
 
 function logAjaxScriptError(url, xhr, textStatus, thrownError) {
+    // BUG FIX: this used to read "if (xhr || xhr.responseText || xhr.responseText) { return; }" -
+    // that condition is true almost every time an ajax error callback fires (xhr is basically
+    // always a truthy object), so this function returned immediately and NEVER logged anything,
+    // for every failed ajax call across the whole site (28+ call sites use this same helper).
+    // That means any real failure of e.g. /Product/BasketAdd/ (a bad session, a server error, a
+    // network hiccup on a particular device) has been failing completely silently - no console
+    // output, no server-side log entry, nothing visible to the user or to us - which matches
+    // "tap Add to Basket, nothing happens at all" exactly if the request itself is failing.
+    // Fixed to actually build and log the error, and to console.error it too so it's visible
+    // immediately in on-device dev tools (e.g. Safari Web Inspector) without needing server logs.
     var responseText = "";
 
-    if (xhr || xhr.responseText || xhr.responseText) {
-        return;
-    } else {
-        if (xhr.responseText.length) {
-            if (xhr.responseText.length > 5000) {
-                responseText = xhr.responseText.substring(0, 5000);
-            } else {
-                responseText = xhr.responseText;
-            }
-        }
+    if (xhr && xhr.responseText) {
+        responseText = xhr.responseText.length > 5000
+            ? xhr.responseText.substring(0, 5000)
+            : xhr.responseText;
     }
 
-    var e = new Error(url + ": " + xhr.statusText.toString() +
+    var message = url + ": " + (xhr && xhr.statusText ? xhr.statusText.toString() : "(no xhr)") +
         ", thrownError: " +
-        thrownError.toString() +
+        (thrownError ? thrownError.toString() : "") +
         ", textStatus: " +
-        textStatus.toString() +
+        (textStatus ? textStatus.toString() : "") +
         ", responseText: " +
-        responseText.toString());
-    logScriptError(e);
+        responseText;
+
+    if (window.console && console.error) {
+        console.error("[ajax error] " + message);
+    }
+
+    logScriptError(new Error(message));
 }
 
 function logScriptError(error) {
@@ -1006,7 +1060,10 @@ function logScriptError(error) {
             url: location.href,
             description: error.message
         },
-        async: false,
+        // Was async: false. This now only runs when there's already been a failure (it's the
+        // error-reporting path itself, freshly fixed above to actually get called at all) -
+        // no reason to also block the main thread with a synchronous request here, especially
+        // on iOS. This is fire-and-forget logging; nothing depends on its response.
         success: function (data) {
 
         }
@@ -1572,12 +1629,39 @@ $(function () {
                         //isadmindiscount: admindiscount,
                         itemtype: itemtype
                     },
-                    async: false,
+                    // Was async: false (synchronous XHR) - iOS/WebKit has progressively
+                    // restricted and deprecated synchronous XHR on the main thread, which
+                    // is a well-documented cause of "add to basket AJAX succeeds but the
+                    // success callback's follow-up UI work (opening the mini-cart) never
+                    // visibly runs" on iOS Safari specifically. The response is already
+                    // handled entirely in the success callback below, so switching to the
+                    // default async request changes nothing about call order - just removes
+                    // the main-thread-blocking, iOS-fragile synchronous mode.
                     success: function (data) {
                         changeBasketComplete(data, thisbutton);
                         refreshViewBasket();
                         maybeShowAddSellPopupAfterAdd();
-                        openCart();
+                        // Was a bare openCart() call - that's a plain global function declared
+                        // inside MiniBasket.cshtml's own inline <script>, re-defined every time
+                        // that partial's markup is replaced via changeBasketComplete()'s
+                        // $('#minibasket-widget').replaceWith(...) a few lines above. QA hit
+                        // "Can't find variable: openCart" on a real iOS device - an uncaught
+                        // ReferenceError thrown inside this async success callback, which the
+                        // .atb-add handler's own try/catch does NOT cover (that only wraps the
+                        // synchronous code that kicks off the $.ajax call, not this callback),
+                        // so it silently aborted right here with zero visible feedback. Whatever
+                        // the exact reason openCart wasn't defined at that moment (this file's
+                        // one and only call site for it), the fix is to stop depending on that
+                        // fragile global entirely: do the same two things openCart() does,
+                        // directly, the same way changeBasketComplete()'s own re-open branch
+                        // (a few lines above) already does it without calling openCart() either.
+                        var $miniCartOverlay = $('#miniCartOverlay');
+                        if ($miniCartOverlay.length) {
+                            $miniCartOverlay.addClass('is-open');
+                            $('body').css('overflow', 'hidden');
+                        } else if (window.console && console.error) {
+                            console.error('[atb-add] #miniCartOverlay not found on this page - cannot open mini-cart');
+                        }
                     },
                     error: function (xhr, textStatus, thrownError) {
                         logAjaxScriptError("/Product/BasketAdd/", xhr, textStatus, thrownError);
@@ -2460,6 +2544,26 @@ $(function () {
     // Mini-cart "Proceed to Checkout" - may show the "You May Also Need" popup first if the
     // basket has in-stock add-on products linked to anything in it. Clicking Proceed a second
     // time (popup already open) skips straight to /checkout/.
+    //
+    // proceedToCheckout() itself has existed for a while, but this binding was missing - its
+    // only caller anywhere in the codebase was an onclick="proceedToCheckout()" on the retired
+    // BasketSummary.cshtml (see the comments in ProductController.cs/CheckoutController.cs
+    // calling that file out as no longer the live mini-cart markup), so the actual mini-cart
+    // widget's "Proceed to Checkout" button (MiniBasket.cshtml, .checkout-button with no
+    // onclick) has been dead everywhere it's rendered - which, via the header, is every page
+    // on the site - except by coincidence on the basket page itself, where ViewBasket.cshtml's
+    // own page-scoped script binds a *different*, dedicated .checkout-button handler (the
+    // in-checkout guard, then submit the real checkout form or show the "Secure Checkout"
+    // login modal) that happens to also catch the mini-cart's button there since they share
+    // the class. Skip entirely when that page-scoped handler is present (#vbBasketDetails only
+    // exists in ViewBasket.cshtml) so the basket page keeps exactly that existing behaviour,
+    // unchanged and not doubled up with the add-on popup check below.
+    $(document).on('click', '.checkout-button', function () {
+        if ($('#vbBasketDetails').length) {
+            return;
+        }
+        proceedToCheckout();
+    });
 
     // The popup's own "Proceed to Checkout" button (mobile only) always means checkout,
     // regardless of how the popup was opened.

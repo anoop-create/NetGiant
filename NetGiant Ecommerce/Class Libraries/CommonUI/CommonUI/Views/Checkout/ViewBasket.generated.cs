@@ -454,7 +454,7 @@ WriteLiteral(" />\r\n\r\n");
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n");
+WriteLiteral("\r\n \r\n");
 
 DefineSection("scripts", () => {
 
@@ -464,60 +464,53 @@ WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral(@">
 
-        $(document).on('click',
-            '.checkout-button',
-            function () {
-                //if ($('.hdr-basket .basketTotal').html() == '0.00') {
-                //    return;
-                //}
-                if (checkSessionExists('C_IsInCheckout')) {
-                    launchPopup('IsInCheckout', 'popup', 'lg', '');
-                    return;
-                }
-                if ('");
+        function runCheckoutButtonAction() {
+            //if ($('.hdr-basket .basketTotal').html() == '0.00') {
+            //    return;
+            //}
+            if (checkSessionExists('C_IsInCheckout')) {
+                launchPopup('IsInCheckout', 'popup', 'lg', '');
+                return;
+            }
+            if ('");
 
             
-            #line 121 "..\..\Views\Checkout\ViewBasket.cshtml"
-                 Write(Authentication.IsFullyAuthenticated());
+            #line 119 "..\..\Views\Checkout\ViewBasket.cshtml"
+             Write(Authentication.IsFullyAuthenticated());
 
             
             #line default
             #line hidden
-WriteLiteral(@"' == 'True') {
-                    // Authenticated
-                    $('#co-form').submit();
-                } else {
-                    // Not Authenticated - so ask to Login/Register
-                    $('#ident-modal').modal();
-                }
-            });
-
-        $(function () {
-            if (checkSessionExists('C_IsInCheckout')) {
-                $('.IsInCheckout').val('true');
-                $('#voucher-code, #apply-voucher').prop('disabled', true);
-            } else {
-                $('#voucher-code, #apply-voucher').prop('disabled', false);
-            }
-        });
-
-        $(window).on('unload', function () {
-            if ($('.paypal-checkout-sandbox').is(':visible') == true && $('.IsInCheckout').val() != 'true') {
-                setSession(""C_IsInCheckout"", null);
-            }
-        });
-
-    </script>
-");
+WriteLiteral("\' == \'True\') {\r\n                // Authenticated\r\n                $(\'#co-form\').s" +
+"ubmit();\r\n            } else {\r\n                // Not Authenticated - so ask to" +
+" Login/Register\r\n                $(\'#ident-modal\').modal();\r\n            }\r\n    " +
+"    }\r\n\r\n        $(document).on(\'click\', \'.checkout-button\', runCheckoutButtonAc" +
+"tion);\r\n\r\n        $(function () {\r\n            if (checkSessionExists(\'C_IsInChe" +
+"ckout\')) {\r\n                $(\'.IsInCheckout\').val(\'true\');\r\n                $(\'" +
+"#voucher-code, #apply-voucher\').prop(\'disabled\', true);\r\n            } else {\r\n " +
+"               $(\'#voucher-code, #apply-voucher\').prop(\'disabled\', false);\r\n    " +
+"        }\r\n\r\n            // The mini-cart\'s \"Proceed to Checkout\" (site.js, proc" +
+"eedToCheckout()) sends the\r\n            // customer here with ?showlogin=1 when " +
+"it already knew, client-side, that they\r\n            // weren\'t signed in. Run t" +
+"his page\'s own Checkout button action once, automatically,\r\n            // so ar" +
+"riving here after that click behaves exactly like clicking Checkout on this\r\n   " +
+"         // page does (the \"Secure Checkout\" login popup) - instead of silently " +
+"landing on the\r\n            // basket with no prompt until the customer clicks C" +
+"heckout a second time.\r\n            if (window.location.search.indexOf(\'showlogi" +
+"n=1\') !== -1) {\r\n                runCheckoutButtonAction();\r\n            }\r\n    " +
+"    });\r\n\r\n        $(window).on(\'unload\', function () {\r\n            if ($(\'.pay" +
+"pal-checkout-sandbox\').is(\':visible\') == true && $(\'.IsInCheckout\').val() != \'tr" +
+"ue\') {\r\n                setSession(\"C_IsInCheckout\", null);\r\n            }\r\n    " +
+"    });\r\n\r\n    </script>\r\n");
 
             
-            #line 146 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 156 "..\..\Views\Checkout\ViewBasket.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 146 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 156 "..\..\Views\Checkout\ViewBasket.cshtml"
      if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
     {
 
@@ -526,30 +519,30 @@ WriteLiteral(@"' == 'True') {
             #line hidden
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 5658), Tuple.Create("\"", 5938)
-, Tuple.Create(Tuple.Create("", 5664), Tuple.Create("https://www.paypal.com/sdk/js?client-id=", 5664), true)
+WriteAttribute("src", Tuple.Create(" src=\"", 6336), Tuple.Create("\"", 6616)
+, Tuple.Create(Tuple.Create("", 6342), Tuple.Create("https://www.paypal.com/sdk/js?client-id=", 6342), true)
             
-            #line 148 "..\..\Views\Checkout\ViewBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 5704), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["PayPalClientId"]
-            
-            #line default
-            #line hidden
-, 5704), false)
-, Tuple.Create(Tuple.Create("", 5757), Tuple.Create("&currency=GBP&locale=en_GB&intent=authorize&components=messages,buttons&enable-fu" +
-"nding=paylater&debug=", 5757), true)
-            
-            #line 148 "..\..\Views\Checkout\ViewBasket.cshtml"
-                                                                                                                                         , Tuple.Create(Tuple.Create("", 5859), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["Environment"] == "Live" ? "false" : "true"
+            #line 158 "..\..\Views\Checkout\ViewBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 6382), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["PayPalClientId"]
             
             #line default
             #line hidden
-, 5859), false)
+, 6382), false)
+, Tuple.Create(Tuple.Create("", 6435), Tuple.Create("&currency=GBP&locale=en_GB&intent=authorize&components=messages,buttons&enable-fu" +
+"nding=paylater&debug=", 6435), true)
+            
+            #line 158 "..\..\Views\Checkout\ViewBasket.cshtml"
+                                                                                                                                         , Tuple.Create(Tuple.Create("", 6537), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["Environment"] == "Live" ? "false" : "true"
+            
+            #line default
+            #line hidden
+, 6537), false)
 );
 
 WriteLiteral(">\r\n        </script>\r\n");
 
             
-            #line 150 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 160 "..\..\Views\Checkout\ViewBasket.cshtml"
     }
 
             
@@ -566,13 +559,13 @@ DefineSection("AddScript", () => {
 WriteLiteral("\r\n");
 
             
-            #line 156 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 166 "..\..\Views\Checkout\ViewBasket.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 156 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 166 "..\..\Views\Checkout\ViewBasket.cshtml"
       
         Html.RenderPartial("~/Views/Checkout/JSTracking.cshtml", Model);
     
@@ -584,7 +577,7 @@ WriteLiteral("\r\n");
 WriteLiteral("    ");
 
             
-            #line 159 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 169 "..\..\Views\Checkout\ViewBasket.cshtml"
 Write(Scripts.Render("~/bundles/checkoutBundle.js"));
 
             
@@ -603,7 +596,7 @@ WriteLiteral("\r\n    [\r\n");
 WriteLiteral("    ");
 
             
-            #line 165 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 175 "..\..\Views\Checkout\ViewBasket.cshtml"
 Write(Html.Raw(ViewBag.BreadcrumbJson));
 
             

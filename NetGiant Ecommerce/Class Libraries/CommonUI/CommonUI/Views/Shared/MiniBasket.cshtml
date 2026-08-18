@@ -304,6 +304,26 @@
         border-radius: 4px;
         cursor: pointer;
     }
+    /* Buy More & Save (Promotional Lozenge) - per the "Basket Switch & Save / Add Ons"
+       design spec, this is a small pill/badge under the qty stepper on this same
+       product row, not a full-width card/button like Switch & Save. Same pink/magenta
+       accent used throughout the basket - no green anywhere in the spec. */
+    .qty-upsell-pill {
+        display: inline-block;
+        margin-top: 10px;
+        background: #fff;
+        border: 1px solid var(--pink);
+        color: var(--pink);
+        font-weight: 700;
+        font-size: 11px;
+        padding: 5px 12px;
+        border-radius: 999px;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+        .qty-upsell-pill:hover {
+            background: #fdeaf3;
+        }
     /* Footer */
     .mini-cart__footer {
         border-top: 1px solid var(--border);
@@ -459,6 +479,61 @@
         border-radius: 20px;
         font-size: 13px;
         font-weight: 600;
+    }
+    @@media (max-width:1199px) {
+        body, html {
+            overflow-x: hidden
+        }
+
+        section#utility-bar {
+            display: block !important;
+        }
+
+        .mobileBasketMessage, .mobileBasketBackdrop, .g-bc-secondary, .basketMessage, .printerMessage, .tab-open.g-flex-allcenter[data-toggle="offcanvas-close"] {
+            display: none !important
+        }
+
+        .navbar-inverse .small-screen-links a {
+            outline: none;
+        }
+    } 
+    /* Must always beat this file's own #you-may-also-need-backdrop (z-index: 99999, below,
+       unconditional - not scoped to any data-context). This used to only apply when
+       [data-context="addtocart"], which left the "checkout" context (opened from the
+       mini-cart's own Proceed to Checkout button) with no boost at all - its z-index stayed at
+       YouMayAlsoNeed.cshtml's own base value (1060), well below the backdrop's 99999, so the
+       backdrop rendered on top of the popup's actual content: a solid near-black screen with
+       nothing visible on it. Unconditional now so both contexts sit above their own backdrop. */
+    #you-may-also-need {
+        z-index: 999999999!important;
+        height: 410px;
+        max-height: initial !important;
+    }
+
+        #you-may-also-need[data-context="addtocart"] .ymn-proceed {
+            display: none !important;
+        }
+
+    .promo-applied {
+        display: flex;
+        align-items: center;
+    }
+
+        .promo-applied button {
+            margin-left: auto;
+            border: none;
+            margin-right: 4px;
+            color: #B10000;
+            background: transparent;
+        }
+
+        .promo-applied .promo-applied__saving {
+            font-weight: 600;
+        }
+
+    div#you-may-also-need-backdrop {
+        background: #00000091;
+        z-index: 99999
     }
 </style>
 <!-- Single stable wrapper around the whole widget (button + overlay + its script) so AJAX
@@ -648,6 +723,26 @@
                                     subt =
                                         discUnitPrice * bc.Quantity;
                                 }
+                                /*
+                                 * "Buy more, save an extra X%" qty-upsell offer - same
+                                 * eligibility rule as the discount above (CompatibleUpsellRates
+                                 * config), just evaluated without the "already past threshold"
+                                 * gate so it can also prompt before the discount kicks in. This
+                                 * mirrors the "Buy More & Save" card added to the full basket
+                                 * page (Views/Checkout/BasketDetails.cshtml) - was missing here.
+                                 */
+                                decimal upsellPerItemSaving =
+                                    Math.Round(bc.PriceEx * discountRate / 100, 2);
+                                bool showQtyUpsell =
+                                    bc.IsCompatible &&
+                                    Session["V_Voucher"] == null &&
+                                    Convert.ToBoolean(
+                                        ConfigurationManager.AppSettings[
+                                            "IsCompatibleUpsellActive"
+                                        ]) &&
+                                    !isTradeCustomer &&
+                                    !isAdminDiscount &&
+                                    upsellPerItemSaving > 0;
                                 <div>
                                     <!-- Basket Item -->
                                     <div class="cart-item atb-entry"
@@ -684,6 +779,26 @@
                                                     </div>
                                                 }
                                             </div>
+                                            <!-- Buy More & Save for this product -->
+                                            @if (showQtyUpsell)
+                                            {
+                                                if (bc.Quantity <= bc.QtyStart)
+                                                {
+                                                    <button class="qty-upsell-pill"
+                                                            type="button"
+                                                            onclick="changeMiniBasketQty('@bc.StockRef', @(bc.QtyStart + 1))">
+                                                        Buy @(bc.QtyStart + 1 - bc.Quantity) More, Save @discountRate%
+                                                    </button>
+                                                }
+                                                else if (bc.Quantity > 1)
+                                                {
+                                                    <button class="qty-upsell-pill"
+                                                            type="button"
+                                                            onclick="changeMiniBasketQty('@bc.StockRef', @(bc.Quantity + 1))">
+                                                        Add Another, Save @discountRate%
+                                                    </button>
+                                                }
+                                            }
                                         </div>
                                         <!-- Actions -->
                                         <div class="cart-item__actions">
@@ -809,6 +924,7 @@
                                             }
                                         }
                                     }
+                                    
                                 </div>
                             }
                             /*
@@ -865,15 +981,11 @@
                                 <button type="button"
                                         class="minibasket-voucher-remove"
                                         title="Remove voucher code">
-                                    <i class="fa fa-trash"></i>
+                                    <i class="fa fa-times"></i>
                                 </button>
                                 <span class="promo-applied__saving">
                                     -£@Math.Abs(totalSaving).ToString("0.00")
                                 </span>
-                                <div class="voucher-applied">
-                                    <i class="fa fa-check-circle"></i>
-                                    Voucher Applied
-                                </div>
                             </div>
                         </details>
                     }
@@ -905,9 +1017,9 @@
                         </span>
                     </div>
                     <!-- Checkout -->
-                    <button class="checkout-btn"
+                    <button class="checkout-btn checkout-button"
                             type="button"
-                            onclick="proceedToCheckout()">
+                            >
                         Proceed to Checkout
                     </button>
                     <!-- View basket -->
