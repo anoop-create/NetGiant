@@ -1858,6 +1858,40 @@ namespace BusinessLogic
         public int FeeFoCount { get; set; }
         public decimal FeeFoRating { get; set; }
 
+        // Printer PDP - Product Bullets / Guarantee / Key Features
+        public string BulletPoint1 { get; set; }
+        public string BulletPoint2 { get; set; }
+        public string BulletPoint3 { get; set; }
+        public string GuaranteeMessage { get; set; }
+        public string KeyFeature1 { get; set; }
+        public string KeyFeature2 { get; set; }
+        public string KeyFeature3 { get; set; }
+        public string KeyFeature4 { get; set; }
+        public string KeyFeature5 { get; set; }
+        public string KeyFeature6 { get; set; }
+
+        // Printer PDP - Printer Bundles (Compatible)
+        public string CompatiblePrintCost { get; set; }
+        public decimal CompatibleBundleDiscountAmount { get; set; }
+        public int CompatibleBundleProductID { get; set; }
+        public string CompatibleBundleProductURL { get; set; }
+        public string CompatibleBundleProductName { get; set; }
+        public string CompatibleBundleBrand { get; set; }
+        public decimal CompatibleBundlePriceIncVat { get; set; }
+        public string CompatibleBundleImage { get; set; }
+        public string CompatibleBundleRef { get; set; }
+
+        // Printer PDP - Printer Bundles (Original)
+        public string OriginalPrintCost { get; set; }
+        public decimal OriginalBundleDiscountAmount { get; set; }
+        public int OriginalBundleProductID { get; set; }
+        public string OriginalBundleProductURL { get; set; }
+        public string OriginalBundleProductName { get; set; }
+        public string OriginalBundleBrand { get; set; }
+        public decimal OriginalBundlePriceIncVat { get; set; }
+        public string OriginalBundleImage { get; set; }
+        public string OriginalBundleRef { get; set; }
+
         //Sorting
         public ProductFlag PrimarySortSeq { get; set; }
         public int SecondarySortSeq { get; set; }

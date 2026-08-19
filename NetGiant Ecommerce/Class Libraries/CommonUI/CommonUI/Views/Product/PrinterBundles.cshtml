@@ -1,0 +1,134 @@
+@using System.Configuration;
+@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+
+@model ProductViewModel
+
+@*
+    Printer PDP - "Save When You Buy A Printer Bundle" (brief page 4).
+
+    Rendered only when Model.IsPrinterProduct is true (see Views/Product/Index.cshtml) -
+    a no-op include for every existing consumable product page.
+
+    Data source: the Compatible/Original bundle products linked via the PMS "Printer
+    Bundles" tab (dbo.AxisFields.compatibleBundleProductFK / originalBundleProductFK),
+    fully resolved (name/URL/image/price) by ngmd.GetProductResults directly onto
+    Model.Product - no second query needed here.
+
+    Per the brief ("No logic needed for the colour backgrounds"), Compatible is
+    always a fixed green and Original is always a fixed red. If only one side is
+    linked, only that card renders (single-bundle fallback); if neither is linked,
+    the whole section is a no-op.
+
+    Add to Basket here adds the bundle's consumable product itself via the existing
+    .atb-add site.js click handler (same class/data-* pattern the Buy Box above
+    already uses) - applying compatible/originalBundleDiscountAmount at actual
+    checkout is separate, not-yet-built basket logic (explicitly out of scope here).
+*@
+@{
+    ProductEntry pe = Model.Product;
+    bool useVatInclusive = ConfigurationManager.AppSettings["UseVatInclusivePrices"] == "1";
+    string vatLabel = useVatInclusive ? "inc VAT" : "ex VAT";
+    bool hasCompatible = pe.CompatibleBundleProductID > 0;
+    bool hasOriginal = pe.OriginalBundleProductID > 0;
+}
+@if (hasCompatible || hasOriginal)
+{
+    <div class="row g-m-t-30">
+        <div class="col-xs-12 g-p-lr-0">
+            <div class="g-boxshadow g-p-20">
+                <h2 class="g-lh-30">Save When You Buy A Printer Bundle</h2>
+                <div class="row g-m-t-10">
+                    @if (hasCompatible)
+                    {
+                        decimal compatibleBundleTotalIncVat = pe.PriceRetIncVat + pe.CompatibleBundlePriceIncVat - pe.CompatibleBundleDiscountAmount;
+                        decimal compatibleBundleTotal = useVatInclusive
+                            ? compatibleBundleTotalIncVat
+                            : Decimal.Divide(compatibleBundleTotalIncVat, Model.VatMultiplier);
+                        decimal compatibleAddToBasketPrice = useVatInclusive
+                            ? pe.CompatibleBundlePriceIncVat
+                            : Decimal.Divide(pe.CompatibleBundlePriceIncVat, Model.VatMultiplier);
+                        <div class="col-md-6 col-xs-12 g-m-b-15">
+                            <div class="g-p-15" style="background-color:#eaf7ea;border:1px solid #b7e0b7;">
+                                <div class="g-fs-16 g-m-b-10"><strong>Compatible Bundle</strong></div>
+                                <div class="row g-flex-allcenter">
+                                    <div class="col-xs-4">
+                                        <img class="lazy g-objf" src="/Content/Images/1pxTrans.png" data-original="@pe.ImageUrl" alt="@pe.Description" />
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <img class="lazy g-objf" src="/Content/Images/1pxTrans.png" data-original="@pe.CompatibleBundleImage" alt="@pe.CompatibleBundleProductName" />
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        @if (!string.IsNullOrEmpty(pe.CompatiblePrintCost))
+                                        {
+                                            <div class="g-fs-sm"><i class="fa fa-tint g-p-r-5"></i>@pe.CompatiblePrintCost</div>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="g-m-t-10">@pe.Description + @pe.CompatibleBundleProductName</div>
+                                @if (pe.CompatibleBundleDiscountAmount > 0)
+                                {
+                                    <div class="g-fc-s"><strong>SAVE &pound;@pe.CompatibleBundleDiscountAmount.ToString("#,###,##0.00")</strong> with this bundle</div>
+                                }
+                                <div class="g-fs-18 g-m-t-5"><strong>&pound;@compatibleBundleTotal.ToString("#,###,##0.00")</strong> <span class="g-fs-sm">@vatLabel</span></div>
+                                <button class="atb-add g-butt-primary g-butt-100p g-m-t-10"
+                                        data-price="@compatibleAddToBasketPrice.ToString("N2")"
+                                        data-productid="@pe.CompatibleBundleRef"
+                                        data-partno="@pe.CompatibleBundleRef"
+                                        data-imageurl="@pe.CompatibleBundleImage"
+                                        data-desc="@pe.CompatibleBundleProductName">
+                                    Add to Basket
+                                </button>
+                                <div class="g-fs-sm g-m-t-5 text-center">Free next working day delivery</div>
+                            </div>
+                        </div>
+                    }
+                    @if (hasOriginal)
+                    {
+                        decimal originalBundleTotalIncVat = pe.PriceRetIncVat + pe.OriginalBundlePriceIncVat - pe.OriginalBundleDiscountAmount;
+                        decimal originalBundleTotal = useVatInclusive
+                            ? originalBundleTotalIncVat
+                            : Decimal.Divide(originalBundleTotalIncVat, Model.VatMultiplier);
+                        decimal originalAddToBasketPrice = useVatInclusive
+                            ? pe.OriginalBundlePriceIncVat
+                            : Decimal.Divide(pe.OriginalBundlePriceIncVat, Model.VatMultiplier);
+                        <div class="col-md-6 col-xs-12 g-m-b-15">
+                            <div class="g-p-15" style="background-color:#fdeaea;border:1px solid #efbcbc;">
+                                <div class="g-fs-16 g-m-b-10"><strong>Original Bundle</strong></div>
+                                <div class="row g-flex-allcenter">
+                                    <div class="col-xs-4">
+                                        <img class="lazy g-objf" src="/Content/Images/1pxTrans.png" data-original="@pe.ImageUrl" alt="@pe.Description" />
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <img class="lazy g-objf" src="/Content/Images/1pxTrans.png" data-original="@pe.OriginalBundleImage" alt="@pe.OriginalBundleProductName" />
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        @if (!string.IsNullOrEmpty(pe.OriginalPrintCost))
+                                        {
+                                            <div class="g-fs-sm"><i class="fa fa-tint g-p-r-5"></i>@pe.OriginalPrintCost</div>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="g-m-t-10">@pe.Description + @pe.OriginalBundleProductName</div>
+                                @if (pe.OriginalBundleDiscountAmount > 0)
+                                {
+                                    <div class="g-fc-s"><strong>SAVE &pound;@pe.OriginalBundleDiscountAmount.ToString("#,###,##0.00")</strong> with this bundle</div>
+                                }
+                                <div class="g-fs-18 g-m-t-5"><strong>&pound;@originalBundleTotal.ToString("#,###,##0.00")</strong> <span class="g-fs-sm">@vatLabel</span></div>
+                                <button class="atb-add g-butt-primary g-butt-100p g-m-t-10"
+                                        data-price="@originalAddToBasketPrice.ToString("N2")"
+                                        data-productid="@pe.OriginalBundleRef"
+                                        data-partno="@pe.OriginalBundleRef"
+                                        data-imageurl="@pe.OriginalBundleImage"
+                                        data-desc="@pe.OriginalBundleProductName">
+                                    Add to Basket
+                                </button>
+                                <div class="g-fs-sm g-m-t-5 text-center">Free next working day delivery</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

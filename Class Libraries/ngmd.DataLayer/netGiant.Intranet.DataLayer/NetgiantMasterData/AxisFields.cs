@@ -49,6 +49,23 @@ namespace netGiant.Intranet.DataLayer.NetgiantMasterData
         public string additionalInfoUrl { get; set; }
         public Nullable<System.DateTime> dateLastUpdate { get; set; }
         public Nullable<int> salesYearToDate { get; set; }
+        public string bulletPoint1 { get; set; }
+        public string bulletPoint2 { get; set; }
+        public string bulletPoint3 { get; set; }
+        public string guaranteeMessage { get; set; }
+        public string keyFeature1 { get; set; }
+        public string keyFeature2 { get; set; }
+        public string keyFeature3 { get; set; }
+        public string keyFeature4 { get; set; }
+        public string keyFeature5 { get; set; }
+        public string keyFeature6 { get; set; }
+        public Nullable<int> compatibleBundleProductFK { get; set; }
+        public string compatiblePrintCost { get; set; }
+        public Nullable<int> originalBundleProductFK { get; set; }
+        public string originalPrintCost { get; set; }
+        public Nullable<decimal> bundleDiscountAmount { get; set; }
+        public Nullable<decimal> compatibleBundleDiscountAmount { get; set; }
+        public Nullable<decimal> originalBundleDiscountAmount { get; set; }
     
         public virtual ICollection<AxisFieldsAdditional> AxisFieldsAdditional { get; set; }
         public virtual product product { get; set; }

@@ -50,6 +50,10 @@
                             <li><a href="#tabs-7">Product Images</a></li>
                         }
                         <li><a href="#tabs-8">Add On</a></li>
+                        <li><a href="#tabs-9">Product Bullets</a></li>
+                        <li><a href="#tabs-10">Proposition Messages</a></li>
+                        <li><a href="#tabs-11">Key Features</a></li>
+                        <li><a href="#tabs-12">Printer Bundles</a></li>
                     </ul>
 
                     <div id="tabs-1">
@@ -695,6 +699,160 @@ isSelected == true ? (object)new { @class = "form-control g-smallCell g-d-i catC
                         </div>
                     </fieldset>
                   </div>
+
+                <div id="tabs-9">
+                    <fieldset class="g-m-t-20">
+                        <legend>Product Bullets</legend>
+                        <p class="help-block">Up to 3 short bullet points shown on the product page (e.g. key selling points). Leave any blank to omit.</p>
+                        <div class="form-group">
+                            <div class="g-f-l prdCrt_leftContainer">
+                                @Html.Label("Bullet 1", new { @class = "g-f-l" })
+                                @Html.EditorFor(m => m.prod.AxisFields.bulletPoint1, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                @Html.ValidationMessageFor(model => model.prod.AxisFields.bulletPoint1, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="g-f-l prdCrt_leftContainer">
+                                @Html.Label("Bullet 2", new { @class = "g-f-l" })
+                                @Html.EditorFor(m => m.prod.AxisFields.bulletPoint2, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                @Html.ValidationMessageFor(model => model.prod.AxisFields.bulletPoint2, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="g-f-l prdCrt_leftContainer">
+                                @Html.Label("Bullet 3", new { @class = "g-f-l" })
+                                @Html.EditorFor(m => m.prod.AxisFields.bulletPoint3, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                @Html.ValidationMessageFor(model => model.prod.AxisFields.bulletPoint3, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div id="tabs-10">
+                    <fieldset class="g-m-t-20">
+                        <legend>Proposition Messages</legend>
+                        <div class="form-group">
+                            <div class="g-f-l prdCrt_leftContainer">
+                                @Html.Label("Guarantee Message", new { @class = "g-f-l" })
+                                @Html.TextAreaFor(m => m.prod.AxisFields.guaranteeMessage, new { @class = "form-control g-largeCell", rows = 3 })
+                                @Html.ValidationMessageFor(model => model.prod.AxisFields.guaranteeMessage, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div id="tabs-11">
+                    <fieldset class="g-m-t-20">
+                        <legend>Key Features</legend>
+                        <p class="help-block">Up to 6 key feature lines shown on the product page (e.g. "5.6p per mono page"). Leave any blank to omit.</p>
+                        <div class="form-group">
+                            <div class="g-f-l prdCrt_leftContainer">
+                                @Html.Label("Key Feature 1", new { @class = "g-f-l" })
+                                @Html.EditorFor(m => m.prod.AxisFields.keyFeature1, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                @Html.ValidationMessageFor(model => model.prod.AxisFields.keyFeature1, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="g-f-l prdCrt_leftContainer">
+                                @Html.Label("Key Feature 2", new { @class = "g-f-l" })
+                                @Html.EditorFor(m => m.prod.AxisFields.keyFeature2, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                @Html.ValidationMessageFor(model => model.prod.AxisFields.keyFeature2, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="g-f-l prdCrt_leftContainer">
+                                @Html.Label("Key Feature 3", new { @class = "g-f-l" })
+                                @Html.EditorFor(m => m.prod.AxisFields.keyFeature3, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                @Html.ValidationMessageFor(model => model.prod.AxisFields.keyFeature3, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="g-f-l prdCrt_leftContainer">
+                                @Html.Label("Key Feature 4", new { @class = "g-f-l" })
+                                @Html.EditorFor(m => m.prod.AxisFields.keyFeature4, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                @Html.ValidationMessageFor(model => model.prod.AxisFields.keyFeature4, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="g-f-l prdCrt_leftContainer">
+                                @Html.Label("Key Feature 5", new { @class = "g-f-l" })
+                                @Html.EditorFor(m => m.prod.AxisFields.keyFeature5, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                @Html.ValidationMessageFor(model => model.prod.AxisFields.keyFeature5, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="g-f-l prdCrt_leftContainer">
+                                @Html.Label("Key Feature 6", new { @class = "g-f-l" })
+                                @Html.EditorFor(m => m.prod.AxisFields.keyFeature6, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
+                                @Html.ValidationMessageFor(model => model.prod.AxisFields.keyFeature6, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div id="tabs-12">
+                    <fieldset class="g-m-t-20">
+                        <legend>Printer Bundles</legend>
+                        <p class="help-block">Link this printer to one Compatible and one Original consumable to offer as a multi-pack bundle on the product page. Leave either blank to show only the other as a single bundle.</p>
+
+                        <div class="form-group">
+                            <div class="g-f-l prdCrt_leftContainer">
+                                @Html.Label("Compatible Bundle Product", new { @class = "g-f-l" })
+                                <select id="compatibleBundleProduct"
+                                        name="prod.AxisFields.compatibleBundleProductFK"
+                                        class="form-control g-largeCell"
+                                        style="width:100%">
+                                    <option value=""></option>
+                                    @if (Model.prod.AxisFields.compatibleBundleProductFK.HasValue)
+                                    {
+                                        <option value="@Model.prod.AxisFields.compatibleBundleProductFK" selected="selected">@Model.SelectedCompatibleBundleProductName</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.prod.AxisFields.compatibleBundleProductFK, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="g-f-l prdCrt_leftContainer">
+                                @Html.Label("Compatible Print Cost", new { @class = "g-f-l" })
+                                @Html.EditorFor(m => m.prod.AxisFields.compatiblePrintCost, new { htmlAttributes = new { @class = "form-control g-largeCell", placeholder = "e.g. £1.25 per ml" } })
+                                @Html.ValidationMessageFor(model => model.prod.AxisFields.compatiblePrintCost, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="g-f-l prdCrt_leftContainer">
+                                @Html.Label("Original Bundle Product", new { @class = "g-f-l" })
+                                <select id="originalBundleProduct"
+                                        name="prod.AxisFields.originalBundleProductFK"
+                                        class="form-control g-largeCell"
+                                        style="width:100%">
+                                    <option value=""></option>
+                                    @if (Model.prod.AxisFields.originalBundleProductFK.HasValue)
+                                    {
+                                        <option value="@Model.prod.AxisFields.originalBundleProductFK" selected="selected">@Model.SelectedOriginalBundleProductName</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.prod.AxisFields.originalBundleProductFK, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="g-f-l prdCrt_leftContainer">
+                                @Html.Label("Original Print Cost", new { @class = "g-f-l" })
+                                @Html.EditorFor(m => m.prod.AxisFields.originalPrintCost, new { htmlAttributes = new { @class = "form-control g-largeCell", placeholder = "e.g. £1.25 per ml" } })
+                                @Html.ValidationMessageFor(model => model.prod.AxisFields.originalPrintCost, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="g-f-l prdCrt_leftContainer">
+                                @Html.Label("Compatible Bundle Discount (£)", new { @class = "g-f-l" })
+                                @Html.EditorFor(m => m.prod.AxisFields.compatibleBundleDiscountAmount, new { htmlAttributes = new { @class = "form-control g-largeCell", placeholder = "e.g. 15.00" } })
+                                @Html.ValidationMessageFor(model => model.prod.AxisFields.compatibleBundleDiscountAmount, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="g-f-l prdCrt_leftContainer">
+                                @Html.Label("Original Bundle Discount (£)", new { @class = "g-f-l" })
+                                @Html.EditorFor(m => m.prod.AxisFields.originalBundleDiscountAmount, new { htmlAttributes = new { @class = "form-control g-largeCell", placeholder = "e.g. 5.00" } })
+                                @Html.ValidationMessageFor(model => model.prod.AxisFields.originalBundleDiscountAmount, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
                 </div>
 
                 <div class="form-group">
@@ -996,6 +1154,35 @@ isSelected == true ? (object)new { @class = "form-control g-smallCell g-d-i catC
                 }
 
             });
+
+            var bundleProductSelect2Options = {
+                placeholder: "Search products",
+                allowClear: true,
+                width: "100%",
+                ajax: {
+                    url: searchProductsUrl,
+                    dataType: "json",
+                    delay: 300,
+                    data: function (params) {
+                        return {
+                            search: params.term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    id: item.value,
+                                    text: item.label
+                                };
+                            })
+                        };
+                    }
+                }
+            };
+
+            $("#compatibleBundleProduct").select2(bundleProductSelect2Options);
+            $("#originalBundleProduct").select2(bundleProductSelect2Options);
 
         });
 

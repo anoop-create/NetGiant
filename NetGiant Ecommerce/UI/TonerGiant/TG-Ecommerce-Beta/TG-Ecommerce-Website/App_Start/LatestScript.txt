@@ -763,3 +763,82 @@ CREATE TABLE dbo.IntranetErrorLog (
     UserAgent        NVARCHAR(1000)  NULL
 );
 GO
+
+
+-----------------------------------------------------------------
+
+
+/* ============================================================================
+   TonerGiant / NetGiant Intranet (PMS) — Product attribute additions
+   Feature: Product Bullets, Proposition Messages (Guarantee), Key Features
+   Date:    2026-08-18
+
+   All changes are additive, nullable columns on the existing dbo.AxisFields
+   table (1:1 with dbo.product via productFK). This mirrors the existing
+   spec1-spec6 / attr1-attr10 columns already on this table, so there is
+   zero impact on any existing row, query, or stored procedure.
+
+   Safe to run multiple times (guarded with IF NOT EXISTS).
+   Not run by Claude — deliver this to Anoop / DBA to execute directly
+   against netgiantmasterdata (or run via SSMS / migration pipeline).
+   ============================================================================ */
+
+-- 1. Product Bullets (max 3 per product)
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('dbo.AxisFields') AND name = 'bulletPoint1')
+    ALTER TABLE dbo.AxisFields ADD bulletPoint1 nvarchar(255) NULL;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('dbo.AxisFields') AND name = 'bulletPoint2')
+    ALTER TABLE dbo.AxisFields ADD bulletPoint2 nvarchar(255) NULL;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('dbo.AxisFields') AND name = 'bulletPoint3')
+    ALTER TABLE dbo.AxisFields ADD bulletPoint3 nvarchar(255) NULL;
+GO
+
+-- 2. Proposition Messages — Guarantee message
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('dbo.AxisFields') AND name = 'guaranteeMessage')
+    ALTER TABLE dbo.AxisFields ADD guaranteeMessage nvarchar(500) NULL;
+GO
+
+-- 3. Key Features (max 6 per product, free text)
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('dbo.AxisFields') AND name = 'keyFeature1')
+    ALTER TABLE dbo.AxisFields ADD keyFeature1 nvarchar(255) NULL;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('dbo.AxisFields') AND name = 'keyFeature2')
+    ALTER TABLE dbo.AxisFields ADD keyFeature2 nvarchar(255) NULL;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('dbo.AxisFields') AND name = 'keyFeature3')
+    ALTER TABLE dbo.AxisFields ADD keyFeature3 nvarchar(255) NULL;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('dbo.AxisFields') AND name = 'keyFeature4')
+    ALTER TABLE dbo.AxisFields ADD keyFeature4 nvarchar(255) NULL;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('dbo.AxisFields') AND name = 'keyFeature5')
+    ALTER TABLE dbo.AxisFields ADD keyFeature5 nvarchar(255) NULL;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('dbo.AxisFields') AND name = 'keyFeature6')
+    ALTER TABLE dbo.AxisFields ADD keyFeature6 nvarchar(255) NULL;
+GO
+
+/* ----------------------------------------------------------------------------
+   REQUIRED MANUAL STEP after running this script, before the code changes
+   will compile:
+
+   Open ngmdContext.edmx (Class Libraries\ngmd.DataLayer\netGiant.Intranet.DataLayer\
+   NetgiantMasterData\ngmdContext.edmx) in the Visual Studio EF Designer,
+   right-click the design surface -> "Update Model from Database" -> Refresh
+   -> tick AxisFields -> Finish. This regenerates AxisFields.cs with the 9
+   new properties (bulletPoint1-3, guaranteeMessage, keyFeature1-6) as plain
+   nullable string properties, exactly like the existing spec1-spec6/attr1-
+   attr10 columns. No other entity is touched.
+
+   This is the same, ordinary "Update Model from Database" step used any
+   time a column is added to an EF6 Database-First model in this codebase —
+   it does not require hand-editing the generated XML/.cs files.
+   ---------------------------------------------------------------------------- */

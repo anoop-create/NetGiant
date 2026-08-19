@@ -642,6 +642,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PopularPrinters.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Product\PrinterBundles.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PrinterBundles.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Product\PrinterKeyFeatures.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PrinterKeyFeatures.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Product\PrintersForProducts.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1258,6 +1268,14 @@
     <Content Include="Views\Product\PopularPrinters.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>PopularPrinters.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Product\PrinterBundles.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PrinterBundles.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Product\PrinterKeyFeatures.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PrinterKeyFeatures.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\Product\ProductEntry.cshtml">
       <Generator>RazorGenerator</Generator>

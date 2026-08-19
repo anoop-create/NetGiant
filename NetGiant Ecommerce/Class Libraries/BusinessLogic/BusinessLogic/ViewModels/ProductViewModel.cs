@@ -59,6 +59,8 @@ namespace BusinessLogic.ViewModels
         public int CategoryId { get; set; }
         public categoryCode CategoryCode { get; set; }
 
+        public bool IsPrinterProduct => Product != null && Product.Type == "Printers";
+
         public void GetProductDetail(string masterId)
         {
             List<SqlParameter> sqlParms = new List<SqlParameter>();
@@ -972,6 +974,22 @@ namespace BusinessLogic.ViewModels
                 pe.ProductVideoURL = dr["ProductVideoURL"].ToString();
             }
 
+            // Printer PDP - Product Bullets / Proposition Messages (Guarantee) / Key Features
+            // (present on both the main 'P' product row and the 'X' cross-sell teaser row)
+            if (dr.Table.Columns.Contains("BulletPoint1"))
+            {
+                pe.BulletPoint1 = dr["BulletPoint1"].ToString();
+                pe.BulletPoint2 = dr["BulletPoint2"].ToString();
+                pe.BulletPoint3 = dr["BulletPoint3"].ToString();
+                pe.GuaranteeMessage = dr["GuaranteeMessage"].ToString();
+                pe.KeyFeature1 = dr["KeyFeature1"].ToString();
+                pe.KeyFeature2 = dr["KeyFeature2"].ToString();
+                pe.KeyFeature3 = dr["KeyFeature3"].ToString();
+                pe.KeyFeature4 = dr["KeyFeature4"].ToString();
+                pe.KeyFeature5 = dr["KeyFeature5"].ToString();
+                pe.KeyFeature6 = dr["KeyFeature6"].ToString();
+            }
+
             // Product Page - Primary product
             if (dr.Table.Columns.Contains("recordType") && dr["recordType"].ToString() == "P")
             {
@@ -996,6 +1014,30 @@ namespace BusinessLogic.ViewModels
                 pe.MetaKeywords = dr["MetaKeywords"].ToString();
                 pe.FeeFoCount = int.Parse(dr["FeeFoCount"].ToString());
                 pe.FeeFoRating = Convert.ToDecimal(dr["FeeFoRating"]);
+
+                // Printer PDP - Printer Bundles (Compatible + Original)
+                if (dr.Table.Columns.Contains("CompatibleBundleProductID"))
+                {
+                    pe.CompatiblePrintCost = dr["CompatiblePrintCost"].ToString();
+                    pe.CompatibleBundleDiscountAmount = Convert.ToDecimal(dr["CompatibleBundleDiscountAmount"]);
+                    pe.CompatibleBundleProductID = int.Parse(dr["CompatibleBundleProductID"].ToString());
+                    pe.CompatibleBundleProductURL = dr["CompatibleBundleProductURL"] == DBNull.Value ? null : dr["CompatibleBundleProductURL"].ToString();
+                    pe.CompatibleBundleProductName = dr["CompatibleBundleProductName"].ToString();
+                    pe.CompatibleBundleBrand = dr["CompatibleBundleBrand"].ToString();
+                    pe.CompatibleBundlePriceIncVat = dr["CompatibleBundlePrice"] == DBNull.Value ? 0 : Convert.ToDecimal(dr["CompatibleBundlePrice"]);
+                    pe.CompatibleBundleImage = dr["CompatibleBundleImage"] == DBNull.Value ? null : dr["CompatibleBundleImage"].ToString();
+                    pe.CompatibleBundleRef = dr["CompatibleBundleRef"].ToString();
+
+                    pe.OriginalPrintCost = dr["OriginalPrintCost"].ToString();
+                    pe.OriginalBundleDiscountAmount = Convert.ToDecimal(dr["OriginalBundleDiscountAmount"]);
+                    pe.OriginalBundleProductID = int.Parse(dr["OriginalBundleProductID"].ToString());
+                    pe.OriginalBundleProductURL = dr["OriginalBundleProductURL"] == DBNull.Value ? null : dr["OriginalBundleProductURL"].ToString();
+                    pe.OriginalBundleProductName = dr["OriginalBundleProductName"].ToString();
+                    pe.OriginalBundleBrand = dr["OriginalBundleBrand"].ToString();
+                    pe.OriginalBundlePriceIncVat = dr["OriginalBundlePrice"] == DBNull.Value ? 0 : Convert.ToDecimal(dr["OriginalBundlePrice"]);
+                    pe.OriginalBundleImage = dr["OriginalBundleImage"] == DBNull.Value ? null : dr["OriginalBundleImage"].ToString();
+                    pe.OriginalBundleRef = dr["OriginalBundleRef"].ToString();
+                }
             }
 
             // AdHoc

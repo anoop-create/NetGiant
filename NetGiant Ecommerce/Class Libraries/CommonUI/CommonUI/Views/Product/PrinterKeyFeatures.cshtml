@@ -1,0 +1,42 @@
+@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using System.Collections.Generic;
+@using System.Linq;
+
+@model ProductViewModel
+
+@*
+    Printer PDP - Key Features (brief page 3, "New product information").
+
+    Rendered only when Model.IsPrinterProduct is true (see Views/Product/Index.cshtml) -
+    a no-op include for every existing consumable product page.
+
+    Data: up to 6 free-text KeyFeature1-6 fields set via the PMS "Key Features" tab,
+    resolved onto Model.Product by ngmd.GetProductResults. The brief's mockup shows an
+    icon alongside each feature, but only plain text is stored against these fields
+    (no icon data), so this renders as a plain text list.
+*@
+@{
+    ProductEntry pe = Model.Product;
+    var keyFeatures = new List<string> { pe.KeyFeature1, pe.KeyFeature2, pe.KeyFeature3, pe.KeyFeature4, pe.KeyFeature5, pe.KeyFeature6 }
+        .Where(k => !string.IsNullOrEmpty(k))
+        .ToList();
+}
+@if (keyFeatures.Count > 0)
+{
+    <div class="row g-m-t-30">
+        <div class="col-xs-12 g-p-lr-0">
+            <h2 class="g-lh-30">Key Features</h2>
+            <div class="row">
+                @foreach (var feature in keyFeatures)
+                {
+                    <div class="col-md-4 col-xs-6 g-m-b-15">
+                        <div class="g-b-1-p g-bc-s g-p-10 g-fs-15">
+                            @feature
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

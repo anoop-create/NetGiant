@@ -45,6 +45,8 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product
         }
         public List<int> AddonProducts { get; set; }
         public List<SelectListItem> SelectedAddonProducts { get; set; }
+        public string SelectedCompatibleBundleProductName { get; set; }
+        public string SelectedOriginalBundleProductName { get; set; }
         private ngmdEntities _ctx;
         public List<product> Products { get; set; }
         public int ProductsCount { get; set; }
@@ -428,6 +430,22 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product
                             Text = p.productName
                         }
                     ).ToList();
+
+                    if (model.prod.AxisFields.compatibleBundleProductFK.HasValue)
+                    {
+                        model.SelectedCompatibleBundleProductName = db.product
+                            .Where(x => x.productID == model.prod.AxisFields.compatibleBundleProductFK.Value)
+                            .Select(x => x.productName)
+                            .FirstOrDefault();
+                    }
+
+                    if (model.prod.AxisFields.originalBundleProductFK.HasValue)
+                    {
+                        model.SelectedOriginalBundleProductName = db.product
+                            .Where(x => x.productID == model.prod.AxisFields.originalBundleProductFK.Value)
+                            .Select(x => x.productName)
+                            .FirstOrDefault();
+                    }
 
                 }
             }
@@ -1145,6 +1163,22 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product
             CompareAndCreateQueueEntry(nA.stockReference, eA != null ? eA.stockReference : null, "product", "stockReference", axisQueue.AXISQueueID);
             CompareAndCreateQueueEntry(nA.supressOpenRangeSpec, eA != null ? eA.supressOpenRangeSpec : null, "product", "supressOpenRangeSpec", axisQueue.AXISQueueID);
             CompareAndCreateQueueEntry(nA.supressOpenRangeImage, eA != null ? eA.supressOpenRangeImage : null, "product", "supressOpenRangeImage", axisQueue.AXISQueueID);
+            CompareAndCreateQueueEntry(nA.bulletPoint1, eA != null ? eA.bulletPoint1 : null, "product", "bulletPoint1", axisQueue.AXISQueueID);
+            CompareAndCreateQueueEntry(nA.bulletPoint2, eA != null ? eA.bulletPoint2 : null, "product", "bulletPoint2", axisQueue.AXISQueueID);
+            CompareAndCreateQueueEntry(nA.bulletPoint3, eA != null ? eA.bulletPoint3 : null, "product", "bulletPoint3", axisQueue.AXISQueueID);
+            CompareAndCreateQueueEntry(nA.guaranteeMessage, eA != null ? eA.guaranteeMessage : null, "product", "guaranteeMessage", axisQueue.AXISQueueID);
+            CompareAndCreateQueueEntry(nA.keyFeature1, eA != null ? eA.keyFeature1 : null, "product", "keyFeature1", axisQueue.AXISQueueID);
+            CompareAndCreateQueueEntry(nA.keyFeature2, eA != null ? eA.keyFeature2 : null, "product", "keyFeature2", axisQueue.AXISQueueID);
+            CompareAndCreateQueueEntry(nA.keyFeature3, eA != null ? eA.keyFeature3 : null, "product", "keyFeature3", axisQueue.AXISQueueID);
+            CompareAndCreateQueueEntry(nA.keyFeature4, eA != null ? eA.keyFeature4 : null, "product", "keyFeature4", axisQueue.AXISQueueID);
+            CompareAndCreateQueueEntry(nA.keyFeature5, eA != null ? eA.keyFeature5 : null, "product", "keyFeature5", axisQueue.AXISQueueID);
+            CompareAndCreateQueueEntry(nA.keyFeature6, eA != null ? eA.keyFeature6 : null, "product", "keyFeature6", axisQueue.AXISQueueID);
+            CompareAndCreateQueueEntry(nA.compatibleBundleProductFK, eA != null ? eA.compatibleBundleProductFK : null, "product", "compatibleBundleProductFK", axisQueue.AXISQueueID);
+            CompareAndCreateQueueEntry(nA.compatiblePrintCost, eA != null ? eA.compatiblePrintCost : null, "product", "compatiblePrintCost", axisQueue.AXISQueueID);
+            CompareAndCreateQueueEntry(nA.originalBundleProductFK, eA != null ? eA.originalBundleProductFK : null, "product", "originalBundleProductFK", axisQueue.AXISQueueID);
+            CompareAndCreateQueueEntry(nA.originalPrintCost, eA != null ? eA.originalPrintCost : null, "product", "originalPrintCost", axisQueue.AXISQueueID);
+            CompareAndCreateQueueEntry(nA.compatibleBundleDiscountAmount, eA != null ? eA.compatibleBundleDiscountAmount : null, "product", "compatibleBundleDiscountAmount", axisQueue.AXISQueueID);
+            CompareAndCreateQueueEntry(nA.originalBundleDiscountAmount, eA != null ? eA.originalBundleDiscountAmount : null, "product", "originalBundleDiscountAmount", axisQueue.AXISQueueID);
         }
 
         private static void CompareAxisFieldsAdditional(product newProduct, product existingProduct, AXISQueue axisQueue)

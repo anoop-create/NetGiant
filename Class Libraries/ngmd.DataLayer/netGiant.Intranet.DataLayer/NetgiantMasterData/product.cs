@@ -52,6 +52,7 @@ namespace netGiant.Intranet.DataLayer.NetgiantMasterData
         public Nullable<int> secondaryCrossSellGroupIdent { get; set; }
         public Nullable<System.DateTime> dateCreated { get; set; }
         public Nullable<System.DateTime> dateLastInStock { get; set; }
+        public Nullable<decimal> printerBundleDiscountAmount { get; set; }
     
         public virtual ICollection<assemblyComponent> assemblyComponent { get; set; }
         public virtual ICollection<assemblyComponent> assemblyComponent1 { get; set; }

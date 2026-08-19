@@ -142,6 +142,22 @@
           <Property Name="additionalInfoUrl" Type="varchar" MaxLength="200" />
           <Property Name="dateLastUpdate" Type="datetime" />
           <Property Name="salesYearToDate" Type="int" />
+          <Property Name="bulletPoint1" Type="nvarchar" MaxLength="255" />
+          <Property Name="bulletPoint2" Type="nvarchar" MaxLength="255" />
+          <Property Name="bulletPoint3" Type="nvarchar" MaxLength="255" />
+          <Property Name="guaranteeMessage" Type="nvarchar" MaxLength="500" />
+          <Property Name="keyFeature1" Type="nvarchar" MaxLength="255" />
+          <Property Name="keyFeature2" Type="nvarchar" MaxLength="255" />
+          <Property Name="keyFeature3" Type="nvarchar" MaxLength="255" />
+          <Property Name="keyFeature4" Type="nvarchar" MaxLength="255" />
+          <Property Name="keyFeature5" Type="nvarchar" MaxLength="255" />
+          <Property Name="keyFeature6" Type="nvarchar" MaxLength="255" />
+          <Property Name="compatibleBundleProductFK" Type="int" />
+          <Property Name="compatiblePrintCost" Type="nvarchar" MaxLength="50" />
+          <Property Name="originalBundleProductFK" Type="int" />
+          <Property Name="originalPrintCost" Type="nvarchar" MaxLength="50" />
+          <Property Name="compatibleBundleDiscountAmount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="originalBundleDiscountAmount" Type="decimal" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="AxisFieldsAdditional">
           <Key>
@@ -1020,6 +1036,7 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.pim_mediaLinks' does not h
           <Property Name="secondaryCrossSellGroupIdent" Type="int" />
           <Property Name="dateCreated" Type="datetime" />
           <Property Name="dateLastInStock" Type="datetime" />
+          <Property Name="printerBundleDiscountAmount" Type="decimal" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="productGroup">
           <Key>
@@ -3555,7 +3572,9 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
           <Parameter Name="providerFK" Type="varchar" Mode="In" />
           <Parameter Name="feedDateTime" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="UpdateSupplierStockQuantity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="ngmd" />
+        <Function Name="UpdateSupplierStockQuantity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="ngmd">
+          <Parameter Name="ProvidersArray" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="zGetOrderDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="ngmd">
           <Parameter Name="WebsiteId" Type="int" Mode="In" />
           <Parameter Name="OrderNo" Type="varchar" Mode="In" />
@@ -5473,7 +5492,9 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
             <Parameter Name="providerFK" Mode="In" Type="String" />
             <Parameter Name="feedDateTime" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="UpdateSupplierStockQuantity" />
+          <FunctionImport Name="UpdateSupplierStockQuantity" >
+          <Parameter Name="ProvidersArray" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="zGetOrderDetail" ReturnType="Collection(netgiantMasterDataModel.zGetOrderDetail_Result)">
             <Parameter Name="WebsiteId" Mode="In" Type="Int32" />
             <Parameter Name="OrderNo" Mode="In" Type="String" />
@@ -6355,6 +6376,23 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
           <Property Name="salesYearToDate" Type="Int32" />
           <NavigationProperty Name="AxisFieldsAdditional" Relationship="netgiantMasterDataModel.FK_AxisFieldsAdditional_AxisFieldsAdditional" FromRole="AxisFields" ToRole="AxisFieldsAdditional" />
           <NavigationProperty Name="product" Relationship="netgiantMasterDataModel.FK_AxisFields_product" FromRole="AxisFields" ToRole="product" />
+          <Property Name="bulletPoint1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="bulletPoint2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="bulletPoint3" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="guaranteeMessage" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="keyFeature1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="keyFeature2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="keyFeature3" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="keyFeature4" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="keyFeature5" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="keyFeature6" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="compatibleBundleProductFK" Type="Int32" />
+          <Property Name="compatiblePrintCost" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="originalBundleProductFK" Type="Int32" />
+          <Property Name="originalPrintCost" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="bundleDiscountAmount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="compatibleBundleDiscountAmount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="originalBundleDiscountAmount" Type="Decimal" Precision="10" Scale="2" />
         </EntityType>
         <Association Name="FK_AxisFieldsAdditional_AxisFieldsAdditional">
           <End Type="netgiantMasterDataModel.AxisFields" Role="AxisFields" Multiplicity="1">
@@ -7984,6 +8022,7 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
           <NavigationProperty Name="websiteInventory" Relationship="netgiantMasterDataModel.FK_websiteInventory_productFK" FromRole="product" ToRole="websiteInventory" />
           <NavigationProperty Name="ProductAddon" Relationship="netgiantMasterDataModel.FK_ProductAddon_AddonProduct" FromRole="product" ToRole="ProductAddon" />
           <NavigationProperty Name="ProductAddon1" Relationship="netgiantMasterDataModel.FK_ProductAddon_Product" FromRole="product" ToRole="ProductAddon" />
+          <Property Name="printerBundleDiscountAmount" Type="Decimal" Precision="10" Scale="2" />
         </EntityType>
         <Association Name="FK_assemblyComponent_product">
           <End Type="netgiantMasterDataModel.product" Role="product" Multiplicity="1">
@@ -10141,6 +10180,22 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
           <EntitySetMapping Name="AxisFields">
             <EntityTypeMapping TypeName="netgiantMasterDataModel.AxisFields">
               <MappingFragment StoreEntitySet="AxisFields">
+                <ScalarProperty Name="originalBundleDiscountAmount" ColumnName="originalBundleDiscountAmount" />
+                <ScalarProperty Name="compatibleBundleDiscountAmount" ColumnName="compatibleBundleDiscountAmount" />
+                <ScalarProperty Name="originalPrintCost" ColumnName="originalPrintCost" />
+                <ScalarProperty Name="originalBundleProductFK" ColumnName="originalBundleProductFK" />
+                <ScalarProperty Name="compatiblePrintCost" ColumnName="compatiblePrintCost" />
+                <ScalarProperty Name="compatibleBundleProductFK" ColumnName="compatibleBundleProductFK" />
+                <ScalarProperty Name="keyFeature6" ColumnName="keyFeature6" />
+                <ScalarProperty Name="keyFeature5" ColumnName="keyFeature5" />
+                <ScalarProperty Name="keyFeature4" ColumnName="keyFeature4" />
+                <ScalarProperty Name="keyFeature3" ColumnName="keyFeature3" />
+                <ScalarProperty Name="keyFeature2" ColumnName="keyFeature2" />
+                <ScalarProperty Name="keyFeature1" ColumnName="keyFeature1" />
+                <ScalarProperty Name="guaranteeMessage" ColumnName="guaranteeMessage" />
+                <ScalarProperty Name="bulletPoint3" ColumnName="bulletPoint3" />
+                <ScalarProperty Name="bulletPoint2" ColumnName="bulletPoint2" />
+                <ScalarProperty Name="bulletPoint1" ColumnName="bulletPoint1" />
                 <ScalarProperty Name="salesYearToDate" ColumnName="salesYearToDate" />
                 <ScalarProperty Name="dateLastUpdate" ColumnName="dateLastUpdate" />
                 <ScalarProperty Name="additionalInfoUrl" ColumnName="additionalInfoUrl" />
@@ -10885,6 +10940,7 @@ warning 6002: The table/view 'netgiantMasterData.ngmd.ProductImagesView' does no
           <EntitySetMapping Name="product">
             <EntityTypeMapping TypeName="netgiantMasterDataModel.product">
               <MappingFragment StoreEntitySet="product">
+                <ScalarProperty Name="printerBundleDiscountAmount" ColumnName="printerBundleDiscountAmount" />
                 <ScalarProperty Name="dateLastInStock" ColumnName="dateLastInStock" />
                 <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
                 <ScalarProperty Name="secondaryCrossSellGroupIdent" ColumnName="secondaryCrossSellGroupIdent" />

@@ -2200,9 +2200,13 @@ namespace netGiant.Intranet.DataLayer.NetgiantMasterData
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateProviderFeedTime", providerFKParameter, feedDateTimeParameter);
         }
     
-        public virtual int UpdateSupplierStockQuantity()
+        public virtual int UpdateSupplierStockQuantity(string providersArray)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateSupplierStockQuantity");
+            var providersArrayParameter = providersArray != null ?
+                new ObjectParameter("ProvidersArray", providersArray) :
+                new ObjectParameter("ProvidersArray", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateSupplierStockQuantity", providersArrayParameter);
         }
     
         public virtual ObjectResult<zGetOrderDetail_Result> zGetOrderDetail(Nullable<int> websiteId, string orderNo)
