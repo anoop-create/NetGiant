@@ -25,7 +25,7 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product
         public IQueryable<SelectListItem> AllEquipment { get; set; }
         public int EquipmentId { get; set; }
         public IQueryable<TelerikProviderInventory> ProviderInventory { get; set; }
-
+        public List<AddOnDetail> AddonProducts { get; set; }
         public ProductDetailViewModel GetProductDetail(int productFK)
         {
             using (ngmdEntities db = new ngmdEntities())
@@ -110,6 +110,21 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product
                 .Where(x => x.productFK == productFK)
                 .OrderBy(x => x.eqProductMembershipID)
                 .ToPagedList(1, 10);
+                AddonProducts =
+                    (
+                        from pa in db.ProductAddon
+                        join p in db.product
+                            on pa.AddonProductId equals p.productID
+                        where pa.ProductId == productFK && pa.IsActive
+                        orderby pa.DisplayOrder
+                        select new AddOnDetail
+                        {
+                            ProductId = p.productID.ToString(),
+                            ProductName = p.productName,
+                            PartNo=p.partNo,
+                            Barcode=p.barcode
+                        }
+                    ).ToList();
             }
 
             return this;
@@ -223,7 +238,13 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product
                     .ForEach(x => WhereUsed.Add(x.product));
             }
         }
+        public class AddOnDetail{
+            public string ProductName { get; set; }
+            public string ProductId { get; set; }
+            public string PartNo { get; set; }
+            public string Barcode { get; set; }
 
+        }
         public ProductDetailViewModel GetProductCompetitors(string selectedPartNo)
         {
             using (ngmdEntities db = new ngmdEntities())

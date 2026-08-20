@@ -626,6 +626,7 @@
     <Content Include="Areas\OMS\Views\PurchaseOrder\EditPurchaseOrderLine.cshtml" />
     <Content Include="Areas\OMS\Views\Monitor\SupplierOptions.cshtml" />
     <Content Include="Areas\PMS\Views\Export\ExportProductAddon.cshtml" />
+    <Content Include="Areas\PMS\Views\Product\_AddOnReadOnly.cshtml" />
     <None Include="Properties\PublishProfiles\Shared Drive Release.pubxml" />
     <None Include="Properties\PublishProfiles\Live Release.pubxml" />
     <None Include="Properties\PublishProfiles\Live Debug.pubxml" />

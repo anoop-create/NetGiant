@@ -156,11 +156,11 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Import
                         }
 
                         List<string> addOnIdentifiers = (productAddonList[i].AddOnSKUs ?? string.Empty)
-                            .Split(AddOnSeparator)
-                            .Select(s => s.Trim())
-                            .Where(s => s.Length > 0)
-                            .Distinct(StringComparer.OrdinalIgnoreCase)
-                            .ToList();
+                        .Split(new[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(s => s.Trim())
+                        .Where(s => s.Length > 0)
+                        .Distinct(StringComparer.OrdinalIgnoreCase)
+                        .ToList();
 
                         List<int> addOnProductIds = new List<int>();
 

@@ -751,7 +751,15 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.Shared
             {
                 using (ngmdEntities db = new ngmdEntities())
                 {
-                    IQueryable<product> query = db.product.Where(x => x.productStatusFK == 1 || x.productStatusFK == 7);
+                    // Was "productStatusFK == 1 || productStatusFK == 7" - status 7 isn't the code used
+                    // anywhere else in this codebase for "active"; SearchProductsPartNoDesc above (the
+                    // other product-search method in this same file) uses 1 or 8, and comments that pair
+                    // as "Active products only". This one-character typo meant any real product whose
+                    // status is actually 8 - i.e. most/all of them - got filtered out before the search
+                    // term was even evaluated, so both the part-number and description Contains() checks
+                    // below always ran against an empty candidate set and returned no results either way -
+                    // matching the reported "search by code" and "search by title" both finding nothing.
+                    IQueryable<product> query = db.product.Where(x => x.productStatusFK == 1 || x.productStatusFK == 8); // Active products only
 
                     if (!string.IsNullOrEmpty(searchTerm))
                     {
