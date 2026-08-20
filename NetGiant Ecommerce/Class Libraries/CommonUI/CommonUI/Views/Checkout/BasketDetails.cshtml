@@ -1829,11 +1829,11 @@
     <div class="col-md-3 dv-basket-card">
 
         @* ---------------- Delivery message ----------------
-            CM: shows the "spend X more for free delivery" threshold message.
-            TG: constant "Free Next Day/Working Day Delivery" message.
-            Site is distinguished the same way other site-specific config is
-            read elsewhere in this file (ConfigurationManager.AppSettings) -
-            adjust the key/values below to match your actual site flag. *@
+        CM: shows the "spend X more for free delivery" threshold message.
+        TG: constant "Free Next Day/Working Day Delivery" message.
+        Site is distinguished the same way other site-specific config is
+        read elsewhere in this file (ConfigurationManager.AppSettings) -
+        adjust the key/values below to match your actual site flag. *@
         @{
             bool isCartridgeMarket = ConfigurationManager.AppSettings["SiteBrand"] == "CM";
             decimal freeDeliveryThreshold = 45.00m; // CM threshold - move to config if it varies
@@ -2034,24 +2034,51 @@
         </form>
 
         @* The Amazon Pay button and the PayPal button containers (#paypal-button2/3) used to
-            live here, but this whole block is re-rendered from scratch on every basket mutation
-            (qty change, voucher apply, add/remove, etc. - see CheckoutController.RefreshViewBasket
-            and site.js's refreshVbFields(), which replace this partial's entire markup via
-            $('#vbBasketDetails').html(...)). jQuery's .html() evaluates <script> tags in whatever
-            it inserts, so the Amazon Pay button's renderButton() script - and the PayPal button
-            containers, which JS then re-populates via renderPaypalButtonV2() - were being torn
-            down and rebuilt on every single quantity change, which is what caused the reported
-            "payment buttons refresh when you increase quantity" symptom. Neither button actually
-            needs to reflect a live basket total in its render call (Amazon Pay's session request
-            carries no amount at all - see MyAmazonPay.GetButton(); the PayPal SDK now fetches the
-            current amount at the moment an order is actually created, not at render time - see
-            buildPayPalObject() in site.js), so they've been moved to ViewBasket.cshtml, outside
-            this AJAX-refreshed region, where they render exactly once per page view and are never
-            touched again regardless of how many times the basket changes. The PayPal "as low as"
-            financing message and the hidden PayPalPaid form below DO need the live total (the
-            hidden field is what's actually submitted as the paid amount), so those stay here. *@
+        live here, but this whole block is re-rendered from scratch on every basket mutation
+        (qty change, voucher apply, add/remove, etc. - see CheckoutController.RefreshViewBasket
+        and site.js's refreshVbFields(), which replace this partial's entire markup via
+        $('#vbBasketDetails').html(...)). jQuery's .html() evaluates <script> tags in whatever
+        it inserts, so the Amazon Pay button's renderButton() script - and the PayPal button
+        containers, which JS then re-populates via renderPaypalButtonV2() - were being torn
+        down and rebuilt on every single quantity change, which is what caused the reported
+        "payment buttons refresh when you increase quantity" symptom. Neither button actually
+        needs to reflect a live basket total in its render call (Amazon Pay's session request
+        carries no amount at all - see MyAmazonPay.GetButton(); the PayPal SDK now fetches the
+        current amount at the moment an order is actually created, not at render time - see
+        buildPayPalObject() in site.js), so they've been moved to ViewBasket.cshtml, outside
+        this AJAX-refreshed region, where they render exactly once per page view and are never
+        touched again regardless of how many times the basket changes. The PayPal "as low as"
+        financing message and the hidden PayPalPaid form below DO need the live total (the
+        hidden field is what's actually submitted as the paid amount), so those stay here. *@
         @if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
         {
+            if (ConfigurationManager.AppSettings["AmazonPayMerchantId"] != "OFF")
+            {
+                <div style="height:70px;"></div>
+                <div id="AmazonPayButton" class="g-m-t-20"></div>
+
+                <script src="https://static-eu.payments-amazon.com/checkout.js"></script>
+
+                <script type="text/javascript" charset="utf-8">
+                 amazon.Pay.renderButton('#AmazonPayButton', {
+                     merchantId: '@Html.Raw(ConfigurationManager.AppSettings["AmazonPayMerchantId"])',
+                     publicKeyId: '@Html.Raw(ConfigurationManager.AppSettings["AmazonPayPublicKeyId"])',
+                     ledgerCurrency: 'GBP',
+                     checkoutLanguage: 'en_GB',
+                     productType: 'PayAndShip',
+                     placement: 'Cart',
+                     buttonColor: 'Gold',
+                     createCheckoutSessionConfig: {
+                         payloadJSON: '@Html.Raw(Model.AmazonButtonJSONPayLoad)',
+                         signature: '@Html.Raw(Model.AmazonButtonSignature)'
+                     }
+                 });
+                </script>
+            }
+
+            <div id="paypal-button2" class="g-m-t-20"></div>
+            <div id="paypal-button3"></div>
+           
             <div id="paypal-message" data-pp-message data-pp-style-layout="text"
                  data-pp-style-logo-type="inline" data-pp-style-text-color="black"
                  data-pp-amount="@string.Format("{0:N2}", Model.BasketTotals.GrandTotalIncVat)">
@@ -2145,17 +2172,17 @@
 
         </div>
         @*@if (!Model.IsMobile)
-            {
-                <div class="g-bc-s g-b-1-p g-m-t-20 hidden-xs hidden-sm">
-                    <div class="g-p-10">
-                        <strong>Payment Options at Checkout</strong>
-                    </div>
-                    <hr />
-                    <div class="g-p-10">
-                        @Html.Raw(Model.CheckoutData["PaymentMethods"].Replace("[newline]", "&#013;"))
-                    </div>
+        {
+            <div class="g-bc-s g-b-1-p g-m-t-20 hidden-xs hidden-sm">
+                <div class="g-p-10">
+                    <strong>Payment Options at Checkout</strong>
                 </div>
-            }*@
+                <hr />
+                <div class="g-p-10">
+                    @Html.Raw(Model.CheckoutData["PaymentMethods"].Replace("[newline]", "&#013;"))
+                </div>
+            </div>
+        }*@
     </div>
 }
 else
