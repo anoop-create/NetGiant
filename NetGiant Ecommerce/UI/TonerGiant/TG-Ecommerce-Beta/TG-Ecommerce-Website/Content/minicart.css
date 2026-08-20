@@ -1,0 +1,557 @@
+﻿
+:root {
+    --dark: #2b2b2b;
+    --pink: #e6007e;
+    --green: #00a651;
+    --border: #e5e5e5;
+    --text: #333;
+    --muted: #777;
+}
+/* Floating cart button */
+.cart-fab {
+    position: fixed;
+    right: 6px;
+    top: 36px;
+    transform: translateY(-50%);
+    z-index: 9998;
+    width: 56px;
+    height: 56px;
+    border-radius: 4px;
+    background: #0099cc;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .cart-fab:hover {
+        background: #000;
+    }
+
+.cart-fab__count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--pink);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+}
+/* Overlay + slide-in panel */
+.mini-cart-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease;
+}
+
+    .mini-cart-overlay.is-open {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+.mini-cart-wrap {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: auto;
+    z-index: 10000;
+    transform: translateX(100%);
+    transition: transform .25s ease;
+}
+
+.mini-cart-overlay.is-open .mini-cart-wrap {
+    transform: translateX(0);
+}
+
+.mini-cart {
+    max-width: 300px;
+    width: 300px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: 100vh;
+}
+
+.mini-cart__header {
+    background: var(--dark);
+    color: #fff;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.mini-cart__close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    width: 26px;
+    height: 26px;
+    border: 1px solid #666;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+    .mini-cart__close:hover {
+        background: rgba(255,255,255,0.15);
+    }
+
+.mini-cart__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 16px;
+}
+/* Cart item */
+.cart-item {
+    display: flex;
+    gap: 10px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.cart-item__link {
+    flex-shrink: 0;
+    display: block;
+}
+
+.cart-item__img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.cart-item__details {
+    flex: 1;
+    min-width: 0;
+}
+
+.cart-item__title {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0 0 11px;
+    line-height: 1.3;
+    text-decoration: none;
+}
+
+    .cart-item__title:hover {
+        color: #000;
+        text-decoration: underline;
+    }
+
+.cart-item__sku {
+    font-size: 11px;
+    color: var(--muted);
+    margin: 0 0 6px;
+}
+
+.cart-item__price {
+    font-size: 17px;
+    font-weight: 700;
+    color: #09c;
+    margin: 0;
+}
+
+    .cart-item__price .vat {
+        font-size: 11px;
+        font-weight: 400;
+        color: var(--muted);
+    }
+
+.cart-item__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.cart-item__remove {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.qty-stepper {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+    .qty-stepper button {
+        background: #fafafa;
+        border: none;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 1;
+        color: #000000;
+    }
+
+    .qty-stepper input {
+        width: 28px;
+        text-align: center;
+        border: none;
+        border-left: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+        font-size: 13px;
+        height: 24px;
+        color: #000000;
+    }
+/* Switch & Save */
+.switch-save {
+    border: 1px solid var(--pink);
+    border-radius: 6px;
+    padding: 14px;
+    margin: 10px 0 16px;
+    position: relative;
+}
+
+.switch-save__label {
+    position: absolute;
+    top: -9px;
+    left: 12px;
+    background: #fff;
+    padding: 0 6px;
+    color: var(--pink);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.switch-save__content {
+    display: flex;
+    gap: 10px;
+}
+
+.switch-save__img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.switch-save__title {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+    margin: 0 0 4px;
+}
+
+    .switch-save__title:hover {
+        color: var(--pink);
+        text-decoration: underline;
+    }
+
+.switch-save__sku {
+    font-size: 11px;
+    color: var(--muted);
+    margin: 0 0 6px;
+}
+
+.switch-save__price {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 0 2px;
+    color: #000000;
+}
+
+.switch-save__save {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--pink);
+    margin: 0 0 10px;
+}
+
+.switch-save__btn {
+    display: block;
+    width: 100%;
+    background: #fff;
+    border: 1px solid var(--pink);
+    color: var(--pink);
+    font-weight: 700;
+    font-size: 13px;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+/* Buy More & Save (Promotional Lozenge) - per the "Basket Switch & Save / Add Ons"
+       design spec, this is a small pill/badge under the qty stepper on this same
+       product row, not a full-width card/button like Switch & Save. Same pink/magenta
+       accent used throughout the basket - no green anywhere in the spec. */
+.qty-upsell-pill {
+    display: inline-block;
+    margin-top: 10px;
+    background: #fff;
+    border: 1px solid var(--pink);
+    color: var(--pink);
+    font-weight: 700;
+    font-size: 11px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+    .qty-upsell-pill:hover {
+        background: #fdeaf3;
+    }
+/* Footer */
+.mini-cart__footer {
+    border-top: 1px solid var(--border);
+    padding: 14px 16px 16px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #000000;
+}
+
+.promo {
+    margin-bottom: 12px;
+}
+
+    .promo summary {
+        font-size: 13px;
+        color: #000;
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 4px 0;
+    }
+
+        .promo summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .promo summary::after {
+            content: "▾";
+            transition: transform .2s;
+            font-size: 20px;
+        }
+
+    .promo[open] summary::after {
+        transform: rotate(180deg);
+    }
+
+.promo-form {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+    .promo-form input {
+        flex: 1;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+
+    .promo-form button {
+        background: var(--green);
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 16px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+.free-delivery {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--green);
+    margin-bottom: 12px;
+}
+
+.checkout-btn {
+    display: block;
+    width: 100%;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+    .checkout-btn:hover {
+        background: #008f45;
+    }
+
+a.view-basket-link {
+    text-align: center;
+    display: block;
+    font-size: 12px;
+    margin-top: 9px;
+    color: #666;
+    text-decoration: none;
+}
+
+    a.view-basket-link:hover {
+        text-align: center;
+        color: #09c;
+    }
+
+    a.view-basket-link:focus {
+        outline: none;
+        border: none
+    }
+
+.stock-status.in-stock {
+    color: #008340
+}
+
+.switch-save p {
+    color: #2E2E2E;
+    line-height: 18px;
+}
+
+.cart-item__sku, .switch-save__sku {
+    color: #333333;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.cart-item__actions i {
+    color: #0099ccab;
+    font-size: 18px;
+}
+
+    .cart-item__actions i:hover {
+        color: #09c;
+    }
+
+.mini-cart {
+    max-width: 360px !important;
+    width: 360px !important;
+}
+
+.switch-save__price {
+    font-size: 14px;
+    color: #09c;
+}
+
+.promo-applied {
+    color: black;
+}
+
+#minibasket-voucher-code-error {
+    margin-top: 10px !important;
+    color: red !important;
+}
+
+#minibasket-voucher-code {
+    color: black;
+}
+
+.voucher-applied {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: #eaf8ef;
+    color: #1e7e34;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+@media (max-width:1199px) {
+    body, html {
+        overflow-x: hidden
+    }
+
+    section#utility-bar {
+        display: block !important;
+    }
+
+    .mobileBasketMessage, .mobileBasketBackdrop, .g-bc-secondary, .basketMessage, .printerMessage, .tab-open.g-flex-allcenter[data-toggle="offcanvas-close"] {
+        display: none !important
+    }
+
+    .navbar-inverse .small-screen-links a {
+        outline: none;
+    }
+}
+/* Must always beat this file's own #you-may-also-need-backdrop (z-index: 99999, below,
+       unconditional - not scoped to any data-context). This used to only apply when
+       [data-context="addtocart"], which left the "checkout" context (opened from the
+       mini-cart's own Proceed to Checkout button) with no boost at all - its z-index stayed at
+       YouMayAlsoNeed.cshtml's own base value (1060), well below the backdrop's 99999, so the
+       backdrop rendered on top of the popup's actual content: a solid near-black screen with
+       nothing visible on it. Unconditional now so both contexts sit above their own backdrop. */
+#you-may-also-need {
+    z-index: 999999999 !important;
+    height: 410px;
+    max-height: initial !important;
+}
+
+    #you-may-also-need[data-context="addtocart"] .ymn-proceed {
+        display: none !important;
+    }
+
+.promo-applied {
+    display: flex;
+    align-items: center;
+}
+
+    .promo-applied button {
+        margin-left: auto;
+        border: none;
+        margin-right: 4px;
+        color: #B10000;
+        background: transparent;
+    }
+
+    .promo-applied .promo-applied__saving {
+        font-weight: 600;
+    }
+
+div#you-may-also-need-backdrop {
+    background: #00000091;
+    z-index: 99999
+}

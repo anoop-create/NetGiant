@@ -29590,6 +29590,8 @@
     <Content Include="Content\jquery.jscrollpane.css" />
     <Content Include="Content\kendo.bootstrap.min.css" />
     <Content Include="Content\kendo.common.min.css" />
+    <Content Include="Content\minicart.css" />
+    <Content Include="Content\style.css" />
     <Content Include="data\local-static-files\blog-feed.xml" />
     <Content Include="data\local-static-files\main-menu.html" />
     <Content Include="data\local-static-files\mobile-menu.html" />

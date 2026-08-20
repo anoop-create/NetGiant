@@ -99,7 +99,8 @@ namespace TG_Ecommerce_Website
                 "~/Scripts/kendo.userevents.min.js",
                 "~/Scripts/kendo.numerictextbox.min.js",
                 "~/Scripts/product.js"));
-
+            bundles.Add(new LessBundle("~/Content/style.css"));
+            bundles.Add(new LessBundle("~/Content/minicart.css"));
             BundleTable.EnableOptimizations = ConfigurationManager.AppSettings["Environment"] != "Local";
         }
     }

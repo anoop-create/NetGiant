@@ -1459,17 +1459,24 @@ namespace CommonUI.Controllers
             model.ExtendBasket();
             model.GetAddOn();
 
-            List<string> basketRefs = model.BasketContents.Select(x => x.StockRef).ToList();
+            List<int> basketProductIds = model.BasketContents.Select(x => x.ProductId).ToList();
 
             // No cap here (matches the inline "You May Also Need" list on BasketDetails.cshtml,
             // which also doesn't cap) - the popup's carousel (YouMayAlsoNeed.cshtml) shows 3 at a
             // time and only renders its prev/next arrows when there are more than 3, so capping
             // the list to exactly 3 here meant those arrows could never have anything to scroll to.
+            //
+            // Dedup/exclude by ProductId, not StockRef: this DB has a known data-quality issue
+            // where multiple distinct products share the same stockReference (confirmed
+            // separately during the Printer Bundles work). Deduping on StockRef let that
+            // collapse genuinely different add-on products down to a single entry - e.g. 4
+            // configured add-ons for a product showing as only 1 in the popup. ProductId is the
+            // real primary key and can't collide, so it's the safe key for both checks.
             List<BasketContents> addSell = model.BasketContents
                 .Where(x => x.AddonProducts != null)
                 .SelectMany(x => x.AddonProducts)
-                .Where(x => !basketRefs.Contains(x.StockRef))
-                .GroupBy(x => x.StockRef)
+                .Where(x => !basketProductIds.Contains(x.ProductId))
+                .GroupBy(x => x.ProductId)
                 .Select(g => g.First())
                 .ToList();
 
@@ -1517,13 +1524,15 @@ namespace CommonUI.Controllers
                     ViewBag.OrderIsOnHold = true;
                 }
 
-                if (ConfigurationManager.AppSettings["AmazonPayMerchantId"] != "OFF")
-                {
-                    MyAmazonPay myAmazonPay = new MyAmazonPay();
-                    myAmazonPay.GetButton();
-                    model.AmazonButtonJSONPayLoad = myAmazonPay.AmazonButtonJSONPayLoad;
-                    model.AmazonButtonSignature = myAmazonPay.AmazonButtonSignature;
-                }
+                // Was regenerating a brand new Amazon Pay checkout-session signature here on
+                // every single basket refresh (qty change, voucher apply, etc.) - but the Amazon
+                // Pay button no longer lives in BasketDetails.cshtml (it renders once, in
+                // ViewBasket.cshtml, outside this AJAX-refreshed partial - see that file's
+                // comment) specifically so it never needs to be re-rendered, and MyAmazonPay's
+                // request never carried any basket-amount info anyway (see MyAmazonPay.GetButton
+                // - it's just a return-URL/store-ID/country-restriction request, no amount, no
+                // line items). Regenerating it here was pure unnecessary work on every refresh
+                // with no effect on anything BasketDetails.cshtml still renders.
 
                 sr.Html = RenderPartialViewToString("~/Views/Checkout/BasketDetails.cshtml", model);
                 // basketSummary feeds the mini-cart widget (#minibasket-widget in

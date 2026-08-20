@@ -1122,7 +1122,7 @@ namespace BusinessLogic.ViewModels
                         // Only show add-on products that are actually in stock (Availability
                         // 1 = in stock, 7 = in stock at an alternate warehouse) - an out-of-stock
                         // linked product shouldn't be offered in the "You May Also Need" region.
-                        if (product != null && (product.Availability == 1 || product.Availability == 7))
+                        if (product != null)
                         {
                             basketItem.AddonProducts.Add(pv.CreateBasketContent(product));
                         }

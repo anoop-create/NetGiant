@@ -673,6 +673,17 @@ function refreshVbFields(data) {
     $('.basket-counter').html(data.basketQuantity);
     $('#minibasket-widget').replaceWith(data.basketSummary);
     setDeferredImages();
+
+    // The line above just replaced #vbBasketDetails's entire contents, which destroys and
+    // recreates each basket item's "Order Within" .cutoffCountdownFalse span from scratch -
+    // freshly rendered, so blank until the next tick of the recursive startTime() loop already
+    // running from page load (every 500ms). That gap was visible as the countdown appearing to
+    // "refresh"/flash on every basket change. Repopulate it immediately here instead of waiting
+    // for the next scheduled tick - this does NOT start a second timer loop (see
+    // updateCutoffCountdown()'s comment), it just fills in the value right away.
+    if ($('.cutoffCountdownFalse').length) {
+        updateCutoffCountdown();
+    }
     $('input[id^="qty-"]').each(function () {
         $(this).kendoNumericTextBox({
             "change": changeBasketQty,
@@ -720,7 +731,17 @@ function changeBasketQty(productref, qty) {
                 setDeferredImages();
             }
 
-            renderPaypalButtonV2();
+            // Was an unconditional renderPaypalButtonV2() call here on every quantity change -
+            // that's exactly what was causing the reported "Amazon and PayPal buttons refresh
+            // every time you increase quantity" symptom (PayPal's button re-renders itself into
+            // #paypal-button2/3, and separately the Amazon Pay button was being torn down and
+            // rebuilt as a side effect of refreshViewBasket() replacing the whole basket-details
+            // partial). Neither button needs a live basket total to render correctly any more
+            // (PayPal's createOrder now fetches the current amount itself at the moment an order
+            // is actually created - see buildPayPalObject() below; Amazon Pay's session request
+            // never carried an amount at all), and both buttons now live in ViewBasket.cshtml,
+            // outside the AJAX-refreshed region, so there's nothing left here that needs
+            // re-rendering just because the quantity changed.
         },
         error: function (xhr, textStatus, thrownError) {
             logAjaxScriptError("/Product/BasketUpdateQty/", xhr, textStatus, thrownError);
@@ -902,18 +923,46 @@ function proceedToCheckout() {
 // category listing, the inline "You May Also Need" section on the basket page, etc.) - if the
 // item(s) now in the basket have eligible add-ons, surface the same popup right away instead of
 // only waiting for the mini-cart's Proceed to Checkout click.
+// Always re-requests the popup, even if one is already showing - it used to bail out early
+// whenever #you-may-also-need already existed ("don't stack a second copy"), but that also
+// skipped re-checking eligibility for the item that was JUST added. Reported bug: add a product
+// with eligible add-ons (popup opens), then add a second product with none of its own - the
+// stale popup from the first product stayed open, showing add-ons that have nothing to do with
+// what's now in the basket, because this function returned before ever asking the server again.
+// requestAddSellPopup's own showAddSellPopup() already removes any existing popup before
+// appending a fresh one, so re-requesting can't "stack" a second copy - and the onNotEligible
+// callback here removes a stale popup outright when the current basket no longer qualifies.
 function maybeShowAddSellPopupAfterAdd() {
-    if ($('#you-may-also-need').length) {
-        // Already showing (e.g. rapid double-add) - don't stack a second copy.
+    // Mobile design: add-ons should only ever surface when the customer taps the mini-cart's
+    // own "Proceed to Checkout" button (proceedToCheckout(), below - which already has its own
+    // correct <768px handling), never immediately after a plain Add to Basket. Below 768px, skip
+    // the popup entirely here. This also fixes a second symptom of the same bug: this partial's
+    // CSS gives #you-may-also-need[data-context="addtocart"] a higher-specificity, centered-
+    // floating-modal position/size rule that beats the plain mobile full-screen rule (which is
+    // what makes the .ymn-proceed "Proceed to Checkout" footer button clearly visible/usable) -
+    // so calling this on mobile was also rendering a cramped desktop-style popup instead of the
+    // intended full-screen mobile layout. Skipping the call here means mobile only ever reaches
+    // this popup via the 'checkout' context, so that mismatch can no longer happen either.
+    if ($(window).width() < 768) {
         return;
     }
 
     requestAddSellPopup(function (html) {
         showAddSellPopup(html, 'addtocart');
+    }, function () {
+        removeAddSellPopup();
     });
 }
 
-function startTime() {
+// Split out of startTime() below: does the actual calculation + DOM update for the "Order
+// Within" countdown, with no side effect of scheduling another tick. startTime() (the original,
+// still-recursive loop kicked off once on page load) calls this and then reschedules itself -
+// unchanged. This standalone version exists so refreshVbFields() can force an immediate
+// re-populate of a freshly re-rendered (and therefore blank) .cutoffCountdownFalse element right
+// after a basket refresh, without also spinning up a second, parallel setTimeout loop alongside
+// the one already running from page load - calling startTime() itself there instead would do
+// exactly that, since it unconditionally reschedules itself every time it's invoked.
+function updateCutoffCountdown() {
     //var currTime = new Array();
     var cutOffTime = new Array();
     var countDown = new Array();
@@ -1000,7 +1049,10 @@ function startTime() {
         txtMinute = " mins ";
     }
     $('.cutoffCountdownFalse').html(countDown[0] + txtHour + ' ' + countDown[1] + txtMinute);
+}
 
+function startTime() {
+    updateCutoffCountdown();
     setTimeout(function () { startTime(); }, 500);
 }
 
@@ -1178,6 +1230,15 @@ function renderPaypalButtonV2() {
 
     var paypalObject = buildPayPalObject(amt);
 
+    // #paypal-button2/3 now render once in ViewBasket.cshtml and persist across basket
+    // refreshes (they used to live inside the AJAX-replaced BasketDetails.cshtml partial, so a
+    // fresh empty container was guaranteed every time this ran). Since this function can still
+    // be called more than once per page view (add/remove/voucher etc. still call it), empty the
+    // containers first so paypal.Buttons().render() can't stack a second button on top of one
+    // that's already there.
+    $('#paypal-button2').empty();
+    $('#paypal-button3').empty();
+
     paypalObject.fundingSource = paypal.FUNDING.PAYPAL;
     paypal.Buttons(paypalObject).render('#paypal-button2');
     if ($('#paypal-button3').length) {
@@ -1213,14 +1274,39 @@ function buildPayPalObject(amt) {
         },
         createOrder: function (data, actions) {
             if (!isCurrentPage('stage1')) {
-                return actions.order.create({
-                    intent: "AUTHORIZE",
-                    purchase_units: [{
-                        amount: {
-                            value: amt
-                        }
-                    }],
-                    payment_initiator: 'CUSTOMER'
+                // Was "amount: { value: amt }" - amt is whatever renderPaypalButtonV2() fetched
+                // at the moment this button was last rendered, closed over here. Now that the
+                // button only renders once per page view (it used to be rebuilt on every basket
+                // change, which kept amt current as an incidental side effect - see
+                // ViewBasket.cshtml's comment on why it no longer does), a quantity/voucher
+                // change after render would leave amt stale and the PayPal order would be
+                // created for the wrong total. Fetch the current amount fresh right here, at the
+                // moment the customer actually clicks the button, instead of trusting whatever
+                // was captured at render time - this is correct regardless of how long ago the
+                // button was rendered or how many times the basket has changed since.
+                return $.ajax({
+                    url: '/Checkout/PayPalGetAmount',
+                    method: 'POST',
+                    dataType: 'json',
+                    cache: false,
+                    data: {
+                        __RequestVerificationToken: $('[name="__RequestVerificationToken"]').val()
+                    }
+                }).then(function (result) {
+                    if (!result.IsSuccess) {
+                        var rpl = 'errormessage_' + encodeURI(result.Message);
+                        location.href = "/checkout/?pm=CheckoutError&sz=md&rpl=" + rpl;
+                        return $.Deferred().reject().promise();
+                    }
+                    return actions.order.create({
+                        intent: "AUTHORIZE",
+                        purchase_units: [{
+                            amount: {
+                                value: result.Html
+                            }
+                        }],
+                        payment_initiator: 'CUSTOMER'
+                    });
                 });
             }
             if (isCurrentPage('stage1')) {

@@ -1,0 +1,1192 @@
+﻿
+.dv-basket-card {
+    background: white;
+    border: 1px solid #dcdcdc;
+}
+
+.basket-card {
+    padding-right: 20px;
+}
+
+.basket-card-actions {
+    margin-top: 15px;
+    text-align: right;
+}
+
+.basket-status {
+    margin-top: 15px;
+}
+
+.stock-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+    .stock-status.in-stock {
+        color: #28a745;
+    }
+
+    .stock-status.back-order {
+        color: #f39c12;
+    }
+
+.delivery-status {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #666;
+}
+
+.delivery-date {
+    margin-top: 2px;
+    font-weight: 600;
+    color: #222;
+    padding-left: 1px;
+}
+
+.basket-qty-wrapper {
+    margin-top: 20px;
+}
+
+.qty-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #000;
+}
+
+.basket-qty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    border-radius: 34px;
+    overflow: hidden;
+    width: 140px;
+    height: 42px;
+    margin-left: auto;
+}
+
+.qty-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: #f8f8f8;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+    .qty-btn:hover {
+        background: #ececec;
+    }
+
+    .qty-btn:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+    }
+
+.qty-input {
+    width: 60px;
+    border: none;
+    text-align: center;
+    font-weight: 600;
+    background: #fff;
+}
+
+.basket-remove-container {
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.basket-remove {
+    background: none;
+    border: none;
+    color: #ff0d17;
+    padding: 0;
+    font-size: 26px;
+}
+
+    .basket-remove:hover {
+        text-decoration: underline;
+    }
+
+.switch-badge {
+    display: inline-block;
+    background: #007b5f;
+    color: #fff;
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.switch-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.switch-text {
+    color: #666;
+    font-size: 13px;
+}
+
+.switch-price {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.switch-saving {
+    color: #28a745;
+    font-weight: 600;
+    margin-top: 6px;
+}
+
+.switch-product-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.switch-price {
+    margin-top: 6px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+    .switch-price small {
+        display: block;
+        font-size: 12px;
+        color: #777;
+        font-weight: 400;
+    }
+
+.switch-saving-label {
+    font-size: 12px;
+    color: #666;
+}
+
+.switch-saving {
+    color: #28a745;
+    font-size: 18px;
+    font-weight: 700;
+}
+/* ===========================
+     Switch & Save
+    =========================== */
+
+.switch-save-card {
+    margin-top: 20px;
+    padding: 20px;
+    border: 2px solid #d5007f; /* Brand magenta */
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+.switch-save-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.switch-heading {
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+}
+
+.switch-product-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0px 0;
+    color: #09c;
+    margin-top: -28px;
+}
+
+.switch-price {
+    font-size: 17px;
+    font-weight: 700;
+    color: #000000;
+}
+
+    .switch-price small {
+        display: block;
+        margin-top: 4px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #222121;
+    }
+
+.switch-saving {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0a8a43;
+}
+
+.switch-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+    .switch-footer .btn {
+        min-width: 170px;
+    }
+
+.delivery-cutoff {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #555;
+}
+
+    .delivery-cutoff i {
+        color: #d5007f;
+        margin-right: 5px;
+    }
+
+.delivery-countdown {
+    font-weight: 700;
+    color: #d5007f;
+}
+
+.delivery-date {
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.basket-switch-save {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    border: 2px solid #d5007f;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.basket-switch-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+    .basket-switch-header h3 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+.basket-switch-total {
+    font-size: 18px;
+    font-weight: 700;
+    color: #198754;
+}
+
+.basket-switch-save p {
+    margin: 0 0 15px;
+    color: #666;
+}
+
+.voucher-applied {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: #eaf8ef;
+    color: #1e7e34;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+/*Anil css*/
+.row.dv-basket-card {
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.switch-heading {
+    position: relative;
+    top: -36px;
+    background: #fff;
+    display: inline-block;
+    padding: 0 12px;
+}
+
+.fa-plus:before, .fa-minus:before {
+    color: #0099cc !important;
+}
+
+.price-row.ex-vat > strong {
+    font-size: 18px;
+    color: #0099cc;
+}
+
+.price-row.ex-vat {
+    font-weight: 700
+}
+
+    .price-row.ex-vat > span {
+        font-size: 13px;
+        color: #0099cc;
+    }
+
+.price-row.inc-vat > strong {
+    font-size: 16px;
+    color: #0099cc;
+    font-weight: 400 !important
+}
+
+.price-row.inc-vat {
+    font-weight: 400 !important
+}
+
+    .price-row.inc-vat > span {
+        font-size: 12px;
+        color: #0099cc;
+        font-weight: 400 !important
+    }
+
+.price-row.save-saving > strong {
+    font-size: 18px;
+    color: #5cb85c;
+}
+
+.price-row.save-saving {
+    font-weight: 600
+}
+
+    .price-row.save-saving > span {
+        font-size: 13px;
+        color: #5cb85c;
+    }
+
+button.btn.btn-success.atb-replace {
+    padding: 7px 16px;
+    margin-top: 12px;
+    border-radius: 6px !important;
+}
+/*button.btn.btn-success.replaceall {
+            padding: 7px 16px;
+            margin-top: 12px;
+            border-radius: 6px !important;
+        }
+        button.btn.btn-success.replaceall:hover {
+                color: #fff;
+                background-color: #5cb85c;
+                border-color: #4cae4c;
+        }*/
+.switch-save-card .btn-success {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+    .switch-save-card .btn-success:hover {
+        color: #fff;
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+    }
+
+.shipping-time {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+    .shipping-time img {
+        margin-right: 12px
+    }
+
+.shipping-time {
+    font-weight: 600;
+    color: #5cb85c;
+    line-height: 18px
+}
+
+.basket-switch-left {
+    display: flex;
+    flex-direction: column;
+}
+
+    .basket-switch-left h3 {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 700;
+    }
+
+    .basket-switch-left p {
+        margin: 5px 0 14px;
+        color: #666;
+    }
+
+/*.basket-switch-right {
+        text-align: right;
+    }
+
+        .basket-switch-right span {
+            display: block;
+            color: #666;
+            font-size: 15px;
+        }
+
+        .basket-switch-right strong {
+            font-size: 36px;
+            color: #0b8b52;
+            font-weight: 700;
+        }*/
+
+.replaceall {
+    width: 220px;
+    height: 50px;
+    font-size: 18px;
+    border: 2px solid #d5007f;
+}
+
+.switchAll {
+    border: 2px solid #d5007f;
+}
+
+.basket-switch-save {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    border: 2px solid #d5007f;
+    border-radius: 10px;
+    background: #fff;
+    padding: 22px 26px;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+/* .basket-switch-left {
+        flex: 1;
+    }*/
+
+.switch-banner-title {
+    display: inline-block;
+    margin: 0;
+    padding: 6px 14px;
+    background: #d5007f;
+    color: #fff;
+    font-size: 30px;
+    font-weight: 700;
+    border-radius: 4px;
+}
+
+/*.basket-switch-left p {
+        margin: 18px 0 0;
+        font-size: 16px;
+        color: #666;
+        line-height: 1.5;
+    }*/
+
+.basket-switch-right {
+    text-align: right;
+    margin-left: 30px;
+}
+
+    .basket-switch-right span {
+        display: block;
+        font-size: 18px;
+        color: #333;
+    }
+
+    .basket-switch-right strong {
+        display: block;
+        font-size: 36px;
+        color: #11854b;
+        font-weight: 700;
+    }
+
+.basket-switch-btn {
+    position: absolute;
+    left: 26px;
+    bottom: 22px;
+}
+
+.replaceall {
+    min-width: 190px;
+    height: 44px;
+    border-radius: 6px !important;
+    font-size: 16px;
+    font-weight: 600;
+    color: #d5007f;
+}
+
+.switchsave {
+    background: #d5007f;
+    color: white;
+    padding: 10px;
+    height: 60px;
+    margin-right: 10px;
+}
+
+    .switchsave:hover {
+        background: #d5007f;
+        color: white;
+        padding: 10px;
+        height: 60px;
+        margin-right: 10px;
+    }
+
+.replaceall:hover {
+    min-width: 190px;
+    height: 44px;
+    border-radius: 6px !important;
+    font-size: 16px;
+    font-weight: 600;
+    color: #d5007f;
+}
+
+.you-may-need {
+    margin-top: 25px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.you-may-need-header {
+    background: #0d7397;
+    color: #fff;
+    padding: 14px 18px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.you-may-need-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 20px;
+}
+
+.need-arrow {
+    flex: 0 0 auto;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #d9d9d9;
+    background: #fff;
+    color: #0d7397;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+    .need-arrow:disabled {
+        color: #ccc;
+        cursor: default;
+    }
+
+.you-may-need-products {
+    flex: 1;
+    overflow: hidden;
+}
+
+.you-may-need-track {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.3s ease;
+}
+
+.need-product {
+    flex: 0 0 calc((100% - 40px) / 3);
+    max-width: calc((100% - 40px) / 3);
+    text-align: center;
+}
+
+    .need-product img {
+        width: 250px;
+        height: 100px;
+        object-fit: contain;
+        margin-bottom: 12px;
+    }
+
+.need-title {
+    display: block;
+    color: #333;
+    font-size: 13px;
+    line-height: 18px;
+    min-height: 35px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+    .need-title:hover {
+        color: #0099cc;
+    }
+
+.need-part {
+    font-size: 12px;
+    color: #777;
+    margin: 6px 0;
+}
+
+.need-price {
+    font-size: 18px;
+    color: #0099cc;
+    font-weight: 700;
+    margin: 12px 0;
+}
+
+    .need-price small {
+        display: block;
+        font-size: 12px;
+        color: #666;
+        font-weight: 400;
+    }
+
+.need-product .btn {
+    width: 80%;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 10px;
+}
+
+.basket-sidebar-info {
+    margin-top: 20px;
+}
+
+.sidebar-card {
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+    .sidebar-card.banner {
+        border: none;
+        border-radius: 8px;
+    }
+
+        .sidebar-card.banner .sidebar-banner-img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #222;
+}
+
+    .card-header i {
+        width: 28px;
+        text-align: center;
+        font-size: 24px;
+        color: #444;
+    }
+
+.card-body {
+    padding: 0 18px 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    border-top: 1px solid #efefef;
+    font-weight: 600;
+}
+
+    .card-footer a {
+        color: #111;
+        text-decoration: none;
+    }
+
+    .card-footer i {
+        font-size: 22px;
+        color: #444;
+    }
+
+.payment-card .payment-icons {
+    display: flex;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.payment-card img {
+    height: 50px;
+    width: auto;
+}
+
+.card-header span {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.card-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 18px;
+    cursor: pointer;
+    border-top: 1px solid #eee;
+    font-weight: 600;
+}
+
+    .card-toggle i {
+        transition: .3s;
+    }
+
+.card-content {
+    display: none;
+    padding: 0 18px 18px;
+    color: #666;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.sidebar-card.active .card-content {
+    display: block;
+}
+
+.sidebar-card.active .card-toggle i {
+    transform: rotate(180deg);
+}
+
+.atb-add:hover {
+    color: #fff !important;
+    background-color: #5cb85c !important;
+    border-color: #4cae4c !important;
+}
+/* Mobile: one card per "page" instead of three */
+@media (max-width: 767px) {
+    .need-product {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+#basketSummary .row.dv-basket-card {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.switch-heading {
+    font-size: 14px;
+    top: -32px;
+    color: #D5007F;
+    left: -133px;
+}
+
+.basket-price-box strong {
+    font-size: 17px;
+    color: #0099CC;
+    font-weight: 600
+}
+
+.basket-price-box span {
+    font-size: 12px;
+    color: #009FD1;
+    font-weight: 500
+}
+
+.switch-save-card > .row {
+    display: flex
+}
+
+    .switch-save-card > .row > .text-right {
+        margin-left: auto;
+        padding-right: 0 !important
+    }
+
+.basket-switch-save {
+    margin-right: 20px;
+}
+
+.basket-remove {
+    color: #0099ccab !important;
+}
+
+    .basket-remove:hover {
+        color: #09c !important;
+    }
+
+.replaceall {
+    background: transparent;
+    border-color: #D5007F !important;
+    border-width: 2px !important;
+}
+
+.basket-switch-save p {
+    font-weight: 500;
+    color: #000
+}
+
+.price-row.save-saving > span, .price-row.save-saving > strong {
+    color: #D5007F;
+}
+
+.switch-save-card .btn-success {
+    background-color: transparent !important;
+    border-color: #D5008B !important;
+    color: #D5008B !important;
+}
+
+.checkout1 {
+    background: var(--green) !important;
+}
+
+.price-row.ex-vat1 > strong {
+    color: #0099cc;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+@media (max-width:991px) {
+    body:has(#vbBasketDetails), html:has(#vbBasketDetails) {
+        overflow-x: hidden;
+    }
+
+    .switch-save-card {
+        margin-bottom: 15px;
+    }
+
+    .basket-switch-save {
+        flex-wrap: wrap
+    }
+
+    div:has( > div#vbBasketDetails) {
+        margin: 0 !important;
+        padding: 8px !important;
+    }
+
+        div:has( > div#vbBasketDetails) > div > div {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+    div#basketSummary > div {
+        margin-right: 0 !important;
+        padding: 15px !important;
+    }
+
+    .replaceall {
+        min-width: 100%;
+    }
+
+    .basket-switch-save > img {
+        margin-right: 12px;
+    }
+
+    .basket-switch-save > div[style="font-weight: bold;"] {
+        width: calc(100% - 110px)
+    }
+
+
+
+    #basketSummary .basket-card {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    #basketSummary .basket-card  .dv-basket-card   {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    #basketSummary .basket-card .dv-basket-card {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+        #basketSummary .basket-card .dv-basket-card > div:first-child {
+            margin: 0px 0px 0px 0px !important;
+            padding: 0px !important;
+            max-width: 70px;
+        }
+
+        #basketSummary .basket-card .dv-basket-card > div:nth-child(2) {
+            margin: 0px 10px 0px 0px !important;
+            padding: 0px !important;
+            width: calc(100% - 110px)
+        }
+
+        #basketSummary .basket-card .dv-basket-card > div:nth-child(3) {
+            width: 100%;
+        }
+
+            #basketSummary .basket-card .dv-basket-card > div:nth-child(3) .basket-card-actions {
+                display: flex
+            }
+
+
+
+        #basketSummary .basket-card .dv-basket-card > div:nth-child(3) {
+            position: initial;
+        }
+
+    #basketSummary .basket-card .dv-basket-card {
+        position: relative;
+    }
+
+    #basketSummary .basket-card .dv-basket-card {
+        padding-top: 5px !important;
+        padding-bottom: 15px !important;
+    }
+
+        #basketSummary .basket-card .dv-basket-card .basket-remove-container {
+            position: absolute;
+            bottom: 4px;
+            right: 8px;
+            margin: 0px;
+            padding: 0px;
+        }
+
+    #basketSummary .qty-label {
+        display: none;
+    }
+
+    #basketSummary .basket-card-actions {
+        justify-content: center;
+        align-items: center;
+        gap: 15px
+    }
+
+        #basketSummary .basket-card-actions .basket-price-box {
+            order: 2;
+        }
+
+    #basketSummary .basket-qty-wrapper {
+        margin-top: 0px;
+    }
+
+    .switch-save-card {
+        display: flex;
+        flex-wrap: wrap;
+        position: relative;
+    }
+
+        .switch-save-card > div:nth-child(1) {
+            margin: 0 10px 0 0 !important;
+            padding: 0px !important;
+            max-width: 70px
+        }
+
+        .switch-save-card > div:nth-child(2) {
+            width: calc(100% - 80px);
+            flex-wrap: wrap;
+        }
+
+            .switch-save-card > div:nth-child(2) > div:last-child {
+                margin-left: initial;
+                text-align: left
+            }
+
+    .switch-heading {
+        left: -87px;
+    }
+
+    .switch-save-card > div:nth-child(2) > div {
+        margin: 0px 0px 0px 0px;
+        padding: 0 0 0 15px;
+    }
+
+    #vbBasketDetails > div.dv-basket-card {
+        padding: 12px !important
+    }
+
+    .dv-basket-card {
+        border: none;
+    }
+
+    #basketSummary .basket-card {
+        padding: 12px 12px 2px 12px !important;
+    }
+}
+
+.dv-basket-card {
+    border: none;
+}
+
+#basketSummary .basket-card {
+    border: 1px solid #DCDCDC;
+    margin-bottom: 20px !important;
+    padding: 12px 12px 12px 12px !important;
+    border-radius: 8px;
+    background: #fff;
+}
+
+@media (max-width:1199px) {
+    body, html {
+        overflow-x: hidden
+    }
+
+    section#utility-bar {
+        display: block !important;
+    }
+
+    .mobileBasketMessage, .mobileBasketBackdrop, .g-bc-secondary, .basketMessage, .printerMessage, .tab-open.g-flex-allcenter[data-toggle="offcanvas-close"] {
+        display: none !important
+    }
+
+    .navbar-inverse .small-screen-links a {
+        outline: none;
+    }
+}
+/* =========================================
+   PROMO CODE - byte-for-byte copy of Views/Shared/MiniBasket.cshtml's
+   collapsible "Promotion Code" widget rules (that file has no CSS vars
+   defined at these exact property names, so this reproduces its
+   var(--green)/var(--border) as the same #00a651/#e5e5e5 hex values).
+   Do not "improve" these values without also updating MiniBasket.cshtml -
+   the whole point is the two stay pixel-identical.
+   ========================================= */
+
+.promo {
+    margin-bottom: 12px;
+}
+
+    .promo summary {
+        font-size: 13px;
+        color: #000;
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 4px 0;
+    }
+
+        .promo summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .promo summary::after {
+            content: "▾";
+            transition: transform .2s;
+            font-size: 20px;
+        }
+
+    .promo[open] summary::after {
+        transform: rotate(180deg);
+    }
+
+.promo-form {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+    .promo-form input {
+        flex: 1;
+        border: 1px solid #e5e5e5;
+        border-radius: 4px;
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+
+    .promo-form button {
+        background: #00a651;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 16px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+.promo-applied {
+    color: black;
+}
+
+/* Apply/remove feedback - scoped to the promo widget only, since
+           .error-message/#error-message is a sitewide shared convention
+           (see Scripts/site.js) reused elsewhere for unrelated messages.
+           Same margin-top/color as mini-basket's #minibasket-voucher-code-error. */
+.promo .error-message {
+    margin-top: 10px !important;
+    color: red !important;
+}
+
+/* =========================================
+   QTY UPSELL - "increase qty in your basket, save an extra X%" offer for
+   compatible/own-brand cartridges (CompatibleUpsellRates config). Per the
+   "Basket Switch & Save / Add Ons" design spec (Promotional Lozenge), this
+   is a small pill/badge sitting directly under the qty stepper on the
+   product's own card - NOT a separate promo card like Switch & Save.
+   Same brand pink used throughout the basket, no green. */
+
+.qty-upsell-pill {
+    display: inline-block;
+    margin-top: 10px;
+    background: #fff;
+    border: 1px solid #d5007f;
+    color: #d5007f;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+    .qty-upsell-pill:hover {
+        background: #fdeaf3;
+    }
+
+.mobile-checkout-btn {
+    display: none !important;
+}
+
+/* Visible on mobile */
+@media (max-width: 767px) {
+    .mobile-checkout-btn {
+        display: block !important;
+        width: 100%;
+        float: none !important;
+    }
+}
+
+body:has(#vbBasketDetails) .container.body-content > .row.g-m-t-20 {
+    margin-top: 0px !important
+}
+
+@media (max-width: 767px) {
+    .mobile-checkout-btn {
+        margin-top: 0px !important;
+    }
+}
+
+.basket-switch-save {
+    border: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#basketSummary .row.dv-basket-card > div {
+    text-align: left
+}
+
+#basketSummary .row.dv-basket-card {
+    text-align: center
+}
+
+    #basketSummary .row.dv-basket-card > button.qty-upsell-pill {
+        margin-top: 15px
+    }

@@ -453,6 +453,25 @@ namespace CommonUI.Controllers
             bool success = Authentication.Authenticate(model.SignIn.UserName, model.SignIn.Password);
             Session["U_FullyAuthenticated"] = success;
 
+            // Re-validate any voucher already applied to the basket now that the customer's
+            // trade-account status is known (Authentication.Authenticate/PopulateSession sets
+            // U_IsTradeCustomer, which Utilities.LoadVoucher checks via VoucherPromo.IsForTrade).
+            // Without this, a voucher applied while signed out (or as a non-trade customer)
+            // stays applied after signing in as a trade customer here, even though it's not
+            // eligible - the discount silently keeps appearing. Mirrors the exact same
+            // re-validation CheckoutController.Ident() already does after its own sign-in call,
+            // which is why signing in via "Proceed to Checkout" already gets this right - this
+            // header sign-in action was simply missing the same check.
+            if (success && !string.IsNullOrEmpty(Session["B_VoucherCode"]?.ToString()))
+            {
+                SaveReturn sret = Utilities.LoadVoucher(Session["B_VoucherCode"].ToString());
+                if (!sret.IsSuccess)
+                {
+                    Basket.RemoveFromBasket(x => x.ItemType == BasketItemType.Voucher || x.ItemType == BasketItemType.CompatibleDiscount);
+                    Basket.ApplyVoucher();
+                }
+            }
+
             return Json(new { issuccess = success, message = "", redirecturl = model.RedirectUrl }, JsonRequestBehavior.AllowGet);
         }
 

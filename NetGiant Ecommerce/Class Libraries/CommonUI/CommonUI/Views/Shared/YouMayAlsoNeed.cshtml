@@ -2,10 +2,6 @@
 @using BusinessLogic
 @using BusinessLogic.ViewModels
 @model List<BasketContents>
-@{ 
-
-    bool isTradeCustomer = HttpContext.Current.Session["U_IsTradeCustomer"] != null && Convert.ToBoolean(HttpContext.Current.Session["U_IsTradeCustomer"]);
-}
 <style>
     /* Spec: "the user can skip by clicking the x off the modal or on the transparent
        background". Fully transparent (not dimmed) on purpose - when this popup opens
@@ -247,9 +243,7 @@
                             @addOn.PartNo
                         </a>
                         <div class="need-price">
-                            £@string.Format("{0:N2}", addOn.PriceEx)  @(isTradeCustomer
-     ? "Trade Price, ex VAT"
-     : "exc. VAT")
+                            £@string.Format("{0:N2}", addOn.PriceEx) exc. VAT
                         </div>
 
                         <button type="button"
