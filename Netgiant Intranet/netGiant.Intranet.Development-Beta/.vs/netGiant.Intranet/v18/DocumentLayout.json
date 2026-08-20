@@ -3,20 +3,39 @@
   "WorkspaceRootPath": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|c:\\anoop\\git\\netgiant\\netgiant intranet\\netgiant.intranet.development-beta\\netgiant.intranet\\areas\\pms\\views\\product\\createproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|solutionrelative:netgiant.intranet\\areas\\pms\\views\\product\\createproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|c:\\anoop\\git\\netgiant\\netgiant intranet\\netgiant.intranet.development-beta\\netgiant.intranet\\areas\\pms\\views\\product\\_addonreadonly.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|solutionrelative:netgiant.intranet\\areas\\pms\\views\\product\\_addonreadonly.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|c:\\anoop\\git\\netgiant\\netgiant intranet\\netgiant.intranet.development-beta\\netgiant.intranet\\areas\\pms\\controllers\\product\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{6671E29A-BFEB-4321-A7D0-68D812B1E035}|netGiant.Intranet.BusinessLayer\\netGiant.Intranet.BusinessLayer.csproj|C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netgiant.intranet.businesslayer\\viewmodels\\pms\\product\\productviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6671E29A-BFEB-4321-A7D0-68D812B1E035}|netGiant.Intranet.BusinessLayer\\netGiant.Intranet.BusinessLayer.csproj|solutionrelative:netgiant.intranet.businesslayer\\viewmodels\\pms\\product\\productviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netgiant.intranet\\areas\\pms\\views\\product\\_pricingdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|solutionrelative:netgiant.intranet\\areas\\pms\\views\\product\\_pricingdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netgiant.intranet\\areas\\pms\\views\\product\\_productsupplierdata.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|solutionrelative:netgiant.intranet\\areas\\pms\\views\\product\\_productsupplierdata.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6671E29A-BFEB-4321-A7D0-68D812B1E035}|netGiant.Intranet.BusinessLayer\\netGiant.Intranet.BusinessLayer.csproj|C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netgiant.intranet.businesslayer\\viewmodels\\pms\\product\\productdetailviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6671E29A-BFEB-4321-A7D0-68D812B1E035}|netGiant.Intranet.BusinessLayer\\netGiant.Intranet.BusinessLayer.csproj|solutionrelative:netgiant.intranet.businesslayer\\viewmodels\\pms\\product\\productdetailviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netgiant.intranet\\areas\\pms\\views\\product\\productdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|solutionrelative:netgiant.intranet\\areas\\pms\\views\\product\\productdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CFF9D16-890D-471E-8A7D-37B2485EE063}|..\\..\\Class Libraries\\ngmd.DataLayer\\netGiant.Intranet.DataLayer\\netGiant.Intranet.DataLayer.csproj|C:\\Anoop\\Git\\NetGiant\\class libraries\\ngmd.datalayer\\netgiant.intranet.datalayer\\netgiantmasterdata\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netgiant.intranet\\areas\\pms\\controllers\\product\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|solutionrelative:netgiant.intranet\\areas\\pms\\controllers\\product\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|c:\\anoop\\git\\netgiant\\netgiant intranet\\netgiant.intranet.development-beta\\netgiant.intranet\\areas\\pms\\views\\equipment\\createequipmembership.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|solutionrelative:netgiant.intranet\\areas\\pms\\views\\equipment\\createequipmembership.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|c:\\anoop\\git\\netgiant\\netgiant intranet\\netgiant.intranet.development-beta\\netgiant.intranet\\areas\\pms\\controllers\\equipment\\equipmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|solutionrelative:netgiant.intranet\\areas\\pms\\controllers\\equipment\\equipmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netgiant.intranet\\areas\\pms\\views\\product\\createproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E29F56ED-C7F5-49A9-B6B3-B55BF1E30620}|netGiant.Intranet\\netGiant.Intranet.csproj|solutionrelative:netgiant.intranet\\areas\\pms\\views\\product\\createproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,60 +45,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 5,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CreateEquipMembership.cshtml",
-              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Equipment\\CreateEquipMembership.cshtml",
-              "RelativeDocumentMoniker": "netGiant.Intranet\\Areas\\PMS\\Views\\Equipment\\CreateEquipMembership.cshtml",
-              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Equipment\\CreateEquipMembership.cshtml",
-              "RelativeToolTip": "netGiant.Intranet\\Areas\\PMS\\Views\\Equipment\\CreateEquipMembership.cshtml",
-              "ViewState": "AgIAABUAAAAAAAAAAAAwwB4AAAA1AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-08-11T06:50:02.95Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "EquipmentController.cs",
-              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Controllers\\Equipment\\EquipmentController.cs",
-              "RelativeDocumentMoniker": "netGiant.Intranet\\Areas\\PMS\\Controllers\\Equipment\\EquipmentController.cs",
-              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Controllers\\Equipment\\EquipmentController.cs",
-              "RelativeToolTip": "netGiant.Intranet\\Areas\\PMS\\Controllers\\Equipment\\EquipmentController.cs",
-              "ViewState": "AgIAAOEAAAAAAAAAAAAowOYAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-11T06:49:54.007Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ProductController.cs",
-              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Controllers\\Product\\ProductController.cs",
-              "RelativeDocumentMoniker": "netGiant.Intranet\\Areas\\PMS\\Controllers\\Product\\ProductController.cs",
-              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Controllers\\Product\\ProductController.cs",
-              "RelativeToolTip": "netGiant.Intranet\\Areas\\PMS\\Controllers\\Product\\ProductController.cs",
-              "ViewState": "AgIAAAgBAAAAAAAAAAAswEwBAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-11T06:49:38.213Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CreateProduct.cshtml",
-              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Product\\CreateProduct.cshtml",
-              "RelativeDocumentMoniker": "netGiant.Intranet\\Areas\\PMS\\Views\\Product\\CreateProduct.cshtml",
-              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Product\\CreateProduct.cshtml",
-              "RelativeToolTip": "netGiant.Intranet\\Areas\\PMS\\Views\\Product\\CreateProduct.cshtml",
-              "ViewState": "AgIAAM4CAAAAAAAAAAAIwNwCAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-08-11T06:47:41.311Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:11:0:{2456bd12-ecf7-4988-a4a6-67d49173f565}"
@@ -87,6 +54,115 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "_PricingDetails.cshtml",
+              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Product\\_PricingDetails.cshtml",
+              "RelativeDocumentMoniker": "netGiant.Intranet\\Areas\\PMS\\Views\\Product\\_PricingDetails.cshtml",
+              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Product\\_PricingDetails.cshtml",
+              "RelativeToolTip": "netGiant.Intranet\\Areas\\PMS\\Views\\Product\\_PricingDetails.cshtml",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAADEAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-19T14:03:33.272Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "product.cs",
+              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Class Libraries\\ngmd.DataLayer\\netGiant.Intranet.DataLayer\\NetgiantMasterData\\product.cs",
+              "RelativeDocumentMoniker": "..\\..\\Class Libraries\\ngmd.DataLayer\\netGiant.Intranet.DataLayer\\NetgiantMasterData\\product.cs",
+              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Class Libraries\\ngmd.DataLayer\\netGiant.Intranet.DataLayer\\NetgiantMasterData\\product.cs",
+              "RelativeToolTip": "..\\..\\Class Libraries\\ngmd.DataLayer\\netGiant.Intranet.DataLayer\\NetgiantMasterData\\product.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAIwEkAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-19T13:45:18.846Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProductViewModel.cs",
+              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netgiant.Intranet.BusinessLayer\\ViewModels\\PMS\\Product\\ProductViewModel.cs",
+              "RelativeDocumentMoniker": "netgiant.Intranet.BusinessLayer\\ViewModels\\PMS\\Product\\ProductViewModel.cs",
+              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netgiant.Intranet.BusinessLayer\\ViewModels\\PMS\\Product\\ProductViewModel.cs",
+              "RelativeToolTip": "netgiant.Intranet.BusinessLayer\\ViewModels\\PMS\\Product\\ProductViewModel.cs",
+              "ViewState": "AgIAAJIAAAAAAAAAAIA1wDIAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-19T13:42:40.069Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_AddOnReadOnly.cshtml",
+              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Product\\_AddOnReadOnly.cshtml",
+              "RelativeDocumentMoniker": "netGiant.Intranet\\Areas\\PMS\\Views\\Product\\_AddOnReadOnly.cshtml",
+              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Product\\_AddOnReadOnly.cshtml",
+              "RelativeToolTip": "netGiant.Intranet\\Areas\\PMS\\Views\\Product\\_AddOnReadOnly.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-19T13:16:31.097Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ProductDetailViewModel.cs",
+              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netgiant.Intranet.BusinessLayer\\ViewModels\\PMS\\Product\\ProductDetailViewModel.cs",
+              "RelativeDocumentMoniker": "netgiant.Intranet.BusinessLayer\\ViewModels\\PMS\\Product\\ProductDetailViewModel.cs",
+              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netgiant.Intranet.BusinessLayer\\ViewModels\\PMS\\Product\\ProductDetailViewModel.cs",
+              "RelativeToolTip": "netgiant.Intranet.BusinessLayer\\ViewModels\\PMS\\Product\\ProductDetailViewModel.cs",
+              "ViewState": "AgIAAIQAAAAAAAAAAIA9wPQAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-19T14:20:35.649Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "_ProductSupplierData.cshtml",
+              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Product\\_ProductSupplierData.cshtml",
+              "RelativeDocumentMoniker": "netGiant.Intranet\\Areas\\PMS\\Views\\Product\\_ProductSupplierData.cshtml",
+              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Product\\_ProductSupplierData.cshtml",
+              "RelativeToolTip": "netGiant.Intranet\\Areas\\PMS\\Views\\Product\\_ProductSupplierData.cshtml",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAADEAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-19T14:08:22.577Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Controllers\\Product\\ProductController.cs",
+              "RelativeDocumentMoniker": "netGiant.Intranet\\Areas\\PMS\\Controllers\\Product\\ProductController.cs",
+              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Controllers\\Product\\ProductController.cs",
+              "RelativeToolTip": "netGiant.Intranet\\Areas\\PMS\\Controllers\\Product\\ProductController.cs",
+              "ViewState": "AgIAANMAAAAAAAAAAAAIwNcAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-19T13:49:25.005Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ProductDetail.cshtml",
+              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Product\\ProductDetail.cshtml",
+              "RelativeDocumentMoniker": "netGiant.Intranet\\Areas\\PMS\\Views\\Product\\ProductDetail.cshtml",
+              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Product\\ProductDetail.cshtml",
+              "RelativeToolTip": "netGiant.Intranet\\Areas\\PMS\\Views\\Product\\ProductDetail.cshtml",
+              "ViewState": "AgIAABwBAAAAAAAAAAArwDABAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-19T13:08:22.623Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CreateProduct.cshtml",
+              "DocumentMoniker": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Product\\CreateProduct.cshtml",
+              "RelativeDocumentMoniker": "netGiant.Intranet\\Areas\\PMS\\Views\\Product\\CreateProduct.cshtml",
+              "ToolTip": "C:\\Anoop\\Git\\NetGiant\\Netgiant Intranet\\netGiant.Intranet.Development-Beta\\netGiant.Intranet\\Areas\\PMS\\Views\\Product\\CreateProduct.cshtml",
+              "RelativeToolTip": "netGiant.Intranet\\Areas\\PMS\\Views\\Product\\CreateProduct.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-11T06:47:41.311Z"
             }
           ]
         }

@@ -1,0 +1,31 @@
+﻿@using netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product;
+@using netGiant.Intranet.DataLayer.NetgiantMasterData;
+@model ProductDetailViewModel
+
+<br>
+
+        <fieldset class="g-b-1dg">
+            <legend>Add On Product Details</legend>
+            <div class="g-w-100p">
+                <table class="table" id="tblproductSuppliers">
+                    <tr>
+                        <th>ID</th>
+                        <th>Product Name</th>
+                        <th>Part No</th>
+                        <th>Bar Code</th>
+                    </tr>
+
+                    @foreach (var item in Model.AddonProducts)
+                    { 
+                        <tr>
+                            <td>@item.ProductId</td>
+                            <td>@item.ProductName</td>
+                            <td>@item.PartNo</td>
+                            <td>@item.Barcode</td>
+                        </tr>
+
+                    }
+                </table>
+            </div>
+            
+        </fieldset>
