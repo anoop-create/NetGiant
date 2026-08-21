@@ -115,26 +115,28 @@ WriteLiteral(" http-equiv=\"Expires\"");
 
 WriteLiteral(" content=\"0\"");
 
-WriteLiteral(" />\r\n    <meta");
+WriteLiteral(" />\r\n    ");
+
+WriteLiteral("\r\n    <meta");
 
 WriteLiteral(" name=\"viewport\"");
 
-WriteLiteral(" content=\"width=device-width, initial-scale=1.0\"");
+WriteLiteral(" content=\"width=device-width, initial-scale=1.0, viewport-fit=cover\"");
 
 WriteLiteral(">\r\n    <meta");
 
 WriteLiteral(" http-equiv=\"refresh\"");
 
-WriteAttribute("content", Tuple.Create(" content=\"", 691), Tuple.Create("\"", 766)
+WriteAttribute("content", Tuple.Create(" content=\"", 1086), Tuple.Create("\"", 1161)
             
-            #line 23 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create("", 701), Tuple.Create<System.Object, System.Int32>(sessionTimeout.ToString()
+            #line 27 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create("", 1096), Tuple.Create<System.Object, System.Int32>(sessionTimeout.ToString()
             
             #line default
             #line hidden
-, 701), false)
-, Tuple.Create(Tuple.Create("", 727), Tuple.Create(";", 727), true)
-, Tuple.Create(Tuple.Create(" ", 728), Tuple.Create("URL=/checkout?pm=SessionExpired&sz=md", 729), true)
+, 1096), false)
+, Tuple.Create(Tuple.Create("", 1122), Tuple.Create(";", 1122), true)
+, Tuple.Create(Tuple.Create(" ", 1123), Tuple.Create("URL=/checkout?pm=SessionExpired&sz=md", 1124), true)
 );
 
 WriteLiteral(">\r\n    <meta");
@@ -146,7 +148,7 @@ WriteLiteral(" content=\"telephone=no\"");
 WriteLiteral(">\r\n    <title>");
 
             
-            #line 25 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 29 "..\..\Views\Shared\_LayoutCheckout.cshtml"
       Write(Html.RawFromDict(Model.MetaData, "Title"));
 
             
@@ -156,14 +158,14 @@ WriteLiteral("</title>\r\n    <meta");
 
 WriteLiteral(" name=\"description\"");
 
-WriteAttribute("content", Tuple.Create(" content=\"", 920), Tuple.Create("\"", 978)
+WriteAttribute("content", Tuple.Create(" content=\"", 1315), Tuple.Create("\"", 1373)
             
-            #line 26 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create("", 930), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.MetaData, "Description")
+            #line 30 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create("", 1325), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.MetaData, "Description")
             
             #line default
             #line hidden
-, 930), false)
+, 1325), false)
 );
 
 WriteLiteral(">\r\n    <meta");
@@ -176,14 +178,14 @@ WriteLiteral(">\r\n\r\n    <meta");
 
 WriteLiteral(" property=\"og:title\"");
 
-WriteAttribute("content", Tuple.Create(" content=\"", 1089), Tuple.Create("\"", 1141)
+WriteAttribute("content", Tuple.Create(" content=\"", 1484), Tuple.Create("\"", 1536)
             
-            #line 29 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create("", 1099), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.MetaData, "Title")
+            #line 33 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create("", 1494), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.MetaData, "Title")
             
             #line default
             #line hidden
-, 1099), false)
+, 1494), false)
 );
 
 WriteLiteral(">\r\n    <meta");
@@ -196,15 +198,15 @@ WriteLiteral(">\r\n    <meta");
 
 WriteLiteral(" property=\"og:image\"");
 
-WriteAttribute("content", Tuple.Create(" content=\"", 1223), Tuple.Create("\"", 1294)
+WriteAttribute("content", Tuple.Create(" content=\"", 1618), Tuple.Create("\"", 1689)
             
-            #line 31 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create("", 1233), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+            #line 35 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create("", 1628), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
             
             #line default
             #line hidden
-, 1233), false)
-, Tuple.Create(Tuple.Create("", 1273), Tuple.Create(")/images/soc-logo.png", 1273), true)
+, 1628), false)
+, Tuple.Create(Tuple.Create("", 1668), Tuple.Create(")/images/soc-logo.png", 1668), true)
 );
 
 WriteLiteral(">\r\n    <meta");
@@ -223,57 +225,57 @@ WriteLiteral(">\r\n    <meta");
 
 WriteLiteral(" property=\"og:url\"");
 
-WriteAttribute("content", Tuple.Create(" content=\"", 1431), Tuple.Create("\"", 1492)
-, Tuple.Create(Tuple.Create("", 1441), Tuple.Create("//", 1441), true)
+WriteAttribute("content", Tuple.Create(" content=\"", 1826), Tuple.Create("\"", 1887)
+, Tuple.Create(Tuple.Create("", 1836), Tuple.Create("//", 1836), true)
             
-            #line 34 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create("", 1443), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "DomainName")
+            #line 38 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create("", 1838), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "DomainName")
             
             #line default
             #line hidden
-, 1443), false)
+, 1838), false)
 );
 
 WriteLiteral(">\r\n    <meta");
 
 WriteLiteral(" property=\"og:site_name\"");
 
-WriteAttribute("content", Tuple.Create(" content=\"", 1529), Tuple.Create("\"", 1586)
+WriteAttribute("content", Tuple.Create(" content=\"", 1924), Tuple.Create("\"", 1981)
             
-            #line 35 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create("", 1539), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "SiteName")
+            #line 39 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create("", 1934), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "SiteName")
             
             #line default
             #line hidden
-, 1539), false)
+, 1934), false)
 );
 
 WriteLiteral(">\r\n    <meta");
 
 WriteLiteral(" property=\"og:description\"");
 
-WriteAttribute("content", Tuple.Create(" content=\"", 1625), Tuple.Create("\"", 1683)
+WriteAttribute("content", Tuple.Create(" content=\"", 2020), Tuple.Create("\"", 2078)
             
-            #line 36 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create("", 1635), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.MetaData, "Description")
+            #line 40 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create("", 2030), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.MetaData, "Description")
             
             #line default
             #line hidden
-, 1635), false)
+, 2030), false)
 );
 
 WriteLiteral(">\r\n    <meta");
 
 WriteLiteral(" name=\"twitter:title\"");
 
-WriteAttribute("content", Tuple.Create(" content=\"", 1717), Tuple.Create("\"", 1769)
+WriteAttribute("content", Tuple.Create(" content=\"", 2112), Tuple.Create("\"", 2164)
             
-            #line 37 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create("", 1727), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.MetaData, "Title")
+            #line 41 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create("", 2122), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.MetaData, "Title")
             
             #line default
             #line hidden
-, 1727), false)
+, 2122), false)
 );
 
 WriteLiteral(">\r\n    <meta");
@@ -286,29 +288,29 @@ WriteLiteral(">\r\n    <meta");
 
 WriteLiteral(" name=\"twitter:description\"");
 
-WriteAttribute("content", Tuple.Create(" content=\"", 1871), Tuple.Create("\"", 1929)
+WriteAttribute("content", Tuple.Create(" content=\"", 2266), Tuple.Create("\"", 2324)
             
-            #line 39 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create("", 1881), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.MetaData, "Description")
+            #line 43 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create("", 2276), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.MetaData, "Description")
             
             #line default
             #line hidden
-, 1881), false)
+, 2276), false)
 );
 
 WriteLiteral(">\r\n    <meta");
 
 WriteLiteral(" name=\"twitter:image\"");
 
-WriteAttribute("content", Tuple.Create(" content=\"", 1963), Tuple.Create("\"", 2033)
+WriteAttribute("content", Tuple.Create(" content=\"", 2358), Tuple.Create("\"", 2428)
             
-            #line 40 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create("", 1973), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+            #line 44 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create("", 2368), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
             
             #line default
             #line hidden
-, 1973), false)
-, Tuple.Create(Tuple.Create("", 2013), Tuple.Create("/images/soc-logo.jpg", 2013), true)
+, 2368), false)
+, Tuple.Create(Tuple.Create("", 2408), Tuple.Create("/images/soc-logo.jpg", 2408), true)
 );
 
 WriteLiteral(">\r\n\r\n    <link");
@@ -334,16 +336,16 @@ WriteLiteral(">\r\n\r\n    <link");
 
 WriteLiteral(" rel=\"apple-touch-icon\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2299), Tuple.Create("\"", 2378)
-, Tuple.Create(Tuple.Create("", 2306), Tuple.Create("//", 2306), true)
+WriteAttribute("href", Tuple.Create(" href=\"", 2694), Tuple.Create("\"", 2773)
+, Tuple.Create(Tuple.Create("", 2701), Tuple.Create("//", 2701), true)
             
-            #line 45 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create("", 2308), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "DomainName")
+            #line 49 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create("", 2703), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "DomainName")
             
             #line default
             #line hidden
-, 2308), false)
-, Tuple.Create(Tuple.Create("", 2357), Tuple.Create("touch-icon-iphone.png", 2357), true)
+, 2703), false)
+, Tuple.Create(Tuple.Create("", 2752), Tuple.Create("touch-icon-iphone.png", 2752), true)
 );
 
 WriteLiteral(" />\r\n    <link");
@@ -352,16 +354,16 @@ WriteLiteral(" rel=\"apple-touch-icon\"");
 
 WriteLiteral(" sizes=\"76x76\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2430), Tuple.Create("\"", 2507)
-, Tuple.Create(Tuple.Create("", 2437), Tuple.Create("//", 2437), true)
+WriteAttribute("href", Tuple.Create(" href=\"", 2825), Tuple.Create("\"", 2902)
+, Tuple.Create(Tuple.Create("", 2832), Tuple.Create("//", 2832), true)
             
-            #line 46 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create("", 2439), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "DomainName")
+            #line 50 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create("", 2834), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "DomainName")
             
             #line default
             #line hidden
-, 2439), false)
-, Tuple.Create(Tuple.Create("", 2488), Tuple.Create("touch-icon-ipad.png", 2488), true)
+, 2834), false)
+, Tuple.Create(Tuple.Create("", 2883), Tuple.Create("touch-icon-ipad.png", 2883), true)
 );
 
 WriteLiteral(" />\r\n    <link");
@@ -370,16 +372,16 @@ WriteLiteral(" rel=\"apple-touch-icon\"");
 
 WriteLiteral(" sizes=\"120x120\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2561), Tuple.Create("\"", 2647)
-, Tuple.Create(Tuple.Create("", 2568), Tuple.Create("//", 2568), true)
+WriteAttribute("href", Tuple.Create(" href=\"", 2956), Tuple.Create("\"", 3042)
+, Tuple.Create(Tuple.Create("", 2963), Tuple.Create("//", 2963), true)
             
-            #line 47 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create("", 2570), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "DomainName")
+            #line 51 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create("", 2965), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "DomainName")
             
             #line default
             #line hidden
-, 2570), false)
-, Tuple.Create(Tuple.Create("", 2619), Tuple.Create("touch-icon-iphone-retina.png", 2619), true)
+, 2965), false)
+, Tuple.Create(Tuple.Create("", 3014), Tuple.Create("touch-icon-iphone-retina.png", 3014), true)
 );
 
 WriteLiteral(" />\r\n    <link");
@@ -388,28 +390,28 @@ WriteLiteral(" rel=\"apple-touch-icon\"");
 
 WriteLiteral(" sizes=\"152x152\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2701), Tuple.Create("\"", 2785)
-, Tuple.Create(Tuple.Create("", 2708), Tuple.Create("//", 2708), true)
+WriteAttribute("href", Tuple.Create(" href=\"", 3096), Tuple.Create("\"", 3180)
+, Tuple.Create(Tuple.Create("", 3103), Tuple.Create("//", 3103), true)
             
-            #line 48 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create("", 2710), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "DomainName")
+            #line 52 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create("", 3105), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "DomainName")
             
             #line default
             #line hidden
-, 2710), false)
-, Tuple.Create(Tuple.Create("", 2759), Tuple.Create("touch-icon-ipad-retina.png", 2759), true)
+, 3105), false)
+, Tuple.Create(Tuple.Create("", 3154), Tuple.Create("touch-icon-ipad-retina.png", 3154), true)
 );
 
 WriteLiteral(" />\r\n\r\n    <link");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2802), Tuple.Create("\"", 2862)
+WriteAttribute("href", Tuple.Create(" href=\"", 3197), Tuple.Create("\"", 3257)
             
-            #line 50 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create("", 2809), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "GooglePlusPage")
+            #line 54 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create("", 3204), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "GooglePlusPage")
             
             #line default
             #line hidden
-, 2809), false)
+, 3204), false)
 );
 
 WriteLiteral(" rel=\"publisher\"");
@@ -423,7 +425,7 @@ WriteLiteral(">\r\n        [\r\n");
 WriteLiteral("        ");
 
             
-            #line 54 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 58 "..\..\Views\Shared\_LayoutCheckout.cshtml"
    Write(Html.RawFromDict(Model.CommonData, "Nap"));
 
             
@@ -436,13 +438,13 @@ WriteLiteral(" type=\"text/javascript\"");
 WriteLiteral(">\r\n");
 
             
-            #line 58 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 62 "..\..\Views\Shared\_LayoutCheckout.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 58 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 62 "..\..\Views\Shared\_LayoutCheckout.cshtml"
           
             Html.RenderPartial("~/Views/Shared/JSTrackingAllHdr.cshtml", Model);
         
@@ -454,7 +456,7 @@ WriteLiteral("\r\n    </script>\r\n\r\n");
 WriteLiteral("    ");
 
             
-            #line 63 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 67 "..\..\Views\Shared\_LayoutCheckout.cshtml"
 Write(RenderSection("AddScript", required: false));
 
             
@@ -465,7 +467,7 @@ WriteLiteral("\r\n\r\n");
 WriteLiteral("    ");
 
             
-            #line 65 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 69 "..\..\Views\Shared\_LayoutCheckout.cshtml"
 Write(Styles.Render("~/Content/cssBundle.css"));
 
             
@@ -476,7 +478,7 @@ WriteLiteral("\r\n");
 WriteLiteral("    ");
 
             
-            #line 66 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 70 "..\..\Views\Shared\_LayoutCheckout.cshtml"
 Write(RenderSection("AddTags", required: false));
 
             
@@ -487,7 +489,7 @@ WriteLiteral("\r\n");
 WriteLiteral("    ");
 
             
-            #line 67 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 71 "..\..\Views\Shared\_LayoutCheckout.cshtml"
 Write(Scripts.Render("~/bundles/jqueryBundle.js"));
 
             
@@ -543,29 +545,29 @@ WriteLiteral(" src=\"/Content/Images/1pxTrans.png\"");
 
 WriteLiteral(" class=\"msp_siteLogo visible-xs-inline visible-sm-inline navbar-brand g-m-t-10\"");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 4043), Tuple.Create("\"", 4096)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 4438), Tuple.Create("\"", 4491)
             
-            #line 81 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-                                                                , Tuple.Create(Tuple.Create("", 4049), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "SiteName")
+            #line 85 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+                                                                , Tuple.Create(Tuple.Create("", 4444), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "SiteName")
             
             #line default
             #line hidden
-, 4049), false)
+, 4444), false)
 );
 
 WriteLiteral(" />\r\n                </a>\r\n            </div>\r\n            <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 4160), Tuple.Create("\"", 4275)
-, Tuple.Create(Tuple.Create("", 4168), Tuple.Create("navbar-collapse", 4168), true)
-, Tuple.Create(Tuple.Create(" ", 4183), Tuple.Create("collapse", 4184), true)
-, Tuple.Create(Tuple.Create(" ", 4192), Tuple.Create("g-ps-a", 4193), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 4555), Tuple.Create("\"", 4670)
+, Tuple.Create(Tuple.Create("", 4563), Tuple.Create("navbar-collapse", 4563), true)
+, Tuple.Create(Tuple.Create(" ", 4578), Tuple.Create("collapse", 4579), true)
+, Tuple.Create(Tuple.Create(" ", 4587), Tuple.Create("g-ps-a", 4588), true)
             
-            #line 84 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create(" ", 4199), Tuple.Create<System.Object, System.Int32>(Authentication.IsAuthenticated() ? "authenticated" : "not-authenticated"
+            #line 88 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create(" ", 4594), Tuple.Create<System.Object, System.Int32>(Authentication.IsAuthenticated() ? "authenticated" : "not-authenticated"
             
             #line default
             #line hidden
-, 4200), false)
+, 4595), false)
 );
 
 WriteLiteral(">\r\n");
@@ -573,7 +575,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 85 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 89 "..\..\Views\Shared\_LayoutCheckout.cshtml"
            Write(Html.Raw(Model.Menu));
 
             
@@ -611,14 +613,14 @@ WriteLiteral(" src=\"/Content/Images/1pxTrans.png\"");
 
 WriteLiteral(" class=\"msp_siteLogo img-responsive\"");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 4763), Tuple.Create("\"", 4816)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 5158), Tuple.Create("\"", 5211)
             
-            #line 95 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-                             , Tuple.Create(Tuple.Create("", 4769), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "SiteName")
+            #line 99 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+                             , Tuple.Create(Tuple.Create("", 5164), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "SiteName")
             
             #line default
             #line hidden
-, 4769), false)
+, 5164), false)
 );
 
 WriteLiteral(" />\r\n                        </a>\r\n                    </div>\r\n                  " +
@@ -652,16 +654,16 @@ WriteLiteral(" class=\"g-w-33p\"");
 
 WriteLiteral(">\r\n                                <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 5416), Tuple.Create("\"", 5461)
-, Tuple.Create(Tuple.Create("", 5424), Tuple.Create("cohead-stage", 5424), true)
-, Tuple.Create(Tuple.Create(" ", 5436), Tuple.Create("g-m-l-20", 5437), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 5811), Tuple.Create("\"", 5856)
+, Tuple.Create(Tuple.Create("", 5819), Tuple.Create("cohead-stage", 5819), true)
+, Tuple.Create(Tuple.Create(" ", 5831), Tuple.Create("g-m-l-20", 5832), true)
             
-            #line 106 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create(" ", 5445), Tuple.Create<System.Object, System.Int32>(ViewBag.Stage1
+            #line 110 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create(" ", 5840), Tuple.Create<System.Object, System.Int32>(ViewBag.Stage1
             
             #line default
             #line hidden
-, 5446), false)
+, 5841), false)
 );
 
 WriteLiteral("></div>\r\n                            </div>\r\n                            <div");
@@ -670,16 +672,16 @@ WriteLiteral(" class=\"g-w-33p\"");
 
 WriteLiteral(">\r\n                                <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 5594), Tuple.Create("\"", 5639)
-, Tuple.Create(Tuple.Create("", 5602), Tuple.Create("cohead-stage", 5602), true)
-, Tuple.Create(Tuple.Create(" ", 5614), Tuple.Create("g-m-lr-a", 5615), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 5989), Tuple.Create("\"", 6034)
+, Tuple.Create(Tuple.Create("", 5997), Tuple.Create("cohead-stage", 5997), true)
+, Tuple.Create(Tuple.Create(" ", 6009), Tuple.Create("g-m-lr-a", 6010), true)
             
-            #line 109 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create(" ", 5623), Tuple.Create<System.Object, System.Int32>(ViewBag.Stage2
+            #line 113 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create(" ", 6018), Tuple.Create<System.Object, System.Int32>(ViewBag.Stage2
             
             #line default
             #line hidden
-, 5624), false)
+, 6019), false)
 );
 
 WriteLiteral("></div>\r\n                            </div>\r\n                            <div");
@@ -688,17 +690,17 @@ WriteLiteral(" class=\"g-w-33p\"");
 
 WriteLiteral(">\r\n                                <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 5772), Tuple.Create("\"", 5828)
-, Tuple.Create(Tuple.Create("", 5780), Tuple.Create("cohead-stage", 5780), true)
-, Tuple.Create(Tuple.Create(" ", 5792), Tuple.Create("g-m-r-20", 5793), true)
-, Tuple.Create(Tuple.Create(" ", 5801), Tuple.Create("pull-right", 5802), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 6167), Tuple.Create("\"", 6223)
+, Tuple.Create(Tuple.Create("", 6175), Tuple.Create("cohead-stage", 6175), true)
+, Tuple.Create(Tuple.Create(" ", 6187), Tuple.Create("g-m-r-20", 6188), true)
+, Tuple.Create(Tuple.Create(" ", 6196), Tuple.Create("pull-right", 6197), true)
             
-            #line 112 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create(" ", 5812), Tuple.Create<System.Object, System.Int32>(ViewBag.Stage3
+            #line 116 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create(" ", 6207), Tuple.Create<System.Object, System.Int32>(ViewBag.Stage3
             
             #line default
             #line hidden
-, 5813), false)
+, 6208), false)
 );
 
 WriteLiteral("></div>\r\n                            </div>\r\n                            <div");
@@ -713,13 +715,13 @@ WriteLiteral(" class=\"clearfix g-w-200 text-right g-va-b\"");
 WriteLiteral(">\r\n");
 
             
-            #line 118 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 122 "..\..\Views\Shared\_LayoutCheckout.cshtml"
                         
             
             #line default
             #line hidden
             
-            #line 118 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 122 "..\..\Views\Shared\_LayoutCheckout.cshtml"
                          if (ViewBag.AllowEdit == true)
                         {
 
@@ -730,9 +732,9 @@ WriteLiteral("                            <a");
 
 WriteLiteral(" class=\"btn g-butt-second-reg g-butt-lg g-m-b-15\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 6246), Tuple.Create("\"", 6255)
-, Tuple.Create(Tuple.Create("", 6253), Tuple.Create<System.Object, System.Int32>(Href("~/")
-, 6253), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 6641), Tuple.Create("\"", 6650)
+, Tuple.Create(Tuple.Create("", 6648), Tuple.Create<System.Object, System.Int32>(Href("~/")
+, 6648), false)
 );
 
 WriteLiteral(" role=\"button\"");
@@ -740,7 +742,7 @@ WriteLiteral(" role=\"button\"");
 WriteLiteral(">Continue Shopping</a>\r\n");
 
             
-            #line 121 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 125 "..\..\Views\Shared\_LayoutCheckout.cshtml"
                         }
 
             
@@ -752,7 +754,7 @@ WriteLiteral("                    </div>\r\n                </div>\r\n          
 WriteLiteral("    ");
 
             
-            #line 128 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 132 "..\..\Views\Shared\_LayoutCheckout.cshtml"
 Write(RenderBody());
 
             
@@ -783,7 +785,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                        ");
 
             
-            #line 135 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 139 "..\..\Views\Shared\_LayoutCheckout.cshtml"
                    Write(Html.RawFromDict(Model.CommonData, "FooterPartners"));
 
             
@@ -814,13 +816,13 @@ WriteLiteral(" class=\"row\"");
 WriteLiteral(">\r\n");
 
             
-            #line 147 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 151 "..\..\Views\Shared\_LayoutCheckout.cshtml"
                         
             
             #line default
             #line hidden
             
-            #line 147 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 151 "..\..\Views\Shared\_LayoutCheckout.cshtml"
                           
                             Dictionary<string, string> replacements = new Dictionary<string, string>();
                             replacements.Add("[Year]", DateTime.Now.Year.ToString());
@@ -833,7 +835,7 @@ WriteLiteral("\r\n");
 WriteLiteral("                        ");
 
             
-            #line 151 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 155 "..\..\Views\Shared\_LayoutCheckout.cshtml"
                     Write(Html.RawFromDict(Model.CommonData, "FooterCopyright", replacements));
 
             
@@ -847,13 +849,13 @@ WriteLiteral(" class=\"g-ps-f g-btm-50 hidden-xs hidden-sm\"");
 WriteLiteral(">\r\n");
 
             
-            #line 159 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 163 "..\..\Views\Shared\_LayoutCheckout.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 159 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 163 "..\..\Views\Shared\_LayoutCheckout.cshtml"
          if (ConfigurationManager.AppSettings["ChatIsOn"] == "True")
         {
 
@@ -871,7 +873,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 162 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 166 "..\..\Views\Shared\_LayoutCheckout.cshtml"
            Write(Html.Hidden("liveagent_id", Html.RawFromDict(Model.CommonData, "LiveChatID")));
 
             
@@ -880,7 +882,7 @@ WriteLiteral("                ");
 WriteLiteral("\r\n            </div>\r\n");
 
             
-            #line 164 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 168 "..\..\Views\Shared\_LayoutCheckout.cshtml"
         }            
 
             
@@ -895,7 +897,7 @@ WriteLiteral("></div>\r\n    </section>\r\n\r\n");
 WriteLiteral("    ");
 
             
-            #line 168 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 172 "..\..\Views\Shared\_LayoutCheckout.cshtml"
 Write(Scripts.Render("~/bundles/bootstrapBundle.js"));
 
             
@@ -906,7 +908,7 @@ WriteLiteral("\r\n");
 WriteLiteral("    ");
 
             
-            #line 169 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 173 "..\..\Views\Shared\_LayoutCheckout.cshtml"
 Write(Scripts.Render("~/bundles/jqueryvalBundle.js"));
 
             
@@ -915,13 +917,13 @@ Write(Scripts.Render("~/bundles/jqueryvalBundle.js"));
 WriteLiteral("\r\n\r\n");
 
             
-            #line 171 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 175 "..\..\Views\Shared\_LayoutCheckout.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 171 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 175 "..\..\Views\Shared\_LayoutCheckout.cshtml"
      if (ConfigurationManager.AppSettings["ChatIsOn"] == "True")
     {
 
@@ -935,22 +937,22 @@ WriteLiteral("        <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 8286), Tuple.Create("\"", 8387)
-, Tuple.Create(Tuple.Create("", 8292), Tuple.Create("https://", 8292), true)
+WriteAttribute("src", Tuple.Create(" src=\"", 8681), Tuple.Create("\"", 8782)
+, Tuple.Create(Tuple.Create("", 8687), Tuple.Create("https://", 8687), true)
             
-            #line 174 "..\..\Views\Shared\_LayoutCheckout.cshtml"
-, Tuple.Create(Tuple.Create("", 8300), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "DomainName")
+            #line 178 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+, Tuple.Create(Tuple.Create("", 8695), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "DomainName")
             
             #line default
             #line hidden
-, 8300), false)
-, Tuple.Create(Tuple.Create("", 8351), Tuple.Create("data/static-files/cpy_sfliveagent.js", 8351), true)
+, 8695), false)
+, Tuple.Create(Tuple.Create("", 8746), Tuple.Create("data/static-files/cpy_sfliveagent.js", 8746), true)
 );
 
 WriteLiteral("></script>\r\n");
 
             
-            #line 175 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 179 "..\..\Views\Shared\_LayoutCheckout.cshtml"
     }
 
             
@@ -963,13 +965,13 @@ WriteLiteral(" type=\"text/javascript\"");
 WriteLiteral(">\r\n");
 
             
-            #line 177 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 181 "..\..\Views\Shared\_LayoutCheckout.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 177 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 181 "..\..\Views\Shared\_LayoutCheckout.cshtml"
           
             Html.RenderPartial("~/Views/Shared/JSTrackingAll.cshtml", Model);
 
@@ -983,7 +985,7 @@ WriteLiteral("\r\n");
 WriteLiteral("                ");
 
             
-            #line 180 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 184 "..\..\Views\Shared\_LayoutCheckout.cshtml"
            Write(Html.RawFromDict(Model.CommonData, "MessageAndRedirect"));
 
             
@@ -994,7 +996,7 @@ WriteLiteral(";\r\n            ");
 WriteLiteral("\r\n");
 
             
-            #line 182 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 186 "..\..\Views\Shared\_LayoutCheckout.cshtml"
         
             
             #line default
@@ -1004,7 +1006,7 @@ WriteLiteral("\r\n</script>\r\n\r\n");
 WriteLiteral("    ");
 
             
-            #line 185 "..\..\Views\Shared\_LayoutCheckout.cshtml"
+            #line 189 "..\..\Views\Shared\_LayoutCheckout.cshtml"
 Write(RenderSection("scripts", required: false));
 
             

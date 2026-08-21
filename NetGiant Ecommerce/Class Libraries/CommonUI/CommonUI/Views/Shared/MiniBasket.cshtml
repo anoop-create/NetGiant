@@ -542,33 +542,12 @@
      the button and the overlay used to be two unwrapped sibling roots, which left nothing for
      a basket-mutating AJAX call to swap out as a unit. -->
 <div id="minibasket-widget">
-    <!-- Floating button to open mini cart -->
-    <button class="cart-fab"
-            id="cartFab"
-            aria-label="Open cart"
-            aria-haspopup="dialog"
-            aria-controls="miniCartOverlay">
-        <svg xmlns="http://www.w3.org/2000/svg"
-             viewBox="0 0 24 24"
-             width="26"
-             height="26"
-             fill="none"
-             stroke="#fff"
-             stroke-width="2"
-             stroke-linecap="round"
-             stroke-linejoin="round">
-            <circle cx="9" cy="21" r="1"></circle>
-            <circle cx="20" cy="21" r="1"></circle>
-            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-        </svg>
-        <span class="cart-fab__count" id="cartFabCount">
-            @(lbc == null
-            ? 0
-            : lbc.Where(x => x.ItemType == BasketItemType.Item ||
-                             x.ItemType == BasketItemType.AdminDiscount)
-                 .Sum(x => x.Quantity))
-        </span>
-    </button>
+    @* Floating "cart-fab" button removed per request - the mini-cart is now triggered only
+       from the header's Basket link (desktop) / cart icon (mobile), wired via the
+       ".open-mini-cart" class + delegated handler in site.js. The #miniCartOverlay/#miniCartClose
+       elements below (and the openCart()/closeCart() functions in the script block further
+       down) are unchanged - they're what site.js's handler actually opens; only the fab button
+       itself and its own click binding have been removed. *@
     <!-- Overlay + Mini cart panel -->
     <div class="mini-cart-overlay"
          id="miniCartOverlay"
@@ -765,6 +744,21 @@
                                             <div class="cart-item__sku">
                                                 @bc.PartNo
                                             </div>
+                                            <!-- In stock / delivery messaging - same "In Stock -
+                                                Delivered [day]" wording and Availability 1/7 ("in
+                                                stock" / "in stock at an alternate warehouse") stock
+                                                check already used for this product on the full
+                                                basket page (BasketDetails.cshtml) and the PDP
+                                                (HtmlHelper.ProductAvailability) - kept out of the
+                                                Switch & Save card below, which is a different
+                                                (cross-sell) product line. -->
+                                            @if (bc.Availability == 1 || bc.Availability == 7)
+                                            {
+                                                <div class="stock-status in-stock">
+                                                    <i class="fa fa-check-circle"></i>
+                                                    <span><strong>In Stock</strong> - Delivered @Session["D_standardDeliveryDay"]</span>
+                                                </div>
+                                            }
                                             <div class="cart-item__price">
                                                 £@neg@bc.PriceEx.ToString("N2")
                                                 <span class="vat">
@@ -1050,14 +1044,18 @@
         // Open / close mini cart - this whole block re-runs every time site.js swaps in fresh
         // data.basketSummary (see .replaceWith(data.basketSummary) calls in site.js), because
         // jQuery executes <script> tags contained in HTML passed to replaceWith/html. That's
-        // required here since a plain DOM replace gives the new #cartFab/#miniCartOverlay/
-        // #miniCartClose nodes no listeners at all - re-running this re-attaches them to the
-        // fresh elements every time. querySelectorAll('.qty-stepper') block that used to live
-        // here (looking for .qty-minus/.qty-plus) has been removed - those classes don't exist
-        // on the actual buttons (they use onclick="changeMiniBasketQty(...)" directly, which
-        // already updates the real server-side quantity), so that old block was dead code that
-        // threw on every run instead of doing anything useful.
-        var cartFab = document.getElementById('cartFab');
+        // required here since a plain DOM replace gives the new #miniCartOverlay/#miniCartClose
+        // nodes no listeners at all - re-running this re-attaches them to the fresh elements
+        // every time. querySelectorAll('.qty-stepper') block that used to live here (looking
+        // for .qty-minus/.qty-plus) has been removed - those classes don't exist on the actual
+        // buttons (they use onclick="changeMiniBasketQty(...)" directly, which already updates
+        // the real server-side quantity), so that old block was dead code that threw on every
+        // run instead of doing anything useful.
+        // The floating #cartFab button (and its own click->openCart() binding) has been removed
+        // - the mini-cart is now opened only via the header's ".open-mini-cart" links, handled
+        // by a delegated click handler in site.js. openCart()/closeCart() themselves stay
+        // defined here (global functions, per the original design) since site.js's fallback
+        // path and any other future trigger can still call them directly.
         var overlay = document.getElementById('miniCartOverlay');
         var closeBtn = document.getElementById('miniCartClose');
         function openCart() {
@@ -1068,7 +1066,6 @@
             overlay.classList.remove('is-open');
             document.body.style.overflow = '';
         }
-        cartFab.addEventListener('click', openCart);
         closeBtn.addEventListener('click', closeCart);
         overlay.addEventListener('click', function (e) {
             if (e.target === overlay) { closeCart(); } // click outside panel closes it

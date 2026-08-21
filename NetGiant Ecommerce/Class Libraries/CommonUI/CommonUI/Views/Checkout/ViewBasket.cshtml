@@ -68,6 +68,26 @@
                             }
                         </div>
 
+                        @* Amazon Pay / PayPal Checkout buttons: BasketDetails.cshtml's own comment (added when
+                            the "payment buttons refresh on every quantity change" bug was fixed) says both were
+                            moved out here so they render once per page view and survive #vbBasketDetails being
+                            replaced on every basket AJAX refresh. Restoring the PayPal side of that below -
+                            #paypal-button2/3 are exactly what site.js's renderPaypalButtonV2() (called after
+                            every add/remove/qty/voucher change) already expects to find here.
+                            NOT restoring an Amazon Pay button: there is no amazon.Pay.renderButton() call, no
+                            Amazon Pay SDK <script> tag, and no other button markup anywhere else in this repo
+                            for it, even though CheckoutController.ViewBasket() still populates
+                            Model.AmazonButtonJSONPayLoad/AmazonButtonSignature for one - so whatever rendered
+                            it originally appears to have been lost entirely, not just misplaced, and there's
+                            nothing here to safely reconstruct it from. Flagged to the user rather than guessed
+                            at, since getting a payment SDK integration wrong carries more risk than leaving it
+                            out until the real markup/config can be confirmed. *@
+                        @if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
+                        {
+                            <div id="paypal-button2" class="g-m-t-20"></div>
+                            <div id="paypal-button3" class="g-m-t-10"></div>
+                        }
+
                         <div class="g-bc-s g-b-1-p g-m-t-20 visible-xs visible-sm restrict-images vb-pay-methods">
                             <div class="g-p-10">
                                 <strong>Payment Methods</strong>
@@ -143,6 +163,16 @@
             // basket with no prompt until the customer clicks Checkout a second time.
             if (window.location.search.indexOf('showlogin=1') !== -1) {
                 runCheckoutButtonAction();
+            }
+
+            // Render the PayPal button once on initial page load - every other
+            // renderPaypalButtonV2() call site only fires after a basket mutation
+            // (add/remove/qty/voucher), so without this the button wouldn't appear
+            // until the customer had already changed something. Guarded on the
+            // container actually being on the page (it's only rendered server-side
+            // for non-portal users with a basket total above zero).
+            if ($('#paypal-button2').length) {
+                renderPaypalButtonV2();
             }
         });
 

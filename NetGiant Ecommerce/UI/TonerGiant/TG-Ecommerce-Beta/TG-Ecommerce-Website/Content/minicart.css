@@ -7,45 +7,9 @@
     --text: #333;
     --muted: #777;
 }
-/* Floating cart button */
-.cart-fab {
-    position: fixed;
-    right: 6px;
-    top: 36px;
-    transform: translateY(-50%);
-    z-index: 9998;
-    width: 56px;
-    height: 56px;
-    border-radius: 4px;
-    background: #0099cc;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-    .cart-fab:hover {
-        background: #000;
-    }
-
-.cart-fab__count {
-    position: absolute;
-    top: -4px;
-    right: -4px;
-    background: var(--pink);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 700;
-    min-width: 18px;
-    height: 18px;
-    border-radius: 9px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 4px;
-}
+/* Floating cart button ("cart-fab") removed per request - the mini-cart is now opened only
+   from the header's Basket link (desktop) / cart icon (mobile) via ".open-mini-cart" in
+   site.js. Rules for it removed along with the button markup in MiniBasket.cshtml. */
 /* Overlay + slide-in panel */
 .mini-cart-overlay {
     position: fixed;
@@ -83,7 +47,16 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    max-height: 100vh;
+    max-height: 100vh; /* fallback for browsers without dvh support, below */
+    max-height: 100dvh; /* iOS Safari sizes 100vh to the LARGEST possible viewport (address
+                            bar + bottom toolbar both collapsed), not what's actually visible -
+                            so content near the end of this panel (the Proceed to Checkout
+                            button) can end up positioned right under/behind Safari's own
+                            chrome when it's expanded, close enough that a tap aimed at the
+                            button can hit the browser's native controls instead and leave the
+                            customer unable to proceed. 100dvh tracks the real visible viewport
+                            as that chrome shows/hides, so browsers that support it keep the
+                            button clear of it; browsers that don't fall back to the line above. */
 }
 
 .mini-cart__header {
@@ -122,6 +95,11 @@
     flex: 1;
     overflow-y: auto;
     padding: 12px 16px;
+    /* Extra clearance below the Proceed to Checkout button/View basket link (the last things
+       in this scrollable area) so they never sit flush against the very bottom edge on iOS -
+       env(safe-area-inset-bottom, 20px) adds the home-indicator gap on notched iPhones, with a
+       plain 20px fallback everywhere else, on top of this rule's own base padding. */
+    padding-bottom: calc(16px + env(safe-area-inset-bottom, 20px));
 }
 /* Cart item */
 .cart-item {
@@ -440,6 +418,15 @@ a.view-basket-link {
         outline: none;
         border: none
     }
+
+.stock-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 4px 0 2px;
+}
 
 .stock-status.in-stock {
     color: #008340

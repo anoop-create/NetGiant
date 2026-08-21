@@ -28,7 +28,8 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance
             "Banner",
             "Delivery",
             "Trust",
-            "TradePricing"
+            "TradePricing",
+            "Payment"
         };
 
         public WebsiteInfoCard InfoCard { get; set; }

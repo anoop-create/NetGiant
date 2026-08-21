@@ -12,10 +12,10 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Export
     // Add On configured. Column layout is the exact inverse of ImportProductAddonViewModel,
     // so an export -> edit -> re-import round-trip works cleanly:
     //   "Product SKU"  - the product's AltRef/PartNo
-    //   "Add On SKUs"  - semicolon-separated AltRef/PartNo values, in DisplayOrder
+    //   "Add On SKUs"  - comma-separated AltRef/PartNo values, in DisplayOrder
     public class ExportProductAddonViewModel : CommonViewModel
     {
-        private const string AddOnSeparator = ";";
+        private const string AddOnSeparator = ",";
 
         public ExportProductAddonViewModel()
         {

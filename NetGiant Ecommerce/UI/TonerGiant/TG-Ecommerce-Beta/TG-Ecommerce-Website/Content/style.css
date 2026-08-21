@@ -1016,6 +1016,16 @@ button.btn.btn-success.atb-replace {
     #basketSummary .basket-card {
         padding: 12px 12px 2px 12px !important;
     }
+
+    /* Below 992px, .col-md-8 (product list) and .col-md-4 (this Summary block, wrapped in
+       .main-basket-summary) both go full-width and stack - the Summary block landed directly
+       under the last product card with no gap at all ("container too close to the summary").
+       margin-top only, scoped to .main-basket-summary (not the parent column, which would also
+       affect the >=992px side-by-side layout), so this only applies once the two columns have
+       actually stacked. */
+    .main-basket-summary {
+        margin-top: 20px;
+    }
 }
 
 .dv-basket-card {
@@ -1190,3 +1200,624 @@ body:has(#vbBasketDetails) .container.body-content > .row.g-m-t-20 {
     #basketSummary .row.dv-basket-card > button.qty-upsell-pill {
         margin-top: 15px
     }
+
+
+/*New Style 21-08-26*/
+#you-may-also-need .ymn-close, .you-may-need .ymn-close {
+    border: 1px solid #fff !important;
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    line-height: 20px;
+    color: #fff !important
+}
+
+#popup, .fa-times:hover {
+    color: #fff !important
+}
+
+#you-may-also-need .need-title, .you-may-need .need-title {
+    font-size: 12px;
+    line-height: 16px;
+}
+
+#you-may-also-need .need-product, .you-may-need .need-product {
+    text-align: left;
+}
+
+    #you-may-also-need .need-product > .need-title + .need-title, .you-may-need .need-product > .need-title + .need-title {
+        font-weight: 500;
+        min-height: fit-content;
+    }
+
+.you-may-need-header, .ymn-header {
+    background: #0f6f97 !important;
+}
+
+#you-may-also-need .need-price, .you-may-need .need-price {
+    font-size: 12px !important;
+    color: #0f6f97 !important;
+}
+
+#you-may-also-need {
+    border: none !important;
+}
+
+    #you-may-also-need .ymn-proceed {
+        display: inline-block !important;
+        max-width: 200px;
+        padding: 11px !important;
+        border-radius: 6px !important;
+    }
+
+    #you-may-also-need[data-context="addtocart"] {
+        text-align: center !important
+    }
+
+        #you-may-also-need[data-context="addtocart"] .ymn-proceed {
+            display: inline-block !important;
+        }
+
+.promo .error-message {
+    color: #ffffff !important;
+    background: #ff0000db !important;
+    padding-bottom: 0px;
+}
+
+.checkout1 {
+    border: none !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+}
+
+h4.basket-product-title a {
+    color: #0f6f97 !important
+}
+
+.price-row.ex-vat1 > strong, .basket-price-box span, .fa-plus:before, .fa-minus:before, .basket-remove, .switch-product-name, .price-row.ex-vat > strong, .price-row.ex-vat > span,
+.price-row.inc-vat > strong, .price-row.inc-vat > span {
+    color: #0f6f97 !important;
+}
+
+.basket-product-title, .switch-product-name {
+    font-size: 14px !important;
+    line-height: 18px;
+    margin-bottom: 0
+}
+
+.basket-product-code strong {
+    font-weight: 100 !important;
+    font-size: 12px !important
+}
+
+div#AmazonPayButton {
+    width: 100% !important;
+    padding: 27px 10px !important;
+    align-items: center
+}
+
+.card-toggle a.toggle-link {
+    color: #000000
+}
+
+.promo summary {
+    position: relative;
+}
+
+    .promo summary::after {
+        content: "";
+        position: absolute;
+        top: 9px;
+        right: 0;
+        width: 8px;
+        height: 8px;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        transform: rotate(45deg);
+    }
+
+.promo[open] summary::after {
+    transform: rotate(225deg);
+}
+
+.sidebar-card {
+    border: none !important;
+    border-bottom: 1px solid #000 !important;
+    border-radius: 0 !important;
+    padding-bottom: 8px !important;
+}
+
+    .sidebar-card > div {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .sidebar-card.banner {
+        border-bottom: 0px !important;
+    }
+
+.card-header span {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.sidebar-card > div {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    color: #000 !important;
+}
+
+    .sidebar-card > div strong {
+        font-weight: 500 !important;
+    }
+
+.card-toggle a.toggle-link {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+}
+
+.card-toggle {
+    border-top: none;
+}
+
+.card-body {
+    padding-bottom: 0 !important
+}
+
+.sidebar-card:last-child {
+    border-bottom: 0px !important;
+}
+
+.sidebar-card .card-toggle i {
+    font-size: 16px !important
+}
+
+.payment-card .payment-icons {
+    padding: 0 !important;
+    text-align: center !important;
+    justify-content: center !important;
+}
+
+section:has(div#vbBasketDetails) {
+    background: #fff !important;
+}
+
+#basketSummary .basket-card {
+    border: 1px solid #8e8e8e !important;
+}
+
+.basket-qty {
+    border: 1px solid #696969 !important;
+}
+
+.qty-btn {
+    background: transparent !important
+}
+
+.qty-minus {
+    border-right: 1px solid #696969 !important;
+}
+
+.qty-plus {
+    border-left: 1px solid #696969 !important;
+}
+
+.qty-input {
+    color: #0f6f97 !important;
+    font-size: 16px !important;
+}
+
+.basket-switch-save {
+    background: #fcf7fe;
+    justify-content: left;
+    flex-wrap: nowrap;
+    align-items: center
+}
+
+    .basket-switch-save > div {
+        font-size: 18px !important;
+        margin-right: 15px;
+    }
+
+        .basket-switch-save > div > p {
+            font-size: 14px !important;
+            margin-bottom: 0px;
+        }
+
+.replaceall {
+    min-width: 140px;
+    max-width: 140px;
+}
+
+.basket-switch-save > button {
+    margin-left: auto
+}
+
+.basket-switch-save > img {
+    height: auto !important;
+    max-width: 150px;
+    margin-right: 15px;
+}
+
+.replaceall {
+    font-weight: 500 !important;
+    font-size: 14px !important;
+}
+
+.basket-switch-save {
+    margin-right: 0 !important;
+}
+
+
+
+@media (max-width: 991px) {
+    #you-may-also-need {
+        width: 92% !important;
+        max-width: 92% !important;
+        border-radius: 20px !important;
+    }
+
+        #you-may-also-need .need-product {
+            text-align: center !important;
+        }
+
+    div#basketSummary > div {
+        padding: 0 !important;
+    }
+
+    .basket-switch-save {
+        display: block;
+        overflow: hidden;
+    }
+
+    div#basketSummary > div {
+        padding: 10px 10px 14px 10px !important
+    }
+
+    .basket-switch-save > img {
+        float: left;
+        margin-top: 6px;
+        height: 110px !important
+    }
+
+    .basket-switch-save > div > p {
+        margin-bottom: 12px;
+    }
+
+    .basket-switch-save button {
+        padding: 4px 0px !important;
+        height: 38px !important;
+    }
+
+    .basket-switch-save > div[style="font-weight: bold;"] {
+        width: calc(100% - 0px) !important;
+    }
+
+    .basket-switch-save > div {
+        margin-right: 0px;
+    }
+}
+
+/*New basket 20-08-26*/
+.basket-wrapper {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.basket-items {
+    background: #fff;
+    border: 1px solid #a5a5a5;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 21px;
+}
+
+.basket-items-normal {
+    display: flex;
+    align-items: flex-start;
+}
+
+    .basket-items-normal .item-img {
+        width: 120px;
+        margin-right: 20px;
+    }
+
+        .basket-items-normal .item-img a {
+            display: flex;
+        }
+
+        .basket-items-normal .item-img img {
+            width: 100%;
+        }
+
+.item-title-area h2 {
+    margin: 0;
+    padding: 0px;
+}
+
+    .item-title-area h2 a {
+        color: #0f6f97;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 1.32;
+        margin: 0 0 4px 0;
+        text-decoration: none;
+        display: block;
+    }
+
+.product-code {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #000000;
+}
+
+span.stock {
+    display: block;
+    margin-top: 14px;
+    margin-bottom: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #000000;
+}
+
+span.stock {
+    position: relative;
+    padding-left: 22px;
+    font-size: 12px;
+    line-height: 16px
+}
+
+    span.stock:before {
+        content: "";
+        display: block;
+        width: 13px;
+        height: 13px;
+        position: absolute;
+        border-radius: 100%;
+        left: 0px;
+        top: 1px
+    }
+
+    span.stock.stock-in::before {
+        background: #2fbf71;
+        color: #2fbf71;
+    }
+
+    span.stock.stock-out::before {
+        background: #ff3131;
+        color: #ff3131;
+    }
+
+    span.stock strong {
+        font-style: italic;
+    }
+
+.item-title-area {
+    width: calc(100% - 240px)
+}
+
+.p-price-q-area {
+    width: 150px;
+    text-align: right;
+    margin-left: 20px;
+}
+
+.p-without-vat {
+    color: #0f6f97;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.32;
+    margin: 0 0 4px 0;
+    text-decoration: none;
+    display: block;
+}
+
+.p-with-vat {
+    color: #0f6f97;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.32;
+    margin: 0 0 4px 0;
+    text-decoration: none;
+    display: block;
+}
+
+.basket-items button {
+    background: transparent;
+    border: none;
+}
+
+.trash-like {
+    display: flex;
+    justify-content: flex-end;
+    gap: 14px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+    .trash-like button {
+        margin: 0px;
+        padding: 0px;
+        cursor: pointer
+    }
+
+button.like-btn .like-b {
+    display: none
+}
+
+button.like-btn:hover .like-b {
+    display: block
+}
+
+button.like-btn:hover .unlike-b {
+    display: none
+}
+
+.qnt-w {
+    margin-top: 23px;
+    display: block;
+}
+
+#cbi-cart, #cbi-cart * {
+    float: none !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    box-sizing: border-box !important;
+}
+
+.cbi-g-qty {
+    grid-area: qty;
+    justify-self: end;
+}
+
+.cbi-qty {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+    width: 108px;
+    height: 34px;
+}
+
+#cbi-cart :not(.cbi-qty) {
+    overflow: visible !important;
+}
+
+#cbi-cart, #cbi-cart * {
+    float: none !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    box-sizing: border-box !important;
+}
+
+.cbi-qty input {
+    flex: 1;
+    width: 100%;
+    border: none;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f6f97;
+    -moz-appearance: textfield;
+}
+
+.cbi-qty button {
+    background: #fff;
+    border: none;
+    width: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #0f6f97;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+.switch-save {
+    margin-bottom: 0px;
+    margin-top: 20px;
+    border: 3px solid #d41f7e;
+    position: relative;
+}
+
+.cbi-switch-save-label {
+    position: absolute;
+    top: -11px;
+    left: 14px;
+    background: #fff;
+    color: var(--pink);
+    font-weight: 700;
+    font-size: 14px;
+    padding: 0 6px;
+}
+
+.cbi-save-amount {
+    color: var(--pink);
+    font-weight: 700;
+    font-size: 14px;
+    margin: 0px 0 10px;
+}
+
+.mobile {
+    display: none !important;
+}
+
+.cbi-switch-btn {
+    display: block;
+    width: 100%;
+    border: 1.5px solid var(--pink) !important;
+    color: var(--pink);
+    background: #fff;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 9px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+}
+
+@media (max-width:768px) {
+    .basket-items-normal {
+        flex-wrap: wrap;
+    }
+
+    .item-title-area {
+        width: calc(100% - 70px);
+    }
+
+    .p-price-q-area {
+        width: calc(100% - 70px);
+        text-align: right;
+        margin-left: auto;
+        display: flex;
+        gap: 20px;
+    }
+
+    .p-qnt {
+        margin-left: auto;
+        position: relative;
+        top: -0px;
+    }
+
+    .trash-like {
+        margin-top: 0;
+    }
+
+    .desktop {
+        display: none !important;
+    }
+
+    .basket-items-normal .item-img {
+        width: 60px;
+        margin-right: 10px;
+    }
+
+    .mobile {
+        display: block !important;
+    }
+
+    span.stock {
+        margin-top: 3px;
+    }
+
+    .switch-save .p-price-q-area {
+        display: block;
+        text-align: left;
+    }
+
+    span.stock {
+        margin-left: 70px;
+    }
+
+    .cbi-switch-btn {
+        max-width: 120px;
+    }
+}

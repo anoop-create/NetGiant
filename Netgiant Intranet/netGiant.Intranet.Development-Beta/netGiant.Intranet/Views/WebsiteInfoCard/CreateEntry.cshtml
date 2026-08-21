@@ -40,12 +40,12 @@
                         {
                             @Html.DropDownListFor(m => m.InfoCard.Category, Model.CategoryList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10", disabled = "disabled" })
                             @Html.HiddenFor(m => m.InfoCard.Category)
-                            <span class="help-block">'Banner' only uses Image URL / Link URL below. The other categories (Delivery, Trust, TradePricing) use Icon/Title/Body/Find Out More. Category can't be changed once a card is created.</span>
+                            <span class="help-block">'Banner' only uses Image URL / Link URL below. The other categories (Delivery, Trust, TradePricing, Payment) use Icon/Title/Body/Find Out More. Category can't be changed once a card is created.</span>
                         }
                         else
                         {
                             @Html.DropDownListFor(m => m.InfoCard.Category, Model.CategoryList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
-                            <span class="help-block">'Banner' only uses Image URL / Link URL below. The other categories (Delivery, Trust, TradePricing) use Icon/Title/Body/Find Out More.</span>
+                            <span class="help-block">'Banner' only uses Image URL / Link URL below. The other categories (Delivery, Trust, TradePricing, Payment) use Icon/Title/Body/Find Out More.</span>
                         }
                         @Html.ValidationMessageFor(model => model.InfoCard.Category, "", new { @class = "text-danger" })
                     </div>

@@ -2651,6 +2651,26 @@ $(function () {
         proceedToCheckout();
     });
 
+    // Header's Basket link (desktop, Header.cshtml's .hdr-basket) and mobile cart icon
+    // (Header.cshtml's .basket-mobile wrapper) both used to navigate straight to /checkout/.
+    // Per request, the floating "cart-fab" button was removed (MiniBasket.cshtml no longer
+    // renders it) and these two links now open the mini-cart tray instead. Delegated, so it
+    // keeps working through MiniBasket.cshtml's own AJAX-driven re-renders (which replace
+    // #minibasket-widget, not these header links). Manipulates #miniCartOverlay directly
+    // rather than calling the global openCart() - the same defensive choice made in the
+    // .atb-add handler above, since that's more robust than depending on MiniBasket.cshtml's
+    // inline <script> having (re)executed by the time this fires. Falls back to the original
+    // navigation (does nothing here, so the browser's default click/navigation just proceeds)
+    // if #miniCartOverlay genuinely isn't present on the page for some reason.
+    $(document).on('click', '.open-mini-cart', function (e) {
+        var $overlay = $('#miniCartOverlay');
+        if ($overlay.length) {
+            e.preventDefault();
+            $overlay.addClass('is-open');
+            $('body').css('overflow', 'hidden');
+        }
+    });
+
     // The popup's own "Proceed to Checkout" button (mobile only) always means checkout,
     // regardless of how the popup was opened.
     $(document).on('click', '#you-may-also-need .ymn-proceed', function () {

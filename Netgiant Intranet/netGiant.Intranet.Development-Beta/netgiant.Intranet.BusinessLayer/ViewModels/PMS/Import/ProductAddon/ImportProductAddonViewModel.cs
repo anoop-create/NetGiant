@@ -16,8 +16,10 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Import
     //   "Product SKU"  - the product the add-ons are attached to - either its AltRef/PartNo
     //                    OR its exact Product Name
     //   "Add On SKUs"  - one or more add-ons for that product, each either an AltRef/PartNo or
-    //                    an exact Product Name, separated by a semicolon (;) in a single cell,
-    //                    e.g. "AB123;Some Product Name;EF789"
+    //                    an exact Product Name, separated by a comma (,) in a single cell,
+    //                    e.g. "AB123,Some Product Name,EF789"
+    //                    (a semicolon is also still accepted for backwards compatibility with
+    //                    previously-exported/saved files)
     //
     // Behaviour: for a given Product row, the add-ons listed become the COMPLETE set of
     // add-ons for that product - anything previously configured that is not in the list is
@@ -26,7 +28,7 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Import
     // (including removing an add-on by deleting it from the cell) works cleanly.
     public class ImportProductAddonViewModel : JobStatusCommonViewModel
     {
-        private const char AddOnSeparator = ';';
+        private const char AddOnSeparator = ',';
         private string userName;
 
         public void Import(string filePath)

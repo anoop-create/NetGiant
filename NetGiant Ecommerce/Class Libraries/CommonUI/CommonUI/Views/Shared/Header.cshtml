@@ -240,7 +240,36 @@ else
                     <div class="hdr-basket pull-right clearfix hidden-xs hidden-sm">
                         <div class="pull-left g-p-t-10">
                             <i class="fa fa-shopping-basket g-p-r-5"></i>
+                            @* This link used to navigate straight to /checkout/ - per request, it should instead
+                               open the mini-cart tray (the floating "cart-fab" button that used to do this has been
+                               removed, see MiniBasket.cshtml). ".open-mini-cart" is handled by a delegated click
+                               handler in site.js; href is left pointing at /checkout/ as a fallback for the rare
+                               case #miniCartOverlay isn't on the page (that handler leaves the click to navigate
+                               normally when the overlay is missing). *@
+                            
                             <a class="primary" href="~/checkout/">
+                                <strong>Basket (<span class="basketQuantity">@bt.Quantity</span>) - &pound;<span class="basketTotal">@((bt.GrandTotalExcVat >= bt.Delivery ? basketTotal.Item2 - bt.Delivery : basketTotal.Item2).ToString("#,###,##0.00"))</span></strong> <span class="g-fc-tt g-fs-sm">@basketTotal.Item1</span>
+                            </a>
+                        </div>
+                        <div class="pull-right">
+                            @if (HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() == "Checkout")
+                            {
+                                <button type="button" class="checkout-button btn g-butt-primary g-butt-lg" title="Checkout">Checkout</button>
+                            }
+                            else
+                            {
+                                <a class="btn g-butt-primary g-butt-lg" href="~/checkout/" role="button">Checkout</a>
+                            }
+                        </div>
+                    </div>
+                }
+                else
+                {
+                   
+                       <div class="hdr-basket pull-right clearfix hidden-xs hidden-sm">
+                        <div class="pull-left g-p-t-10">
+                            <i class="fa fa-shopping-basket g-p-r-5"></i>
+                            <a class="primary open-mini-cart" href="~/checkout/">
                                 <strong>Basket (<span class="basketQuantity">@bt.Quantity</span>) - &pound;<span class="basketTotal">@((bt.GrandTotalExcVat >= bt.Delivery ? basketTotal.Item2 - bt.Delivery : basketTotal.Item2).ToString("#,###,##0.00"))</span></strong> <span class="g-fc-tt g-fs-sm">@basketTotal.Item1</span>
                             </a>
                         </div>
@@ -298,7 +327,10 @@ else
                 <a href="#" class="g-m-r-20" id="opensearch-mobile" aria-label="mobile search">
                     <i class="fa fa-search fa-2x"></i>
                 </a>
-                <a href="~/checkout/">
+                @* Same "open the mini-cart instead of navigating" treatment as the desktop Basket
+                   link above, since the mobile cart icon was the other place asked to trigger it
+                   now that the floating cart-fab button is gone. *@
+                <a href="~/checkout/" class="open-mini-cart">
                     <span class="basket-mobile fa-stack g-p-r-5">
                         <i class="fa fa-shopping-basket fa-stack-2x"></i>
                         <i class="basket-counter g-bc-primary g-fc-st g-fs-sm g-fw-b fa-stack-1x">@bt.Quantity</i>

@@ -44,7 +44,7 @@ namespace netGiant.Intranet.Controllers.Ecommerce
         {
             try
             {
-                //model.CMSEntry.cmsContent = content;
+                model.CMSEntry.cmsContent = content;
                 if (model.SaveEntry())
                 {
                     TempData["InformationBoxFlag"] = "CMS Entry Saved";
@@ -54,6 +54,7 @@ namespace netGiant.Intranet.Controllers.Ecommerce
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
+                model.SetupSelectLists();
                 return View("CreateEntry", model);
             }
         }
@@ -109,6 +110,7 @@ namespace netGiant.Intranet.Controllers.Ecommerce
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
+                model.SetupSelectLists();
                 return View("CreateSection", model);
             }
         }

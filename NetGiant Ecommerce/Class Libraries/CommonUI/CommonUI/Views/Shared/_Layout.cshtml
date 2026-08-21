@@ -11,7 +11,11 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @* viewport-fit=cover added so env(safe-area-inset-bottom) (used by minicart.css's mini-cart
+        bottom padding, see the "Proceed to Checkout too close to the bottom on iPhone" fix)
+        actually returns the real home-indicator inset on notched iPhones instead of 0 - without
+        this, iOS treats the page as if there's no safe area to account for at all. *@
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="format-detection" content="telephone=no">
     <title>@Html.RawFromDict(Model.MetaData, "Title")</title>
     <meta name="description" content="@Html.RawFromDict(Model.MetaData, "Description")">
@@ -52,6 +56,7 @@
     }
 
     @Styles.Render("~/Content/cssBundle.css")
+    @Styles.Render("~/Content/css")
     @RenderSection("AddTags", required: false)
     @Scripts.Render("~/bundles/jqueryBundle.js")
     @if (ConfigurationManager.AppSettings["ChatIsOn"] == "True")
