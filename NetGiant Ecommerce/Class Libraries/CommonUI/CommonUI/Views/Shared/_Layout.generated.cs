@@ -452,7 +452,7 @@ WriteLiteral("    ");
 
             
             #line 59 "..\..\Views\Shared\_Layout.cshtml"
-Write(Styles.Render("~/Content/css"));
+Write(Styles.Render("~/Content/style.css"));
 
             
             #line default
@@ -463,7 +463,7 @@ WriteLiteral("    ");
 
             
             #line 60 "..\..\Views\Shared\_Layout.cshtml"
-Write(RenderSection("AddTags", required: false));
+Write(Styles.Render("~/Content/style.css"));
 
             
             #line default
@@ -474,6 +474,17 @@ WriteLiteral("    ");
 
             
             #line 61 "..\..\Views\Shared\_Layout.cshtml"
+Write(RenderSection("AddTags", required: false));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n");
+
+WriteLiteral("    ");
+
+            
+            #line 62 "..\..\Views\Shared\_Layout.cshtml"
 Write(Scripts.Render("~/bundles/jqueryBundle.js"));
 
             
@@ -482,13 +493,13 @@ Write(Scripts.Render("~/bundles/jqueryBundle.js"));
 WriteLiteral("\r\n");
 
             
-            #line 62 "..\..\Views\Shared\_Layout.cshtml"
+            #line 63 "..\..\Views\Shared\_Layout.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 62 "..\..\Views\Shared\_Layout.cshtml"
+            #line 63 "..\..\Views\Shared\_Layout.cshtml"
      if (ConfigurationManager.AppSettings["ChatIsOn"] == "True")
     {
 
@@ -499,22 +510,22 @@ WriteLiteral("        <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 3494), Tuple.Create("\"", 3595)
-, Tuple.Create(Tuple.Create("", 3500), Tuple.Create("https://", 3500), true)
+WriteAttribute("src", Tuple.Create(" src=\"", 3543), Tuple.Create("\"", 3644)
+, Tuple.Create(Tuple.Create("", 3549), Tuple.Create("https://", 3549), true)
             
-            #line 64 "..\..\Views\Shared\_Layout.cshtml"
-, Tuple.Create(Tuple.Create("", 3508), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "DomainName")
+            #line 65 "..\..\Views\Shared\_Layout.cshtml"
+, Tuple.Create(Tuple.Create("", 3557), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "DomainName")
             
             #line default
             #line hidden
-, 3508), false)
-, Tuple.Create(Tuple.Create("", 3559), Tuple.Create("data/static-files/cpy_sfliveagent.js", 3559), true)
+, 3557), false)
+, Tuple.Create(Tuple.Create("", 3608), Tuple.Create("data/static-files/cpy_sfliveagent.js", 3608), true)
 );
 
 WriteLiteral(" defer></script>\r\n");
 
             
-            #line 65 "..\..\Views\Shared\_Layout.cshtml"
+            #line 66 "..\..\Views\Shared\_Layout.cshtml"
     }
 
             
@@ -527,13 +538,13 @@ WriteLiteral(" type=\"text/javascript\"");
 WriteLiteral(">\r\n");
 
             
-            #line 67 "..\..\Views\Shared\_Layout.cshtml"
+            #line 68 "..\..\Views\Shared\_Layout.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 67 "..\..\Views\Shared\_Layout.cshtml"
+            #line 68 "..\..\Views\Shared\_Layout.cshtml"
           
             Html.RenderPartial("~/Views/Shared/JSTrackingAllHdr.cshtml", Model);
         
@@ -542,27 +553,27 @@ WriteLiteral(">\r\n");
             #line hidden
 WriteLiteral("\r\n    </script>\r\n\r\n</head>\r\n\r\n<body");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 3796), Tuple.Create("\"", 3921)
-, Tuple.Create(Tuple.Create("", 3804), Tuple.Create("g-ps-r", 3804), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 3845), Tuple.Create("\"", 3970)
+, Tuple.Create(Tuple.Create("", 3853), Tuple.Create("g-ps-r", 3853), true)
             
-            #line 74 "..\..\Views\Shared\_Layout.cshtml"
-, Tuple.Create(Tuple.Create(" ", 3810), Tuple.Create<System.Object, System.Int32>(Model.IsStationerySaleActive || Model.IsOEMSaleActive || Model.IsCompatibleSaleActive ? "saleIsActive" : ""
+            #line 75 "..\..\Views\Shared\_Layout.cshtml"
+, Tuple.Create(Tuple.Create(" ", 3859), Tuple.Create<System.Object, System.Int32>(Model.IsStationerySaleActive || Model.IsOEMSaleActive || Model.IsCompatibleSaleActive ? "saleIsActive" : ""
             
             #line default
             #line hidden
-, 3811), false)
+, 3860), false)
 );
 
 WriteLiteral(">\r\n");
 
             
-            #line 75 "..\..\Views\Shared\_Layout.cshtml"
+            #line 76 "..\..\Views\Shared\_Layout.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 75 "..\..\Views\Shared\_Layout.cshtml"
+            #line 76 "..\..\Views\Shared\_Layout.cshtml"
       
         Html.RenderPartial("~/Views/Shared/Header.cshtml");
     
@@ -578,7 +589,7 @@ WriteLiteral("></div>\r\n");
 WriteLiteral("    ");
 
             
-            #line 79 "..\..\Views\Shared\_Layout.cshtml"
+            #line 80 "..\..\Views\Shared\_Layout.cshtml"
 Write(RenderBody());
 
             
@@ -587,13 +598,13 @@ Write(RenderBody());
 WriteLiteral("\r\n\r\n");
 
             
-            #line 81 "..\..\Views\Shared\_Layout.cshtml"
+            #line 82 "..\..\Views\Shared\_Layout.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 81 "..\..\Views\Shared\_Layout.cshtml"
+            #line 82 "..\..\Views\Shared\_Layout.cshtml"
       
         Html.RenderPartial("~/Views/Shared/Footer.cshtml");
     
@@ -603,13 +614,13 @@ WriteLiteral("\r\n\r\n");
 WriteLiteral("\r\n\r\n");
 
             
-            #line 85 "..\..\Views\Shared\_Layout.cshtml"
+            #line 86 "..\..\Views\Shared\_Layout.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 85 "..\..\Views\Shared\_Layout.cshtml"
+            #line 86 "..\..\Views\Shared\_Layout.cshtml"
      if (!Authentication.IsFullyAuthenticated())
     {
         Html.RenderPartial("~/Views/MyAccount/SignIn.cshtml");
@@ -624,26 +635,26 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteLiteral(" id=\"SearchApplication\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 4321), Tuple.Create("\"", 4406)
+WriteAttribute("value", Tuple.Create(" value=\"", 4370), Tuple.Create("\"", 4455)
             
-            #line 89 "..\..\Views\Shared\_Layout.cshtml"
-, Tuple.Create(Tuple.Create("", 4329), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["SearchApplication"] == "SLI" ? "1" : "0"
+            #line 90 "..\..\Views\Shared\_Layout.cshtml"
+, Tuple.Create(Tuple.Create("", 4378), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["SearchApplication"] == "SLI" ? "1" : "0"
             
             #line default
             #line hidden
-, 4329), false)
+, 4378), false)
 );
 
 WriteLiteral(" />\r\n\r\n");
 
             
-            #line 91 "..\..\Views\Shared\_Layout.cshtml"
+            #line 92 "..\..\Views\Shared\_Layout.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 91 "..\..\Views\Shared\_Layout.cshtml"
+            #line 92 "..\..\Views\Shared\_Layout.cshtml"
      if (!Model.IsMobile)
     {
         
@@ -651,14 +662,14 @@ WriteLiteral(" />\r\n\r\n");
             #line default
             #line hidden
             
-            #line 93 "..\..\Views\Shared\_Layout.cshtml"
+            #line 94 "..\..\Views\Shared\_Layout.cshtml"
    Write(Scripts.Render("~/bundles/bootstrapBundle.js"));
 
             
             #line default
             #line hidden
             
-            #line 93 "..\..\Views\Shared\_Layout.cshtml"
+            #line 94 "..\..\Views\Shared\_Layout.cshtml"
                                                        
     }
     else
@@ -668,14 +679,14 @@ WriteLiteral(" />\r\n\r\n");
             #line default
             #line hidden
             
-            #line 97 "..\..\Views\Shared\_Layout.cshtml"
+            #line 98 "..\..\Views\Shared\_Layout.cshtml"
    Write(Scripts.Render("~/bundles/bootstrapBundleM.js"));
 
             
             #line default
             #line hidden
             
-            #line 97 "..\..\Views\Shared\_Layout.cshtml"
+            #line 98 "..\..\Views\Shared\_Layout.cshtml"
                                                         
     }
 
@@ -685,7 +696,7 @@ WriteLiteral(" />\r\n\r\n");
 WriteLiteral("    ");
 
             
-            #line 99 "..\..\Views\Shared\_Layout.cshtml"
+            #line 100 "..\..\Views\Shared\_Layout.cshtml"
 Write(Scripts.Render("~/bundles/jqueryvalBundle.js"));
 
             
@@ -696,7 +707,7 @@ WriteLiteral("\r\n");
 WriteLiteral("    ");
 
             
-            #line 100 "..\..\Views\Shared\_Layout.cshtml"
+            #line 101 "..\..\Views\Shared\_Layout.cshtml"
 Write(RenderSection("scripts", required: false));
 
             
@@ -705,13 +716,13 @@ Write(RenderSection("scripts", required: false));
 WriteLiteral("\r\n");
 
             
-            #line 101 "..\..\Views\Shared\_Layout.cshtml"
+            #line 102 "..\..\Views\Shared\_Layout.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 101 "..\..\Views\Shared\_Layout.cshtml"
+            #line 102 "..\..\Views\Shared\_Layout.cshtml"
      if (!Model.IsMobile)
     {
 
@@ -725,7 +736,7 @@ WriteLiteral(" src=\"https://apis.google.com/js/platform.js?onload=renderBadge\"
 WriteLiteral(" defer></script>\r\n");
 
             
-            #line 104 "..\..\Views\Shared\_Layout.cshtml"
+            #line 105 "..\..\Views\Shared\_Layout.cshtml"
     }
 
             
@@ -734,7 +745,7 @@ WriteLiteral(" defer></script>\r\n");
 WriteLiteral("    ");
 
             
-            #line 105 "..\..\Views\Shared\_Layout.cshtml"
+            #line 106 "..\..\Views\Shared\_Layout.cshtml"
      if (ConfigurationManager.AppSettings["SearchApplication"] == "SLI")
     {
 
@@ -745,30 +756,30 @@ WriteLiteral("        <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 4952), Tuple.Create("\"", 5115)
-, Tuple.Create(Tuple.Create("", 4958), Tuple.Create("https://", 4958), true)
+WriteAttribute("src", Tuple.Create(" src=\"", 5001), Tuple.Create("\"", 5164)
+, Tuple.Create(Tuple.Create("", 5007), Tuple.Create("https://", 5007), true)
             
-            #line 107 "..\..\Views\Shared\_Layout.cshtml"
-, Tuple.Create(Tuple.Create("", 4966), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["SLIDomain"]
-            
-            #line default
-            #line hidden
-, 4966), false)
-, Tuple.Create(Tuple.Create("", 5014), Tuple.Create("/autocomplete/rac-resources-", 5014), true)
-            
-            #line 107 "..\..\Views\Shared\_Layout.cshtml"
-                                                 , Tuple.Create(Tuple.Create("", 5042), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["WebsiteShortCode"]
+            #line 108 "..\..\Views\Shared\_Layout.cshtml"
+, Tuple.Create(Tuple.Create("", 5015), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["SLIDomain"]
             
             #line default
             #line hidden
-, 5042), false)
-, Tuple.Create(Tuple.Create("", 5097), Tuple.Create("/sli-rac.config.js", 5097), true)
+, 5015), false)
+, Tuple.Create(Tuple.Create("", 5063), Tuple.Create("/autocomplete/rac-resources-", 5063), true)
+            
+            #line 108 "..\..\Views\Shared\_Layout.cshtml"
+                                                 , Tuple.Create(Tuple.Create("", 5091), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["WebsiteShortCode"]
+            
+            #line default
+            #line hidden
+, 5091), false)
+, Tuple.Create(Tuple.Create("", 5146), Tuple.Create("/sli-rac.config.js", 5146), true)
 );
 
 WriteLiteral(" defer></script>\r\n");
 
             
-            #line 108 "..\..\Views\Shared\_Layout.cshtml"
+            #line 109 "..\..\Views\Shared\_Layout.cshtml"
     }
 
             
@@ -781,13 +792,13 @@ WriteLiteral(" type=\"text/javascript\"");
 WriteLiteral(">\r\n");
 
             
-            #line 110 "..\..\Views\Shared\_Layout.cshtml"
+            #line 111 "..\..\Views\Shared\_Layout.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 110 "..\..\Views\Shared\_Layout.cshtml"
+            #line 111 "..\..\Views\Shared\_Layout.cshtml"
           
             Html.RenderPartial("~/Views/Shared/JSTrackingAll.cshtml", Model);
             Html.RenderPartial("~/Views/Shared/JSTrackingStandard.cshtml", Model);
@@ -802,7 +813,7 @@ WriteLiteral("\r\n");
 WriteLiteral("                ");
 
             
-            #line 114 "..\..\Views\Shared\_Layout.cshtml"
+            #line 115 "..\..\Views\Shared\_Layout.cshtml"
            Write(Html.RawFromDict(Model.CommonData, "MessageAndRedirect"));
 
             
@@ -813,7 +824,7 @@ WriteLiteral("\r\n            ");
 WriteLiteral("\r\n");
 
             
-            #line 116 "..\..\Views\Shared\_Layout.cshtml"
+            #line 117 "..\..\Views\Shared\_Layout.cshtml"
         
             
             #line default
@@ -823,7 +834,7 @@ WriteLiteral("\r\n    </script>\r\n\r\n");
 WriteLiteral("    ");
 
             
-            #line 119 "..\..\Views\Shared\_Layout.cshtml"
+            #line 120 "..\..\Views\Shared\_Layout.cshtml"
 Write(RenderSection("AddScript", required: false));
 
             
@@ -838,7 +849,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("        ");
 
             
-            #line 122 "..\..\Views\Shared\_Layout.cshtml"
+            #line 123 "..\..\Views\Shared\_Layout.cshtml"
    Write(RenderSection("StructuredData", required: false));
 
             
@@ -849,7 +860,7 @@ WriteLiteral("\r\n    </script>\r\n\r\n");
 WriteLiteral("    ");
 
             
-            #line 125 "..\..\Views\Shared\_Layout.cshtml"
+            #line 126 "..\..\Views\Shared\_Layout.cshtml"
 Write(Html.Kendo().DeferredScripts());
 
             
@@ -859,7 +870,7 @@ WriteLiteral("\r\n\r\n    <!--[if lt IE 9]>\r\n        <script type=\"text/javas
 "lert(\'");
 
             
-            #line 129 "..\..\Views\Shared\_Layout.cshtml"
+            #line 130 "..\..\Views\Shared\_Layout.cshtml"
               Write(ConfigurationManager.AppSettings["UnsupportedBrowser"]);
 
             
@@ -868,13 +879,13 @@ WriteLiteral("\r\n\r\n    <!--[if lt IE 9]>\r\n        <script type=\"text/javas
 WriteLiteral("\');\r\n        </script>\r\n    <![endif]-->\r\n\r\n");
 
             
-            #line 133 "..\..\Views\Shared\_Layout.cshtml"
+            #line 134 "..\..\Views\Shared\_Layout.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 133 "..\..\Views\Shared\_Layout.cshtml"
+            #line 134 "..\..\Views\Shared\_Layout.cshtml"
        string siteName = string.Join("-", Utilities.SplitCamelCase(Utilities.GetItemFromDict(Model.CommonData, "ShortSiteName"))).ToLower(); 
             
             #line default
@@ -883,15 +894,15 @@ WriteLiteral("\r\n    <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 6065), Tuple.Create("\"", 6117)
-, Tuple.Create(Tuple.Create("", 6071), Tuple.Create("https://api.feefo.com/api/javascript/", 6071), true)
+WriteAttribute("src", Tuple.Create(" src=\"", 6114), Tuple.Create("\"", 6166)
+, Tuple.Create(Tuple.Create("", 6120), Tuple.Create("https://api.feefo.com/api/javascript/", 6120), true)
             
-            #line 134 "..\..\Views\Shared\_Layout.cshtml"
-, Tuple.Create(Tuple.Create("", 6108), Tuple.Create<System.Object, System.Int32>(siteName
+            #line 135 "..\..\Views\Shared\_Layout.cshtml"
+, Tuple.Create(Tuple.Create("", 6157), Tuple.Create<System.Object, System.Int32>(siteName
             
             #line default
             #line hidden
-, 6108), false)
+, 6157), false)
 );
 
 WriteLiteral(" async></script>\r\n</body>\r\n</html>\r\n");

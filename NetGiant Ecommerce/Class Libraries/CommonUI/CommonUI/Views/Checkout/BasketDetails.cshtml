@@ -8,7 +8,32 @@
 @using System.Linq;
 @model CheckoutViewModel
 @*@Styles.Render("~/Content/css")*@
+<style>
+    .summary-basket-card1 {
+        border: 1px solid #8e8e8e !important;
+        padding: 15px;
+    }
 
+    .summary-basket-card2 {
+        border: 1px solid #8e8e8e !important;
+        padding: 15px;
+    }
+
+    .summary-basket-card3 {
+        border: 1px solid #8e8e8e !important;
+        padding: 15px;
+    }
+
+    .summary-basket-card4 {
+        border: 1px solid #8e8e8e !important;
+        padding: 15px;
+    }
+
+    .summary-basket-card5 {
+        border: 1px solid #8e8e8e !important;
+        padding: 15px;
+    }
+</style>
 @if (Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery > 0)
 {
     bool isAdminDiscount = Model.BasketContents.Exists(x => x.ItemType == BasketItemType.AdminDiscount);
@@ -678,283 +703,268 @@
     <div class="col-md-4 dv-basket-card">
 
         @* ---------------- Delivery message ----------------
-            CM: shows the "spend X more for free delivery" threshold message.
-            TG: constant "Free Next Day/Working Day Delivery" message.
-            Site is distinguished the same way other site-specific config is
-            read elsewhere in this file (ConfigurationManager.AppSettings) -
-            adjust the key/values below to match your actual site flag. *@
+        CM: shows the "spend X more for free delivery" threshold message.
+        TG: constant "Free Next Day/Working Day Delivery" message.
+        Site is distinguished the same way other site-specific config is
+        read elsewhere in this file (ConfigurationManager.AppSettings) -
+        adjust the key/values below to match your actual site flag. *@
         @{
             bool isCartridgeMarket = ConfigurationManager.AppSettings["SiteBrand"] == "CM";
             decimal freeDeliveryThreshold = 45.00m; // CM threshold - move to config if it varies
             decimal subTotalExVat = Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery;
         }
-        <div class="main-basket-summary">
+        <div class="summary-basket-card1">
+            <div class="main-basket-summary">
 
-            <h4>Summary</h4>
-            <div class="basket-summary">
-                @{
-                    IHtmlString deliveryMessage = Html.Raw("");
-                }
-
-                @if (isCartridgeMarket)
-                {
-                    decimal remaining = freeDeliveryThreshold - subTotalExVat;
-
-                    if (remaining > 0)
-                    {
-                        deliveryMessage = Html.Raw("Spend &pound;" + string.Format("{0:N2}", remaining) + " more for free delivery");
+                <h4>Summary</h4>
+                <div class="basket-summary">
+                    @{
+                        IHtmlString deliveryMessage = Html.Raw("");
                     }
-                    else
+
+                    @if (isCartridgeMarket)
                     {
-                        deliveryMessage = Html.Raw("Free Delivery Included");
-                    }
-                }
-                else
-                {
-                    bool isFriday = DateTime.Now.DayOfWeek == DayOfWeek.Friday;
-                    TimeSpan cutoff = isFriday ? new TimeSpan(17, 0, 0) : new TimeSpan(17, 30, 0);
-                    bool pastCutoff = DateTime.Now.TimeOfDay > cutoff;
+                        decimal remaining = freeDeliveryThreshold - subTotalExVat;
 
-                    if (pastCutoff)
-                    {
-                        deliveryMessage = Html.Raw("Free Next Working Day Delivery");
-                    }
-                    else
-                    {
-                        deliveryMessage = Html.Raw("Free Next Day Delivery");
-                    }
-                }
-                <span><i class="fa fa-truck fa-flip-horizontal fa-2x"></i></span>
-                <span>@deliveryMessage</span>
-            </div>
-
-            <span>
-
-            </span>
-        </div>
-
-        <div class="g-m-t-10 clearfix">
-            <div class="pull-left">
-                <strong>Delivery</strong>
-            </div>
-            <div class="pull-right g-p-r-20">
-                @if (Model.BasketTotals.Delivery == 0)
-                {
-                    @:FREE
-                }
-                else
-                {
-                    @Html.Raw("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Delivery)))
-                }
-            </div>
-        </div>
-        <div class="g-m-t-10 clearfix">
-            <div class="pull-left">
-                <strong>Sub Total</strong>
-            </div>
-            <div class="pull-right g-p-r-20">&pound;@string.Format("{0:N2}", subTotalExVat)</div>
-        </div>
-        <div class="g-m-t-10 clearfix">
-            <div class="pull-left">
-                <strong>VAT</strong>
-            </div>
-            <div class="pull-right g-p-r-20">&pound;@string.Format("{0:N2}", Model.BasketTotals.Vat + Model.BasketTotals.VoucherVat)</div>
-        </div>
-
-        <div class="@(ViewBag.HideVoucher ? "g-d-n" : "")">
-            <hr class="g-m-tb-10" />
-            <div id="voucherTotal" class="g-m-t-10 clearfix g-lh-40">
-                <div class="pull-left">
-                    <strong>Voucher</strong>
-                </div>
-                <div class="pull-right g-p-r-20 g-i g-fc-pm">
-                    <span id="voucherValue">
-                        @if (Model.BasketTotals.Voucher == 0)
+                        if (remaining > 0)
                         {
-                            @:FREE GIFT
+                            deliveryMessage = Html.Raw("Spend &pound;" + string.Format("{0:N2}", remaining) + " more for free delivery");
                         }
                         else
                         {
-                            @((Model.BasketTotals.Voucher < 0 ? "-" : ""))
-                            @Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher)) + " (inc VAT)"))
+                            deliveryMessage = Html.Raw("Free Delivery Included");
                         }
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="@(isMultiBuy ? "" : "g-d-n")">
-            <hr class="g-m-tb-10" />
-            <div id="voucherTotal" class="g-m-t-10 clearfix g-lh-40">
-                <div class="pull-left">
-                    <strong>You have saved</strong>
-                </div>
-                <div class="pull-right g-p-r-20 g-i g-fc-pm">
-                    <span id="voucherValue">
-                        @Html.Raw(("&pound;" + string.Format("{0:N2}", multibuyAmount) + " (ex VAT)"))
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <hr class="g-m-tb-10" />
-        <div class="g-m-t-10 clearfix g-lh-40">
-            <div class="pull-left">
-                <strong>Grand Total</strong>
-            </div>
-            <div class="pull-right g-fs-lg g-p-r-20">
-                <strong>
-                    <span>&pound;@string.Format("{0:N2}", Model.BasketTotals.GrandTotalIncVat)</span>
-                </strong>
-            </div>
-        </div>
-        @if (!isAdminDiscount)
-        {
-            if (Session["B_VoucherCode"].ToSafeString() != "")
-            {
-                <details class="promo" open="open">
-                    <summary>
-                        Promotion Code
-                    </summary>
-
-                    <div class="promo-applied">
-
-                        <span class="promo-applied__code">
-                            @Session["B_VoucherCode"].ToSafeString()
-                        </span>
-
-                        <button type="button"
-                                class="remove-voucher"
-                                title="Remove voucher code">
-                            <i class="fa fa-trash"></i>
-                        </button>
-
-                        <span class="promo-applied__saving">
-                            -&pound;@Math.Abs(Model.BasketTotals.Voucher + Model.BasketTotals.VoucherVat).ToString("0.00")
-                        </span>
-
-                    </div>
-
-                    @if (!string.IsNullOrEmpty(ViewBag.VoucherMessage))
-                    {
-                        <div class="error-message">
-                            @Html.Raw(ViewBag.VoucherMessage)
-                        </div>
                     }
+                    else
+                    {
+                        bool isFriday = DateTime.Now.DayOfWeek == DayOfWeek.Friday;
+                        TimeSpan cutoff = isFriday ? new TimeSpan(17, 0, 0) : new TimeSpan(17, 30, 0);
+                        bool pastCutoff = DateTime.Now.TimeOfDay > cutoff;
 
-                </details>
-            }
-            else
-            {
-                <details class="promo">
-                    <summary>
-                        Promotion Code
-                    </summary>
+                        if (pastCutoff)
+                        {
+                            deliveryMessage = Html.Raw("Free Next Working Day Delivery");
+                        }
+                        else
+                        {
+                            deliveryMessage = Html.Raw("Free Next Day Delivery");
+                        }
+                    }
+                    <span><i class="fa fa-truck fa-flip-horizontal fa-2x"></i></span>
+                    <span>@deliveryMessage</span>
+                </div>
 
-                    <div class="promo-form">
+                <span>
 
-                        <input id="voucher-code"
-                               type="text"
-                               placeholder="Enter voucher code">
-
-                        <button id="apply-voucher"
-                                type="button">
-                            Apply
-                        </button>
-
-                    </div>
-
-                    <div id="error-message"
-                         class="error-message"
-                         style="display:none;">
-                        <p></p>
-                    </div>
-
-                </details>
-            }
-        }
-        <button type="button" class="checkout-button checkout1 btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-right" title="Checkout">Proceed to Checkout</button>
-        @Html.AntiForgeryToken()
-        <form id="co-form" method="post" action="~/Checkout/Stage1/">
-            @Html.HiddenFor(x => x.CheckoutDetails.IsNewCustomer)
-            @Html.HiddenFor(x => x.CheckoutDetails.Email)
-            @Html.HiddenFor(x => x.CheckoutDetails.Password)
-            @Html.HiddenFor(x => x.CheckoutDetails.ZeroStock)
-        </form>
-
-        @* The Amazon Pay button and the PayPal button containers (#paypal-button2/3) used to
-            live here, but this whole block is re-rendered from scratch on every basket mutation
-            (qty change, voucher apply, add/remove, etc. - see CheckoutController.RefreshViewBasket
-            and site.js's refreshVbFields(), which replace this partial's entire markup via
-            $('#vbBasketDetails').html(...)). jQuery's .html() evaluates <script> tags in whatever
-            it inserts, so the Amazon Pay button's renderButton() script - and the PayPal button
-            containers, which JS then re-populates via renderPaypalButtonV2() - were being torn
-            down and rebuilt on every single quantity change, which is what caused the reported
-            "payment buttons refresh when you increase quantity" symptom. Neither button actually
-            needs to reflect a live basket total in its render call (Amazon Pay's session request
-            carries no amount at all - see MyAmazonPay.GetButton(); the PayPal SDK now fetches the
-            current amount at the moment an order is actually created, not at render time - see
-            buildPayPalObject() in site.js), so they've been moved to ViewBasket.cshtml, outside
-            this AJAX-refreshed region, where they render exactly once per page view and are never
-            touched again regardless of how many times the basket changes. The PayPal "as low as"
-            financing message and the hidden PayPalPaid form below DO need the live total (the
-            hidden field is what's actually submitted as the paid amount), so those stay here. *@
-        @if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
-        {
-            if (ConfigurationManager.AppSettings["AmazonPayMerchantId"] != "OFF")
-            {
-                <div style="height:70px;"></div>
-                <div id="AmazonPayButton" class="g-m-t-20"></div>
-
-                <script src="https://static-eu.payments-amazon.com/checkout.js"></script>
-
-                <script type="text/javascript" charset="utf-8">
-                 amazon.Pay.renderButton('#AmazonPayButton', {
-                     merchantId: '@Html.Raw(ConfigurationManager.AppSettings["AmazonPayMerchantId"])',
-                     publicKeyId: '@Html.Raw(ConfigurationManager.AppSettings["AmazonPayPublicKeyId"])',
-                     ledgerCurrency: 'GBP',
-                     checkoutLanguage: 'en_GB',
-                     productType: 'PayAndShip',
-                     placement: 'Cart',
-                     buttonColor: 'Gold',
-                     createCheckoutSessionConfig: {
-                         payloadJSON: '@Html.Raw(Model.AmazonButtonJSONPayLoad)',
-                         signature: '@Html.Raw(Model.AmazonButtonSignature)'
-                     }
-                 });
-                </script>
-            }
-
-            <div id="paypal-button2" class="g-m-t-20"></div>
-            <div id="paypal-button3"></div>
-
-            <div id="paypal-message" data-pp-message data-pp-style-layout="text"
-                 data-pp-style-logo-type="inline" data-pp-style-text-color="black"
-                 data-pp-amount="@string.Format("{0:N2}", Model.BasketTotals.GrandTotalIncVat)">
+                </span>
             </div>
-            <form id="paypal-form" action="/checkout/stage3/" method="post">
-                <input type="hidden" name="PayPalPaid" id="PayPalPaid" value="true" />
-                @Html.Hidden("PaymentAmountPaid", Model.BasketTotals.GrandTotalIncVat)
-            </form>
-        }
-        @{
-            // Sidebar content (sale banner + "Find Out More" cards) is managed via the
-            // Intranet's Website Info Cards admin screen and read straight from
-            // dbo.WebsiteInfoCard - see BusinessLogic.EntityAccess.ReadWebsiteInfoCards().
-            // Falls back to nothing rendered if the table/rows don't exist yet, rather
-            // than erroring the whole basket page.
-            List<WebsiteInfoCard> infoCards = new List<WebsiteInfoCard>();
-            try
+
+            <div class="g-m-t-10 clearfix">
+                <div class="pull-left">
+                    <strong>Delivery</strong>
+                </div>
+                <div class="pull-right g-p-r-20">
+                    @if (Model.BasketTotals.Delivery == 0)
+                    {
+                        @:FREE
+                    }
+                    else
+                    {
+                        @Html.Raw("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Delivery)))
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="summary-basket-card2">
+            <div class="g-m-t-10 clearfix">
+                <div class="pull-left">
+                    <strong>Sub Total</strong>
+                </div>
+                <div class="pull-right g-p-r-20">&pound;@string.Format("{0:N2}", subTotalExVat)</div>
+            </div>
+            <div class="g-m-t-10 clearfix">
+                <div class="pull-left">
+                    <strong>VAT</strong>
+                </div>
+                <div class="pull-right g-p-r-20">&pound;@string.Format("{0:N2}", Model.BasketTotals.Vat + Model.BasketTotals.VoucherVat)</div>
+            </div>
+
+            <div class="@(ViewBag.HideVoucher ? "g-d-n" : "")">
+                <hr class="g-m-tb-10" />
+                <div id="voucherTotal" class="g-m-t-10 clearfix g-lh-40">
+                    <div class="pull-left">
+                        <strong>Voucher</strong>
+                    </div>
+                    <div class="pull-right g-p-r-20 g-i g-fc-pm">
+                        <span id="voucherValue">
+                            @if (Model.BasketTotals.Voucher == 0)
+                            {
+                                @:FREE GIFT
+                            }
+                            else
+                            {
+                                @((Model.BasketTotals.Voucher < 0 ? "-" : ""))
+                                @Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher)) + " (inc VAT)"))
+                            }
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="@(isMultiBuy ? "" : "g-d-n")">
+                <hr class="g-m-tb-10" />
+                <div id="voucherTotal" class="g-m-t-10 clearfix g-lh-40">
+                    <div class="pull-left">
+                        <strong>You have saved</strong>
+                    </div>
+                    <div class="pull-right g-p-r-20 g-i g-fc-pm">
+                        <span id="voucherValue">
+                            @Html.Raw(("&pound;" + string.Format("{0:N2}", multibuyAmount) + " (ex VAT)"))
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="g-m-tb-10" />
+            <div class="g-m-t-10 clearfix g-lh-40">
+                <div class="pull-left">
+                    <strong>Grand Total</strong>
+                </div>
+                <div class="pull-right g-fs-lg g-p-r-20">
+                    <strong>
+                        <span>&pound;@string.Format("{0:N2}", Model.BasketTotals.GrandTotalIncVat)</span>
+                    </strong>
+                </div>
+            </div>
+            @if (!isAdminDiscount)
             {
-                infoCards = EntityAccess.ReadWebsiteInfoCards();
+                if (Session["B_VoucherCode"].ToSafeString() != "")
+                {
+                    <details class="promo" open="open">
+                        <summary>
+                            Promotion Code
+                        </summary>
+
+                        <div class="promo-applied">
+
+                            <span class="promo-applied__code">
+                                @Session["B_VoucherCode"].ToSafeString()
+                            </span>
+
+                            <button type="button"
+                                    class="remove-voucher"
+                                    title="Remove voucher code">
+                                <i class="fa fa-trash"></i>
+                            </button>
+
+                            <span class="promo-applied__saving">
+                                -&pound;@Math.Abs(Model.BasketTotals.Voucher + Model.BasketTotals.VoucherVat).ToString("0.00")
+                            </span>
+
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(ViewBag.VoucherMessage))
+                        {
+                            <div class="error-message">
+                                @Html.Raw(ViewBag.VoucherMessage)
+                            </div>
+                        }
+
+                    </details>
+                }
+                else
+                {
+                    <details class="promo">
+                        <summary>
+                            Promotion Code
+                        </summary>
+
+                        <div class="promo-form">
+
+                            <input id="voucher-code"
+                                   type="text"
+                                   placeholder="Enter voucher code">
+
+                            <button id="apply-voucher"
+                                    type="button">
+                                Apply
+                            </button>
+
+                        </div>
+
+                        <div id="error-message"
+                             class="error-message"
+                             style="display:none;">
+                            <p></p>
+                        </div>
+
+                    </details>
+                }
             }
-            catch { /* table not migrated yet on this environment - render nothing below */ }
+            <button type="button" class="checkout-button checkout1 btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-right" title="Checkout">Proceed to Checkout</button>
+            @Html.AntiForgeryToken()
+            <form id="co-form" method="post" action="~/Checkout/Stage1/">
+                @Html.HiddenFor(x => x.CheckoutDetails.IsNewCustomer)
+                @Html.HiddenFor(x => x.CheckoutDetails.Email)
+                @Html.HiddenFor(x => x.CheckoutDetails.Password)
+                @Html.HiddenFor(x => x.CheckoutDetails.ZeroStock)
+            </form>
+            @if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
+            {
+                if (ConfigurationManager.AppSettings["AmazonPayMerchantId"] != "OFF")
+                {
+                    <div style="height:70px;"></div>
+                    <div id="AmazonPayButton" class="g-m-t-20"></div>
 
-            WebsiteInfoCard bannerCard = infoCards.FirstOrDefault(x => x.Category == "Banner" && !String.IsNullOrEmpty(x.ImageUrl));
-            List<WebsiteInfoCard> findOutMoreCards = infoCards.Where(x => x.Category != "Banner").ToList();
-        }
-        <div class="basket-sidebar-info">
+                    <script src="https://static-eu.payments-amazon.com/checkout.js"></script>
 
+                    <script type="text/javascript" charset="utf-8">
+                         amazon.Pay.renderButton('#AmazonPayButton', {
+                             merchantId: '@Html.Raw(ConfigurationManager.AppSettings["AmazonPayMerchantId"])',
+                             publicKeyId: '@Html.Raw(ConfigurationManager.AppSettings["AmazonPayPublicKeyId"])',
+                             ledgerCurrency: 'GBP',
+                             checkoutLanguage: 'en_GB',
+                             productType: 'PayAndShip',
+                             placement: 'Cart',
+                             buttonColor: 'Gold',
+                             createCheckoutSessionConfig: {
+                                 payloadJSON: '@Html.Raw(Model.AmazonButtonJSONPayLoad)',
+                                 signature: '@Html.Raw(Model.AmazonButtonSignature)'
+                             }
+                         });
+                    </script>
+                }
+
+                <div id="paypal-button2" class="g-m-t-20"></div>
+                <div id="paypal-button3"></div>
+
+                <div id="paypal-message" data-pp-message data-pp-style-layout="text"
+                     data-pp-style-logo-type="inline" data-pp-style-text-color="black"
+                     data-pp-amount="@string.Format("{0:N2}", Model.BasketTotals.GrandTotalIncVat)">
+                </div>
+                <form id="paypal-form" action="/checkout/stage3/" method="post">
+                    <input type="hidden" name="PayPalPaid" id="PayPalPaid" value="true" />
+                    @Html.Hidden("PaymentAmountPaid", Model.BasketTotals.GrandTotalIncVat)
+                </form>
+            }
+            @{
+                // Sidebar content (sale banner + "Find Out More" cards) is managed via the
+                // Intranet's Website Info Cards admin screen and read straight from
+                // dbo.WebsiteInfoCard - see BusinessLogic.EntityAccess.ReadWebsiteInfoCards().
+                // Falls back to nothing rendered if the table/rows don't exist yet, rather
+                // than erroring the whole basket page.
+                List<WebsiteInfoCard> infoCards = new List<WebsiteInfoCard>();
+                try
+                {
+                    infoCards = EntityAccess.ReadWebsiteInfoCards();
+                }
+                catch { /* table not migrated yet on this environment - render nothing below */ }
+
+                WebsiteInfoCard bannerCard = infoCards.FirstOrDefault(x => x.Category == "Banner" && !String.IsNullOrEmpty(x.ImageUrl));
+                List<WebsiteInfoCard> findOutMoreCards = infoCards.Where(x => x.Category != "Banner").ToList();
+            }
+        </div>
+        <div class="summary-basket-card3">
             @if (bannerCard != null)
             {
                 <div class="sidebar-card banner">
@@ -975,38 +985,48 @@
                     }
                 </div>
             }
+        </div>
+        <div class="summary-basket-card4">
+            <div class="basket-sidebar-info">
 
-            @foreach (WebsiteInfoCard card in findOutMoreCards)
-            {
-                <div class="sidebar-card @card.Category.ToLower()">
+                
 
-                    <div class="card-header">
-                        <i class="@card.IconClass"></i>
-                        <span>@card.Title</span>
-                    </div>
+                @foreach (WebsiteInfoCard card in findOutMoreCards)
+                {
+                    <div class="sidebar-card @card.Category.ToLower()">
 
-                    <div class="card-body">
-                        @Html.Raw(card.BodyText)
-                    </div>
-
-                    @if (!String.IsNullOrEmpty(card.FindOutMoreContent))
-                    {
-                        <div class="card-toggle @card.Category.ToLower()">
-                            <a href="javascript:void(0);" class="toggle-link">
-                                Find Out More
-                            </a>
-
-                            <i class="fa fa-angle-down"></i>
+                        <div class="card-header">
+                            <i class="@card.IconClass"></i>
+                            <span>@card.Title</span>
                         </div>
 
-                        <div class="card-content @card.Category.ToLower()">
-                            @Html.Raw(card.FindOutMoreContent)
+                        <div class="card-body">
+                            @Html.Raw(card.BodyText)
                         </div>
-                    }
 
-                </div>
-            }
+                        @if (!String.IsNullOrEmpty(card.FindOutMoreContent))
+                        {
+                            <div class="card-toggle @card.Category.ToLower()">
+                                <a href="javascript:void(0);" class="toggle-link">
+                                    Find Out More
+                                </a>
 
+                                <i class="fa fa-angle-down"></i>
+                            </div>
+
+                            <div class="card-content @card.Category.ToLower()">
+                                @Html.Raw(card.FindOutMoreContent)
+                            </div>
+                        }
+
+                    </div>
+                }
+
+
+
+            </div>
+        </div>
+        <div class="summary-basket-card5">
             <div class="sidebar-card payment-card">
 
                 <div class="card-header">
@@ -1023,20 +1043,20 @@
                 </div>
 
             </div>
-
         </div>
+
         @*@if (!Model.IsMobile)
-            {
-                <div class="g-bc-s g-b-1-p g-m-t-20 hidden-xs hidden-sm">
-                    <div class="g-p-10">
-                        <strong>Payment Options at Checkout</strong>
-                    </div>
-                    <hr />
-                    <div class="g-p-10">
-                        @Html.Raw(Model.CheckoutData["PaymentMethods"].Replace("[newline]", "&#013;"))
-                    </div>
+        {
+            <div class="g-bc-s g-b-1-p g-m-t-20 hidden-xs hidden-sm">
+                <div class="g-p-10">
+                    <strong>Payment Options at Checkout</strong>
                 </div>
-            }*@
+                <hr />
+                <div class="g-p-10">
+                    @Html.Raw(Model.CheckoutData["PaymentMethods"].Replace("[newline]", "&#013;"))
+                </div>
+            </div>
+        }*@
     </div>
 }
 else
@@ -1060,4 +1080,54 @@ else
         card.find(".card-content").stop(true, true).slideToggle(250);
 
     });
+    (function () {
+        var wrapper = document.querySelector('.basket-wrapper');
+        if (!wrapper) return;
+
+        function setQty(input, newVal) {
+            var min = parseInt(input.min, 10) || 1;
+            if (isNaN(newVal) || newVal < min) newVal = min;
+            input.value = newVal;
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        wrapper.addEventListener('click', function (e) {
+            var incBtn = e.target.closest('[data-inc]');
+            var decBtn = e.target.closest('[data-dec]');
+
+            if (incBtn || decBtn) {
+                var wrap = e.target.closest('[data-qty]');
+                var input = wrap.querySelector('[data-qty-input]');
+                var current = parseInt(input.value, 10);
+                if (isNaN(current)) current = 1;
+                setQty(input, incBtn ? current + 1 : current - 1);
+                return;
+            }
+
+            var likeBtn = e.target.closest('.like-btn');
+            if (likeBtn) {
+                likeBtn.classList.toggle('liked');
+                return;
+            }
+
+            var removeBtn = e.target.closest('.basket-remove');
+            if (removeBtn) {
+                var item = e.target.closest('.basket-items');
+                if (item) item.remove();
+                return;
+            }
+        });
+
+        wrapper.addEventListener('input', function (e) {
+            if (e.target.matches('[data-qty-input]')) {
+                e.target.value = e.target.value.replace(/[^\d]/g, '');
+            }
+        });
+
+        wrapper.addEventListener('blur', function (e) {
+            if (e.target.matches('[data-qty-input]')) {
+                setQty(e.target, parseInt(e.target.value, 10));
+            }
+        }, true);
+    })();
 </script>

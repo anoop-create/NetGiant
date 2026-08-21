@@ -56,7 +56,8 @@
     }
 
     @Styles.Render("~/Content/cssBundle.css")
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/style.css")
+    @Styles.Render("~/Content/style.css")
     @RenderSection("AddTags", required: false)
     @Scripts.Render("~/bundles/jqueryBundle.js")
     @if (ConfigurationManager.AppSettings["ChatIsOn"] == "True")
