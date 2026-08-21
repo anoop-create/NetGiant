@@ -74,9 +74,7 @@ namespace TG_Ecommerce_Website
                 "~/Content/kendo.bootstrap.min.css",
                 "~/Content/jquery-confirm.css",
                 "~/Content/site.less",
-                "~/Content/font-awesome.css",
-                "~/Content/style.css",
-                "~/Content/minicart.css"));
+                "~/Content/font-awesome.css"));
 
             // Bundles By Controller
             bundles.Add(new ScriptBundle("~/bundles/checkoutBundle.js").Include(
@@ -101,10 +99,9 @@ namespace TG_Ecommerce_Website
                 "~/Scripts/kendo.userevents.min.js",
                 "~/Scripts/kendo.numerictextbox.min.js",
                 "~/Scripts/product.js"));
-            bundles.Add(new StyleBundle("~/Content/style.css"));
-            bundles.Add(new StyleBundle("~/Content/minicart.css"));
+            //bundles.Add(new StyleBundle("~/Content/style.css"));
+            //bundles.Add(new StyleBundle("~/Content/minicart.css"));
 
-            bundles.Add(new LessBundle("~/Content/minicart.css"));
             BundleTable.EnableOptimizations = ConfigurationManager.AppSettings["Environment"] != "Local";
         }
     }

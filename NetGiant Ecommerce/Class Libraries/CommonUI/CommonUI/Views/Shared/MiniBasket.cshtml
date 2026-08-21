@@ -29,7 +29,6 @@
     bool beforeDeliveryCutoff = isDeliveryWeekday && nowLocal.TimeOfDay < orderCutoff;
     string deliveryMessage = beforeDeliveryCutoff ? "Free Next Day Delivery" : "Free Next Working Day Delivery";
 }
-@Styles.Render("~/Content/minicart.css")
 @*<style>
         :root {
             --dark: #2b2b2b;

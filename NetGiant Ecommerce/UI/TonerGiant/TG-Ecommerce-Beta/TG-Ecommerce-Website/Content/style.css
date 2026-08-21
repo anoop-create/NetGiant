@@ -1,4 +1,202 @@
-﻿
+﻿/* Spec: "the user can skip by clicking the x off the modal or on the transparent
+       background". Fully transparent (not dimmed) on purpose - when this popup opens
+       alongside the still-open mini-cart, the mini-cart's own dark backdrop is already
+       covering the page; this element only exists to catch the click and dismiss the popup,
+       not to add a second layer of dimming. Sits one z-index below #you-may-also-need. */
+#you-may-also-need-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    z-index: 1059;
+}
+
+/* Default/checkout context: sits beside the still-open mini-cart tray. */
+#you-may-also-need {
+    position: fixed;
+    top: 0;
+    right: 400px;
+    width: 620px;
+    max-width: calc(100vw - 20px);
+    max-height: 100vh;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    z-index: 1060;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+    /* Add-to-basket context: no mini-cart tray is open alongside it, so sit flush to the
+       right edge instead of leaving a gap where the tray would normally be. */
+    #you-may-also-need[data-context="addtocart"] {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+    }
+
+    #you-may-also-need .ymn-header {
+        background: #0d7397;
+        color: #fff;
+        padding: 14px 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 20px;
+        font-weight: 600;
+        border-radius: 6px 6px 0 0;
+    }
+
+    #you-may-also-need .ymn-close {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    /* Card row - matches the inline "You May Also Need" carousel on the full basket page
+       (BasketDetails.cshtml: .you-may-need-wrapper / .need-arrow / .need-product etc), just
+       scoped under #you-may-also-need since this partial is rendered standalone via AJAX and
+       can't rely on that page's own <style> block being present. Reusing the same class names
+       also means the existing carousel click handlers in site.js ($(document).on('click',
+       '.need-arrow.prev'/'.next', ...)) work here automatically with no JS changes. */
+    #you-may-also-need .you-may-need-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 20px;
+    }
+
+    #you-may-also-need .need-arrow {
+        flex: 0 0 auto;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid #d9d9d9;
+        background: #fff;
+        color: #0d7397;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+        #you-may-also-need .need-arrow:disabled {
+            color: #ccc;
+            cursor: default;
+        }
+
+    #you-may-also-need .you-may-need-products {
+        flex: 1;
+        overflow: hidden;
+    }
+
+    #you-may-also-need .you-may-need-track {
+        display: flex;
+        gap: 20px;
+        transition: transform 0.3s ease;
+    }
+
+    #you-may-also-need .need-product {
+        flex: 0 0 calc((100% - 40px) / 3);
+        max-width: calc((100% - 40px) / 3);
+        text-align: center;
+    }
+
+        #you-may-also-need .need-product img {
+            width: 120px;
+            height: 90px;
+            object-fit: contain;
+            margin-bottom: 12px;
+        }
+
+    #you-may-also-need .need-title {
+        display: block;
+        color: #333;
+        font-size: 13px;
+        line-height: 18px;
+        min-height: 55px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+        #you-may-also-need .need-title:hover {
+            color: #0099cc;
+        }
+
+    #you-may-also-need .need-price {
+        font-size: 18px;
+        color: #0099cc;
+        font-weight: 700;
+        margin: 12px 0;
+    }
+
+        #you-may-also-need .need-price small {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            font-weight: 400;
+        }
+
+    /* Kept as its own class (not .atb-add) - this is the "quiet" add-to-basket that just
+       refreshes the mini-cart without closing the popup or re-triggering this same popup
+       again. Styled to look identical to the carousel's green "Add to Basket" button. */
+    #you-may-also-need .ymn-add {
+        width: 100%;
+        background: #00a651;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+        #you-may-also-need .ymn-add:disabled {
+            background: #9ecdb3;
+            cursor: default;
+        }
+
+    #you-may-also-need .ymn-proceed {
+        display: none;
+        width: 100%;
+        background: #00a651;
+        color: #fff;
+        border: none;
+        padding: 14px;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        border-radius: 0 0 6px 6px;
+    }
+
+/* Mobile: full-screen, one card per row, own Proceed to Checkout button since the
+       mini-cart isn't visible at the same time there */
+@media (max-width: 767px) {
+    #you-may-also-need {
+        right: 0;
+        width: 100%;
+        max-width: 100%;
+        bottom: 0;
+        border-radius: 0;
+    }
+
+        #you-may-also-need .need-product {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+
+        #you-may-also-need .ymn-proceed {
+            display: block;
+        }
+}
+
+
 .dv-basket-card {
     background: white;
     border: 1px solid #dcdcdc;
@@ -1498,6 +1696,8 @@ section:has(div#vbBasketDetails) {
     }
 }
 
+/*New basket 21-08-26*/
+
 /*New basket 20-08-26*/
 .basket-wrapper {
     width: 100%;
@@ -1821,3 +2021,304 @@ button.like-btn:hover .unlike-b {
         max-width: 120px;
     }
 }
+
+/*New Style 21-08-26*/
+#you-may-also-need .ymn-close, .you-may-need .ymn-close {
+    border: 1px solid #fff !important;
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    line-height: 20px;
+    color: #fff !important
+}
+
+#popup, .fa-times:hover {
+    color: #fff !important
+}
+
+#you-may-also-need .need-title, .you-may-need .need-title {
+    font-size: 12px;
+    line-height: 16px;
+}
+
+#you-may-also-need .need-product, .you-may-need .need-product {
+    text-align: left;
+}
+
+    #you-may-also-need .need-product > .need-title + .need-title, .you-may-need .need-product > .need-title + .need-title {
+        font-weight: 500;
+        min-height: fit-content;
+    }
+
+.you-may-need-header, .ymn-header {
+    background: #0f6f97 !important;
+}
+
+#you-may-also-need .need-price, .you-may-need .need-price {
+    font-size: 12px !important;
+    color: #0f6f97 !important;
+}
+
+#you-may-also-need {
+    border: none !important;
+}
+
+    #you-may-also-need .ymn-proceed {
+        display: inline-block !important;
+        max-width: 200px;
+        padding: 11px !important;
+        border-radius: 6px !important;
+    }
+
+    #you-may-also-need[data-context="addtocart"] {
+        text-align: center !important
+    }
+
+        #you-may-also-need[data-context="addtocart"] .ymn-proceed {
+            display: inline-block !important;
+        }
+
+.promo .error-message {
+    color: #ffffff !important;
+    background: #ff0000db !important;
+    padding-bottom: 0px;
+}
+
+.checkout1 {
+    border: none !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+}
+
+h4.basket-product-title a {
+    color: #0f6f97 !important
+}
+
+.price-row.ex-vat1 > strong, .basket-price-box span, .fa-plus:before, .fa-minus:before, .basket-remove, .switch-product-name, .price-row.ex-vat > strong, .price-row.ex-vat > span,
+.price-row.inc-vat > strong, .price-row.inc-vat > span {
+    color: #0f6f97 !important;
+}
+
+.basket-product-title, .switch-product-name {
+    font-size: 14px !important;
+    line-height: 18px;
+    margin-bottom: 0
+}
+
+.basket-product-code strong {
+    font-weight: 100 !important;
+    font-size: 12px !important
+}
+
+div#AmazonPayButton {
+    width: 100% !important;
+    padding: 27px 10px !important;
+    align-items: center
+}
+
+.card-toggle a.toggle-link {
+    color: #000000
+}
+
+.promo summary {
+    position: relative;
+}
+
+    .promo summary::after {
+        content: "";
+        position: absolute;
+        top: 9px;
+        right: 0;
+        width: 8px;
+        height: 8px;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        transform: rotate(45deg);
+    }
+
+.promo[open] summary::after {
+    transform: rotate(225deg);
+}
+
+.sidebar-card {
+    border: none !important;
+    border-bottom: 1px solid #000 !important;
+    border-radius: 0 !important;
+    padding-bottom: 8px !important;
+}
+
+    .sidebar-card > div {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .sidebar-card.banner {
+        border-bottom: 0px !important;
+    }
+
+.card-header span {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.sidebar-card > div {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    color: #000 !important;
+}
+
+    .sidebar-card > div strong {
+        font-weight: 500 !important;
+    }
+
+.card-toggle a.toggle-link {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+}
+
+.card-toggle {
+    border-top: none;
+}
+
+.card-body {
+    padding-bottom: 0 !important
+}
+
+.sidebar-card:last-child {
+    border-bottom: 0px !important;
+}
+
+.sidebar-card .card-toggle i {
+    font-size: 16px !important
+}
+
+.payment-card .payment-icons {
+    padding: 0 !important;
+    text-align: center !important;
+    justify-content: center !important;
+}
+
+section:has(div#vbBasketDetails) {
+    background: #fff !important;
+}
+
+#basketSummary .basket-card {
+    border: 1px solid #c8c8c8 !important;
+}
+
+.basket-qty {
+    border: 1px solid #696969 !important;
+}
+
+.qty-btn {
+    background: transparent !important
+}
+
+.qty-minus {
+    border-right: 1px solid #696969 !important;
+}
+
+.qty-plus {
+    border-left: 1px solid #696969 !important;
+}
+
+.qty-input {
+    color: #0f6f97 !important;
+    font-size: 16px !important;
+}
+
+.basket-switch-save {
+    background: #fcf7fe;
+    justify-content: left;
+    flex-wrap: nowrap;
+    align-items: center
+}
+
+    .basket-switch-save > div {
+        font-size: 18px !important;
+        margin-right: 15px;
+    }
+
+        .basket-switch-save > div > p {
+            font-size: 14px !important;
+            margin-bottom: 0px;
+        }
+
+.replaceall {
+    min-width: 140px;
+    max-width: 140px;
+}
+
+.basket-switch-save > button {
+    margin-left: auto
+}
+
+.basket-switch-save > img {
+    height: auto !important;
+    max-width: 150px;
+    margin-right: 15px;
+}
+
+.replaceall {
+    font-weight: 500 !important;
+    font-size: 14px !important;
+}
+
+.basket-switch-save {
+    margin-right: 0 !important;
+}
+
+.col-md-4.dv-basket-card > div {
+    margin-bottom: 20px;
+    border: 1px solid #c8c8c8 !important;
+    border-radius: 8px !important;
+}
+
+@media (max-width: 991px) {
+    #you-may-also-need {
+        width: 92% !important;
+        max-width: 92% !important;
+        border-radius: 20px !important;
+    }
+
+        #you-may-also-need .need-product {
+            text-align: center !important;
+        }
+
+    div#basketSummary > div {
+        padding: 0 !important;
+    }
+
+    .basket-switch-save {
+        display: block;
+        overflow: hidden;
+    }
+
+    div#basketSummary > div {
+        padding: 10px 10px 14px 10px !important
+    }
+
+    .basket-switch-save > img {
+        float: left;
+        margin-top: 6px;
+        height: 110px !important
+    }
+
+    .basket-switch-save > div > p {
+        margin-bottom: 12px;
+    }
+
+    .basket-switch-save button {
+        padding: 4px 0px !important;
+        height: 38px !important;
+    }
+
+    .basket-switch-save > div[style="font-weight: bold;"] {
+        width: calc(100% - 0px) !important;
+    }
+
+    .basket-switch-save > div {
+        margin-right: 0px;
+    }
+}
+/*Anil Updated*/

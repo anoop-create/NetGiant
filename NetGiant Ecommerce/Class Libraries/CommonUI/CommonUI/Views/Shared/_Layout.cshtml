@@ -56,8 +56,11 @@
     }
 
     @Styles.Render("~/Content/cssBundle.css")
-    @Styles.Render("~/Content/style.css")
-    @Styles.Render("~/Content/style.css")
+    <link rel="stylesheet"
+          href="@Url.Content("~/Content/style.css?vv")" />
+
+    <link rel="stylesheet"
+          href="@Url.Content("~/Content/minicart.css?vv")" />
     @RenderSection("AddTags", required: false)
     @Scripts.Render("~/bundles/jqueryBundle.js")
     @if (ConfigurationManager.AppSettings["ChatIsOn"] == "True")

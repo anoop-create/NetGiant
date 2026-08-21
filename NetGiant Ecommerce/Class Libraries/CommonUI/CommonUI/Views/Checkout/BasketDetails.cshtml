@@ -8,32 +8,7 @@
 @using System.Linq;
 @model CheckoutViewModel
 @*@Styles.Render("~/Content/css")*@
-<style>
-    .summary-basket-card1 {
-        border: 1px solid #8e8e8e !important;
-        padding: 15px;
-    }
 
-    .summary-basket-card2 {
-        border: 1px solid #8e8e8e !important;
-        padding: 15px;
-    }
-
-    .summary-basket-card3 {
-        border: 1px solid #8e8e8e !important;
-        padding: 15px;
-    }
-
-    .summary-basket-card4 {
-        border: 1px solid #8e8e8e !important;
-        padding: 15px;
-    }
-
-    .summary-basket-card5 {
-        border: 1px solid #8e8e8e !important;
-        padding: 15px;
-    }
-</style>
 @if (Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery > 0)
 {
     bool isAdminDiscount = Model.BasketContents.Exists(x => x.ItemType == BasketItemType.AdminDiscount);
@@ -168,31 +143,22 @@
                                     discClass = "";
                                 }
 
-                                <div class="basket-card atb-entry g-m-b-20"
+                                <div class="basket-items atb-entry g-m-b-20"
                                      data-productid="@bc.StockRef">
 
-                                    <div class="row dv-basket-card">
+                                    <div class="basket-items-normal">
 
                                         <!-- Product Image -->
-                                        @* "col-4"/"col-8" below (and on the Switch & Save card further down) are Bootstrap 4
-                                           syntax - this project is Bootstrap 3 throughout (col-xs-*/col-sm-*/col-md-*/col-lg-*),
-                                           where a bare "col-4" is not a real grid class and does nothing. Since col-sm-3/col-md-3
-                                           only take effect at >=768px, this column had NO width/float applied at all below that -
-                                           on real phones (<768px) it fell back to plain block/full-width, stacking image, details,
-                                           and price/qty into three separate full-width rows instead of sitting image-left with the
-                                           rest to the right. Changed to the Bootstrap 3 equivalent (col-xs-4) so the same
-                                           image-left layout already used at sm/md/lg also applies on actual mobile phones. *@
-                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4">
+                                        <div class="item-img">
                                             @{
                                                 var productUrl = bc.ProductUrl.StartsWith("/")
                                                     ? bc.ProductUrl
                                                     : "/" + bc.ProductUrl;
                                             }
-                                            <a href="@productUrl" class="basket-card-image">
+                                            <a href="@productUrl">
 
                                                 <img src="@bc.ImageUrl"
                                                      alt="@bc.Description"
-                                                     class="img-responsive"
                                                      onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
 
                                             </a>
@@ -200,238 +166,184 @@
                                         </div>
 
                                         <!-- Product Details -->
-                                        <div class="col-lg-6 col-md-5 col-sm-9 col-xs-8">
+                                        <div class="item-title-area">
 
-                                            <div class="basket-card-details">
+                                            <h2><a href="@productUrl">@bc.Description</a></h2>
 
-                                                <h4 class="basket-product-title">
-                                                    <a href="@productUrl">
-                                                        @bc.Description
-                                                    </a>
-                                                </h4>
+                                            <span class="product-code">@bc.PartNo</span>
 
-                                                <div class="basket-product-code">
-                                                    <strong>@bc.PartNo</strong>
-                                                </div>
-
-                                                <div class="basket-status g-m-t-15">
-
-                                                    @if (bc.Availability == 1 || bc.Availability == 7)
+                                            @* Stock line - the same content is rendered twice (once here for
+                                               desktop, once again below as a sibling of .p-price-q-area for
+                                               mobile) and toggled by the max-width:768px .desktop/.mobile rules
+                                               in style.css, matching the reference design's own layout. *@
+                                            @if (bc.Availability == 1 || bc.Availability == 7)
+                                            {
+                                                <span class="desktop stock stock-in">
+                                                    <text>In Stock</text>
+                                                    @if (!Convert.ToBoolean(Model.CommonData["DeliveryDateIsOverridden"]))
                                                     {
-                                                        <div class="stock-status in-stock">
-
-                                                            <i class="fa fa-check-circle"></i>
-
-                                                            <span>In Stock</span>
-
-                                                        </div>
-
-                                                        <div class="delivery-status">
-
-                                                            @if (!Convert.ToBoolean(Model.CommonData["DeliveryDateIsOverridden"]))
-                                                            {
-                                                                <div class="delivery-cutoff">
-
-                                                                    <i class="fa fa-clock-o"></i>
-
-                                                                    Order Within
-
-                                                                    <strong>
-                                                                        <span class="cutoffCountdownFalse"></span>
-                                                                    </strong>
-
-                                                                </div>
-                                                                <div class="delivery-date">
-
-                                                                    <strong>
-                                                                        Delivered @Session["D_standardDeliveryDay"]
-                                                                    </strong>
-
-                                                                </div>
-
-                                                            }
-
-
-                                                        </div>
+                                                        <text>. Delivered</text> <strong>@Session["D_standardDeliveryDay"]</strong><br />
+                                                        <text>Order Within</text> <strong><span class="cutoffCountdownFalse"></span></strong>
                                                     }
-                                                    else if (bc.Availability == 10)
-                                                    {
-                                                        <div class="stock-status special-order">
+                                                </span>
+                                            }
+                                            else if (bc.Availability == 10)
+                                            {
+                                                <span class="desktop stock stock-out">
+                                                    <text>Special Order Item. Call</text>
+                                                    <a href="tel:@Utilities.GetItemFromDict(Model.CommonData, "TelephoneNumber")">@Utilities.GetItemFromDict(Model.CommonData, "TelephoneNumber")</a>
+                                                    <text>for delivery information.</text>
+                                                </span>
+                                            }
+                                            else if (bc.Availability == 11 || bc.Availability == 13)
+                                            {
+                                                <span class="desktop stock stock-out">
+                                                    Out of Stock. Currently unavailable.
+                                                </span>
+                                            }
+                                            else if (bc.Availability == 2 || bc.Availability == 4)
+                                            {
+                                                <span class="desktop stock stock-out">
+                                                    Availability 2&ndash;3 Days. Dispatched when stock returns.
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="desktop stock stock-out">
+                                                    Back In Stock Soon. Dispatched when stock returns.
+                                                </span>
+                                            }
 
-                                                            <i class="fa fa-info-circle"></i>
-
-                                                            <span>Special Order Item</span>
-
-                                                        </div>
-
-                                                        <div class="delivery-status">
-
-                                                            Call
-                                                            <a href="tel:@Utilities.GetItemFromDict(Model.CommonData, "TelephoneNumber")">
-                                                                @Utilities.GetItemFromDict(Model.CommonData, "TelephoneNumber")
-                                                            </a>
-                                                            for delivery information.
-
-                                                        </div>
-                                                    }
-                                                    else if (bc.Availability == 11 || bc.Availability == 13)
-                                                    {
-                                                        <div class="stock-status out-of-stock">
-
-                                                            <i class="fa fa-times-circle"></i>
-
-                                                            <span>Out of Stock</span>
-
-                                                        </div>
-
-                                                        <div class="delivery-status">
-
-                                                            Currently unavailable.
-
-                                                        </div>
-                                                    }
-                                                    else if (bc.Availability == 2 || bc.Availability == 4)
-                                                    {
-                                                        <div class="stock-status availability">
-
-                                                            <i class="fa fa-clock-o"></i>
-
-                                                            <span>Availability 2–3 Days</span>
-
-                                                        </div>
-
-                                                        <div class="delivery-status">
-
-                                                            Dispatched when stock returns.
-
-                                                        </div>
-                                                    }
-                                                    else
-                                                    {
-                                                        <div class="stock-status back-order">
-
-                                                            <i class="fa fa-history"></i>
-
-                                                            <span>Back In Stock Soon</span>
-
-                                                        </div>
-
-                                                        <div class="delivery-status">
-
-                                                            Dispatched when stock returns.
-
-                                                        </div>
-                                                    }
-
-                                                </div>
-                                                @if (showUpsellLozenge)
+                                            @if (showUpsellLozenge)
+                                            {
+                                                if (bc.Quantity <= bc.QtyStart)
                                                 {
-                                                    if (bc.Quantity <= bc.QtyStart)
-                                                    {
-                                                        <button class="qty-upsell-pill"
-                                                                type="button"
-                                                                title="Click to get this offer"
-                                                                onclick="changeBasketQty('@bc.StockRef', @(bc.QtyStart + 1))">
-                                                            Buy @(bc.QtyStart + 1 - bc.Quantity) More, Save @discountRate%
-                                                        </button>
-                                                    }
-                                                    else if (bc.Quantity > 1)
-                                                    {
-                                                        <button class="qty-upsell-pill"
-                                                                type="button"
-                                                                title="Click to add another and keep saving"
-                                                                onclick="changeBasketQty('@bc.StockRef', @(bc.Quantity + 1))">
-                                                            Add More, Keep Saving
-                                                        </button>
-                                                    }
+                                                    <button class="qty-upsell-pill"
+                                                            type="button"
+                                                            title="Click to get this offer"
+                                                            onclick="changeBasketQty('@bc.StockRef', @(bc.QtyStart + 1))">
+                                                        Buy @(bc.QtyStart + 1 - bc.Quantity) More, Save @discountRate%
+                                                    </button>
                                                 }
-                                            </div>
+                                                else if (bc.Quantity > 1)
+                                                {
+                                                    <button class="qty-upsell-pill"
+                                                            type="button"
+                                                            title="Click to add another and keep saving"
+                                                            onclick="changeBasketQty('@bc.StockRef', @(bc.Quantity + 1))">
+                                                        Add More, Keep Saving
+                                                    </button>
+                                                }
+                                            }
+
+                                            @if (Session["V_Voucher"] != null)
+                                            {
+                                                VoucherPromo vp = (VoucherPromo)Session["V_Voucher"];
+
+                                                if (bc.IsVoucherQualifyingItem &&
+                                                    vp.VoucherTypeFk == (int)VmVoucherType.Percentage)
+                                                {
+                                                    <div class="voucher-applied g-m-t-10">
+
+                                                        <i class="fa fa-check-circle"></i>
+
+                                                        Voucher Applied
+
+                                                    </div>
+                                                }
+                                            }
 
                                         </div>
 
-                                        <!-- Quantity / Remove / Total -->
-                                        <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <!-- Price / Quantity / Remove -->
+                                        <div class="p-price-q-area">
 
-                                            <div class="basket-card-actions">
-                                                <div class="basket-price-box">
-                                                    <div class="price-row ex-vat1">
-                                                        <strong>£@neg@string.Format("{0:N2}", bc.PriceEx)</strong>
-                                                        <strong>Ex VAT</strong>
-                                                    </div>
-                                                    <div class="price-row">
-                                                        <span>£@string.Format("{0:N2}", bc.PriceInc)</span>
-                                                        <span>Inc VAT</span>
-                                                    </div>
+                                            <div class="p-price">
+                                                <span class="p-without-vat">£@neg@string.Format("{0:N2}", bc.PriceEx) exc. VAT</span>
+                                                <span class="p-with-vat">£@string.Format("{0:N2}", bc.PriceInc) inc. VAT</span>
+                                            </div>
 
-                                                </div>
-                                                @if (!bc.IsFreeGift)
-                                                {
-                                                    <div class="basket-qty-wrapper">
-                                                        <label class="qty-label">
-                                                            Quantity
-                                                        </label>
+                                            @if (!bc.IsFreeGift)
+                                            {
+                                                <div class="p-qnt">
 
-                                                        <div class="basket-qty">
+                                                    <span class="trash-like">
+                                                        <span class="trash">
+                                                            <button class="basket-remove delete"
+                                                                    data-productid="@bc.StockRef"
+                                                                    type="button">
+                                                                <img src="/Content/Images/icons/trash-icon.png">
+                                                            </button>
+                                                        </span>
+                                                        <span class="like">
+                                                            <button class="like-btn" type="button">
+                                                            <img src="/Content/Images/icons/like-icon.png" class="unlike-b">
+                                                            <img src="/Content/Images/icons/like-icon01.png" class="like-b"></button>
+                                                        </span>
+                                                    </span>
+                                                    <span class="qnt-w">
+                                                        <div class="cbi-qty cbi-g-qty">
 
                                                             <button type="button"
-                                                                    class="qty-btn qty-minus"
                                                                     @(bc.Quantity <= 1 ? "disabled" : "")
-                                                                    onclick="changeBasketQty('@bc.StockRef', @(Math.Max(1, bc.Quantity - 1)))">
-
-                                                                <i class="fa fa-minus"></i>
-
+                                                                    onclick="changeBasketQty('@bc.StockRef', @(Math.Max(1, bc.Quantity - 1)))"
+                                                                    aria-label="Decrease quantity">
+                                                                &minus;
                                                             </button>
 
                                                             <input class="qty-input" type="text" readonly value="@bc.Quantity" />
 
                                                             <button type="button"
-                                                                    class="qty-btn qty-plus"
-                                                                    onclick="changeBasketQty('@bc.StockRef', @(bc.Quantity + 1))">
-
-                                                                <i class="fa fa-plus"></i>
-
+                                                                    onclick="changeBasketQty('@bc.StockRef', @(bc.Quantity + 1))"
+                                                                    aria-label="Increase quantity">
+                                                                +
                                                             </button>
 
                                                         </div>
-
-                                                    </div>
-
-                                                    <div class="basket-remove-container">
-                                                        <button class="basket-remove delete"
-                                                                data-productid="@bc.StockRef"
-                                                                type="button">
-                                                            <i class="fa fa-trash"></i>
-                                                        </button>
-                                                    </div>
-
-                                                    @* ---------------- Buy More & Save (Promotional Lozenge) ----------------
-                                                        Per the "Basket Switch & Save / Add Ons" design spec: a small pill
-                                                        sitting directly under the qty stepper on this same product card,
-                                                        not a separate promo card. *@
-
-                                                }
-
-
-
-
-                                            </div>
-
-                                        </div>
-                                        @if (Session["V_Voucher"] != null)
-                                        {
-                                            VoucherPromo vp = (VoucherPromo)Session["V_Voucher"];
-
-                                            if (bc.IsVoucherQualifyingItem &&
-                                                vp.VoucherTypeFk == (int)VmVoucherType.Percentage)
-                                            {
-                                                <div class="voucher-applied g-m-t-10">
-
-                                                    <i class="fa fa-check-circle"></i>
-
-                                                    Voucher Applied
+                                                    </span>
 
                                                 </div>
                                             }
+
+                                        </div>
+
+                                        @* Mobile duplicate of the stock line above - see comment there. *@
+                                        @if (bc.Availability == 1 || bc.Availability == 7)
+                                        {
+                                            <span class="mobile stock stock-in">
+                                                <text>In Stock</text>
+                                                @if (!Convert.ToBoolean(Model.CommonData["DeliveryDateIsOverridden"]))
+                                                {
+                                                    <text>. Delivered</text> <strong>@Session["D_standardDeliveryDay"]</strong><br />
+                                                    <text>Order Within</text> <strong><span class="cutoffCountdownFalse"></span></strong>
+                                                }
+                                            </span>
+                                        }
+                                        else if (bc.Availability == 10)
+                                        {
+                                            <span class="mobile stock stock-out">
+                                                <text>Special Order Item. Call</text>
+                                                <a href="tel:@Utilities.GetItemFromDict(Model.CommonData, "TelephoneNumber")">@Utilities.GetItemFromDict(Model.CommonData, "TelephoneNumber")</a>
+                                                <text>for delivery information.</text>
+                                            </span>
+                                        }
+                                        else if (bc.Availability == 11 || bc.Availability == 13)
+                                        {
+                                            <span class="mobile stock stock-out">
+                                                Out of Stock. Currently unavailable.
+                                            </span>
+                                        }
+                                        else if (bc.Availability == 2 || bc.Availability == 4)
+                                        {
+                                            <span class="mobile stock stock-out">
+                                                Availability 2&ndash;3 Days. Dispatched when stock returns.
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="mobile stock stock-out">
+                                                Back In Stock Soon. Dispatched when stock returns.
+                                            </span>
                                         }
 
                                     </div>
@@ -453,66 +365,60 @@
 
                                             if (saving > 0)
                                             {
-                                                <div class="switch-save-card">
-                                                    @* Same Bootstrap-4-vs-3 "col-4" fix as the main product card above - was
-                                                       inert below 768px, leaving this image full-width/stacked on real phones. *@
-                                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4">
-                                                        @{
-                                                            var CrossSellingProductUrl = bc.CrossSellingProductUrl.StartsWith("/")
-                                                            ? bc.CrossSellingProductUrl
-                                                            : "/" + bc.CrossSellingProductUrl;
-                                                        }
-                                                        <a href="@CrossSellingProductUrl" class="basket-card-image">
+                                                <div class="basket-items switch-save">
+                                                    <span class="cbi-switch-save-label">Switch &amp; Save</span>
+                                                    <div class="basket-items-normal">
 
-                                                            <img src="@bc.CrossSellingImageURL"
-                                                                 alt="@bc.CrossSellingDescription"
-                                                                 class="img-responsive"
-                                                                 onerror="this.src='@ConfigurationManager.AppSettings[" CDN"] /Images/noImage.jpg';" />
+                                                        <div class="item-img">
+                                                            @{
+                                                                var CrossSellingProductUrl = bc.CrossSellingProductUrl.StartsWith("/")
+                                                                ? bc.CrossSellingProductUrl
+                                                                : "/" + bc.CrossSellingProductUrl;
+                                                            }
+                                                            <a href="@CrossSellingProductUrl">
 
-                                                        </a>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-5 col-sm-12">
+                                                                <img src="@bc.CrossSellingImageURL"
+                                                                     alt="@bc.CrossSellingDescription"
+                                                                     onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
 
-                                                            <div class="switch-heading"> Switch &amp; Save </div>
+                                                            </a>
+                                                        </div>
 
-                                                            <div class="switch-product-name"> @bc.CrossSellingDescription </div>
-                                                            <div class="basket-product-code">
-                                                                <strong>@bc.PartNo</strong>
+                                                        <div class="item-title-area">
+
+                                                            <h2><a href="@CrossSellingProductUrl">@bc.CrossSellingDescription</a></h2>
+
+                                                            <span class="product-code">@bc.PartNo</span>
+
+                                                            <span class="desktop stock stock-in">In Stock</span>
+
+                                                        </div>
+
+                                                        <div class="p-price-q-area">
+
+                                                            <div class="p-price">
+                                                                <span class="p-without-vat">£@string.Format("{0:N2}", switchLinePriceEx) exc. VAT</span>
+                                                                <span class="p-with-vat">£@string.Format("{0:N2}", switchLinePriceInc) inc. VAT</span>
+                                                                <p class="cbi-save-amount">Save £@string.Format("{0:N2}", saving) ex. VAT</p>
                                                             </div>
-                                                            <div class="stock-status in-stock">
-                                                                <i class="fa fa-check-circle"></i>
-                                                                <span>In Stock</span>
+
+                                                            <div class="p-qnt">
+                                                                <span class="qnt-w">
+                                                                    <button type="button"
+                                                                            class="cbi-switch-btn atb-replace"
+                                                                            data-productid="@bc.CrossSellingStockRef"
+                                                                            data-price="@bc.CrossSellingPriceEx"
+                                                                            data-removeid="@bc.StockRef"
+                                                                            data-qty="@bc.Quantity">
+                                                                        Switch Now
+                                                                    </button>
+                                                                </span>
                                                             </div>
 
                                                         </div>
-                                                        <div class="col-md-4 col-sm-12 text-right">
 
-                                                            <div class="basket-price-box">
-                                                                <div class="price-row ex-vat">
-                                                                    <strong>£@string.Format("{0:N2}", switchLinePriceEx)</strong>
-                                                                    <span>Ex VAT</span>
-                                                                </div>
-                                                                <div class="price-row inc-vat">
-                                                                    <strong>£@string.Format("{0:N2}", switchLinePriceInc)</strong>
-                                                                    <span>Inc VAT</span>
-                                                                </div>
-                                                                <div class="price-row save-saving">
-                                                                    <span>Save</span>
-                                                                    <strong>£@string.Format("{0:N2}", saving)</strong>
-                                                                    <span>Ex. VAT</span>
-                                                                </div>
-                                                            </div>
+                                                        <span class="mobile stock stock-in">In Stock</span>
 
-                                                            <button class="btn btn-success atb-replace"
-                                                                    data-productid="@bc.CrossSellingStockRef"
-                                                                    data-price="@bc.CrossSellingPriceEx"
-                                                                    data-removeid="@bc.StockRef"
-                                                                    data-qty="@bc.Quantity">
-                                                                Switch Product
-                                                            </button>
-
-                                                        </div>
                                                     </div>
                                                 </div>
                                             }
@@ -750,7 +656,7 @@
                             deliveryMessage = Html.Raw("Free Next Day Delivery");
                         }
                     }
-                    <span><i class="fa fa-truck fa-flip-horizontal fa-2x"></i></span>
+                    <span><img src="~/Content/Images/icons/shipping-icon01.png"></span>
                     <span>@deliveryMessage</span>
                 </div>
 
@@ -996,7 +902,22 @@
                     <div class="sidebar-card @card.Category.ToLower()">
 
                         <div class="card-header">
-                            <i class="@card.IconClass"></i>
+                            @if (card.IconClass == "fa fa-truck")
+                            {
+                                <img src="~/Content/Images/icons/shipping-icon.png">
+                            }
+                            else if (card.IconClass == "fa fa-star-o")
+                            {
+                                <img src="~/Content/Images/icons/star-icon01.png">
+                            }
+                            else if (card.IconClass == "fa fa-gbp")
+                            {
+                                <img src="~/Content/Images/icons/pound-icon.png">
+                            }
+                            else
+                            {
+
+                            }
                             <span>@card.Title</span>
                         </div>
 
@@ -1030,15 +951,15 @@
             <div class="sidebar-card payment-card">
 
                 <div class="card-header">
-                    <i class="fa fa-credit-card"></i>
+                    <img src="~/Content/Images/icons/cards-icon.png">
                     <span>Payment Cards Accepted</span>
                 </div>
 
                 <div class="payment-icons">
 
-                    <img src="/Content/Images/visa.png" alt="Visa">
-                    <img src="/Content/Images/mastercard.png" alt="Mastercard">
-                    <img src="/Content/Images/american-express.png" alt="Amex">
+                    <img src="~/Content/Images/icons/visa-card.png" alt="Visa">
+                    <img src="~/Content/Images/icons/master-card.png" alt="Mastercard">
+                    <img src="~/Content/Images/icons/amex-card.png" alt="Amex">
 
                 </div>
 
@@ -1080,54 +1001,9 @@ else
         card.find(".card-content").stop(true, true).slideToggle(250);
 
     });
-    (function () {
-        var wrapper = document.querySelector('.basket-wrapper');
-        if (!wrapper) return;
-
-        function setQty(input, newVal) {
-            var min = parseInt(input.min, 10) || 1;
-            if (isNaN(newVal) || newVal < min) newVal = min;
-            input.value = newVal;
-            input.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-
-        wrapper.addEventListener('click', function (e) {
-            var incBtn = e.target.closest('[data-inc]');
-            var decBtn = e.target.closest('[data-dec]');
-
-            if (incBtn || decBtn) {
-                var wrap = e.target.closest('[data-qty]');
-                var input = wrap.querySelector('[data-qty-input]');
-                var current = parseInt(input.value, 10);
-                if (isNaN(current)) current = 1;
-                setQty(input, incBtn ? current + 1 : current - 1);
-                return;
-            }
-
-            var likeBtn = e.target.closest('.like-btn');
-            if (likeBtn) {
-                likeBtn.classList.toggle('liked');
-                return;
-            }
-
-            var removeBtn = e.target.closest('.basket-remove');
-            if (removeBtn) {
-                var item = e.target.closest('.basket-items');
-                if (item) item.remove();
-                return;
-            }
-        });
-
-        wrapper.addEventListener('input', function (e) {
-            if (e.target.matches('[data-qty-input]')) {
-                e.target.value = e.target.value.replace(/[^\d]/g, '');
-            }
-        });
-
-        wrapper.addEventListener('blur', function (e) {
-            if (e.target.matches('[data-qty-input]')) {
-                setQty(e.target, parseInt(e.target.value, 10));
-            }
-        }, true);
-    })();
+    // The mockup's own local-only qty-stepper/remove/like demo script (data-inc/data-dec/
+    // data-qty-input driven, no server call) was pasted in here at one point but never wired
+    // to real markup - removed rather than left dead, since the actual qty stepper and remove
+    // button above are real (changeBasketQty()/.basket-remove, both already handled in
+    // site.js), and this would have silently double-handled clicks once .basket-items existed.
 </script>

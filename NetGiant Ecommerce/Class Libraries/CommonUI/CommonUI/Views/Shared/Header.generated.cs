@@ -305,46 +305,9 @@ WriteLiteral(">\r\n            <i");
 
 WriteLiteral(" class=\"fa fa-chevron-right fa-lg\"");
 
-WriteLiteral("></i>\r\n        </div>\r\n        <div");
+WriteLiteral("></i>\r\n        </div>\r\n        ");
 
-WriteLiteral(" class=\"basketMessage g-b-1-p g-br-3 g-bc-s\"");
-
-WriteLiteral(">\r\n            <div");
-
-WriteLiteral(" class=\"g-bc-secondary g-fc-st g-h-30 g-p-5 g-ps-r g-br-t-3\"");
-
-WriteLiteral(">\r\n                Item added to basket - <span");
-
-WriteLiteral(" class=\"g-i\"");
-
-WriteLiteral(">Click here to view</span>\r\n                <div");
-
-WriteLiteral(" class=\"g-ps-a g-fc-s g-arrow-r\"");
-
-WriteLiteral(" style=\"top: 7px; right: -14px;\"");
-
-WriteLiteral("></div>\r\n            </div>\r\n            <div");
-
-WriteLiteral(" id=\"basketItem\"");
-
-WriteLiteral(" class=\"g-m-b-10\"");
-
-WriteLiteral("></div>\r\n            <hr />\r\n            <div");
-
-WriteLiteral(" class=\"text-center g-m-tb-10 g-p-lr-10\"");
-
-WriteLiteral(">\r\n                <a");
-
-WriteLiteral(" class=\"btn g-butt-primary g-butt-100p\"");
-
-WriteAttribute("href", Tuple.Create(" href=\"", 2787), Tuple.Create("\"", 2805)
-, Tuple.Create(Tuple.Create("", 2794), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
-, 2794), false)
-);
-
-WriteLiteral(" role=\"button\"");
-
-WriteLiteral(">Checkout</a>\r\n            </div>\r\n        </div>\r\n        <div");
+WriteLiteral("\r\n        <div");
 
 WriteLiteral(" class=\"printerMessage g-fs-sm g-b-1-p g-br-3 g-bc-s\"");
 
@@ -571,18 +534,18 @@ WriteLiteral(" class=\"g-p-r-20\"");
 
 WriteLiteral(">\r\n                                <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 6702), Tuple.Create("\"", 6721)
-, Tuple.Create(Tuple.Create("", 6709), Tuple.Create<System.Object, System.Int32>(Href("~/MyAccount/")
-, 6709), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 6706), Tuple.Create("\"", 6725)
+, Tuple.Create(Tuple.Create("", 6713), Tuple.Create<System.Object, System.Int32>(Href("~/MyAccount/")
+, 6713), false)
 );
 
 WriteLiteral(">\r\n                                    <img");
 
 WriteLiteral(" class=\"msp_userDark\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 6786), Tuple.Create("\"", 6821)
-, Tuple.Create(Tuple.Create("", 6792), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 6792), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 6790), Tuple.Create("\"", 6825)
+, Tuple.Create(Tuple.Create("", 6796), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 6796), false)
 );
 
 WriteLiteral(" />\r\n                                    <span");
@@ -600,9 +563,9 @@ WriteLiteral(">\r\n                                <img");
 
 WriteLiteral(" class=\"msp_logOutDark\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 7106), Tuple.Create("\"", 7141)
-, Tuple.Create(Tuple.Create("", 7112), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 7112), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 7110), Tuple.Create("\"", 7145)
+, Tuple.Create(Tuple.Create("", 7116), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 7116), false)
 );
 
 WriteLiteral(" />\r\n                                <span");
@@ -634,9 +597,9 @@ WriteLiteral(">\r\n                                <img");
 
 WriteLiteral(" class=\"msp_logInDark\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 7583), Tuple.Create("\"", 7618)
-, Tuple.Create(Tuple.Create("", 7589), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 7589), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 7587), Tuple.Create("\"", 7622)
+, Tuple.Create(Tuple.Create("", 7593), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 7593), false)
 );
 
 WriteLiteral(" />\r\n                                <span");
@@ -662,9 +625,9 @@ WriteLiteral(">\r\n                        <img");
 
 WriteLiteral(" class=\"msp_quickreorderDark\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 7942), Tuple.Create("\"", 7977)
-, Tuple.Create(Tuple.Create("", 7948), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 7948), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 7946), Tuple.Create("\"", 7981)
+, Tuple.Create(Tuple.Create("", 7952), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 7952), false)
 );
 
 WriteLiteral(" />\r\n                        <span");
@@ -683,9 +646,9 @@ WriteLiteral(">\r\n                            <img");
 
 WriteLiteral(" class=\"msp_quickreorderDark\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 8263), Tuple.Create("\"", 8298)
-, Tuple.Create(Tuple.Create("", 8269), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 8269), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 8267), Tuple.Create("\"", 8302)
+, Tuple.Create(Tuple.Create("", 8273), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 8273), false)
 );
 
 WriteLiteral(" />\r\n                            <span");
@@ -695,9 +658,9 @@ WriteLiteral(" class=\"g-p-l-5\"");
 WriteLiteral(">Quick Reorder</span>\r\n                        </a>\r\n                    </span>\r" +
 "\n                    <span>\r\n                        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 8489), Tuple.Create("\"", 8503)
-, Tuple.Create(Tuple.Create("", 8496), Tuple.Create<System.Object, System.Int32>(Href("~/help/")
-, 8496), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 8493), Tuple.Create("\"", 8507)
+, Tuple.Create(Tuple.Create("", 8500), Tuple.Create<System.Object, System.Int32>(Href("~/help/")
+, 8500), false)
 );
 
 WriteLiteral(" target=\"_blank\"");
@@ -708,9 +671,9 @@ WriteLiteral(">\r\n                            <img");
 
 WriteLiteral(" class=\"msp_helpDark\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 8600), Tuple.Create("\"", 8635)
-, Tuple.Create(Tuple.Create("", 8606), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 8606), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 8604), Tuple.Create("\"", 8639)
+, Tuple.Create(Tuple.Create("", 8610), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 8610), false)
 );
 
 WriteLiteral(" />\r\n                            <span");
@@ -740,9 +703,9 @@ WriteLiteral(" class=\"g-p-r-20\"");
 
 WriteLiteral(">\r\n                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 8978), Tuple.Create("\"", 9001)
-, Tuple.Create(Tuple.Create("", 8985), Tuple.Create<System.Object, System.Int32>(Href("~/help/about-us/")
-, 8985), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 8982), Tuple.Create("\"", 9005)
+, Tuple.Create(Tuple.Create("", 8989), Tuple.Create<System.Object, System.Int32>(Href("~/help/about-us/")
+, 8989), false)
 );
 
 WriteLiteral(" target=\"_blank\"");
@@ -753,9 +716,9 @@ WriteLiteral(">\r\n                                <img");
 
 WriteLiteral(" class=\"msp_helpDark\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 9102), Tuple.Create("\"", 9137)
-, Tuple.Create(Tuple.Create("", 9108), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 9108), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 9106), Tuple.Create("\"", 9141)
+, Tuple.Create(Tuple.Create("", 9112), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 9112), false)
 );
 
 WriteLiteral(" />\r\n                                <span");
@@ -873,14 +836,14 @@ WriteLiteral(" src=\"/Content/Images/1pxTrans.png\"");
 
 WriteLiteral(" class=\"msp_siteLogo img-responsive g-m-t-10\"");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 10439), Tuple.Create("\"", 10492)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 10443), Tuple.Create("\"", 10496)
             
             #line 230 "..\..\Views\Shared\Header.cshtml"
-                                 , Tuple.Create(Tuple.Create("", 10445), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "SiteName")
+                                 , Tuple.Create(Tuple.Create("", 10449), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "SiteName")
             
             #line default
             #line hidden
-, 10445), false)
+, 10449), false)
 );
 
 WriteLiteral(" />\r\n                    </a>\r\n                </div>\r\n            </div>\r\n");
@@ -934,9 +897,9 @@ WriteLiteral("\r\n                            \r\n                            <a
 
 WriteLiteral(" class=\"primary\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 11666), Tuple.Create("\"", 11684)
-, Tuple.Create(Tuple.Create("", 11673), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
-, 11673), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 11670), Tuple.Create("\"", 11688)
+, Tuple.Create(Tuple.Create("", 11677), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
+, 11677), false)
 );
 
 WriteLiteral(">\r\n                                <strong>Basket (<span");
@@ -1022,9 +985,9 @@ WriteLiteral("                                <a");
 
 WriteLiteral(" class=\"btn g-butt-primary g-butt-lg\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 12604), Tuple.Create("\"", 12622)
-, Tuple.Create(Tuple.Create("", 12611), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
-, 12611), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 12608), Tuple.Create("\"", 12626)
+, Tuple.Create(Tuple.Create("", 12615), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
+, 12615), false)
 );
 
 WriteLiteral(" role=\"button\"");
@@ -1066,9 +1029,9 @@ WriteLiteral("></i>\r\n                            <a");
 
 WriteLiteral(" class=\"primary open-mini-cart\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 13107), Tuple.Create("\"", 13125)
-, Tuple.Create(Tuple.Create("", 13114), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
-, 13114), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 13111), Tuple.Create("\"", 13129)
+, Tuple.Create(Tuple.Create("", 13118), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
+, 13118), false)
 );
 
 WriteLiteral(">\r\n                                <strong>Basket (<span");
@@ -1154,9 +1117,9 @@ WriteLiteral("                                <a");
 
 WriteLiteral(" class=\"btn g-butt-primary g-butt-lg\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 14045), Tuple.Create("\"", 14063)
-, Tuple.Create(Tuple.Create("", 14052), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
-, 14052), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 14049), Tuple.Create("\"", 14067)
+, Tuple.Create(Tuple.Create("", 14056), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
+, 14056), false)
 );
 
 WriteLiteral(" role=\"button\"");
@@ -1259,14 +1222,14 @@ WriteLiteral(" id=\"token\"");
 
 WriteLiteral(" name=\"token\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 14929), Tuple.Create("\"", 14957)
+WriteAttribute("value", Tuple.Create(" value=\"", 14933), Tuple.Create("\"", 14961)
             
             #line 297 "..\..\Views\Shared\Header.cshtml"
-, Tuple.Create(Tuple.Create("", 14937), Tuple.Create<System.Object, System.Int32>(Model.EncryptedDate
+, Tuple.Create(Tuple.Create("", 14941), Tuple.Create<System.Object, System.Int32>(Model.EncryptedDate
             
             #line default
             #line hidden
-, 14937), false)
+, 14941), false)
 );
 
 WriteLiteral(" />\r\n                            <input");
@@ -1359,14 +1322,14 @@ WriteLiteral(" src=\"/Content/Images/1pxTrans.png\"");
 
 WriteLiteral(" class=\"msp_siteLogo visible-xs-inline visible-sm-inline navbar-brand g-m-t-10\"");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 16235), Tuple.Create("\"", 16288)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 16239), Tuple.Create("\"", 16292)
             
             #line 324 "..\..\Views\Shared\Header.cshtml"
-                                                           , Tuple.Create(Tuple.Create("", 16241), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "SiteName")
+                                                           , Tuple.Create(Tuple.Create("", 16245), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "SiteName")
             
             #line default
             #line hidden
-, 16241), false)
+, 16245), false)
 );
 
 WriteLiteral(" />\r\n            </a>\r\n            <div");
@@ -1392,9 +1355,9 @@ WriteLiteral("></i>\r\n                </a>\r\n                ");
 
 WriteLiteral("\r\n                <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 16876), Tuple.Create("\"", 16894)
-, Tuple.Create(Tuple.Create("", 16883), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
-, 16883), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 16880), Tuple.Create("\"", 16898)
+, Tuple.Create(Tuple.Create("", 16887), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
+, 16887), false)
 );
 
 WriteLiteral(" class=\"open-mini-cart\"");
@@ -1423,17 +1386,17 @@ WriteLiteral(">");
 WriteLiteral("</i>\r\n                    </span>\r\n                </a>\r\n            </div>\r\n    " +
 "    </div>\r\n        <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 17278), Tuple.Create("\"", 17393)
-, Tuple.Create(Tuple.Create("", 17286), Tuple.Create("navbar-collapse", 17286), true)
-, Tuple.Create(Tuple.Create(" ", 17301), Tuple.Create("collapse", 17302), true)
-, Tuple.Create(Tuple.Create(" ", 17310), Tuple.Create("g-ps-a", 17311), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 17282), Tuple.Create("\"", 17397)
+, Tuple.Create(Tuple.Create("", 17290), Tuple.Create("navbar-collapse", 17290), true)
+, Tuple.Create(Tuple.Create(" ", 17305), Tuple.Create("collapse", 17306), true)
+, Tuple.Create(Tuple.Create(" ", 17314), Tuple.Create("g-ps-a", 17315), true)
             
             #line 341 "..\..\Views\Shared\Header.cshtml"
-, Tuple.Create(Tuple.Create(" ", 17317), Tuple.Create<System.Object, System.Int32>(Authentication.IsAuthenticated() ? "authenticated" : "not-authenticated"
+, Tuple.Create(Tuple.Create(" ", 17321), Tuple.Create<System.Object, System.Int32>(Authentication.IsAuthenticated() ? "authenticated" : "not-authenticated"
             
             #line default
             #line hidden
-, 17318), false)
+, 17322), false)
 );
 
 WriteLiteral(">\r\n");

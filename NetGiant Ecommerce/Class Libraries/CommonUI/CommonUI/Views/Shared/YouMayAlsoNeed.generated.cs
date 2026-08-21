@@ -56,116 +56,21 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("<style>\r\n    /* Spec: \"the user can skip by clicking the x off the modal or on th" +
-"e transparent\r\n       background\". Fully transparent (not dimmed) on purpose - w" +
-"hen this popup opens\r\n       alongside the still-open mini-cart, the mini-cart\'s" +
-" own dark backdrop is already\r\n       covering the page; this element only exist" +
-"s to catch the click and dismiss the popup,\r\n       not to add a second layer of" +
-" dimming. Sits one z-index below #you-may-also-need. */\r\n    #you-may-also-need-" +
-"backdrop {\r\n        position: fixed;\r\n        top: 0;\r\n        left: 0;\r\n       " +
-" right: 0;\r\n        bottom: 0;\r\n        background: transparent;\r\n        z-inde" +
-"x: 1059;\r\n    }\r\n\r\n    /* Default/checkout context: sits beside the still-open m" +
-"ini-cart tray. */\r\n    #you-may-also-need {\r\n        position: fixed;\r\n        t" +
-"op: 0;\r\n        right: 400px;\r\n        width: 620px;\r\n        max-width: calc(10" +
-"0vw - 20px);\r\n        max-height: 100vh;\r\n        overflow-y: auto;\r\n        bac" +
-"kground: #fff;\r\n        border: 1px solid #d9d9d9;\r\n        border-radius: 6px;\r" +
-"\n        z-index: 1060;\r\n        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);\r\n  " +
-"      font-family: Arial, Helvetica, sans-serif;\r\n    }\r\n\r\n        /* Add-to-bas" +
-"ket context: no mini-cart tray is open alongside it, so sit flush to the\r\n      " +
-" right edge instead of leaving a gap where the tray would normally be. */\r\n     " +
-"   #you-may-also-need[data-context=\"addtocart\"] {\r\n            position: fixed;\r" +
-"\n            top: 50%;\r\n            left: 50%;\r\n            transform: translate" +
-"(-50%, -50%);\r\n            z-index: 1000;\r\n        }\r\n\r\n        #you-may-also-ne" +
-"ed .ymn-header {\r\n            background: #0d7397;\r\n            color: #fff;\r\n  " +
-"          padding: 14px 18px;\r\n            display: flex;\r\n            align-ite" +
-"ms: center;\r\n            justify-content: space-between;\r\n            font-size:" +
-" 20px;\r\n            font-weight: 600;\r\n            border-radius: 6px 6px 0 0;\r\n" +
-"        }\r\n\r\n        #you-may-also-need .ymn-close {\r\n            background: no" +
-"ne;\r\n            border: none;\r\n            color: #fff;\r\n            font-size:" +
-" 18px;\r\n            cursor: pointer;\r\n        }\r\n\r\n        /* Card row - matches" +
-" the inline \"You May Also Need\" carousel on the full basket page\r\n       (Basket" +
-"Details.cshtml: .you-may-need-wrapper / .need-arrow / .need-product etc), just\r\n" +
-"       scoped under #you-may-also-need since this partial is rendered standalone" +
-" via AJAX and\r\n       can\'t rely on that page\'s own <style> block being present." +
-" Reusing the same class names\r\n       also means the existing carousel click han" +
-"dlers in site.js ($(document).on(\'click\',\r\n       \'.need-arrow.prev\'/\'.next\', .." +
-".)) work here automatically with no JS changes. */\r\n        #you-may-also-need ." +
-"you-may-need-wrapper {\r\n            display: flex;\r\n            align-items: cen" +
-"ter;\r\n            gap: 8px;\r\n            padding: 20px;\r\n        }\r\n\r\n        #y" +
-"ou-may-also-need .need-arrow {\r\n            flex: 0 0 auto;\r\n            width: " +
-"36px;\r\n            height: 36px;\r\n            border-radius: 50%;\r\n            b" +
-"order: 1px solid #d9d9d9;\r\n            background: #fff;\r\n            color: #0d" +
-"7397;\r\n            font-size: 14px;\r\n            cursor: pointer;\r\n        }\r\n\r\n" +
-"            #you-may-also-need .need-arrow:disabled {\r\n                color: #c" +
-"cc;\r\n                cursor: default;\r\n            }\r\n\r\n        #you-may-also-ne" +
-"ed .you-may-need-products {\r\n            flex: 1;\r\n            overflow: hidden;" +
-"\r\n        }\r\n\r\n        #you-may-also-need .you-may-need-track {\r\n            dis" +
-"play: flex;\r\n            gap: 20px;\r\n            transition: transform 0.3s ease" +
-";\r\n        }\r\n\r\n        #you-may-also-need .need-product {\r\n            flex: 0 " +
-"0 calc((100% - 40px) / 3);\r\n            max-width: calc((100% - 40px) / 3);\r\n   " +
-"         text-align: center;\r\n        }\r\n\r\n            #you-may-also-need .need-" +
-"product img {\r\n                width: 120px;\r\n                height: 90px;\r\n   " +
-"             object-fit: contain;\r\n                margin-bottom: 12px;\r\n       " +
-"     }\r\n\r\n        #you-may-also-need .need-title {\r\n            display: block;\r" +
-"\n            color: #333;\r\n            font-size: 13px;\r\n            line-height" +
-": 18px;\r\n            min-height: 55px;\r\n            text-decoration: none;\r\n    " +
-"        font-weight: 600;\r\n        }\r\n\r\n            #you-may-also-need .need-tit" +
-"le:hover {\r\n                color: #0099cc;\r\n            }\r\n\r\n        #you-may-a" +
-"lso-need .need-price {\r\n            font-size: 18px;\r\n            color: #0099cc" +
-";\r\n            font-weight: 700;\r\n            margin: 12px 0;\r\n        }\r\n\r\n    " +
-"        #you-may-also-need .need-price small {\r\n                display: block;\r" +
-"\n                font-size: 12px;\r\n                color: #666;\r\n               " +
-" font-weight: 400;\r\n            }\r\n\r\n        /* Kept as its own class (not .atb-" +
-"add) - this is the \"quiet\" add-to-basket that just\r\n       refreshes the mini-ca" +
-"rt without closing the popup or re-triggering this same popup\r\n       again. Sty" +
-"led to look identical to the carousel\'s green \"Add to Basket\" button. */\r\n      " +
-"  #you-may-also-need .ymn-add {\r\n            width: 100%;\r\n            backgroun" +
-"d: #00a651;\r\n            color: #fff;\r\n            border: none;\r\n            bo" +
-"rder-radius: 4px;\r\n            padding: 10px 20px;\r\n            font-size: 14px;" +
-"\r\n            font-weight: 600;\r\n            cursor: pointer;\r\n        }\r\n\r\n    " +
-"        #you-may-also-need .ymn-add:disabled {\r\n                background: #9ec" +
-"db3;\r\n                cursor: default;\r\n            }\r\n\r\n        #you-may-also-n" +
-"eed .ymn-proceed {\r\n            display: none;\r\n            width: 100%;\r\n      " +
-"      background: #00a651;\r\n            color: #fff;\r\n            border: none;\r" +
-"\n            padding: 14px;\r\n            font-size: 15px;\r\n            font-weig" +
-"ht: 700;\r\n            cursor: pointer;\r\n            border-radius: 0 0 6px 6px;\r" +
-"\n        }\r\n\r\n    /* Mobile: full-screen, one card per row, own Proceed to Check" +
-"out button since the\r\n       mini-cart isn\'t visible at the same time there */\r\n" +
-"    ");
+WriteLiteral("\n");
 
-WriteLiteral(@"@media (max-width: 767px) {
-        #you-may-also-need {
-            right: 0;
-            width: 100%;
-            max-width: 100%;
-            bottom: 0;
-            border-radius: 0;
-        }
-
-            #you-may-also-need .need-product {
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-
-            #you-may-also-need .ymn-proceed {
-                display: block;
-            }
-    }
-</style>
-
-<div");
+WriteLiteral("\n\n<div");
 
 WriteLiteral(" id=\"you-may-also-need-backdrop\"");
 
-WriteLiteral("></div>\r\n\r\n<div");
+WriteLiteral("></div>\n\n<div");
 
 WriteLiteral(" id=\"you-may-also-need\"");
 
-WriteLiteral(">\r\n\r\n    <div");
+WriteLiteral(">\n\n    <div");
 
 WriteLiteral(" class=\"ymn-header\"");
 
-WriteLiteral(">\r\n        <span>You May Also Need...</span>\r\n\r\n        <button");
+WriteLiteral(">\n        <span>You May Also Need...</span>\n\n        <button");
 
 WriteLiteral(" type=\"button\"");
 
@@ -173,33 +78,39 @@ WriteLiteral(" class=\"ymn-close\"");
 
 WriteLiteral(" aria-label=\"Close\"");
 
-WriteLiteral(">\r\n            <i");
+WriteLiteral(">\n            <i");
 
 WriteLiteral(" class=\"fa fa-times\"");
 
-WriteLiteral("></i>\r\n        </button>\r\n    </div>\r\n\r\n    <div");
+WriteLiteral("></i>\n        </button>\n    </div>\n\n    ");
+
+WriteLiteral("\n    <div");
+
+WriteLiteral(" class=\"ymn-desktop-view\"");
+
+WriteLiteral(">\n\n        <div");
 
 WriteLiteral(" class=\"you-may-need-wrapper\"");
 
 WriteLiteral(" data-index=\"0\"");
 
-WriteLiteral(">\r\n\r\n");
+WriteLiteral(">\n\n");
 
             
-            #line 219 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-        
+            #line 386 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            
             
             #line default
             #line hidden
             
-            #line 219 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-         if (Model.Count > 3)
-        {
+            #line 386 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+             if (Model.Count > 3)
+            {
 
             
             #line default
             #line hidden
-WriteLiteral("            <button");
+WriteLiteral("                <button");
 
 WriteLiteral(" type=\"button\"");
 
@@ -209,200 +120,201 @@ WriteLiteral(" disabled");
 
 WriteLiteral(" aria-label=\"Previous\"");
 
-WriteLiteral(">\r\n                <i");
+WriteLiteral(">\n                    <i");
 
 WriteLiteral(" class=\"fa fa-chevron-left\"");
 
-WriteLiteral("></i>\r\n            </button>\r\n");
+WriteLiteral("></i>\n                </button>\n");
 
             
-            #line 224 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-        }
+            #line 391 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            }
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n        <div");
+WriteLiteral("\n            <div");
 
 WriteLiteral(" class=\"you-may-need-products\"");
 
-WriteLiteral(">\r\n            <div");
+WriteLiteral(">\n                <div");
 
 WriteLiteral(" class=\"you-may-need-track\"");
 
-WriteLiteral(">\r\n\r\n");
+WriteLiteral(">\n\n");
 
             
-            #line 229 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-                
+            #line 396 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+                    
             
             #line default
             #line hidden
             
-            #line 229 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-                 foreach (BasketContents addOn in Model)
-                {
+            #line 396 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+                     foreach (BasketContents addOn in Model)
+                    {
 
             
             #line default
             #line hidden
-WriteLiteral("                    <div");
+WriteLiteral("                        <div");
 
 WriteLiteral(" class=\"need-product\"");
 
-WriteLiteral(">\r\n\r\n                        <a");
+WriteLiteral(">\n\n                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 7392), Tuple.Create("\"", 7416)
+WriteAttribute("href", Tuple.Create(" href=\"", 11967), Tuple.Create("\"", 11991)
             
-            #line 233 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 7399), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
+            #line 400 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 11974), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
             
             #line default
             #line hidden
-, 7399), false)
+, 11974), false)
 );
 
-WriteLiteral(">\r\n                            <img");
+WriteLiteral(">\n                                <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 7452), Tuple.Create("\"", 7473)
+WriteAttribute("src", Tuple.Create(" src=\"", 12030), Tuple.Create("\"", 12051)
             
-            #line 234 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 7458), Tuple.Create<System.Object, System.Int32>(addOn.ImageUrl
+            #line 401 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 12036), Tuple.Create<System.Object, System.Int32>(addOn.ImageUrl
             
             #line default
             #line hidden
-, 7458), false)
+, 12036), false)
 );
 
-WriteAttribute("alt", Tuple.Create("\r\n                                 alt=\"", 7474), Tuple.Create("\"", 7532)
+WriteAttribute("alt", Tuple.Create("\n                                     alt=\"", 12052), Tuple.Create("\"", 12113)
             
-            #line 235 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 7514), Tuple.Create<System.Object, System.Int32>(addOn.Description
+            #line 402 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 12095), Tuple.Create<System.Object, System.Int32>(addOn.Description
             
             #line default
             #line hidden
-, 7514), false)
+, 12095), false)
 );
 
-WriteAttribute("onerror", Tuple.Create("\r\n                                 onerror=\"", 7533), Tuple.Create("\"", 7648)
-, Tuple.Create(Tuple.Create("", 7577), Tuple.Create("this.src=\'", 7577), true)
+WriteAttribute("onerror", Tuple.Create("\n                                     onerror=\"", 12114), Tuple.Create("\"", 12232)
+, Tuple.Create(Tuple.Create("", 12161), Tuple.Create("this.src=\'", 12161), true)
             
-            #line 236 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 7587), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+            #line 403 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 12171), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
             
             #line default
             #line hidden
-, 7587), false)
-, Tuple.Create(Tuple.Create("", 7627), Tuple.Create("/Images/noImage.jpg\';", 7627), true)
+, 12171), false)
+, Tuple.Create(Tuple.Create("", 12211), Tuple.Create("/Images/noImage.jpg\';", 12211), true)
 );
 
-WriteLiteral(" />\r\n                        </a>\r\n\r\n                        <a");
+WriteLiteral(" />\n                            </a>\n\n                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 7712), Tuple.Create("\"", 7736)
+WriteAttribute("href", Tuple.Create(" href=\"", 12301), Tuple.Create("\"", 12325)
             
-            #line 239 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 7719), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
-            
-            #line default
-            #line hidden
-, 7719), false)
-);
-
-WriteLiteral(" class=\"need-title\"");
-
-WriteLiteral(">\r\n");
-
-WriteLiteral("                            ");
-
-            
-            #line 240 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-                       Write(addOn.Description);
-
+            #line 406 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 12308), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
             
             #line default
             #line hidden
-WriteLiteral("\r\n                        </a>\r\n                        <a");
-
-WriteAttribute("href", Tuple.Create(" href=\"", 7863), Tuple.Create("\"", 7887)
-            
-            #line 242 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 7870), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
-            
-            #line default
-            #line hidden
-, 7870), false)
+, 12308), false)
 );
 
 WriteLiteral(" class=\"need-title\"");
 
-WriteLiteral(">\r\n");
+WriteLiteral(">\n");
 
-WriteLiteral("                            ");
+WriteLiteral("                                ");
 
             
-            #line 243 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-                       Write(addOn.PartNo);
+            #line 407 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+                           Write(addOn.Description);
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n                        </a>\r\n                        <div");
+WriteLiteral("\n                            </a>\n                            <a");
+
+WriteAttribute("href", Tuple.Create(" href=\"", 12461), Tuple.Create("\"", 12485)
+            
+            #line 409 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 12468), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
+            
+            #line default
+            #line hidden
+, 12468), false)
+);
+
+WriteLiteral(" class=\"need-title\"");
+
+WriteLiteral(">\n");
+
+WriteLiteral("                                ");
+
+            
+            #line 410 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+                           Write(addOn.PartNo);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\n                            </a>\n                            <div");
 
 WriteLiteral(" class=\"need-price\"");
 
-WriteLiteral(">\r\n                            £");
+WriteLiteral(">\n                                £");
 
             
-            #line 246 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-                        Write(string.Format("{0:N2}", addOn.PriceEx));
+            #line 413 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+                            Write(string.Format("{0:N2}", addOn.PriceEx));
 
             
             #line default
             #line hidden
-WriteLiteral(" exc. VAT\r\n                        </div>\r\n\r\n                        <button");
+WriteLiteral(" exc. VAT\n                            </div>\n\n                            <button" +
+"");
 
 WriteLiteral(" type=\"button\"");
 
-WriteLiteral("\r\n                                class=\"ymn-add\"");
+WriteLiteral("\n                                    class=\"ymn-add\"");
 
-WriteLiteral("\r\n                                data-productid=\"");
+WriteLiteral("\n                                    data-productid=\"");
 
             
-            #line 251 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-                                           Write(addOn.StockRef);
+            #line 418 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+                                               Write(addOn.StockRef);
 
             
             #line default
             #line hidden
 WriteLiteral("\"");
 
-WriteLiteral(">\r\n                            Add to Basket\r\n                        </button>\r\n" +
-"\r\n                    </div>\r\n");
+WriteLiteral(">\n                                Add to Basket\n                            </but" +
+"ton>\n\n                        </div>\n");
 
             
-            #line 256 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-                }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n            </div>\r\n        </div>\r\n\r\n");
-
-            
-            #line 261 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-        
-            
-            #line default
-            #line hidden
-            
-            #line 261 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-         if (Model.Count > 3)
-        {
+            #line 423 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+                    }
 
             
             #line default
             #line hidden
-WriteLiteral("            <button");
+WriteLiteral("\n                </div>\n            </div>\n\n");
+
+            
+            #line 428 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            
+            
+            #line default
+            #line hidden
+            
+            #line 428 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+             if (Model.Count > 3)
+            {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                <button");
 
 WriteLiteral(" type=\"button\"");
 
@@ -410,26 +322,179 @@ WriteLiteral(" class=\"need-arrow next\"");
 
 WriteLiteral(" aria-label=\"Next\"");
 
-WriteLiteral(">\r\n                <i");
+WriteLiteral(">\n                    <i");
 
 WriteLiteral(" class=\"fa fa-chevron-right\"");
 
-WriteLiteral("></i>\r\n            </button>\r\n");
+WriteLiteral("></i>\n                </button>\n");
 
             
-            #line 266 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-        }
+            #line 433 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            }
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n    </div>\r\n\r\n    <button");
+WriteLiteral("\n        </div>\n\n    </div>\n\n    ");
+
+WriteLiteral("\n    <div");
+
+WriteLiteral(" class=\"ymn-mobile-view\"");
+
+WriteLiteral(">\n\n        <div");
+
+WriteLiteral(" class=\"item-list\"");
+
+WriteLiteral(">\n\n");
+
+            
+            #line 444 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            
+            
+            #line default
+            #line hidden
+            
+            #line 444 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+             foreach (BasketContents addOn in Model)
+            {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                <div");
+
+WriteLiteral(" class=\"item\"");
+
+WriteLiteral(">\n\n                    <div");
+
+WriteLiteral(" class=\"item-thumb\"");
+
+WriteLiteral(">\n                        <a");
+
+WriteAttribute("href", Tuple.Create(" href=\"", 13666), Tuple.Create("\"", 13690)
+            
+            #line 449 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 13673), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
+            
+            #line default
+            #line hidden
+, 13673), false)
+);
+
+WriteLiteral(">\n                            <img");
+
+WriteAttribute("src", Tuple.Create(" src=\"", 13725), Tuple.Create("\"", 13746)
+            
+            #line 450 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 13731), Tuple.Create<System.Object, System.Int32>(addOn.ImageUrl
+            
+            #line default
+            #line hidden
+, 13731), false)
+);
+
+WriteAttribute("alt", Tuple.Create("\n                                 alt=\"", 13747), Tuple.Create("\"", 13804)
+            
+            #line 451 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 13786), Tuple.Create<System.Object, System.Int32>(addOn.Description
+            
+            #line default
+            #line hidden
+, 13786), false)
+);
+
+WriteAttribute("onerror", Tuple.Create("\n                                 onerror=\"", 13805), Tuple.Create("\"", 13919)
+, Tuple.Create(Tuple.Create("", 13848), Tuple.Create("this.src=\'", 13848), true)
+            
+            #line 452 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 13858), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+            
+            #line default
+            #line hidden
+, 13858), false)
+, Tuple.Create(Tuple.Create("", 13898), Tuple.Create("/Images/noImage.jpg\';", 13898), true)
+);
+
+WriteLiteral(" />\n                        </a>\n                    </div>\n\n                    " +
+"<div");
+
+WriteLiteral(" class=\"item-info\"");
+
+WriteLiteral(">\n\n                        <a");
+
+WriteAttribute("href", Tuple.Create(" href=\"", 14052), Tuple.Create("\"", 14076)
+            
+            #line 458 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 14059), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
+            
+            #line default
+            #line hidden
+, 14059), false)
+);
+
+WriteLiteral(" class=\"item-title\"");
+
+WriteLiteral(">");
+
+            
+            #line 458 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+                                                                  Write(addOn.Description);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</a>\n\n                        <p");
+
+WriteLiteral(" class=\"item-price\"");
+
+WriteLiteral(">\n                            £");
+
+            
+            #line 461 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+                        Write(string.Format("{0:N2}", addOn.PriceEx));
+
+            
+            #line default
+            #line hidden
+WriteLiteral(" <span>exc. VAT</span>\n                        </p>\n\n                        <but" +
+"ton");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral("\n                                class=\"ymn-add\"");
+
+WriteLiteral("\n                                data-productid=\"");
+
+            
+            #line 466 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+                                           Write(addOn.StockRef);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\"");
+
+WriteLiteral(">\n                            Add to Basket\n                        </button>\n\n  " +
+"                  </div>\n\n                </div>\n");
+
+            
+            #line 473 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\n        </div>\n\n    </div>\n\n    <div");
+
+WriteLiteral(" class=\"popup-footer\"");
+
+WriteLiteral(">\n        <button");
 
 WriteLiteral(" type=\"button\"");
 
 WriteLiteral(" class=\"ymn-proceed\"");
 
-WriteLiteral(">\r\n        Proceed to Checkout\r\n    </button>\r\n\r\n</div>\r\n");
+WriteLiteral(">\n            Proceed to Checkout\n        </button>\n    </div>\n\n</div>\n");
 
         }
     }
