@@ -34,39 +34,45 @@
      the button and the overlay used to be two unwrapped sibling roots, which left nothing for
      a basket-mutating AJAX call to swap out as a unit. -->
 <div id="minibasket-widget">
-    @* Floating "cart-fab" button removed per request - the mini-cart is now triggered only
-        from the header's Basket link (desktop) / cart icon (mobile), wired via the
-        ".open-mini-cart" class + delegated handler in site.js. The #miniCartOverlay/#miniCartClose
-        elements below (and the openCart()/closeCart() functions in the script block further
-        down) are unchanged - they're what site.js's handler actually opens; only the fab button
-        itself and its own click binding have been removed. *@
+    @* The floating "cart-fab" button was removed in an earlier pass (in favour of opening the
+        mini-cart from the header's Basket link / cart icon via the ".open-mini-cart" class +
+        delegated handler in site.js) and has since been reinstated here alongside the mini-cart
+        markup itself and its own CSS (minicart.css). When it came back, its click binding to
+        openCart() (in the script block further down) did NOT come back with it - the button was
+        rendering and fully styled, just wired to nothing, which is why clicking it did nothing.
+        Restored below. Both triggers (this button and the header's ".open-mini-cart" links) now
+        open the same #miniCartOverlay/openCart(), so either one working doesn't depend on the
+        other. *@
     <!-- Overlay + Mini cart panel -->
-    <button class="cart-fab"
-            id="cartFab"
-            aria-label="Open cart"
-            aria-haspopup="dialog"
-            aria-controls="miniCartOverlay">
-        <svg xmlns="http://www.w3.org/2000/svg"
-             viewBox="0 0 24 24"
-             width="26"
-             height="26"
-             fill="none"
-             stroke="#fff"
-             stroke-width="2"
-             stroke-linecap="round"
-             stroke-linejoin="round">
-            <circle cx="9" cy="21" r="1"></circle>
-            <circle cx="20" cy="21" r="1"></circle>
-            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-        </svg>
-        <span class="cart-fab__count" id="cartFabCount">
-            @(lbc == null
-        ? 0
-        : lbc.Where(x => x.ItemType == BasketItemType.Item ||
-                         x.ItemType == BasketItemType.AdminDiscount)
-             .Sum(x => x.Quantity))
-        </span>
-    </button>
+        @if (!Model.IsMobile)
+        {
+            <button class="cart-fab"
+                    id="cartFab"
+                    aria-label="Open cart"
+                    aria-haspopup="dialog"
+                    aria-controls="miniCartOverlay">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 24 24"
+                     width="26"
+                     height="26"
+                     fill="none"
+                     stroke="#fff"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                <span class="cart-fab__count" id="cartFabCount">
+                    @(lbc == null
+                ? 0
+                : lbc.Where(x => x.ItemType == BasketItemType.Item ||
+                                 x.ItemType == BasketItemType.AdminDiscount)
+                     .Sum(x => x.Quantity))
+                </span>
+            </button>
+        }
     <div class="mini-cart-overlay"
          id="miniCartOverlay"
          role="dialog"
@@ -569,13 +575,16 @@
         // buttons (they use onclick="changeMiniBasketQty(...)" directly, which already updates
         // the real server-side quantity), so that old block was dead code that threw on every
         // run instead of doing anything useful.
-        // The floating #cartFab button (and its own click->openCart() binding) has been removed
-        // - the mini-cart is now opened only via the header's ".open-mini-cart" links, handled
-        // by a delegated click handler in site.js. openCart()/closeCart() themselves stay
-        // defined here (global functions, per the original design) since site.js's fallback
-        // path and any other future trigger can still call them directly.
+        // #cartFab's own click->openCart() binding was removed in an earlier pass (along with
+        // the button itself) in favour of opening the mini-cart only via the header's
+        // ".open-mini-cart" links. The button (and its CSS in minicart.css) has since come
+        // back, but this binding was never restored alongside it - meaning the button rendered,
+        // fully styled, but clicking it did nothing. Restored here; re-checks for the element
+        // on every run since this script re-executes on every AJAX basket refresh (see the
+        // comment above), the same way closeBtn/overlay already are.
         var overlay = document.getElementById('miniCartOverlay');
         var closeBtn = document.getElementById('miniCartClose');
+        var cartFab = document.getElementById('cartFab');
         function openCart() {
             overlay.classList.add('is-open');
             document.body.style.overflow = 'hidden';
@@ -583,6 +592,9 @@
         function closeCart() {
             overlay.classList.remove('is-open');
             document.body.style.overflow = '';
+        }
+        if (cartFab) {
+            cartFab.addEventListener('click', openCart);
         }
         closeBtn.addEventListener('click', closeCart);
         overlay.addEventListener('click', function (e) {

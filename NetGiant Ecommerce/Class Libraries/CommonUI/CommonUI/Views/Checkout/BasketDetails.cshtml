@@ -646,17 +646,18 @@
                         bool isFriday = DateTime.Now.DayOfWeek == DayOfWeek.Friday;
                         TimeSpan cutoff = isFriday ? new TimeSpan(17, 0, 0) : new TimeSpan(17, 30, 0);
                         bool pastCutoff = DateTime.Now.TimeOfDay > cutoff;
+                        string cutoffTime = DateTime.Today.Add(cutoff).ToString("h:mmtt").ToLower();
 
                         if (pastCutoff)
                         {
-                            deliveryMessage = Html.Raw("Free Next Working Day Delivery");
+                            deliveryMessage = Html.Raw("Free Next Working Day Delivery" + cutoffTime);
                         }
                         else
                         {
-                            deliveryMessage = Html.Raw("Free Next Day Delivery");
+                            deliveryMessage = Html.Raw("Free Next Day Delivery Order Before" + cutoffTime);
                         }
                     }
-                    <span><img src="~/Content/Images/icons/shipping-icon01.png"></span>
+                    <span><img src="~/Content/Images/icons/shipping-icon.png"></span>
                     <span>@deliveryMessage</span>
                 </div>
 
@@ -665,6 +666,14 @@
                 </span>
             </div>
 
+        </div>
+        <div class="summary-basket-card2">
+            <div class="g-m-t-10 clearfix">
+                <div class="pull-left">
+                    <strong>Subtotal</strong>
+                </div>
+                <div class="pull-right g-p-r-20">&pound;@string.Format("{0:N2}", subTotalExVat)</div>
+            </div>
             <div class="g-m-t-10 clearfix">
                 <div class="pull-left">
                     <strong>Delivery</strong>
@@ -679,14 +688,6 @@
                         @Html.Raw("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Delivery)))
                     }
                 </div>
-            </div>
-        </div>
-        <div class="summary-basket-card2">
-            <div class="g-m-t-10 clearfix">
-                <div class="pull-left">
-                    <strong>Sub Total</strong>
-                </div>
-                <div class="pull-right g-p-r-20">&pound;@string.Format("{0:N2}", subTotalExVat)</div>
             </div>
             <div class="g-m-t-10 clearfix">
                 <div class="pull-left">
@@ -734,7 +735,7 @@
             <hr class="g-m-tb-10" />
             <div class="g-m-t-10 clearfix g-lh-40">
                 <div class="pull-left">
-                    <strong>Grand Total</strong>
+                    <strong>Total Payable</strong>
                 </div>
                 <div class="pull-right g-fs-lg g-p-r-20">
                     <strong>
@@ -904,7 +905,7 @@
                         <div class="card-header">
                             @if (card.IconClass == "fa fa-truck")
                             {
-                                <img src="~/Content/Images/icons/shipping-icon.png">
+                                <img src="~/Content/Images/icons/shipping-icon01.png">
                             }
                             else if (card.IconClass == "fa fa-star-o")
                             {
@@ -1018,4 +1019,35 @@ else
     // to real markup - removed rather than left dead, since the actual qty stepper and remove
     // button above are real (changeBasketQty()/.basket-remove, both already handled in
     // site.js), and this would have silently double-handled clicks once .basket-items existed.
+
+    function styleAmazonPayShadow() {
+    const host = document.querySelector('#AmazonPayButton');
+    if (host && host.shadowRoot) {
+    const style = document.createElement('style');
+    style.textContent = `
+        .amazonpay-button-container {
+        max-width:100% !important;
+        margin: 0 auto !important;
+        }
+        .amazonpay-button-view1-gold {
+        width: 100% !important;
+        }
+        .amazonpay-button-view3, .amazonpay-button-sandbox-logo, .amazonpay-button-chevrons {display:none !important;}
+        .amazonpay-button-view1-gold {
+        border: none;
+        border-radius: 6px;
+        height:39px;
+        }
+        `;
+    host.shadowRoot.appendChild(style);
+     }
+    }
+    const observer = new MutationObserver(() => {
+    const host = document.querySelector('#AmazonPayButton');
+    if (host && host.shadowRoot && host.shadowRoot.querySelector('.amazonpay-button-container')) {
+    styleAmazonPayShadow();
+    observer.disconnect();
+     }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
 </script>
