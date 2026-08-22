@@ -3392,25 +3392,29 @@ WriteLiteral("</span>\r\n        </div>\r\n    </div>\r\n");
             
             #line default
             #line hidden
-WriteLiteral(@"
-<script>
-    $(document).on(""click"", "".card-toggle"", function (e) {
-
-        e.preventDefault();
-
-        var card = $(this).closest("".sidebar-card"");
-
-        card.toggleClass(""active"");
-
-        card.find("".card-content"").stop(true, true).slideToggle(250);
-
-    });
-    // The mockup's own local-only qty-stepper/remove/like demo script (data-inc/data-dec/
-    // data-qty-input driven, no server call) was pasted in here at one point but never wired
-    // to real markup - removed rather than left dead, since the actual qty stepper and remove
-    // button above are real (changeBasketQty()/.basket-remove, both already handled in
-    // site.js), and this would have silently double-handled clicks once .basket-items existed.
-</script>");
+WriteLiteral("\r\n<script>\r\n    $(document).on(\"click\", \".card-toggle\", function (e) {\r\n\r\n       " +
+" e.preventDefault();\r\n\r\n        var card = $(this).closest(\".sidebar-card\");\r\n\r\n" +
+"        // Order matters here. style.css also has \".sidebar-card.active .card-co" +
+"ntent\r\n        // { display: block; }\" (purely so the chevron-rotation rule has " +
+"something to key\r\n        // off), so toggling the \"active\" class immediately ch" +
+"anges .card-content\'s CSS\r\n        // display too. slideToggle() decides which w" +
+"ay to animate by checking the element\'s\r\n        // CURRENT visibility at the mo" +
+"ment it\'s called - if toggleClass ran first, its own\r\n        // instant CSS-dri" +
+"ven \"display: block\" made the very first click\'s slideToggle think\r\n        // t" +
+"he panel was already open, so it animated straight back closed (the reported\r\n  " +
+"      // \"opens and collapses\" on the first click only - from the second click o" +
+"nward\r\n        // jQuery\'s own inline styles from that animation take over and m" +
+"ask the conflict,\r\n        // which is why it then \"just works\"). Running slideT" +
+"oggle first, while the class\r\n        // (and therefore that CSS rule) hasn\'t ch" +
+"anged yet, lets it read the real pre-click\r\n        // state every time.\r\n      " +
+"  card.find(\".card-content\").stop(true, true).slideToggle(250);\r\n\r\n        card." +
+"toggleClass(\"active\");\r\n\r\n    });\r\n    // The mockup\'s own local-only qty-steppe" +
+"r/remove/like demo script (data-inc/data-dec/\r\n    // data-qty-input driven, no " +
+"server call) was pasted in here at one point but never wired\r\n    // to real mar" +
+"kup - removed rather than left dead, since the actual qty stepper and remove\r\n  " +
+"  // button above are real (changeBasketQty()/.basket-remove, both already handl" +
+"ed in\r\n    // site.js), and this would have silently double-handled clicks once " +
+".basket-items existed.\r\n</script>");
 
         }
     }

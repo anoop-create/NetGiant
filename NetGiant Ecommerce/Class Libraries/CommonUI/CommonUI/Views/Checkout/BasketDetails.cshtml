@@ -996,9 +996,21 @@ else
 
         var card = $(this).closest(".sidebar-card");
 
-        card.toggleClass("active");
-
+        // Order matters here. style.css also has ".sidebar-card.active .card-content
+        // { display: block; }" (purely so the chevron-rotation rule has something to key
+        // off), so toggling the "active" class immediately changes .card-content's CSS
+        // display too. slideToggle() decides which way to animate by checking the element's
+        // CURRENT visibility at the moment it's called - if toggleClass ran first, its own
+        // instant CSS-driven "display: block" made the very first click's slideToggle think
+        // the panel was already open, so it animated straight back closed (the reported
+        // "opens and collapses" on the first click only - from the second click onward
+        // jQuery's own inline styles from that animation take over and mask the conflict,
+        // which is why it then "just works"). Running slideToggle first, while the class
+        // (and therefore that CSS rule) hasn't changed yet, lets it read the real pre-click
+        // state every time.
         card.find(".card-content").stop(true, true).slideToggle(250);
+
+        card.toggleClass("active");
 
     });
     // The mockup's own local-only qty-stepper/remove/like demo script (data-inc/data-dec/
