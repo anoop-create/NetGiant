@@ -227,6 +227,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BasketDetails.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Checkout\BasketDetails.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BasketDetails.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Checkout\DeliveryOptions.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1003,7 +1008,7 @@
     </Content>
     <Content Include="Views\Checkout\BasketDetails.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>BasketDetails1.generated.cs</LastGenOutput>
+      <LastGenOutput>BasketDetails.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\Checkout\DeliveryOptions.cshtml">
       <Generator>RazorGenerator</Generator>

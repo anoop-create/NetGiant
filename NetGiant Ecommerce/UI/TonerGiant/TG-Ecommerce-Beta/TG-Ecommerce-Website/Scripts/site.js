@@ -667,28 +667,126 @@ function refreshViewBasket() {
 }
 
 function refreshVbFields(data) {
-    $('#vbBasketDetails').html(data.savereturn.Html);
+
+    var $basket = $('#vbBasketDetails');
+
+    // =========================================================
+    // PRESERVE PAYPAL - detach the actual rendered container
+    // =========================================================
+    var $paypal2 = $basket.find('#paypal-button2').detach();
+    var $paypal3 = $basket.find('#paypal-button3').detach();
+
+
+    // =========================================================
+    // PRESERVE AMAZON
+    // =========================================================
+    var $amazonButton = $basket.find(
+        '#AmazonPayButton, ' +
+        '#amazonPayButton, ' +
+        '#amazon-pay-button, ' +
+        '.amazon-pay-button'
+    ).detach();
+
+
+    // =========================================================
+    // SAVE COUNTDOWN VALUES
+    // =========================================================
+    var countdownValues = [];
+
+    $basket.find('.cutoffCountdownFalse').each(function () {
+        countdownValues.push($(this).text());
+    });
+
+
+    // =========================================================
+    // REFRESH BASKET
+    // =========================================================
+    $basket.html(data.savereturn.Html);
+
+
+    // =========================================================
+    // RESTORE PAYPAL
+    //
+    // IMPORTANT:
+    // Empty the NEW placeholder and append the OLD rendered DOM
+    // =========================================================
+
+    if ($paypal2.length) {
+        var $newPaypal2 = $basket.find('#paypal-button2');
+
+        if ($newPaypal2.length) {
+            $newPaypal2.empty().append($paypal2.contents());
+        }
+    }
+
+    if ($paypal3.length) {
+        var $newPaypal3 = $basket.find('#paypal-button3');
+
+        if ($newPaypal3.length) {
+            $newPaypal3.empty().append($paypal3.contents());
+        }
+    }
+
+
+    // =========================================================
+    // RESTORE AMAZON
+    // =========================================================
+
+    if ($amazonButton.length) {
+
+        var $newAmazonButton = $basket.find(
+            '#AmazonPayButton, ' +
+            '#amazonPayButton, ' +
+            '#amazon-pay-button, ' +
+            '.amazon-pay-button'
+        ).first();
+
+        if ($newAmazonButton.length) {
+            $newAmazonButton.replaceWith($amazonButton);
+        }
+    }
+
+
+    // =========================================================
+    // RESTORE COUNTDOWN VALUES
+    // =========================================================
+
+    $basket.find('.cutoffCountdownFalse').each(function (index) {
+        if (typeof countdownValues[index] !== 'undefined') {
+            $(this).text(countdownValues[index]);
+        }
+    });
+
+
+    // =========================================================
+    // UPDATE TOTALS
+    // =========================================================
+
     $('.basketQuantity').html(data.basketQuantity);
     $('.basketTotal').html(data.basketTotal);
     $('.basket-counter').html(data.basketQuantity);
+
+
     $('#minibasket-widget').replaceWith(data.basketSummary);
+
     setDeferredImages();
 
-    // The line above just replaced #vbBasketDetails's entire contents, which destroys and
-    // recreates each basket item's "Order Within" .cutoffCountdownFalse span from scratch -
-    // freshly rendered, so blank until the next tick of the recursive startTime() loop already
-    // running from page load (every 500ms). That gap was visible as the countdown appearing to
-    // "refresh"/flash on every basket change. Repopulate it immediately here instead of waiting
-    // for the next scheduled tick - this does NOT start a second timer loop (see
-    // updateCutoffCountdown()'s comment), it just fills in the value right away.
-    if ($('.cutoffCountdownFalse').length) {
-        updateCutoffCountdown();
-    }
+
+    // DO NOT call:
+    // renderPaypalButtonV2();
+    // updateCutoffCountdown();
+
+
+    // =========================================================
+    // REINITIALISE QUANTITY INPUTS
+    // =========================================================
+
     $('input[id^="qty-"]').each(function () {
         $(this).kendoNumericTextBox({
             "change": changeBasketQty,
             "spin": changeBasketQty,
-            "format": "#", "placeholder": "Enter quantity"
+            "format": "#",
+            "placeholder": "Enter quantity"
         });
     });
 }
@@ -702,6 +800,7 @@ function refreshVbFields(data) {
 // otherwise unchanged - the mini-cart has its own independent changeMiniBasketQty() below,
 // so nothing here needs to know about the mini-cart's markup at all.
 function changeBasketQty(productref, qty) {
+
     var isCheckout = isCurrentPage('/checkout');
 
     $.ajax({
@@ -710,41 +809,54 @@ function changeBasketQty(productref, qty) {
         traditional: true,
         type: 'POST',
         cache: false,
+
         data: {
             productref: productref,
             qty: qty
         },
+
         async: false,
+
         success: function (data) {
+
             if (!data.savereturn.IsSuccess) {
                 launchPopup('IsInCheckout', 'popup');
                 return false;
             }
 
             if (isCheckout) {
+
+                // Refresh basket details only.
+                // Payment button DOM is preserved inside refreshVbFields().
                 refreshViewBasket();
+
             } else {
+
                 $('#minibasket-widget').replaceWith(data.basketSummary);
+
                 $('.basketQuantity').html(data.basketQuantity);
                 $('.basketTotal').html(data.basketTotal);
                 $('.basket-counter').html(data.basketQuantity);
+
                 setDeferredImages();
             }
 
-            // Was an unconditional renderPaypalButtonV2() call here on every quantity change -
-            // that's exactly what was causing the reported "Amazon and PayPal buttons refresh
-            // every time you increase quantity" symptom (PayPal's button re-renders itself into
-            // #paypal-button2/3, and separately the Amazon Pay button was being torn down and
-            // rebuilt as a side effect of refreshViewBasket() replacing the whole basket-details
-            // partial). Neither button needs a live basket total to render correctly any more
-            // (PayPal's createOrder now fetches the current amount itself at the moment an order
-            // is actually created - see buildPayPalObject() below; Amazon Pay's session request
-            // never carried an amount at all), and both buttons now live in ViewBasket.cshtml,
-            // outside the AJAX-refreshed region, so there's nothing left here that needs
-            // re-rendering just because the quantity changed.
+
+            // IMPORTANT:
+            // Do NOT add this:
+            //
+            // renderPaypalButtonV2();
+            //
+            // PayPal should remain as the existing button instance.
         },
+
         error: function (xhr, textStatus, thrownError) {
-            logAjaxScriptError("/Product/BasketUpdateQty/", xhr, textStatus, thrownError);
+            logAjaxScriptError(
+                "/Product/BasketUpdateQty/",
+                xhr,
+                textStatus,
+                thrownError
+            );
         }
     });
 }
@@ -755,43 +867,72 @@ function changeBasketQty(productref, qty) {
 // fix can never change basket-detail-page behaviour, and vice versa. No isCheckout branch
 // is needed here because this function is never wired up to anything on that page.
 function changeMiniBasketQty(productref, qty) {
+
     $.ajax({
         url: "/Product/BasketUpdateQty/",
         dataType: 'json',
         traditional: true,
         type: 'POST',
         cache: false,
+
         data: {
             productref: productref,
             qty: qty
         },
+
         async: false,
+
         success: function (data) {
+
             if (!data.savereturn.IsSuccess) {
                 launchPopup('IsInCheckout', 'popup');
                 return false;
             }
 
+
+            // Remember whether mini-cart was already open
             var wasOpen = $('#miniCartOverlay').hasClass('is-open');
 
+
+            // Refresh only mini-basket HTML
             $('#minibasket-widget').replaceWith(data.basketSummary);
+
+
+            // Update counts
             $('.basketQuantity').html(data.basketQuantity);
             $('.basketTotal').html(data.basketTotal);
             $('.basket-counter').html(data.basketQuantity);
+
+
             setDeferredImages();
 
+
+            // Keep mini-cart open
             if (wasOpen) {
-                // #minibasket-widget's markup was just replaced wholesale and comes back in
-                // its default closed state - re-open it so changing qty from inside the
-                // mini-cart itself doesn't leave the panel looking collapsed/blank.
+
                 $('#miniCartOverlay').addClass('is-open');
+
                 $('body').css('overflow', 'hidden');
             }
 
-            renderPaypalButtonV2();
+
+            // IMPORTANT:
+            // DO NOT CALL:
+            //
+            // renderPaypalButtonV2();
+            //
+            // This was causing PayPal to refresh every time
+            // quantity was increased/decreased.
         },
+
         error: function (xhr, textStatus, thrownError) {
-            logAjaxScriptError("/Product/BasketUpdateQty/", xhr, textStatus, thrownError);
+
+            logAjaxScriptError(
+                "/Product/BasketUpdateQty/",
+                xhr,
+                textStatus,
+                thrownError
+            );
         }
     });
 }
@@ -1758,6 +1899,48 @@ $(function () {
                 logScriptError(e);
             }
         });
+    $(document).on('click', '.add-btn', function () {
+        try {
+            var ref = $(this).attr('data-productid');
+            var itemtype = $(this).attr('data-itemtype') || '1';
+            var price = (itemtype === '2' && $(this).attr('data-price')) ? $(this).attr('data-price') : 0;
+
+            var thisbutton = $(this);
+            var thisentry = $(this).closest('.atb-entry');
+            var qty = thisentry.find('input.atb-qty:first').val() || '1';
+
+            $.ajax({
+                url: "/Product/BasketAdd/",
+                dataType: 'json',
+                type: 'POST',
+                cache: false,
+                data: {
+                    productref: ref,
+                    productprice: price,
+                    productqty: qty,
+                    itemtype: itemtype
+                },
+                success: function (data) {
+                    changeBasketComplete(data, thisbutton);
+                    refreshViewBasket();
+                    maybeShowAddSellPopupAfterAdd();
+
+                    var $miniCartOverlay = $('#miniCartOverlay');
+                    if ($miniCartOverlay.length) {
+                        $miniCartOverlay.addClass('is-open');
+                        $('body').css('overflow', 'hidden');
+                    } else if (window.console && console.error) {
+                        console.error('[add-btn] #miniCartOverlay not found on this page - cannot open mini-cart');
+                    }
+                },
+                error: function (xhr, textStatus, thrownError) {
+                    logAjaxScriptError("/Product/BasketAdd/", xhr, textStatus, thrownError);
+                }
+            });
+        } catch (e) {
+            logScriptError(e);
+        }
+    });
 
     // Mega Menu Mobile manipulation
     if ($('#mobile-menu').is(":visible")) {

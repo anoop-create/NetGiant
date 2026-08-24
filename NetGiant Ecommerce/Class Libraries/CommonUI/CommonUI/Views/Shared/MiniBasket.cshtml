@@ -274,34 +274,48 @@
                                                 @bc.PartNo
                                             </div>
                                             <!-- In stock / delivery messaging - same "In Stock -
-                                                Delivered [day]" wording and Availability 1/7 ("in
-                                                stock" / "in stock at an alternate warehouse") stock
-                                                check already used for this product on the full
-                                                basket page (BasketDetails.cshtml) and the PDP
-                                                (HtmlHelper.ProductAvailability) - kept out of the
-                                                Switch & Save card below, which is a different
-                                                (cross-sell) product line. -->
+        Delivered [day]" wording and Availability 1/7 ("in
+        stock" / "in stock at an alternate warehouse") stock
+        check already used for this product on the full
+        basket page (BasketDetails.cshtml) and the PDP
+        (HtmlHelper.ProductAvailability) - kept out of the
+        Switch & Save card below, which is a different
+        (cross-sell) product line. -->
                                             @if (bc.Availability == 1 || bc.Availability == 7)
                                             {
-                                                <div class="stock-status in-stock">
+                                                @*<div class="stock-status in-stock">
                                                     <i class="fa fa-check-circle"></i>
                                                     <span><strong>In Stock</strong> - Delivered @Session["D_standardDeliveryDay"]</span>
-                                                </div>
+                                                </div>*@
+                                                @if (Session["V_Voucher"] != null)
+                                                {
+                                                    VoucherPromo vp =
+                                                        (VoucherPromo)Session["V_Voucher"];
+                                                    if (bc.IsVoucherQualifyingItem &&
+                                                        vp.VoucherTypeFk ==
+                                                        (int)VmVoucherType.Percentage)
+                                                    {
+                                                        <div class="voucher-applied">
+                                                            <i class="fa fa-check-circle"></i>
+                                                            Voucher Applied
+                                                        </div>
+                                                    }
+                                                }
                                             }
                                             <div class="cart-item__price">
                                                 £@neg@bc.PriceEx.ToString("N2")
                                                 <span class="vat">
                                                     @* Was showing "Trade Price, ex VAT" for trade customers instead of the plain
-                                                        "Ex VAT" label - the price itself is already the trade price (PriceEx is
-                                                        already the customer's actual net price, trade or otherwise; there's no
-                                                        separate trade-vs-non-trade price to disambiguate here), so the extra
-                                                        wording added nothing except length. That length is what broke the layout:
-                                                        "Trade Price, ex VAT" doesn't fit on one line next to the price in this
-                                                        narrow mini-cart column, so it wrapped the price line onto two rows, which
-                                                        in turn pushed this card's height over the mini-cart's own fixed/scrollable
-                                                        area and forced an unwanted scrollbar. Always showing the short "Ex VAT"
-                                                        fixes the wrap (and the scroll it caused) without losing any actual price
-                                                        information - the number itself is unaffected. *@
+                "Ex VAT" label - the price itself is already the trade price (PriceEx is
+                already the customer's actual net price, trade or otherwise; there's no
+                separate trade-vs-non-trade price to disambiguate here), so the extra
+                wording added nothing except length. That length is what broke the layout:
+                "Trade Price, ex VAT" doesn't fit on one line next to the price in this
+                narrow mini-cart column, so it wrapped the price line onto two rows, which
+                in turn pushed this card's height over the mini-cart's own fixed/scrollable
+                area and forced an unwanted scrollbar. Always showing the short "Ex VAT"
+                fixes the wrap (and the scroll it caused) without losing any actual price
+                information - the number itself is unaffected. *@
                                                     Ex VAT
                                                 </span>
                                                 @if (discUnitPrice > 0)
@@ -358,20 +372,7 @@
                                                     </button>
                                                 </div>
                                             }
-                                            @if (Session["V_Voucher"] != null)
-                                            {
-                                                VoucherPromo vp =
-                                                    (VoucherPromo)Session["V_Voucher"];
-                                                if (bc.IsVoucherQualifyingItem &&
-                                                    vp.VoucherTypeFk ==
-                                                    (int)VmVoucherType.Percentage)
-                                                {
-                                                    <div class="voucher-applied">
-                                                        <i class="fa fa-check-circle"></i>
-                                                        Voucher Applied
-                                                    </div>
-                                                }
-                                            }
+                                            
 
                                         </div>
                                     </div>
@@ -559,12 +560,7 @@
                         Proceed to Checkout
                     </button>
                     <!-- View basket -->
-                    <div class="checkout-edit">
-                        <a href="/checkout/"
-                           class="view-basket-link">
-                            View / Edit Basket
-                        </a>
-                    </div>
+                   
                 </div>
             </div>
         </div>

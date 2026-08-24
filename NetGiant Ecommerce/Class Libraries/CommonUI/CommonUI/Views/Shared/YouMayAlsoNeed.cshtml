@@ -17,354 +17,6 @@
    (set by site.js's showAddSellPopup()) are the same classes/attributes the
    existing click handlers in site.js already bind to.
    ---------------------------------------------------------------------------- *@
-@*<style>
-    /* ==================== Shared shell - desktop/tablet default (previous design, unchanged) ==================== */
-    #you-may-also-need-backdrop {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: transparent;
-        z-index: 1059;
-    }
-
-    #you-may-also-need {
-        position: fixed;
-        top: 0;
-        right: 400px;
-        width: 620px;
-        max-width: calc(100vw - 20px);
-        max-height: 100vh;
-        overflow-y: auto;
-        background: #fff;
-        border: 1px solid #d9d9d9;
-        border-radius: 6px;
-        z-index: 1060;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-        font-family: Arial, Helvetica, sans-serif;
-    }
-
-        #you-may-also-need[data-context="addtocart"] {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-        }
-
-        #you-may-also-need .ymn-header {
-            background: #0d7397;
-            color: #fff;
-            padding: 14px 18px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 20px;
-            font-weight: 600;
-            border-radius: 6px 6px 0 0;
-        }
-
-        #you-may-also-need .ymn-close {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        #you-may-also-need .popup-footer {
-            /* No special treatment at desktop/tablet widths - the button below is display:none
-               there anyway (the mini-cart already has its own visible checkout button beside
-               this popup), so this wrapper stays an invisible, unstyled div. */
-        }
-
-        #you-may-also-need .ymn-proceed {
-            display: none;
-            width: 100%;
-            background: #00a651;
-            color: #fff;
-            border: none;
-            padding: 14px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            border-radius: 0 0 6px 6px;
-        }
-
-        #you-may-also-need .ymn-desktop-view {
-            display: block;
-        }
-
-        #you-may-also-need .ymn-mobile-view {
-            display: none;
-        }
-
-    /* ==================== Desktop/tablet: original item carousel (unchanged) ==================== */
-    #you-may-also-need .you-may-need-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 20px;
-    }
-
-    #you-may-also-need .need-arrow {
-        flex: 0 0 auto;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        border: 1px solid #d9d9d9;
-        background: #fff;
-        color: #0d7397;
-        font-size: 14px;
-        cursor: pointer;
-    }
-
-        #you-may-also-need .need-arrow:disabled {
-            color: #ccc;
-            cursor: default;
-        }
-
-    #you-may-also-need .you-may-need-products {
-        flex: 1;
-        overflow: hidden;
-    }
-
-    #you-may-also-need .you-may-need-track {
-        display: flex;
-        gap: 20px;
-        transition: transform 0.3s ease;
-    }
-
-    #you-may-also-need .need-product {
-        flex: 0 0 calc((100% - 40px) / 3);
-        max-width: calc((100% - 40px) / 3);
-        text-align: center;
-    }
-
-        #you-may-also-need .need-product img {
-            width: 120px;
-            height: 90px;
-            object-fit: contain;
-            margin-bottom: 12px;
-        }
-
-    #you-may-also-need .need-title {
-        display: block;
-        color: #333;
-        font-size: 13px;
-        line-height: 18px;
-        min-height: 55px;
-        text-decoration: none;
-        font-weight: 600;
-    }
-
-        #you-may-also-need .need-title:hover {
-            color: #0099cc;
-        }
-
-    #you-may-also-need .need-price {
-        font-size: 18px;
-        color: #0099cc;
-        font-weight: 700;
-        margin: 12px 0;
-    }
-
-        #you-may-also-need .need-price small {
-            display: block;
-            font-size: 12px;
-            color: #666;
-            font-weight: 400;
-        }
-
-    /* Scoped to .need-product so it can never collide with the mobile view's own
-       ".item .ymn-add" rule further down, even though both share the .ymn-add class. */
-    #you-may-also-need .need-product .ymn-add {
-        width: 100%;
-        background: #00a651;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        padding: 10px 20px;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
-    }
-
-        #you-may-also-need .need-product .ymn-add:disabled {
-            background: #9ecdb3;
-            cursor: default;
-        }
-
-    /* ==================== Mobile (<768px): redesigned card/list popup ==================== */
-    @@media (max-width: 767px) {
-        #you-may-also-need-backdrop {
-            background: rgba(0, 0, 0, 0.45);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 10px;
-        }
-
-        #you-may-also-need {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            right: auto;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            max-width: 400px;
-            max-height: 85vh;
-            border: none;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-        }
-
-            #you-may-also-need .ymn-header {
-                background: #0f6f97;
-                border-radius: 16px 16px 0 0;
-                font-size: 16px;
-                font-weight: 700;
-                position: sticky;
-                top: 0;
-                z-index: 2;
-            }
-
-            #you-may-also-need .ymn-close {
-                border: 1px solid #fff;
-                width: 30px;
-                height: 30px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-shrink: 0;
-            }
-
-                #you-may-also-need .ymn-close:hover {
-                    background: rgba(255, 255, 255, 0.28);
-                }
-
-            #you-may-also-need .ymn-desktop-view {
-                display: none;
-            }
-
-            #you-may-also-need .ymn-mobile-view {
-                display: block;
-            }
-
-            #you-may-also-need .item-list {
-                padding: 4px 16px 8px;
-            }
-
-            #you-may-also-need .item {
-                display: flex;
-                gap: 14px;
-                align-items: flex-start;
-                padding: 18px 0;
-            }
-
-                #you-may-also-need .item + .item {
-                    border-top: 1px solid #e5e5e5;
-                }
-
-            #you-may-also-need .item-thumb {
-                width: 68px;
-                height: 68px;
-                flex-shrink: 0;
-                border-radius: 6px;
-                background: #f4f5f6;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                overflow: hidden;
-            }
-
-                #you-may-also-need .item-thumb img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: contain;
-                }
-
-            #you-may-also-need .item-info {
-                flex: 1;
-                min-width: 0;
-            }
-
-            #you-may-also-need .item-title {
-                display: block;
-                font-size: 14px;
-                font-weight: 600;
-                color: #000;
-                line-height: 1.35;
-                margin: 0 0 6px;
-                text-decoration: none;
-            }
-
-                #you-may-also-need .item-title:hover {
-                    color: #0f6f97;
-                }
-
-            #you-may-also-need .item-price {
-                font-size: 14px;
-                font-weight: 700;
-                color: #0f6f97;
-                margin: 0 0 10px;
-            }
-
-                #you-may-also-need .item-price span {
-                    font-weight: 700;
-                    color: #0f6f97;
-                    font-size: 12px;
-                }
-
-            /* Scoped to .item so it can never collide with the desktop carousel's own
-               ".need-product .ymn-add" rule above, even though both share the .ymn-add class. */
-            #you-may-also-need .item .ymn-add {
-                display: inline-block;
-                background: #0f6f97;
-                color: #fff;
-                border: none;
-                font-size: 14px;
-                font-weight: 600;
-                padding: 10px 16px;
-                border-radius: 6px;
-                cursor: pointer;
-                width: 100%;
-                max-width: 136px;
-            }
-
-                #you-may-also-need .item .ymn-add:hover {
-                    background: #0c5a7a;
-                }
-
-                #you-may-also-need .item .ymn-add:disabled {
-                    background: #9ecdb3;
-                    cursor: default;
-                }
-
-            #you-may-also-need .popup-footer {
-                padding: 14px 16px 22px;
-                position: sticky;
-                bottom: 0;
-                background: #fff;
-                border-top: 1px solid #e5e5e5;
-                border-radius: 0 0 16px 16px;
-            }
-
-            #you-may-also-need .ymn-proceed {
-                display: block;
-                background: #00a651;
-                padding: 14px;
-                font-size: 16px;
-                border-radius: 8px;
-            }
-
-                #you-may-also-need .ymn-proceed:hover {
-                    background: #2e9c5f;
-                }
-    }
-</style>*@
 
 <div id="you-may-also-need-backdrop"></div>
 
@@ -437,44 +89,47 @@
     </div>
 
     @* ---- Mobile (< 768px): redesigned card/list ---- *@
-    <div class="ymn-mobile-view">
+<div class="ymn-mobile-view">
+        <div class="popup-header">
+            <h2 id="popup-title">You May Also Need…</h2>
+            <button class="close-btn" id="closeBtn" aria-label="Close">×</button>
+        </div>
+    <div class="item-list">
 
-        <div class="item-list">
+        @foreach (BasketContents addOn in Model)
+        {
+            <div class="item">
 
-            @foreach (BasketContents addOn in Model)
-            {
-                <div class="item">
+                <div class="item-thumb">
+                    <a href="@addOn.ProductUrl">
+                        <img src="@addOn.ImageUrl"
+                             alt="@addOn.Description"
+                             onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
+                    </a>
+                </div>
 
-                    <div class="item-thumb">
-                        <a href="@addOn.ProductUrl">
-                            <img src="@addOn.ImageUrl"
-                                 alt="@addOn.Description"
-                                 onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
-                        </a>
-                    </div>
+                <div class="item-info">
 
-                    <div class="item-info">
+                    <a href="@addOn.ProductUrl" class="item-title">@addOn.Description</a>
 
-                        <a href="@addOn.ProductUrl" class="item-title">@addOn.Description</a>
+                    <p class="item-price">
+                        £@string.Format("{0:N2}", addOn.PriceEx) <span>exc. VAT</span>
+                    </p>
 
-                        <p class="item-price">
-                            £@string.Format("{0:N2}", addOn.PriceEx) <span>exc. VAT</span>
-                        </p>
-
-                        <button type="button"
-                                class="ymn-add"
-                                data-productid="@addOn.StockRef">
-                            Add to Basket
-                        </button>
-
-                    </div>
+                    <button type="button"
+                            class="ymn-add"
+                            data-productid="@addOn.StockRef">
+                        Add to Basket
+                    </button>
 
                 </div>
-            }
 
-        </div>
+            </div>
+        }
 
     </div>
+
+</div>
 
     <div class="popup-footer">
         <button type="button" class="ymn-proceed">

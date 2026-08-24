@@ -82,6 +82,19 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Maintenance
             bool success = true;
             try
             {
+                // CMSEntry arrives here as a disconnected/untracked entity from model binding.
+                // The CreateEntry view posts a couple of fields nested under "CMSEntry.cmsSection."
+                // (the Website dropdown for existing entries, and previously a stray HiddenFor),
+                // which makes MVC's default binder construct a phantom, mostly-empty cmsSection
+                // object (cmsSectionID=0, sectionName=null, Website=null) and hang it off
+                // CMSEntry.cmsSection. When db.Entry(CMSEntry).State is then set below, EF's
+                // change tracker walks that navigation property, finds an untracked object, and
+                // treats it as a NEW row to insert alongside the real update - which violated a
+                // DB constraint (sectionName NOT NULL / websiteFK FK) and made every save throw.
+                // The real relationship only needs the scalar cmsSectionFK (already posted
+                // correctly via its own dropdown), so drop the phantom navigation object here.
+                CMSEntry.cmsSection = null;
+
                 using (ngmdEntities db = new ngmdEntities())
                 {
                     if (CMSEntry.cmsEntryID > 0)

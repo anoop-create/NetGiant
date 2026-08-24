@@ -25,7 +25,16 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary("", new { @class = "text-danger" })
                 @Html.HiddenFor(x => x.CMSEntry.cmsEntryID)
-                @Html.HiddenFor(x => x.CMSEntry.cmsSection)
+                @* Removed @Html.HiddenFor(x => x.CMSEntry.cmsSection) - this posted only the
+                   default ToString() of the cmsSection type, which caused MVC's model binder
+                   to construct a phantom, empty cmsSection object (cmsSectionID=0, websiteFK=0,
+                   sectionName=null) on every postback. CMSViewModel.SaveEntry() then attaches
+                   the posted CMSEntry as EntityState.Modified, and EF's change tracker treats
+                   that unattached phantom cmsSection navigation object as a NEW entity to
+                   insert - which violated a DB constraint (sectionName NOT NULL / websiteFK FK)
+                   and made every CMS entry save throw. The real section relationship is already
+                   captured by the CMSEntry.cmsSectionFK dropdown below, so this hidden field
+                   was unnecessary. *@
 
                 if (Model.CMSEntry.cmsEntryID == 0)
                 {
@@ -78,7 +87,13 @@
                     <div class="col-md-10">
 
                         @{
-                            string weburl = Model.CMSEntry.cmsSection == null ? "http://www.tonergiant.co.uk/" : "http://" + Model.CMSEntry.cmsSection.Website.WebURL;
+                            // Guard .Website too (not just cmsSection) - if cmsSection is ever
+                            // non-null but its Website navigation hasn't been loaded/bound (e.g.
+                            // this view being redisplayed after a save error), the old check
+                            // here threw a NullReferenceException while rendering, which is what
+                            // turned an ordinary save error into a raw, unhandled Application
+                            // Error page instead of the intended inline validation message.
+                            string weburl = Model.CMSEntry.cmsSection == null || Model.CMSEntry.cmsSection.Website == null ? "http://www.tonergiant.co.uk/" : "http://" + Model.CMSEntry.cmsSection.Website.WebURL;
 
                             if (ConfigurationManager.AppSettings["Environment"] != "Live")
                             {

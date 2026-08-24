@@ -179,9 +179,9 @@
                                             <span class="product-code">@bc.PartNo</span>
 
                                             @* Stock line - the same content is rendered twice (once here for
-                                               desktop, once again below as a sibling of .p-price-q-area for
-                                               mobile) and toggled by the max-width:768px .desktop/.mobile rules
-                                               in style.css, matching the reference design's own layout. *@
+                                desktop, once again below as a sibling of .p-price-q-area for
+                                mobile) and toggled by the max-width:768px .desktop/.mobile rules
+                                in style.css, matching the reference design's own layout. *@
                                             @if (bc.Availability == 1 || bc.Availability == 7)
                                             {
                                                 <span class="desktop stock stock-in">
@@ -283,8 +283,9 @@
                                                         </span>
                                                         <span class="like">
                                                             <button class="like-btn" type="button">
-                                                            <img src="/Content/Images/icons/like-icon.png" class="unlike-b">
-                                                            <img src="/Content/Images/icons/like-icon01.png" class="like-b"></button>
+                                                                <img src="/Content/Images/icons/like-icon.png" class="unlike-b">
+                                                                <img src="/Content/Images/icons/like-icon01.png" class="like-b">
+                                                            </button>
                                                         </span>
                                                     </span>
                                                     <span class="qnt-w">
@@ -354,10 +355,10 @@
 
                                     </div>
                                     @* ---------------- Switch & Save ----------------
-                                        Fully data-bound - every value below comes from bc / Model,
-                                        nothing hardcoded. Eligibility rules unchanged from before:
-                                        not already compatible, has a cross-sell ref, that ref is
-                                        in stock (1 or 7), and switching genuinely saves money. *@
+                        Fully data-bound - every value below comes from bc / Model,
+                        nothing hardcoded. Eligibility rules unchanged from before:
+                        not already compatible, has a cross-sell ref, that ref is
+                        in stock (1 or 7), and switching genuinely saves money. *@
                                     @if (!bc.IsCompatible && !String.IsNullOrEmpty(bc.CrossSellingStockRef) && !bc.ExcludeFromUpSell)
                                     {
                                         List<int> inStock = new List<int> { 1, 7 };
@@ -460,6 +461,48 @@
                         }
                         if (addOnsToShow.Count > 0)
                         {
+                            <div class="popup" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+    <div class="popup-header">
+        <h2 id="popup-title">You May Also Need…</h2>
+        <button class="close-btn" id="closeBtn" aria-label="Close">×</button>
+    </div>
+
+    <div class="item-list" id="itemList">
+        @for (int i = 0; i < addOnsToShow.Count; i++)
+        {
+            var addOn = addOnsToShow[i];
+            var productUrl = addOn.ProductUrl.StartsWith("/") 
+                ? addOn.ProductUrl 
+                : "/" + addOn.ProductUrl;
+
+            <div class="item">
+                <div class="item-thumb">
+                    <img src="@addOn.ImageUrl"
+                         alt="@addOn.Description"
+                         onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
+                </div>
+                <div class="item-info">
+                    <p class="item-title">@addOn.Description</p>
+                    <p class="item-price">
+                        £@string.Format("{0:N2}", addOn.PriceEx) <span>exc. VAT</span>
+                    </p>
+                    <button class="add-btn" data-index="@i"
+                            data-productid="@addOn.StockRef"
+                            data-price="@addOn.PriceEx"
+                            data-qty="1">
+                        Add to Basket
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="popup-footer">
+        <button class="checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
+    </div>
+</div>
+
+
                             <div class="you-may-need">
 
                                 <div class="you-may-need-header">

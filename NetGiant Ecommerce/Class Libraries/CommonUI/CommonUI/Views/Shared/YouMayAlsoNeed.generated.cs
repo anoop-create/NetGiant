@@ -56,8 +56,6 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("\n");
-
 WriteLiteral("\n\n<div");
 
 WriteLiteral(" id=\"you-may-also-need-backdrop\"");
@@ -97,13 +95,13 @@ WriteLiteral(" data-index=\"0\"");
 WriteLiteral(">\n\n");
 
             
-            #line 386 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            #line 38 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 386 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            #line 38 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
              if (Model.Count > 3)
             {
 
@@ -127,7 +125,7 @@ WriteLiteral(" class=\"fa fa-chevron-left\"");
 WriteLiteral("></i>\n                </button>\n");
 
             
-            #line 391 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            #line 43 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
             }
 
             
@@ -144,13 +142,13 @@ WriteLiteral(" class=\"you-may-need-track\"");
 WriteLiteral(">\n\n");
 
             
-            #line 396 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            #line 48 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 396 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            #line 48 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
                      foreach (BasketContents addOn in Model)
                     {
 
@@ -163,60 +161,60 @@ WriteLiteral(" class=\"need-product\"");
 
 WriteLiteral(">\n\n                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 11967), Tuple.Create("\"", 11991)
+WriteAttribute("href", Tuple.Create(" href=\"", 2132), Tuple.Create("\"", 2156)
             
-            #line 400 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 11974), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
+            #line 52 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 2139), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
             
             #line default
             #line hidden
-, 11974), false)
+, 2139), false)
 );
 
 WriteLiteral(">\n                                <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 12030), Tuple.Create("\"", 12051)
+WriteAttribute("src", Tuple.Create(" src=\"", 2195), Tuple.Create("\"", 2216)
             
-            #line 401 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 12036), Tuple.Create<System.Object, System.Int32>(addOn.ImageUrl
+            #line 53 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 2201), Tuple.Create<System.Object, System.Int32>(addOn.ImageUrl
             
             #line default
             #line hidden
-, 12036), false)
+, 2201), false)
 );
 
-WriteAttribute("alt", Tuple.Create("\n                                     alt=\"", 12052), Tuple.Create("\"", 12113)
+WriteAttribute("alt", Tuple.Create("\n                                     alt=\"", 2217), Tuple.Create("\"", 2278)
             
-            #line 402 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 12095), Tuple.Create<System.Object, System.Int32>(addOn.Description
+            #line 54 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 2260), Tuple.Create<System.Object, System.Int32>(addOn.Description
             
             #line default
             #line hidden
-, 12095), false)
+, 2260), false)
 );
 
-WriteAttribute("onerror", Tuple.Create("\n                                     onerror=\"", 12114), Tuple.Create("\"", 12232)
-, Tuple.Create(Tuple.Create("", 12161), Tuple.Create("this.src=\'", 12161), true)
+WriteAttribute("onerror", Tuple.Create("\n                                     onerror=\"", 2279), Tuple.Create("\"", 2397)
+, Tuple.Create(Tuple.Create("", 2326), Tuple.Create("this.src=\'", 2326), true)
             
-            #line 403 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 12171), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+            #line 55 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 2336), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
             
             #line default
             #line hidden
-, 12171), false)
-, Tuple.Create(Tuple.Create("", 12211), Tuple.Create("/Images/noImage.jpg\';", 12211), true)
+, 2336), false)
+, Tuple.Create(Tuple.Create("", 2376), Tuple.Create("/Images/noImage.jpg\';", 2376), true)
 );
 
 WriteLiteral(" />\n                            </a>\n\n                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 12301), Tuple.Create("\"", 12325)
+WriteAttribute("href", Tuple.Create(" href=\"", 2466), Tuple.Create("\"", 2490)
             
-            #line 406 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 12308), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
+            #line 58 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 2473), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
             
             #line default
             #line hidden
-, 12308), false)
+, 2473), false)
 );
 
 WriteLiteral(" class=\"need-title\"");
@@ -226,7 +224,7 @@ WriteLiteral(">\n");
 WriteLiteral("                                ");
 
             
-            #line 407 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            #line 59 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
                            Write(addOn.Description);
 
             
@@ -234,14 +232,14 @@ WriteLiteral("                                ");
             #line hidden
 WriteLiteral("\n                            </a>\n                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 12461), Tuple.Create("\"", 12485)
+WriteAttribute("href", Tuple.Create(" href=\"", 2626), Tuple.Create("\"", 2650)
             
-            #line 409 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 12468), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
+            #line 61 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 2633), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
             
             #line default
             #line hidden
-, 12468), false)
+, 2633), false)
 );
 
 WriteLiteral(" class=\"need-title\"");
@@ -251,7 +249,7 @@ WriteLiteral(">\n");
 WriteLiteral("                                ");
 
             
-            #line 410 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            #line 62 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
                            Write(addOn.PartNo);
 
             
@@ -264,7 +262,7 @@ WriteLiteral(" class=\"need-price\"");
 WriteLiteral(">\n                                £");
 
             
-            #line 413 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            #line 65 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
                             Write(string.Format("{0:N2}", addOn.PriceEx));
 
             
@@ -280,7 +278,7 @@ WriteLiteral("\n                                    class=\"ymn-add\"");
 WriteLiteral("\n                                    data-productid=\"");
 
             
-            #line 418 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            #line 70 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
                                                Write(addOn.StockRef);
 
             
@@ -292,7 +290,7 @@ WriteLiteral(">\n                                Add to Basket\n                
 "ton>\n\n                        </div>\n");
 
             
-            #line 423 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            #line 75 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
                     }
 
             
@@ -301,13 +299,13 @@ WriteLiteral(">\n                                Add to Basket\n                
 WriteLiteral("\n                </div>\n            </div>\n\n");
 
             
-            #line 428 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            #line 80 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 428 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            #line 80 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
              if (Model.Count > 3)
             {
 
@@ -329,7 +327,7 @@ WriteLiteral(" class=\"fa fa-chevron-right\"");
 WriteLiteral("></i>\n                </button>\n");
 
             
-            #line 433 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+            #line 85 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
             }
 
             
@@ -337,99 +335,114 @@ WriteLiteral("></i>\n                </button>\n");
             #line hidden
 WriteLiteral("\n        </div>\n\n    </div>\n\n    ");
 
-WriteLiteral("\n    <div");
+WriteLiteral("\n<div");
 
 WriteLiteral(" class=\"ymn-mobile-view\"");
 
-WriteLiteral(">\n\n        <div");
+WriteLiteral(">\n        <div");
+
+WriteLiteral(" class=\"popup-header\"");
+
+WriteLiteral(">\n            <h2");
+
+WriteLiteral(" id=\"popup-title\"");
+
+WriteLiteral(">You May Also Need…</h2>\n            <button");
+
+WriteLiteral(" class=\"close-btn\"");
+
+WriteLiteral(" id=\"closeBtn\"");
+
+WriteLiteral(" aria-label=\"Close\"");
+
+WriteLiteral(">×</button>\n        </div>\n    <div");
 
 WriteLiteral(" class=\"item-list\"");
 
 WriteLiteral(">\n\n");
 
             
-            #line 444 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-            
+            #line 99 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+        
             
             #line default
             #line hidden
             
-            #line 444 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-             foreach (BasketContents addOn in Model)
-            {
+            #line 99 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+         foreach (BasketContents addOn in Model)
+        {
 
             
             #line default
             #line hidden
-WriteLiteral("                <div");
+WriteLiteral("            <div");
 
 WriteLiteral(" class=\"item\"");
 
-WriteLiteral(">\n\n                    <div");
+WriteLiteral(">\n\n                <div");
 
 WriteLiteral(" class=\"item-thumb\"");
 
-WriteLiteral(">\n                        <a");
+WriteLiteral(">\n                    <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 13666), Tuple.Create("\"", 13690)
+WriteAttribute("href", Tuple.Create(" href=\"", 3991), Tuple.Create("\"", 4015)
             
-            #line 449 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 13673), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
+            #line 104 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 3998), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
             
             #line default
             #line hidden
-, 13673), false)
+, 3998), false)
 );
 
-WriteLiteral(">\n                            <img");
+WriteLiteral(">\n                        <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 13725), Tuple.Create("\"", 13746)
+WriteAttribute("src", Tuple.Create(" src=\"", 4046), Tuple.Create("\"", 4067)
             
-            #line 450 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 13731), Tuple.Create<System.Object, System.Int32>(addOn.ImageUrl
+            #line 105 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 4052), Tuple.Create<System.Object, System.Int32>(addOn.ImageUrl
             
             #line default
             #line hidden
-, 13731), false)
+, 4052), false)
 );
 
-WriteAttribute("alt", Tuple.Create("\n                                 alt=\"", 13747), Tuple.Create("\"", 13804)
+WriteAttribute("alt", Tuple.Create("\n                             alt=\"", 4068), Tuple.Create("\"", 4121)
             
-            #line 451 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 13786), Tuple.Create<System.Object, System.Int32>(addOn.Description
+            #line 106 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 4103), Tuple.Create<System.Object, System.Int32>(addOn.Description
             
             #line default
             #line hidden
-, 13786), false)
+, 4103), false)
 );
 
-WriteAttribute("onerror", Tuple.Create("\n                                 onerror=\"", 13805), Tuple.Create("\"", 13919)
-, Tuple.Create(Tuple.Create("", 13848), Tuple.Create("this.src=\'", 13848), true)
+WriteAttribute("onerror", Tuple.Create("\n                             onerror=\"", 4122), Tuple.Create("\"", 4232)
+, Tuple.Create(Tuple.Create("", 4161), Tuple.Create("this.src=\'", 4161), true)
             
-            #line 452 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 13858), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+            #line 107 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 4171), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
             
             #line default
             #line hidden
-, 13858), false)
-, Tuple.Create(Tuple.Create("", 13898), Tuple.Create("/Images/noImage.jpg\';", 13898), true)
+, 4171), false)
+, Tuple.Create(Tuple.Create("", 4211), Tuple.Create("/Images/noImage.jpg\';", 4211), true)
 );
 
-WriteLiteral(" />\n                        </a>\n                    </div>\n\n                    " +
-"<div");
+WriteLiteral(" />\n                    </a>\n                </div>\n\n                <div");
 
 WriteLiteral(" class=\"item-info\"");
 
-WriteLiteral(">\n\n                        <a");
+WriteLiteral(">\n\n                    <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 14052), Tuple.Create("\"", 14076)
+WriteAttribute("href", Tuple.Create(" href=\"", 4349), Tuple.Create("\"", 4373)
             
-            #line 458 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 14059), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
+            #line 113 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+, Tuple.Create(Tuple.Create("", 4356), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
             
             #line default
             #line hidden
-, 14059), false)
+, 4356), false)
 );
 
 WriteLiteral(" class=\"item-title\"");
@@ -437,54 +450,53 @@ WriteLiteral(" class=\"item-title\"");
 WriteLiteral(">");
 
             
-            #line 458 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-                                                                  Write(addOn.Description);
+            #line 113 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+                                                              Write(addOn.Description);
 
             
             #line default
             #line hidden
-WriteLiteral("</a>\n\n                        <p");
+WriteLiteral("</a>\n\n                    <p");
 
 WriteLiteral(" class=\"item-price\"");
 
-WriteLiteral(">\n                            £");
+WriteLiteral(">\n                        £");
 
             
-            #line 461 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-                        Write(string.Format("{0:N2}", addOn.PriceEx));
+            #line 116 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+                    Write(string.Format("{0:N2}", addOn.PriceEx));
 
             
             #line default
             #line hidden
-WriteLiteral(" <span>exc. VAT</span>\n                        </p>\n\n                        <but" +
-"ton");
+WriteLiteral(" <span>exc. VAT</span>\n                    </p>\n\n                    <button");
 
 WriteLiteral(" type=\"button\"");
 
-WriteLiteral("\n                                class=\"ymn-add\"");
+WriteLiteral("\n                            class=\"ymn-add\"");
 
-WriteLiteral("\n                                data-productid=\"");
+WriteLiteral("\n                            data-productid=\"");
 
             
-            #line 466 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-                                           Write(addOn.StockRef);
+            #line 121 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+                                       Write(addOn.StockRef);
 
             
             #line default
             #line hidden
 WriteLiteral("\"");
 
-WriteLiteral(">\n                            Add to Basket\n                        </button>\n\n  " +
-"                  </div>\n\n                </div>\n");
+WriteLiteral(">\n                        Add to Basket\n                    </button>\n\n          " +
+"      </div>\n\n            </div>\n");
 
             
-            #line 473 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-            }
+            #line 128 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
+        }
 
             
             #line default
             #line hidden
-WriteLiteral("\n        </div>\n\n    </div>\n\n    <div");
+WriteLiteral("\n    </div>\n\n</div>\n\n    <div");
 
 WriteLiteral(" class=\"popup-footer\"");
 
@@ -494,7 +506,7 @@ WriteLiteral(" type=\"button\"");
 
 WriteLiteral(" class=\"ymn-proceed\"");
 
-WriteLiteral(">\n            Proceed to Checkout\n        </button>\n    </div>\n\n</div>\n");
+WriteLiteral(">\n            Proceed to Checkout\n        </button>\n    </div>\n\n</div>");
 
         }
     }

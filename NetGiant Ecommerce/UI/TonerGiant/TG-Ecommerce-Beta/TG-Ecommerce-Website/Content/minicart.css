@@ -117,7 +117,7 @@
 	margin: 0 0 6px;
 }
 .cart-item__price {
-	font-size: 17px;
+	font-size: 12px;
 	font-weight: 700;
 	color: #09c;
 	margin: 0;
@@ -198,11 +198,12 @@
 }
 .switch-save__title {
 	display: block;
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: 600;
 	color: var(--text);
 	text-decoration: none;
 	margin: 0 0 4px;
+	line-height:1.3;
 }
 .switch-save__title:hover {
 	color: var(--pink);
@@ -214,7 +215,7 @@
 	margin: 0 0 6px;
 }
 .switch-save__price {
-	font-size: 14px;
+	font-size: 12px;
 	font-weight: 700;
 	margin: 0 0 2px;
 	color: #000000;
@@ -365,7 +366,8 @@ a.view-basket-link:focus {
 }
 .switch-save p {
 	color: #2E2E2E;
-	line-height: 18px;
+	line-height: 16px;
+	font-size: 12px;
 }
 .cart-item__sku, .switch-save__sku {
 	color: #333333;
@@ -384,7 +386,7 @@ a.view-basket-link:focus {
 	width: 360px !important;
 }
 .switch-save__price {
-	font-size: 14px;
+	font-size: 12px;
 	color: #09c;
 }
 .promo-applied {
@@ -401,13 +403,17 @@ a.view-basket-link:focus {
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
-	padding: 6px 12px;
+	padding: 3px 8px;
 	background: #eaf8ef;
 	color: #1e7e34;
 	border-radius: 20px;
-	font-size: 13px;
+	font-size: 10px;
 	font-weight: 600;
+	margin-bottom: 4px;
 }
+.mini-cart .qty-stepper{border:1px solid #787676 !important; padding:0px 5px !important}
+.mini-cart .qty-stepper button { background:transparent !important; border-right:none !important; padding:0px 0 3px 0 !important; width:15px !important; font-size:15px !important}
+.mini-cart .qty-stepper input { border:none !important}
  @media (max-width:1199px) {
  body, html {
  overflow-x: hidden
