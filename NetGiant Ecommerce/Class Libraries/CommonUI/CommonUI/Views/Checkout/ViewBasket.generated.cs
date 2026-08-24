@@ -376,15 +376,16 @@ WriteLiteral("\r\n                        </div>\r\n\r\n                        
 WriteLiteral("\r\n");
 
             
-            #line 85 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 84 "..\..\Views\Checkout\ViewBasket.cshtml"
                         
             
             #line default
             #line hidden
             
-            #line 85 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 84 "..\..\Views\Checkout\ViewBasket.cshtml"
                          if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
                         {
+                          
 
             
             #line default
@@ -409,37 +410,18 @@ WriteLiteral("></div>\r\n");
             #line 89 "..\..\Views\Checkout\ViewBasket.cshtml"
                         }
 
+                        
+            
+            #line default
+            #line hidden
+            
+            #line 99 "..\..\Views\Checkout\ViewBasket.cshtml"
+                                
+
             
             #line default
             #line hidden
 WriteLiteral("\r\n                        <div");
-
-WriteLiteral(" class=\"g-bc-s g-b-1-p g-m-t-20 visible-xs visible-sm restrict-images vb-pay-meth" +
-"ods\"");
-
-WriteLiteral(">\r\n                            <div");
-
-WriteLiteral(" class=\"g-p-10\"");
-
-WriteLiteral(">\r\n                                <strong>Payment Methods</strong>\r\n            " +
-"                </div>\r\n                            <hr />\r\n                    " +
-"        <div");
-
-WriteLiteral(" class=\"g-p-10 text-center\"");
-
-WriteLiteral(">\r\n");
-
-WriteLiteral("                                ");
-
-            
-            #line 97 "..\..\Views\Checkout\ViewBasket.cshtml"
-                           Write(Html.Raw(Model.CheckoutData["PaymentMethods"].Replace("[newline]", "&#013;")));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                            </div>\r\n                        </div>\r\n\r\n         " +
-"               <div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -567,24 +549,24 @@ WriteLiteral("\' == \'True\') {\r\n                // Authenticated\r\n         
             #line hidden
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 8774), Tuple.Create("\"", 9054)
-, Tuple.Create(Tuple.Create("", 8780), Tuple.Create("https://www.paypal.com/sdk/js?client-id=", 8780), true)
+WriteAttribute("src", Tuple.Create(" src=\"", 8637), Tuple.Create("\"", 8917)
+, Tuple.Create(Tuple.Create("", 8643), Tuple.Create("https://www.paypal.com/sdk/js?client-id=", 8643), true)
             
             #line 188 "..\..\Views\Checkout\ViewBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 8820), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["PayPalClientId"]
+, Tuple.Create(Tuple.Create("", 8683), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["PayPalClientId"]
             
             #line default
             #line hidden
-, 8820), false)
-, Tuple.Create(Tuple.Create("", 8873), Tuple.Create("&currency=GBP&locale=en_GB&intent=authorize&components=messages,buttons&enable-fu" +
-"nding=paylater&debug=", 8873), true)
+, 8683), false)
+, Tuple.Create(Tuple.Create("", 8736), Tuple.Create("&currency=GBP&locale=en_GB&intent=authorize&components=messages,buttons&enable-fu" +
+"nding=paylater&debug=", 8736), true)
             
             #line 188 "..\..\Views\Checkout\ViewBasket.cshtml"
-                                                                                                                                         , Tuple.Create(Tuple.Create("", 8975), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["Environment"] == "Live" ? "false" : "true"
+                                                                                                                                         , Tuple.Create(Tuple.Create("", 8838), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["Environment"] == "Live" ? "false" : "true"
             
             #line default
             #line hidden
-, 8975), false)
+, 8838), false)
 );
 
 WriteLiteral(">\r\n        </script>\r\n");

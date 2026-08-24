@@ -68,27 +68,27 @@
                             }
                         </div>
 
-                        @* Amazon Pay / PayPal Checkout buttons: BasketDetails.cshtml's own comment (added when
-                            the "payment buttons refresh on every quantity change" bug was fixed) says both were
-                            moved out here so they render once per page view and survive #vbBasketDetails being
-                            replaced on every basket AJAX refresh. Restoring the PayPal side of that below -
-                            #paypal-button2/3 are exactly what site.js's renderPaypalButtonV2() (called after
-                            every add/remove/qty/voucher change) already expects to find here.
-                            NOT restoring an Amazon Pay button: there is no amazon.Pay.renderButton() call, no
-                            Amazon Pay SDK <script> tag, and no other button markup anywhere else in this repo
-                            for it, even though CheckoutController.ViewBasket() still populates
-                            Model.AmazonButtonJSONPayLoad/AmazonButtonSignature for one - so whatever rendered
-                            it originally appears to have been lost entirely, not just misplaced, and there's
-                            nothing here to safely reconstruct it from. Flagged to the user rather than guessed
-                            at, since getting a payment SDK integration wrong carries more risk than leaving it
-                            out until the real markup/config can be confirmed. *@
+                        @* Amazon Pay / PayPal Checkout buttons live here, outside #vbBasketDetails, so they
+                            render once per real page load and are never touched by the AJAX partial refresh
+                            that #vbBasketDetails gets on every quantity/voucher/add/remove change (see
+                            refreshVbFields() in site.js). #paypal-button2/3 are exactly what
+                            renderPaypalButtonV2() (called after every add/remove/voucher change, and once on
+                            initial load below) expects to find.
+                            The Amazon Pay button (script tag + amazon.Pay.renderButton() call) was previously
+                            found duplicated inside BasketDetails.cshtml itself - i.e. inside the AJAX-refreshed
+                            region - which re-fetched/re-executed the Amazon Pay SDK and rebuilt the button on
+                            every quantity change. That's the actual cause of the reported "Amazon and PayPal
+                            buttons refresh on quantity change" bug. Moved here for the same reason PayPal's
+                            buttons already were; BasketDetails.cshtml's copy (and its duplicate, invalid-HTML
+                            #paypal-button2/3 IDs) has been removed. *@
                         @if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
                         {
+                          
                             <div id="paypal-button2" class="g-m-t-20"></div>
                             <div id="paypal-button3" class="g-m-t-10"></div>
                         }
 
-                        <div class="g-bc-s g-b-1-p g-m-t-20 visible-xs visible-sm restrict-images vb-pay-methods">
+                        @*<div class="g-bc-s g-b-1-p g-m-t-20 visible-xs visible-sm restrict-images vb-pay-methods">
                             <div class="g-p-10">
                                 <strong>Payment Methods</strong>
                             </div>
@@ -96,7 +96,7 @@
                             <div class="g-p-10 text-center">
                                 @Html.Raw(Model.CheckoutData["PaymentMethods"].Replace("[newline]", "&#013;"))
                             </div>
-                        </div>
+                        </div>*@
 
                         <div class="row">
                             <div class="col-md-12 g-m-t-60">

@@ -640,11 +640,11 @@
 
                         if (remaining > 0)
                         {
-                            deliveryMessage = Html.Raw("Spend &pound;" + string.Format("{0:N2}", remaining) + " more for free delivery");
+                            deliveryMessage = Html.Raw("Spend &pound;" + string.Format("{0:N2}", remaining) + " more for free delivery ");
                         }
                         else
                         {
-                            deliveryMessage = Html.Raw("Free Delivery Included");
+                            deliveryMessage = Html.Raw("Free Delivery Included ");
                         }
                     }
                     else
@@ -656,11 +656,11 @@
 
                         if (pastCutoff)
                         {
-                            deliveryMessage = Html.Raw("Free Next Working Day Delivery" + cutoffTime);
+                            deliveryMessage = Html.Raw("Free Next Working Day Delivery " + cutoffTime);
                         }
                         else
                         {
-                            deliveryMessage = Html.Raw("Free Next Day Delivery Order Before" + cutoffTime);
+                            deliveryMessage = Html.Raw("Free Next Day Delivery Order Before " + cutoffTime);
                         }
                     }
                     <span><img src="~/Content/Images/icons/shipping-icon.png"></span>
@@ -796,7 +796,7 @@
 
                             <input id="voucher-code"
                                    type="text"
-                                   placeholder="Enter voucher code">
+                                   placeholder="Enter Code">
 
                             <button id="apply-voucher"
                                     type="button">
@@ -850,7 +850,6 @@
 
                 <div id="paypal-button2" class="g-m-t-20"></div>
                 <div id="paypal-button3"></div>
-
                 <div id="paypal-message" data-pp-message data-pp-style-layout="text"
                      data-pp-style-logo-type="inline" data-pp-style-text-color="black"
                      data-pp-amount="@string.Format("{0:N2}", Model.BasketTotals.GrandTotalIncVat)">
