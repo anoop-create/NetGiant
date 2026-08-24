@@ -246,6 +246,11 @@
                                         ]) &&
                                     !isTradeCustomer &&
                                     !isAdminDiscount &&
+                                    // In-stock gate added for parity with the same fix on the full
+                                    // basket page (BasketDetails.cshtml) - without this, the pill
+                                    // could prompt "Buy N More, Save X%" on an item that's actually
+                                    // out of stock ("Back In Stock Soon" etc.) and can't be fulfilled.
+                                    (bc.Availability == 1 || bc.Availability == 7) &&
                                     upsellPerItemSaving > 0;
                                 <div>
                                     <!-- Basket Item -->

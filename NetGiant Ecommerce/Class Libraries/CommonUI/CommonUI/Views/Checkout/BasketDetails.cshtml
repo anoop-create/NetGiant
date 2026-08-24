@@ -117,6 +117,12 @@
                                     Convert.ToBoolean(ConfigurationManager.AppSettings["IsCompatibleUpsellActive"]) &&
                                     !Convert.ToBoolean(Session["U_IsTradeCustomer"]) &&
                                     !isAdminDiscount &&
+                                    // In-stock gate added - this lozenge was showing "Buy N More, Save X%"
+                                    // even on items marked "Back In Stock Soon"/out of stock, inviting the
+                                    // customer to increase quantity of something that can't actually be
+                                    // fulfilled. Matches the same 1/7 in-stock check already used by the
+                                    // Switch & Save eligibility a few lines below.
+                                    (bc.Availability == 1 || bc.Availability == 7) &&
                                     upsellPerItemSaving > 0;
                                 if (!bc.IsCompatible &&
                                 !String.IsNullOrEmpty(bc.CrossSellingStockRef) &&

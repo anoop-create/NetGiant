@@ -998,6 +998,7 @@
     </Content>
     <Content Include="Views\Checkout\BasketDetails.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>BasketDetails1.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\Checkout\DeliveryOptions.cshtml">
       <Generator>RazorGenerator</Generator>
