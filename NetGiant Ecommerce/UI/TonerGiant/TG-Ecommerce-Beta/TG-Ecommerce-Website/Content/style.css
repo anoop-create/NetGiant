@@ -2172,6 +2172,13 @@ body:has(div#vbBasketDetails) .you-may-need { display:none}
 #you-may-also-need .ymn-proceed  { font-size:12px !important; line-height:20px}
 #you-may-also-need .popup-footer { border:none !important;}
 #you-may-also-need {height: 530px !important;max-height: initial !important;}
+#you-may-also-need {
+ position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+ height:550px !important;
+}
 }
 /*Mobile popup css*/
 

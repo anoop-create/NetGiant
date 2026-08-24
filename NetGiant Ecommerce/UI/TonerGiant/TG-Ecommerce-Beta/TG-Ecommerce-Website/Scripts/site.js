@@ -1022,26 +1022,38 @@ function isNotAuthenticated() {
     return $('.navbar-collapse').hasClass('not-authenticated');
 }
 
-// Mini-cart "Proceed to Checkout" click. Checks for eligible "You May Also Need" add-on
-// products first; if there are none (or the popup has already been shown/skipped this visit),
-// goes straight to /checkout/.
-function proceedToCheckout() {
-    if (isNotAuthenticated()) {
-        // Not signed in - skip the add-on popup entirely and go straight to checkout, the same
-        // way basket's own Checkout button behaves for a signed-out customer (that button never
-        // shows an add-on popup either - it's straight to "Secure Checkout" login or bust). The
-        // login popup itself (#ident-modal) only exists in the DOM on the checkout page, so it
-        // can't be shown from here - ?showlogin=1 tells ViewBasket.cshtml to run its own
-        // Checkout button action automatically on load, which is what actually shows it.
-        removeAddSellPopup();
-        window.location.href = '/checkout/?showlogin=1';
-        return;
-    }
+// FIX (2026-08-24, later same day): this used to check isNotAuthenticated() FIRST and, for a
+// signed-out customer, skip the add-on eligibility check entirely and jump straight to the
+// login popup - on the reasoning that basket's own Checkout button does the same (never shows
+// an add-on popup for anyone). Reported bug: a guest with an add-on-eligible product in their
+// basket clicked the mini-cart's Proceed to Checkout and got the login popup with no add-on
+// popup at all - confirmed this was that exact behaviour firing as designed, not a detection
+// bug (verified Header.cshtml only ever renders a single, correctly-set
+// ".navbar-collapse ... not-authenticated" element - isNotAuthenticated() itself was reading
+// it correctly). Per explicit confirmation this was tested as a guest, the intended behaviour
+// is now: check for eligible add-ons regardless of sign-in state, same as an authenticated
+// customer - a guest should see the same "You May Also Need" popup before being asked to log
+// in, not skip straight past it. Login is deferred to whichever exit point is actually taken
+// (see checkoutUrl() below), instead of short-circuited here before the add-on check ever runs.
+function checkoutUrl() {
+    // Guests need '?showlogin=1' appended so ViewBasket.cshtml runs its own Checkout button
+    // action automatically on load (in-checkout guard -> submit the basket form if
+    // authenticated, else show '#ident-modal', the "Secure Checkout" login popup) - that modal
+    // only exists in the DOM on the checkout page itself, so it can't be shown from here
+    // directly. Signed-in customers get the plain URL; the page's own guard already handles
+    // them with no extra param needed.
+    return isNotAuthenticated() ? '/checkout/?showlogin=1' : '/checkout/';
+}
 
+// Mini-cart "Proceed to Checkout" click. Checks for eligible "You May Also Need" add-on
+// products first - regardless of sign-in state - and only then goes to /checkout/ (if there
+// are none, or the popup has already been shown/skipped this visit), appending '?showlogin=1'
+// via checkoutUrl() when the customer isn't signed in.
+function proceedToCheckout() {
     if ($('#you-may-also-need').length) {
         // Popup already open/shown - a second click on Proceed skips straight through.
         removeAddSellPopup();
-        window.location.href = '/checkout/';
+        window.location.href = checkoutUrl();
         return;
     }
 
@@ -1049,13 +1061,18 @@ function proceedToCheckout() {
         function (html) {
             showAddSellPopup(html, 'checkout');
 
-            // On mobile the mini-cart tray isn't shown alongside the popup - close it.
-            if ($(window).width() < 768) {
+            // On mobile the mini-cart tray isn't shown alongside the popup - close it. 992 (not
+            // 768) to match the "You May Also Need" popup's own mobile/desktop CSS breakpoint -
+            // see YouMayAlsoNeed.cshtml/style.css, which switch #you-may-also-need's card-list
+            // mobile view in and out at "@media (max-width: 991px)", not 767px. This was left at
+            // 768 after that breakpoint was widened, which meant tablet widths (768-991px) got
+            // the mobile popup layout but this offcanvas-close call still treated them as desktop.
+            if ($(window).width() < 992) {
                 $('[data-toggle="offcanvas-close"]').trigger('click');
             }
         },
         function () {
-            window.location.href = '/checkout/';
+            window.location.href = checkoutUrl();
         }
     );
 }
@@ -1075,16 +1092,22 @@ function proceedToCheckout() {
 // callback here removes a stale popup outright when the current basket no longer qualifies.
 function maybeShowAddSellPopupAfterAdd() {
     // Mobile design: add-ons should only ever surface when the customer taps the mini-cart's
-    // own "Proceed to Checkout" button (proceedToCheckout(), below - which already has its own
-    // correct <768px handling), never immediately after a plain Add to Basket. Below 768px, skip
-    // the popup entirely here. This also fixes a second symptom of the same bug: this partial's
-    // CSS gives #you-may-also-need[data-context="addtocart"] a higher-specificity, centered-
-    // floating-modal position/size rule that beats the plain mobile full-screen rule (which is
-    // what makes the .ymn-proceed "Proceed to Checkout" footer button clearly visible/usable) -
-    // so calling this on mobile was also rendering a cramped desktop-style popup instead of the
-    // intended full-screen mobile layout. Skipping the call here means mobile only ever reaches
-    // this popup via the 'checkout' context, so that mismatch can no longer happen either.
-    if ($(window).width() < 768) {
+    // own "Proceed to Checkout" button (proceedToCheckout(), above - which already has its own
+    // correct handling), never immediately after a plain Add to Basket. Below the breakpoint,
+    // skip the popup entirely here. This also fixes a second symptom of the same bug: this
+    // partial's CSS gives #you-may-also-need[data-context="addtocart"] a higher-specificity,
+    // centered-floating-modal position/size rule that beats the plain mobile full-screen rule
+    // (which is what makes the .ymn-proceed "Proceed to Checkout" footer button clearly
+    // visible/usable) - so calling this on mobile was also rendering a cramped desktop-style
+    // popup instead of the intended full-screen mobile layout. Skipping the call here means
+    // mobile only ever reaches this popup via the 'checkout' context, so that mismatch can no
+    // longer happen either.
+    //
+    // 992, not 768: matches the breakpoint YouMayAlsoNeed.cshtml/style.css actually use to swap
+    // #you-may-also-need between its desktop carousel and mobile card-list views
+    // ("@media (max-width: 991px)"), not the older 767px breakpoint this check was written
+    // against before that CSS was widened to include tablet widths.
+    if ($(window).width() < 992) {
         return;
     }
 
@@ -2855,10 +2878,13 @@ $(function () {
     });
 
     // The popup's own "Proceed to Checkout" button (mobile only) always means checkout,
-    // regardless of how the popup was opened.
+    // regardless of how the popup was opened. Uses checkoutUrl() (not a bare '/checkout/'), so
+    // a guest who reached this popup without ever signing in - now the norm, since
+    // proceedToCheckout() no longer skips the add-on check for signed-out customers - still
+    // gets the login popup once they land on the checkout page, instead of a silent bare page.
     $(document).on('click', '#you-may-also-need .ymn-proceed', function () {
         removeAddSellPopup();
-        window.location.href = '/checkout/';
+        window.location.href = checkoutUrl();
     });
 
     // The X/close button and the transparent backdrop behind the popup both "skip" it the same
@@ -2866,11 +2892,20 @@ $(function () {
     // to Checkout click. If it was opened after a plain "Add to Basket" (from a product page,
     // category listing, etc.), skipping it should just dismiss it and leave the customer where
     // they were.
-    $(document).on('click', '#you-may-also-need .ymn-close, #you-may-also-need-backdrop', function () {
+    //
+    // Includes ".close-btn": the mobile card-list view (.ymn-mobile-view) has its own header
+    // with its own close "x" (class="close-btn", id="closeBtn" - YouMayAlsoNeed.cshtml), styled
+    // separately from the shared ".ymn-header"/".ymn-close" the desktop view uses, but with no
+    // click handler of its own anywhere - tapping it did nothing at all. Added to this same
+    // handler rather than given a separate one, since it should behave identically once tapped.
+    $(document).on('click', '#you-may-also-need .ymn-close, #you-may-also-need .close-btn, #you-may-also-need-backdrop', function () {
         var context = $('#you-may-also-need').attr('data-context');
         removeAddSellPopup();
         if (context === 'checkout') {
-            window.location.href = '/checkout/';
+            // checkoutUrl(), not a bare '/checkout/', for the same reason as the .ymn-proceed
+            // handler above - a signed-out customer skipping/closing this popup still needs
+            // '?showlogin=1' so the checkout page shows its login popup automatically.
+            window.location.href = checkoutUrl();
         }
     });
 

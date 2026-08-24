@@ -349,7 +349,7 @@ WriteLiteral(" id=\"popup-title\"");
 
 WriteLiteral(">You May Also Need…</h2>\n            <button");
 
-WriteLiteral(" class=\"close-btn\"");
+WriteLiteral(" class=\"close-btn ymn-close\"");
 
 WriteLiteral(" id=\"closeBtn\"");
 
@@ -385,48 +385,48 @@ WriteLiteral(" class=\"item-thumb\"");
 
 WriteLiteral(">\n                    <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 3991), Tuple.Create("\"", 4015)
+WriteAttribute("href", Tuple.Create(" href=\"", 4001), Tuple.Create("\"", 4025)
             
             #line 104 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 3998), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
+, Tuple.Create(Tuple.Create("", 4008), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
             
             #line default
             #line hidden
-, 3998), false)
+, 4008), false)
 );
 
 WriteLiteral(">\n                        <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 4046), Tuple.Create("\"", 4067)
+WriteAttribute("src", Tuple.Create(" src=\"", 4056), Tuple.Create("\"", 4077)
             
             #line 105 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 4052), Tuple.Create<System.Object, System.Int32>(addOn.ImageUrl
+, Tuple.Create(Tuple.Create("", 4062), Tuple.Create<System.Object, System.Int32>(addOn.ImageUrl
             
             #line default
             #line hidden
-, 4052), false)
+, 4062), false)
 );
 
-WriteAttribute("alt", Tuple.Create("\n                             alt=\"", 4068), Tuple.Create("\"", 4121)
+WriteAttribute("alt", Tuple.Create("\n                             alt=\"", 4078), Tuple.Create("\"", 4131)
             
             #line 106 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 4103), Tuple.Create<System.Object, System.Int32>(addOn.Description
+, Tuple.Create(Tuple.Create("", 4113), Tuple.Create<System.Object, System.Int32>(addOn.Description
             
             #line default
             #line hidden
-, 4103), false)
+, 4113), false)
 );
 
-WriteAttribute("onerror", Tuple.Create("\n                             onerror=\"", 4122), Tuple.Create("\"", 4232)
-, Tuple.Create(Tuple.Create("", 4161), Tuple.Create("this.src=\'", 4161), true)
+WriteAttribute("onerror", Tuple.Create("\n                             onerror=\"", 4132), Tuple.Create("\"", 4242)
+, Tuple.Create(Tuple.Create("", 4171), Tuple.Create("this.src=\'", 4171), true)
             
             #line 107 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 4171), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+, Tuple.Create(Tuple.Create("", 4181), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
             
             #line default
             #line hidden
-, 4171), false)
-, Tuple.Create(Tuple.Create("", 4211), Tuple.Create("/Images/noImage.jpg\';", 4211), true)
+, 4181), false)
+, Tuple.Create(Tuple.Create("", 4221), Tuple.Create("/Images/noImage.jpg\';", 4221), true)
 );
 
 WriteLiteral(" />\n                    </a>\n                </div>\n\n                <div");
@@ -435,14 +435,14 @@ WriteLiteral(" class=\"item-info\"");
 
 WriteLiteral(">\n\n                    <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 4349), Tuple.Create("\"", 4373)
+WriteAttribute("href", Tuple.Create(" href=\"", 4359), Tuple.Create("\"", 4383)
             
             #line 113 "..\..\Views\Shared\YouMayAlsoNeed.cshtml"
-, Tuple.Create(Tuple.Create("", 4356), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
+, Tuple.Create(Tuple.Create("", 4366), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
             
             #line default
             #line hidden
-, 4356), false)
+, 4366), false)
 );
 
 WriteLiteral(" class=\"item-title\"");
