@@ -2171,7 +2171,7 @@ body:has(div#vbBasketDetails) .you-may-need { display:none}
 #you-may-also-need .ymn-proceed {max-width: 100% !important;padding: 10px !important;border-radius: 6px !important;}
 #you-may-also-need .ymn-proceed  { font-size:12px !important; line-height:20px}
 #you-may-also-need .popup-footer { border:none !important;}
-#you-may-also-need {height: 530px;max-height: initial !important;}
+#you-may-also-need {height: 530px !important;max-height: initial !important;}
 }
 /*Mobile popup css*/
 
