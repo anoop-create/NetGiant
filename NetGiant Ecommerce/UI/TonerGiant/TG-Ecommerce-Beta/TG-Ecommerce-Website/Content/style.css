@@ -1642,7 +1642,7 @@ button.like-btn:hover .unlike-b {
 }
  .p-price-q-area {
  width: calc(100% - 70px);
- text-align: right;
+ text-align: left;
  margin-left: auto;
  display: flex;
  gap: 20px;
@@ -2087,7 +2087,7 @@ a.item-title {
 	display: block;
 }
 .item-price {
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: 700;
 	color:#0f6f97;
 	margin: 0 0 10px;

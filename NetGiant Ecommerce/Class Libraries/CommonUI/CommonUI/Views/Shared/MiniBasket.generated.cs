@@ -1148,7 +1148,7 @@ WriteLiteral(" class=\"vat\"");
 WriteLiteral(">\r\n                                                                    ");
 
 WriteLiteral(@"
-                                                                    exc VAT
+                                                                    Ex. VAT
                                                                 </span>
                                                             </div>
                                                             <!-- Saving -->

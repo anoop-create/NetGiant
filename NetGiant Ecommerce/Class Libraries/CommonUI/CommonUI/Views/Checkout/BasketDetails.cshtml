@@ -188,7 +188,7 @@
                                                     <text>In Stock</text>
                                                     @if (!Convert.ToBoolean(Model.CommonData["DeliveryDateIsOverridden"]))
                                                     {
-                                                        <text>. Delivered</text> <strong>@Session["D_standardDeliveryDay"]</strong><br />
+                                                        <text>. Delivered</text> @Session["D_standardDeliveryDay"]<br />
                                                         <text>Order Within</text> <strong><span class="cutoffCountdownFalse"></span></strong>
                                                     }
                                                 </span>
