@@ -916,7 +916,14 @@
                 catch { /* table not migrated yet on this environment - render nothing below */ }
 
                 WebsiteInfoCard bannerCard = infoCards.FirstOrDefault(x => x.Category == "Banner" && !String.IsNullOrEmpty(x.ImageUrl));
-                List<WebsiteInfoCard> findOutMoreCards = infoCards.Where(x => x.Category != "Banner").ToList();
+                // "Payment" cards (one row per payment card logo - Visa/Mastercard/Amex/etc.) are
+                // rendered as plain logo images below, the same way Banner is - not through the
+                // generic Icon/Title/Body/"Find Out More" card loop, so excluded from it here.
+                List<WebsiteInfoCard> findOutMoreCards = infoCards.Where(x => x.Category != "Banner" && x.Category != "Payment").ToList();
+                List<WebsiteInfoCard> paymentCards = infoCards
+                    .Where(x => x.Category == "Payment" && !String.IsNullOrEmpty(x.ImageUrl))
+                    .OrderBy(x => x.DisplayOrder)
+                    .ToList();
             }
         </div>
         <div class="summary-basket-card3">
@@ -1006,9 +1013,28 @@
 
                 <div class="payment-icons">
 
-                    <img src="~/Content/Images/icons/visa-card.png" alt="Visa">
-                    <img src="~/Content/Images/icons/master-card.png" alt="Mastercard">
-                    <img src="~/Content/Images/icons/amex-card.png" alt="Amex">
+                    @* FIX (2026-08-25): made dynamic - these three logos used to be hardcoded
+                       <img> tags. Now sourced from dbo.WebsiteInfoCard's "Payment" category (same
+                       table/admin screen - Intranet's Website Info Cards - already used for the
+                       sidebar's other cards above), one row per logo, ordered by DisplayOrder, so
+                       staff can add/remove/reorder/hide accepted card logos without a code change.
+                       Falls back to the original static Visa/Mastercard/Amex images if no
+                       "Payment" rows exist yet (e.g. the seed script below hasn't been run on this
+                       environment, or the table itself isn't migrated - see the try/catch around
+                       infoCards above) so this box never just goes blank. *@
+                    @if (paymentCards.Any())
+                    {
+                        foreach (WebsiteInfoCard card in paymentCards)
+                        {
+                            <img src="@card.ImageUrl" alt="@card.Title">
+                        }
+                    }
+                    else
+                    {
+                        <img src="~/Content/Images/icons/visa-card.png" alt="Visa">
+                        <img src="~/Content/Images/icons/master-card.png" alt="Mastercard">
+                        <img src="~/Content/Images/icons/amex-card.png" alt="Amex">
+                    }
 
                 </div>
 

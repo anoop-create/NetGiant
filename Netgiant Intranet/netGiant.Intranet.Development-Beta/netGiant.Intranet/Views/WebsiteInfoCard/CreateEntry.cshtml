@@ -40,12 +40,12 @@
                         {
                             @Html.DropDownListFor(m => m.InfoCard.Category, Model.CategoryList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10", disabled = "disabled" })
                             @Html.HiddenFor(m => m.InfoCard.Category)
-                            <span class="help-block">'Banner' only uses Image URL / Link URL below. The other categories (Delivery, Trust, TradePricing, Payment) use Icon/Title/Body/Find Out More. Category can't be changed once a card is created.</span>
+                            <span class="help-block">'Banner' uses Image URL and Link URL. 'Payment' uses only Title (as alt text), Image URL, Display Order and Active - Body Text/Find Out More/Link URL are hidden for Payment, since a payment card logo doesn't use them. The other categories (Delivery, Trust, TradePricing) use Icon/Title/Body/Find Out More instead. Category can't be changed once a card is created.</span>
                         }
                         else
                         {
                             @Html.DropDownListFor(m => m.InfoCard.Category, Model.CategoryList, "Select...", new { @class = "g-f-l form-control g-smallCell g-m-r-10" })
-                            <span class="help-block">'Banner' only uses Image URL / Link URL below. The other categories (Delivery, Trust, TradePricing, Payment) use Icon/Title/Body/Find Out More.</span>
+                            <span class="help-block">'Banner' uses Image URL and Link URL. 'Payment' uses only Title (as alt text), Image URL, Display Order and Active - Body Text/Find Out More/Link URL are hidden for Payment, since a payment card logo doesn't use them. The other categories (Delivery, Trust, TradePricing) use Icon/Title/Body/Find Out More instead.</span>
                         }
                         @Html.ValidationMessageFor(model => model.InfoCard.Category, "", new { @class = "text-danger" })
                     </div>
@@ -75,37 +75,53 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    @Html.Label("Body Text", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.InfoCard.BodyText, new { @class = "form-control g-largeCell", rows = 3 })
-                        @Html.ValidationMessageFor(model => model.InfoCard.BodyText, "", new { @class = "text-danger" })
-                        <span class="help-block">The short teaser shown on the card before "Find Out More" is clicked. Basic HTML (e.g. &lt;strong&gt;) is allowed.</span>
+                @* Body Text / Find Out More Content don't apply to the 'Payment' category (each
+                   Payment row is just a logo image - no teaser text or expandable content) -
+                   hidden for Payment by the script below, shown for every other category exactly
+                   as before. Hidden via a CSS class (not "disabled"), so the values still post
+                   normally even while hidden (harmless - Payment rows just won't have any). *@
+                <div id="bodyTextField">
+                    <div class="form-group">
+                        @Html.Label("Body Text", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.InfoCard.BodyText, new { @class = "form-control g-largeCell", rows = 3 })
+                            @Html.ValidationMessageFor(model => model.InfoCard.BodyText, "", new { @class = "text-danger" })
+                            <span class="help-block">The short teaser shown on the card before "Find Out More" is clicked. Basic HTML (e.g. &lt;strong&gt;) is allowed.</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    @Html.Label("Find Out More Content", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.InfoCard.FindOutMoreContent, new { @class = "form-control g-largeCell", rows = 6 })
-                        @Html.ValidationMessageFor(model => model.InfoCard.FindOutMoreContent, "", new { @class = "text-danger" })
-                        <span class="help-block">The expanded HTML content shown when the customer clicks "Find Out More". Wrap paragraphs in &lt;p&gt; tags.</span>
+                <div id="findOutMoreField">
+                    <div class="form-group">
+                        @Html.Label("Find Out More Content", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.InfoCard.FindOutMoreContent, new { @class = "form-control g-largeCell", rows = 6 })
+                            @Html.ValidationMessageFor(model => model.InfoCard.FindOutMoreContent, "", new { @class = "text-danger" })
+                            <span class="help-block">The expanded HTML content shown when the customer clicks "Find Out More". Wrap paragraphs in &lt;p&gt; tags.</span>
+                        </div>
                     </div>
                 </div>
 
-                @* Image URL / Link URL only apply to the 'Banner' category - shown/hidden by the
-                   script below based on the Category selection. Hidden via a CSS class (not the
-                   "disabled" attribute), so the values still post normally even while hidden. *@
-                <div id="bannerFields" class="g-d-n">
+                @* Image URL applies to 'Banner' and 'Payment'; Link URL applies to 'Banner' only -
+                   shown/hidden by the script below based on the Category selection. Hidden via a
+                   CSS class (not "disabled"), so the values still post normally even while hidden.
+                   For 'Payment', each row is one card logo image (Visa/Mastercard/Amex/etc.) - use
+                   the "Title" field above for the logo's alt text, and "Display Order" below to
+                   control left-to-right order in the "Payment Cards Accepted" box. Link URL is
+                   hidden entirely for Payment (a card logo has nowhere sensible to link to) rather
+                   than just left blank, per explicit request. *@
+                <div id="imageUrlField" class="g-d-n">
                     <div class="form-group">
                         @Html.Label("Image URL", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.InfoCard.ImageUrl, new { htmlAttributes = new { @class = "form-control g-largeCell" } })
                             @Html.ValidationMessageFor(model => model.InfoCard.ImageUrl, "", new { @class = "text-danger" })
-                            <span class="help-block">Used for the 'Banner' category.</span>
+                            <span class="help-block">Used for the 'Banner' category (the banner image) and the 'Payment' category (one card logo per row, e.g. /Content/Images/icons/visa-card.png).</span>
                         </div>
                     </div>
+                </div>
 
+                <div id="linkUrlField" class="g-d-n">
                     <div class="form-group">
                         @Html.Label("Link URL", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
@@ -145,20 +161,44 @@
 
 <script type="text/javascript">
     $(function () {
-        function toggleBannerFields() {
+        // FIX (2026-08-25): field visibility per Category. 'Payment' cards (one row per
+        // payment card logo - Visa, Mastercard, Amex, etc., rendered on the Ecommerce basket
+        // sidebar's "Payment Cards Accepted" box) need Image URL like 'Banner' does, but -
+        // per explicit request - should NOT show Body Text, Find Out More Content, or Link
+        // URL, since a payment card logo doesn't use any of them. Renamed from
+        // toggleBannerFields() now that this covers more than just the banner fields.
+        function toggleFieldsByCategory() {
             var selectedText = $('select[name="InfoCard.Category"] option:selected').text();
 
-            if (selectedText === 'Banner') {
-                $('#bannerFields').removeClass('g-d-n');
+            // Image URL: shown for Banner and Payment.
+            if (selectedText === 'Banner' || selectedText === 'Payment') {
+                $('#imageUrlField').removeClass('g-d-n');
             } else {
-                $('#bannerFields').addClass('g-d-n');
+                $('#imageUrlField').addClass('g-d-n');
+            }
+
+            // Link URL: shown for Banner only - Payment logos have nowhere sensible to link to.
+            if (selectedText === 'Banner') {
+                $('#linkUrlField').removeClass('g-d-n');
+            } else {
+                $('#linkUrlField').addClass('g-d-n');
+            }
+
+            // Body Text / Find Out More Content: hidden for Payment only; every other category
+            // (including Banner, which already didn't use them) keeps its previous behaviour.
+            if (selectedText === 'Payment') {
+                $('#bodyTextField').addClass('g-d-n');
+                $('#findOutMoreField').addClass('g-d-n');
+            } else {
+                $('#bodyTextField').removeClass('g-d-n');
+                $('#findOutMoreField').removeClass('g-d-n');
             }
         }
 
-        toggleBannerFields();
+        toggleFieldsByCategory();
 
         // Only fires in Create mode (the Category select is disabled in Edit mode), which is
         // fine - the load-time call above already accounts for Edit's fixed Category value.
-        $('select[name="InfoCard.Category"]').on('change', toggleBannerFields);
+        $('select[name="InfoCard.Category"]').on('change', toggleFieldsByCategory);
     });
 </script>

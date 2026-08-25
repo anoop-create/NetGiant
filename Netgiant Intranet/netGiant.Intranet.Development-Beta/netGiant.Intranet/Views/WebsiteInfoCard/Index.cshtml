@@ -12,10 +12,16 @@
 
 @Html.Hidden("DeleteInfoCardURL", Url.Action("DeleteEntry", "WebsiteInfoCard"))
 
+@* FIX (2026-08-25): "Create New" hidden here per explicit request, for now - existing cards
+   are still fully editable/deletable via the grid's Edit/Delete links below (both use this
+   same CreateEntry view/action, just with a real id), and CreateEntry/0 still works if
+   navigated to directly. Only this entry point into it is hidden. To re-enable, uncomment
+   the block below.
 @if (User.IsInRole("IntranetAdmin") || User.IsInRole("PMSAdmin"))
 {
     @Html.ActionLink("Create New", "CreateEntry", "WebsiteInfoCard", new { id = 0 }, new { @title = "Create new info card", @class = "g-p-10" })
 }
+*@
 
 @(Html.Kendo().Grid<WebsiteInfoCardViewModel.TelerikInfoCard>()
             .HtmlAttributes(new { @class = "pointer-rows" })

@@ -1603,12 +1603,12 @@ button.like-btn:hover .unlike-b {
 }
 .cbi-switch-save-label {
 	position: absolute;
-	top: -11px;
+	top: -15px;
 	left: 14px;
 	background: #fff;
 	color: var(--pink);
 	font-weight: 700;
-	font-size: 14px;
+	font-size: 18px;
 	padding: 0 6px;
 }
 .cbi-save-amount {
@@ -1997,7 +1997,7 @@ top: -12px !important;
  width: calc(100% - 0px) !important;
 }
  .basket-switch-save > div {
- margin-right: 0px;
+ margin-right: 0px; 
 }
 }
 /*Anil Updated*/
@@ -2178,7 +2178,7 @@ body:has(div#vbBasketDetails) .you-may-need { display:none}
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
- height:550px !important;
+ height:491px !important;
 }
 }
 @media(max-width:991px) {
