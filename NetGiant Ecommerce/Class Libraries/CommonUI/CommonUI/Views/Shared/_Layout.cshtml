@@ -56,11 +56,30 @@
     }
 
     @Styles.Render("~/Content/cssBundle.css")
+    @{
+        // FIX (2026-08-24): these two used a literal "?vv" query string - not a token, just the
+        // two characters "v" and "v" - so the URL never changed between deploys and browsers
+        // (and any intermediary/CDN cache) kept serving whatever copy they'd already cached,
+        // forever, no matter how many times style.css/minicart.css were edited and republished.
+        // Confirmed no StyleBundle picks these two files up either (both are commented out in
+        // BundleConfig.cs), so there was no other place already handling this.
+        //
+        // Fixed by keying the query string to each file's own actual last-write time on disk,
+        // read fresh on every request - not a manually-bumped version number (easy to forget to
+        // bump, which is exactly how "?vv" ended up permanent) and not dependent on the
+        // ScriptBundle content-hash pipeline used for site.js elsewhere (already found, for that
+        // file, to not always re-invalidate reliably on the deployed server). Whatever process
+        // publishes a new style.css/minicart.css necessarily changes its last-write time on the
+        // server's disk, which changes this value immediately, on the very next request - no
+        // extra publish step, version bump, or cache/app-pool recycle required.
+        var styleCssVersion = System.IO.File.GetLastWriteTimeUtc(Server.MapPath("~/Content/style.css")).Ticks;
+        var minicartCssVersion = System.IO.File.GetLastWriteTimeUtc(Server.MapPath("~/Content/minicart.css")).Ticks;
+    }
     <link rel="stylesheet"
-          href="@Url.Content("~/Content/style.css?vv")" />
+          href="@Url.Content("~/Content/style.css")?v=@styleCssVersion" />
 
     <link rel="stylesheet"
-          href="@Url.Content("~/Content/minicart.css?vv")" />
+          href="@Url.Content("~/Content/minicart.css")?v=@minicartCssVersion" />
     @RenderSection("AddTags", required: false)
     @Scripts.Render("~/bundles/jqueryBundle.js")
     @if (ConfigurationManager.AppSettings["ChatIsOn"] == "True")
