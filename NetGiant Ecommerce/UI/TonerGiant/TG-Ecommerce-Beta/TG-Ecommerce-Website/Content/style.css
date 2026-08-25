@@ -2185,6 +2185,8 @@ body:has(div#vbBasketDetails) .you-may-need { display:none}
 .summary-basket-card2 #AmazonPayButton {
 margin-top: 86px !important;
 }
+.basket-items.switch-save span.mobile.stock.stock-in, .basket-items.switch-save span.mobile.stock.stock-out,
+.basket-items.switch-save .p-with-vat {display:none !important}
 }
 
 

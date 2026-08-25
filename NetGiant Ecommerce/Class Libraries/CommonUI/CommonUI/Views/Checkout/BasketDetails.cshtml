@@ -265,7 +265,7 @@
                                         <div class="p-price-q-area">
 
                                             <div class="p-price">
-                                                <span class="p-without-vat">£@neg@string.Format("{0:N2}", bc.PriceEx) exc. VAT</span>
+                                                <span class="p-without-vat">£@neg@string.Format("{0:N2}", bc.PriceEx) ex VAT</span>
                                                 <span class="p-with-vat">£@string.Format("{0:N2}", bc.PriceInc) inc. VAT</span>
                                             </div>
 
@@ -404,7 +404,7 @@
                                                         <div class="p-price-q-area">
 
                                                             <div class="p-price">
-                                                                <span class="p-without-vat">£@string.Format("{0:N2}", switchLinePriceEx) exc. VAT</span>
+                                                                <span class="p-without-vat">£@string.Format("{0:N2}", switchLinePriceEx) ex. VAT</span>
                                                                 <span class="p-with-vat">£@string.Format("{0:N2}", switchLinePriceInc) inc. VAT</span>
                                                                 <p class="cbi-save-amount">Save £@string.Format("{0:N2}", saving) ex. VAT</p>
                                                             </div>
@@ -484,7 +484,7 @@
                 <div class="item-info">
                     <p class="item-title">@addOn.Description</p>
                     <p class="item-price">
-                        £@string.Format("{0:N2}", addOn.PriceEx) <span>exc. VAT</span>
+                        £@string.Format("{0:N2}", addOn.PriceEx) <span>ex. VAT</span>
                     </p>
                     <button class="add-btn" data-index="@i"
                             data-productid="@addOn.StockRef"

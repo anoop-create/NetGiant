@@ -232,11 +232,12 @@
 	background: #fff;
 	border: 1px solid var(--pink);
 	color: var(--pink);
-	font-weight: 700;
+	font-weight: 500;
 	font-size: 13px;
 	padding: 8px;
 	border-radius: 4px;
 	cursor: pointer;
+	max-width:122px;
 }
 .qty-upsell-pill {
 	display: inline-block;
@@ -367,7 +368,7 @@ a.view-basket-link:focus {
 .switch-save p {
 	color: #2E2E2E;
 	line-height: 16px;
-	font-size: 12px;
+	font-size: 14px;
 }
 .cart-item__sku, .switch-save__sku {
 	color: #333333;

@@ -346,7 +346,7 @@ WriteLiteral(">\r\n                                <span");
 
 WriteLiteral(" class=\"switch-save__label\"");
 
-WriteLiteral(">\r\n                                    SWITCH &amp; SAVE\r\n                       " +
+WriteLiteral(">\r\n                                    Switch &amp; Save\r\n                       " +
 "         </span>\r\n                                <div");
 
 WriteLiteral(" class=\"switch-save-all__body\"");
@@ -1016,7 +1016,7 @@ WriteLiteral(">\r\n                                                    <span");
 
 WriteLiteral(" class=\"switch-save__label\"");
 
-WriteLiteral(">\r\n                                                        SWITCH &amp; SAVE\r\n   " +
+WriteLiteral(">\r\n                                                        Switch &amp; Save\r\n   " +
 "                                                 </span>\r\n                      " +
 "                              <div");
 
@@ -1148,7 +1148,7 @@ WriteLiteral(" class=\"vat\"");
 WriteLiteral(">\r\n                                                                    ");
 
 WriteLiteral(@"
-                                                                    exc. VAT
+                                                                    exc VAT
                                                                 </span>
                                                             </div>
                                                             <!-- Saving -->
@@ -1415,7 +1415,7 @@ WriteLiteral(" id=\"minibasket-voucher-code\"");
 
 WriteLiteral("\r\n                                       type=\"text\"");
 
-WriteLiteral("\r\n                                       placeholder=\"Enter voucher code\"");
+WriteLiteral("\r\n                                       placeholder=\"Enter Code\"");
 
 WriteLiteral(" />\r\n                                <button");
 
