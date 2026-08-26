@@ -305,18 +305,7 @@
                                             <div class="cart-item__price">
                                                 £@neg@bc.PriceEx.ToString("N2")
                                                 <span class="vat">
-                                                    @* Was showing "Trade Price, ex VAT" for trade customers instead of the plain
-                "Ex VAT" label - the price itself is already the trade price (PriceEx is
-                already the customer's actual net price, trade or otherwise; there's no
-                separate trade-vs-non-trade price to disambiguate here), so the extra
-                wording added nothing except length. That length is what broke the layout:
-                "Trade Price, ex VAT" doesn't fit on one line next to the price in this
-                narrow mini-cart column, so it wrapped the price line onto two rows, which
-                in turn pushed this card's height over the mini-cart's own fixed/scrollable
-                area and forced an unwanted scrollbar. Always showing the short "Ex VAT"
-                fixes the wrap (and the scroll it caused) without losing any actual price
-                information - the number itself is unaffected. *@
-                                                    Ex VAT
+                                                    Ex VAT 
                                                 </span>
                                                 @if (discUnitPrice > 0)
                                                 {
@@ -329,7 +318,7 @@
                                             <!-- Buy More & Save for this product -->
                                             @if (showQtyUpsell)
                                             {
-                                                if (bc.Quantity <= bc.QtyStart)
+                                                if (bc.Quantity == 1)
                                                 {
                                                     <button class="qty-upsell-pill"
                                                             type="button"

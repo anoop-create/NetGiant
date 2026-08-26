@@ -1,0 +1,157 @@
+@using BusinessLogic;
+@using BusinessLogic.ViewModels;
+@using DataAccess.EntityFramework
+@using System.Linq;
+
+@* FIX (2026-08-25): extracted out of BasketDetails.cshtml so this content (the Sale Banner,
+    "Find Out More" cards, and Payment Cards Accepted logos) stops re-rendering on every
+    quantity/voucher/add/remove change. It doesn't read Model/BasketContents/BasketTotals at
+    all - it's driven entirely from dbo.WebsiteInfoCard (site-wide CMS content, unrelated to
+    basket state) - so there was never a reason for it to live inside the AJAX-refreshed
+    #vbBasketDetails region in the first place. It's rendered once from ViewBasket.cshtml,
+    outside #vbBasketDetails, the same way the Amazon Pay/PayPal buttons already were (see the
+    "Amazon Pay / PayPal Checkout buttons" comment there). refreshVbFields() in site.js detaches
+    this block (#basketSidebarInfoCards) before the #vbBasketDetails AJAX swap and repositions
+    it after, via positionInfoCardsBlock() - so it's never destroyed/rebuilt on a quantity
+    change, only moved back next to the anchor BasketDetails.cshtml leaves in its place
+    (#basketSidebarInfoCardsAnchor). *@
+
+<div id="basketSidebarInfoCards">
+    @{
+        // Sidebar content (sale banner + "Find Out More" cards) is managed via the
+        // Intranet's Website Info Cards admin screen and read straight from
+        // dbo.WebsiteInfoCard - see BusinessLogic.EntityAccess.ReadWebsiteInfoCards().
+        // Falls back to nothing rendered if the table/rows don't exist yet, rather
+        // than erroring the whole basket page.
+        List<WebsiteInfoCard> infoCards = new List<WebsiteInfoCard>();
+        try 
+        {
+            infoCards = EntityAccess.ReadWebsiteInfoCards();
+        }
+        catch { /* table not migrated yet on this environment - render nothing below */ }
+
+        WebsiteInfoCard bannerCard = infoCards.FirstOrDefault(x => x.Category == "Banner" && !String.IsNullOrEmpty(x.ImageUrl));
+        // "Payment" cards (one row per payment card logo - Visa/Mastercard/Amex/etc.) are
+        // rendered as plain logo images below, the same way Banner is - not through the
+        // generic Icon/Title/Body/"Find Out More" card loop, so excluded from it here.
+        List<WebsiteInfoCard> findOutMoreCards = infoCards.Where(x => x.Category != "Banner" && x.Category != "Payment").ToList();
+        List<WebsiteInfoCard> paymentCards = infoCards
+            .Where(x => x.Category == "Payment" && !String.IsNullOrEmpty(x.ImageUrl))
+            .OrderBy(x => x.DisplayOrder)
+            .ToList();
+    }
+    <div class="summary-basket-card3">
+        @if (bannerCard != null)
+        {
+            <div class="sidebar-card banner">
+                @if (!String.IsNullOrEmpty(bannerCard.LinkUrl))
+                {
+                    // Clicking opens the same "Sale Details" modal as Html.ShowSaleInfoButton()
+                    // elsewhere on the site (CMS "PopupData" entry keyed "SaleInfo"), instead of
+                    // navigating away via LinkUrl - the same ".popup" click convention used by
+                    // CMS-authored sale banners (site.js's generic ".popup" click handler reads
+                    // data-popupname off whatever element was clicked, so no JS changes needed).
+                    <div class="popup g-cur-p g-fc-s" data-popupname="SaleInfo" data-replacements="" data-toggle="modal" data-target="#popup">
+                        <img src="@bannerCard.ImageUrl" alt="@bannerCard.Title" class="sidebar-banner-img" />
+                    </div>
+                }
+                else
+                {
+                    <img src="@bannerCard.ImageUrl" alt="@bannerCard.Title" class="sidebar-banner-img" />
+                }
+            </div>
+        }
+    </div>
+    <div class="summary-basket-card4">
+        <div class="basket-sidebar-info">
+
+
+
+            @foreach (WebsiteInfoCard card in findOutMoreCards)
+            {
+                <div class="sidebar-card @card.Category.ToLower()">
+
+                    <div class="card-header">
+                        @if (card.IconClass == "fa fa-truck")
+                        {
+                            <img src="~/Content/Images/icons/shipping-icon01.png">
+                        }
+                        else if (card.IconClass == "fa fa-star-o")
+                        {
+                            <img src="~/Content/Images/icons/star-icon01.png">
+                        }
+                        else if (card.IconClass == "fa fa-gbp")
+                        {
+                            <img src="~/Content/Images/icons/pound-icon.png">
+                        }
+                        else
+                        {
+
+                        }
+                        <span>@card.Title</span>
+                    </div>
+
+                    <div class="card-body">
+                        @Html.Raw(card.BodyText)
+                    </div>
+
+                    @if (!String.IsNullOrEmpty(card.FindOutMoreContent))
+                    {
+                        <div class="card-toggle @card.Category.ToLower()">
+                            <a href="javascript:void(0);" class="toggle-link">
+                                Find Out More
+                            </a>
+
+                            <i class="fa fa-angle-down"></i>
+                        </div>
+
+                        <div class="card-content @card.Category.ToLower()">
+                            @Html.Raw(card.FindOutMoreContent)
+                        </div>
+                    }
+
+                </div>
+            }
+
+
+
+        </div>
+    </div>
+    <div class="summary-basket-card5">
+        <div class="sidebar-card payment-card">
+
+            <div class="card-header">
+                <img src="~/Content/Images/icons/cards-icon.png">
+                <span>Payment Cards Accepted</span>
+            </div>
+
+            <div class="payment-icons">
+
+                @* FIX (2026-08-25): made dynamic - these three logos used to be hardcoded
+                   <img> tags. Now sourced from dbo.WebsiteInfoCard's "Payment" category (same
+                   table/admin screen - Intranet's Website Info Cards - already used for the
+                   sidebar's other cards above), one row per logo, ordered by DisplayOrder, so
+                   staff can add/remove/reorder/hide accepted card logos without a code change.
+                   Falls back to the original static Visa/Mastercard/Amex images if no
+                   "Payment" rows exist yet (e.g. the seed script below hasn't been run on this
+                   environment, or the table itself isn't migrated - see the try/catch around
+                   infoCards above) so this box never just goes blank. *@
+                @if (paymentCards.Any())
+                {
+                    foreach (WebsiteInfoCard card in paymentCards)
+                    {
+                        <img src="@card.ImageUrl" alt="@card.Title">
+                    }
+                }
+                else
+                {
+                    <img src="~/Content/Images/icons/visa-card.png" alt="Visa">
+                    <img src="~/Content/Images/icons/master-card.png" alt="Mastercard">
+                    <img src="~/Content/Images/icons/amex-card.png" alt="Amex">
+                }
+
+            </div>
+
+        </div>
+    </div>
+</div>

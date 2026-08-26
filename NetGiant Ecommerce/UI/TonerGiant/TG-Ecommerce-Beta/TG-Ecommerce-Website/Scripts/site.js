@@ -1051,8 +1051,19 @@ function checkoutUrl() {
 // via checkoutUrl() when the customer isn't signed in.
 function proceedToCheckout() {
     if ($('#you-may-also-need').length) {
-        // Popup already open/shown - a second click on Proceed skips straight through.
+        // Popup already open/shown - a second click on Proceed skips straight through. Only
+        // reachable on mobile now, since desktop never opens this popup from here at all.
         removeAddSellPopup();
+        window.location.href = checkoutUrl();
+        return;
+    }
+
+    // Desktop: no add-on popup on Proceed to Checkout - straight to checkout. 992 to match this
+    // popup's own mobile/desktop CSS breakpoint (YouMayAlsoNeed.cshtml/style.css switch
+    // #you-may-also-need's card-list mobile view in and out at "@media (max-width: 991px)") -
+    // the same breakpoint maybeShowAddSellPopupAfterAdd() below already uses for the equivalent
+    // add-to-basket-triggered popup, so both entry points now agree on desktop vs. mobile.
+    if ($(window).width() >= 992) {
         window.location.href = checkoutUrl();
         return;
     }
@@ -1061,21 +1072,16 @@ function proceedToCheckout() {
         function (html) {
             showAddSellPopup(html, 'checkout');
 
-            // On mobile the mini-cart tray isn't shown alongside the popup - close it. 992 (not
-            // 768) to match the "You May Also Need" popup's own mobile/desktop CSS breakpoint -
-            // see YouMayAlsoNeed.cshtml/style.css, which switch #you-may-also-need's card-list
-            // mobile view in and out at "@media (max-width: 991px)", not 767px. This was left at
-            // 768 after that breakpoint was widened, which meant tablet widths (768-991px) got
-            // the mobile popup layout but this offcanvas-close call still treated them as desktop.
-            if ($(window).width() < 992) {
-                $('[data-toggle="offcanvas-close"]').trigger('click');
-            }
+            // Mobile's mini-cart tray isn't shown alongside the popup - close it. Unconditional
+            // now (this code path is only ever reached below the 992px gate above).
+            $('[data-toggle="offcanvas-close"]').trigger('click');
         },
         function () {
             window.location.href = checkoutUrl();
         }
     );
 }
+
 
 // Called after any successful "Add to Basket" click, from anywhere on the site (product page,
 // category listing, the inline "You May Also Need" section on the basket page, etc.) - if the
@@ -1430,10 +1436,15 @@ function renderPaypalButtonV2() {
 function buildPayPalObject(amt) {
     var paypalObject = {
         fundingSource: paypal.FUNDING.PAYPAL,
+        // FIX: style.label was 'checkout', which renders PayPal's SDK-generated "Checkout with
+        // PayPal" (or similar) text next to/instead of the plain logo. 'paypal' renders just the
+        // PayPal logo/wordmark with no extra text - the other valid SDK values ('buynow', 'pay',
+        // 'installment') all add their own different wording, so this is the only label option
+        // that shows no additional text at all.
         style: {
             layout: 'vertical'
             , shape: 'rect'
-            , label: 'checkout'
+            , label: 'paypal'
             , color: 'gold'
         },
         createOrder: function (data, actions) {

@@ -217,20 +217,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BasketDetails.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Checkout\BasketDetails.generated.cs">
+    <Compile Include="Views\Checkout\BasketSidebarInfoCards.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BasketDetails.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Checkout\BasketDetails.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BasketDetails.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Checkout\BasketDetails.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BasketDetails.cshtml</DependentUpon>
+      <DependentUpon>BasketSidebarInfoCards.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Views\Checkout\DeliveryOptions.generated.cs">
       <AutoGen>True</AutoGen>
@@ -1006,10 +996,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Portal.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\Checkout\BasketDetails.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>BasketDetails.generated.cs</LastGenOutput>
-    </Content>
     <Content Include="Views\Checkout\DeliveryOptions.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>DeliveryOptions.generated.cs</LastGenOutput>
@@ -1422,6 +1408,11 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>MiniBasket.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="Views\Checkout\BasketSidebarInfoCards.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>BasketSidebarInfoCards.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Checkout\BasketDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -631,7 +631,11 @@
                                         <div class="cart-item__price">
                                             @neg@string.Format("{0:N2}", bc.PriceEx)
                                             <span class="vat">
-                                                @(isTradeCustomer ? "Trade Price, ex VAT" : "Ex VAT")
+                                                @* FIX: was "Trade Price, ex VAT" for trade customers vs plain "Ex VAT"
+                                                    for everyone else - the "Trade Price, " prefix isn't wanted here,
+                                                    trade customers should see the exact same "Ex VAT" label as
+                                                    anyone else. *@
+                                                Ex VAT
                                             </span>
                                             @if (discUnitPrice > 0)
                                             {
@@ -715,7 +719,10 @@
                                                         <div class="switch-save__price">
                                                             £@string.Format("{0:N2}", switchLinePriceEx)
                                                             <span class="vat">
-                                                                @(isTradeCustomer ? "Trade Price, ex VAT" : "exc. VAT")
+                                                                @* FIX: same "Trade Price, " prefix removed as the main
+                                                                    cart-item price above - trade customers should see
+                                                                    the plain "exc. VAT" label here too. *@
+                                                                exc. VAT
                                                             </span>
                                                         </div>
                                                         <div class="switch-save__save">

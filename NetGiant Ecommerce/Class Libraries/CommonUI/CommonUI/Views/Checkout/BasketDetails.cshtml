@@ -77,15 +77,14 @@
 
 
                             <div class="basket-switch-save">
-                                <img src="/cdn/Images/switch-save.png" alt="Visa" style="height: 44px;">
+                                <img src="/cdn/Images/switch-save.png" alt="switch-save" style="height: 44px;">
                                 <div style="font-weight: bold;">
 
                                     Switch &amp; Save
 
                                     <p>
-                                        Save £@string.Format("{0:N2}", basketSwitchSaving) by switching your basket to compatible products.
+                                        Save <strong>£@string.Format("{0:N2}", basketSwitchSaving)</strong> by switching your basket to compatible products.
                                     </p>
-
                                 </div>
 
                                 <div class="basket-switch-btn">
@@ -222,7 +221,7 @@
 
                                             @if (showUpsellLozenge)
                                             {
-                                                if (bc.Quantity <= bc.QtyStart)
+                                                if (bc.Quantity ==1)
                                                 {
                                                     <button class="qty-upsell-pill"
                                                             type="button"

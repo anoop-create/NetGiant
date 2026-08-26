@@ -2116,7 +2116,8 @@ a.item-title {
 .add-btn:active {
 	transform: scale(0.98);
 }
-  .popup-footer {
+.popup-footer {
+  	text-align: center;
 	padding: 14px 16px 22px;
 	position: sticky;
 	bottom: 0;

@@ -170,6 +170,20 @@ namespace BusinessLogic
                 // Invalid Voucher
                 HttpContext.Current.Session.Remove("B_VoucherCode");
                 HttpContext.Current.Session.Remove("V_Voucher");
+                // FIX: also strip any already-applied voucher/compatible-discount basket LINE here,
+                // not just the two session tracking keys above. This used to only happen in the
+                // success branch below, which meant every caller re-validating an already-applied
+                // voucher (e.g. MyAccountController.SignIn/CheckoutController.Ident re-checking after
+                // a trade-customer sign-in) had to remember to call Basket.RemoveFromBasket(...) +
+                // Basket.ApplyVoucher() itself whenever this method reported failure, or the discount
+                // line would silently keep showing/discounting even though B_VoucherCode/V_Voucher
+                // were gone. Doing it here instead makes LoadVoucher() correct on its own for every
+                // caller - present or future - instead of depending on each one duplicating this
+                // cleanup (both current callers already did, but that's exactly the kind of
+                // easy-to-miss duplication that's caused repeat regressions elsewhere in this
+                // codebase).
+                Basket.RemoveFromBasket(x => x.ItemType == BasketItemType.Voucher || x.ItemType == BasketItemType.CompatibleDiscount);
+                Basket.ApplyVoucher();
                 sr.IsSuccess = false;
                 sr.Html =
                     "<div class=\"g-fc-nm\"><i class=\"fa fa-exclamation-triangle fa-lg\"></i><span class=\"g-p-l-10\">" +
