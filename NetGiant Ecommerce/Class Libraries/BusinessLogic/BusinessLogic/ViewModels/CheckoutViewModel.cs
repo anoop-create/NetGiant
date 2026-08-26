@@ -1096,14 +1096,14 @@ namespace BusinessLogic.ViewModels
 
                 var addons = db.ProductAddons
                     .Where(x => basketProductIds.Contains(x.ProductId) && x.IsActive)
-                    .OrderBy(x => x.DisplayOrder)
+                    .OrderByDescending(x => x.CreatedDate).Take(3)
                     .ToList();
                 ProductViewModel pv= new ProductViewModel();
                 foreach (var basketItem in lbc)
                 {
                     var addonIds = db.ProductAddons
                     .Where(x => x.ProductId == basketItem.ProductId && x.IsActive)
-                    .OrderBy(x => x.DisplayOrder)
+                    .OrderByDescending(x => x.CreatedDate).Take(3)
                     .Select(x => x.AddonProductId)
                     .ToList();
 

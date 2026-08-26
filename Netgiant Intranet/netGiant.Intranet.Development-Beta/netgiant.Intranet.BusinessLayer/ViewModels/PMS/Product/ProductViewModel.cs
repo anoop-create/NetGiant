@@ -1290,19 +1290,33 @@ namespace netGiant.Intranet.BusinessLayer.ViewModels.PMS.Product
             if (prod.productID == 0)
                 return;
 
-            //Delete existing mappings
             var existing = db.ProductAddon
                              .Where(x => x.ProductId == prod.productID)
                              .ToList();
 
-            if (existing.Any())
-                db.ProductAddon.RemoveRange(existing);
+            var desiredIds = (AddonProducts != null)
+                ? AddonProducts.Distinct().ToList()
+                : new List<int>();
 
-            if (AddonProducts != null && AddonProducts.Any())
+            // Delete only mappings that are no longer wanted
+            var toRemove = existing.Where(x => !desiredIds.Contains(x.AddonProductId)).ToList();
+            if (toRemove.Any())
+                db.ProductAddon.RemoveRange(toRemove);
+
+            // Keep existing mappings that are still wanted (refresh their order/active flag),
+            // and only add mappings that aren't already present
+            int order = 1;
+
+            foreach (int addonId in desiredIds)
             {
-                int order = 1;
+                var match = existing.FirstOrDefault(x => x.AddonProductId == addonId);
 
-                foreach (int addonId in AddonProducts.Distinct())
+                if (match != null)
+                {
+                    match.DisplayOrder = order++;
+                    match.IsActive = true;
+                }
+                else
                 {
                     db.ProductAddon.Add(new ProductAddon
                     {
