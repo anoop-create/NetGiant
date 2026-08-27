@@ -218,11 +218,13 @@ namespace BusinessLogic
                         return sr;
                     }
                     lbc[i].Quantity = lbc[i].Quantity + basketContents.Quantity;
+                    lbc[i].DateAdded = DateTime.Now;
                     bypassSql = false;  // Potentailly set to true as product should have already been extended
                 }
                 else
                 {
                     //new item add it to the Session object
+                    basketContents.DateAdded = DateTime.Now;
                     lbc.Add(basketContents);
                 }
 

@@ -1099,15 +1099,32 @@ namespace BusinessLogic.ViewModels
                     .OrderByDescending(x => x.CreatedDate).Take(3)
                     .ToList();
                 ProductViewModel pv= new ProductViewModel();
+
+                // If more than one basket item has add-ons configured, only surface add-ons for
+                // the most recently added item rather than stacking up every item's add-ons at
+                // once (e.g. 3 + 3). Basket.Update() stamps DateAdded every time a line is
+                // added/re-added, so this picks the most recent timestamp directly instead of
+                // relying on list position - robust even if B_BasketArray is ever reordered or
+                // rebuilt elsewhere. Non-product lines (Voucher/Delivery/CompatibleDiscount/etc)
+                // are excluded via the ItemType filter.
+                BasketContents recentlyAddedItem = lbc.Where(x => x.ItemType == BasketItemType.Item)
+                                                       .OrderByDescending(x => x.DateAdded)
+                                                       .FirstOrDefault();
+
                 foreach (var basketItem in lbc)
                 {
+                    basketItem.AddonProducts = new List<BasketContents>();
+
+                    if (basketItem != recentlyAddedItem)
+                    {
+                        continue;
+                    }
+
                     var addonIds = db.ProductAddons
                     .Where(x => x.ProductId == basketItem.ProductId && x.IsActive)
-                    .OrderByDescending(x => x.CreatedDate).Take(3)
+                   .OrderByDescending(x => x.CreatedDate).Take(3)
                     .Select(x => x.AddonProductId)
                     .ToList();
-
-                    basketItem.AddonProducts = new List<BasketContents>();
 
                     foreach (var addonId in addonIds)
                     {

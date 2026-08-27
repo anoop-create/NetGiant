@@ -1381,6 +1381,10 @@ namespace BusinessLogic
         public bool ExcludeFromUpSell { get; set; } = false;
         public string CrossSellingImageURL { get; set; }
         public string CrossSellingProductUrl { get; set; }
+        // Stamped by Basket.Update() every time this line is added/re-added to the basket - used
+        // by CheckoutViewModel.GetAddOn() to find the most recently added item without relying on
+        // list position/ItemType ordering.
+        public DateTime DateAdded { get; set; }
         public List<BasketContents> AddonProducts = new List<BasketContents>();
     }
 

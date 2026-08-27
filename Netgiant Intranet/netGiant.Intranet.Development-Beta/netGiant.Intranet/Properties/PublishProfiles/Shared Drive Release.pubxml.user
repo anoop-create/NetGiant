@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\Anoop\Publish\Intranet\Release</_PublishTargetUrl>
-    <History>True|2026-08-25T10:36:06.0275093Z||;True|2026-08-20T16:33:26.1203865+05:30||;True|2026-08-20T12:04:16.1882784+05:30||;True|2026-08-11T12:30:13.1369927+05:30||;True|2026-08-11T12:11:02.9124764+05:30||;True|2026-08-11T12:10:07.3979188+05:30||;True|2026-08-11T11:49:22.7309199+05:30||;True|2026-08-10T14:56:10.0454469+05:30||;True|2026-08-08T16:13:17.6014888+05:30||;True|2026-08-08T15:50:22.0378624+05:30||;True|2026-08-08T14:21:38.5931486+05:30||;</History>
+    <History>True|2026-08-26T07:49:49.3125004Z||;True|2026-08-25T16:06:06.0275093+05:30||;True|2026-08-20T16:33:26.1203865+05:30||;True|2026-08-20T12:04:16.1882784+05:30||;True|2026-08-11T12:30:13.1369927+05:30||;True|2026-08-11T12:11:02.9124764+05:30||;True|2026-08-11T12:10:07.3979188+05:30||;True|2026-08-11T11:49:22.7309199+05:30||;True|2026-08-10T14:56:10.0454469+05:30||;True|2026-08-08T16:13:17.6014888+05:30||;True|2026-08-08T15:50:22.0378624+05:30||;True|2026-08-08T14:21:38.5931486+05:30||;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -422,10 +422,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2026 17:03:52</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>08/25/2026 16:06:03</publishTime>
+      <publishTime>08/26/2026 13:19:47</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>08/25/2026 16:06:03</publishTime>
+      <publishTime>08/26/2026 13:19:47</publishTime>
     </File>
     <File Include="bin/BeginCollectionItem.dll">
       <publishTime>07/07/2026 17:03:52</publishTime>
@@ -518,28 +518,28 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2026 17:04:18</publishTime>
     </File>
     <File Include="bin/netGiant.Intranet.BusinessLayer.dll">
-      <publishTime>08/25/2026 16:05:46</publishTime>
+      <publishTime>08/26/2026 13:19:33</publishTime>
     </File>
     <File Include="bin/netGiant.Intranet.BusinessLayer.dll.config">
       <publishTime>07/07/2026 17:03:41</publishTime>
     </File>
     <File Include="bin/netGiant.Intranet.BusinessLayer.pdb">
-      <publishTime>08/25/2026 16:05:46</publishTime>
+      <publishTime>08/26/2026 13:19:33</publishTime>
     </File>
     <File Include="bin/netGiant.Intranet.DataLayer.dll">
       <publishTime>08/25/2026 16:05:45</publishTime>
     </File>
     <File Include="bin/netGiant.Intranet.DataLayer.dll.config">
-      <publishTime>08/06/2026 12:03:48</publishTime>
+      <publishTime>06/08/2026 12:03:48</publishTime>
     </File>
     <File Include="bin/netGiant.Intranet.DataLayer.pdb">
       <publishTime>08/25/2026 16:05:45</publishTime>
     </File>
     <File Include="bin/netGiant.Intranet.dll">
-      <publishTime>08/25/2026 16:05:47</publishTime>
+      <publishTime>08/26/2026 13:19:34</publishTime>
     </File>
     <File Include="bin/netGiant.Intranet.pdb">
-      <publishTime>08/25/2026 16:05:47</publishTime>
+      <publishTime>08/26/2026 13:19:34</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>07/07/2026 17:04:20</publishTime>
@@ -1088,7 +1088,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2026 17:03:18</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>08/25/2026 16:05:49</publishTime>
+      <publishTime>08/26/2026 13:19:36</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>07/07/2026 17:03:35</publishTime>

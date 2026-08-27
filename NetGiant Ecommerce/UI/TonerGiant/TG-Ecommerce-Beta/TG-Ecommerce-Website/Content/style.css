@@ -2179,7 +2179,7 @@ body:has(div#vbBasketDetails) .you-may-need { display:none}
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
- height:491px !important;
+ height:525px !important;
 }
 }
 @media(max-width:991px) {
