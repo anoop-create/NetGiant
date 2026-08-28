@@ -230,16 +230,18 @@ WriteLiteral(">\r\n");
             
             #line default
             #line hidden
-WriteLiteral("\r\n                        </div>\r\n\r\n");
+WriteLiteral("\r\n                        </div>\r\n\r\n                        ");
+
+WriteLiteral("\r\n");
 
             
-            #line 82 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
+            #line 96 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
                         
             
             #line default
             #line hidden
             
-            #line 82 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
+            #line 96 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
                          if (!Model.IsMobile)
                         {
 
@@ -252,26 +254,26 @@ WriteLiteral(" type=\"button\"");
 
 WriteLiteral("\r\n                                    style=\"max-width:200px;\"");
 
-WriteLiteral("\r\n                                    class=\"checkout-button btn g-butt-primary g" +
-"-butt-100p g-m-t-20 g-m-b-20 pull-right\"");
+WriteLiteral("\r\n                                    class=\"btn g-butt-primary g-butt-100p g-m-t" +
+"-20 g-m-b-20 pull-right\"");
 
-WriteAttribute("onclick", Tuple.Create("\r\n                                    onclick=\"", 3320), Tuple.Create("\"", 3417)
-, Tuple.Create(Tuple.Create("", 3367), Tuple.Create("window.location.href=\'", 3367), true)
+WriteAttribute("onclick", Tuple.Create("\r\n                                    onclick=\"", 4709), Tuple.Create("\"", 4806)
+, Tuple.Create(Tuple.Create("", 4756), Tuple.Create("window.location.href=\'", 4756), true)
             
-            #line 87 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
-, Tuple.Create(Tuple.Create("", 3389), Tuple.Create<System.Object, System.Int32>(Model.AmazonPayRedirectUrl
+            #line 101 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
+, Tuple.Create(Tuple.Create("", 4778), Tuple.Create<System.Object, System.Int32>(Model.AmazonPayRedirectUrl
             
             #line default
             #line hidden
-, 3389), false)
-, Tuple.Create(Tuple.Create("", 3416), Tuple.Create("\'", 3416), true)
+, 4778), false)
+, Tuple.Create(Tuple.Create("", 4805), Tuple.Create("\'", 4805), true)
 );
 
 WriteLiteral(">\r\n                                Place Order\r\n                            </but" +
 "ton>\r\n");
 
             
-            #line 90 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
+            #line 104 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
                         }
 
             
@@ -339,7 +341,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                                    ");
 
             
-            #line 117 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
+            #line 131 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
                                Write(Html.Raw(Model.AmazonShippingAddress));
 
             
@@ -392,7 +394,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                                    ");
 
             
-            #line 137 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
+            #line 151 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
                                Write(Html.Raw(Model.AmazonPaymentMethod));
 
             
@@ -421,23 +423,25 @@ WriteLiteral(">\r\n");
 WriteLiteral("                                    ");
 
             
-            #line 147 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
+            #line 161 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
                                Write(Html.Raw(Model.AmazonBillingAddress));
 
             
             #line default
             #line hidden
 WriteLiteral("\r\n                                </div>\r\n                            </div>\r\n   " +
-"                     </div>\r\n\r\n");
+"                     </div>\r\n\r\n                        ");
+
+WriteLiteral("\r\n");
 
             
-            #line 152 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
+            #line 168 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
                         
             
             #line default
             #line hidden
             
-            #line 152 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
+            #line 168 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
                          if (Model.IsMobile)
                         {
 
@@ -450,26 +454,26 @@ WriteLiteral(" type=\"button\"");
 
 WriteLiteral("\r\n                                    style=\"max-width:200px;\"");
 
-WriteLiteral("\r\n                                    class=\"checkout-button btn g-butt-primary g" +
-"-butt-100p g-m-t-20 g-m-b-20 pull-right\"");
+WriteLiteral("\r\n                                    class=\"btn g-butt-primary g-butt-100p g-m-t" +
+"-20 g-m-b-20 pull-right\"");
 
-WriteAttribute("onclick", Tuple.Create("\r\n                                    onclick=\"", 6550), Tuple.Create("\"", 6647)
-, Tuple.Create(Tuple.Create("", 6597), Tuple.Create("window.location.href=\'", 6597), true)
+WriteAttribute("onclick", Tuple.Create("\r\n                                    onclick=\"", 8106), Tuple.Create("\"", 8203)
+, Tuple.Create(Tuple.Create("", 8153), Tuple.Create("window.location.href=\'", 8153), true)
             
-            #line 157 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
-, Tuple.Create(Tuple.Create("", 6619), Tuple.Create<System.Object, System.Int32>(Model.AmazonPayRedirectUrl
+            #line 173 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
+, Tuple.Create(Tuple.Create("", 8175), Tuple.Create<System.Object, System.Int32>(Model.AmazonPayRedirectUrl
             
             #line default
             #line hidden
-, 6619), false)
-, Tuple.Create(Tuple.Create("", 6646), Tuple.Create("\'", 6646), true)
+, 8175), false)
+, Tuple.Create(Tuple.Create("", 8202), Tuple.Create("\'", 8202), true)
 );
 
 WriteLiteral(">\r\n                                Place Order\r\n                            </but" +
 "ton>\r\n");
 
             
-            #line 160 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
+            #line 176 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
                         }
 
             
@@ -515,7 +519,7 @@ WriteLiteral(">\r\n\r\n        amazon.Pay.bindChangeAction(\r\n            \'#ch
 "d\',\r\n            {\r\n                amazonCheckoutSessionId: \'");
 
             
-            #line 190 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
+            #line 206 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
                                      Write(Html.Raw(Model.AmazonCheckoutSessionId));
 
             
@@ -526,7 +530,7 @@ WriteLiteral("\',\r\n                changeAction: \'changePayment\'\r\n        
 "      {\r\n                amazonCheckoutSessionId: \'");
 
             
-            #line 198 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
+            #line 214 "..\..\Views\Checkout\AmazonPaySummary.cshtml"
                                      Write(Html.Raw(Model.AmazonCheckoutSessionId));
 
             

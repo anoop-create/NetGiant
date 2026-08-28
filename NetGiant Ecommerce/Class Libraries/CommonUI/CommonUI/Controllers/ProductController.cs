@@ -582,6 +582,18 @@ namespace CommonUI.Controllers
         public JsonResult BasketReplace(string productref, int? productqty, decimal productprice, string productrefremove, int? type = 0, int? lineUid = 0)
         {
             SaveReturn sr = new SaveReturn();
+            // FIX: was missing - every other basket-mutating action in this controller
+            // (BasketUpdateQty, BasketDelete) sets this before rendering MiniBasket.cshtml below,
+            // because that partial dereferences Model.IsMobile/Model.VatMultiplier directly. Left
+            // null here, RenderPartialViewToString(..., model) throws a NullReferenceException
+            // AFTER Basket.Update()/Basket.Delete() below have already committed the switch to
+            // Session - so the switch genuinely happened (a manual page refresh shows it), but the
+            // AJAX response itself failed, so the click handler's success callback (the one that
+            // updates the mini-cart/basket-page DOM) never ran. Root cause of "Switch Now does
+            // nothing until I refresh manually" (top banner, line items, and mini-cart all go
+            // through this one action or its BasketReplaceAll sibling below, which had the same
+            // bug).
+            model = new ProductViewModel();
 
             if (Session["C_IsInCheckout"] != null)
             {
@@ -662,6 +674,10 @@ namespace CommonUI.Controllers
         public JsonResult BasketReplaceAll()
         {
             SaveReturn sr = new SaveReturn();
+            // FIX: same missing initialization as BasketReplace above - see that comment. Needed
+            // here for the same reason: MiniBasket.cshtml is rendered below with this null model,
+            // which throws when it reads Model.IsMobile.
+            model = new ProductViewModel();
 
             // Prevent changes during checkout
             if (Session["C_IsInCheckout"] != null)

@@ -79,11 +79,25 @@
                             }
                         </div>
 
+                        @* FIX: was class="checkout-button btn ...". "checkout-button" is a
+                           site-wide behaviour hook - site.js's global $(document).on('click',
+                           '.checkout-button', ...) handler calls proceedToCheckout(), which (on
+                           desktop) navigates to window.location.href = checkoutUrl() = '/checkout/'.
+                           That handler only skips itself when '#vbBasketDetails' is present on the
+                           page (the basket page's own marker) - this Amazon Pay summary page has no
+                           such marker, so clicking this button fired BOTH handlers: this button's own
+                           onclick (setting location.href to the real Amazon redirect URL) and site.js's
+                           global handler (immediately overwriting it with '/checkout/', since it runs
+                           second on the bubble to document). Net effect: the customer was bounced
+                           straight back to the basket page and Amazon Pay could never complete an
+                           order. "checkout-button" carries no CSS of its own here (verified - not
+                           referenced anywhere in style.css/global.less); the visual look comes entirely
+                           from "btn g-butt-primary g-butt-100p", so it's safe to drop. *@
                         @if (!Model.IsMobile)
                         {
                             <button type="button"
                                     style="max-width:200px;"
-                                    class="checkout-button btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-right"
+                                    class="btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-right"
                                     onclick="window.location.href='@Model.AmazonPayRedirectUrl'">
                                 Place Order
                             </button>
@@ -149,11 +163,13 @@
                             </div>
                         </div>
 
+                        @* FIX: same "checkout-button" conflict as the desktop button above - see
+                           that comment. Dropped here too, for the same reason. *@
                         @if (Model.IsMobile)
                         {
                             <button type="button"
                                     style="max-width:200px;"
-                                    class="checkout-button btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-right"
+                                    class="btn g-butt-primary g-butt-100p g-m-t-20 g-m-b-20 pull-right"
                                     onclick="window.location.href='@Model.AmazonPayRedirectUrl'">
                                 Place Order
                             </button>

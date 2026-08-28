@@ -1139,7 +1139,7 @@ WriteLiteral(">\r\n                                                             
             
             #line default
             #line hidden
-WriteLiteral("\r\n                                                                <span");
+WriteLiteral(" \r\n                                                                <span");
 
 WriteLiteral(" class=\"vat\"");
 
@@ -1312,8 +1312,8 @@ WriteLiteral(">\r\n                        <span>\r\n                           
             
             #line default
             #line hidden
-WriteLiteral("\r\n                        </span>\r\n                    </div>\r\n                  " +
-"  <!-- Voucher -->\r\n");
+WriteLiteral(" \r\n                        </span>\r\n                    </div>\r\n                 " +
+"   <!-- Voucher -->\r\n");
 
             
             #line 496 "..\..\Views\Shared\MiniBasket.cshtml"
