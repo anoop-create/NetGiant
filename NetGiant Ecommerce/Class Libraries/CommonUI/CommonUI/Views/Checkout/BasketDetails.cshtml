@@ -7,7 +7,6 @@
 @using VmVoucherType = VMerchantWrapper.Entities.VoucherType;
 @using System.Linq;
 @model CheckoutViewModel
-@*@Styles.Render("~/Content/css")*@
 
 @if (Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery > 0)
 {
@@ -31,7 +30,7 @@
                         // Logic to build Basket Switch & Save section
                         List<BasketContents> switchProducts = new List<BasketContents>();
                         var list = Model.BasketContents; int switchCount = 0;
-                        if (list != null && list.Count > 1)
+                        if (list != null && list.Count > 0)
                         {
                             foreach (BasketContents item in Model.BasketContents)
                             {
@@ -72,26 +71,27 @@
                             hasSwitchProducts = switchProducts.Count > 0;
                             switchCount = switchProducts.Count;
                         }
-                        if (hasSwitchProducts && switchCount > 1)
+                        if (hasSwitchProducts && switchCount > 0) 
                         {
 
 
-                            <div class="basket-switch-save">
-                                <img src="/cdn/Images/switch-save.png" alt="switch-save" style="height: 44px;">
-                                <div style="font-weight: bold;">
+                                        <div class="basket-switch-save">
+                                            <img src="/cdn/Images/switch-save.png" alt="switch-save" style="height: 44px;">
+                                            <img src="/cdn/Images/switch-save-m.png" class="mobile-img" alt="switch-save" style="height: 44px;">
+                                            <div style="font-weight: bold;">
 
-                                    Switch &amp; Save
+                                                Switch &amp; Save 
 
-                                    <p>
-                                        Save <strong>£@string.Format("{0:N2}", basketSwitchSaving)</strong> by switching your basket to compatible products.
-                                    </p>
-                                </div>
+                                                <p>
+                                                    Save <strong>£@string.Format("{0:N2}", basketSwitchSaving)</strong> by switching your basket to compatible products.
+                                                </p>
+                                            </div>
 
-                                <div class="basket-switch-btn">
+                                            <div class="basket-switch-btn">
 
-                                </div><button id="btnSwitchAll" class="btn replaceall">Switch All Items</button>
+                                            </div><button id="btnSwitchAll" class="btn replaceall">Switch All Items</button>
 
-                            </div>
+                                        </div>
                         }
                         foreach (BasketContents bc in list)
                         {
@@ -866,6 +866,18 @@
             </form>
             @if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
             {
+                @* PayPal rendered before Amazon Pay so it appears above it on the basket detail page. *@
+                <div id="paypal-button2" class="g-m-t-20"></div>
+                @*<div id="paypal-button3"></div>*@
+                @*<div id="paypal-message" data-pp-message data-pp-style-layout="text"
+                     data-pp-style-logo-type="inline" data-pp-style-text-color="black"
+                     data-pp-amount="@string.Format("{0:N2}", Model.BasketTotals.GrandTotalIncVat)">
+                </div>*@
+                @*<form id="paypal-form" action="/checkout/stage3/" method="post">
+                    <input type="hidden" name="PayPalPaid" id="PayPalPaid" value="true" />
+                    @Html.Hidden("PaymentAmountPaid", Model.BasketTotals.GrandTotalIncVat)
+                </form>*@
+
                 if (ConfigurationManager.AppSettings["AmazonPayMerchantId"] != "OFF")
                 {
                     <div style="height:70px;"></div>
@@ -889,17 +901,6 @@
                          });
                     </script>
                 }
-
-                <div id="paypal-button2" class="g-m-t-20"></div>
-                <div id="paypal-button3"></div>
-                <div id="paypal-message" data-pp-message data-pp-style-layout="text"
-                     data-pp-style-logo-type="inline" data-pp-style-text-color="black"
-                     data-pp-amount="@string.Format("{0:N2}", Model.BasketTotals.GrandTotalIncVat)">
-                </div>
-                <form id="paypal-form" action="/checkout/stage3/" method="post">
-                    <input type="hidden" name="PayPalPaid" id="PayPalPaid" value="true" />
-                    @Html.Hidden("PaymentAmountPaid", Model.BasketTotals.GrandTotalIncVat)
-                </form>
             }
             @{
                 // Sidebar content (sale banner + "Find Out More" cards) is managed via the

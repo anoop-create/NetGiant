@@ -85,10 +85,8 @@ namespace ASP
         }
         public override void Execute()
         {
-            WriteLiteral("\r\n\r\n");
 
-
-#line 12 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 11 "..\..\Views\Checkout\BasketDetails.cshtml"
             if (Model.BasketTotals.TotalExcVat - Model.BasketTotals.Delivery > 0)
             {
                 bool isAdminDiscount = Model.BasketContents.Exists(x => x.ItemType == BasketItemType.AdminDiscount);
@@ -128,13 +126,13 @@ namespace ASP
                 WriteLiteral(">\r\n");
 
 
-#line 25 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 24 "..\..\Views\Checkout\BasketDetails.cshtml"
 
 
 #line default
 #line hidden
 
-#line 25 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 24 "..\..\Views\Checkout\BasketDetails.cshtml"
 
                 bool isMultiBuy = false;
                 decimal multibuyAmount = decimal.Zero;
@@ -144,7 +142,7 @@ namespace ASP
                 // Logic to build Basket Switch & Save section
                 List<BasketContents> switchProducts = new List<BasketContents>();
                 var list = Model.BasketContents; int switchCount = 0;
-                if (list != null && list.Count > 1)
+                if (list != null && list.Count > 0)
                 {
                     foreach (BasketContents item in Model.BasketContents)
                     {
@@ -185,7 +183,7 @@ namespace ASP
                     hasSwitchProducts = switchProducts.Count > 0;
                     switchCount = switchProducts.Count;
                 }
-                if (hasSwitchProducts && switchCount > 1)
+                if (hasSwitchProducts && switchCount > 0)
                 {
 
 
@@ -193,11 +191,11 @@ namespace ASP
 
 #line default
 #line hidden
-                    WriteLiteral("                            <div");
+                    WriteLiteral("                                        <div");
 
                     WriteLiteral(" class=\"basket-switch-save\"");
 
-                    WriteLiteral(">\r\n                                <img");
+                    WriteLiteral(">\r\n                                            <img");
 
                     WriteLiteral(" src=\"/cdn/Images/switch-save.png\"");
 
@@ -205,12 +203,23 @@ namespace ASP
 
                     WriteLiteral(" style=\"height: 44px;\"");
 
-                    WriteLiteral(">\r\n                                <div");
+                    WriteLiteral(">\r\n                                            <img");
+
+                    WriteLiteral(" src=\"/cdn/Images/switch-save-m.png\"");
+
+                    WriteLiteral(" class=\"mobile-img\"");
+
+                    WriteLiteral(" alt=\"switch-save\"");
+
+                    WriteLiteral(" style=\"height: 44px;\"");
+
+                    WriteLiteral(">\r\n                                            <div");
 
                     WriteLiteral(" style=\"font-weight: bold;\"");
 
-                    WriteLiteral(">\r\n\r\n                                    Switch &amp; Save\r\n\r\n                   " +
-                    "                 <p>\r\n                                        Save <strong>£");
+                    WriteLiteral(">\r\n\r\n                                                Switch &amp; Save \r\n\r\n      " +
+                    "                                          <p>\r\n                                 " +
+                    "                   Save <strong>£");
 
 
 #line 86 "..\..\Views\Checkout\BasketDetails.cshtml"
@@ -220,18 +229,18 @@ namespace ASP
 #line default
 #line hidden
                     WriteLiteral("</strong> by switching your basket to compatible products.\r\n                     " +
-                    "               </p>\r\n                                </div>\r\n\r\n                 " +
-                    "               <div");
+                    "                           </p>\r\n                                            </d" +
+                    "iv>\r\n\r\n                                            <div");
 
                     WriteLiteral(" class=\"basket-switch-btn\"");
 
-                    WriteLiteral(">\r\n\r\n                                </div><button");
+                    WriteLiteral(">\r\n\r\n                                            </div><button");
 
                     WriteLiteral(" id=\"btnSwitchAll\"");
 
                     WriteLiteral(" class=\"btn replaceall\"");
 
-                    WriteLiteral(">Switch All Items</button>\r\n\r\n                            </div>\r\n");
+                    WriteLiteral(">Switch All Items</button>\r\n\r\n                                        </div>\r\n");
 
 
 #line 95 "..\..\Views\Checkout\BasketDetails.cshtml"
@@ -339,48 +348,48 @@ namespace ASP
 #line hidden
                         WriteLiteral("\r\n                                            <a");
 
-                        WriteAttribute("href", Tuple.Create(" href=\"", 9445), Tuple.Create("\"", 9463)
+                        WriteAttribute("href", Tuple.Create(" href=\"", 9688), Tuple.Create("\"", 9706)
 
 #line 163 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 9452), Tuple.Create<System.Object, System.Int32>(productUrl
+                        , Tuple.Create(Tuple.Create("", 9695), Tuple.Create<System.Object, System.Int32>(productUrl
 
 #line default
 #line hidden
-                        , 9452), false)
+                        , 9695), false)
                         );
 
                         WriteLiteral(">\r\n\r\n                                                <img");
 
-                        WriteAttribute("src", Tuple.Create(" src=\"", 9521), Tuple.Create("\"", 9539)
+                        WriteAttribute("src", Tuple.Create(" src=\"", 9764), Tuple.Create("\"", 9782)
 
 #line 165 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 9527), Tuple.Create<System.Object, System.Int32>(bc.ImageUrl
+                        , Tuple.Create(Tuple.Create("", 9770), Tuple.Create<System.Object, System.Int32>(bc.ImageUrl
 
 #line default
 #line hidden
-                        , 9527), false)
+                        , 9770), false)
                         );
 
-                        WriteAttribute("alt", Tuple.Create("\r\n                                                     alt=\"", 9540), Tuple.Create("\"", 9615)
+                        WriteAttribute("alt", Tuple.Create("\r\n                                                     alt=\"", 9783), Tuple.Create("\"", 9858)
 
 #line 166 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 9600), Tuple.Create<System.Object, System.Int32>(bc.Description
+                        , Tuple.Create(Tuple.Create("", 9843), Tuple.Create<System.Object, System.Int32>(bc.Description
 
 #line default
 #line hidden
-                        , 9600), false)
+                        , 9843), false)
                         );
 
-                        WriteAttribute("onerror", Tuple.Create("\r\n                                                     onerror=\"", 9616), Tuple.Create("\"", 9751)
-                        , Tuple.Create(Tuple.Create("", 9680), Tuple.Create("this.src=\'", 9680), true)
+                        WriteAttribute("onerror", Tuple.Create("\r\n                                                     onerror=\"", 9859), Tuple.Create("\"", 9994)
+                        , Tuple.Create(Tuple.Create("", 9923), Tuple.Create("this.src=\'", 9923), true)
 
 #line 167 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 9690), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+                        , Tuple.Create(Tuple.Create("", 9933), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
 
 #line default
 #line hidden
-                        , 9690), false)
-                        , Tuple.Create(Tuple.Create("", 9730), Tuple.Create("/Images/noImage.jpg\';", 9730), true)
+                        , 9933), false)
+                        , Tuple.Create(Tuple.Create("", 9973), Tuple.Create("/Images/noImage.jpg\';", 9973), true)
                         );
 
                         WriteLiteral(" />\r\n\r\n                                            </a>\r\n\r\n                      " +
@@ -391,14 +400,14 @@ namespace ASP
 
                         WriteLiteral(">\r\n\r\n                                            <h2><a");
 
-                        WriteAttribute("href", Tuple.Create(" href=\"", 10050), Tuple.Create("\"", 10068)
+                        WriteAttribute("href", Tuple.Create(" href=\"", 10293), Tuple.Create("\"", 10311)
 
 #line 176 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 10057), Tuple.Create<System.Object, System.Int32>(productUrl
+                        , Tuple.Create(Tuple.Create("", 10300), Tuple.Create<System.Object, System.Int32>(productUrl
 
 #line default
 #line hidden
-                        , 10057), false)
+                        , 10300), false)
                         );
 
                         WriteLiteral(">");
@@ -519,15 +528,15 @@ namespace ASP
                             WriteLiteral(">\r\n                                                    <text>Special Order Item. " +
                             "Call</text>\r\n                                                    <a");
 
-                            WriteAttribute("href", Tuple.Create(" href=\"", 11854), Tuple.Create("\"", 11928)
-                            , Tuple.Create(Tuple.Create("", 11861), Tuple.Create("tel:", 11861), true)
+                            WriteAttribute("href", Tuple.Create(" href=\"", 12097), Tuple.Create("\"", 12171)
+                            , Tuple.Create(Tuple.Create("", 12104), Tuple.Create("tel:", 12104), true)
 
 #line 199 "..\..\Views\Checkout\BasketDetails.cshtml"
-                            , Tuple.Create(Tuple.Create("", 11865), Tuple.Create<System.Object, System.Int32>(Utilities.GetItemFromDict(Model.CommonData, "TelephoneNumber")
+                            , Tuple.Create(Tuple.Create("", 12108), Tuple.Create<System.Object, System.Int32>(Utilities.GetItemFromDict(Model.CommonData, "TelephoneNumber")
 
 #line default
 #line hidden
-                            , 11865), false)
+                            , 12108), false)
                             );
 
                             WriteLiteral(">");
@@ -626,24 +635,24 @@ namespace ASP
                                 WriteLiteral("\r\n                                                            title=\"Click to get" +
                                 " this offer\"");
 
-                                WriteAttribute("onclick", Tuple.Create("\r\n                                                            onclick=\"", 13961), Tuple.Create("\"", 14083)
-                                , Tuple.Create(Tuple.Create("", 14032), Tuple.Create("changeBasketQty(\'", 14032), true)
+                                WriteAttribute("onclick", Tuple.Create("\r\n                                                            onclick=\"", 14204), Tuple.Create("\"", 14326)
+                                , Tuple.Create(Tuple.Create("", 14275), Tuple.Create("changeBasketQty(\'", 14275), true)
 
 #line 229 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                     , Tuple.Create(Tuple.Create("", 14049), Tuple.Create<System.Object, System.Int32>(bc.StockRef
+                                     , Tuple.Create(Tuple.Create("", 14292), Tuple.Create<System.Object, System.Int32>(bc.StockRef
 
 #line default
 #line hidden
-                                , 14049), false)
-                                , Tuple.Create(Tuple.Create("", 14061), Tuple.Create("\',", 14061), true)
+                                , 14292), false)
+                                , Tuple.Create(Tuple.Create("", 14304), Tuple.Create("\',", 14304), true)
 
 #line 229 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                    , Tuple.Create(Tuple.Create(" ", 14063), Tuple.Create<System.Object, System.Int32>(bc.QtyStart + 1
+                                                    , Tuple.Create(Tuple.Create(" ", 14306), Tuple.Create<System.Object, System.Int32>(bc.QtyStart + 1
 
 #line default
 #line hidden
-                                , 14064), false)
-                                , Tuple.Create(Tuple.Create("", 14082), Tuple.Create(")", 14082), true)
+                                , 14307), false)
+                                , Tuple.Create(Tuple.Create("", 14325), Tuple.Create(")", 14325), true)
                                 );
 
                                 WriteLiteral(">\r\n                                                        Buy ");
@@ -684,24 +693,24 @@ namespace ASP
                                 WriteLiteral("\r\n                                                            title=\"Click to add" +
                                 " another and keep saving\"");
 
-                                WriteAttribute("onclick", Tuple.Create("\r\n                                                            onclick=\"", 14711), Tuple.Create("\"", 14833)
-                                , Tuple.Create(Tuple.Create("", 14782), Tuple.Create("changeBasketQty(\'", 14782), true)
+                                WriteAttribute("onclick", Tuple.Create("\r\n                                                            onclick=\"", 14954), Tuple.Create("\"", 15076)
+                                , Tuple.Create(Tuple.Create("", 15025), Tuple.Create("changeBasketQty(\'", 15025), true)
 
 #line 238 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                     , Tuple.Create(Tuple.Create("", 14799), Tuple.Create<System.Object, System.Int32>(bc.StockRef
+                                     , Tuple.Create(Tuple.Create("", 15042), Tuple.Create<System.Object, System.Int32>(bc.StockRef
 
 #line default
 #line hidden
-                                , 14799), false)
-                                , Tuple.Create(Tuple.Create("", 14811), Tuple.Create("\',", 14811), true)
+                                , 15042), false)
+                                , Tuple.Create(Tuple.Create("", 15054), Tuple.Create("\',", 15054), true)
 
 #line 238 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                    , Tuple.Create(Tuple.Create(" ", 14813), Tuple.Create<System.Object, System.Int32>(bc.Quantity + 1
+                                                    , Tuple.Create(Tuple.Create(" ", 15056), Tuple.Create<System.Object, System.Int32>(bc.Quantity + 1
 
 #line default
 #line hidden
-                                , 14814), false)
-                                , Tuple.Create(Tuple.Create("", 14832), Tuple.Create(")", 14832), true)
+                                , 15057), false)
+                                , Tuple.Create(Tuple.Create("", 15075), Tuple.Create(")", 15075), true)
                                 );
 
                                 WriteLiteral(">\r\n                                                        Add More, Keep Saving\r" +
@@ -930,38 +939,38 @@ namespace ASP
 
                             WriteLiteral(" readonly");
 
-                            WriteAttribute("value", Tuple.Create(" value=\"", 18911), Tuple.Create("\"", 18931)
+                            WriteAttribute("value", Tuple.Create(" value=\"", 19154), Tuple.Create("\"", 19174)
 
 #line 300 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                            , Tuple.Create(Tuple.Create("", 18919), Tuple.Create<System.Object, System.Int32>(bc.Quantity
+                                                            , Tuple.Create(Tuple.Create("", 19162), Tuple.Create<System.Object, System.Int32>(bc.Quantity
 
 #line default
 #line hidden
-                            , 18919), false)
+                            , 19162), false)
                             );
 
                             WriteLiteral(" />\r\n\r\n                                                            <button");
 
                             WriteLiteral(" type=\"button\"");
 
-                            WriteAttribute("onclick", Tuple.Create("\r\n                                                                    onclick=\"", 19020), Tuple.Create("\"", 19150)
-                            , Tuple.Create(Tuple.Create("", 19099), Tuple.Create("changeBasketQty(\'", 19099), true)
+                            WriteAttribute("onclick", Tuple.Create("\r\n                                                                    onclick=\"", 19263), Tuple.Create("\"", 19393)
+                            , Tuple.Create(Tuple.Create("", 19342), Tuple.Create("changeBasketQty(\'", 19342), true)
 
 #line 303 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                         , Tuple.Create(Tuple.Create("", 19116), Tuple.Create<System.Object, System.Int32>(bc.StockRef
+                                         , Tuple.Create(Tuple.Create("", 19359), Tuple.Create<System.Object, System.Int32>(bc.StockRef
 
 #line default
 #line hidden
-                            , 19116), false)
-                            , Tuple.Create(Tuple.Create("", 19128), Tuple.Create("\',", 19128), true)
+                            , 19359), false)
+                            , Tuple.Create(Tuple.Create("", 19371), Tuple.Create("\',", 19371), true)
 
 #line 303 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                                        , Tuple.Create(Tuple.Create(" ", 19130), Tuple.Create<System.Object, System.Int32>(bc.Quantity + 1
+                                                        , Tuple.Create(Tuple.Create(" ", 19373), Tuple.Create<System.Object, System.Int32>(bc.Quantity + 1
 
 #line default
 #line hidden
-                            , 19131), false)
-                            , Tuple.Create(Tuple.Create("", 19149), Tuple.Create(")", 19149), true)
+                            , 19374), false)
+                            , Tuple.Create(Tuple.Create("", 19392), Tuple.Create(")", 19392), true)
                             );
 
                             WriteLiteral("\r\n                                                                    aria-label=" +
@@ -1079,15 +1088,15 @@ namespace ASP
                             WriteLiteral(">\r\n                                                <text>Special Order Item. Call" +
                             "</text>\r\n                                                <a");
 
-                            WriteAttribute("href", Tuple.Create(" href=\"", 21001), Tuple.Create("\"", 21075)
-                            , Tuple.Create(Tuple.Create("", 21008), Tuple.Create("tel:", 21008), true)
+                            WriteAttribute("href", Tuple.Create(" href=\"", 21244), Tuple.Create("\"", 21318)
+                            , Tuple.Create(Tuple.Create("", 21251), Tuple.Create("tel:", 21251), true)
 
 #line 332 "..\..\Views\Checkout\BasketDetails.cshtml"
-                            , Tuple.Create(Tuple.Create("", 21012), Tuple.Create<System.Object, System.Int32>(Utilities.GetItemFromDict(Model.CommonData, "TelephoneNumber")
+                            , Tuple.Create(Tuple.Create("", 21255), Tuple.Create<System.Object, System.Int32>(Utilities.GetItemFromDict(Model.CommonData, "TelephoneNumber")
 
 #line default
 #line hidden
-                            , 21012), false)
+                            , 21255), false)
                             );
 
                             WriteLiteral(">");
@@ -1225,48 +1234,48 @@ namespace ASP
 #line hidden
                                     WriteLiteral("\r\n                                                            <a");
 
-                                    WriteAttribute("href", Tuple.Create(" href=\"", 24825), Tuple.Create("\"", 24855)
+                                    WriteAttribute("href", Tuple.Create(" href=\"", 25068), Tuple.Create("\"", 25098)
 
 #line 384 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                    , Tuple.Create(Tuple.Create("", 24832), Tuple.Create<System.Object, System.Int32>(CrossSellingProductUrl
+                                    , Tuple.Create(Tuple.Create("", 25075), Tuple.Create<System.Object, System.Int32>(CrossSellingProductUrl
 
 #line default
 #line hidden
-                                    , 24832), false)
+                                    , 25075), false)
                                     );
 
                                     WriteLiteral(">\r\n\r\n                                                                <img");
 
-                                    WriteAttribute("src", Tuple.Create(" src=\"", 24929), Tuple.Create("\"", 24959)
+                                    WriteAttribute("src", Tuple.Create(" src=\"", 25172), Tuple.Create("\"", 25202)
 
 #line 386 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                    , Tuple.Create(Tuple.Create("", 24935), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingImageURL
+                                    , Tuple.Create(Tuple.Create("", 25178), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingImageURL
 
 #line default
 #line hidden
-                                    , 24935), false)
+                                    , 25178), false)
                                     );
 
-                                    WriteAttribute("alt", Tuple.Create("\r\n                                                                     alt=\"", 24960), Tuple.Create("\"", 25063)
+                                    WriteAttribute("alt", Tuple.Create("\r\n                                                                     alt=\"", 25203), Tuple.Create("\"", 25306)
 
 #line 387 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                    , Tuple.Create(Tuple.Create("", 25036), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingDescription
+                                    , Tuple.Create(Tuple.Create("", 25279), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingDescription
 
 #line default
 #line hidden
-                                    , 25036), false)
+                                    , 25279), false)
                                     );
 
-                                    WriteAttribute("onerror", Tuple.Create("\r\n                                                                     onerror=\"", 25064), Tuple.Create("\"", 25215)
-                                    , Tuple.Create(Tuple.Create("", 25144), Tuple.Create("this.src=\'", 25144), true)
+                                    WriteAttribute("onerror", Tuple.Create("\r\n                                                                     onerror=\"", 25307), Tuple.Create("\"", 25458)
+                                    , Tuple.Create(Tuple.Create("", 25387), Tuple.Create("this.src=\'", 25387), true)
 
 #line 388 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                           , Tuple.Create(Tuple.Create("", 25154), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+                                           , Tuple.Create(Tuple.Create("", 25397), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
 
 #line default
 #line hidden
-                                    , 25154), false)
-                                    , Tuple.Create(Tuple.Create("", 25194), Tuple.Create("/Images/noImage.jpg\';", 25194), true)
+                                    , 25397), false)
+                                    , Tuple.Create(Tuple.Create("", 25437), Tuple.Create("/Images/noImage.jpg\';", 25437), true)
                                     );
 
                                     WriteLiteral(" />\r\n\r\n                                                            </a>\r\n        " +
@@ -1277,14 +1286,14 @@ namespace ASP
 
                                     WriteLiteral(">\r\n\r\n                                                            <h2><a");
 
-                                    WriteAttribute("href", Tuple.Create(" href=\"", 25510), Tuple.Create("\"", 25540)
+                                    WriteAttribute("href", Tuple.Create(" href=\"", 25753), Tuple.Create("\"", 25783)
 
 #line 395 "..\..\Views\Checkout\BasketDetails.cshtml"
-                                    , Tuple.Create(Tuple.Create("", 25517), Tuple.Create<System.Object, System.Int32>(CrossSellingProductUrl
+                                    , Tuple.Create(Tuple.Create("", 25760), Tuple.Create<System.Object, System.Int32>(CrossSellingProductUrl
 
 #line default
 #line hidden
-                                    , 25517), false)
+                                    , 25760), false)
                                     );
 
                                     WriteLiteral(">");
@@ -1574,36 +1583,36 @@ namespace ASP
 
                         WriteLiteral(">\r\n                    <img");
 
-                        WriteAttribute("src", Tuple.Create(" src=\"", 30164), Tuple.Create("\"", 30185)
+                        WriteAttribute("src", Tuple.Create(" src=\"", 30407), Tuple.Create("\"", 30428)
 
 #line 479 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 30170), Tuple.Create<System.Object, System.Int32>(addOn.ImageUrl
+                        , Tuple.Create(Tuple.Create("", 30413), Tuple.Create<System.Object, System.Int32>(addOn.ImageUrl
 
 #line default
 #line hidden
-                        , 30170), false)
+                        , 30413), false)
                         );
 
-                        WriteAttribute("alt", Tuple.Create("\r\n                         alt=\"", 30186), Tuple.Create("\"", 30236)
+                        WriteAttribute("alt", Tuple.Create("\r\n                         alt=\"", 30429), Tuple.Create("\"", 30479)
 
 #line 480 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 30218), Tuple.Create<System.Object, System.Int32>(addOn.Description
+                        , Tuple.Create(Tuple.Create("", 30461), Tuple.Create<System.Object, System.Int32>(addOn.Description
 
 #line default
 #line hidden
-                        , 30218), false)
+                        , 30461), false)
                         );
 
-                        WriteAttribute("onerror", Tuple.Create("\r\n                         onerror=\"", 30237), Tuple.Create("\"", 30344)
-                        , Tuple.Create(Tuple.Create("", 30273), Tuple.Create("this.src=\'", 30273), true)
+                        WriteAttribute("onerror", Tuple.Create("\r\n                         onerror=\"", 30480), Tuple.Create("\"", 30587)
+                        , Tuple.Create(Tuple.Create("", 30516), Tuple.Create("this.src=\'", 30516), true)
 
 #line 481 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 30283), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+                        , Tuple.Create(Tuple.Create("", 30526), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
 
 #line default
 #line hidden
-                        , 30283), false)
-                        , Tuple.Create(Tuple.Create("", 30323), Tuple.Create("/Images/noImage.jpg\';", 30323), true)
+                        , 30526), false)
+                        , Tuple.Create(Tuple.Create("", 30566), Tuple.Create("/Images/noImage.jpg\';", 30566), true)
                         );
 
                         WriteLiteral(" />\r\n                </div>\r\n                <div");
@@ -1807,41 +1816,41 @@ namespace ASP
 #line hidden
                         WriteLiteral("\r\n                                                    <a");
 
-                        WriteAttribute("href", Tuple.Create(" href=\"", 32639), Tuple.Create("\"", 32657)
+                        WriteAttribute("href", Tuple.Create(" href=\"", 32882), Tuple.Create("\"", 32900)
 
 #line 531 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 32646), Tuple.Create<System.Object, System.Int32>(productUrl
+                        , Tuple.Create(Tuple.Create("", 32889), Tuple.Create<System.Object, System.Int32>(productUrl
 
 #line default
 #line hidden
-                        , 32646), false)
+                        , 32889), false)
                         );
 
                         WriteLiteral(">\r\n                                                        <img");
 
-                        WriteAttribute("src", Tuple.Create(" src=\"", 32721), Tuple.Create("\"", 32742)
+                        WriteAttribute("src", Tuple.Create(" src=\"", 32964), Tuple.Create("\"", 32985)
 
 #line 532 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 32727), Tuple.Create<System.Object, System.Int32>(addOn.ImageUrl
+                        , Tuple.Create(Tuple.Create("", 32970), Tuple.Create<System.Object, System.Int32>(addOn.ImageUrl
 
 #line default
 #line hidden
-                        , 32727), false)
+                        , 32970), false)
                         );
 
                         WriteLiteral("\r\n                                                             class=\"img-respons" +
                         "ive\"");
 
-                        WriteAttribute("onerror", Tuple.Create("\r\n                                                             onerror=\"", 32828), Tuple.Create("\"", 32971)
-                        , Tuple.Create(Tuple.Create("", 32900), Tuple.Create("this.src=\'", 32900), true)
+                        WriteAttribute("onerror", Tuple.Create("\r\n                                                             onerror=\"", 33071), Tuple.Create("\"", 33214)
+                        , Tuple.Create(Tuple.Create("", 33143), Tuple.Create("this.src=\'", 33143), true)
 
 #line 534 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 32910), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+                        , Tuple.Create(Tuple.Create("", 33153), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
 
 #line default
 #line hidden
-                        , 32910), false)
-                        , Tuple.Create(Tuple.Create("", 32950), Tuple.Create("/Images/noImage.jpg\';", 32950), true)
+                        , 33153), false)
+                        , Tuple.Create(Tuple.Create("", 33193), Tuple.Create("/Images/noImage.jpg\';", 33193), true)
                         );
 
                         WriteLiteral(" />\r\n                                                    </a>\r\n\r\n                " +
@@ -1849,14 +1858,14 @@ namespace ASP
 
                         WriteLiteral(" class=\"need-title\"");
 
-                        WriteAttribute("href", Tuple.Create("\r\n                                                       href=\"", 33110), Tuple.Create("\"", 33184)
+                        WriteAttribute("href", Tuple.Create("\r\n                                                       href=\"", 33353), Tuple.Create("\"", 33427)
 
 #line 538 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 33173), Tuple.Create<System.Object, System.Int32>(productUrl
+                        , Tuple.Create(Tuple.Create("", 33416), Tuple.Create<System.Object, System.Int32>(productUrl
 
 #line default
 #line hidden
-                        , 33173), false)
+                        , 33416), false)
                         );
 
                         WriteLiteral(">\r\n");
@@ -1873,14 +1882,14 @@ namespace ASP
                         WriteLiteral("\r\n                                                    </a>\r\n                     " +
                         "                               <a");
 
-                        WriteAttribute("href", Tuple.Create(" href=\"", 33376), Tuple.Create("\"", 33400)
+                        WriteAttribute("href", Tuple.Create(" href=\"", 33619), Tuple.Create("\"", 33643)
 
 #line 541 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 33383), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
+                        , Tuple.Create(Tuple.Create("", 33626), Tuple.Create<System.Object, System.Int32>(addOn.ProductUrl
 
 #line default
 #line hidden
-                        , 33383), false)
+                        , 33626), false)
                         );
 
                         WriteLiteral(" class=\"need-title\"");
@@ -2398,9 +2407,9 @@ namespace ASP
 #line hidden
                 WriteLiteral("                    <span><img");
 
-                WriteAttribute("src", Tuple.Create(" src=\"", 42844), Tuple.Create("\"", 42890)
-                , Tuple.Create(Tuple.Create("", 42850), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/icons/shipping-icon.png")
-                , 42850), false)
+                WriteAttribute("src", Tuple.Create(" src=\"", 43087), Tuple.Create("\"", 43133)
+                , Tuple.Create(Tuple.Create("", 43093), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/icons/shipping-icon.png")
+                , 43093), false)
                 );
 
                 WriteLiteral("></span>\r\n                    <span>");
@@ -2520,14 +2529,14 @@ namespace ASP
 #line hidden
                 WriteLiteral("</div>\r\n            </div>\r\n\r\n            <div");
 
-                WriteAttribute("class", Tuple.Create(" class=\"", 44298), Tuple.Create("\"", 44343)
+                WriteAttribute("class", Tuple.Create(" class=\"", 44541), Tuple.Create("\"", 44586)
 
 #line 747 "..\..\Views\Checkout\BasketDetails.cshtml"
-                , Tuple.Create(Tuple.Create("", 44306), Tuple.Create<System.Object, System.Int32>(ViewBag.HideVoucher ? "g-d-n" : ""
+                , Tuple.Create(Tuple.Create("", 44549), Tuple.Create<System.Object, System.Int32>(ViewBag.HideVoucher ? "g-d-n" : ""
 
 #line default
 #line hidden
-                , 44306), false)
+                , 44549), false)
                 );
 
                 WriteLiteral(">\r\n                <hr");
@@ -2614,14 +2623,14 @@ namespace ASP
                 WriteLiteral("                        </span>\r\n                    </div>\r\n                </di" +
                 "v>\r\n            </div>\r\n\r\n            <div");
 
-                WriteAttribute("class", Tuple.Create(" class=\"", 45312), Tuple.Create("\"", 45348)
+                WriteAttribute("class", Tuple.Create(" class=\"", 45555), Tuple.Create("\"", 45591)
 
 #line 769 "..\..\Views\Checkout\BasketDetails.cshtml"
-                , Tuple.Create(Tuple.Create("", 45320), Tuple.Create<System.Object, System.Int32>(isMultiBuy ? "" : "g-d-n"
+                , Tuple.Create(Tuple.Create("", 45563), Tuple.Create<System.Object, System.Int32>(isMultiBuy ? "" : "g-d-n"
 
 #line default
 #line hidden
-                , 45320), false)
+                , 45563), false)
                 );
 
                 WriteLiteral(">\r\n                <hr");
@@ -2876,9 +2885,9 @@ namespace ASP
 
                 WriteLiteral(" method=\"post\"");
 
-                WriteAttribute("action", Tuple.Create(" action=\"", 49035), Tuple.Create("\"", 49062)
-                , Tuple.Create(Tuple.Create("", 49044), Tuple.Create<System.Object, System.Int32>(Href("~/Checkout/Stage1/")
-                , 49044), false)
+                WriteAttribute("action", Tuple.Create(" action=\"", 49278), Tuple.Create("\"", 49305)
+                , Tuple.Create(Tuple.Create("", 49287), Tuple.Create<System.Object, System.Int32>(Href("~/Checkout/Stage1/")
+                , 49287), false)
                 );
 
                 WriteLiteral(">\r\n");
@@ -2937,6 +2946,49 @@ namespace ASP
 #line 867 "..\..\Views\Checkout\BasketDetails.cshtml"
                 if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
                 {
+
+
+#line default
+#line hidden
+
+#line 869 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+
+#line default
+#line hidden
+                    WriteLiteral("                <div");
+
+                    WriteLiteral(" id=\"paypal-button2\"");
+
+                    WriteLiteral(" class=\"g-m-t-20\"");
+
+                    WriteLiteral("></div>\r\n");
+
+
+#line 871 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+#line default
+#line hidden
+
+#line 871 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+
+#line default
+#line hidden
+
+#line 875 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
+
+#line default
+#line hidden
+
+#line 879 "..\..\Views\Checkout\BasketDetails.cshtml"
+
+
                     if (ConfigurationManager.AppSettings["AmazonPayMerchantId"] != "OFF")
                     {
 
@@ -2958,7 +3010,7 @@ namespace ASP
                         WriteLiteral("></div>\r\n");
 
 
-#line 873 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 885 "..\..\Views\Checkout\BasketDetails.cshtml"
 
 
 
@@ -2971,7 +3023,7 @@ namespace ASP
                         WriteLiteral("></script>\r\n");
 
 
-#line 875 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 887 "..\..\Views\Checkout\BasketDetails.cshtml"
 
 
 
@@ -2987,7 +3039,7 @@ namespace ASP
                         "                       merchantId: \'");
 
 
-#line 878 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 890 "..\..\Views\Checkout\BasketDetails.cshtml"
                         Write(Html.Raw(ConfigurationManager.AppSettings["AmazonPayMerchantId"]));
 
 
@@ -2996,7 +3048,7 @@ namespace ASP
                         WriteLiteral("\',\r\n                             publicKeyId: \'");
 
 
-#line 879 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 891 "..\..\Views\Checkout\BasketDetails.cshtml"
                         Write(Html.Raw(ConfigurationManager.AppSettings["AmazonPayPublicKeyId"]));
 
 
@@ -3012,7 +3064,7 @@ namespace ASP
                                  payloadJSON: '");
 
 
-#line 886 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 898 "..\..\Views\Checkout\BasketDetails.cshtml"
                         Write(Html.Raw(Model.AmazonButtonJSONPayLoad));
 
 
@@ -3021,7 +3073,7 @@ namespace ASP
                         WriteLiteral("\',\r\n                                 signature: \'");
 
 
-#line 887 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 899 "..\..\Views\Checkout\BasketDetails.cshtml"
                         Write(Html.Raw(Model.AmazonButtonSignature));
 
 
@@ -3031,85 +3083,8 @@ namespace ASP
                         "    </script>\r\n");
 
 
-#line 891 "..\..\Views\Checkout\BasketDetails.cshtml"
-                    }
-
-
-
-#line default
-#line hidden
-                    WriteLiteral("                <div");
-
-                    WriteLiteral(" id=\"paypal-button2\"");
-
-                    WriteLiteral(" class=\"g-m-t-20\"");
-
-                    WriteLiteral("></div>\r\n");
-
-                    WriteLiteral("                <div");
-
-                    WriteLiteral(" id=\"paypal-button3\"");
-
-                    WriteLiteral("></div>\r\n");
-
-                    WriteLiteral("                <div");
-
-                    WriteLiteral(" id=\"paypal-message\"");
-
-                    WriteLiteral(" data-pp-message");
-
-                    WriteLiteral(" data-pp-style-layout=\"text\"");
-
-                    WriteLiteral("\r\n                     data-pp-style-logo-type=\"inline\"");
-
-                    WriteLiteral(" data-pp-style-text-color=\"black\"");
-
-                    WriteLiteral("\r\n                     data-pp-amount=\"");
-
-
-#line 897 "..\..\Views\Checkout\BasketDetails.cshtml"
-                    Write(string.Format("{0:N2}", Model.BasketTotals.GrandTotalIncVat));
-
-
-#line default
-#line hidden
-                    WriteLiteral("\"");
-
-                    WriteLiteral(">\r\n                </div>\r\n");
-
-                    WriteLiteral("                <form");
-
-                    WriteLiteral(" id=\"paypal-form\"");
-
-                    WriteLiteral(" action=\"/checkout/stage3/\"");
-
-                    WriteLiteral(" method=\"post\"");
-
-                    WriteLiteral(">\r\n                    <input");
-
-                    WriteLiteral(" type=\"hidden\"");
-
-                    WriteLiteral(" name=\"PayPalPaid\"");
-
-                    WriteLiteral(" id=\"PayPalPaid\"");
-
-                    WriteLiteral(" value=\"true\"");
-
-                    WriteLiteral(" />\r\n");
-
-                    WriteLiteral("                    ");
-
-
-#line 901 "..\..\Views\Checkout\BasketDetails.cshtml"
-                    Write(Html.Hidden("PaymentAmountPaid", Model.BasketTotals.GrandTotalIncVat));
-
-
-#line default
-#line hidden
-                    WriteLiteral("\r\n                </form>\r\n");
-
-
 #line 903 "..\..\Views\Checkout\BasketDetails.cshtml"
+                    }
                 }
 
 
@@ -3118,7 +3093,7 @@ namespace ASP
                 WriteLiteral("            ");
 
 
-#line 904 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 905 "..\..\Views\Checkout\BasketDetails.cshtml"
 
                 // Sidebar content (sale banner + "Find Out More" cards) is managed via the
                 // Intranet's Website Info Cards admin screen and read straight from
@@ -3152,13 +3127,13 @@ namespace ASP
                 WriteLiteral(">\r\n");
 
 
-#line 929 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 930 "..\..\Views\Checkout\BasketDetails.cshtml"
 
 
 #line default
 #line hidden
 
-#line 929 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 930 "..\..\Views\Checkout\BasketDetails.cshtml"
                 if (bannerCard != null)
                 {
 
@@ -3172,13 +3147,13 @@ namespace ASP
                     WriteLiteral(">\r\n");
 
 
-#line 932 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 933 "..\..\Views\Checkout\BasketDetails.cshtml"
 
 
 #line default
 #line hidden
 
-#line 932 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 933 "..\..\Views\Checkout\BasketDetails.cshtml"
                     if (!String.IsNullOrEmpty(bannerCard.LinkUrl))
                     {
                         // Clicking opens the same "Sale Details" modal as Html.ShowSaleInfoButton()
@@ -3204,24 +3179,24 @@ namespace ASP
 
                         WriteLiteral(">\r\n                            <img");
 
-                        WriteAttribute("src", Tuple.Create(" src=\"", 54047), Tuple.Create("\"", 54073)
+                        WriteAttribute("src", Tuple.Create(" src=\"", 54409), Tuple.Create("\"", 54435)
 
-#line 940 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 54053), Tuple.Create<System.Object, System.Int32>(bannerCard.ImageUrl
+#line 941 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        , Tuple.Create(Tuple.Create("", 54415), Tuple.Create<System.Object, System.Int32>(bannerCard.ImageUrl
 
 #line default
 #line hidden
-                        , 54053), false)
+                        , 54415), false)
                         );
 
-                        WriteAttribute("alt", Tuple.Create(" alt=\"", 54074), Tuple.Create("\"", 54097)
+                        WriteAttribute("alt", Tuple.Create(" alt=\"", 54436), Tuple.Create("\"", 54459)
 
-#line 940 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 54080), Tuple.Create<System.Object, System.Int32>(bannerCard.Title
+#line 941 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        , Tuple.Create(Tuple.Create("", 54442), Tuple.Create<System.Object, System.Int32>(bannerCard.Title
 
 #line default
 #line hidden
-                        , 54080), false)
+                        , 54442), false)
                         );
 
                         WriteLiteral(" class=\"sidebar-banner-img\"");
@@ -3229,7 +3204,7 @@ namespace ASP
                         WriteLiteral(" />\r\n                        </div>\r\n");
 
 
-#line 942 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 943 "..\..\Views\Checkout\BasketDetails.cshtml"
                     }
                     else
                     {
@@ -3239,24 +3214,24 @@ namespace ASP
 #line hidden
                         WriteLiteral("                        <img");
 
-                        WriteAttribute("src", Tuple.Create(" src=\"", 54262), Tuple.Create("\"", 54288)
+                        WriteAttribute("src", Tuple.Create(" src=\"", 54624), Tuple.Create("\"", 54650)
 
-#line 945 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 54268), Tuple.Create<System.Object, System.Int32>(bannerCard.ImageUrl
+#line 946 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        , Tuple.Create(Tuple.Create("", 54630), Tuple.Create<System.Object, System.Int32>(bannerCard.ImageUrl
 
 #line default
 #line hidden
-                        , 54268), false)
+                        , 54630), false)
                         );
 
-                        WriteAttribute("alt", Tuple.Create(" alt=\"", 54289), Tuple.Create("\"", 54312)
+                        WriteAttribute("alt", Tuple.Create(" alt=\"", 54651), Tuple.Create("\"", 54674)
 
-#line 945 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 54295), Tuple.Create<System.Object, System.Int32>(bannerCard.Title
+#line 946 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        , Tuple.Create(Tuple.Create("", 54657), Tuple.Create<System.Object, System.Int32>(bannerCard.Title
 
 #line default
 #line hidden
-                        , 54295), false)
+                        , 54657), false)
                         );
 
                         WriteLiteral(" class=\"sidebar-banner-img\"");
@@ -3264,7 +3239,7 @@ namespace ASP
                         WriteLiteral(" />\r\n");
 
 
-#line 946 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 947 "..\..\Views\Checkout\BasketDetails.cshtml"
                     }
 
 
@@ -3273,7 +3248,7 @@ namespace ASP
                     WriteLiteral("                </div>\r\n");
 
 
-#line 948 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 949 "..\..\Views\Checkout\BasketDetails.cshtml"
                 }
 
 
@@ -3290,13 +3265,13 @@ namespace ASP
                 WriteLiteral(">\r\n\r\n                \r\n\r\n");
 
 
-#line 955 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 956 "..\..\Views\Checkout\BasketDetails.cshtml"
 
 
 #line default
 #line hidden
 
-#line 955 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 956 "..\..\Views\Checkout\BasketDetails.cshtml"
                 foreach (WebsiteInfoCard card in findOutMoreCards)
                 {
 
@@ -3305,15 +3280,15 @@ namespace ASP
 #line hidden
                     WriteLiteral("                    <div");
 
-                    WriteAttribute("class", Tuple.Create(" class=\"", 54648), Tuple.Create("\"", 54693)
-                    , Tuple.Create(Tuple.Create("", 54656), Tuple.Create("sidebar-card", 54656), true)
+                    WriteAttribute("class", Tuple.Create(" class=\"", 55010), Tuple.Create("\"", 55055)
+                    , Tuple.Create(Tuple.Create("", 55018), Tuple.Create("sidebar-card", 55018), true)
 
-#line 957 "..\..\Views\Checkout\BasketDetails.cshtml"
-                    , Tuple.Create(Tuple.Create(" ", 54668), Tuple.Create<System.Object, System.Int32>(card.Category.ToLower()
+#line 958 "..\..\Views\Checkout\BasketDetails.cshtml"
+                    , Tuple.Create(Tuple.Create(" ", 55030), Tuple.Create<System.Object, System.Int32>(card.Category.ToLower()
 
 #line default
 #line hidden
-                    , 54669), false)
+                    , 55031), false)
                     );
 
                     WriteLiteral(">\r\n\r\n                        <div");
@@ -3323,13 +3298,13 @@ namespace ASP
                     WriteLiteral(">\r\n");
 
 
-#line 960 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 961 "..\..\Views\Checkout\BasketDetails.cshtml"
 
 
 #line default
 #line hidden
 
-#line 960 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 961 "..\..\Views\Checkout\BasketDetails.cshtml"
                     if (card.IconClass == "fa fa-truck")
                     {
 
@@ -3338,15 +3313,15 @@ namespace ASP
 #line hidden
                         WriteLiteral("                                <img");
 
-                        WriteAttribute("src", Tuple.Create(" src=\"", 54884), Tuple.Create("\"", 54932)
-                        , Tuple.Create(Tuple.Create("", 54890), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/icons/shipping-icon01.png")
-                        , 54890), false)
+                        WriteAttribute("src", Tuple.Create(" src=\"", 55246), Tuple.Create("\"", 55294)
+                        , Tuple.Create(Tuple.Create("", 55252), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/icons/shipping-icon01.png")
+                        , 55252), false)
                         );
 
                         WriteLiteral(">\r\n");
 
 
-#line 963 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 964 "..\..\Views\Checkout\BasketDetails.cshtml"
                     }
                     else if (card.IconClass == "fa fa-star-o")
                     {
@@ -3356,15 +3331,15 @@ namespace ASP
 #line hidden
                         WriteLiteral("                                <img");
 
-                        WriteAttribute("src", Tuple.Create(" src=\"", 55106), Tuple.Create("\"", 55150)
-                        , Tuple.Create(Tuple.Create("", 55112), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/icons/star-icon01.png")
-                        , 55112), false)
+                        WriteAttribute("src", Tuple.Create(" src=\"", 55468), Tuple.Create("\"", 55512)
+                        , Tuple.Create(Tuple.Create("", 55474), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/icons/star-icon01.png")
+                        , 55474), false)
                         );
 
                         WriteLiteral(">\r\n");
 
 
-#line 967 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 968 "..\..\Views\Checkout\BasketDetails.cshtml"
                     }
                     else if (card.IconClass == "fa fa-gbp")
                     {
@@ -3374,15 +3349,15 @@ namespace ASP
 #line hidden
                         WriteLiteral("                                <img");
 
-                        WriteAttribute("src", Tuple.Create(" src=\"", 55321), Tuple.Create("\"", 55364)
-                        , Tuple.Create(Tuple.Create("", 55327), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/icons/pound-icon.png")
-                        , 55327), false)
+                        WriteAttribute("src", Tuple.Create(" src=\"", 55683), Tuple.Create("\"", 55726)
+                        , Tuple.Create(Tuple.Create("", 55689), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/icons/pound-icon.png")
+                        , 55689), false)
                         );
 
                         WriteLiteral(">\r\n");
 
 
-#line 971 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 972 "..\..\Views\Checkout\BasketDetails.cshtml"
                     }
                     else
                     {
@@ -3395,7 +3370,7 @@ namespace ASP
                     WriteLiteral("                            <span>");
 
 
-#line 976 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 977 "..\..\Views\Checkout\BasketDetails.cshtml"
                     Write(card.Title);
 
 
@@ -3410,7 +3385,7 @@ namespace ASP
                     WriteLiteral("                            ");
 
 
-#line 980 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 981 "..\..\Views\Checkout\BasketDetails.cshtml"
                     Write(Html.Raw(card.BodyText));
 
 
@@ -3419,13 +3394,13 @@ namespace ASP
                     WriteLiteral("\r\n                        </div>\r\n\r\n");
 
 
-#line 983 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 984 "..\..\Views\Checkout\BasketDetails.cshtml"
 
 
 #line default
 #line hidden
 
-#line 983 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 984 "..\..\Views\Checkout\BasketDetails.cshtml"
                     if (!String.IsNullOrEmpty(card.FindOutMoreContent))
                     {
 
@@ -3434,15 +3409,15 @@ namespace ASP
 #line hidden
                         WriteLiteral("                            <div");
 
-                        WriteAttribute("class", Tuple.Create(" class=\"", 55859), Tuple.Create("\"", 55903)
-                        , Tuple.Create(Tuple.Create("", 55867), Tuple.Create("card-toggle", 55867), true)
+                        WriteAttribute("class", Tuple.Create(" class=\"", 56221), Tuple.Create("\"", 56265)
+                        , Tuple.Create(Tuple.Create("", 56229), Tuple.Create("card-toggle", 56229), true)
 
-#line 985 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create(" ", 55878), Tuple.Create<System.Object, System.Int32>(card.Category.ToLower()
+#line 986 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        , Tuple.Create(Tuple.Create(" ", 56240), Tuple.Create<System.Object, System.Int32>(card.Category.ToLower()
 
 #line default
 #line hidden
-                        , 55879), false)
+                        , 56241), false)
                         );
 
                         WriteLiteral(">\r\n                                <a");
@@ -3459,7 +3434,7 @@ namespace ASP
                         WriteLiteral("></i>\r\n                            </div>\r\n");
 
 
-#line 992 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 993 "..\..\Views\Checkout\BasketDetails.cshtml"
 
 
 
@@ -3467,15 +3442,15 @@ namespace ASP
 #line hidden
                         WriteLiteral("                            <div");
 
-                        WriteAttribute("class", Tuple.Create(" class=\"", 56218), Tuple.Create("\"", 56263)
-                        , Tuple.Create(Tuple.Create("", 56226), Tuple.Create("card-content", 56226), true)
+                        WriteAttribute("class", Tuple.Create(" class=\"", 56580), Tuple.Create("\"", 56625)
+                        , Tuple.Create(Tuple.Create("", 56588), Tuple.Create("card-content", 56588), true)
 
-#line 993 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create(" ", 56238), Tuple.Create<System.Object, System.Int32>(card.Category.ToLower()
+#line 994 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        , Tuple.Create(Tuple.Create(" ", 56600), Tuple.Create<System.Object, System.Int32>(card.Category.ToLower()
 
 #line default
 #line hidden
-                        , 56239), false)
+                        , 56601), false)
                         );
 
                         WriteLiteral(">\r\n");
@@ -3483,7 +3458,7 @@ namespace ASP
                         WriteLiteral("                                ");
 
 
-#line 994 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 995 "..\..\Views\Checkout\BasketDetails.cshtml"
                         Write(Html.Raw(card.FindOutMoreContent));
 
 
@@ -3492,7 +3467,7 @@ namespace ASP
                         WriteLiteral("\r\n                            </div>\r\n");
 
 
-#line 996 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 997 "..\..\Views\Checkout\BasketDetails.cshtml"
                     }
 
 
@@ -3501,7 +3476,7 @@ namespace ASP
                     WriteLiteral("\r\n                    </div>\r\n");
 
 
-#line 999 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 1000 "..\..\Views\Checkout\BasketDetails.cshtml"
                 }
 
 
@@ -3521,9 +3496,9 @@ namespace ASP
 
                 WriteLiteral(">\r\n                    <img");
 
-                WriteAttribute("src", Tuple.Create(" src=\"", 56655), Tuple.Create("\"", 56698)
-                , Tuple.Create(Tuple.Create("", 56661), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/icons/cards-icon.png")
-                , 56661), false)
+                WriteAttribute("src", Tuple.Create(" src=\"", 57017), Tuple.Create("\"", 57060)
+                , Tuple.Create(Tuple.Create("", 57023), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/icons/cards-icon.png")
+                , 57023), false)
                 );
 
                 WriteLiteral(">\r\n                    <span>Payment Cards Accepted</span>\r\n                </div" +
@@ -3536,13 +3511,13 @@ namespace ASP
                 WriteLiteral("\r\n");
 
 
-#line 1024 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 1025 "..\..\Views\Checkout\BasketDetails.cshtml"
 
 
 #line default
 #line hidden
 
-#line 1024 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 1025 "..\..\Views\Checkout\BasketDetails.cshtml"
                 if (paymentCards.Any())
                 {
                     foreach (WebsiteInfoCard card in paymentCards)
@@ -3553,30 +3528,30 @@ namespace ASP
 #line hidden
                         WriteLiteral("                            <img");
 
-                        WriteAttribute("src", Tuple.Create(" src=\"", 57898), Tuple.Create("\"", 57918)
+                        WriteAttribute("src", Tuple.Create(" src=\"", 58260), Tuple.Create("\"", 58280)
 
-#line 1028 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 57904), Tuple.Create<System.Object, System.Int32>(card.ImageUrl
+#line 1029 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        , Tuple.Create(Tuple.Create("", 58266), Tuple.Create<System.Object, System.Int32>(card.ImageUrl
 
 #line default
 #line hidden
-                        , 57904), false)
+                        , 58266), false)
                         );
 
-                        WriteAttribute("alt", Tuple.Create(" alt=\"", 57919), Tuple.Create("\"", 57936)
+                        WriteAttribute("alt", Tuple.Create(" alt=\"", 58281), Tuple.Create("\"", 58298)
 
-#line 1028 "..\..\Views\Checkout\BasketDetails.cshtml"
-                        , Tuple.Create(Tuple.Create("", 57925), Tuple.Create<System.Object, System.Int32>(card.Title
+#line 1029 "..\..\Views\Checkout\BasketDetails.cshtml"
+                        , Tuple.Create(Tuple.Create("", 58287), Tuple.Create<System.Object, System.Int32>(card.Title
 
 #line default
 #line hidden
-                        , 57925), false)
+                        , 58287), false)
                         );
 
                         WriteLiteral(">\r\n");
 
 
-#line 1029 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 1030 "..\..\Views\Checkout\BasketDetails.cshtml"
                     }
                 }
                 else
@@ -3587,9 +3562,9 @@ namespace ASP
 #line hidden
                     WriteLiteral("                        <img");
 
-                    WriteAttribute("src", Tuple.Create(" src=\"", 58067), Tuple.Create("\"", 58109)
-                    , Tuple.Create(Tuple.Create("", 58073), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/icons/visa-card.png")
-                    , 58073), false)
+                    WriteAttribute("src", Tuple.Create(" src=\"", 58429), Tuple.Create("\"", 58471)
+                    , Tuple.Create(Tuple.Create("", 58435), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/icons/visa-card.png")
+                    , 58435), false)
                     );
 
                     WriteLiteral(" alt=\"Visa\"");
@@ -3598,9 +3573,9 @@ namespace ASP
 
                     WriteLiteral("                        <img");
 
-                    WriteAttribute("src", Tuple.Create(" src=\"", 58152), Tuple.Create("\"", 58196)
-                    , Tuple.Create(Tuple.Create("", 58158), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/icons/master-card.png")
-                    , 58158), false)
+                    WriteAttribute("src", Tuple.Create(" src=\"", 58514), Tuple.Create("\"", 58558)
+                    , Tuple.Create(Tuple.Create("", 58520), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/icons/master-card.png")
+                    , 58520), false)
                     );
 
                     WriteLiteral(" alt=\"Mastercard\"");
@@ -3609,9 +3584,9 @@ namespace ASP
 
                     WriteLiteral("                        <img");
 
-                    WriteAttribute("src", Tuple.Create(" src=\"", 58245), Tuple.Create("\"", 58287)
-                    , Tuple.Create(Tuple.Create("", 58251), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/icons/amex-card.png")
-                    , 58251), false)
+                    WriteAttribute("src", Tuple.Create(" src=\"", 58607), Tuple.Create("\"", 58649)
+                    , Tuple.Create(Tuple.Create("", 58613), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/icons/amex-card.png")
+                    , 58613), false)
                     );
 
                     WriteLiteral(" alt=\"Amex\"");
@@ -3619,7 +3594,7 @@ namespace ASP
                     WriteLiteral(">\r\n");
 
 
-#line 1036 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 1037 "..\..\Views\Checkout\BasketDetails.cshtml"
                 }
 
 
@@ -3630,7 +3605,7 @@ namespace ASP
                 WriteLiteral("\r\n    </div>\r\n");
 
 
-#line 1056 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 1057 "..\..\Views\Checkout\BasketDetails.cshtml"
             }
             else
             {
@@ -3649,7 +3624,7 @@ namespace ASP
                 WriteLiteral(">\r\n            <span>Your basket is currently empty, ");
 
 
-#line 1061 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 1062 "..\..\Views\Checkout\BasketDetails.cshtml"
                 Write(Html.ActionLink("continue shopping", "Index", "Home"));
 
 
@@ -3658,7 +3633,7 @@ namespace ASP
                 WriteLiteral("</span>\r\n        </div>\r\n    </div>\r\n");
 
 
-#line 1064 "..\..\Views\Checkout\BasketDetails.cshtml"
+#line 1065 "..\..\Views\Checkout\BasketDetails.cshtml"
             }
 
 

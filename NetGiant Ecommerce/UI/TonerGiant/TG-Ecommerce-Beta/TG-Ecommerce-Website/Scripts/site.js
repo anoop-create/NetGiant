@@ -982,13 +982,17 @@ function removeAddSellPopup() {
 // Inserts the popup markup and tags it with where it came from - 'checkout' (closing/X/backdrop
 // should still take the customer through to /checkout/, since that's what they were trying to
 // do) vs 'addtocart' (closing should just dismiss it and leave them where they are).
-function showAddSellPopup(html, context) {
+// suppressMiniCart (optional): the customer is already looking at their basket - e.g. adding
+// from the "You May Also Need" region inline on the basket page itself - so forcing the
+// mini-cart flyout open on top of the basket page they're already viewing is redundant. See the
+// .atb-add/.add-btn handlers below, which set this when the click originated from that region.
+function showAddSellPopup(html, context, suppressMiniCart) {
     removeAddSellPopup();
     $('body').append(html);
     $('#you-may-also-need').attr('data-context', context);
     setDeferredImages();
 
-    if (context === 'addtocart') {
+    if (context === 'addtocart' && !suppressMiniCart) {
         // The popup is offering add-ons for what was just added - show the mini-cart open
         // behind/underneath it (even if it wasn't already open), on every device, so that:
         // add-on popup along with mini-cart should open together (the explicit requirement
@@ -1096,7 +1100,7 @@ function proceedToCheckout() {
 // requestAddSellPopup's own showAddSellPopup() already removes any existing popup before
 // appending a fresh one, so re-requesting can't "stack" a second copy - and the onNotEligible
 // callback here removes a stale popup outright when the current basket no longer qualifies.
-function maybeShowAddSellPopupAfterAdd() {
+function maybeShowAddSellPopupAfterAdd(suppressMiniCart) {
     // Mobile design: add-ons should only ever surface when the customer taps the mini-cart's
     // own "Proceed to Checkout" button (proceedToCheckout(), above - which already has its own
     // correct handling), never immediately after a plain Add to Basket. Below the breakpoint,
@@ -1118,7 +1122,7 @@ function maybeShowAddSellPopupAfterAdd() {
     }
 
     requestAddSellPopup(function (html) {
-        showAddSellPopup(html, 'addtocart');
+        showAddSellPopup(html, 'addtocart', suppressMiniCart);
     }, function () {
         removeAddSellPopup();
     });
@@ -1876,6 +1880,13 @@ $(function () {
                 if (thisentry.find('input.atb-qty').length) {
                     qty = thisentry.find('input.atb-qty:first').val();
                 }
+                // The customer is already on the basket page looking at their basket when this
+                // button lives inside the inline "You May Also Need" add-on carousel there
+                // (.you-may-need, BasketDetails.cshtml) - forcing the mini-cart flyout open on
+                // top of the page they're already viewing is redundant, so that step is skipped
+                // below for this specific origin only. Every other .atb-add button site-wide
+                // (product pages, category listings, etc.) is untouched.
+                var fromAddonRegion = $(this).closest('.you-may-need').length > 0;
 
                 $.ajax({
                     url: "/Product/BasketAdd/",
@@ -1901,7 +1912,7 @@ $(function () {
                     success: function (data) {
                         changeBasketComplete(data, thisbutton);
                         refreshViewBasket();
-                        maybeShowAddSellPopupAfterAdd();
+                        maybeShowAddSellPopupAfterAdd(fromAddonRegion);
                         // Was a bare openCart() call - that's a plain global function declared
                         // inside MiniBasket.cshtml's own inline <script>, re-defined every time
                         // that partial's markup is replaced via changeBasketComplete()'s
@@ -1916,12 +1927,16 @@ $(function () {
                         // fragile global entirely: do the same two things openCart() does,
                         // directly, the same way changeBasketComplete()'s own re-open branch
                         // (a few lines above) already does it without calling openCart() either.
-                        var $miniCartOverlay = $('#miniCartOverlay');
-                        if ($miniCartOverlay.length) {
-                            $miniCartOverlay.addClass('is-open');
-                            $('body').css('overflow', 'hidden');
-                        } else if (window.console && console.error) {
-                            console.error('[atb-add] #miniCartOverlay not found on this page - cannot open mini-cart');
+                        // Skipped entirely when fromAddonRegion is true - see the comment where
+                        // that's set above.
+                        if (!fromAddonRegion) {
+                            var $miniCartOverlay = $('#miniCartOverlay');
+                            if ($miniCartOverlay.length) {
+                                $miniCartOverlay.addClass('is-open');
+                                $('body').css('overflow', 'hidden');
+                            } else if (window.console && console.error) {
+                                console.error('[atb-add] #miniCartOverlay not found on this page - cannot open mini-cart');
+                            }
                         }
                     },
                     error: function (xhr, textStatus, thrownError) {
@@ -1942,6 +1957,11 @@ $(function () {
             var thisbutton = $(this);
             var thisentry = $(this).closest('.atb-entry');
             var qty = thisentry.find('input.atb-qty:first').val() || '1';
+            // Same "already on the basket page" reasoning as the .atb-add handler above - this
+            // button is the mobile-width rendering of the same inline add-on region
+            // (#itemList, BasketDetails.cshtml), shown/hidden via CSS alongside the .you-may-need
+            // desktop carousel rather than a separate server code path.
+            var fromAddonRegion = $(this).closest('#itemList').length > 0;
 
             $.ajax({
                 url: "/Product/BasketAdd/",
@@ -1957,14 +1977,16 @@ $(function () {
                 success: function (data) {
                     changeBasketComplete(data, thisbutton);
                     refreshViewBasket();
-                    maybeShowAddSellPopupAfterAdd();
+                    maybeShowAddSellPopupAfterAdd(fromAddonRegion);
 
-                    var $miniCartOverlay = $('#miniCartOverlay');
-                    if ($miniCartOverlay.length) {
-                        $miniCartOverlay.addClass('is-open');
-                        $('body').css('overflow', 'hidden');
-                    } else if (window.console && console.error) {
-                        console.error('[add-btn] #miniCartOverlay not found on this page - cannot open mini-cart');
+                    if (!fromAddonRegion) {
+                        var $miniCartOverlay = $('#miniCartOverlay');
+                        if ($miniCartOverlay.length) {
+                            $miniCartOverlay.addClass('is-open');
+                            $('body').css('overflow', 'hidden');
+                        } else if (window.console && console.error) {
+                            console.error('[add-btn] #miniCartOverlay not found on this page - cannot open mini-cart');
+                        }
                     }
                 },
                 error: function (xhr, textStatus, thrownError) {

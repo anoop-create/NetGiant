@@ -146,9 +146,9 @@
                             (x.PriceEx - x.CrossSellingPriceEx) * x.Quantity
                         );
                         /*
-                         * Switch All
+                         * Switch All 
                          */
-                        if (hasSwitchProducts && switchCount > 1)
+                        if (hasSwitchProducts && switchCount > 0)
                         {
                             <div class="switch-save switch-save--all">
                                 <span class="switch-save__label">
@@ -167,7 +167,7 @@
                                 </div>
                             </div>
                         }
-                        /*
+                        /* 
                          * Render basket products
                          */
                         foreach (BasketContents bc in lbc)
@@ -305,7 +305,7 @@
                                             <div class="cart-item__price">
                                                 £@neg@bc.PriceEx.ToString("N2")
                                                 <span class="vat">
-                                                    Ex VAT 
+                                                    ex VAT 
                                                 </span>
                                                 @if (discUnitPrice > 0)
                                                 {
@@ -423,7 +423,7 @@
                                                                     @* Same "Trade Price" label fix as the main cart-item price
         above - dropped for trade customers, which also removes
         the same wrap/scroll trigger in this narrower card. *@
-                                                                    Ex. VAT
+                                                                    ex. VAT
                                                                 </span>
                                                             </div>
                                                             <!-- Saving -->

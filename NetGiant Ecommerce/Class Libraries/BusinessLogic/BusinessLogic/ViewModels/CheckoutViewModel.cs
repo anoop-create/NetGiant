@@ -1120,11 +1120,28 @@ namespace BusinessLogic.ViewModels
                         continue;
                     }
 
-                    var addonIds = db.ProductAddons
-                    .Where(x => x.ProductId == basketItem.ProductId && x.IsActive)
-                   .OrderByDescending(x => x.CreatedDate).Take(3)
-                    .Select(x => x.AddonProductId)
-                    .ToList();
+                    // Website display rules for the linked add-on product itself - the back
+                    // office can still create/keep the ProductAddon mapping regardless of these
+                    // (SaveProductAddons in the Intranet PMS has no such restriction), so this
+                    // only controls what's actually offered here on the website:
+                    //  - Active status: productStatusFK 1 or 8 ("Active" - same convention
+                    //    already used elsewhere in this codebase, e.g. EntityAccess.cs /
+                    //    EquipmentController.cs).
+                    //  - Stock Item or Assembly only: productItemTypeFK 1 (single product) or 2
+                    //    (multi-pack/assembly) - excludes Manufacturer Assembly (3) and any other
+                    //    non-sellable type. Joined explicitly on AddonProductId rather than via
+                    //    the generated product/product1 navigation properties, so which side of
+                    //    the ProductAddon FK pair is being checked isn't left to a guess.
+                    var addonIds = (from pa in db.ProductAddons
+                                     join p in db.product on pa.AddonProductId equals p.productID
+                                     where pa.ProductId == basketItem.ProductId
+                                        && pa.IsActive
+                                        && (p.productStatusFK == 1 || p.productStatusFK == 8)
+                                        && (p.productItemTypeFK == 1 || p.productItemTypeFK == 2)
+                                     orderby pa.CreatedDate descending
+                                     select pa.AddonProductId)
+                                     .Take(3)
+                                     .ToList();
 
                     foreach (var addonId in addonIds)
                     {
@@ -1138,8 +1155,9 @@ namespace BusinessLogic.ViewModels
 
                         // Only show add-on products that are actually in stock (Availability
                         // 1 = in stock, 7 = in stock at an alternate warehouse) - an out-of-stock
-                        // linked product shouldn't be offered in the "You May Also Need" region.
-                        if (product != null)
+                        // linked product shouldn't be offered in the "You May Also Need" region,
+                        // even though it can still be configured as an add-on in the back office.
+                        if (product != null && (product.Availability == 1 || product.Availability == 7))
                         {
                             basketItem.AddonProducts.Add(pv.CreateBasketContent(product));
                         }

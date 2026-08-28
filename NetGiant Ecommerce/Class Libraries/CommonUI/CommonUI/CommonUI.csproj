@@ -1412,7 +1412,10 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>BasketSidebarInfoCards.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\Checkout\BasketDetails.cshtml" />
+    <Content Include="Views\Checkout\BasketDetails.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>BasketDetails1.generated.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
