@@ -142,11 +142,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="cdn\Images\1pxTrans.png" />
-    <Content Include="cdn\Images\brand-logos.png" />
-    <Content Include="cdn\Images\mainSprite.png" />
-    <Content Include="cdn\Images\noImage.jpg" />
-    <Content Include="cdn\Images\printer-brand-logos.jpg" />
     <Content Include="Content\awesome-bootstrap-checkbox.css" />
     <Content Include="Content\bootstrap-select.css" />
     <Content Include="Content\bootstrap-select.min.css" />
@@ -175,12 +170,27 @@
     <Content Include="Content\fonts\glyphs\KendoUIGlyphs.svg" />
     <Content Include="Content\fonts\glyphs\WebComponentsIcons.svg" />
     <Content Include="Content\Images\1pxTrans.png" />
+    <Content Include="Content\Images\icons\amex-card.png" />
+    <Content Include="Content\Images\icons\cards-icon.png" />
+    <Content Include="Content\Images\icons\instock-icon.png" />
+    <Content Include="Content\Images\icons\like-icon.png" />
+    <Content Include="Content\Images\icons\like-icon01.png" />
+    <Content Include="Content\Images\icons\master-card.png" />
+    <Content Include="Content\Images\icons\outstock-icon.png" />
+    <Content Include="Content\Images\icons\pound-icon.png" />
+    <Content Include="Content\Images\icons\shipping-icon.png" />
+    <Content Include="Content\Images\icons\shipping-icon01.png" />
+    <Content Include="Content\Images\icons\star-icon01.png" />
+    <Content Include="Content\Images\icons\trash-icon.png" />
+    <Content Include="Content\Images\icons\visa-card.png" />
     <Content Include="Content\Images\main-logo.png" />
     <Content Include="Content\Images\missingEquipment.png" />
     <Content Include="Content\jquery-confirm.css" />
     <Content Include="Content\jquery.jscrollpane.css" />
     <Content Include="Content\kendo.bootstrap.min.css" />
     <Content Include="Content\kendo.common.min.css" />
+    <Content Include="Content\minicart.css" />
+    <Content Include="Content\style.css" />
     <Content Include="data\local-static-files\main-menu.html" />
     <Content Include="data\local-static-files\mobile-menu.html" />
     <Content Include="favicon.ico" />
@@ -382,6 +392,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="cdn\" />
     <Folder Include="Controllers\" />
     <Folder Include="Views\Checkout\" />
     <Folder Include="Views\Embedded\" />
