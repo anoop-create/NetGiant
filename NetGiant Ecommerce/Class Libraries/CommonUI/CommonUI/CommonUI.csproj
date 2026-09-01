@@ -1414,7 +1414,7 @@
     </Content>
     <Content Include="Views\Checkout\BasketDetails.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>BasketDetails1.generated.cs</LastGenOutput>
+      <LastGenOutput>BasketDetails.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

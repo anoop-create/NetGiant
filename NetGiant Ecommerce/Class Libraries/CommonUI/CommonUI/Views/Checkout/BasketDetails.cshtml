@@ -24,7 +24,7 @@
                     @{
                         bool isMultiBuy = false;
                         decimal multibuyAmount = decimal.Zero;
-                        Model.CheckZeroStock();
+                        Model.CheckZeroStock(); 
                         decimal basketSwitchSaving = 0;
                         bool hasSwitchProducts = false;
                         // Logic to build Basket Switch & Save section
@@ -581,12 +581,16 @@
                 {
                     Dictionary<string, string> replacements = new Dictionary<string, string>();
                     <div class="g-bc-note g-b-1-p g-p-10 g-m-t-10 g-w-345 g-fs-sm">@(Html.RawFromDict(Model.CheckoutData, "ZeroStock", replacements))</div>
-                }
+                } 
 
 
                 @if (Convert.ToBoolean(Session["U_IsPortalUser"]))
                 {
-                    <div class="g-m-t-60 g-m-b-20 g-br-0 panel panel-default">
+                    @* id added so site.js's .atb-add handler can detect a click originated in
+                       this panel and skip forcing the mini-cart/add-on popup open - the portal
+                       user is by definition already on this basket page. See the fromAddonRegion
+                       comment in site.js. *@
+                    <div id="portalCsTools" class="g-m-t-60 g-m-b-20 g-br-0 panel panel-default">
                         <div class="panel-heading g-fw-b">Customer Service Tools</div>
                         <div class="panel-body">
                             @if (String.IsNullOrEmpty(Session["B_VoucherCode"] as string))
@@ -758,8 +762,13 @@
                             }
                             else
                             {
+                                @* FIX: was Math.Abs(Model.BasketTotals.Voucher) alone - that's the
+                                   EX VAT discount amount (BasketTotals.Voucher), but the label right
+                                   next to it says "(inc VAT)". Voucher + VoucherVat is the actual
+                                   inc-VAT figure - same fix already applied a few lines down at the
+                                   "promo-applied__saving" span, which already did this correctly. *@
                                 @((Model.BasketTotals.Voucher < 0 ? "-" : ""))
-                                @Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher)) + " (inc VAT)"))
+                                @Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher + Model.BasketTotals.VoucherVat)) + " (inc VAT)"))
                             }
                         </span>
                     </div>

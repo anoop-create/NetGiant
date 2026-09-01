@@ -1139,7 +1139,7 @@ WriteLiteral(">\r\n                                                             
             
             #line default
             #line hidden
-WriteLiteral("\r\n                                                                <span");
+WriteLiteral(" \r\n                                                                <span");
 
 WriteLiteral(" class=\"vat\"");
 

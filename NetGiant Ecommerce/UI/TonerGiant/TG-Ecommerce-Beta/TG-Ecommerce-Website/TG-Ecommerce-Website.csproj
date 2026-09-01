@@ -150,6 +150,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="cdn\Images\switch-save-m.png" />
+    <Content Include="cdn\Images\switch-save.png" />
+    <Content Include="cdn\Images\switchandsave.png" />
+    <Content Include="cdn\Images\switchheader.jpg" />
+    <Content Include="cdn\Images\switchtick.jpg" />
     <Content Include="Content\awesome-bootstrap-checkbox.css" />
     <Content Include="Content\bootstrap-select.css" />
     <Content Include="Content\bootstrap-select.min.css" />

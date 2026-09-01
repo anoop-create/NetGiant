@@ -1402,8 +1402,6 @@ function renderPaypalButtonV2() {
         }
     });
 
-    var paypalObject = buildPayPalObject(amt);
-
     // #paypal-button2/3 now render once in ViewBasket.cshtml and persist across basket
     // refreshes (they used to live inside the AJAX-replaced BasketDetails.cshtml partial, so a
     // fresh empty container was guaranteed every time this ran). Since this function can still
@@ -1412,6 +1410,19 @@ function renderPaypalButtonV2() {
     // that's already there.
     $('#paypal-button2').empty();
     $('#paypal-button3').empty();
+
+    // FIX: because these containers persist outside #vbBasketDetails and this function has no
+    // basket-empty check, removing the last item left a live, clickable PayPal button sitting on
+    // top of an empty basket (the container itself is only ever added/removed by the server-side
+    // GrandTotalIncVat > 0.01m check in ViewBasket.cshtml, which only runs on a real page load,
+    // never on this AJAX refresh path). PayPalGetAmount already returns "0" for an empty basket
+    // (Basket.GetBasketTotal on an empty B_BasketArray) - bail out here before rendering anything
+    // rather than creating a PayPal button for a zero-value order.
+    if (!amt || parseFloat(amt) <= 0) {
+        return;
+    }
+
+    var paypalObject = buildPayPalObject(amt);
 
     paypalObject.fundingSource = paypal.FUNDING.PAYPAL;
     paypal.Buttons(paypalObject).render('#paypal-button2');
@@ -1886,7 +1897,16 @@ $(function () {
                 // top of the page they're already viewing is redundant, so that step is skipped
                 // below for this specific origin only. Every other .atb-add button site-wide
                 // (product pages, category listings, etc.) is untouched.
-                var fromAddonRegion = $(this).closest('.you-may-need').length > 0;
+                // Same reasoning for #portalCsTools - the portal/trade "Customer Service Tools"
+                // panel on the basket page (BasketDetails.cshtml), whose "Apply Discount" and
+                // "Place Order On Hold" buttons both go through this same .atb-add handler
+                // (#discount-atb is triggered programmatically by #apply-discount's own click
+                // handler in checkout.js - $(this) here is still #discount-atb itself, so
+                // .closest() sees it's inside the panel exactly as if it had been clicked
+                // directly). A portal user using these is, by definition, already on the basket
+                // page.
+                var fromAddonRegion = $(this).closest('.you-may-need').length > 0 ||
+                    $(this).closest('#portalCsTools').length > 0;
 
                 $.ajax({
                     url: "/Product/BasketAdd/",

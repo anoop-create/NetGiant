@@ -396,29 +396,36 @@ WriteLiteral("FREE GIFT\r\n");
             #line default
             #line hidden
             
-            #line 82 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 87 "..\..\Views\Checkout\OrderSummary.cshtml"
+                                                                       
+                            
+            
+            #line default
+            #line hidden
+            
+            #line 88 "..\..\Views\Checkout\OrderSummary.cshtml"
                         Write((Model.BasketTotals.Voucher < 0 ? "-" : ""));
 
             
             #line default
             #line hidden
             
-            #line 82 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 88 "..\..\Views\Checkout\OrderSummary.cshtml"
                                                                           
                             
             
             #line default
             #line hidden
             
-            #line 83 "..\..\Views\Checkout\OrderSummary.cshtml"
-                       Write(Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher)) + " (inc VAT)")));
+            #line 89 "..\..\Views\Checkout\OrderSummary.cshtml"
+                       Write(Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher + Model.BasketTotals.VoucherVat)) + " (inc VAT)")));
 
             
             #line default
             #line hidden
             
-            #line 83 "..\..\Views\Checkout\OrderSummary.cshtml"
-                                                                                                                                 
+            #line 89 "..\..\Views\Checkout\OrderSummary.cshtml"
+                                                                                                                                                                 
                         }
                         else
                         {
@@ -427,28 +434,28 @@ WriteLiteral("FREE GIFT\r\n");
             #line default
             #line hidden
             
-            #line 87 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 93 "..\..\Views\Checkout\OrderSummary.cshtml"
                         Write((Model.BasketTotals.Voucher < 0 ? "-" : ""));
 
             
             #line default
             #line hidden
             
-            #line 87 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 93 "..\..\Views\Checkout\OrderSummary.cshtml"
                                                                           
                             
             
             #line default
             #line hidden
             
-            #line 88 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 94 "..\..\Views\Checkout\OrderSummary.cshtml"
                        Write(Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher + Model.BasketTotals.VoucherVat)))));
 
             
             #line default
             #line hidden
             
-            #line 88 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 94 "..\..\Views\Checkout\OrderSummary.cshtml"
                                                                                                                                                   
                         }
                     }
@@ -459,7 +466,7 @@ WriteLiteral("FREE GIFT\r\n");
 WriteLiteral("                </div>\r\n            </div>\r\n        </div>\r\n");
 
             
-            #line 94 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 100 "..\..\Views\Checkout\OrderSummary.cshtml"
     }
 
             
@@ -484,13 +491,13 @@ WriteLiteral(" class=\"pull-right g-fs-lg\"");
 WriteLiteral(">\r\n");
 
             
-            #line 100 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 106 "..\..\Views\Checkout\OrderSummary.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 100 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 106 "..\..\Views\Checkout\OrderSummary.cshtml"
                  if (!isVatExempt)
                 {
 
@@ -500,7 +507,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                    <strong>");
 
             
-            #line 102 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 108 "..\..\Views\Checkout\OrderSummary.cshtml"
                        Write(string.Format("{0:C}", Model.BasketTotals.GrandTotalIncVat));
 
             
@@ -515,7 +522,7 @@ WriteLiteral(" class=\"g-fc-tt g-fs-sm\"");
 WriteLiteral("> inc VAT</span>\r\n");
 
             
-            #line 103 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 109 "..\..\Views\Checkout\OrderSummary.cshtml"
                 }
                 else
                 {
@@ -526,7 +533,7 @@ WriteLiteral("> inc VAT</span>\r\n");
 WriteLiteral("                    <strong>");
 
             
-            #line 106 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 112 "..\..\Views\Checkout\OrderSummary.cshtml"
                        Write(string.Format("{0:C}", Model.BasketTotals.GrandTotalExcVat));
 
             
@@ -535,7 +542,7 @@ WriteLiteral("                    <strong>");
 WriteLiteral("</strong>\r\n");
 
             
-            #line 107 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 113 "..\..\Views\Checkout\OrderSummary.cshtml"
                 }
 
             
@@ -544,7 +551,7 @@ WriteLiteral("</strong>\r\n");
 WriteLiteral("            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n");
 
             
-            #line 112 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 118 "..\..\Views\Checkout\OrderSummary.cshtml"
  if (ViewBag.Stage1 != "active")
 {
     if (Model.CheckoutDetails.DeliveryAddress != null)
@@ -568,13 +575,13 @@ WriteLiteral(" class=\"g-p-10\"");
 WriteLiteral(">\r\n");
 
             
-            #line 120 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 126 "..\..\Views\Checkout\OrderSummary.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 120 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 126 "..\..\Views\Checkout\OrderSummary.cshtml"
                  if (Model.CheckoutDetails.Name != null)
                 {
 
@@ -584,7 +591,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                    <div>");
 
             
-            #line 122 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 128 "..\..\Views\Checkout\OrderSummary.cshtml"
                      Write(Model.CheckoutDetails.RecipientName.Title + " " + Model.CheckoutDetails.RecipientName.Firstname + " " + Model.CheckoutDetails.RecipientName.Surname);
 
             
@@ -593,7 +600,7 @@ WriteLiteral("                    <div>");
 WriteLiteral("</div>\r\n");
 
             
-            #line 123 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 129 "..\..\Views\Checkout\OrderSummary.cshtml"
                 }
 
             
@@ -606,7 +613,7 @@ WriteLiteral(" id=\"summ-deladd-line1\"");
 WriteLiteral(">");
 
             
-            #line 124 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 130 "..\..\Views\Checkout\OrderSummary.cshtml"
                                        Write(Model.CheckoutDetails.DeliveryAddress.Line1);
 
             
@@ -619,7 +626,7 @@ WriteLiteral(" id=\"summ-deladd-line2\"");
 WriteLiteral(">");
 
             
-            #line 125 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 131 "..\..\Views\Checkout\OrderSummary.cshtml"
                                        Write(Model.CheckoutDetails.DeliveryAddress.Line2);
 
             
@@ -632,7 +639,7 @@ WriteLiteral(" id=\"summ-deladd-line3\"");
 WriteLiteral(">");
 
             
-            #line 126 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 132 "..\..\Views\Checkout\OrderSummary.cshtml"
                                        Write(Model.CheckoutDetails.DeliveryAddress.Line3);
 
             
@@ -645,7 +652,7 @@ WriteLiteral(" id=\"summ-deladd-line4\"");
 WriteLiteral(">");
 
             
-            #line 127 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 133 "..\..\Views\Checkout\OrderSummary.cshtml"
                                        Write(Model.CheckoutDetails.DeliveryAddress.Line4);
 
             
@@ -658,7 +665,7 @@ WriteLiteral(" id=\"summ-deladd-postcode\"");
 WriteLiteral(">");
 
             
-            #line 128 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 134 "..\..\Views\Checkout\OrderSummary.cshtml"
                                           Write(Model.CheckoutDetails.DeliveryAddress.PostCode);
 
             
@@ -667,7 +674,7 @@ WriteLiteral(">");
 WriteLiteral("</div>\r\n            </div>\r\n        </div>\r\n");
 
             
-            #line 131 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 137 "..\..\Views\Checkout\OrderSummary.cshtml"
 
 
             
@@ -688,13 +695,13 @@ WriteLiteral(" class=\"g-p-10\"");
 WriteLiteral(">\r\n");
 
             
-            #line 136 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 142 "..\..\Views\Checkout\OrderSummary.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 136 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 142 "..\..\Views\Checkout\OrderSummary.cshtml"
                  if (Model.CheckoutDetails.Name != null)
                 {
 
@@ -704,7 +711,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                    <div>");
 
             
-            #line 138 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 144 "..\..\Views\Checkout\OrderSummary.cshtml"
                      Write(Model.CheckoutDetails.Name.Title + " " + Model.CheckoutDetails.Name.Firstname + " " + Model.CheckoutDetails.Name.Surname);
 
             
@@ -713,7 +720,7 @@ WriteLiteral("                    <div>");
 WriteLiteral("</div>\r\n");
 
             
-            #line 139 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 145 "..\..\Views\Checkout\OrderSummary.cshtml"
                 }
 
             
@@ -722,7 +729,7 @@ WriteLiteral("</div>\r\n");
 WriteLiteral("                <div>");
 
             
-            #line 140 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 146 "..\..\Views\Checkout\OrderSummary.cshtml"
                 Write(Model.CheckoutDetails.BillingAddress.Line1);
 
             
@@ -731,7 +738,7 @@ WriteLiteral("                <div>");
 WriteLiteral("</div>\r\n                <div>");
 
             
-            #line 141 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 147 "..\..\Views\Checkout\OrderSummary.cshtml"
                 Write(Model.CheckoutDetails.BillingAddress.Line2);
 
             
@@ -740,7 +747,7 @@ WriteLiteral("</div>\r\n                <div>");
 WriteLiteral("</div>\r\n                <div>");
 
             
-            #line 142 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 148 "..\..\Views\Checkout\OrderSummary.cshtml"
                 Write(Model.CheckoutDetails.BillingAddress.Line3);
 
             
@@ -749,7 +756,7 @@ WriteLiteral("</div>\r\n                <div>");
 WriteLiteral("</div>\r\n                <div>");
 
             
-            #line 143 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 149 "..\..\Views\Checkout\OrderSummary.cshtml"
                 Write(Model.CheckoutDetails.BillingAddress.Line4);
 
             
@@ -758,7 +765,7 @@ WriteLiteral("</div>\r\n                <div>");
 WriteLiteral("</div>\r\n                <div>");
 
             
-            #line 144 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 150 "..\..\Views\Checkout\OrderSummary.cshtml"
                 Write(Model.CheckoutDetails.BillingAddress.PostCode);
 
             
@@ -767,7 +774,7 @@ WriteLiteral("</div>\r\n                <div>");
 WriteLiteral("</div>\r\n            </div>\r\n        </div>\r\n");
 
             
-            #line 147 "..\..\Views\Checkout\OrderSummary.cshtml"
+            #line 153 "..\..\Views\Checkout\OrderSummary.cshtml"
     }
 }
 

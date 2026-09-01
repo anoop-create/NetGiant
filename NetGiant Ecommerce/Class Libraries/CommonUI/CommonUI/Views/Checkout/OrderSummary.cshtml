@@ -79,8 +79,14 @@
                     {
                         if (!isVatExempt)
                         {
+                            @* FIX: was Math.Abs(Model.BasketTotals.Voucher) alone - the EX VAT
+                               discount amount - labelled "(inc VAT)" right next to it. The
+                               isVatExempt branch below already adds VoucherVat to get the true
+                               inc-VAT figure; this branch (the normal, non-exempt customer path -
+                               i.e. what almost every customer applying a code like TG10 actually
+                               sees) was missing that same addition. *@
                             @((Model.BasketTotals.Voucher < 0 ? "-" : ""))
-                            @Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher)) + " (inc VAT)"))
+                            @Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher + Model.BasketTotals.VoucherVat)) + " (inc VAT)"))
                         }
                         else
                         {
