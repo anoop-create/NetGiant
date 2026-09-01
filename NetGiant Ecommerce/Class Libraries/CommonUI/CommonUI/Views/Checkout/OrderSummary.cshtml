@@ -77,21 +77,28 @@
                     }
                     else
                     {
+                        @* FIX: reverting an earlier mistaken change to the !isVatExempt branch below.
+                           Traced how BasketTotals.Voucher/VoucherVat are actually built (Basket.cs's
+                           ApplyVoucher and CheckoutViewModel.AddVoucherToBasket()) - voucherValue is
+                           computed from PriceInc (inc-VAT) qualifying totals, so Voucher alone is
+                           already the inc-VAT discount figure; VoucherVat is just its VAT
+                           sub-component (AddVoucherToBasket() confirms this directly: the voucher
+                           line's bc.PriceInc = bt.Voucher, while bc.PriceEx = bt.Voucher +
+                           bt.VoucherVat - the smaller, ex-VAT amount). So adding VoucherVat here was
+                           showing the ex-VAT figure under an "(inc VAT)" label - the opposite of the
+                           original bug this was meant to fix. Voucher alone is also already correct
+                           for VAT-exempt customers (Basket.cs zeroes VoucherVat and swaps Voucher to
+                           the ex-VAT figure in that case), so both branches now use the same plain
+                           expression - VoucherVat isn't needed for display in either. *@
                         if (!isVatExempt)
                         {
-                            @* FIX: was Math.Abs(Model.BasketTotals.Voucher) alone - the EX VAT
-                               discount amount - labelled "(inc VAT)" right next to it. The
-                               isVatExempt branch below already adds VoucherVat to get the true
-                               inc-VAT figure; this branch (the normal, non-exempt customer path -
-                               i.e. what almost every customer applying a code like TG10 actually
-                               sees) was missing that same addition. *@
                             @((Model.BasketTotals.Voucher < 0 ? "-" : ""))
-                            @Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher + Model.BasketTotals.VoucherVat)) + " (inc VAT)"))
+                            @Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher)) + " (inc VAT)"))
                         }
                         else
                         {
                             @((Model.BasketTotals.Voucher < 0 ? "-" : ""))
-                            @Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher + Model.BasketTotals.VoucherVat))))
+                            @Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher))))
                         }
                     }
                 </div>

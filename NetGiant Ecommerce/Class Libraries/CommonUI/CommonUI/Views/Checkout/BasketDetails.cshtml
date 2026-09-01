@@ -121,7 +121,7 @@
                                     // customer to increase quantity of something that can't actually be
                                     // fulfilled. Matches the same 1/7 in-stock check already used by the
                                     // Switch & Save eligibility a few lines below.
-                                    (bc.Availability == 1 || bc.Availability == 7) &&
+                                    (bc.Availability == 1 || bc.Availability == 7 || bc.Availability==3) &&
                                     upsellPerItemSaving > 0;
                                 if (!bc.IsCompatible &&
                                 !String.IsNullOrEmpty(bc.CrossSellingStockRef) &&
@@ -762,13 +762,21 @@
                             }
                             else
                             {
-                                @* FIX: was Math.Abs(Model.BasketTotals.Voucher) alone - that's the
-                                   EX VAT discount amount (BasketTotals.Voucher), but the label right
-                                   next to it says "(inc VAT)". Voucher + VoucherVat is the actual
-                                   inc-VAT figure - same fix already applied a few lines down at the
-                                   "promo-applied__saving" span, which already did this correctly. *@
+                                @* FIX: reverting an earlier mistaken change. Traced how BasketTotals.Voucher
+                                   /VoucherVat are actually built in Basket.cs and CheckoutViewModel.AddVoucherToBasket() -
+                                   voucherValue there is computed from PriceInc (inc-VAT) qualifying totals, so
+                                   BasketTotals.Voucher (= voucherValue * -1) is ALREADY the inc-VAT discount
+                                   figure on its own. VoucherVat is only the VAT sub-component of that same
+                                   amount, used elsewhere to keep the separate VAT total correct - confirmed by
+                                   AddVoucherToBasket() itself: bc.PriceInc = bt.Voucher (inc-VAT), while
+                                   bc.PriceEx = bt.Voucher + bt.VoucherVat (the smaller, EX-VAT figure). So
+                                   "Voucher + VoucherVat" here was showing the ex-VAT amount under an "(inc VAT)"
+                                   label - the opposite of the earlier bug this was meant to fix. Reverted to
+                                   Math.Abs(Voucher) alone, which is correct in both the normal and VAT-exempt
+                                   cases (Basket.cs zeroes VoucherVat and swaps Voucher to the ex-VAT figure for
+                                   exempt customers, so this same expression is right either way). *@
                                 @((Model.BasketTotals.Voucher < 0 ? "-" : ""))
-                                @Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher + Model.BasketTotals.VoucherVat)) + " (inc VAT)"))
+                                @Html.Raw(("&pound;" + string.Format("{0:N2}", Math.Abs(Model.BasketTotals.Voucher)) + " (inc VAT)"))
                             }
                         </span>
                     </div>
@@ -821,8 +829,13 @@
                                 <i class="fa fa-trash"></i>
                             </button>
 
+                            @* FIX: same wrong-direction formula as the summary-row voucher amount above -
+                               "Voucher + VoucherVat" is the ex-VAT figure, not the inc-VAT one this chip
+                               should show (see the comment on the summary row for the full trace). This
+                               instance predates any of this session's earlier edits, so it isn't a
+                               regression from those - just the same pre-existing mistake in a second spot. *@
                             <span class="promo-applied__saving">
-                                -&pound;@Math.Abs(Model.BasketTotals.Voucher + Model.BasketTotals.VoucherVat).ToString("0.00")
+                                -&pound;@Math.Abs(Model.BasketTotals.Voucher).ToString("0.00")
                             </span>
 
                         </div>

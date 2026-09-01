@@ -204,8 +204,22 @@ namespace CommonUI.Controllers
                 model.SignIn = new SignIn();
                 if (Authentication.IsAuthenticated())
                 {
-                    model.SignIn.UserName = Session["U_Email"].ToString();
-                    model.SignIn.Password = Session["U_Password"].ToString();
+                    // FIX: after an Opayo 3D-Secure round trip, OpayoNotification() runs in a
+                    // session that (per its own comment) is NOT the customer's original one, and
+                    // restores U_Authenticated/U_Email/U_IsPortalUser etc. via
+                    // MyOpayo.GetJsonSession() - but SetJsonSession()/GetJsonSession() never
+                    // capture or restore U_Password, so it stays null in that session. A declined
+                    // or rejected 3DS challenge auto-navigates back to /checkout/
+                    // (Opayo3DAuth.cshtml's type==2/3 branches), and clicking "Edit Basket" lands
+                    // here too - both used to NullReferenceException on
+                    // Session["U_Password"].ToString() (portal users only, since this whole block
+                    // is IsPortalUser-gated), and every later visit to /checkout/ kept crashing
+                    // the same way until the session was abandoned and the rep logged back in
+                    // (PopulateSession() is the only thing that (re)sets U_Password). Guarded the
+                    // same way, and with the same placeholder fallback, as the "not authenticated"
+                    // branch immediately below already does for this portal-only autofill field.
+                    model.SignIn.UserName = Session["U_Email"] != null ? Session["U_Email"].ToString() : "";
+                    model.SignIn.Password = Session["U_Password"] != null ? Session["U_Password"].ToString() : "temp-password";
                 }
                 else
                 {

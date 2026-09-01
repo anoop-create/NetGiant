@@ -464,7 +464,7 @@ WriteLiteral(">\r\n                                        Switch All Items\r\n 
                                     // basket page (BasketDetails.cshtml) - without this, the pill
                                     // could prompt "Buy N More, Save X%" on an item that's actually
                                     // out of stock ("Back In Stock Soon" etc.) and can't be fulfilled.
-                                    (bc.Availability == 1 || bc.Availability == 7) &&
+                                    (bc.Availability == 1 || bc.Availability == 7 || bc.Availability==3) &&
                                     upsellPerItemSaving > 0;
 
             
@@ -489,52 +489,52 @@ WriteLiteral("\"");
 WriteLiteral(">\r\n                                        <!-- Product image -->\r\n              " +
 "                          <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 14416), Tuple.Create("\"", 14434)
+WriteAttribute("href", Tuple.Create(" href=\"", 14438), Tuple.Create("\"", 14456)
             
             #line 260 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 14423), Tuple.Create<System.Object, System.Int32>(productUrl
+, Tuple.Create(Tuple.Create("", 14445), Tuple.Create<System.Object, System.Int32>(productUrl
             
             #line default
             #line hidden
-, 14423), false)
+, 14445), false)
 );
 
 WriteLiteral("\r\n                                           class=\"cart-item__link\"");
 
 WriteLiteral(">\r\n                                            <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 14554), Tuple.Create("\"", 14572)
+WriteAttribute("src", Tuple.Create(" src=\"", 14576), Tuple.Create("\"", 14594)
             
             #line 262 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 14560), Tuple.Create<System.Object, System.Int32>(bc.ImageUrl
+, Tuple.Create(Tuple.Create("", 14582), Tuple.Create<System.Object, System.Int32>(bc.ImageUrl
             
             #line default
             #line hidden
-, 14560), false)
+, 14582), false)
 );
 
-WriteAttribute("alt", Tuple.Create("\r\n                                                 alt=\"", 14573), Tuple.Create("\"", 14644)
+WriteAttribute("alt", Tuple.Create("\r\n                                                 alt=\"", 14595), Tuple.Create("\"", 14666)
             
             #line 263 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 14629), Tuple.Create<System.Object, System.Int32>(bc.Description
+, Tuple.Create(Tuple.Create("", 14651), Tuple.Create<System.Object, System.Int32>(bc.Description
             
             #line default
             #line hidden
-, 14629), false)
+, 14651), false)
 );
 
 WriteLiteral("\r\n                                                 class=\"cart-item__img\"");
 
-WriteAttribute("onerror", Tuple.Create("\r\n                                                 onerror=\"", 14718), Tuple.Create("\"", 14849)
-, Tuple.Create(Tuple.Create("", 14778), Tuple.Create("this.src=\'", 14778), true)
+WriteAttribute("onerror", Tuple.Create("\r\n                                                 onerror=\"", 14740), Tuple.Create("\"", 14871)
+, Tuple.Create(Tuple.Create("", 14800), Tuple.Create("this.src=\'", 14800), true)
             
             #line 265 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 14788), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+, Tuple.Create(Tuple.Create("", 14810), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
             
             #line default
             #line hidden
-, 14788), false)
-, Tuple.Create(Tuple.Create("", 14828), Tuple.Create("/Images/noImage.jpg\';", 14828), true)
+, 14810), false)
+, Tuple.Create(Tuple.Create("", 14850), Tuple.Create("/Images/noImage.jpg\';", 14850), true)
 );
 
 WriteLiteral(" />\r\n                                        </a>\r\n                              " +
@@ -545,14 +545,14 @@ WriteLiteral(" class=\"cart-item__details\"");
 
 WriteLiteral(">\r\n                                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 15087), Tuple.Create("\"", 15105)
+WriteAttribute("href", Tuple.Create(" href=\"", 15109), Tuple.Create("\"", 15127)
             
             #line 269 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 15094), Tuple.Create<System.Object, System.Int32>(productUrl
+, Tuple.Create(Tuple.Create("", 15116), Tuple.Create<System.Object, System.Int32>(productUrl
             
             #line default
             #line hidden
-, 15094), false)
+, 15116), false)
 );
 
 WriteLiteral("\r\n                                               class=\"cart-item__title\"");
@@ -746,24 +746,24 @@ WriteLiteral(" class=\"qty-upsell-pill\"");
 
 WriteLiteral("\r\n                                                            type=\"button\"");
 
-WriteAttribute("onclick", Tuple.Create("\r\n                                                            onclick=\"", 18926), Tuple.Create("\"", 19052)
-, Tuple.Create(Tuple.Create("", 18997), Tuple.Create("changeMiniBasketQty(\'", 18997), true)
+WriteAttribute("onclick", Tuple.Create("\r\n                                                            onclick=\"", 18948), Tuple.Create("\"", 19074)
+, Tuple.Create(Tuple.Create("", 19019), Tuple.Create("changeMiniBasketQty(\'", 19019), true)
             
             #line 325 "..\..\Views\Shared\MiniBasket.cshtml"
-         , Tuple.Create(Tuple.Create("", 19018), Tuple.Create<System.Object, System.Int32>(bc.StockRef
+         , Tuple.Create(Tuple.Create("", 19040), Tuple.Create<System.Object, System.Int32>(bc.StockRef
             
             #line default
             #line hidden
-, 19018), false)
-, Tuple.Create(Tuple.Create("", 19030), Tuple.Create("\',", 19030), true)
+, 19040), false)
+, Tuple.Create(Tuple.Create("", 19052), Tuple.Create("\',", 19052), true)
             
             #line 325 "..\..\Views\Shared\MiniBasket.cshtml"
-                        , Tuple.Create(Tuple.Create(" ", 19032), Tuple.Create<System.Object, System.Int32>(bc.QtyStart + 1
+                        , Tuple.Create(Tuple.Create(" ", 19054), Tuple.Create<System.Object, System.Int32>(bc.QtyStart + 1
             
             #line default
             #line hidden
-, 19033), false)
-, Tuple.Create(Tuple.Create("", 19051), Tuple.Create(")", 19051), true)
+, 19055), false)
+, Tuple.Create(Tuple.Create("", 19073), Tuple.Create(")", 19073), true)
 );
 
 WriteLiteral(">\r\n                                                        Buy ");
@@ -801,24 +801,24 @@ WriteLiteral(" class=\"qty-upsell-pill\"");
 
 WriteLiteral("\r\n                                                            type=\"button\"");
 
-WriteAttribute("onclick", Tuple.Create("\r\n                                                            onclick=\"", 19574), Tuple.Create("\"", 19700)
-, Tuple.Create(Tuple.Create("", 19645), Tuple.Create("changeMiniBasketQty(\'", 19645), true)
+WriteAttribute("onclick", Tuple.Create("\r\n                                                            onclick=\"", 19596), Tuple.Create("\"", 19722)
+, Tuple.Create(Tuple.Create("", 19667), Tuple.Create("changeMiniBasketQty(\'", 19667), true)
             
             #line 333 "..\..\Views\Shared\MiniBasket.cshtml"
-         , Tuple.Create(Tuple.Create("", 19666), Tuple.Create<System.Object, System.Int32>(bc.StockRef
+         , Tuple.Create(Tuple.Create("", 19688), Tuple.Create<System.Object, System.Int32>(bc.StockRef
             
             #line default
             #line hidden
-, 19666), false)
-, Tuple.Create(Tuple.Create("", 19678), Tuple.Create("\',", 19678), true)
+, 19688), false)
+, Tuple.Create(Tuple.Create("", 19700), Tuple.Create("\',", 19700), true)
             
             #line 333 "..\..\Views\Shared\MiniBasket.cshtml"
-                        , Tuple.Create(Tuple.Create(" ", 19680), Tuple.Create<System.Object, System.Int32>(bc.Quantity + 1
+                        , Tuple.Create(Tuple.Create(" ", 19702), Tuple.Create<System.Object, System.Int32>(bc.Quantity + 1
             
             #line default
             #line hidden
-, 19681), false)
-, Tuple.Create(Tuple.Create("", 19699), Tuple.Create(")", 19699), true)
+, 19703), false)
+, Tuple.Create(Tuple.Create("", 19721), Tuple.Create(")", 19721), true)
 );
 
 WriteLiteral(">\r\n                                                        Add More, Keep Saving\r" +
@@ -923,38 +923,38 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral("\r\n                                                           readonly");
 
-WriteAttribute("value", Tuple.Create("\r\n                                                           value=\"", 21377), Tuple.Create("\"", 21457)
+WriteAttribute("value", Tuple.Create("\r\n                                                           value=\"", 21399), Tuple.Create("\"", 21479)
             
             #line 357 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 21445), Tuple.Create<System.Object, System.Int32>(bc.Quantity
+, Tuple.Create(Tuple.Create("", 21467), Tuple.Create<System.Object, System.Int32>(bc.Quantity
             
             #line default
             #line hidden
-, 21445), false)
+, 21467), false)
 );
 
 WriteLiteral(" />\r\n                                                    <button");
 
 WriteLiteral(" type=\"button\"");
 
-WriteAttribute("onclick", Tuple.Create("\r\n                                                            onclick=\"", 21536), Tuple.Create("\"", 21662)
-, Tuple.Create(Tuple.Create("", 21607), Tuple.Create("changeMiniBasketQty(\'", 21607), true)
+WriteAttribute("onclick", Tuple.Create("\r\n                                                            onclick=\"", 21558), Tuple.Create("\"", 21684)
+, Tuple.Create(Tuple.Create("", 21629), Tuple.Create("changeMiniBasketQty(\'", 21629), true)
             
             #line 359 "..\..\Views\Shared\MiniBasket.cshtml"
-         , Tuple.Create(Tuple.Create("", 21628), Tuple.Create<System.Object, System.Int32>(bc.StockRef
+         , Tuple.Create(Tuple.Create("", 21650), Tuple.Create<System.Object, System.Int32>(bc.StockRef
             
             #line default
             #line hidden
-, 21628), false)
-, Tuple.Create(Tuple.Create("", 21640), Tuple.Create("\',", 21640), true)
+, 21650), false)
+, Tuple.Create(Tuple.Create("", 21662), Tuple.Create("\',", 21662), true)
             
             #line 359 "..\..\Views\Shared\MiniBasket.cshtml"
-                        , Tuple.Create(Tuple.Create(" ", 21642), Tuple.Create<System.Object, System.Int32>(bc.Quantity + 1
+                        , Tuple.Create(Tuple.Create(" ", 21664), Tuple.Create<System.Object, System.Int32>(bc.Quantity + 1
             
             #line default
             #line hidden
-, 21643), false)
-, Tuple.Create(Tuple.Create("", 21661), Tuple.Create(")", 21661), true)
+, 21665), false)
+, Tuple.Create(Tuple.Create("", 21683), Tuple.Create(")", 21683), true)
 );
 
 WriteLiteral(">\r\n                                                        +\r\n                   " +
@@ -1023,22 +1023,22 @@ WriteLiteral(" class=\"switch-save__content\"");
 WriteLiteral(">\r\n                                                        <!-- Switch product im" +
 "age -->\r\n                                                        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 24086), Tuple.Create("\"", 24119)
+WriteAttribute("href", Tuple.Create(" href=\"", 24108), Tuple.Create("\"", 24141)
             
             #line 397 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 24093), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingProductUrl
+, Tuple.Create(Tuple.Create("", 24115), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingProductUrl
             
             #line default
             #line hidden
-, 24093), false)
+, 24115), false)
 );
 
 WriteLiteral(">\r\n                                                            <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 24187), Tuple.Create("\"", 24610)
+WriteAttribute("src", Tuple.Create(" src=\"", 24209), Tuple.Create("\"", 24632)
             
             #line 398 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 24193), Tuple.Create<System.Object, System.Int32>(
+, Tuple.Create(Tuple.Create("", 24215), Tuple.Create<System.Object, System.Int32>(
                                                                 !String.IsNullOrEmpty(
                                                                     bc.CrossSellingImageURL)
                                                                 ? bc.CrossSellingImageURL
@@ -1047,32 +1047,32 @@ WriteAttribute("src", Tuple.Create(" src=\"", 24187), Tuple.Create("\"", 24610)
             
             #line default
             #line hidden
-, 24193), false)
+, 24215), false)
 );
 
-WriteAttribute("alt", Tuple.Create("\r\n                                                                 alt=\"", 24611), Tuple.Create("\"", 24710)
+WriteAttribute("alt", Tuple.Create("\r\n                                                                 alt=\"", 24633), Tuple.Create("\"", 24732)
             
             #line 404 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 24683), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingDescription
+, Tuple.Create(Tuple.Create("", 24705), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingDescription
             
             #line default
             #line hidden
-, 24683), false)
+, 24705), false)
 );
 
 WriteLiteral("\r\n                                                                 class=\"switch-" +
 "save__img\"");
 
-WriteAttribute("onerror", Tuple.Create("\r\n                                                                 onerror=\"", 24802), Tuple.Create("\"", 24949)
-, Tuple.Create(Tuple.Create("", 24878), Tuple.Create("this.src=\'", 24878), true)
+WriteAttribute("onerror", Tuple.Create("\r\n                                                                 onerror=\"", 24824), Tuple.Create("\"", 24971)
+, Tuple.Create(Tuple.Create("", 24900), Tuple.Create("this.src=\'", 24900), true)
             
             #line 406 "..\..\Views\Shared\MiniBasket.cshtml"
-   , Tuple.Create(Tuple.Create("", 24888), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
+   , Tuple.Create(Tuple.Create("", 24910), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["CDN"]
             
             #line default
             #line hidden
-, 24888), false)
-, Tuple.Create(Tuple.Create("", 24928), Tuple.Create("/Images/noImage.jpg\';", 24928), true)
+, 24910), false)
+, Tuple.Create(Tuple.Create("", 24950), Tuple.Create("/Images/noImage.jpg\';", 24950), true)
 );
 
 WriteLiteral(" />\r\n                                                        </a>\r\n              " +
@@ -1083,14 +1083,14 @@ WriteLiteral(" style=\"flex:1;\"");
 WriteLiteral(">\r\n                                                            <!-- Switch produc" +
 "t name -->\r\n                                                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 25248), Tuple.Create("\"", 25281)
+WriteAttribute("href", Tuple.Create(" href=\"", 25270), Tuple.Create("\"", 25303)
             
             #line 410 "..\..\Views\Shared\MiniBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 25255), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingProductUrl
+, Tuple.Create(Tuple.Create("", 25277), Tuple.Create<System.Object, System.Int32>(bc.CrossSellingProductUrl
             
             #line default
             #line hidden
-, 25255), false)
+, 25277), false)
 );
 
 WriteLiteral("\r\n                                                               class=\"switch-sa" +

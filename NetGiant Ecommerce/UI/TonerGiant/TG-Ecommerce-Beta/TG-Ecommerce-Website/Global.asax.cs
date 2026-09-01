@@ -80,5 +80,37 @@ namespace TG_Ecommerce_Website
                 // ignore this
             }
         }
+
+        // ADDED: there was no Application_Error handler anywhere in this application (checked
+        // both this file and the CommonUI class library's own Global.asax.cs) - an unhandled
+        // exception on any request just falls straight through to the generic ASP.NET "Server
+        // Error" / customErrors page with nothing recorded anywhere this codebase can query.
+        // Utilities.ProcessException(Exception, string) already exists and is used throughout
+        // the codebase to write full exception details (message, inner exception, stack trace,
+        // URL, querystring, form data, controller/action, user) to the "Log" table via
+        // EntityAccess.InsertLogEntry - it just was never wired up to catch the exceptions that
+        // reach here, i.e. anything NOT already caught by a local try/catch elsewhere. This
+        // does not change what the visitor sees (no Server.ClearError(), no redirect) - it only
+        // records the exception so it can be looked up afterwards. Wrapped in its own try/catch
+        // so a failure while logging (e.g. DB unreachable) can never itself replace or mask the
+        // original error.
+        protected void Application_Error()
+        {
+            try
+            {
+                // Fully-qualified (System.Exception) rather than adding "using System;" - this
+                // file doesn't currently have that using, and Server.GetLastError() itself
+                // returns System.Exception, so qualifying inline avoids touching the using list.
+                System.Exception ex = Server.GetLastError();
+                if (ex != null)
+                {
+                    Utilities.ProcessException(ex.GetBaseException(), "Application_Error (unhandled)");
+                }
+            }
+            catch
+            {
+                // ignore this - logging must never itself take the site down
+            }
+        }
     }
 }
