@@ -85,12 +85,30 @@
                             rendered with fundingSource: paypal.FUNDING.PAYLATER in renderPaypalButtonV2()) was
                             reported as appearing at the bottom of the basket page and shouldn't be there -
                             removed the container here (and the matching render call in site.js, and the
-                            enable-funding=paylater flag on the SDK script tag below) so only the plain PayPal
-                            button (#paypal-button2) renders. *@
+                            enable-funding=paylater flag on the SDK script tag below) so only the plain PayPal 
+                            button (#paypal-button2) renders.
+                            FIX (bug report: "Paypal does not allow you to complete an order - it simply returns
+                            you to the basket page"): renderPaypalButtonV2()'s onApprove handler in site.js
+                            captures the PayPal payment via /Checkout/PayPalCapture (which actually creates the
+                            order server-side - Touchpoints.SaveOrder gets called, the customer IS charged) and
+                            then, on success, does $("#paypal-form").submit() to POST to /checkout/stage3/ and
+                            show the order-confirmation page. That form used to live in BasketDetails.cshtml but
+                            got swept into the same Razor comment block as #paypal-button3/#paypal-message at
+                            some point (see that file) and was never re-added anywhere live - so on this page
+                            $("#paypal-form") matches nothing, .submit() silently no-ops, and the customer is
+                            left sitting on the basket page after a successful-but-uncelebrated PayPal payment,
+                            looking exactly like the order failed. Restored the form here, outside
+                            #vbBasketDetails, for the same reason #paypal-button2 lives here and not in
+                            BasketDetails.cshtml - so it survives the AJAX partial refresh and isn't duplicated
+                            by it. Field names/action match the original BasketDetails.cshtml copy exactly. *@
                         @if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
                         {
 
                             <div id="paypal-button2" class="g-m-t-20"></div>
+                            <form id="paypal-form" action="/checkout/stage3/" method="post">
+                                <input type="hidden" name="PayPalPaid" id="PayPalPaid" value="true" />
+                                @Html.Hidden("PaymentAmountPaid", Model.BasketTotals.GrandTotalIncVat)
+                            </form>
                         }
 
                         @*<div class="g-bc-s g-b-1-p g-m-t-20 visible-xs visible-sm restrict-images vb-pay-methods">

@@ -376,13 +376,13 @@ WriteLiteral("\r\n                        </div> \r\n\r\n                       
 WriteLiteral("\r\n");
 
             
-            #line 90 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 104 "..\..\Views\Checkout\ViewBasket.cshtml"
                         
             
             #line default
             #line hidden
             
-            #line 90 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 104 "..\..\Views\Checkout\ViewBasket.cshtml"
                          if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
                         {
 
@@ -398,8 +398,39 @@ WriteLiteral(" class=\"g-m-t-20\"");
 
 WriteLiteral("></div>\r\n");
 
+WriteLiteral("                            <form");
+
+WriteLiteral(" id=\"paypal-form\"");
+
+WriteLiteral(" action=\"/checkout/stage3/\"");
+
+WriteLiteral(" method=\"post\"");
+
+WriteLiteral(">\r\n                                <input");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteLiteral(" name=\"PayPalPaid\"");
+
+WriteLiteral(" id=\"PayPalPaid\"");
+
+WriteLiteral(" value=\"true\"");
+
+WriteLiteral(" />\r\n");
+
+WriteLiteral("                                ");
+
             
-            #line 94 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 110 "..\..\Views\Checkout\ViewBasket.cshtml"
+                           Write(Html.Hidden("PaymentAmountPaid", Model.BasketTotals.GrandTotalIncVat));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n                            </form>\r\n");
+
+            
+            #line 112 "..\..\Views\Checkout\ViewBasket.cshtml"
                         }
 
                         
@@ -407,7 +438,7 @@ WriteLiteral("></div>\r\n");
             #line default
             #line hidden
             
-            #line 104 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 122 "..\..\Views\Checkout\ViewBasket.cshtml"
                                 
 
             
@@ -424,13 +455,13 @@ WriteLiteral(" class=\"col-md-12 g-m-t-60\"");
 WriteLiteral(">\r\n");
 
             
-            #line 108 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 126 "..\..\Views\Checkout\ViewBasket.cshtml"
                                 
             
             #line default
             #line hidden
             
-            #line 108 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 126 "..\..\Views\Checkout\ViewBasket.cshtml"
                                   
                                     Html.RenderPartial("~/Views/Shared/LiveChat.cshtml", Model);
                                 
@@ -459,7 +490,7 @@ WriteLiteral(" class=\"IsInCheckout\"");
 WriteLiteral(" />\r\n\r\n");
 
             
-            #line 125 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 143 "..\..\Views\Checkout\ViewBasket.cshtml"
   
     if (Authentication.IsNotFullyAuthenticated())
     {
@@ -490,7 +521,7 @@ WriteLiteral(@">
             if ('");
 
             
-            #line 144 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 162 "..\..\Views\Checkout\ViewBasket.cshtml"
              Write(Authentication.IsFullyAuthenticated());
 
             
@@ -528,13 +559,13 @@ WriteLiteral("\' == \'True\') {\r\n                // Authenticated\r\n         
 "/script>\r\n");
 
             
-            #line 191 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 209 "..\..\Views\Checkout\ViewBasket.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 191 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 209 "..\..\Views\Checkout\ViewBasket.cshtml"
      if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
     {
         
@@ -542,7 +573,7 @@ WriteLiteral("\' == \'True\') {\r\n                // Authenticated\r\n         
             #line default
             #line hidden
             
-            #line 197 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 215 "..\..\Views\Checkout\ViewBasket.cshtml"
                                                         
 
             
@@ -550,29 +581,29 @@ WriteLiteral("\' == \'True\') {\r\n                // Authenticated\r\n         
             #line hidden
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 9693), Tuple.Create("\"", 9949)
-, Tuple.Create(Tuple.Create("", 9699), Tuple.Create("https://www.paypal.com/sdk/js?client-id=", 9699), true)
+WriteAttribute("src", Tuple.Create(" src=\"", 11581), Tuple.Create("\"", 11837)
+, Tuple.Create(Tuple.Create("", 11587), Tuple.Create("https://www.paypal.com/sdk/js?client-id=", 11587), true)
             
-            #line 198 "..\..\Views\Checkout\ViewBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 9739), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["PayPalClientId"]
-            
-            #line default
-            #line hidden
-, 9739), false)
-, Tuple.Create(Tuple.Create("", 9792), Tuple.Create("&currency=GBP&locale=en_GB&intent=authorize&components=messages,buttons&debug=", 9792), true)
-            
-            #line 198 "..\..\Views\Checkout\ViewBasket.cshtml"
-                                                                                                                 , Tuple.Create(Tuple.Create("", 9870), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["Environment"] == "Live" ? "false" : "true"
+            #line 216 "..\..\Views\Checkout\ViewBasket.cshtml"
+, Tuple.Create(Tuple.Create("", 11627), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["PayPalClientId"]
             
             #line default
             #line hidden
-, 9870), false)
+, 11627), false)
+, Tuple.Create(Tuple.Create("", 11680), Tuple.Create("&currency=GBP&locale=en_GB&intent=authorize&components=messages,buttons&debug=", 11680), true)
+            
+            #line 216 "..\..\Views\Checkout\ViewBasket.cshtml"
+                                                                                                                , Tuple.Create(Tuple.Create("", 11758), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["Environment"] == "Live" ? "false" : "true"
+            
+            #line default
+            #line hidden
+, 11758), false)
 );
 
 WriteLiteral(">\r\n        </script>\r\n");
 
             
-            #line 200 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 218 "..\..\Views\Checkout\ViewBasket.cshtml"
     }
 
             
@@ -589,13 +620,13 @@ DefineSection("AddScript", () => {
 WriteLiteral("\r\n");
 
             
-            #line 206 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 224 "..\..\Views\Checkout\ViewBasket.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 206 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 224 "..\..\Views\Checkout\ViewBasket.cshtml"
       
         Html.RenderPartial("~/Views/Checkout/JSTracking.cshtml", Model);
     
@@ -607,7 +638,7 @@ WriteLiteral("\r\n");
 WriteLiteral("    ");
 
             
-            #line 209 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 227 "..\..\Views\Checkout\ViewBasket.cshtml"
 Write(Scripts.Render("~/bundles/checkoutBundle.js"));
 
             
@@ -626,7 +657,7 @@ WriteLiteral("\r\n    [\r\n");
 WriteLiteral("    ");
 
             
-            #line 215 "..\..\Views\Checkout\ViewBasket.cshtml"
+            #line 233 "..\..\Views\Checkout\ViewBasket.cshtml"
 Write(Html.Raw(ViewBag.BreadcrumbJson));
 
             

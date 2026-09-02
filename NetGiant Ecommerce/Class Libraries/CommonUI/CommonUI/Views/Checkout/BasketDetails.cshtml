@@ -919,8 +919,19 @@
                 @Html.HiddenFor(x => x.CheckoutDetails.ZeroStock)
             </form>
             @if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
-            {
-                @* PayPal rendered before Amazon Pay so it appears above it on the basket detail page. *@
+            { 
+                @* PayPal rendered before Amazon Pay so it appears above it on the basket detail page.
+                   REVIEW NOTE: this #paypal-button2 div is a duplicate of the one ViewBasket.cshtml
+                   renders outside #vbBasketDetails (Pass 80's own fix - see that file's comment - was to
+                   comment this exact div out, since two elements sharing id="paypal-button2" is invalid
+                   HTML and PayPal's SDK renders into every match; something has since un-commented it
+                   again). Left as found - not silently re-touched - since I can't tell whether that was
+                   deliberate. Flagging again for a decision either way.
+                   Separately: #paypal-button3/#paypal-message/#paypal-form below are commented out and
+                   should STAY that way - #paypal-form was restored live in ViewBasket.cshtml instead
+                   (outside #vbBasketDetails, same reasoning as #paypal-button2) as the fix for "PayPal
+                   doesn't complete the order, just returns to the basket page" - see that file's comment
+                   for the full root cause. Re-adding a live copy here would just recreate a duplicate. *@
                 <div id="paypal-button2" class="g-m-t-20"></div>
                 @*<div id="paypal-button3"></div>*@
                 @*<div id="paypal-message" data-pp-message data-pp-style-layout="text"
