@@ -1937,7 +1937,6 @@ body:has(div#vbBasketDetails) #comm-confidence{ background:#f3f3f3; max-width:10
 body:has(div#vbBasketDetails) #comm-confidence > div { max-width:1140px; margin: 0 auto}
 body:has(div#vbBasketDetails) .comm-title-banner { height:auto !important; margin-top:10px;}
 body:has(div#vbBasketDetails) section:has(.bread-crumb)>div {max-width:1140px }
-.sidebar-card.active .card-content, .sidebar-card .card-content {margin-left: 55px;}
 #you-may-also-need .need-title, .you-may-need .need-title {display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;line-height: 18px;}
 .you-may-need-header {font-size: 18px !important;}
 .summary-basket-card2 > [style="height:70px;"] {display:none;}
