@@ -12,6 +12,7 @@
 {
     bool isAdminDiscount = Model.BasketContents.Exists(x => x.ItemType == BasketItemType.AdminDiscount);
     bool isCompatibleDiscount = Model.BasketContents.Exists(x => x.ItemType == BasketItemType.CompatibleDiscount);
+    string extraclass = Convert.ToBoolean(Session["U_IsPortalUser"]) ? "dv-basket-card-portal" : "";
     <div class="col-md-8">
         <div class="row">
             <div class="col-md-12">
@@ -24,12 +25,12 @@
                     @{
                         bool isMultiBuy = false;
                         decimal multibuyAmount = decimal.Zero;
-                        Model.CheckZeroStock(); 
+                        Model.CheckZeroStock();
                         decimal basketSwitchSaving = 0;
                         bool hasSwitchProducts = false;
                         // Logic to build Basket Switch & Save section
                         List<BasketContents> switchProducts = new List<BasketContents>();
-                        var list = Model.BasketContents; int switchCount = 0; 
+                        var list = Model.BasketContents; int switchCount = 0;
                         if (list != null && list.Count > 0)
                         {
                             foreach (BasketContents item in Model.BasketContents)
@@ -71,7 +72,7 @@
                             hasSwitchProducts = switchProducts.Count > 0;
                             switchCount = switchProducts.Count;
                         }
-                        if (hasSwitchProducts && switchCount > 0)  
+                        if (hasSwitchProducts && switchCount > 0)
                         {
 
 
@@ -674,7 +675,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4 dv-basket-card">
+    <div class="col-md-4 dv-basket-card @extraclass">
 
         @* ---------------- Delivery message ----------------
         CM: shows the "spend X more for free delivery" threshold message.
@@ -1005,7 +1006,7 @@
             <div class="basket-sidebar-info">
 
                 
-
+             
                 @foreach (WebsiteInfoCard card in findOutMoreCards)
                 {
                     <div class="sidebar-card @card.Category.ToLower()">
