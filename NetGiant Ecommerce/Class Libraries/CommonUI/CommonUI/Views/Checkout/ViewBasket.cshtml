@@ -160,15 +160,15 @@
                 $('#voucher-code, #apply-voucher').prop('disabled', false);
             }
 
-            // The mini-cart's "Proceed to Checkout" (site.js, proceedToCheckout()) sends the
-            // customer here with ?showlogin=1 when it already knew, client-side, that they
-            // weren't signed in. Run this page's own Checkout button action once, automatically,
-            // so arriving here after that click behaves exactly like clicking Checkout on this
-            // page does (the "Secure Checkout" login popup) - instead of silently landing on the
-            // basket with no prompt until the customer clicks Checkout a second time.
-            if (window.location.search.indexOf('showlogin=1') !== -1) {
-                runCheckoutButtonAction();
-            }
+            // FIX: this used to auto-trigger the Checkout button action (and so the "Secure
+            // Checkout" login popup) the instant this page loaded via ?showlogin=1, sent by the
+            // mini-cart's "Proceed to Checkout" (site.js, proceedToCheckout()/checkoutUrl()) for
+            // a signed-out customer. Per explicit business direction, that's no longer wanted -
+            // it removed the customer's exposure to the express payment buttons (Amazon Pay,
+            // PayPal) and this page's proposition messaging before they'd even seen them.
+            // checkoutUrl() no longer ever appends ?showlogin=1 (every customer now always lands
+            // on the plain basket URL), so this block is intentionally removed rather than left
+            // as permanently-dead code.
 
             // Render the PayPal button once on initial page load - every other
             // renderPaypalButtonV2() call site only fires after a basket mutation

@@ -1040,13 +1040,17 @@ function isNotAuthenticated() {
 // in, not skip straight past it. Login is deferred to whichever exit point is actually taken
 // (see checkoutUrl() below), instead of short-circuited here before the add-on check ever runs.
 function checkoutUrl() {
-    // Guests need '?showlogin=1' appended so ViewBasket.cshtml runs its own Checkout button
-    // action automatically on load (in-checkout guard -> submit the basket form if
-    // authenticated, else show '#ident-modal', the "Secure Checkout" login popup) - that modal
-    // only exists in the DOM on the checkout page itself, so it can't be shown from here
-    // directly. Signed-in customers get the plain URL; the page's own guard already handles
-    // them with no extra param needed.
-    return isNotAuthenticated() ? '/checkout/?showlogin=1' : '/checkout/';
+    // FIX: this used to append '?showlogin=1' for signed-out guests, which made
+    // ViewBasket.cshtml auto-trigger its Checkout button action (and so the "Secure Checkout"
+    // login popup) the instant the basket page loaded - before the customer had a chance to see
+    // the page underneath it. Per explicit business direction, that's no longer wanted: jumping
+    // straight to the login prompt removes the customer's exposure to the express payment
+    // buttons (Amazon Pay, PayPal) and the basket page's proposition messaging. Now always
+    // returns the plain basket URL for every customer, signed in or not - landing on the basket
+    // (the site's first checkout stage) exactly as if they'd navigated here directly, with the
+    // "Secure Checkout" login popup only appearing if/when they click Checkout again themselves,
+    // same as it always has for a signed-in customer.
+    return '/checkout/';
 }
 
 // Mini-cart "Proceed to Checkout" click. Checks for eligible "You May Also Need" add-on

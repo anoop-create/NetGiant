@@ -504,26 +504,28 @@ WriteLiteral("\' == \'True\') {\r\n                // Authenticated\r\n         
 "ckout\')) {\r\n                $(\'.IsInCheckout\').val(\'true\');\r\n                $(\'" +
 "#voucher-code, #apply-voucher\').prop(\'disabled\', true);\r\n            } else {\r\n " +
 "               $(\'#voucher-code, #apply-voucher\').prop(\'disabled\', false);\r\n    " +
-"        }\r\n\r\n            // The mini-cart\'s \"Proceed to Checkout\" (site.js, proc" +
-"eedToCheckout()) sends the\r\n            // customer here with ?showlogin=1 when " +
-"it already knew, client-side, that they\r\n            // weren\'t signed in. Run t" +
-"his page\'s own Checkout button action once, automatically,\r\n            // so ar" +
-"riving here after that click behaves exactly like clicking Checkout on this\r\n   " +
-"         // page does (the \"Secure Checkout\" login popup) - instead of silently " +
-"landing on the\r\n            // basket with no prompt until the customer clicks C" +
-"heckout a second time.\r\n            if (window.location.search.indexOf(\'showlogi" +
-"n=1\') !== -1) {\r\n                runCheckoutButtonAction();\r\n            }\r\n\r\n  " +
-"          // Render the PayPal button once on initial page load - every other\r\n " +
-"           // renderPaypalButtonV2() call site only fires after a basket mutatio" +
-"n\r\n            // (add/remove/qty/voucher), so without this the button wouldn\'t " +
-"appear\r\n            // until the customer had already changed something. Guarded" +
-" on the\r\n            // container actually being on the page (it\'s only rendered" +
-" server-side\r\n            // for non-portal users with a basket total above zero" +
-").\r\n            if ($(\'#paypal-button2\').length) {\r\n                renderPaypal" +
-"ButtonV2();\r\n            }\r\n        });\r\n\r\n        $(window).on(\'unload\', functi" +
-"on () {\r\n            if ($(\'.paypal-checkout-sandbox\').is(\':visible\') == true &&" +
-" $(\'.IsInCheckout\').val() != \'true\') {\r\n                setSession(\"C_IsInChecko" +
-"ut\", null);\r\n            }\r\n        });\r\n\r\n    </script>\r\n");
+"        }\r\n\r\n            // FIX: this used to auto-trigger the Checkout button a" +
+"ction (and so the \"Secure\r\n            // Checkout\" login popup) the instant thi" +
+"s page loaded via ?showlogin=1, sent by the\r\n            // mini-cart\'s \"Proceed" +
+" to Checkout\" (site.js, proceedToCheckout()/checkoutUrl()) for\r\n            // a" +
+" signed-out customer. Per explicit business direction, that\'s no longer wanted -" +
+"\r\n            // it removed the customer\'s exposure to the express payment butto" +
+"ns (Amazon Pay,\r\n            // PayPal) and this page\'s proposition messaging be" +
+"fore they\'d even seen them.\r\n            // checkoutUrl() no longer ever appends" +
+" ?showlogin=1 (every customer now always lands\r\n            // on the plain bask" +
+"et URL), so this block is intentionally removed rather than left\r\n            //" +
+" as permanently-dead code.\r\n\r\n            // Render the PayPal button once on in" +
+"itial page load - every other\r\n            // renderPaypalButtonV2() call site o" +
+"nly fires after a basket mutation\r\n            // (add/remove/qty/voucher), so w" +
+"ithout this the button wouldn\'t appear\r\n            // until the customer had al" +
+"ready changed something. Guarded on the\r\n            // container actually being" +
+" on the page (it\'s only rendered server-side\r\n            // for non-portal user" +
+"s with a basket total above zero).\r\n            if ($(\'#paypal-button2\').length)" +
+" {\r\n                renderPaypalButtonV2();\r\n            }\r\n        });\r\n\r\n     " +
+"   $(window).on(\'unload\', function () {\r\n            if ($(\'.paypal-checkout-san" +
+"dbox\').is(\':visible\') == true && $(\'.IsInCheckout\').val() != \'true\') {\r\n        " +
+"        setSession(\"C_IsInCheckout\", null);\r\n            }\r\n        });\r\n\r\n    <" +
+"/script>\r\n");
 
             
             #line 191 "..\..\Views\Checkout\ViewBasket.cshtml"
@@ -548,23 +550,23 @@ WriteLiteral("\' == \'True\') {\r\n                // Authenticated\r\n         
             #line hidden
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 9581), Tuple.Create("\"", 9837)
-, Tuple.Create(Tuple.Create("", 9587), Tuple.Create("https://www.paypal.com/sdk/js?client-id=", 9587), true)
+WriteAttribute("src", Tuple.Create(" src=\"", 9693), Tuple.Create("\"", 9949)
+, Tuple.Create(Tuple.Create("", 9699), Tuple.Create("https://www.paypal.com/sdk/js?client-id=", 9699), true)
             
             #line 198 "..\..\Views\Checkout\ViewBasket.cshtml"
-, Tuple.Create(Tuple.Create("", 9627), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["PayPalClientId"]
+, Tuple.Create(Tuple.Create("", 9739), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["PayPalClientId"]
             
             #line default
             #line hidden
-, 9627), false)
-, Tuple.Create(Tuple.Create("", 9680), Tuple.Create("&currency=GBP&locale=en_GB&intent=authorize&components=messages,buttons&debug=", 9680), true)
+, 9739), false)
+, Tuple.Create(Tuple.Create("", 9792), Tuple.Create("&currency=GBP&locale=en_GB&intent=authorize&components=messages,buttons&debug=", 9792), true)
             
             #line 198 "..\..\Views\Checkout\ViewBasket.cshtml"
-                                                                                                                 , Tuple.Create(Tuple.Create("", 9758), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["Environment"] == "Live" ? "false" : "true"
+                                                                                                                 , Tuple.Create(Tuple.Create("", 9870), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.AppSettings["Environment"] == "Live" ? "false" : "true"
             
             #line default
             #line hidden
-, 9758), false)
+, 9870), false)
 );
 
 WriteLiteral(">\r\n        </script>\r\n");
