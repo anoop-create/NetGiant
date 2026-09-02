@@ -892,6 +892,8 @@
     <Content Include="Content\Images\users\wendy.grimshaw.jpg" />
     <Content Include="Content\Images\visa.png" />
     <Content Include="Content\Images\Wallboard-BG.jpg" />
+    <Content Include="Content\minicart.css" />
+    <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

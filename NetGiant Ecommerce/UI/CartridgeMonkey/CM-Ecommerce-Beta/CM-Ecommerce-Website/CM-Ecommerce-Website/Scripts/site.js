@@ -589,7 +589,6 @@ function changeBasketComplete(data, thisbutton) {
     }
     var ref = thisbutton.attr('data-productid');
     var quickreorder = thisbutton.closest('#quick-order').length;
-    var utilbasketentry = $('#basket > .content');
     var itemtype = '1';
     if (typeof thisbutton.attr('data-itemtype') !== 'undefined') {
         itemtype = thisbutton.attr('data-itemtype');
@@ -602,10 +601,15 @@ function changeBasketComplete(data, thisbutton) {
     var t = $('<section>').append($.parseHTML(data.basketSummary));
     var h = t.find('div[data-productid="' + ref + '"]');
 
-    $('#utility-bar #basket').replaceWith(data.basketSummary);
-    if ($('.hdr-utility-menu.active').length > 0 && quickreorder === 0) {
-        // utility bar is open, show the basket in the utility bar
-        utilbasketentry.prev().trigger('click');
+    $('#minibasket-widget').replaceWith(data.basketSummary);
+    if ($('#miniCartOverlay').hasClass('is-open') && quickreorder === 0) {
+        // The mini-cart is the new floating-button/overlay widget (#cartFab/#miniCartOverlay
+        // in MiniBasket.cshtml), not the old offcanvas tray - #minibasket-widget was just
+        // replaced wholesale with fresh markup that starts closed by default, so re-open it
+        // by re-adding the 'is-open' class rather than the old "trigger a click on .content"
+        // approach, which doesn't exist in this markup at all.
+        $('#miniCartOverlay').addClass('is-open');
+        $('body').css('overflow', 'hidden');
     } else {
         // trigger the added to basket pop up
         $('#basketItem, #mobileBasketItem').html(h);
@@ -626,7 +630,7 @@ function changeBasketComplete(data, thisbutton) {
                 function () {
                     $(this).css('right', 105);
                 });
-        $('body').append('<div class="mobileBasketBackdrop hidden-lg hidden-md g-cur-p"/>');
+        //$('body').append('<div class="mobileBasketBackdrop hidden-lg hidden-md g-cur-p"/>');
         $('.mobileBasketMessage').slideDown(500, function () {
             $('.mobileBasketClose').show();
         });
@@ -635,10 +639,9 @@ function changeBasketComplete(data, thisbutton) {
     if ($('.product-info-message').length > 0) {
         var productentry = $('.body-content button[data-productid="' + ref + '"]').closest('.atb-entry');
         productentry.find('.product-info-message').html(data.productInfoMessage).removeClass('g-v-h');
-        //productentry.find('.product-price-message').html(data.productPriceMessage);
     }
     setDeferredImages();
-    if (itemtype === '3') { //= Alert (only actioned from viewbasket or stage1)
+    if (itemtype === '3') {
         refreshViewBasket();
     }
 }
@@ -665,109 +668,132 @@ function refreshViewBasket() {
 }
 
 function refreshVbFields(data) {
-    $('#vbBasketDetails').html(data.savereturn.Html);
+
+    var $basket = $('#vbBasketDetails');
+
+    // =========================================================
+    // PRESERVE PAYPAL - detach the actual rendered container
+    // =========================================================
+    var $paypal2 = $basket.find('#paypal-button2').detach();
+    var $paypal3 = $basket.find('#paypal-button3').detach();
+
+
+    // =========================================================
+    // PRESERVE AMAZON
+    // =========================================================
+    var $amazonButton = $basket.find(
+        '#AmazonPayButton, ' +
+        '#amazonPayButton, ' +
+        '#amazon-pay-button, ' +
+        '.amazon-pay-button'
+    ).detach();
+
+
+    // =========================================================
+    // SAVE COUNTDOWN VALUES
+    // =========================================================
+    var countdownValues = [];
+
+    $basket.find('.cutoffCountdownFalse').each(function () {
+        countdownValues.push($(this).text());
+    });
+
+
+    // =========================================================
+    // REFRESH BASKET
+    // =========================================================
+    $basket.html(data.savereturn.Html);
+
+
+    // =========================================================
+    // RESTORE PAYPAL
+    //
+    // IMPORTANT:
+    // Empty the NEW placeholder and append the OLD rendered DOM
+    // =========================================================
+
+    if ($paypal2.length) {
+        var $newPaypal2 = $basket.find('#paypal-button2');
+
+        if ($newPaypal2.length) {
+            $newPaypal2.empty().append($paypal2.contents());
+        }
+    }
+
+    if ($paypal3.length) {
+        var $newPaypal3 = $basket.find('#paypal-button3');
+
+        if ($newPaypal3.length) {
+            $newPaypal3.empty().append($paypal3.contents());
+        }
+    }
+
+
+    // =========================================================
+    // RESTORE AMAZON
+    // =========================================================
+
+    if ($amazonButton.length) {
+
+        var $newAmazonButton = $basket.find(
+            '#AmazonPayButton, ' +
+            '#amazonPayButton, ' +
+            '#amazon-pay-button, ' +
+            '.amazon-pay-button'
+        ).first();
+
+        if ($newAmazonButton.length) {
+            $newAmazonButton.replaceWith($amazonButton);
+        }
+    }
+
+
+    // =========================================================
+    // RESTORE COUNTDOWN VALUES
+    // =========================================================
+
+    $basket.find('.cutoffCountdownFalse').each(function (index) {
+        if (typeof countdownValues[index] !== 'undefined') {
+            $(this).text(countdownValues[index]);
+        }
+    });
+
+
+    // =========================================================
+    // UPDATE TOTALS
+    // =========================================================
+
     $('.basketQuantity').html(data.basketQuantity);
     $('.basketTotal').html(data.basketTotal);
     $('.basket-counter').html(data.basketQuantity);
-    $('#basket').replaceWith(data.basketSummary);
+
+
+    $('#minibasket-widget').replaceWith(data.basketSummary);
+
     setDeferredImages();
+
+
+    // DO NOT call:
+    // renderPaypalButtonV2();
+    // updateCutoffCountdown();
+
+
+    // =========================================================
+    // REINITIALISE QUANTITY INPUTS
+    // =========================================================
+
     $('input[id^="qty-"]').each(function () {
         $(this).kendoNumericTextBox({
             "change": changeBasketQty,
             "spin": changeBasketQty,
-            "format": "#", "placeholder": "Enter quantity"
+            "format": "#",
+            "placeholder": "Enter quantity"
         });
     });
 }
 
 function startTime() {
-    //var currTime = new Array();
-    var cutOffTime = new Array();
-    var countDown = new Array();
-    var today = new Date();
-
-    // The following is used for Testing
-    //today = new Date(2017, 06, 07, 11, 0, 0, 0);    // 11 O'Clock on a Friday
-    //today = new Date(2017, 06, 07, 21, 0, 0, 0);    // 21 O'Clock on a Friday
-    //today = new Date(2017, 06, 08, 11, 0, 0, 0);    // 11 O'Clock on a Saturday
-    //today = new Date(2017, 06, 09, 11, 0, 0, 0);    // 11 O'Clock on a Sunday
-
-    var txtHour;
-    var txtMinute;
-    var dCutOffDate;
-    //var dDeliveryDate;
-
-    var currTime = parseInt(today.getHours() +
-        "" +
-        ("0" + today.getMinutes()).substr(-2) +
-        "" +
-        ("0" + today.getSeconds()).substr(-2));
-    var dayNumber = today.getDay();
-    dCutOffDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 17, 30, 0, 0);
-    if (currTime < 173000) {
-        switch (dayNumber) {
-            case 0:
-                dCutOffDate.setDate(today.getDate() + 1);
-                break;
-            case 6:
-                dCutOffDate.setDate(today.getDate() + 2);
-                break;
-            default:
-                break;
-        }
-    } else {
-        switch (dayNumber) {
-            case 5:
-                dCutOffDate.setDate(today.getDate() + 3);
-                break;
-            case 6:
-                dCutOffDate.setDate(today.getDate() + 2);
-                break;
-            default:
-                dCutOffDate.setDate(today.getDate() + 1);
-                break;
-        }
-    }
-
-    if (today.getHours() === 17 && today.getMinutes() === 30 && today.getSeconds() === 0) {
-        switch (dayNumber) {
-            case 0:
-                break;
-            case 4:
-                dCutOffDate.setTime(dCutOffDate.getTime() + (24 * 60 * 60 * 1000));
-                break;
-            case 5:
-                dCutOffDate.setTime(dCutOffDate.getTime() + (72 * 60 * 60 * 1000));
-                break;
-            case 6:
-                break;
-            default:
-                dCutOffDate.setTime(dCutOffDate.getTime() + (24 * 60 * 60 * 1000));
-        }
-    }
-
-    countDown[0] = Math.floor(((dCutOffDate - today) / 1000) / 3600);
-    countDown[1] = Math.floor((((dCutOffDate - today) / 1000) - (countDown[0] * 3600)) / 60);
-    countDown[2] = Math.floor(((dCutOffDate - today) / 1000) - (countDown[0] * 3600) - (countDown[1] * 60));
-
-    if (dCutOffDate < today) {
-        countDown[0] = 0;
-        countDown[1] = 0;
-        countDown[2] = 0;
-    }
-
-    if (countDown[0] === 1) {
-        txtHour = " hour ";
-    } else {
-        txtHour = " hours ";
-    }
-    if (countDown[1] === 1) {
-        txtMinute = " min ";
-    } else {
-        txtMinute = " mins ";
-    }
-    $('.cutoffCountdownFalse').html(countDown[0] + txtHour + ' ' + countDown[1] + txtMinute);
-
+    updateCutoffCountdown();
     setTimeout(function () { startTime(); }, 500);
 }
 
@@ -783,28 +809,37 @@ function logAjaxFormError(xhr, textStatus, thrownError) {
 }
 
 function logAjaxScriptError(url, xhr, textStatus, thrownError) {
+    // BUG FIX: this used to read "if (xhr || xhr.responseText || xhr.responseText) { return; }" -
+    // that condition is true almost every time an ajax error callback fires (xhr is basically
+    // always a truthy object), so this function returned immediately and NEVER logged anything,
+    // for every failed ajax call across the whole site (28+ call sites use this same helper).
+    // That means any real failure of e.g. /Product/BasketAdd/ (a bad session, a server error, a
+    // network hiccup on a particular device) has been failing completely silently - no console
+    // output, no server-side log entry, nothing visible to the user or to us - which matches
+    // "tap Add to Basket, nothing happens at all" exactly if the request itself is failing.
+    // Fixed to actually build and log the error, and to console.error it too so it's visible
+    // immediately in on-device dev tools (e.g. Safari Web Inspector) without needing server logs.
     var responseText = "";
 
-    if (xhr || xhr.responseText || xhr.responseText) {
-        return;
-    } else {
-        if (xhr.responseText.length) {
-            if (xhr.responseText.length > 5000) {
-                responseText = xhr.responseText.substring(0, 5000);
-            } else {
-                responseText = xhr.responseText;
-            }
-        }
+    if (xhr && xhr.responseText) {
+        responseText = xhr.responseText.length > 5000
+            ? xhr.responseText.substring(0, 5000)
+            : xhr.responseText;
     }
 
-    var e = new Error(url + ": " + xhr.statusText.toString() +
+    var message = url + ": " + (xhr && xhr.statusText ? xhr.statusText.toString() : "(no xhr)") +
         ", thrownError: " +
-        thrownError.toString() +
+        (thrownError ? thrownError.toString() : "") +
         ", textStatus: " +
-        textStatus.toString() +
+        (textStatus ? textStatus.toString() : "") +
         ", responseText: " +
-        responseText.toString());
-    logScriptError(e);
+        responseText;
+
+    if (window.console && console.error) {
+        console.error("[ajax error] " + message);
+    }
+
+    logScriptError(new Error(message));
 }
 
 function logScriptError(error) {
@@ -818,7 +853,10 @@ function logScriptError(error) {
             url: location.href,
             description: error.message
         },
-        async: false,
+        // Was async: false. This now only runs when there's already been a failure (it's the
+        // error-reporting path itself, freshly fixed above to actually get called at all) -
+        // no reason to also block the main thread with a synchronous request here, especially
+        // on iOS. This is fire-and-forget logging; nothing depends on its response.
         success: function (data) {
 
         }
@@ -931,14 +969,33 @@ function renderPaypalButtonV2() {
         }
     });
 
+    // #paypal-button2 now renders once in ViewBasket.cshtml and persists across basket
+    // refreshes (it used to live inside the AJAX-replaced BasketDetails.cshtml partial, so a
+    // fresh empty container was guaranteed every time this ran). Since this function can still
+    // be called more than once per page view (add/remove/voucher etc. still call it), empty the
+    // container first so paypal.Buttons().render() can't stack a second button on top of one
+    // that's already there.
+    $('#paypal-button2').empty();
+
+    // FIX: because these containers persist outside #vbBasketDetails and this function has no
+    // basket-empty check, removing the last item left a live, clickable PayPal button sitting on
+    // top of an empty basket (the container itself is only ever added/removed by the server-side
+    // GrandTotalIncVat > 0.01m check in ViewBasket.cshtml, which only runs on a real page load,
+    // never on this AJAX refresh path). PayPalGetAmount already returns "0" for an empty basket
+    // (Basket.GetBasketTotal on an empty B_BasketArray) - bail out here before rendering anything
+    // rather than creating a PayPal button for a zero-value order.
+    if (!amt || parseFloat(amt) <= 0) {
+        return;
+    }
+
     var paypalObject = buildPayPalObject(amt);
 
     paypalObject.fundingSource = paypal.FUNDING.PAYPAL;
     paypal.Buttons(paypalObject).render('#paypal-button2');
-    if ($('#paypal-button3').length) {
-        paypalObject.fundingSource = paypal.FUNDING.PAYLATER;
-        paypal.Buttons(paypalObject).render('#paypal-button3');
-    }
+    // FIX: was also rendering a second, separate "Pay Later" branded button into #paypal-button3
+    // (fundingSource: paypal.FUNDING.PAYLATER) - reported as appearing at the bottom of the
+    // basket page and shouldn't be there. Removed; #paypal-button3's container (ViewBasket.cshtml)
+    // and the SDK's enable-funding=paylater flag were removed to match.
 
     var observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
@@ -960,22 +1017,52 @@ function renderPaypalButtonV2() {
 function buildPayPalObject(amt) {
     var paypalObject = {
         fundingSource: paypal.FUNDING.PAYPAL,
+        // FIX: style.label was 'checkout', which renders PayPal's SDK-generated "Checkout with
+        // PayPal" (or similar) text next to/instead of the plain logo. 'paypal' renders just the
+        // PayPal logo/wordmark with no extra text - the other valid SDK values ('buynow', 'pay',
+        // 'installment') all add their own different wording, so this is the only label option
+        // that shows no additional text at all.
         style: {
             layout: 'vertical'
             , shape: 'rect'
-            , label: 'checkout'
+            , label: 'paypal'
             , color: 'gold'
         },
         createOrder: function (data, actions) {
             if (!isCurrentPage('stage1')) {
-                return actions.order.create({
-                    intent: "AUTHORIZE",
-                    purchase_units: [{
-                        amount: {
-                            value: amt
-                        }
-                    }],
-                    payment_initiator: 'CUSTOMER'
+                // Was "amount: { value: amt }" - amt is whatever renderPaypalButtonV2() fetched
+                // at the moment this button was last rendered, closed over here. Now that the
+                // button only renders once per page view (it used to be rebuilt on every basket
+                // change, which kept amt current as an incidental side effect - see
+                // ViewBasket.cshtml's comment on why it no longer does), a quantity/voucher
+                // change after render would leave amt stale and the PayPal order would be
+                // created for the wrong total. Fetch the current amount fresh right here, at the
+                // moment the customer actually clicks the button, instead of trusting whatever
+                // was captured at render time - this is correct regardless of how long ago the
+                // button was rendered or how many times the basket has changed since.
+                return $.ajax({
+                    url: '/Checkout/PayPalGetAmount',
+                    method: 'POST',
+                    dataType: 'json',
+                    cache: false,
+                    data: {
+                        __RequestVerificationToken: $('[name="__RequestVerificationToken"]').val()
+                    }
+                }).then(function (result) {
+                    if (!result.IsSuccess) {
+                        var rpl = 'errormessage_' + encodeURI(result.Message);
+                        location.href = "/checkout/?pm=CheckoutError&sz=md&rpl=" + rpl;
+                        return $.Deferred().reject().promise();
+                    }
+                    return actions.order.create({
+                        intent: "AUTHORIZE",
+                        purchase_units: [{
+                            amount: {
+                                value: result.Html
+                            }
+                        }],
+                        payment_initiator: 'CUSTOMER'
+                    });
                 });
             }
             if (isCurrentPage('stage1')) {
@@ -1338,6 +1425,383 @@ function loadPca(n, t, i, r) {
     var u, f; n[i] = n[i] || {}, n[i].initial = { accountCode: "NETGI11112", host: "NETGI11112.pcapredict.com" }, n[i].on = n[i].on || function () { (n[i].onq = n[i].onq || []).push(arguments) }, u = t.createElement("script"), u.async = !0, u.src = r, f = t.getElementsByTagName("script")[0], f.parentNode.insertBefore(u, f)
 }
 
+// =========================================================================
+// SYNCED FROM TONERGIANT site.js (functions present in TG but missing here) -
+// see mini-basket-progress.md for details of this sync pass.
+// =========================================================================
+
+function changeBasketQty(productref, qty) {
+
+    var isCheckout = isCurrentPage('/checkout');
+
+    $.ajax({
+        url: "/Product/BasketUpdateQty/",
+        dataType: 'json',
+        traditional: true,
+        type: 'POST',
+        cache: false,
+
+        data: {
+            productref: productref,
+            qty: qty
+        },
+
+        async: false,
+
+        success: function (data) {
+
+            if (!data.savereturn.IsSuccess) {
+                launchPopup('IsInCheckout', 'popup');
+                return false;
+            }
+
+            if (isCheckout) {
+
+                // Refresh basket details only.
+                // Payment button DOM is preserved inside refreshVbFields().
+                refreshViewBasket();
+
+            } else {
+
+                $('#minibasket-widget').replaceWith(data.basketSummary);
+
+                $('.basketQuantity').html(data.basketQuantity);
+                $('.basketTotal').html(data.basketTotal);
+                $('.basket-counter').html(data.basketQuantity);
+
+                setDeferredImages();
+            }
+
+
+            // IMPORTANT:
+            // Do NOT add this:
+            //
+            // renderPaypalButtonV2();
+            //
+            // PayPal should remain as the existing button instance.
+        },
+
+        error: function (xhr, textStatus, thrownError) {
+            logAjaxScriptError(
+                "/Product/BasketUpdateQty/",
+                xhr,
+                textStatus,
+                thrownError
+            );
+        }
+    });
+}
+
+function changeMiniBasketQty(productref, qty) {
+
+    $.ajax({
+        url: "/Product/BasketUpdateQty/",
+        dataType: 'json',
+        traditional: true,
+        type: 'POST',
+        cache: false,
+
+        data: {
+            productref: productref,
+            qty: qty
+        },
+
+        async: false,
+
+        success: function (data) {
+
+            if (!data.savereturn.IsSuccess) {
+                launchPopup('IsInCheckout', 'popup');
+                return false;
+            }
+
+
+            // Remember whether mini-cart was already open
+            var wasOpen = $('#miniCartOverlay').hasClass('is-open');
+
+
+            // Refresh only mini-basket HTML
+            $('#minibasket-widget').replaceWith(data.basketSummary);
+
+
+            // Update counts
+            $('.basketQuantity').html(data.basketQuantity);
+            $('.basketTotal').html(data.basketTotal);
+            $('.basket-counter').html(data.basketQuantity);
+
+
+            setDeferredImages();
+
+
+            // Keep mini-cart open
+            if (wasOpen) {
+
+                $('#miniCartOverlay').addClass('is-open');
+
+                $('body').css('overflow', 'hidden');
+            }
+
+
+            // IMPORTANT:
+            // DO NOT CALL:
+            //
+            // renderPaypalButtonV2();
+            //
+            // This was causing PayPal to refresh every time
+            // quantity was increased/decreased.
+        },
+
+        error: function (xhr, textStatus, thrownError) {
+
+            logAjaxScriptError(
+                "/Product/BasketUpdateQty/",
+                xhr,
+                textStatus,
+                thrownError
+            );
+        }
+    });
+}
+
+function checkoutUrl() {
+    // FIX: this used to append '?showlogin=1' for signed-out guests, which made
+    // ViewBasket.cshtml auto-trigger its Checkout button action (and so the "Secure Checkout"
+    // login popup) the instant the basket page loaded - before the customer had a chance to see
+    // the page underneath it. Per explicit business direction, that's no longer wanted: jumping
+    // straight to the login prompt removes the customer's exposure to the express payment
+    // buttons (Amazon Pay, PayPal) and the basket page's proposition messaging. Now always
+    // returns the plain basket URL for every customer, signed in or not - landing on the basket
+    // (the site's first checkout stage) exactly as if they'd navigated here directly, with the
+    // "Secure Checkout" login popup only appearing if/when they click Checkout again themselves,
+    // same as it always has for a signed-in customer.
+    return '/checkout/';
+}
+
+function isNotAuthenticated() {
+    return $('.navbar-collapse').hasClass('not-authenticated');
+}
+
+function maybeShowAddSellPopupAfterAdd(suppressMiniCart) {
+    // Mobile design: add-ons should only ever surface when the customer taps the mini-cart's
+    // own "Proceed to Checkout" button (proceedToCheckout(), above - which already has its own
+    // correct handling), never immediately after a plain Add to Basket. Below the breakpoint,
+    // skip the popup entirely here. This also fixes a second symptom of the same bug: this
+    // partial's CSS gives #you-may-also-need[data-context="addtocart"] a higher-specificity,
+    // centered-floating-modal position/size rule that beats the plain mobile full-screen rule
+    // (which is what makes the .ymn-proceed "Proceed to Checkout" footer button clearly
+    // visible/usable) - so calling this on mobile was also rendering a cramped desktop-style
+    // popup instead of the intended full-screen mobile layout. Skipping the call here means
+    // mobile only ever reaches this popup via the 'checkout' context, so that mismatch can no
+    // longer happen either.
+    //
+    // 992, not 768: matches the breakpoint YouMayAlsoNeed.cshtml/style.css actually use to swap
+    // #you-may-also-need between its desktop carousel and mobile card-list views
+    // ("@media (max-width: 991px)"), not the older 767px breakpoint this check was written
+    // against before that CSS was widened to include tablet widths.
+    if ($(window).width() < 992) {
+        return;
+    }
+
+    requestAddSellPopup(function (html) {
+        showAddSellPopup(html, 'addtocart', suppressMiniCart);
+    }, function () {
+        removeAddSellPopup();
+    });
+}
+
+function proceedToCheckout() {
+    if ($('#you-may-also-need').length) {
+        // Popup already open/shown - a second click on Proceed skips straight through. Only
+        // reachable on mobile now, since desktop never opens this popup from here at all.
+        removeAddSellPopup();
+        window.location.href = checkoutUrl();
+        return;
+    }
+
+    // Desktop: no add-on popup on Proceed to Checkout - straight to checkout. 992 to match this
+    // popup's own mobile/desktop CSS breakpoint (YouMayAlsoNeed.cshtml/style.css switch
+    // #you-may-also-need's card-list mobile view in and out at "@media (max-width: 991px)") -
+    // the same breakpoint maybeShowAddSellPopupAfterAdd() below already uses for the equivalent
+    // add-to-basket-triggered popup, so both entry points now agree on desktop vs. mobile.
+    if ($(window).width() >= 992) {
+        window.location.href = checkoutUrl();
+        return;
+    }
+
+    requestAddSellPopup(
+        function (html) {
+            showAddSellPopup(html, 'checkout');
+
+            // Mobile's mini-cart tray isn't shown alongside the popup - close it. Unconditional
+            // now (this code path is only ever reached below the 992px gate above).
+            $('[data-toggle="offcanvas-close"]').trigger('click');
+        },
+        function () {
+            window.location.href = checkoutUrl();
+        }
+    );
+}
+
+function removeAddSellPopup() {
+    $('#you-may-also-need').remove();
+    $('#you-may-also-need-backdrop').remove();
+}
+
+function requestAddSellPopup(onEligible, onNotEligible) {
+    $.ajax({
+        url: "/Checkout/GetAddSellPopup/",
+        dataType: 'json',
+        type: 'POST',
+        cache: false,
+        // Was async: false (synchronous XHR). This call sits directly in the "tap Add to
+        // Basket -> mini-cart/You May Also Need popup opens" chain on mobile (it's fired from
+        // maybeShowAddSellPopupAfterAdd(), itself called from the .atb-add success handler,
+        // right after that handler's own BasketAdd call - which had the same problem and was
+        // already fixed). Two back-to-back main-thread-blocking synchronous XHRs in the same
+        // click handler is exactly the kind of pattern iOS/WebKit's synchronous-XHR
+        // restrictions can silently break: the backdrop/overlay markup gets appended to the
+        // DOM, but the browser doesn't get a chance to reliably paint the popup panel that's
+        // supposed to sit on top of it - matching the "black screen, nothing else visible"
+        // report. onEligible/onNotEligible are already invoked from inside success/error below,
+        // so removing async:false needs no caller changes.
+        success: function (data) {
+            if (data && data.hasAddSell) {
+                if (onEligible) { onEligible(data.html); }
+            } else if (onNotEligible) {
+                onNotEligible();
+            }
+        },
+        error: function (xhr, textStatus, thrownError) {
+            logAjaxScriptError("/Checkout/GetAddSellPopup/", xhr, textStatus, thrownError);
+            if (onNotEligible) { onNotEligible(); }
+        }
+    });
+}
+
+function showAddSellPopup(html, context, suppressMiniCart) {
+    removeAddSellPopup();
+    $('body').append(html);
+    $('#you-may-also-need').attr('data-context', context);
+    setDeferredImages();
+
+    if (context === 'addtocart' && !suppressMiniCart) {
+        // The popup is offering add-ons for what was just added - show the mini-cart open
+        // behind/underneath it (even if it wasn't already open), on every device, so that:
+        // add-on popup along with mini-cart should open together (the explicit requirement
+        // this whole mini-cart/add-to-basket flow was built against from the start) is actually
+        // true, and so that dismissing the popup lands the customer on an already-open mini-cart
+        // instead of the bare page. The 'checkout' context (proceedToCheckout) doesn't need this
+        // - that popup is only ever shown from inside an already-open mini-cart.
+        //
+        // This used to explicitly REMOVE is-open below 768px instead (mini-cart and popup were
+        // mutually exclusive on mobile), on the theory that stacking the mini-cart's own dim
+        // backdrop (.mini-cart-overlay, ~40% black) with this popup's own near-opaque backdrop
+        // (#you-may-also-need-backdrop, #00000091, much higher z-index) was the cause of an
+        // earlier "add to basket shows a black screen" report. That turned out to be wrong: the
+        // actual cause was a completely different, unconditional legacy element
+        // (.mobileBasketBackdrop in global.less, since disabled) that fired on every add-to-
+        // basket regardless of add-ons or overlay stacking - see the mini-basket-progress doc's
+        // "black screen culprit" pass. With that real cause fixed, there's no remaining reason to
+        // keep the mini-cart and this popup mutually exclusive on mobile, and doing so only
+        // fought the original requirement. The popup's own backdrop still visually sits on top
+        // while it's showing (by design, via z-index) - this only changes the mini-cart's actual
+        // open/closed *state* underneath, which is what matters once the popup is dismissed.
+        $('#miniCartOverlay').addClass('is-open');
+        $('body').css('overflow', 'hidden');
+    }
+}
+
+function updateCutoffCountdown() {
+    //var currTime = new Array();
+    var cutOffTime = new Array();
+    var countDown = new Array();
+    var today = new Date();
+
+    // The following is used for Testing
+    //today = new Date(2017, 06, 07, 11, 0, 0, 0);    // 11 O'Clock on a Friday
+    //today = new Date(2017, 06, 07, 21, 0, 0, 0);    // 21 O'Clock on a Friday
+    //today = new Date(2017, 06, 08, 11, 0, 0, 0);    // 11 O'Clock on a Saturday
+    //today = new Date(2017, 06, 09, 11, 0, 0, 0);    // 11 O'Clock on a Sunday
+
+    var txtHour;
+    var txtMinute;
+    var dCutOffDate;
+    //var dDeliveryDate;
+
+    var currTime = parseInt(today.getHours() +
+        "" +
+        ("0" + today.getMinutes()).substr(-2) +
+        "" +
+        ("0" + today.getSeconds()).substr(-2));
+    var dayNumber = today.getDay();
+    dCutOffDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 17, 30, 0, 0);
+    if (currTime < 173000) {
+        switch (dayNumber) {
+            case 0:
+                dCutOffDate.setDate(today.getDate() + 1);
+                break;
+            case 6:
+                dCutOffDate.setDate(today.getDate() + 2);
+                break;
+            default:
+                break;
+        }
+    } else {
+        switch (dayNumber) {
+            case 5:
+                dCutOffDate.setDate(today.getDate() + 3);
+                break;
+            case 6:
+                dCutOffDate.setDate(today.getDate() + 2);
+                break;
+            default:
+                dCutOffDate.setDate(today.getDate() + 1);
+                break;
+        }
+    }
+
+    if (today.getHours() === 17 && today.getMinutes() === 30 && today.getSeconds() === 0) {
+        switch (dayNumber) {
+            case 0:
+                break;
+            case 4:
+                dCutOffDate.setTime(dCutOffDate.getTime() + (24 * 60 * 60 * 1000));
+                break;
+            case 5:
+                dCutOffDate.setTime(dCutOffDate.getTime() + (72 * 60 * 60 * 1000));
+                break;
+            case 6:
+                break;
+            default:
+                dCutOffDate.setTime(dCutOffDate.getTime() + (24 * 60 * 60 * 1000));
+        }
+    }
+
+    countDown[0] = Math.floor(((dCutOffDate - today) / 1000) / 3600);
+    countDown[1] = Math.floor((((dCutOffDate - today) / 1000) - (countDown[0] * 3600)) / 60);
+    countDown[2] = Math.floor(((dCutOffDate - today) / 1000) - (countDown[0] * 3600) - (countDown[1] * 60));
+
+    if (dCutOffDate < today) {
+        countDown[0] = 0;
+        countDown[1] = 0;
+        countDown[2] = 0;
+    }
+
+    if (countDown[0] === 1) {
+        txtHour = " hour ";
+    } else {
+        txtHour = " hours ";
+    }
+    if (countDown[1] === 1) {
+        txtMinute = " min ";
+    } else {
+        txtMinute = " mins ";
+    }
+    $('.cutoffCountdownFalse').html(countDown[0] + txtHour + ' ' + countDown[1] + txtMinute);
+}
+
+// ===================== END SYNCED-FROM-TONERGIANT FUNCTIONS ====================
+
 //#endregion
 
 $(window).on('load', function () {
@@ -1370,6 +1834,22 @@ $(function () {
                 if (thisentry.find('input.atb-qty').length) {
                     qty = thisentry.find('input.atb-qty:first').val();
                 }
+                // The customer is already on the basket page looking at their basket when this
+                // button lives inside the inline "You May Also Need" add-on carousel there
+                // (.you-may-need, BasketDetails.cshtml) - forcing the mini-cart flyout open on
+                // top of the page they're already viewing is redundant, so that step is skipped
+                // below for this specific origin only. Every other .atb-add button site-wide
+                // (product pages, category listings, etc.) is untouched.
+                // Same reasoning for #portalCsTools - the portal/trade "Customer Service Tools"
+                // panel on the basket page (BasketDetails.cshtml), whose "Apply Discount" and
+                // "Place Order On Hold" buttons both go through this same .atb-add handler
+                // (#discount-atb is triggered programmatically by #apply-discount's own click
+                // handler in checkout.js - $(this) here is still #discount-atb itself, so
+                // .closest() sees it's inside the panel exactly as if it had been clicked
+                // directly). A portal user using these is, by definition, already on the basket
+                // page.
+                var fromAddonRegion = $(this).closest('.you-may-need').length > 0 ||
+                    $(this).closest('#portalCsTools').length > 0;
 
                 $.ajax({
                     url: "/Product/BasketAdd/",
@@ -1384,9 +1864,43 @@ $(function () {
                         //isadmindiscount: admindiscount,
                         itemtype: itemtype
                     },
-                    async: false,
+                    // Was async: false (synchronous XHR) - iOS/WebKit has progressively
+                    // restricted and deprecated synchronous XHR on the main thread, which
+                    // is a well-documented cause of "add to basket AJAX succeeds but the
+                    // success callback's follow-up UI work (opening the mini-cart) never
+                    // visibly runs" on iOS Safari specifically. The response is already
+                    // handled entirely in the success callback below, so switching to the
+                    // default async request changes nothing about call order - just removes
+                    // the main-thread-blocking, iOS-fragile synchronous mode.
                     success: function (data) {
                         changeBasketComplete(data, thisbutton);
+                        refreshViewBasket();
+                        maybeShowAddSellPopupAfterAdd(fromAddonRegion);
+                        // Was a bare openCart() call - that's a plain global function declared
+                        // inside MiniBasket.cshtml's own inline <script>, re-defined every time
+                        // that partial's markup is replaced via changeBasketComplete()'s
+                        // $('#minibasket-widget').replaceWith(...) a few lines above. QA hit
+                        // "Can't find variable: openCart" on a real iOS device - an uncaught
+                        // ReferenceError thrown inside this async success callback, which the
+                        // .atb-add handler's own try/catch does NOT cover (that only wraps the
+                        // synchronous code that kicks off the $.ajax call, not this callback),
+                        // so it silently aborted right here with zero visible feedback. Whatever
+                        // the exact reason openCart wasn't defined at that moment (this file's
+                        // one and only call site for it), the fix is to stop depending on that
+                        // fragile global entirely: do the same two things openCart() does,
+                        // directly, the same way changeBasketComplete()'s own re-open branch
+                        // (a few lines above) already does it without calling openCart() either.
+                        // Skipped entirely when fromAddonRegion is true - see the comment where
+                        // that's set above.
+                        if (!fromAddonRegion) {
+                            var $miniCartOverlay = $('#miniCartOverlay');
+                            if ($miniCartOverlay.length) {
+                                $miniCartOverlay.addClass('is-open');
+                                $('body').css('overflow', 'hidden');
+                            } else if (window.console && console.error) {
+                                console.error('[atb-add] #miniCartOverlay not found on this page - cannot open mini-cart');
+                            }
+                        }
                     },
                     error: function (xhr, textStatus, thrownError) {
                         logAjaxScriptError("/Product/BasketAdd/", xhr, textStatus, thrownError);
@@ -1874,8 +2388,14 @@ $(function () {
                 });
         });
 
-    $(document).on('click',
-        '.basket-entry .delete',
+    // SYNCED FROM TONERGIANT: replaces the old '.basket-entry .delete' handler below (same
+// AJAX delete call, updated for the new #minibasket-widget/#miniCartOverlay markup this
+// selector never targeted). Kept as a straight replacement rather than an addition -
+// the basket line's delete button carries both the old 'delete' class and the new
+// 'basket-remove' class, so leaving the old handler in place alongside this one would
+// have fired /Product/BasketDelete/ twice per click.
+$(document).on('click',
+        '.basket-remove',
         function () {
             var ref = $(this).attr('data-productid');
             var thisparent = $(this).closest('.content');
@@ -1901,9 +2421,10 @@ $(function () {
                     if (isCheckout) {
                         refreshViewBasket();
                     } else {
-                        $('#utility-bar #basket').replaceWith(data.basketSummary);
-                        if ($('.hdr-utility-menu.active').length > 0) {
-                            thisparent.prev().trigger('click');
+                        $('#minibasket-widget').replaceWith(data.basketSummary);
+                        if ($('#miniCartOverlay').hasClass('is-open')) {
+                            $('#miniCartOverlay').addClass('is-open');
+                            $('body').css('overflow', 'hidden');
                         }
 
                         $('.basketQuantity').html(data.basketQuantity);
@@ -1960,6 +2481,8 @@ $(function () {
                     }
                     refreshViewBasket();
                     renderPaypalButtonV2();
+                    maybeShowAddSellPopupAfterAdd();
+
                 },
                 error: function (xhr, textStatus, thrownError) {
                     logAjaxScriptError("/Product/BasketReplace/", xhr, textStatus, thrownError);
@@ -2265,11 +2788,17 @@ $(function () {
                 height: $(window).height() - 160
             });
 
-            $('.row-offcanvas.active').height($('.sidebar-offcanvas').height());
+            //$('.row-offcanvas.active').height($('.sidebar-offcanvas').height());
 
             var contentContainer = thisparent.find('.content');
 
             utilityDotDotDot(contentContainer);
+
+            // Spec: "transparent overlay added to the background of the screen, so that the
+            // tray has more definition" - dim the rest of the page while the mini-cart is open.
+            // if (!$('.offcanvas-backdrop').length) {
+            //     $('body').append('<div class="offcanvas-backdrop"></div>');
+            // }
         });
 
     $('[data-toggle="offcanvas-close"]').click(function () {
@@ -2724,6 +3253,378 @@ $(function () {
         //        });
         //    });
     }
+
+    // =====================================================================
+    // SYNCED FROM TONERGIANT site.js (handlers present in TG but missing here)
+    // =====================================================================
+
+    $(document).on('click', '#btnMiniBasketSwitchAll', function () {
+        var wasOpen = $('#miniCartOverlay').hasClass('is-open');
+        $.ajax({
+            url: "/Product/BasketReplaceAll/",
+            type: "POST",
+            dataType: "json",
+            cache: false,
+
+            success: function (data) {
+
+                if (!data.savereturn.IsSuccess) {
+                    launchPopup('IsInCheckout', 'popup');
+                    return;
+                }
+
+                $('#minibasket-widget').replaceWith(data.basketSummary);
+                $('.basketQuantity').html(data.basketQuantity);
+                $('.basketTotal').html(data.basketTotal);
+                $('.basket-counter').html(data.basketQuantity);
+                setDeferredImages();
+                if (wasOpen) {
+                    $('#miniCartOverlay').addClass('is-open');
+                    $('body').css('overflow', 'hidden');
+                }
+                renderPaypalButtonV2();
+                maybeShowAddSellPopupAfterAdd();
+            },
+
+            error: function (xhr, textStatus, thrownError) {
+                logAjaxScriptError("/Product/BasketReplaceAll/", xhr, textStatus, thrownError);
+            }
+        });
+    });
+
+    $(document).on("click", "#btnSwitchAll", function () {
+        $.ajax({
+            url: "/Product/BasketReplaceAll/",
+            type: "POST",
+            dataType: "json",
+            cache: false,
+
+            success: function (data) {
+
+                if (!data.savereturn.IsSuccess) {
+                    launchPopup('IsInCheckout', 'popup');
+                    return;
+                }
+
+                refreshViewBasket();
+                renderPaypalButtonV2();
+                maybeShowAddSellPopupAfterAdd();
+            },
+
+            error: function (xhr, textStatus, thrownError) {
+                logAjaxScriptError("/Product/BasketReplaceAll/", xhr, textStatus, thrownError);
+            }
+        });
+    });
+
+    $(document).on('click', '#you-may-also-need .ymn-close, #you-may-also-need .close-btn, #you-may-also-need-backdrop', function () {
+        var context = $('#you-may-also-need').attr('data-context');
+        removeAddSellPopup();
+        if (context === 'checkout') {
+            // checkoutUrl(), not a bare '/checkout/', for the same reason as the .ymn-proceed
+            // handler above - a signed-out customer skipping/closing this popup still needs
+            // '?showlogin=1' so the checkout page shows its login popup automatically.
+            window.location.href = checkoutUrl();
+        }
+    });
+
+    $(document).on('click', '#you-may-also-need .ymn-proceed', function () {
+        removeAddSellPopup();
+        window.location.href = checkoutUrl();
+    });
+
+    $(document).on('click', '.add-btn', function () {
+        try {
+            var ref = $(this).attr('data-productid');
+            var itemtype = $(this).attr('data-itemtype') || '1';
+            var price = (itemtype === '2' && $(this).attr('data-price')) ? $(this).attr('data-price') : 0;
+
+            var thisbutton = $(this);
+            var thisentry = $(this).closest('.atb-entry');
+            var qty = thisentry.find('input.atb-qty:first').val() || '1';
+            // Same "already on the basket page" reasoning as the .atb-add handler above - this
+            // button is the mobile-width rendering of the same inline add-on region
+            // (#itemList, BasketDetails.cshtml), shown/hidden via CSS alongside the .you-may-need
+            // desktop carousel rather than a separate server code path.
+            var fromAddonRegion = $(this).closest('#itemList').length > 0;
+
+            $.ajax({
+                url: "/Product/BasketAdd/",
+                dataType: 'json',
+                type: 'POST',
+                cache: false,
+                data: {
+                    productref: ref,
+                    productprice: price,
+                    productqty: qty,
+                    itemtype: itemtype
+                },
+                success: function (data) {
+                    changeBasketComplete(data, thisbutton);
+                    refreshViewBasket();
+                    maybeShowAddSellPopupAfterAdd(fromAddonRegion);
+
+                    if (!fromAddonRegion) {
+                        var $miniCartOverlay = $('#miniCartOverlay');
+                        if ($miniCartOverlay.length) {
+                            $miniCartOverlay.addClass('is-open');
+                            $('body').css('overflow', 'hidden');
+                        } else if (window.console && console.error) {
+                            console.error('[add-btn] #miniCartOverlay not found on this page - cannot open mini-cart');
+                        }
+                    }
+                },
+                error: function (xhr, textStatus, thrownError) {
+                    logAjaxScriptError("/Product/BasketAdd/", xhr, textStatus, thrownError);
+                }
+            });
+        } catch (e) {
+            logScriptError(e);
+        }
+    });
+
+    $(document).on('click', '.checkout-button', function () {
+        if ($('#vbBasketDetails').length) {
+            return;
+        }
+        proceedToCheckout();
+    });
+
+    $(document).on('click', '.minibasket-apply-voucher', function () {
+        var code = $.trim($('#minibasket-voucher-code').val());
+        var $error = $('#minibasket-voucher-code-error');
+
+        if (!code) {
+            return false;
+        }
+
+        var wasOpen = $('#miniCartOverlay').hasClass('is-open');
+
+        $.ajax({
+            url: "/Checkout/ApplyVoucher/",
+            dataType: 'json',
+            traditional: true,
+            type: 'POST',
+            cache: false,
+            data: {
+                voucherCode: code
+            },
+            async: false,
+            success: function (data) {
+                if (!data || !data.savereturn || !data.savereturn.IsSuccess) {
+                    if ($error.length) {
+                        $error.text((data && data.savereturn && data.savereturn.Message) || 'Sorry, that code isn\'t valid.').removeClass('g-v-h');
+                    }
+                    return false;
+                }
+
+                $('#minibasket-widget').replaceWith(data.basketSummary);
+                $('.basketQuantity').html(data.basketQuantity);
+                $('.basketTotal').html(data.basketTotal);
+                $('.basket-counter').html(data.basketQuantity);
+                setDeferredImages();
+                if (wasOpen) {
+                    $('#miniCartOverlay').addClass('is-open');
+                    $('body').css('overflow', 'hidden');
+                }
+                renderPaypalButtonV2();
+            },
+            error: function (xhr, textStatus, thrownError) {
+                logAjaxScriptError("/Checkout/ApplyVoucher/", xhr, textStatus, thrownError);
+            }
+        });
+    });
+
+    $(document).on('click',
+        '.minibasket-remove',
+        function () {
+            var ref = $(this).attr('data-productid');
+
+            $.ajax({
+                url: "/Product/BasketDelete/",
+                dataType: 'json',
+                traditional: true,
+                type: 'POST',
+                cache: false,
+                data: {
+                    productref: ref
+                },
+                async: false,
+                success: function (data) {
+                    if (!data.savereturn.IsSuccess) {
+                        launchPopup('IsInCheckout', 'popup');
+                        return false;
+                    }
+
+                    var wasOpen = $('#miniCartOverlay').hasClass('is-open');
+
+                    $('#minibasket-widget').replaceWith(data.basketSummary);
+
+                    if (wasOpen) {
+                        $('#miniCartOverlay').addClass('is-open');
+                        $('body').css('overflow', 'hidden');
+                    }
+
+                    $('.basketQuantity').html(data.basketQuantity);
+                    $('.basketTotal').html(data.basketTotal);
+                    $('.basket-counter').html(data.basketQuantity);
+
+                    setDeferredImages();
+
+                    var prodentry = $('.body-content .atb-add[data-productid=' + ref + ']');
+                    if (prodentry.length > 0) {
+                        var thisentry = prodentry.closest('.atb-entry').first();
+                        thisentry.find('.atb-count').html('0').parent().addClass('g-v-h');
+                        if (thisentry.find('.product-info-message').length > 0) {
+                            thisentry.find('.product-info-message').html(data.productInfoMessage).removeClass('g-v-h');
+                            thisentry.find('.product-price-message').html(data.productPriceMessage);
+                        }
+                    }
+
+                    renderPaypalButtonV2();
+                },
+                error: function (xhr, textStatus, thrownError) {
+                    logAjaxScriptError("/Product/BasketDelete/", xhr, textStatus, thrownError);
+                }
+            });
+        });
+
+    $(document).on('click',
+        '.minibasket-replace',
+        function () {
+            var ref = $(this).attr('data-productid');
+            var price = 0;
+            var qty = $(this).attr('data-qty');
+            var refremove = $(this).attr('data-removeid');
+            var wasOpen = $('#miniCartOverlay').hasClass('is-open');
+
+            $.ajax({
+                url: "/Product/BasketReplace/",
+                dataType: 'json',
+                traditional: true,
+                type: 'POST',
+                cache: false,
+                data: {
+                    productref: ref,
+                    productprice: price,
+                    productqty: qty,
+                    productrefremove: refremove
+                },
+                async: false,
+                success: function (data) {
+                    if (!data.savereturn.IsSuccess) {
+                        launchPopup('IsInCheckout', 'popup');
+                        return false;
+                    }
+                    $('#minibasket-widget').replaceWith(data.basketSummary);
+                    $('.basketQuantity').html(data.basketQuantity);
+                    $('.basketTotal').html(data.basketTotal);
+                    $('.basket-counter').html(data.basketQuantity);
+                    setDeferredImages();
+                    if (wasOpen) {
+                        $('#miniCartOverlay').addClass('is-open');
+                        $('body').css('overflow', 'hidden');
+                    }
+                    renderPaypalButtonV2();
+                    maybeShowAddSellPopupAfterAdd();
+
+                },
+                error: function (xhr, textStatus, thrownError) {
+                    logAjaxScriptError("/Product/BasketReplace/", xhr, textStatus, thrownError);
+                }
+            });
+        });
+
+    $(document).on('click', '.minibasket-voucher-remove', function () {
+        var wasOpen = $('#miniCartOverlay').hasClass('is-open');
+        $.ajax({
+            url: "/Checkout/RemoveVoucher/",
+            dataType: 'json',
+            traditional: true,
+            type: 'POST',
+            cache: false,
+            async: false,
+            success: function (data) {
+                $('#minibasket-widget').replaceWith(data.basketSummary);
+                $('.basketQuantity').html(data.basketQuantity);
+                $('.basketTotal').html(data.basketTotal);
+                $('.basket-counter').html(data.basketQuantity);
+                setDeferredImages();
+                if (wasOpen) {
+                    $('#miniCartOverlay').addClass('is-open');
+                    $('body').css('overflow', 'hidden');
+                }
+                renderPaypalButtonV2();
+            },
+            error: function (xhr, textStatus, thrownError) {
+                logAjaxScriptError("/Checkout/RemoveVoucher/", xhr, textStatus, thrownError);
+            }
+        });
+    });
+
+    $(document).on('click', '.need-arrow.next', function () {
+        ymnCarouselStep($(this).closest('.you-may-need-wrapper'), 1);
+    });
+
+    $(document).on('click', '.need-arrow.prev', function () {
+        ymnCarouselStep($(this).closest('.you-may-need-wrapper'), -1);
+    });
+
+    $(document).on('click', '.offcanvas-backdrop', function () {
+        $('[data-toggle="offcanvas-close"]').trigger('click');
+    });
+
+    $(document).on('click', '.open-mini-cart', function (e) {
+        var $overlay = $('#miniCartOverlay');
+        if ($overlay.length) {
+            e.preventDefault();
+            $overlay.addClass('is-open');
+            $('body').css('overflow', 'hidden');
+        }
+    });
+
+    $(document).on('click', '.ymn-add', function () {
+        var ref = $(this).attr('data-productid');
+        var thisbutton = $(this);
+        var wasOpen = $('#miniCartOverlay').hasClass('is-open');
+
+        $.ajax({
+            url: "/Product/BasketAdd/",
+            dataType: 'json',
+            traditional: true,
+            type: 'POST',
+            cache: false,
+            data: {
+                productref: ref,
+                productprice: 0,
+                productqty: 1,
+                itemtype: '1'
+            },
+            async: false,
+            success: function (data) {
+                if (!data.savereturn.IsSuccess) {
+                    launchPopup('IsInCheckout', 'popup');
+                    return false;
+                }
+
+                $('#minibasket-widget').replaceWith(data.basketSummary);
+                $('.basketQuantity').html(data.basketQuantity);
+                $('.basketTotal').html(data.basketTotal);
+                $('.basket-counter').html(data.basketQuantity);
+                setDeferredImages();
+                if (wasOpen) {
+                    $('#miniCartOverlay').addClass('is-open');
+                    $('body').css('overflow', 'hidden');
+                }
+                thisbutton.text('Added').prop('disabled', true);
+            },
+            error: function (xhr, textStatus, thrownError) {
+                logAjaxScriptError("/Product/BasketAdd/", xhr, textStatus, thrownError);
+            }
+        });
+    });
+
+    // =================== END SYNCED-FROM-TONERGIANT HANDLERS ===================
 });
 
 // Liveagent

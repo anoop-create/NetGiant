@@ -93,6 +93,17 @@
 
                     <div class="card-body">
                         @Html.Raw(card.BodyText)
+                        @* FIX: kept in sync with the same change in BasketDetails.cshtml (the version
+                            of this markup that's actually rendered - this file isn't currently wired
+                            into any view) - .card-content moved inside .card-body, ahead of .card-toggle
+                            below, so "Find Out More" expands the text in place instead of dropping in a
+                            separate panel below the toggle line. See style.css for the matching changes. *@
+                        @if (!String.IsNullOrEmpty(card.FindOutMoreContent))
+                        {
+                            <div class="card-content @card.Category.ToLower()">
+                                @Html.Raw(card.FindOutMoreContent)
+                            </div>
+                        } 
                     </div>
 
                     @if (!String.IsNullOrEmpty(card.FindOutMoreContent))
@@ -103,10 +114,6 @@
                             </a>
 
                             <i class="fa fa-angle-down"></i>
-                        </div>
-
-                        <div class="card-content @card.Category.ToLower()">
-                            @Html.Raw(card.FindOutMoreContent)
                         </div>
                     }
 

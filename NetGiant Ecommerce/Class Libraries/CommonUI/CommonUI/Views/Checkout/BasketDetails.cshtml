@@ -291,7 +291,7 @@
                                                                 <img src="/Content/Images/icons/trash-icon.png">
                                                             </button>
                                                         </span>
-                                                        <span class="like">
+                                                        <span class="like" style="display:none">
                                                             <button class="like-btn" type="button">
                                                                 <img src="/Content/Images/icons/like-icon.png" class="unlike-b">
                                                                 <img src="/Content/Images/icons/like-icon01.png" class="like-b">
@@ -558,7 +558,7 @@
                                                         @addOn.PartNo
                                                     </a>
                                                     <div class="need-price">
-                                                        £@string.Format("{0:N2}", addOn.PriceEx)Ex VAT
+                                                        £@string.Format("{0:N2}", addOn.PriceEx) ex VAT
                                                     </div>
 
                                                     <button class="btn btn-success atb-add"
@@ -1000,7 +1000,7 @@
                     }
                 </div>
             }
-        </div>
+        </div> 
         <div class="summary-basket-card4">
             <div class="basket-sidebar-info">
 
@@ -1032,6 +1032,23 @@
 
                         <div class="card-body">
                             @Html.Raw(card.BodyText)
+                            @* FIX: .card-content used to sit AFTER .card-toggle (as a sibling, not a
+                                child of .card-body) - clicking "Find Out More" made a visually separate
+                                panel drop in below the toggle line/chevron, reported as "text should
+                                expand from [the Find Out More line] rather than an additional box
+                                drop down". Moving it in here, ahead of .card-toggle below, makes the
+                                extra copy grow in place as a continuation of this same paragraph, with
+                                the toggle staying anchored directly beneath it either way - no JS change
+                                needed, card.find(".card-content") in the click handler below still finds
+                                it regardless of nesting. See style.css for the matching CSS changes
+                                (removed the now-redundant/doubled 55px indent and made the expanded
+                                text match the body copy above it instead of reading as a distinct note). *@
+                            @if (!String.IsNullOrEmpty(card.FindOutMoreContent))
+                            {
+                                <div class="card-content @card.Category.ToLower()">
+                                    @Html.Raw(card.FindOutMoreContent)
+                                </div>
+                            }
                         </div>
 
                         @if (!String.IsNullOrEmpty(card.FindOutMoreContent))
@@ -1042,10 +1059,6 @@
                                 </a>
 
                                 <i class="fa fa-angle-down"></i>
-                            </div>
-
-                            <div class="card-content @card.Category.ToLower()">
-                                @Html.Raw(card.FindOutMoreContent)
                             </div>
                         }
 
