@@ -317,7 +317,15 @@ namespace BusinessLogic.ViewModels
                 cd.IsNewCustomer = false;
                 cd.AccountNumber = HttpContext.Current.Session["U_AccountNo"].ToString();
                 cd.AccountRecord = HttpContext.Current.Session["U_Record"].ToString();
-                cd.Password = HttpContext.Current.Session["U_Password"].ToString();
+                // FIX: after an Opayo 3D-Secure round trip, OpayoNotification() restores the
+                // session via MyOpayo.GetJsonSession() - which (confirmed against
+                // SetJsonSession()/GetJsonSession() in MyOpayo.cs) never captures or restores
+                // U_Password, only U_AccountNo/U_Record/U_Email/etc. This left U_Password null
+                // here for a portal rep continuing past stage 0 after such a round trip (or after
+                // a declined/rejected 3DS challenge, which auto-navigates back into checkout),
+                // causing a NullReferenceException. Guarded the same way as the equivalent
+                // portal-only autofill field in CheckoutController.ViewBasket().
+                cd.Password = HttpContext.Current.Session["U_Password"] != null ? HttpContext.Current.Session["U_Password"].ToString() : "temp-password";
                 if (Convert.ToBoolean(HttpContext.Current.Session["U_IsAccountCustomer"]))
                 {
                     DataTable dt = Touchpoints.GetAccountDetails(cd.AccountNumber);

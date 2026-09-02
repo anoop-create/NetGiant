@@ -366,6 +366,16 @@ namespace CommonUI.Controllers
                 {
                     bc.Availability = 1;
                     bc.ImageUrl = "unknown.jpg";
+                    // FIX: this synthetic line never had a ProductUrl set, only ImageUrl/
+                    // Description/PartNo - every basket-line render path (BasketDetails.cshtml,
+                    // BasketSummary.cshtml, MiniBasket.cshtml) links the line's image/title to
+                    // bc.ProductUrl, and at least one of those (BasketDetails.cshtml) did so with
+                    // an unguarded bc.ProductUrl.StartsWith("/") - a NullReferenceException on
+                    // every basket page view once an admin discount was applied. That render-side
+                    // gap is now guarded too, but setting a real, safe default here as well so any
+                    // future or existing render path isn't relying on every caller remembering to
+                    // null-check this field.
+                    bc.ProductUrl = "/";
                     bc.Description = "Administrator Discount";
                     bc.PartNo = "ADDCOUNT";
                 }
@@ -373,6 +383,7 @@ namespace CommonUI.Controllers
                 {
                     bc.Availability = 1;
                     bc.ImageUrl = "unknown.jpg";
+                    bc.ProductUrl = "/";
                     switch (bc.StockRef)
                     {
                         case "ONHOLD":

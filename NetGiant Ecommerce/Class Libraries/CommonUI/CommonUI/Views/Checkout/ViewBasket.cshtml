@@ -66,12 +66,12 @@
                             @{
                                 Html.RenderPartial("~/Views/Checkout/BasketDetails.cshtml", Model);
                             }
-                        </div>
+                        </div> 
 
                         @* Amazon Pay / PayPal Checkout buttons live here, outside #vbBasketDetails, so they
                             render once per real page load and are never touched by the AJAX partial refresh
                             that #vbBasketDetails gets on every quantity/voucher/add/remove change (see
-                            refreshVbFields() in site.js). #paypal-button2/3 are exactly what
+                            refreshVbFields() in site.js). #paypal-button2 is exactly what
                             renderPaypalButtonV2() (called after every add/remove/voucher change, and once on
                             initial load below) expects to find.
                             The Amazon Pay button (script tag + amazon.Pay.renderButton() call) was previously
@@ -80,12 +80,17 @@
                             every quantity change. That's the actual cause of the reported "Amazon and PayPal
                             buttons refresh on quantity change" bug. Moved here for the same reason PayPal's
                             buttons already were; BasketDetails.cshtml's copy (and its duplicate, invalid-HTML
-                            #paypal-button2/3 IDs) has been removed. *@
+                            #paypal-button2/3 IDs) has been removed.
+                            FIX: #paypal-button3 (a second, separate "Pay Later" branded PayPal button,
+                            rendered with fundingSource: paypal.FUNDING.PAYLATER in renderPaypalButtonV2()) was
+                            reported as appearing at the bottom of the basket page and shouldn't be there -
+                            removed the container here (and the matching render call in site.js, and the
+                            enable-funding=paylater flag on the SDK script tag below) so only the plain PayPal
+                            button (#paypal-button2) renders. *@
                         @if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
                         {
-                          
+
                             <div id="paypal-button2" class="g-m-t-20"></div>
-                            <div id="paypal-button3" class="g-m-t-10"></div>
                         }
 
                         @*<div class="g-bc-s g-b-1-p g-m-t-20 visible-xs visible-sm restrict-images vb-pay-methods">
@@ -185,7 +190,12 @@
     </script>
     @if (!Convert.ToBoolean(Session["U_IsPortalUser"]) && Model.BasketTotals.GrandTotalIncVat > 0.01m)
     {
-        <script src="https://www.paypal.com/sdk/js?client-id=@(ConfigurationManager.AppSettings["PayPalClientId"])&currency=GBP&locale=en_GB&intent=authorize&components=messages,buttons&enable-funding=paylater&debug=@(ConfigurationManager.AppSettings["Environment"] == "Live" ? "false" : "true")">
+        @* FIX: removed &enable-funding=paylater - it exists to enable the "Pay Later" funding
+            source, which the site no longer renders a button for (see #paypal-button3 removal
+            above and in site.js). components=messages is kept even though the on-page message
+            banner is currently commented out below, since it's the SDK's messaging component,
+            unrelated to the Pay Later button itself. *@
+        <script src="https://www.paypal.com/sdk/js?client-id=@(ConfigurationManager.AppSettings["PayPalClientId"])&currency=GBP&locale=en_GB&intent=authorize&components=messages,buttons&debug=@(ConfigurationManager.AppSettings["Environment"] == "Live" ? "false" : "true")">
         </script>
     }
 

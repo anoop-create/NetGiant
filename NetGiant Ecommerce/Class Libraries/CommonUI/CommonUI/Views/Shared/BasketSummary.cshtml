@@ -17,17 +17,27 @@
     List<BasketContents> switchProducts = new List<BasketContents>();
     bool isAdminDiscount = false;//Model.BasketContents.Exists(x => x.ItemType == BasketItemType.AdminDiscount);
     bool isCompatibleDiscount = false;// Model.BasketContents.Exists(x => x.ItemType == BasketItemType.CompatibleDiscount);
-    int switchCount = 0;
+    int switchCount = 0; 
     bool isTradeCustomer = HttpContext.Current.Session["U_IsTradeCustomer"] != null && Convert.ToBoolean(HttpContext.Current.Session["U_IsTradeCustomer"]);
-    // TonerGiant delivery message: a constant "Free Next Day Delivery" up to the order cutoff
-    // (17:30 Mon-Thu, 17:00 Fri), switching to "Free Next Working Day Delivery" after that -
-    // this covers Friday evening through the weekend until Monday's cutoff. TG has no spend
-    // threshold for free delivery (that's a CartridgeMonkey-only rule).
+    // TonerGiant delivery message - UPDATED per explicit new business rules from the client
+    // (Sept 2026). This overrides an earlier standing instruction not to touch the delivery
+    // message; the client was told this override was happening before this change was made.
+    // New rules as given: Mon-Thu before 5:30pm, and Friday before 5:30pm (cutoff unified to
+    // 5:30pm every weekday - was 5pm on Fridays only) both deliver next working day and show
+    // "Free Next Day Delivery Order Before 5:30pm". Friday after 5:30pm, and all of Saturday/
+    // Sunday, deliver the following Tuesday and show "Free Delivery". The client's rules didn't
+    // cover a Mon-Thu order placed after 5:30pm; per their instruction to match the new
+    // message style for that gap (rather than keep the old "Free Next Working Day Delivery"
+    // wording), it also shows "Free Delivery" - the same single cutoff check naturally covers
+    // it, since it isn't a weekday-before-cutoff case either. TG has no spend threshold for
+    // free delivery (that's a CartridgeMonkey-only rule).
+    // NOTE: this file's delivery-message block is (as of this fix) byte-identical to
+    // MiniBasket.cshtml's - kept in sync deliberately since both actively render @deliveryMessage.
     DateTime nowLocal = DateTime.Now;
-    TimeSpan orderCutoff = nowLocal.DayOfWeek == DayOfWeek.Friday ? new TimeSpan(17, 0, 0) : new TimeSpan(17, 30, 0);
+    TimeSpan orderCutoff = new TimeSpan(17, 30, 0);
     bool isDeliveryWeekday = nowLocal.DayOfWeek >= DayOfWeek.Monday && nowLocal.DayOfWeek <= DayOfWeek.Friday;
     bool beforeDeliveryCutoff = isDeliveryWeekday && nowLocal.TimeOfDay < orderCutoff;
-    string deliveryMessage = beforeDeliveryCutoff ? "Free Next Day Delivery" : "Free Next Working Day Delivery";
+    string deliveryMessage = beforeDeliveryCutoff ? "Free Next Day Delivery Order Before 5:30pm" : "Free Delivery";
 }
 <style>
     @@media (min-width: 992px) {

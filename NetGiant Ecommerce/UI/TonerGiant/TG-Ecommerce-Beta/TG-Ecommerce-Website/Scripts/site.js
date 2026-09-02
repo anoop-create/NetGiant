@@ -1402,14 +1402,13 @@ function renderPaypalButtonV2() {
         }
     });
 
-    // #paypal-button2/3 now render once in ViewBasket.cshtml and persist across basket
-    // refreshes (they used to live inside the AJAX-replaced BasketDetails.cshtml partial, so a
+    // #paypal-button2 now renders once in ViewBasket.cshtml and persists across basket
+    // refreshes (it used to live inside the AJAX-replaced BasketDetails.cshtml partial, so a
     // fresh empty container was guaranteed every time this ran). Since this function can still
     // be called more than once per page view (add/remove/voucher etc. still call it), empty the
-    // containers first so paypal.Buttons().render() can't stack a second button on top of one
+    // container first so paypal.Buttons().render() can't stack a second button on top of one
     // that's already there.
     $('#paypal-button2').empty();
-    $('#paypal-button3').empty();
 
     // FIX: because these containers persist outside #vbBasketDetails and this function has no
     // basket-empty check, removing the last item left a live, clickable PayPal button sitting on
@@ -1426,10 +1425,10 @@ function renderPaypalButtonV2() {
 
     paypalObject.fundingSource = paypal.FUNDING.PAYPAL;
     paypal.Buttons(paypalObject).render('#paypal-button2');
-    if ($('#paypal-button3').length) {
-        paypalObject.fundingSource = paypal.FUNDING.PAYLATER;
-        paypal.Buttons(paypalObject).render('#paypal-button3');
-    }
+    // FIX: was also rendering a second, separate "Pay Later" branded button into #paypal-button3
+    // (fundingSource: paypal.FUNDING.PAYLATER) - reported as appearing at the bottom of the
+    // basket page and shouldn't be there. Removed; #paypal-button3's container (ViewBasket.cshtml)
+    // and the SDK's enable-funding=paylater flag were removed to match.
 
     var observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {

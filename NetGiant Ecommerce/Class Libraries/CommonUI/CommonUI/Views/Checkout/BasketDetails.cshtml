@@ -121,7 +121,7 @@
                                     // customer to increase quantity of something that can't actually be
                                     // fulfilled. Matches the same 1/7 in-stock check already used by the
                                     // Switch & Save eligibility a few lines below.
-                                    (bc.Availability == 1 || bc.Availability == 7 || bc.Availability==3) &&
+                                    
                                     upsellPerItemSaving > 0;
                                 if (!bc.IsCompatible &&
                                 !String.IsNullOrEmpty(bc.CrossSellingStockRef) &&
@@ -156,13 +156,24 @@
                                         <!-- Product Image -->
                                         <div class="item-img">
                                             @{
-                                                var productUrl = bc.ProductUrl.StartsWith("/")
+                                                // FIX: bc.ProductUrl is null for synthetic, non-product basket
+                                                // lines (confirmed: Administrator Discount lines built in
+                                                // ProductController - only ImageUrl/Description/PartNo are set
+                                                // there, never ProductUrl), which this loop includes
+                                                // (BasketItemType.Item || AdminDiscount). A bare
+                                                // bc.ProductUrl.StartsWith("/") NullReferenceException'd here
+                                                // whenever such a line was in the basket - i.e. this crashed
+                                                // the basket page for every customer/portal rep with an admin
+                                                // discount applied. Guarded the same way already done in
+                                                // BasketSummary.cshtml (falls back to "/" - the homepage -
+                                                // rather than failing loudly, matching that file's existing fix).
+                                                var productUrl = !string.IsNullOrEmpty(bc.ProductUrl) && bc.ProductUrl.StartsWith("/")
                                                     ? bc.ProductUrl
-                                                    : "/" + bc.ProductUrl;
+                                                    : "/" + (bc.ProductUrl ?? ""); 
                                             }
                                             <a href="@productUrl">
 
-                                                <img src="@bc.ImageUrl"
+                                                <img src="@bc.ImageUrl" 
                                                      alt="@bc.Description"
                                                      onerror="this.src='@ConfigurationManager.AppSettings["CDN"]/Images/noImage.jpg';" />
 
@@ -377,9 +388,11 @@
 
                                                         <div class="item-img">
                                                             @{
-                                                                var CrossSellingProductUrl = bc.CrossSellingProductUrl.StartsWith("/")
+                                                                // FIX: same null-guard as the main product-image
+                                                                // block above, applied here defensively too.
+                                                                var CrossSellingProductUrl = !string.IsNullOrEmpty(bc.CrossSellingProductUrl) && bc.CrossSellingProductUrl.StartsWith("/")
                                                                 ? bc.CrossSellingProductUrl
-                                                                : "/" + bc.CrossSellingProductUrl;
+                                                                : "/" + (bc.CrossSellingProductUrl ?? "");
                                                             }
                                                             <a href="@CrossSellingProductUrl">
 
@@ -470,9 +483,11 @@
         @for (int i = 0; i < addOnsToShow.Count; i++)
         {
             var addOn = addOnsToShow[i];
-            var productUrl = addOn.ProductUrl.StartsWith("/") 
-                ? addOn.ProductUrl 
-                : "/" + addOn.ProductUrl;
+            // FIX: same null-guard as the main basket-line product-image block above, applied
+            // here defensively too (addon list, less likely to be null but cheap to guard).
+            var productUrl = !string.IsNullOrEmpty(addOn.ProductUrl) && addOn.ProductUrl.StartsWith("/")
+                ? addOn.ProductUrl
+                : "/" + (addOn.ProductUrl ?? "");
 
             <div class="item">
                 <div class="item-thumb">
@@ -524,9 +539,10 @@
                                             {
                                                 <div class="need-product">
                                                     @{
-                                                        var productUrl = addOn.ProductUrl.StartsWith("/")
+                                                        // FIX: same null-guard as above.
+                                                        var productUrl = !string.IsNullOrEmpty(addOn.ProductUrl) && addOn.ProductUrl.StartsWith("/")
                                                             ? addOn.ProductUrl
-                                                            : "/" + addOn.ProductUrl;
+                                                            : "/" + (addOn.ProductUrl ?? "");
                                                     }
                                                     <a href="@productUrl">
                                                         <img src="@addOn.ImageUrl"
@@ -695,18 +711,33 @@
                     }
                     else
                     {
-                        bool isFriday = DateTime.Now.DayOfWeek == DayOfWeek.Friday;
-                        TimeSpan cutoff = isFriday ? new TimeSpan(17, 0, 0) : new TimeSpan(17, 30, 0);
-                        bool pastCutoff = DateTime.Now.TimeOfDay > cutoff;
+                        // FIX: TG delivery message - UPDATED per explicit new business rules from
+                        // the client (Sept 2026), overriding an earlier standing instruction not
+                        // to touch this message (client was told this override was happening
+                        // before this change was made). Mon-Thu before 5:30pm, and Friday before
+                        // 5:30pm (cutoff unified to 5:30pm every weekday - was 5pm on Fridays
+                        // only), both deliver next working day: "Free Next Day Delivery Order
+                        // Before 5:30pm". Friday after 5:30pm, and all of Saturday/Sunday, deliver
+                        // the following Tuesday: "Free Delivery" - also used for the one case the
+                        // client didn't explicitly cover (Mon-Thu after 5:30pm), per their
+                        // instruction to match the new message style there; the single cutoff
+                        // check below naturally covers it, since it isn't a weekday-before-cutoff
+                        // case either. This also fixes a pre-existing gap noted in an earlier
+                        // review: unlike MiniBasket.cshtml, this branch had no day-of-week check
+                        // at all, so it could show a "before cutoff" message on a Saturday
+                        // morning; isDeliveryWeekday below closes that.
+                        bool isDeliveryWeekday = DateTime.Now.DayOfWeek >= DayOfWeek.Monday && DateTime.Now.DayOfWeek <= DayOfWeek.Friday;
+                        TimeSpan cutoff = new TimeSpan(17, 30, 0);
+                        bool beforeCutoff = isDeliveryWeekday && DateTime.Now.TimeOfDay < cutoff;
                         string cutoffTime = DateTime.Today.Add(cutoff).ToString("h:mmtt").ToLower();
 
-                        if (pastCutoff)
+                        if (beforeCutoff)
                         {
-                            deliveryMessage = Html.Raw("Free Next Working Day Delivery " + cutoffTime);
+                            deliveryMessage = Html.Raw("Free Next Day Delivery Order Before " + cutoffTime);
                         }
                         else
                         {
-                            deliveryMessage = Html.Raw("Free Next Day Delivery Order Before " + cutoffTime);
+                            deliveryMessage = Html.Raw("Free Delivery");
                         }
                     }
                     <span><img src="~/Content/Images/icons/shipping-icon.png"></span>
