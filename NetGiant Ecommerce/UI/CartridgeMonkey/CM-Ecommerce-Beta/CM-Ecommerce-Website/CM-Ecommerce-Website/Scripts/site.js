@@ -645,7 +645,6 @@ function changeBasketComplete(data, thisbutton) {
         refreshViewBasket();
     }
 }
-
 function refreshViewBasket() {
     $.ajax({
         url: "/Checkout/RefreshViewBasket/",
@@ -790,6 +789,444 @@ function refreshVbFields(data) {
             "placeholder": "Enter quantity"
         });
     });
+}
+
+// Sets a basket line to an absolute quantity - used ONLY by the full basket page
+// (BasketDetails.cshtml / BasketDetailsv2.cshtml: qty stepper buttons + the Kendo
+// NumericTextBox Change/Spin handlers above). This was previously commented out entirely
+// while its two call sites above (in refreshVbFields) still referenced it - meaning every
+// call to refreshVbFields threw "changeBasketQty is not defined" and the Kendo qty spinner
+// on the full basket page silently never got wired up. Restored to working order and left
+// otherwise unchanged - the mini-cart has its own independent changeMiniBasketQty() below,
+// so nothing here needs to know about the mini-cart's markup at all.
+function changeBasketQty(productref, qty) {
+
+    var isCheckout = isCurrentPage('/checkout');
+
+    $.ajax({
+        url: "/Product/BasketUpdateQty/",
+        dataType: 'json',
+        traditional: true,
+        type: 'POST',
+        cache: false,
+
+        data: {
+            productref: productref,
+            qty: qty
+        },
+
+        async: false,
+
+        success: function (data) {
+
+            if (!data.savereturn.IsSuccess) {
+                launchPopup('IsInCheckout', 'popup');
+                return false;
+            }
+
+            if (isCheckout) {
+
+                // Refresh basket details only.
+                // Payment button DOM is preserved inside refreshVbFields().
+                refreshViewBasket();
+
+            } else {
+
+                $('#minibasket-widget').replaceWith(data.basketSummary);
+
+                $('.basketQuantity').html(data.basketQuantity);
+                $('.basketTotal').html(data.basketTotal);
+                $('.basket-counter').html(data.basketQuantity);
+
+                setDeferredImages();
+            }
+
+
+            // IMPORTANT:
+            // Do NOT add this:
+            //
+            // renderPaypalButtonV2();
+            //
+            // PayPal should remain as the existing button instance.
+        },
+
+        error: function (xhr, textStatus, thrownError) {
+            logAjaxScriptError(
+                "/Product/BasketUpdateQty/",
+                xhr,
+                textStatus,
+                thrownError
+            );
+        }
+    });
+}
+
+// Sets a basket line to an absolute quantity - used ONLY by the mini-cart's own qty
+// stepper buttons (MiniBasket.cshtml: onclick="changeMiniBasketQty(...)"). Kept fully
+// independent from changeBasketQty above (which the full basket page uses) so a mini-cart
+// fix can never change basket-detail-page behaviour, and vice versa. No isCheckout branch
+// is needed here because this function is never wired up to anything on that page.
+function changeMiniBasketQty(productref, qty) {
+
+    $.ajax({
+        url: "/Product/BasketUpdateQty/",
+        dataType: 'json',
+        traditional: true,
+        type: 'POST',
+        cache: false,
+
+        data: {
+            productref: productref,
+            qty: qty
+        },
+
+        async: false,
+
+        success: function (data) {
+
+            if (!data.savereturn.IsSuccess) {
+                launchPopup('IsInCheckout', 'popup');
+                return false;
+            }
+
+
+            // Remember whether mini-cart was already open
+            var wasOpen = $('#miniCartOverlay').hasClass('is-open');
+
+
+            // Refresh only mini-basket HTML
+            $('#minibasket-widget').replaceWith(data.basketSummary);
+
+
+            // Update counts
+            $('.basketQuantity').html(data.basketQuantity);
+            $('.basketTotal').html(data.basketTotal);
+            $('.basket-counter').html(data.basketQuantity);
+
+
+            setDeferredImages();
+
+
+            // Keep mini-cart open
+            if (wasOpen) {
+
+                $('#miniCartOverlay').addClass('is-open');
+
+                $('body').css('overflow', 'hidden');
+            }
+
+
+            // IMPORTANT:
+            // DO NOT CALL:
+            //
+            // renderPaypalButtonV2();
+            //
+            // This was causing PayPal to refresh every time
+            // quantity was increased/decreased.
+        },
+
+        error: function (xhr, textStatus, thrownError) {
+
+            logAjaxScriptError(
+                "/Product/BasketUpdateQty/",
+                xhr,
+                textStatus,
+                thrownError
+            );
+        }
+    });
+}
+
+// Shared "You May Also Need" lookup - asks the server whether the current basket has any
+// eligible add-on products (in stock, not already in the basket). Calls onEligible(html) if
+// so, otherwise onNotEligible() (both optional). Used both by the mini-cart's Proceed to
+// Checkout click and by every "Add to Basket" click site-wide (see .atb-add handler below).
+function requestAddSellPopup(onEligible, onNotEligible) {
+    $.ajax({
+        url: "/Checkout/GetAddSellPopup/",
+        dataType: 'json',
+        type: 'POST',
+        cache: false,
+        // Was async: false (synchronous XHR). This call sits directly in the "tap Add to
+        // Basket -> mini-cart/You May Also Need popup opens" chain on mobile (it's fired from
+        // maybeShowAddSellPopupAfterAdd(), itself called from the .atb-add success handler,
+        // right after that handler's own BasketAdd call - which had the same problem and was
+        // already fixed). Two back-to-back main-thread-blocking synchronous XHRs in the same
+        // click handler is exactly the kind of pattern iOS/WebKit's synchronous-XHR
+        // restrictions can silently break: the backdrop/overlay markup gets appended to the
+        // DOM, but the browser doesn't get a chance to reliably paint the popup panel that's
+        // supposed to sit on top of it - matching the "black screen, nothing else visible"
+        // report. onEligible/onNotEligible are already invoked from inside success/error below,
+        // so removing async:false needs no caller changes.
+        success: function (data) {
+            if (data && data.hasAddSell) {
+                if (onEligible) { onEligible(data.html); }
+            } else if (onNotEligible) {
+                onNotEligible();
+            }
+        },
+        error: function (xhr, textStatus, thrownError) {
+            logAjaxScriptError("/Checkout/GetAddSellPopup/", xhr, textStatus, thrownError);
+            if (onNotEligible) { onNotEligible(); }
+        }
+    });
+}
+
+// Removes the popup and its transparent click-catcher backdrop together - the two always come
+// and go as a pair, so every removal of one should also remove the other.
+function removeAddSellPopup() {
+    $('#you-may-also-need').remove();
+    $('#you-may-also-need-backdrop').remove();
+}
+
+// Inserts the popup markup and tags it with where it came from - 'checkout' (closing/X/backdrop
+// should still take the customer through to /checkout/, since that's what they were trying to
+// do) vs 'addtocart' (closing should just dismiss it and leave them where they are).
+// suppressMiniCart (optional): the customer is already looking at their basket - e.g. adding
+// from the "You May Also Need" region inline on the basket page itself - so forcing the
+// mini-cart flyout open on top of the basket page they're already viewing is redundant. See the
+// .atb-add/.add-btn handlers below, which set this when the click originated from that region.
+function showAddSellPopup(html, context, suppressMiniCart) {
+    removeAddSellPopup();
+    $('body').append(html);
+    $('#you-may-also-need').attr('data-context', context);
+    setDeferredImages();
+
+    if (context === 'addtocart' && !suppressMiniCart) {
+        // The popup is offering add-ons for what was just added - show the mini-cart open
+        // behind/underneath it (even if it wasn't already open), on every device, so that:
+        // add-on popup along with mini-cart should open together (the explicit requirement
+        // this whole mini-cart/add-to-basket flow was built against from the start) is actually
+        // true, and so that dismissing the popup lands the customer on an already-open mini-cart
+        // instead of the bare page. The 'checkout' context (proceedToCheckout) doesn't need this
+        // - that popup is only ever shown from inside an already-open mini-cart.
+        //
+        // This used to explicitly REMOVE is-open below 768px instead (mini-cart and popup were
+        // mutually exclusive on mobile), on the theory that stacking the mini-cart's own dim
+        // backdrop (.mini-cart-overlay, ~40% black) with this popup's own near-opaque backdrop
+        // (#you-may-also-need-backdrop, #00000091, much higher z-index) was the cause of an
+        // earlier "add to basket shows a black screen" report. That turned out to be wrong: the
+        // actual cause was a completely different, unconditional legacy element
+        // (.mobileBasketBackdrop in global.less, since disabled) that fired on every add-to-
+        // basket regardless of add-ons or overlay stacking - see the mini-basket-progress doc's
+        // "black screen culprit" pass. With that real cause fixed, there's no remaining reason to
+        // keep the mini-cart and this popup mutually exclusive on mobile, and doing so only
+        // fought the original requirement. The popup's own backdrop still visually sits on top
+        // while it's showing (by design, via z-index) - this only changes the mini-cart's actual
+        // open/closed *state* underneath, which is what matters once the popup is dismissed.
+        $('#miniCartOverlay').addClass('is-open');
+        $('body').css('overflow', 'hidden');
+    }
+}
+
+// Header.cshtml always renders the site's nav-collapse wrapper with either "authenticated" or
+// "not-authenticated" on it (see .navbar-collapse in Header.cshtml) - on every page, mobile and
+// desktop alike. Reuse that existing marker rather than adding a new one.
+function isNotAuthenticated() {
+    return $('.navbar-collapse').hasClass('not-authenticated');
+}
+
+// FIX (2026-08-24, later same day): this used to check isNotAuthenticated() FIRST and, for a
+// signed-out customer, skip the add-on eligibility check entirely and jump straight to the
+// login popup - on the reasoning that basket's own Checkout button does the same (never shows
+// an add-on popup for anyone). Reported bug: a guest with an add-on-eligible product in their
+// basket clicked the mini-cart's Proceed to Checkout and got the login popup with no add-on
+// popup at all - confirmed this was that exact behaviour firing as designed, not a detection
+// bug (verified Header.cshtml only ever renders a single, correctly-set
+// ".navbar-collapse ... not-authenticated" element - isNotAuthenticated() itself was reading
+// it correctly). Per explicit confirmation this was tested as a guest, the intended behaviour
+// is now: check for eligible add-ons regardless of sign-in state, same as an authenticated
+// customer - a guest should see the same "You May Also Need" popup before being asked to log
+// in, not skip straight past it. Login is deferred to whichever exit point is actually taken
+// (see checkoutUrl() below), instead of short-circuited here before the add-on check ever runs.
+function checkoutUrl() {
+    // FIX: this used to append '?showlogin=1' for signed-out guests, which made
+    // ViewBasket.cshtml auto-trigger its Checkout button action (and so the "Secure Checkout"
+    // login popup) the instant the basket page loaded - before the customer had a chance to see
+    // the page underneath it. Per explicit business direction, that's no longer wanted: jumping
+    // straight to the login prompt removes the customer's exposure to the express payment
+    // buttons (Amazon Pay, PayPal) and the basket page's proposition messaging. Now always
+    // returns the plain basket URL for every customer, signed in or not - landing on the basket
+    // (the site's first checkout stage) exactly as if they'd navigated here directly, with the
+    // "Secure Checkout" login popup only appearing if/when they click Checkout again themselves,
+    // same as it always has for a signed-in customer.
+    return '/checkout/';
+}
+
+// Mini-cart "Proceed to Checkout" click. Checks for eligible "You May Also Need" add-on
+// products first - regardless of sign-in state - and only then goes to /checkout/ (if there
+// are none, or the popup has already been shown/skipped this visit), appending '?showlogin=1'
+// via checkoutUrl() when the customer isn't signed in.
+function proceedToCheckout() {
+    if ($('#you-may-also-need').length) {
+        // Popup already open/shown - a second click on Proceed skips straight through. Only
+        // reachable on mobile now, since desktop never opens this popup from here at all.
+        removeAddSellPopup();
+        window.location.href = checkoutUrl();
+        return;
+    }
+
+    // Desktop: no add-on popup on Proceed to Checkout - straight to checkout. 992 to match this
+    // popup's own mobile/desktop CSS breakpoint (YouMayAlsoNeed.cshtml/style.css switch
+    // #you-may-also-need's card-list mobile view in and out at "@media (max-width: 991px)") -
+    // the same breakpoint maybeShowAddSellPopupAfterAdd() below already uses for the equivalent
+    // add-to-basket-triggered popup, so both entry points now agree on desktop vs. mobile.
+    if ($(window).width() >= 992) {
+        window.location.href = checkoutUrl();
+        return;
+    }
+
+    requestAddSellPopup(
+        function (html) {
+            showAddSellPopup(html, 'checkout');
+
+            // Mobile's mini-cart tray isn't shown alongside the popup - close it. Unconditional
+            // now (this code path is only ever reached below the 992px gate above).
+            $('[data-toggle="offcanvas-close"]').trigger('click');
+        },
+        function () {
+            window.location.href = checkoutUrl();
+        }
+    );
+}
+
+
+// Called after any successful "Add to Basket" click, from anywhere on the site (product page,
+// category listing, the inline "You May Also Need" section on the basket page, etc.) - if the
+// item(s) now in the basket have eligible add-ons, surface the same popup right away instead of
+// only waiting for the mini-cart's Proceed to Checkout click.
+// Always re-requests the popup, even if one is already showing - it used to bail out early
+// whenever #you-may-also-need already existed ("don't stack a second copy"), but that also
+// skipped re-checking eligibility for the item that was JUST added. Reported bug: add a product
+// with eligible add-ons (popup opens), then add a second product with none of its own - the
+// stale popup from the first product stayed open, showing add-ons that have nothing to do with
+// what's now in the basket, because this function returned before ever asking the server again.
+// requestAddSellPopup's own showAddSellPopup() already removes any existing popup before
+// appending a fresh one, so re-requesting can't "stack" a second copy - and the onNotEligible
+// callback here removes a stale popup outright when the current basket no longer qualifies.
+function maybeShowAddSellPopupAfterAdd(suppressMiniCart) {
+    // Mobile design: add-ons should only ever surface when the customer taps the mini-cart's
+    // own "Proceed to Checkout" button (proceedToCheckout(), above - which already has its own
+    // correct handling), never immediately after a plain Add to Basket. Below the breakpoint,
+    // skip the popup entirely here. This also fixes a second symptom of the same bug: this
+    // partial's CSS gives #you-may-also-need[data-context="addtocart"] a higher-specificity,
+    // centered-floating-modal position/size rule that beats the plain mobile full-screen rule
+    // (which is what makes the .ymn-proceed "Proceed to Checkout" footer button clearly
+    // visible/usable) - so calling this on mobile was also rendering a cramped desktop-style
+    // popup instead of the intended full-screen mobile layout. Skipping the call here means
+    // mobile only ever reaches this popup via the 'checkout' context, so that mismatch can no
+    // longer happen either.
+    //
+    // 992, not 768: matches the breakpoint YouMayAlsoNeed.cshtml/style.css actually use to swap
+    // #you-may-also-need between its desktop carousel and mobile card-list views
+    // ("@media (max-width: 991px)"), not the older 767px breakpoint this check was written
+    // against before that CSS was widened to include tablet widths.
+    if ($(window).width() < 992) {
+        return;
+    }
+
+    requestAddSellPopup(function (html) {
+        showAddSellPopup(html, 'addtocart', suppressMiniCart);
+    }, function () {
+        removeAddSellPopup();
+    });
+}
+
+// Split out of startTime() below: does the actual calculation + DOM update for the "Order
+// Within" countdown, with no side effect of scheduling another tick. startTime() (the original,
+// still-recursive loop kicked off once on page load) calls this and then reschedules itself -
+// unchanged. This standalone version exists so refreshVbFields() can force an immediate
+// re-populate of a freshly re-rendered (and therefore blank) .cutoffCountdownFalse element right
+// after a basket refresh, without also spinning up a second, parallel setTimeout loop alongside
+// the one already running from page load - calling startTime() itself there instead would do
+// exactly that, since it unconditionally reschedules itself every time it's invoked.
+function updateCutoffCountdown() {
+    //var currTime = new Array();
+    var cutOffTime = new Array();
+    var countDown = new Array();
+    var today = new Date();
+
+    // The following is used for Testing
+    //today = new Date(2017, 06, 07, 11, 0, 0, 0);    // 11 O'Clock on a Friday
+    //today = new Date(2017, 06, 07, 21, 0, 0, 0);    // 21 O'Clock on a Friday
+    //today = new Date(2017, 06, 08, 11, 0, 0, 0);    // 11 O'Clock on a Saturday
+    //today = new Date(2017, 06, 09, 11, 0, 0, 0);    // 11 O'Clock on a Sunday
+
+    var txtHour;
+    var txtMinute;
+    var dCutOffDate;
+    //var dDeliveryDate;
+
+    var currTime = parseInt(today.getHours() +
+        "" +
+        ("0" + today.getMinutes()).substr(-2) +
+        "" +
+        ("0" + today.getSeconds()).substr(-2));
+    var dayNumber = today.getDay();
+    dCutOffDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 17, 30, 0, 0);
+    if (currTime < 173000) {
+        switch (dayNumber) {
+            case 0:
+                dCutOffDate.setDate(today.getDate() + 1);
+                break;
+            case 6:
+                dCutOffDate.setDate(today.getDate() + 2);
+                break;
+            default:
+                break;
+        }
+    } else {
+        switch (dayNumber) {
+            case 5:
+                dCutOffDate.setDate(today.getDate() + 3);
+                break;
+            case 6:
+                dCutOffDate.setDate(today.getDate() + 2);
+                break;
+            default:
+                dCutOffDate.setDate(today.getDate() + 1);
+                break;
+        }
+    }
+
+    if (today.getHours() === 17 && today.getMinutes() === 30 && today.getSeconds() === 0) {
+        switch (dayNumber) {
+            case 0:
+                break;
+            case 4:
+                dCutOffDate.setTime(dCutOffDate.getTime() + (24 * 60 * 60 * 1000));
+                break;
+            case 5:
+                dCutOffDate.setTime(dCutOffDate.getTime() + (72 * 60 * 60 * 1000));
+                break;
+            case 6:
+                break;
+            default:
+                dCutOffDate.setTime(dCutOffDate.getTime() + (24 * 60 * 60 * 1000));
+        }
+    }
+
+    countDown[0] = Math.floor(((dCutOffDate - today) / 1000) / 3600);
+    countDown[1] = Math.floor((((dCutOffDate - today) / 1000) - (countDown[0] * 3600)) / 60);
+    countDown[2] = Math.floor(((dCutOffDate - today) / 1000) - (countDown[0] * 3600) - (countDown[1] * 60));
+
+    if (dCutOffDate < today) {
+        countDown[0] = 0;
+        countDown[1] = 0;
+        countDown[2] = 0;
+    }
+
+    if (countDown[0] === 1) {
+        txtHour = " hour ";
+    } else {
+        txtHour = " hours ";
+    }
+    if (countDown[1] === 1) {
+        txtMinute = " min ";
+    } else {
+        txtMinute = " mins ";
+    }
+    $('.cutoffCountdownFalse').html(countDown[0] + txtHour + ' ' + countDown[1] + txtMinute);
 }
 
 function startTime() {
@@ -1425,383 +1862,6 @@ function loadPca(n, t, i, r) {
     var u, f; n[i] = n[i] || {}, n[i].initial = { accountCode: "NETGI11112", host: "NETGI11112.pcapredict.com" }, n[i].on = n[i].on || function () { (n[i].onq = n[i].onq || []).push(arguments) }, u = t.createElement("script"), u.async = !0, u.src = r, f = t.getElementsByTagName("script")[0], f.parentNode.insertBefore(u, f)
 }
 
-// =========================================================================
-// SYNCED FROM TONERGIANT site.js (functions present in TG but missing here) -
-// see mini-basket-progress.md for details of this sync pass.
-// =========================================================================
-
-function changeBasketQty(productref, qty) {
-
-    var isCheckout = isCurrentPage('/checkout');
-
-    $.ajax({
-        url: "/Product/BasketUpdateQty/",
-        dataType: 'json',
-        traditional: true,
-        type: 'POST',
-        cache: false,
-
-        data: {
-            productref: productref,
-            qty: qty
-        },
-
-        async: false,
-
-        success: function (data) {
-
-            if (!data.savereturn.IsSuccess) {
-                launchPopup('IsInCheckout', 'popup');
-                return false;
-            }
-
-            if (isCheckout) {
-
-                // Refresh basket details only.
-                // Payment button DOM is preserved inside refreshVbFields().
-                refreshViewBasket();
-
-            } else {
-
-                $('#minibasket-widget').replaceWith(data.basketSummary);
-
-                $('.basketQuantity').html(data.basketQuantity);
-                $('.basketTotal').html(data.basketTotal);
-                $('.basket-counter').html(data.basketQuantity);
-
-                setDeferredImages();
-            }
-
-
-            // IMPORTANT:
-            // Do NOT add this:
-            //
-            // renderPaypalButtonV2();
-            //
-            // PayPal should remain as the existing button instance.
-        },
-
-        error: function (xhr, textStatus, thrownError) {
-            logAjaxScriptError(
-                "/Product/BasketUpdateQty/",
-                xhr,
-                textStatus,
-                thrownError
-            );
-        }
-    });
-}
-
-function changeMiniBasketQty(productref, qty) {
-
-    $.ajax({
-        url: "/Product/BasketUpdateQty/",
-        dataType: 'json',
-        traditional: true,
-        type: 'POST',
-        cache: false,
-
-        data: {
-            productref: productref,
-            qty: qty
-        },
-
-        async: false,
-
-        success: function (data) {
-
-            if (!data.savereturn.IsSuccess) {
-                launchPopup('IsInCheckout', 'popup');
-                return false;
-            }
-
-
-            // Remember whether mini-cart was already open
-            var wasOpen = $('#miniCartOverlay').hasClass('is-open');
-
-
-            // Refresh only mini-basket HTML
-            $('#minibasket-widget').replaceWith(data.basketSummary);
-
-
-            // Update counts
-            $('.basketQuantity').html(data.basketQuantity);
-            $('.basketTotal').html(data.basketTotal);
-            $('.basket-counter').html(data.basketQuantity);
-
-
-            setDeferredImages();
-
-
-            // Keep mini-cart open
-            if (wasOpen) {
-
-                $('#miniCartOverlay').addClass('is-open');
-
-                $('body').css('overflow', 'hidden');
-            }
-
-
-            // IMPORTANT:
-            // DO NOT CALL:
-            //
-            // renderPaypalButtonV2();
-            //
-            // This was causing PayPal to refresh every time
-            // quantity was increased/decreased.
-        },
-
-        error: function (xhr, textStatus, thrownError) {
-
-            logAjaxScriptError(
-                "/Product/BasketUpdateQty/",
-                xhr,
-                textStatus,
-                thrownError
-            );
-        }
-    });
-}
-
-function checkoutUrl() {
-    // FIX: this used to append '?showlogin=1' for signed-out guests, which made
-    // ViewBasket.cshtml auto-trigger its Checkout button action (and so the "Secure Checkout"
-    // login popup) the instant the basket page loaded - before the customer had a chance to see
-    // the page underneath it. Per explicit business direction, that's no longer wanted: jumping
-    // straight to the login prompt removes the customer's exposure to the express payment
-    // buttons (Amazon Pay, PayPal) and the basket page's proposition messaging. Now always
-    // returns the plain basket URL for every customer, signed in or not - landing on the basket
-    // (the site's first checkout stage) exactly as if they'd navigated here directly, with the
-    // "Secure Checkout" login popup only appearing if/when they click Checkout again themselves,
-    // same as it always has for a signed-in customer.
-    return '/checkout/';
-}
-
-function isNotAuthenticated() {
-    return $('.navbar-collapse').hasClass('not-authenticated');
-}
-
-function maybeShowAddSellPopupAfterAdd(suppressMiniCart) {
-    // Mobile design: add-ons should only ever surface when the customer taps the mini-cart's
-    // own "Proceed to Checkout" button (proceedToCheckout(), above - which already has its own
-    // correct handling), never immediately after a plain Add to Basket. Below the breakpoint,
-    // skip the popup entirely here. This also fixes a second symptom of the same bug: this
-    // partial's CSS gives #you-may-also-need[data-context="addtocart"] a higher-specificity,
-    // centered-floating-modal position/size rule that beats the plain mobile full-screen rule
-    // (which is what makes the .ymn-proceed "Proceed to Checkout" footer button clearly
-    // visible/usable) - so calling this on mobile was also rendering a cramped desktop-style
-    // popup instead of the intended full-screen mobile layout. Skipping the call here means
-    // mobile only ever reaches this popup via the 'checkout' context, so that mismatch can no
-    // longer happen either.
-    //
-    // 992, not 768: matches the breakpoint YouMayAlsoNeed.cshtml/style.css actually use to swap
-    // #you-may-also-need between its desktop carousel and mobile card-list views
-    // ("@media (max-width: 991px)"), not the older 767px breakpoint this check was written
-    // against before that CSS was widened to include tablet widths.
-    if ($(window).width() < 992) {
-        return;
-    }
-
-    requestAddSellPopup(function (html) {
-        showAddSellPopup(html, 'addtocart', suppressMiniCart);
-    }, function () {
-        removeAddSellPopup();
-    });
-}
-
-function proceedToCheckout() {
-    if ($('#you-may-also-need').length) {
-        // Popup already open/shown - a second click on Proceed skips straight through. Only
-        // reachable on mobile now, since desktop never opens this popup from here at all.
-        removeAddSellPopup();
-        window.location.href = checkoutUrl();
-        return;
-    }
-
-    // Desktop: no add-on popup on Proceed to Checkout - straight to checkout. 992 to match this
-    // popup's own mobile/desktop CSS breakpoint (YouMayAlsoNeed.cshtml/style.css switch
-    // #you-may-also-need's card-list mobile view in and out at "@media (max-width: 991px)") -
-    // the same breakpoint maybeShowAddSellPopupAfterAdd() below already uses for the equivalent
-    // add-to-basket-triggered popup, so both entry points now agree on desktop vs. mobile.
-    if ($(window).width() >= 992) {
-        window.location.href = checkoutUrl();
-        return;
-    }
-
-    requestAddSellPopup(
-        function (html) {
-            showAddSellPopup(html, 'checkout');
-
-            // Mobile's mini-cart tray isn't shown alongside the popup - close it. Unconditional
-            // now (this code path is only ever reached below the 992px gate above).
-            $('[data-toggle="offcanvas-close"]').trigger('click');
-        },
-        function () {
-            window.location.href = checkoutUrl();
-        }
-    );
-}
-
-function removeAddSellPopup() {
-    $('#you-may-also-need').remove();
-    $('#you-may-also-need-backdrop').remove();
-}
-
-function requestAddSellPopup(onEligible, onNotEligible) {
-    $.ajax({
-        url: "/Checkout/GetAddSellPopup/",
-        dataType: 'json',
-        type: 'POST',
-        cache: false,
-        // Was async: false (synchronous XHR). This call sits directly in the "tap Add to
-        // Basket -> mini-cart/You May Also Need popup opens" chain on mobile (it's fired from
-        // maybeShowAddSellPopupAfterAdd(), itself called from the .atb-add success handler,
-        // right after that handler's own BasketAdd call - which had the same problem and was
-        // already fixed). Two back-to-back main-thread-blocking synchronous XHRs in the same
-        // click handler is exactly the kind of pattern iOS/WebKit's synchronous-XHR
-        // restrictions can silently break: the backdrop/overlay markup gets appended to the
-        // DOM, but the browser doesn't get a chance to reliably paint the popup panel that's
-        // supposed to sit on top of it - matching the "black screen, nothing else visible"
-        // report. onEligible/onNotEligible are already invoked from inside success/error below,
-        // so removing async:false needs no caller changes.
-        success: function (data) {
-            if (data && data.hasAddSell) {
-                if (onEligible) { onEligible(data.html); }
-            } else if (onNotEligible) {
-                onNotEligible();
-            }
-        },
-        error: function (xhr, textStatus, thrownError) {
-            logAjaxScriptError("/Checkout/GetAddSellPopup/", xhr, textStatus, thrownError);
-            if (onNotEligible) { onNotEligible(); }
-        }
-    });
-}
-
-function showAddSellPopup(html, context, suppressMiniCart) {
-    removeAddSellPopup();
-    $('body').append(html);
-    $('#you-may-also-need').attr('data-context', context);
-    setDeferredImages();
-
-    if (context === 'addtocart' && !suppressMiniCart) {
-        // The popup is offering add-ons for what was just added - show the mini-cart open
-        // behind/underneath it (even if it wasn't already open), on every device, so that:
-        // add-on popup along with mini-cart should open together (the explicit requirement
-        // this whole mini-cart/add-to-basket flow was built against from the start) is actually
-        // true, and so that dismissing the popup lands the customer on an already-open mini-cart
-        // instead of the bare page. The 'checkout' context (proceedToCheckout) doesn't need this
-        // - that popup is only ever shown from inside an already-open mini-cart.
-        //
-        // This used to explicitly REMOVE is-open below 768px instead (mini-cart and popup were
-        // mutually exclusive on mobile), on the theory that stacking the mini-cart's own dim
-        // backdrop (.mini-cart-overlay, ~40% black) with this popup's own near-opaque backdrop
-        // (#you-may-also-need-backdrop, #00000091, much higher z-index) was the cause of an
-        // earlier "add to basket shows a black screen" report. That turned out to be wrong: the
-        // actual cause was a completely different, unconditional legacy element
-        // (.mobileBasketBackdrop in global.less, since disabled) that fired on every add-to-
-        // basket regardless of add-ons or overlay stacking - see the mini-basket-progress doc's
-        // "black screen culprit" pass. With that real cause fixed, there's no remaining reason to
-        // keep the mini-cart and this popup mutually exclusive on mobile, and doing so only
-        // fought the original requirement. The popup's own backdrop still visually sits on top
-        // while it's showing (by design, via z-index) - this only changes the mini-cart's actual
-        // open/closed *state* underneath, which is what matters once the popup is dismissed.
-        $('#miniCartOverlay').addClass('is-open');
-        $('body').css('overflow', 'hidden');
-    }
-}
-
-function updateCutoffCountdown() {
-    //var currTime = new Array();
-    var cutOffTime = new Array();
-    var countDown = new Array();
-    var today = new Date();
-
-    // The following is used for Testing
-    //today = new Date(2017, 06, 07, 11, 0, 0, 0);    // 11 O'Clock on a Friday
-    //today = new Date(2017, 06, 07, 21, 0, 0, 0);    // 21 O'Clock on a Friday
-    //today = new Date(2017, 06, 08, 11, 0, 0, 0);    // 11 O'Clock on a Saturday
-    //today = new Date(2017, 06, 09, 11, 0, 0, 0);    // 11 O'Clock on a Sunday
-
-    var txtHour;
-    var txtMinute;
-    var dCutOffDate;
-    //var dDeliveryDate;
-
-    var currTime = parseInt(today.getHours() +
-        "" +
-        ("0" + today.getMinutes()).substr(-2) +
-        "" +
-        ("0" + today.getSeconds()).substr(-2));
-    var dayNumber = today.getDay();
-    dCutOffDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 17, 30, 0, 0);
-    if (currTime < 173000) {
-        switch (dayNumber) {
-            case 0:
-                dCutOffDate.setDate(today.getDate() + 1);
-                break;
-            case 6:
-                dCutOffDate.setDate(today.getDate() + 2);
-                break;
-            default:
-                break;
-        }
-    } else {
-        switch (dayNumber) {
-            case 5:
-                dCutOffDate.setDate(today.getDate() + 3);
-                break;
-            case 6:
-                dCutOffDate.setDate(today.getDate() + 2);
-                break;
-            default:
-                dCutOffDate.setDate(today.getDate() + 1);
-                break;
-        }
-    }
-
-    if (today.getHours() === 17 && today.getMinutes() === 30 && today.getSeconds() === 0) {
-        switch (dayNumber) {
-            case 0:
-                break;
-            case 4:
-                dCutOffDate.setTime(dCutOffDate.getTime() + (24 * 60 * 60 * 1000));
-                break;
-            case 5:
-                dCutOffDate.setTime(dCutOffDate.getTime() + (72 * 60 * 60 * 1000));
-                break;
-            case 6:
-                break;
-            default:
-                dCutOffDate.setTime(dCutOffDate.getTime() + (24 * 60 * 60 * 1000));
-        }
-    }
-
-    countDown[0] = Math.floor(((dCutOffDate - today) / 1000) / 3600);
-    countDown[1] = Math.floor((((dCutOffDate - today) / 1000) - (countDown[0] * 3600)) / 60);
-    countDown[2] = Math.floor(((dCutOffDate - today) / 1000) - (countDown[0] * 3600) - (countDown[1] * 60));
-
-    if (dCutOffDate < today) {
-        countDown[0] = 0;
-        countDown[1] = 0;
-        countDown[2] = 0;
-    }
-
-    if (countDown[0] === 1) {
-        txtHour = " hour ";
-    } else {
-        txtHour = " hours ";
-    }
-    if (countDown[1] === 1) {
-        txtMinute = " min ";
-    } else {
-        txtMinute = " mins ";
-    }
-    $('.cutoffCountdownFalse').html(countDown[0] + txtHour + ' ' + countDown[1] + txtMinute);
-}
-
-// ===================== END SYNCED-FROM-TONERGIANT FUNCTIONS ====================
-
 //#endregion
 
 $(window).on('load', function () {
@@ -1911,6 +1971,55 @@ $(function () {
                 logScriptError(e);
             }
         });
+    $(document).on('click', '.add-btn', function () {
+        try {
+            var ref = $(this).attr('data-productid');
+            var itemtype = $(this).attr('data-itemtype') || '1';
+            var price = (itemtype === '2' && $(this).attr('data-price')) ? $(this).attr('data-price') : 0;
+
+            var thisbutton = $(this);
+            var thisentry = $(this).closest('.atb-entry');
+            var qty = thisentry.find('input.atb-qty:first').val() || '1';
+            // Same "already on the basket page" reasoning as the .atb-add handler above - this
+            // button is the mobile-width rendering of the same inline add-on region
+            // (#itemList, BasketDetails.cshtml), shown/hidden via CSS alongside the .you-may-need
+            // desktop carousel rather than a separate server code path.
+            var fromAddonRegion = $(this).closest('#itemList').length > 0;
+
+            $.ajax({
+                url: "/Product/BasketAdd/",
+                dataType: 'json',
+                type: 'POST',
+                cache: false,
+                data: {
+                    productref: ref,
+                    productprice: price,
+                    productqty: qty,
+                    itemtype: itemtype
+                },
+                success: function (data) {
+                    changeBasketComplete(data, thisbutton);
+                    refreshViewBasket();
+                    maybeShowAddSellPopupAfterAdd(fromAddonRegion);
+
+                    if (!fromAddonRegion) {
+                        var $miniCartOverlay = $('#miniCartOverlay');
+                        if ($miniCartOverlay.length) {
+                            $miniCartOverlay.addClass('is-open');
+                            $('body').css('overflow', 'hidden');
+                        } else if (window.console && console.error) {
+                            console.error('[add-btn] #miniCartOverlay not found on this page - cannot open mini-cart');
+                        }
+                    }
+                },
+                error: function (xhr, textStatus, thrownError) {
+                    logAjaxScriptError("/Product/BasketAdd/", xhr, textStatus, thrownError);
+                }
+            });
+        } catch (e) {
+            logScriptError(e);
+        }
+    });
 
     // Mega Menu Mobile manipulation
     if ($('#mobile-menu').is(":visible")) {
@@ -2388,13 +2497,15 @@ $(function () {
                 });
         });
 
-    // SYNCED FROM TONERGIANT: replaces the old '.basket-entry .delete' handler below (same
-// AJAX delete call, updated for the new #minibasket-widget/#miniCartOverlay markup this
-// selector never targeted). Kept as a straight replacement rather than an addition -
-// the basket line's delete button carries both the old 'delete' class and the new
-// 'basket-remove' class, so leaving the old handler in place alongside this one would
-// have fired /Product/BasketDelete/ twice per click.
-$(document).on('click',
+    // Removes a basket line - used ONLY by the full basket page's own remove button
+    // (BasketDetails.cshtml: <button class="basket-remove delete">). This entire success
+    // callback was found commented out - meaning clicking remove on the full basket page
+    // deleted the item server-side but never updated anything on screen. Restored to working
+    // order (keeping the page's original "thisparent captured before replaceWith" approach
+    // unchanged, since that's this handler's pre-existing behaviour, not something to fix
+    // here) - the mini-cart now has its own independent .minibasket-remove handler below so
+    // this one only ever needs to worry about the full basket page.
+    $(document).on('click',
         '.basket-remove',
         function () {
             var ref = $(this).attr('data-productid');
@@ -2453,6 +2564,64 @@ $(document).on('click',
             });
         });
 
+    // Removes a basket line - used ONLY by the mini-cart's own remove button
+    // (MiniBasket.cshtml: <button class="minibasket-remove delete">). Kept fully
+    // independent from .basket-remove above (which the full basket page uses) so a
+    // mini-cart fix can never change basket-detail-page behaviour, and vice versa.
+    $(document).on('click',
+        '.minibasket-remove',
+        function () {
+            var ref = $(this).attr('data-productid');
+
+            $.ajax({
+                url: "/Product/BasketDelete/",
+                dataType: 'json',
+                traditional: true,
+                type: 'POST',
+                cache: false,
+                data: {
+                    productref: ref
+                },
+                async: false,
+                success: function (data) {
+                    if (!data.savereturn.IsSuccess) {
+                        launchPopup('IsInCheckout', 'popup');
+                        return false;
+                    }
+
+                    var wasOpen = $('#miniCartOverlay').hasClass('is-open');
+
+                    $('#minibasket-widget').replaceWith(data.basketSummary);
+
+                    if (wasOpen) {
+                        $('#miniCartOverlay').addClass('is-open');
+                        $('body').css('overflow', 'hidden');
+                    }
+
+                    $('.basketQuantity').html(data.basketQuantity);
+                    $('.basketTotal').html(data.basketTotal);
+                    $('.basket-counter').html(data.basketQuantity);
+
+                    setDeferredImages();
+
+                    var prodentry = $('.body-content .atb-add[data-productid=' + ref + ']');
+                    if (prodentry.length > 0) {
+                        var thisentry = prodentry.closest('.atb-entry').first();
+                        thisentry.find('.atb-count').html('0').parent().addClass('g-v-h');
+                        if (thisentry.find('.product-info-message').length > 0) {
+                            thisentry.find('.product-info-message').html(data.productInfoMessage).removeClass('g-v-h');
+                            thisentry.find('.product-price-message').html(data.productPriceMessage);
+                        }
+                    }
+
+                    renderPaypalButtonV2();
+                },
+                error: function (xhr, textStatus, thrownError) {
+                    logAjaxScriptError("/Product/BasketDelete/", xhr, textStatus, thrownError);
+                }
+            });
+        });
+
     $(document).on('click',
         '.atb-replace',
         function () {
@@ -2489,6 +2658,356 @@ $(document).on('click',
                 }
             });
         });
+    // Mini-cart's own "Switch Now" button - independent of the shared .atb-replace used on the
+    // basket-detail page (which goes through refreshViewBasket()). This one talks to
+    // /Product/BasketReplace/ directly and swaps in data.basketSummary itself, so it needs its
+    // own wasOpen/reopen handling for the overlay.
+    $(document).on('click',
+        '.minibasket-replace',
+        function () {
+            var ref = $(this).attr('data-productid');
+            var price = 0;
+            var qty = $(this).attr('data-qty');
+            var refremove = $(this).attr('data-removeid');
+            var wasOpen = $('#miniCartOverlay').hasClass('is-open');
+
+            $.ajax({
+                url: "/Product/BasketReplace/",
+                dataType: 'json',
+                traditional: true,
+                type: 'POST',
+                cache: false,
+                data: {
+                    productref: ref,
+                    productprice: price,
+                    productqty: qty,
+                    productrefremove: refremove
+                },
+                async: false,
+                success: function (data) {
+                    if (!data.savereturn.IsSuccess) {
+                        launchPopup('IsInCheckout', 'popup');
+                        return false;
+                    }
+                    $('#minibasket-widget').replaceWith(data.basketSummary);
+                    $('.basketQuantity').html(data.basketQuantity);
+                    $('.basketTotal').html(data.basketTotal);
+                    $('.basket-counter').html(data.basketQuantity);
+                    setDeferredImages();
+                    if (wasOpen) {
+                        $('#miniCartOverlay').addClass('is-open');
+                        $('body').css('overflow', 'hidden');
+                    }
+                    renderPaypalButtonV2();
+                    maybeShowAddSellPopupAfterAdd();
+
+                },
+                error: function (xhr, textStatus, thrownError) {
+                    logAjaxScriptError("/Product/BasketReplace/", xhr, textStatus, thrownError);
+                }
+            });
+        });
+    $(document).on("click", "#btnSwitchAll", function () {
+        $.ajax({
+            url: "/Product/BasketReplaceAll/",
+            type: "POST",
+            dataType: "json",
+            cache: false,
+
+            success: function (data) {
+
+                if (!data.savereturn.IsSuccess) {
+                    launchPopup('IsInCheckout', 'popup');
+                    return;
+                }
+
+                refreshViewBasket();
+                renderPaypalButtonV2();
+                maybeShowAddSellPopupAfterAdd();
+            },
+
+            error: function (xhr, textStatus, thrownError) {
+                logAjaxScriptError("/Product/BasketReplaceAll/", xhr, textStatus, thrownError);
+            }
+        });
+    });
+    // Mini-cart "Switch All" button - independent of the shared #btnSwitchAll used on the
+    // basket-detail page (which goes through refreshViewBasket()). This one talks to
+    // /Product/BasketReplaceAll/ directly and swaps in data.basketSummary itself, so it needs
+    // its own wasOpen/reopen handling for the overlay.
+    $(document).on('click', '#btnMiniBasketSwitchAll', function () {
+        var wasOpen = $('#miniCartOverlay').hasClass('is-open');
+        $.ajax({
+            url: "/Product/BasketReplaceAll/",
+            type: "POST",
+            dataType: "json",
+            cache: false,
+
+            success: function (data) {
+
+                if (!data.savereturn.IsSuccess) {
+                    launchPopup('IsInCheckout', 'popup');
+                    return;
+                }
+
+                $('#minibasket-widget').replaceWith(data.basketSummary);
+                $('.basketQuantity').html(data.basketQuantity);
+                $('.basketTotal').html(data.basketTotal);
+                $('.basket-counter').html(data.basketQuantity);
+                setDeferredImages();
+                if (wasOpen) {
+                    $('#miniCartOverlay').addClass('is-open');
+                    $('body').css('overflow', 'hidden');
+                }
+                renderPaypalButtonV2();
+                maybeShowAddSellPopupAfterAdd();
+            },
+
+            error: function (xhr, textStatus, thrownError) {
+                logAjaxScriptError("/Product/BasketReplaceAll/", xhr, textStatus, thrownError);
+            }
+        });
+    });
+
+    // Mini-cart promotion code - apply. Independent of the basket-detail page's own Apply
+    // Voucher button/flow (id="apply-voucher", handled in checkout.js reading #voucher-code).
+    // This used to share the "#apply-voucher" id with the mini-cart's old markup, which meant
+    // this handler (reading the mini-cart's own field) fired redundantly every time the
+    // basket-detail page's own button was clicked too. The mini-cart's button/field now have
+    // their own dedicated class/id (.minibasket-apply-voucher / #minibasket-voucher-code), so
+    // this handler is scoped to the mini-cart only and no longer collides with checkout.js's
+    // handler for the basket-detail page.
+    $(document).on('click', '.minibasket-apply-voucher', function () {
+        var code = $.trim($('#minibasket-voucher-code').val());
+        var $error = $('#minibasket-voucher-code-error');
+
+        if (!code) {
+            return false;
+        }
+
+        var wasOpen = $('#miniCartOverlay').hasClass('is-open');
+
+        $.ajax({
+            url: "/Checkout/ApplyVoucher/",
+            dataType: 'json',
+            traditional: true,
+            type: 'POST',
+            cache: false,
+            data: {
+                voucherCode: code
+            },
+            async: false,
+            success: function (data) {
+                if (!data || !data.savereturn || !data.savereturn.IsSuccess) {
+                    if ($error.length) {
+                        $error.text((data && data.savereturn && data.savereturn.Message) || 'Sorry, that code isn\'t valid.').removeClass('g-v-h');
+                    }
+                    return false;
+                }
+
+                $('#minibasket-widget').replaceWith(data.basketSummary);
+                $('.basketQuantity').html(data.basketQuantity);
+                $('.basketTotal').html(data.basketTotal);
+                $('.basket-counter').html(data.basketQuantity);
+                setDeferredImages();
+                if (wasOpen) {
+                    $('#miniCartOverlay').addClass('is-open');
+                    $('body').css('overflow', 'hidden');
+                }
+                renderPaypalButtonV2();
+            },
+            error: function (xhr, textStatus, thrownError) {
+                logAjaxScriptError("/Checkout/ApplyVoucher/", xhr, textStatus, thrownError);
+            }
+        });
+    });
+
+    // Mini-cart promotion code - remove. Independent of the basket-detail page's own
+    // ".remove-voucher" link (handled separately in checkout.js) - the mini-cart's own remove
+    // button uses its own ".minibasket-voucher-remove" class, not shared with that page.
+    $(document).on('click', '.minibasket-voucher-remove', function () {
+        var wasOpen = $('#miniCartOverlay').hasClass('is-open');
+        $.ajax({
+            url: "/Checkout/RemoveVoucher/",
+            dataType: 'json',
+            traditional: true,
+            type: 'POST',
+            cache: false,
+            async: false,
+            success: function (data) {
+                $('#minibasket-widget').replaceWith(data.basketSummary);
+                $('.basketQuantity').html(data.basketQuantity);
+                $('.basketTotal').html(data.basketTotal);
+                $('.basket-counter').html(data.basketQuantity);
+                setDeferredImages();
+                if (wasOpen) {
+                    $('#miniCartOverlay').addClass('is-open');
+                    $('body').css('overflow', 'hidden');
+                }
+                renderPaypalButtonV2();
+            },
+            error: function (xhr, textStatus, thrownError) {
+                logAjaxScriptError("/Checkout/RemoveVoucher/", xhr, textStatus, thrownError);
+            }
+        });
+    });
+
+    // "You May Also Need" carousel on the full basket page - shows 3 (1 on mobile) at a time,
+    // with left/right arrows stepping one card at a time. Arrows only render when there are
+    // more than 3 add-ons (see BasketDetails.cshtml), so this just needs to move/disable them.
+    function ymnCarouselStep($wrapper, direction) {
+        var $viewport = $wrapper.find('.you-may-need-products');
+        var $track = $wrapper.find('.you-may-need-track');
+        var $items = $track.find('.need-product');
+
+        if (!$items.length) {
+            return;
+        }
+
+        var gap = parseFloat($track.css('gap')) || 0;
+        var step = $items.first().outerWidth() + gap;
+        var visibleCount = Math.max(1, Math.round($viewport.width() / step));
+        var maxIndex = Math.max(0, $items.length - visibleCount);
+
+        var currentIndex = parseInt($wrapper.attr('data-index'), 10) || 0;
+        var newIndex = currentIndex + direction;
+        if (newIndex < 0) { newIndex = 0; }
+        if (newIndex > maxIndex) { newIndex = maxIndex; }
+
+        $wrapper.attr('data-index', newIndex);
+        $track.css('transform', 'translateX(-' + (newIndex * step) + 'px)');
+
+        $wrapper.find('.need-arrow.prev').prop('disabled', newIndex === 0);
+        $wrapper.find('.need-arrow.next').prop('disabled', newIndex === maxIndex);
+    }
+
+    $(document).on('click', '.need-arrow.prev', function () {
+        ymnCarouselStep($(this).closest('.you-may-need-wrapper'), -1);
+    });
+
+    $(document).on('click', '.need-arrow.next', function () {
+        ymnCarouselStep($(this).closest('.you-may-need-wrapper'), 1);
+    });
+
+    // Mini-cart "Proceed to Checkout" - may show the "You May Also Need" popup first if the
+    // basket has in-stock add-on products linked to anything in it. Clicking Proceed a second
+    // time (popup already open) skips straight to /checkout/.
+    //
+    // proceedToCheckout() itself has existed for a while, but this binding was missing - its
+    // only caller anywhere in the codebase was an onclick="proceedToCheckout()" on the retired
+    // BasketSummary.cshtml (see the comments in ProductController.cs/CheckoutController.cs
+    // calling that file out as no longer the live mini-cart markup), so the actual mini-cart
+    // widget's "Proceed to Checkout" button (MiniBasket.cshtml, .checkout-button with no
+    // onclick) has been dead everywhere it's rendered - which, via the header, is every page
+    // on the site - except by coincidence on the basket page itself, where ViewBasket.cshtml's
+    // own page-scoped script binds a *different*, dedicated .checkout-button handler (the
+    // in-checkout guard, then submit the real checkout form or show the "Secure Checkout"
+    // login modal) that happens to also catch the mini-cart's button there since they share
+    // the class. Skip entirely when that page-scoped handler is present (#vbBasketDetails only
+    // exists in ViewBasket.cshtml) so the basket page keeps exactly that existing behaviour,
+    // unchanged and not doubled up with the add-on popup check below.
+    $(document).on('click', '.checkout-button', function () {
+        if ($('#vbBasketDetails').length) {
+            return;
+        }
+        proceedToCheckout();
+    });
+
+    // Header's Basket link (desktop, Header.cshtml's .hdr-basket) and mobile cart icon
+    // (Header.cshtml's .basket-mobile wrapper) both used to navigate straight to /checkout/.
+    // Per request, the floating "cart-fab" button was removed (MiniBasket.cshtml no longer
+    // renders it) and these two links now open the mini-cart tray instead. Delegated, so it
+    // keeps working through MiniBasket.cshtml's own AJAX-driven re-renders (which replace
+    // #minibasket-widget, not these header links). Manipulates #miniCartOverlay directly
+    // rather than calling the global openCart() - the same defensive choice made in the
+    // .atb-add handler above, since that's more robust than depending on MiniBasket.cshtml's
+    // inline <script> having (re)executed by the time this fires. Falls back to the original
+    // navigation (does nothing here, so the browser's default click/navigation just proceeds)
+    // if #miniCartOverlay genuinely isn't present on the page for some reason.
+    $(document).on('click', '.open-mini-cart', function (e) {
+        var $overlay = $('#miniCartOverlay');
+        if ($overlay.length) {
+            e.preventDefault();
+            $overlay.addClass('is-open');
+            $('body').css('overflow', 'hidden');
+        }
+    });
+
+    // The popup's own "Proceed to Checkout" button (mobile only) always means checkout,
+    // regardless of how the popup was opened. Uses checkoutUrl() (not a bare '/checkout/'), so
+    // a guest who reached this popup without ever signing in - now the norm, since
+    // proceedToCheckout() no longer skips the add-on check for signed-out customers - still
+    // gets the login popup once they land on the checkout page, instead of a silent bare page.
+    $(document).on('click', '#you-may-also-need .ymn-proceed', function () {
+        removeAddSellPopup();
+        window.location.href = checkoutUrl();
+    });
+
+    // The X/close button and the transparent backdrop behind the popup both "skip" it the same
+    // way: only force a checkout redirect if the popup was opened from the mini-cart's Proceed
+    // to Checkout click. If it was opened after a plain "Add to Basket" (from a product page,
+    // category listing, etc.), skipping it should just dismiss it and leave the customer where
+    // they were.
+    //
+    // Includes ".close-btn": the mobile card-list view (.ymn-mobile-view) has its own header
+    // with its own close "x" (class="close-btn", id="closeBtn" - YouMayAlsoNeed.cshtml), styled
+    // separately from the shared ".ymn-header"/".ymn-close" the desktop view uses, but with no
+    // click handler of its own anywhere - tapping it did nothing at all. Added to this same
+    // handler rather than given a separate one, since it should behave identically once tapped.
+    $(document).on('click', '#you-may-also-need .ymn-close, #you-may-also-need .close-btn, #you-may-also-need-backdrop', function () {
+        var context = $('#you-may-also-need').attr('data-context');
+        removeAddSellPopup();
+        if (context === 'checkout') {
+            // checkoutUrl(), not a bare '/checkout/', for the same reason as the .ymn-proceed
+            // handler above - a signed-out customer skipping/closing this popup still needs
+            // '?showlogin=1' so the checkout page shows its login popup automatically.
+            window.location.href = checkoutUrl();
+        }
+    });
+
+    // Quietly add an item from the "You May Also Need" popup - refresh the mini-cart in place
+    // without the usual "added to basket" toast/animation, and without closing the popup, so
+    // the user can add more than one of the three items before proceeding.
+    $(document).on('click', '.ymn-add', function () {
+        var ref = $(this).attr('data-productid');
+        var thisbutton = $(this);
+        var wasOpen = $('#miniCartOverlay').hasClass('is-open');
+
+        $.ajax({
+            url: "/Product/BasketAdd/",
+            dataType: 'json',
+            traditional: true,
+            type: 'POST',
+            cache: false,
+            data: {
+                productref: ref,
+                productprice: 0,
+                productqty: 1,
+                itemtype: '1'
+            },
+            async: false,
+            success: function (data) {
+                if (!data.savereturn.IsSuccess) {
+                    launchPopup('IsInCheckout', 'popup');
+                    return false;
+                }
+
+                $('#minibasket-widget').replaceWith(data.basketSummary);
+                $('.basketQuantity').html(data.basketQuantity);
+                $('.basketTotal').html(data.basketTotal);
+                $('.basket-counter').html(data.basketQuantity);
+                setDeferredImages();
+                if (wasOpen) {
+                    $('#miniCartOverlay').addClass('is-open');
+                    $('body').css('overflow', 'hidden');
+                }
+                thisbutton.text('Added').prop('disabled', true);
+            },
+            error: function (xhr, textStatus, thrownError) {
+                logAjaxScriptError("/Product/BasketAdd/", xhr, textStatus, thrownError);
+            }
+        });
+    });
 
     // Brand Wizard
     $('.hm-bw-links').hide();
@@ -2801,9 +3320,14 @@ $(document).on('click',
             // }
         });
 
+    $(document).on('click', '.offcanvas-backdrop', function () {
+        $('[data-toggle="offcanvas-close"]').trigger('click');
+    });
+
     $('[data-toggle="offcanvas-close"]').click(function () {
         $('.row-offcanvas').toggleClass('active');
         $('[data-toggle="offcanvas-open"]').removeClass('active');
+        $('.offcanvas-backdrop').remove();
     });
 
     $(document).on('click',
@@ -3253,378 +3777,6 @@ $(document).on('click',
         //        });
         //    });
     }
-
-    // =====================================================================
-    // SYNCED FROM TONERGIANT site.js (handlers present in TG but missing here)
-    // =====================================================================
-
-    $(document).on('click', '#btnMiniBasketSwitchAll', function () {
-        var wasOpen = $('#miniCartOverlay').hasClass('is-open');
-        $.ajax({
-            url: "/Product/BasketReplaceAll/",
-            type: "POST",
-            dataType: "json",
-            cache: false,
-
-            success: function (data) {
-
-                if (!data.savereturn.IsSuccess) {
-                    launchPopup('IsInCheckout', 'popup');
-                    return;
-                }
-
-                $('#minibasket-widget').replaceWith(data.basketSummary);
-                $('.basketQuantity').html(data.basketQuantity);
-                $('.basketTotal').html(data.basketTotal);
-                $('.basket-counter').html(data.basketQuantity);
-                setDeferredImages();
-                if (wasOpen) {
-                    $('#miniCartOverlay').addClass('is-open');
-                    $('body').css('overflow', 'hidden');
-                }
-                renderPaypalButtonV2();
-                maybeShowAddSellPopupAfterAdd();
-            },
-
-            error: function (xhr, textStatus, thrownError) {
-                logAjaxScriptError("/Product/BasketReplaceAll/", xhr, textStatus, thrownError);
-            }
-        });
-    });
-
-    $(document).on("click", "#btnSwitchAll", function () {
-        $.ajax({
-            url: "/Product/BasketReplaceAll/",
-            type: "POST",
-            dataType: "json",
-            cache: false,
-
-            success: function (data) {
-
-                if (!data.savereturn.IsSuccess) {
-                    launchPopup('IsInCheckout', 'popup');
-                    return;
-                }
-
-                refreshViewBasket();
-                renderPaypalButtonV2();
-                maybeShowAddSellPopupAfterAdd();
-            },
-
-            error: function (xhr, textStatus, thrownError) {
-                logAjaxScriptError("/Product/BasketReplaceAll/", xhr, textStatus, thrownError);
-            }
-        });
-    });
-
-    $(document).on('click', '#you-may-also-need .ymn-close, #you-may-also-need .close-btn, #you-may-also-need-backdrop', function () {
-        var context = $('#you-may-also-need').attr('data-context');
-        removeAddSellPopup();
-        if (context === 'checkout') {
-            // checkoutUrl(), not a bare '/checkout/', for the same reason as the .ymn-proceed
-            // handler above - a signed-out customer skipping/closing this popup still needs
-            // '?showlogin=1' so the checkout page shows its login popup automatically.
-            window.location.href = checkoutUrl();
-        }
-    });
-
-    $(document).on('click', '#you-may-also-need .ymn-proceed', function () {
-        removeAddSellPopup();
-        window.location.href = checkoutUrl();
-    });
-
-    $(document).on('click', '.add-btn', function () {
-        try {
-            var ref = $(this).attr('data-productid');
-            var itemtype = $(this).attr('data-itemtype') || '1';
-            var price = (itemtype === '2' && $(this).attr('data-price')) ? $(this).attr('data-price') : 0;
-
-            var thisbutton = $(this);
-            var thisentry = $(this).closest('.atb-entry');
-            var qty = thisentry.find('input.atb-qty:first').val() || '1';
-            // Same "already on the basket page" reasoning as the .atb-add handler above - this
-            // button is the mobile-width rendering of the same inline add-on region
-            // (#itemList, BasketDetails.cshtml), shown/hidden via CSS alongside the .you-may-need
-            // desktop carousel rather than a separate server code path.
-            var fromAddonRegion = $(this).closest('#itemList').length > 0;
-
-            $.ajax({
-                url: "/Product/BasketAdd/",
-                dataType: 'json',
-                type: 'POST',
-                cache: false,
-                data: {
-                    productref: ref,
-                    productprice: price,
-                    productqty: qty,
-                    itemtype: itemtype
-                },
-                success: function (data) {
-                    changeBasketComplete(data, thisbutton);
-                    refreshViewBasket();
-                    maybeShowAddSellPopupAfterAdd(fromAddonRegion);
-
-                    if (!fromAddonRegion) {
-                        var $miniCartOverlay = $('#miniCartOverlay');
-                        if ($miniCartOverlay.length) {
-                            $miniCartOverlay.addClass('is-open');
-                            $('body').css('overflow', 'hidden');
-                        } else if (window.console && console.error) {
-                            console.error('[add-btn] #miniCartOverlay not found on this page - cannot open mini-cart');
-                        }
-                    }
-                },
-                error: function (xhr, textStatus, thrownError) {
-                    logAjaxScriptError("/Product/BasketAdd/", xhr, textStatus, thrownError);
-                }
-            });
-        } catch (e) {
-            logScriptError(e);
-        }
-    });
-
-    $(document).on('click', '.checkout-button', function () {
-        if ($('#vbBasketDetails').length) {
-            return;
-        }
-        proceedToCheckout();
-    });
-
-    $(document).on('click', '.minibasket-apply-voucher', function () {
-        var code = $.trim($('#minibasket-voucher-code').val());
-        var $error = $('#minibasket-voucher-code-error');
-
-        if (!code) {
-            return false;
-        }
-
-        var wasOpen = $('#miniCartOverlay').hasClass('is-open');
-
-        $.ajax({
-            url: "/Checkout/ApplyVoucher/",
-            dataType: 'json',
-            traditional: true,
-            type: 'POST',
-            cache: false,
-            data: {
-                voucherCode: code
-            },
-            async: false,
-            success: function (data) {
-                if (!data || !data.savereturn || !data.savereturn.IsSuccess) {
-                    if ($error.length) {
-                        $error.text((data && data.savereturn && data.savereturn.Message) || 'Sorry, that code isn\'t valid.').removeClass('g-v-h');
-                    }
-                    return false;
-                }
-
-                $('#minibasket-widget').replaceWith(data.basketSummary);
-                $('.basketQuantity').html(data.basketQuantity);
-                $('.basketTotal').html(data.basketTotal);
-                $('.basket-counter').html(data.basketQuantity);
-                setDeferredImages();
-                if (wasOpen) {
-                    $('#miniCartOverlay').addClass('is-open');
-                    $('body').css('overflow', 'hidden');
-                }
-                renderPaypalButtonV2();
-            },
-            error: function (xhr, textStatus, thrownError) {
-                logAjaxScriptError("/Checkout/ApplyVoucher/", xhr, textStatus, thrownError);
-            }
-        });
-    });
-
-    $(document).on('click',
-        '.minibasket-remove',
-        function () {
-            var ref = $(this).attr('data-productid');
-
-            $.ajax({
-                url: "/Product/BasketDelete/",
-                dataType: 'json',
-                traditional: true,
-                type: 'POST',
-                cache: false,
-                data: {
-                    productref: ref
-                },
-                async: false,
-                success: function (data) {
-                    if (!data.savereturn.IsSuccess) {
-                        launchPopup('IsInCheckout', 'popup');
-                        return false;
-                    }
-
-                    var wasOpen = $('#miniCartOverlay').hasClass('is-open');
-
-                    $('#minibasket-widget').replaceWith(data.basketSummary);
-
-                    if (wasOpen) {
-                        $('#miniCartOverlay').addClass('is-open');
-                        $('body').css('overflow', 'hidden');
-                    }
-
-                    $('.basketQuantity').html(data.basketQuantity);
-                    $('.basketTotal').html(data.basketTotal);
-                    $('.basket-counter').html(data.basketQuantity);
-
-                    setDeferredImages();
-
-                    var prodentry = $('.body-content .atb-add[data-productid=' + ref + ']');
-                    if (prodentry.length > 0) {
-                        var thisentry = prodentry.closest('.atb-entry').first();
-                        thisentry.find('.atb-count').html('0').parent().addClass('g-v-h');
-                        if (thisentry.find('.product-info-message').length > 0) {
-                            thisentry.find('.product-info-message').html(data.productInfoMessage).removeClass('g-v-h');
-                            thisentry.find('.product-price-message').html(data.productPriceMessage);
-                        }
-                    }
-
-                    renderPaypalButtonV2();
-                },
-                error: function (xhr, textStatus, thrownError) {
-                    logAjaxScriptError("/Product/BasketDelete/", xhr, textStatus, thrownError);
-                }
-            });
-        });
-
-    $(document).on('click',
-        '.minibasket-replace',
-        function () {
-            var ref = $(this).attr('data-productid');
-            var price = 0;
-            var qty = $(this).attr('data-qty');
-            var refremove = $(this).attr('data-removeid');
-            var wasOpen = $('#miniCartOverlay').hasClass('is-open');
-
-            $.ajax({
-                url: "/Product/BasketReplace/",
-                dataType: 'json',
-                traditional: true,
-                type: 'POST',
-                cache: false,
-                data: {
-                    productref: ref,
-                    productprice: price,
-                    productqty: qty,
-                    productrefremove: refremove
-                },
-                async: false,
-                success: function (data) {
-                    if (!data.savereturn.IsSuccess) {
-                        launchPopup('IsInCheckout', 'popup');
-                        return false;
-                    }
-                    $('#minibasket-widget').replaceWith(data.basketSummary);
-                    $('.basketQuantity').html(data.basketQuantity);
-                    $('.basketTotal').html(data.basketTotal);
-                    $('.basket-counter').html(data.basketQuantity);
-                    setDeferredImages();
-                    if (wasOpen) {
-                        $('#miniCartOverlay').addClass('is-open');
-                        $('body').css('overflow', 'hidden');
-                    }
-                    renderPaypalButtonV2();
-                    maybeShowAddSellPopupAfterAdd();
-
-                },
-                error: function (xhr, textStatus, thrownError) {
-                    logAjaxScriptError("/Product/BasketReplace/", xhr, textStatus, thrownError);
-                }
-            });
-        });
-
-    $(document).on('click', '.minibasket-voucher-remove', function () {
-        var wasOpen = $('#miniCartOverlay').hasClass('is-open');
-        $.ajax({
-            url: "/Checkout/RemoveVoucher/",
-            dataType: 'json',
-            traditional: true,
-            type: 'POST',
-            cache: false,
-            async: false,
-            success: function (data) {
-                $('#minibasket-widget').replaceWith(data.basketSummary);
-                $('.basketQuantity').html(data.basketQuantity);
-                $('.basketTotal').html(data.basketTotal);
-                $('.basket-counter').html(data.basketQuantity);
-                setDeferredImages();
-                if (wasOpen) {
-                    $('#miniCartOverlay').addClass('is-open');
-                    $('body').css('overflow', 'hidden');
-                }
-                renderPaypalButtonV2();
-            },
-            error: function (xhr, textStatus, thrownError) {
-                logAjaxScriptError("/Checkout/RemoveVoucher/", xhr, textStatus, thrownError);
-            }
-        });
-    });
-
-    $(document).on('click', '.need-arrow.next', function () {
-        ymnCarouselStep($(this).closest('.you-may-need-wrapper'), 1);
-    });
-
-    $(document).on('click', '.need-arrow.prev', function () {
-        ymnCarouselStep($(this).closest('.you-may-need-wrapper'), -1);
-    });
-
-    $(document).on('click', '.offcanvas-backdrop', function () {
-        $('[data-toggle="offcanvas-close"]').trigger('click');
-    });
-
-    $(document).on('click', '.open-mini-cart', function (e) {
-        var $overlay = $('#miniCartOverlay');
-        if ($overlay.length) {
-            e.preventDefault();
-            $overlay.addClass('is-open');
-            $('body').css('overflow', 'hidden');
-        }
-    });
-
-    $(document).on('click', '.ymn-add', function () {
-        var ref = $(this).attr('data-productid');
-        var thisbutton = $(this);
-        var wasOpen = $('#miniCartOverlay').hasClass('is-open');
-
-        $.ajax({
-            url: "/Product/BasketAdd/",
-            dataType: 'json',
-            traditional: true,
-            type: 'POST',
-            cache: false,
-            data: {
-                productref: ref,
-                productprice: 0,
-                productqty: 1,
-                itemtype: '1'
-            },
-            async: false,
-            success: function (data) {
-                if (!data.savereturn.IsSuccess) {
-                    launchPopup('IsInCheckout', 'popup');
-                    return false;
-                }
-
-                $('#minibasket-widget').replaceWith(data.basketSummary);
-                $('.basketQuantity').html(data.basketQuantity);
-                $('.basketTotal').html(data.basketTotal);
-                $('.basket-counter').html(data.basketQuantity);
-                setDeferredImages();
-                if (wasOpen) {
-                    $('#miniCartOverlay').addClass('is-open');
-                    $('body').css('overflow', 'hidden');
-                }
-                thisbutton.text('Added').prop('disabled', true);
-            },
-            error: function (xhr, textStatus, thrownError) {
-                logAjaxScriptError("/Product/BasketAdd/", xhr, textStatus, thrownError);
-            }
-        });
-    });
-
-    // =================== END SYNCED-FROM-TONERGIANT HANDLERS ===================
 });
 
 // Liveagent

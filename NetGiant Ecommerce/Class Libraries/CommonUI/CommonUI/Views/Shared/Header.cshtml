@@ -4,7 +4,10 @@
 @using BusinessLogic.ViewModels;
 
 @model CommonViewModel
-
+@if (Convert.ToInt32(ConfigurationManager.AppSettings["WebsiteId"]) == 2)
+{
+   <script type="text/javascript">(function (window, document, dataLayerName, id) { window[dataLayerName] = window[dataLayerName] || [], window[dataLayerName].push({ start: (new Date).getTime(), event: "stg.start" }); var scripts = document.getElementsByTagName('script')[0], tags = document.createElement('script'); var qP = []; dataLayerName !== "dataLayer" && qP.push("data_layer_name=" + dataLayerName); var qPString = qP.length > 0 ? ("?" + qP.join("&")) : ""; tags.async = !0, tags.src = "https://tonergiant.containers.piwik.pro/" + id + ".js" + qPString, scripts.parentNode.insertBefore(tags, scripts); !function (a, n, i) { a[n] = a[n] || {}; for (var c = 0; c < i.length; c++)!function (i) { a[n][i] = a[n][i] || {}, a[n][i].api = a[n][i].api || function () { var a = [].slice.call(arguments, 0); "string" == typeof a[0] && window[dataLayerName].push({ event: n + "." + i + ":" + a[0], parameters: [].slice.call(arguments, 1) }) } }(i[c]) }(window, "ppms", ["tm", "cm"]); })(window, document, 'dataLayer', 'bf0eaeb3-fdc8-497c-8a28-c6a1d2640d4b');</script>
+}
 @{
     BasketTotals bt = Utilities.LoadSession<BasketTotals>("B_BasketTotals");
     Tuple<string, decimal> basketTotal = Utilities.SetPrice(bt.GrandTotalIncVat, bt.GrandTotalExcVat);
@@ -27,7 +30,7 @@
     <img src="~/Content/Images/1pxTrans.png" class="msp_goToTop g-cur-p" style="padding-left: 50%; margin-left: -20px" alt="Go to top" />
 </section>
 
-@if (!Model.IsMobile) 
+@if (!Model.IsMobile)
 {
     <section class="g-ps-f g-btm-50 hidden-xs hidden-sm">
         @if (ConfigurationManager.AppSettings["ChatIsOn"] == "True")
@@ -59,16 +62,16 @@
             <i class="fa fa-chevron-right fa-lg"></i>
         </div>
         @*<div class="basketMessage g-b-1-p g-br-3 g-bc-s">
-            <div class="g-bc-secondary g-fc-st g-h-30 g-p-5 g-ps-r g-br-t-3">
-                Item added to basket - <span class="g-i">Click here to view</span>
-                <div class="g-ps-a g-fc-s g-arrow-r" style="top: 7px; right: -14px;"></div>
-            </div>
-            <div id="basketItem" class="g-m-b-10"></div>
-            <hr />
-            <div class="text-center g-m-tb-10 g-p-lr-10">
-                <a class="btn g-butt-primary g-butt-100p" href="~/checkout/" role="button">Checkout</a>
-            </div>
-        </div>*@
+                <div class="g-bc-secondary g-fc-st g-h-30 g-p-5 g-ps-r g-br-t-3">
+                    Item added to basket - <span class="g-i">Click here to view</span>
+                    <div class="g-ps-a g-fc-s g-arrow-r" style="top: 7px; right: -14px;"></div>
+                </div>
+                <div id="basketItem" class="g-m-b-10"></div>
+                <hr />
+                <div class="text-center g-m-tb-10 g-p-lr-10">
+                    <a class="btn g-butt-primary g-butt-100p" href="~/checkout/" role="button">Checkout</a>
+                </div>
+            </div>*@
         <div class="printerMessage g-fs-sm g-b-1-p g-br-3 g-bc-s">
             <div class="g-bc-secondary g-fc-st g-h-30 g-p-5 g-ps-r g-br-t-3">
                 My printer added - <span class="g-i">Click here to view</span>
@@ -81,44 +84,44 @@
 else
 {
     @* Mobile: this whole branch used to render nothing at all, which is the actual root
-       cause of "Add to Basket does nothing / no popup on mobile" investigated across this
-       entire session - #cartFab / #miniCartOverlay / the openCart()/closeCart() functions
-       all live inside MiniBasket.cshtml, and with the section above skipped on every mobile
-       request, none of that markup ever reached the page, so there was nothing for site.js
-       to open no matter how many JS-level fixes were made there. The commented-out legacy
-       "Mobile Add To Basket Popup" block below (kept for reference) is not a working
-       substitute either - it's disabled and its .mobileBasketBackdrop/.mobileBasketMessage
-       elements are what was showing the earlier full-screen black overlay.
-       Render just the floating cart button + slide-in mini-cart here (not the full
-       UtilityBar.cshtml, whose Recently Viewed / My Printers / Quick Reorder trays are
-       desktop offcanvas panels that are already force-hidden with
-       style="display:none !important;" everywhere and aren't needed for this button
-       to work), so mobile gets the same working mini-cart as desktop. *@
+        cause of "Add to Basket does nothing / no popup on mobile" investigated across this
+        entire session - #cartFab / #miniCartOverlay / the openCart()/closeCart() functions
+        all live inside MiniBasket.cshtml, and with the section above skipped on every mobile
+        request, none of that markup ever reached the page, so there was nothing for site.js
+        to open no matter how many JS-level fixes were made there. The commented-out legacy
+        "Mobile Add To Basket Popup" block below (kept for reference) is not a working
+        substitute either - it's disabled and its .mobileBasketBackdrop/.mobileBasketMessage
+        elements are what was showing the earlier full-screen black overlay.
+        Render just the floating cart button + slide-in mini-cart here (not the full
+        UtilityBar.cshtml, whose Recently Viewed / My Printers / Quick Reorder trays are
+        desktop offcanvas panels that are already force-hidden with
+        style="display:none !important;" everywhere and aren't needed for this button
+        to work), so mobile gets the same working mini-cart as desktop. *@
     Html.RenderPartial("~/Views/Shared/MiniBasket.cshtml");
 }
 
 @* Mobile Add To Basket Popup *@
 
 @*<section class="mobileBasketMessage hidden-lg hidden-md g-d-n">
-    <div class="row">
-        <div id="mobileBasketItem" class="g-m-b-10 g-w-90p center-block"></div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <a class="btn g-butt-primary g-w-90p g-p-10 g-m-b-10 center-block" href="~/checkout/" role="button">View Basket</a>
-            <button class="btn-continue btn g-bc-s g-w-90p g-p-10 g-m-b-10 g-b-1-p center-block">Continue Shopping</button>
+        <div class="row">
+            <div id="mobileBasketItem" class="g-m-b-10 g-w-90p center-block"></div>
         </div>
-    </div>
-    <div class="mobileBasketClose g-f-b g-fs-20 g-w-100p text-center g-fc-st g-cur-p">
-        <span class="g-fs-n">CLOSE </span><i class="fa fa-times-circle g-va-m" aria-hidden="true"></i>
-    </div>
-</section>*@
+        <div class="row">
+            <div class="col-xs-12">
+                <a class="btn g-butt-primary g-w-90p g-p-10 g-m-b-10 center-block" href="~/checkout/" role="button">View Basket</a>
+                <button class="btn-continue btn g-bc-s g-w-90p g-p-10 g-m-b-10 g-b-1-p center-block">Continue Shopping</button>
+            </div>
+        </div>
+        <div class="mobileBasketClose g-f-b g-fs-20 g-w-100p text-center g-fc-st g-cur-p">
+            <span class="g-fs-n">CLOSE </span><i class="fa fa-times-circle g-va-m" aria-hidden="true"></i>
+        </div>
+    </section>*@
 
 @* Customer Alert *@
 
 @if (Model.ShowCustomerAlert && !Convert.ToBoolean(Session["SuppressCustomerAlert"] ?? false))
 {
-    <section class="ca-message"> 
+    <section class="ca-message">
         @if (ConfigurationManager.AppSettings["AlertLevel"] == "4")
         {
             @Html.RawFromDict(Model.CommonData, "Alert4Message")
@@ -241,12 +244,12 @@ else
                         <div class="pull-left g-p-t-10">
                             <i class="fa fa-shopping-basket g-p-r-5"></i>
                             @* This link used to navigate straight to /checkout/ - per request, it should instead
-                               open the mini-cart tray (the floating "cart-fab" button that used to do this has been
-                               removed, see MiniBasket.cshtml). ".open-mini-cart" is handled by a delegated click
-                               handler in site.js; href is left pointing at /checkout/ as a fallback for the rare
-                               case #miniCartOverlay isn't on the page (that handler leaves the click to navigate
-                               normally when the overlay is missing). *@
-                            
+                                open the mini-cart tray (the floating "cart-fab" button that used to do this has been
+                                removed, see MiniBasket.cshtml). ".open-mini-cart" is handled by a delegated click
+                                handler in site.js; href is left pointing at /checkout/ as a fallback for the rare
+                                case #miniCartOverlay isn't on the page (that handler leaves the click to navigate
+                                normally when the overlay is missing). *@
+
                             <a class="primary" href="~/checkout/">
                                 <strong>Basket (<span class="basketQuantity">@bt.Quantity</span>) - &pound;<span class="basketTotal">@((bt.GrandTotalExcVat >= bt.Delivery ? basketTotal.Item2 - bt.Delivery : basketTotal.Item2).ToString("#,###,##0.00"))</span></strong> <span class="g-fc-tt g-fs-sm">@basketTotal.Item1</span>
                             </a>
@@ -265,8 +268,8 @@ else
                 }
                 else
                 {
-                   
-                       <div class="hdr-basket pull-right clearfix hidden-xs hidden-sm">
+
+                    <div class="hdr-basket pull-right clearfix hidden-xs hidden-sm">
                         <div class="pull-left g-p-t-10">
                             <i class="fa fa-shopping-basket g-p-r-5"></i>
                             <a class="primary open-mini-cart" href="~/checkout/">
@@ -328,8 +331,8 @@ else
                     <i class="fa fa-search fa-2x"></i>
                 </a>
                 @* Same "open the mini-cart instead of navigating" treatment as the desktop Basket
-                   link above, since the mobile cart icon was the other place asked to trigger it
-                   now that the floating cart-fab button is gone. *@
+                    link above, since the mobile cart icon was the other place asked to trigger it
+                    now that the floating cart-fab button is gone. *@
                 <a href="~/checkout/" class="open-mini-cart">
                     <span class="basket-mobile fa-stack g-p-r-5">
                         <i class="fa fa-shopping-basket fa-stack-2x"></i>

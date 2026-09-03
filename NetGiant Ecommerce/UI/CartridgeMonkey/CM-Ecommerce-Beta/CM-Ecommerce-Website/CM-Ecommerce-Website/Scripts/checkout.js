@@ -85,8 +85,8 @@ function changeBasketQty(e, qty) {
             async: false,
             success: function (data) {
                 if (data.savereturn.IsSuccess) {
-                    $("#qty-" + ref.toString()).data("kendoNumericTextBox").destroy();
-                    //refreshVbFields(data);
+                    //$("#qty-" + ref.toString()).data("kendoNumericTextBox").destroy();
+                    refreshVbFields(data);
                     refreshViewBasket();
                     renderPaypalButtonV2();
                 }
@@ -259,6 +259,13 @@ $(function () {
         '#apply-voucher',
         function () {
 
+            // Same empty-code guard as the mini-cart's .minibasket-apply-voucher handler in
+            // site.js, so clicking Apply with a blank field behaves identically in both widgets.
+            var voucherCode = $.trim($('#voucher-code').val());
+            if (!voucherCode) {
+                return false;
+            }
+
             var isValid = checkSessionExists("C_IsInCheckout") === true ? false : true;
 
             if (isValid) {
@@ -269,7 +276,7 @@ $(function () {
                     type: 'POST',
                     cache: false,
                     data: {
-                        voucherCode: $('#voucher-code').val()
+                        voucherCode: voucherCode
                     },
                     async: false,
                     success: function (data) {
@@ -280,15 +287,18 @@ $(function () {
                             //refreshVbFields(data);
                             refreshViewBasket();
                             renderPaypalButtonV2();
+                            $('#error-message').hide();
                         } else {
-                            displayErrorMessage('.basket-voucher', data.savereturn.Message);
+                            $('#error-message > p').text(data.savereturn.Message);
+                            $('#error-message').show();
                         }
                     },
                     error: function (xhr, textStatus, thrownError) {
                         logAjaxScriptError("/Checkout/ApplyVoucher/", xhr, textStatus, thrownError);
                     }
                 });
-            } else {
+            }
+            else {
                 $('.IsInCheckout').val('true');
                 location.href = '/checkout?pm=IsInCheckout';
             }

@@ -65,7 +65,29 @@ namespace ASP
 WriteLiteral("\r\n");
 
             
-            #line 8 "..\..\Views\Shared\Header.cshtml"
+            #line 7 "..\..\Views\Shared\Header.cshtml"
+ if (Convert.ToInt32(ConfigurationManager.AppSettings["WebsiteId"]) == 2)
+{
+
+            
+            #line default
+            #line hidden
+WriteLiteral("   <script");
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteLiteral(@">(function (window, document, dataLayerName, id) { window[dataLayerName] = window[dataLayerName] || [], window[dataLayerName].push({ start: (new Date).getTime(), event: ""stg.start"" }); var scripts = document.getElementsByTagName('script')[0], tags = document.createElement('script'); var qP = []; dataLayerName !== ""dataLayer"" && qP.push(""data_layer_name="" + dataLayerName); var qPString = qP.length > 0 ? (""?"" + qP.join(""&"")) : """"; tags.async = !0, tags.src = ""https://tonergiant.containers.piwik.pro/"" + id + "".js"" + qPString, scripts.parentNode.insertBefore(tags, scripts); !function (a, n, i) { a[n] = a[n] || {}; for (var c = 0; c < i.length; c++)!function (i) { a[n][i] = a[n][i] || {}, a[n][i].api = a[n][i].api || function () { var a = [].slice.call(arguments, 0); ""string"" == typeof a[0] && window[dataLayerName].push({ event: n + ""."" + i + "":"" + a[0], parameters: [].slice.call(arguments, 1) }) } }(i[c]) }(window, ""ppms"", [""tm"", ""cm""]); })(window, document, 'dataLayer', 'bf0eaeb3-fdc8-497c-8a28-c6a1d2640d4b');</script>
+");
+
+            
+            #line 10 "..\..\Views\Shared\Header.cshtml"
+}
+
+            
+            #line default
+            #line hidden
+            
+            #line 11 "..\..\Views\Shared\Header.cshtml"
   
     BasketTotals bt = Utilities.LoadSession<BasketTotals>("B_BasketTotals");
     Tuple<string, decimal> basketTotal = Utilities.SetPrice(bt.GrandTotalIncVat, bt.GrandTotalExcVat);
@@ -82,7 +104,7 @@ WriteLiteral("\r\n");
 WriteLiteral("\r\n\r\n");
 
             
-            #line 19 "..\..\Views\Shared\Header.cshtml"
+            #line 22 "..\..\Views\Shared\Header.cshtml"
  if (Model.IsFirstTime && Model.FirstTimePopup != "")
 {
 
@@ -98,7 +120,7 @@ WriteLiteral(" class=\"ca-message hidden-lg hidden-md\"");
 WriteLiteral(">");
 
             
-            #line 21 "..\..\Views\Shared\Header.cshtml"
+            #line 24 "..\..\Views\Shared\Header.cshtml"
                                                                      Write(Html.Raw(Model.FirstTimeMessage));
 
             
@@ -107,7 +129,7 @@ WriteLiteral(">");
 WriteLiteral("</section>\r\n");
 
             
-            #line 22 "..\..\Views\Shared\Header.cshtml"
+            #line 25 "..\..\Views\Shared\Header.cshtml"
 }
 
 
@@ -115,7 +137,7 @@ WriteLiteral("</section>\r\n");
             #line default
             #line hidden
             
-            #line 24 "..\..\Views\Shared\Header.cshtml"
+            #line 27 "..\..\Views\Shared\Header.cshtml"
                                                     
 
             
@@ -129,9 +151,9 @@ WriteLiteral(" style=\"z-index: 1\"");
 
 WriteLiteral(">\r\n    <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 813), Tuple.Create("\"", 848)
-, Tuple.Create(Tuple.Create("", 819), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 819), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1958), Tuple.Create("\"", 1993)
+, Tuple.Create(Tuple.Create("", 1964), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 1964), false)
 );
 
 WriteLiteral(" class=\"msp_goToTop g-cur-p\"");
@@ -143,8 +165,8 @@ WriteLiteral(" alt=\"Go to top\"");
 WriteLiteral(" />\r\n</section>\r\n\r\n");
 
             
-            #line 30 "..\..\Views\Shared\Header.cshtml"
- if (!Model.IsMobile) 
+            #line 33 "..\..\Views\Shared\Header.cshtml"
+ if (!Model.IsMobile)
 {
 
             
@@ -157,13 +179,13 @@ WriteLiteral(" class=\"g-ps-f g-btm-50 hidden-xs hidden-sm\"");
 WriteLiteral(">\r\n");
 
             
-            #line 33 "..\..\Views\Shared\Header.cshtml"
+            #line 36 "..\..\Views\Shared\Header.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 33 "..\..\Views\Shared\Header.cshtml"
+            #line 36 "..\..\Views\Shared\Header.cshtml"
          if (ConfigurationManager.AppSettings["ChatIsOn"] == "True")
         {
 
@@ -178,34 +200,34 @@ WriteLiteral(" id=\"lhnChatButton1\"");
 
 WriteLiteral(">\r\n                <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1206), Tuple.Create("\"", 1241)
-, Tuple.Create(Tuple.Create("", 1212), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 1212), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2350), Tuple.Create("\"", 2385)
+, Tuple.Create(Tuple.Create("", 2356), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 2356), false)
 );
 
 WriteLiteral(" class=\"msp_liveChatOnline g-m-b-10\"");
 
 WriteLiteral(" id=\"liveagent_button_online1\"");
 
-WriteAttribute("onclick", Tuple.Create(" onclick=\"", 1308), Tuple.Create("\"", 1390)
-, Tuple.Create(Tuple.Create("", 1318), Tuple.Create("liveagent.startChat(\'", 1318), true)
+WriteAttribute("onclick", Tuple.Create(" onclick=\"", 2452), Tuple.Create("\"", 2534)
+, Tuple.Create(Tuple.Create("", 2462), Tuple.Create("liveagent.startChat(\'", 2462), true)
             
-            #line 36 "..\..\Views\Shared\Header.cshtml"
-                                                                         , Tuple.Create(Tuple.Create("", 1339), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "LiveChatID")
+            #line 39 "..\..\Views\Shared\Header.cshtml"
+                                                                         , Tuple.Create(Tuple.Create("", 2483), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "LiveChatID")
             
             #line default
             #line hidden
-, 1339), false)
-, Tuple.Create(Tuple.Create("", 1388), Tuple.Create("\')", 1388), true)
+, 2483), false)
+, Tuple.Create(Tuple.Create("", 2532), Tuple.Create("\')", 2532), true)
 );
 
 WriteLiteral(" style=\"display: none; cursor: pointer;\"");
 
 WriteLiteral(" />\r\n                <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1456), Tuple.Create("\"", 1491)
-, Tuple.Create(Tuple.Create("", 1462), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 1462), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2600), Tuple.Create("\"", 2635)
+, Tuple.Create(Tuple.Create("", 2606), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 2606), false)
 );
 
 WriteLiteral(" class=\"\"");
@@ -219,7 +241,7 @@ WriteLiteral(" />\r\n");
 WriteLiteral("                ");
 
             
-            #line 38 "..\..\Views\Shared\Header.cshtml"
+            #line 41 "..\..\Views\Shared\Header.cshtml"
            Write(Html.Hidden("liveagent_id", Html.RawFromDict(Model.CommonData, "LiveChatID")));
 
             
@@ -228,7 +250,7 @@ WriteLiteral("                ");
 WriteLiteral("\r\n            </div>\r\n");
 
             
-            #line 40 "..\..\Views\Shared\Header.cshtml"
+            #line 43 "..\..\Views\Shared\Header.cshtml"
         }
 
             
@@ -241,7 +263,7 @@ WriteLiteral(" id=\"ft_gcs\"");
 WriteLiteral("></div>\r\n    </section>\r\n");
 
             
-            #line 43 "..\..\Views\Shared\Header.cshtml"
+            #line 46 "..\..\Views\Shared\Header.cshtml"
 }
 
             
@@ -250,7 +272,7 @@ WriteLiteral("></div>\r\n    </section>\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 45 "..\..\Views\Shared\Header.cshtml"
+            #line 48 "..\..\Views\Shared\Header.cshtml"
  if (!Model.IsMobile)
 {
     
@@ -258,7 +280,7 @@ WriteLiteral("\r\n");
             #line default
             #line hidden
             
-            #line 47 "..\..\Views\Shared\Header.cshtml"
+            #line 50 "..\..\Views\Shared\Header.cshtml"
                     
 
 
@@ -274,13 +296,13 @@ WriteLiteral(" class=\"hdr-utility-menu g-fc-st visible-lg row-offcanvas\"");
 WriteLiteral(">\r\n        <div>\r\n");
 
             
-            #line 51 "..\..\Views\Shared\Header.cshtml"
+            #line 54 "..\..\Views\Shared\Header.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 51 "..\..\Views\Shared\Header.cshtml"
+            #line 54 "..\..\Views\Shared\Header.cshtml"
               
                 Html.RenderPartial("~/Views/Shared/UtilityBar.cshtml");
             
@@ -334,7 +356,7 @@ WriteLiteral(" class=\"g-m-b-10 g-flex-vcenter\"");
 WriteLiteral("></div>\r\n        </div>\r\n    </section>\r\n");
 
             
-            #line 80 "..\..\Views\Shared\Header.cshtml"
+            #line 83 "..\..\Views\Shared\Header.cshtml"
 }
 else
 {
@@ -343,8 +365,8 @@ else
             #line default
             #line hidden
             
-            #line 96 "..\..\Views\Shared\Header.cshtml"
-                                                                         
+            #line 99 "..\..\Views\Shared\Header.cshtml"
+                                                                          
     Html.RenderPartial("~/Views/Shared/MiniBasket.cshtml");
 }
 
@@ -360,7 +382,7 @@ WriteLiteral("\r\n\r\n");
 WriteLiteral("\r\n\r\n");
 
             
-            #line 119 "..\..\Views\Shared\Header.cshtml"
+            #line 122 "..\..\Views\Shared\Header.cshtml"
  if (Model.ShowCustomerAlert && !Convert.ToBoolean(Session["SuppressCustomerAlert"] ?? false))
 {
 
@@ -371,16 +393,16 @@ WriteLiteral("    <section");
 
 WriteLiteral(" class=\"ca-message\"");
 
-WriteLiteral("> \r\n");
+WriteLiteral(">\r\n");
 
             
-            #line 122 "..\..\Views\Shared\Header.cshtml"
+            #line 125 "..\..\Views\Shared\Header.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 122 "..\..\Views\Shared\Header.cshtml"
+            #line 125 "..\..\Views\Shared\Header.cshtml"
          if (ConfigurationManager.AppSettings["AlertLevel"] == "4")
         {
             
@@ -388,14 +410,14 @@ WriteLiteral("> \r\n");
             #line default
             #line hidden
             
-            #line 124 "..\..\Views\Shared\Header.cshtml"
+            #line 127 "..\..\Views\Shared\Header.cshtml"
        Write(Html.RawFromDict(Model.CommonData, "Alert4Message"));
 
             
             #line default
             #line hidden
             
-            #line 124 "..\..\Views\Shared\Header.cshtml"
+            #line 127 "..\..\Views\Shared\Header.cshtml"
                                                                 
         }
         else
@@ -405,14 +427,14 @@ WriteLiteral("> \r\n");
             #line default
             #line hidden
             
-            #line 128 "..\..\Views\Shared\Header.cshtml"
+            #line 131 "..\..\Views\Shared\Header.cshtml"
        Write(Html.RawFromDict(Model.CommonData, "CustomerAlertMessage"));
 
             
             #line default
             #line hidden
             
-            #line 128 "..\..\Views\Shared\Header.cshtml"
+            #line 131 "..\..\Views\Shared\Header.cshtml"
                                                                        
         }
 
@@ -422,14 +444,14 @@ WriteLiteral("> \r\n");
 WriteLiteral("    </section>\r\n");
 
             
-            #line 131 "..\..\Views\Shared\Header.cshtml"
+            #line 134 "..\..\Views\Shared\Header.cshtml"
 }
 
             
             #line default
             #line hidden
             
-            #line 132 "..\..\Views\Shared\Header.cshtml"
+            #line 135 "..\..\Views\Shared\Header.cshtml"
  if (Convert.ToBoolean(HttpContext.Current.Session["U_IsTradeCustomer"]))
 {
     
@@ -437,14 +459,14 @@ WriteLiteral("    </section>\r\n");
             #line default
             #line hidden
             
-            #line 134 "..\..\Views\Shared\Header.cshtml"
+            #line 137 "..\..\Views\Shared\Header.cshtml"
 Write(Html.RawFromDict(Model.CommonData, "TradeCustomerMessage"));
 
             
             #line default
             #line hidden
             
-            #line 134 "..\..\Views\Shared\Header.cshtml"
+            #line 137 "..\..\Views\Shared\Header.cshtml"
                                                                
 }
 
@@ -453,7 +475,7 @@ Write(Html.RawFromDict(Model.CommonData, "TradeCustomerMessage"));
             #line default
             #line hidden
             
-            #line 137 "..\..\Views\Shared\Header.cshtml"
+            #line 140 "..\..\Views\Shared\Header.cshtml"
                           
 
 
@@ -461,7 +483,7 @@ Write(Html.RawFromDict(Model.CommonData, "TradeCustomerMessage"));
             #line default
             #line hidden
             
-            #line 144 "..\..\Views\Shared\Header.cshtml"
+            #line 147 "..\..\Views\Shared\Header.cshtml"
                 
 
 
@@ -471,7 +493,7 @@ Write(Html.RawFromDict(Model.CommonData, "TradeCustomerMessage"));
             #line default
             #line hidden
             
-            #line 148 "..\..\Views\Shared\Header.cshtml"
+            #line 151 "..\..\Views\Shared\Header.cshtml"
                          
 
             
@@ -486,13 +508,13 @@ WriteLiteral(" id=\"main-header\"");
 WriteLiteral(">\r\n");
 
             
-            #line 151 "..\..\Views\Shared\Header.cshtml"
+            #line 154 "..\..\Views\Shared\Header.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 151 "..\..\Views\Shared\Header.cshtml"
+            #line 154 "..\..\Views\Shared\Header.cshtml"
      if (!Model.IsMobile)
     {
 
@@ -514,13 +536,13 @@ WriteLiteral(" class=\"quick-links g-flex-vcenter g-lh-30\"");
 WriteLiteral(">\r\n");
 
             
-            #line 156 "..\..\Views\Shared\Header.cshtml"
+            #line 159 "..\..\Views\Shared\Header.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 156 "..\..\Views\Shared\Header.cshtml"
+            #line 159 "..\..\Views\Shared\Header.cshtml"
                       
                         if (Authentication.IsAuthenticated())
                         {
@@ -534,18 +556,18 @@ WriteLiteral(" class=\"g-p-r-20\"");
 
 WriteLiteral(">\r\n                                <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 6706), Tuple.Create("\"", 6725)
-, Tuple.Create(Tuple.Create("", 6713), Tuple.Create<System.Object, System.Int32>(Href("~/MyAccount/")
-, 6713), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 7954), Tuple.Create("\"", 7973)
+, Tuple.Create(Tuple.Create("", 7961), Tuple.Create<System.Object, System.Int32>(Href("~/MyAccount/")
+, 7961), false)
 );
 
 WriteLiteral(">\r\n                                    <img");
 
 WriteLiteral(" class=\"msp_userDark\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 6790), Tuple.Create("\"", 6825)
-, Tuple.Create(Tuple.Create("", 6796), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 6796), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 8038), Tuple.Create("\"", 8073)
+, Tuple.Create(Tuple.Create("", 8044), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 8044), false)
 );
 
 WriteLiteral(" />\r\n                                    <span");
@@ -563,9 +585,9 @@ WriteLiteral(">\r\n                                <img");
 
 WriteLiteral(" class=\"msp_logOutDark\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 7110), Tuple.Create("\"", 7145)
-, Tuple.Create(Tuple.Create("", 7116), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 7116), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 8358), Tuple.Create("\"", 8393)
+, Tuple.Create(Tuple.Create("", 8364), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 8364), false)
 );
 
 WriteLiteral(" />\r\n                                <span");
@@ -575,7 +597,7 @@ WriteLiteral(" class=\"g-p-l-5\"");
 WriteLiteral(">Sign Out</span>\r\n                            </span>\r\n");
 
             
-            #line 169 "..\..\Views\Shared\Header.cshtml"
+            #line 172 "..\..\Views\Shared\Header.cshtml"
                         }
                         else
                         {
@@ -597,9 +619,9 @@ WriteLiteral(">\r\n                                <img");
 
 WriteLiteral(" class=\"msp_logInDark\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 7587), Tuple.Create("\"", 7622)
-, Tuple.Create(Tuple.Create("", 7593), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 7593), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 8835), Tuple.Create("\"", 8870)
+, Tuple.Create(Tuple.Create("", 8841), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 8841), false)
 );
 
 WriteLiteral(" />\r\n                                <span");
@@ -609,7 +631,7 @@ WriteLiteral(" class=\"g-p-l-5\"");
 WriteLiteral(">Sign In</span>\r\n                            </span>\r\n");
 
             
-            #line 178 "..\..\Views\Shared\Header.cshtml"
+            #line 181 "..\..\Views\Shared\Header.cshtml"
                         }
                     
             
@@ -625,9 +647,9 @@ WriteLiteral(">\r\n                        <img");
 
 WriteLiteral(" class=\"msp_quickreorderDark\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 7946), Tuple.Create("\"", 7981)
-, Tuple.Create(Tuple.Create("", 7952), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 7952), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 9194), Tuple.Create("\"", 9229)
+, Tuple.Create(Tuple.Create("", 9200), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 9200), false)
 );
 
 WriteLiteral(" />\r\n                        <span");
@@ -646,9 +668,9 @@ WriteLiteral(">\r\n                            <img");
 
 WriteLiteral(" class=\"msp_quickreorderDark\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 8267), Tuple.Create("\"", 8302)
-, Tuple.Create(Tuple.Create("", 8273), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 8273), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 9515), Tuple.Create("\"", 9550)
+, Tuple.Create(Tuple.Create("", 9521), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 9521), false)
 );
 
 WriteLiteral(" />\r\n                            <span");
@@ -658,9 +680,9 @@ WriteLiteral(" class=\"g-p-l-5\"");
 WriteLiteral(">Quick Reorder</span>\r\n                        </a>\r\n                    </span>\r" +
 "\n                    <span>\r\n                        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 8493), Tuple.Create("\"", 8507)
-, Tuple.Create(Tuple.Create("", 8500), Tuple.Create<System.Object, System.Int32>(Href("~/help/")
-, 8500), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 9741), Tuple.Create("\"", 9755)
+, Tuple.Create(Tuple.Create("", 9748), Tuple.Create<System.Object, System.Int32>(Href("~/help/")
+, 9748), false)
 );
 
 WriteLiteral(" target=\"_blank\"");
@@ -671,9 +693,9 @@ WriteLiteral(">\r\n                            <img");
 
 WriteLiteral(" class=\"msp_helpDark\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 8604), Tuple.Create("\"", 8639)
-, Tuple.Create(Tuple.Create("", 8610), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 8610), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 9852), Tuple.Create("\"", 9887)
+, Tuple.Create(Tuple.Create("", 9858), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 9858), false)
 );
 
 WriteLiteral(" />\r\n                            <span");
@@ -684,13 +706,13 @@ WriteLiteral(">Help &amp; Information</span>\r\n                        </a>\r\n
 " </span>\r\n");
 
             
-            #line 196 "..\..\Views\Shared\Header.cshtml"
+            #line 199 "..\..\Views\Shared\Header.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 196 "..\..\Views\Shared\Header.cshtml"
+            #line 199 "..\..\Views\Shared\Header.cshtml"
                      if (Convert.ToInt32(ConfigurationManager.AppSettings["WebsiteId"]) == 1)
                     {
 
@@ -703,9 +725,9 @@ WriteLiteral(" class=\"g-p-r-20\"");
 
 WriteLiteral(">\r\n                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 8982), Tuple.Create("\"", 9005)
-, Tuple.Create(Tuple.Create("", 8989), Tuple.Create<System.Object, System.Int32>(Href("~/help/about-us/")
-, 8989), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 10230), Tuple.Create("\"", 10253)
+, Tuple.Create(Tuple.Create("", 10237), Tuple.Create<System.Object, System.Int32>(Href("~/help/about-us/")
+, 10237), false)
 );
 
 WriteLiteral(" target=\"_blank\"");
@@ -716,9 +738,9 @@ WriteLiteral(">\r\n                                <img");
 
 WriteLiteral(" class=\"msp_helpDark\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 9106), Tuple.Create("\"", 9141)
-, Tuple.Create(Tuple.Create("", 9112), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
-, 9112), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 10354), Tuple.Create("\"", 10389)
+, Tuple.Create(Tuple.Create("", 10360), Tuple.Create<System.Object, System.Int32>(Href("~/Content/Images/1pxTrans.png")
+, 10360), false)
 );
 
 WriteLiteral(" />\r\n                                <span");
@@ -729,7 +751,7 @@ WriteLiteral(">About Us</span>\r\n                            </a>\r\n          
 "n>\r\n");
 
             
-            #line 204 "..\..\Views\Shared\Header.cshtml"
+            #line 207 "..\..\Views\Shared\Header.cshtml"
                     }
 
             
@@ -762,7 +784,7 @@ WriteLiteral(" class=\"phone g-p-r-5 g-fs-lg\"");
 WriteLiteral(">\r\n                                <strong>");
 
             
-            #line 213 "..\..\Views\Shared\Header.cshtml"
+            #line 216 "..\..\Views\Shared\Header.cshtml"
                                    Write(Html.RawFromDict(Model.CommonData, "TelephoneNumber"));
 
             
@@ -776,7 +798,7 @@ WriteLiteral(" class=\"pull-right g-p-l-10\"");
 WriteLiteral(">");
 
             
-            #line 216 "..\..\Views\Shared\Header.cshtml"
+            #line 219 "..\..\Views\Shared\Header.cshtml"
                                                     Write(Html.RawFromDict(Model.CommonData, "OpeningHours"));
 
             
@@ -792,7 +814,7 @@ WriteLiteral(" class=\"g-m-tb-10 hidden-xs hidden-sm\"");
 WriteLiteral(" />\r\n");
 
             
-            #line 222 "..\..\Views\Shared\Header.cshtml"
+            #line 225 "..\..\Views\Shared\Header.cshtml"
     }
 
             
@@ -805,13 +827,13 @@ WriteLiteral(" class=\"row g-m-b-10-md\"");
 WriteLiteral(">\r\n");
 
             
-            #line 225 "..\..\Views\Shared\Header.cshtml"
+            #line 228 "..\..\Views\Shared\Header.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 225 "..\..\Views\Shared\Header.cshtml"
+            #line 228 "..\..\Views\Shared\Header.cshtml"
          if (!Model.IsMobile)
         {
 
@@ -836,20 +858,20 @@ WriteLiteral(" src=\"/Content/Images/1pxTrans.png\"");
 
 WriteLiteral(" class=\"msp_siteLogo img-responsive g-m-t-10\"");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 10443), Tuple.Create("\"", 10496)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 11691), Tuple.Create("\"", 11744)
             
-            #line 230 "..\..\Views\Shared\Header.cshtml"
-                                 , Tuple.Create(Tuple.Create("", 10449), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "SiteName")
+            #line 233 "..\..\Views\Shared\Header.cshtml"
+                                 , Tuple.Create(Tuple.Create("", 11697), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "SiteName")
             
             #line default
             #line hidden
-, 10449), false)
+, 11697), false)
 );
 
 WriteLiteral(" />\r\n                    </a>\r\n                </div>\r\n            </div>\r\n");
 
             
-            #line 234 "..\..\Views\Shared\Header.cshtml"
+            #line 237 "..\..\Views\Shared\Header.cshtml"
         }
 
             
@@ -866,13 +888,13 @@ WriteLiteral(" class=\"hdr-right pull-right\"");
 WriteLiteral(">\r\n");
 
             
-            #line 238 "..\..\Views\Shared\Header.cshtml"
+            #line 241 "..\..\Views\Shared\Header.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 238 "..\..\Views\Shared\Header.cshtml"
+            #line 241 "..\..\Views\Shared\Header.cshtml"
                  if (!Model.IsMobile)
                 {
 
@@ -893,13 +915,13 @@ WriteLiteral(" class=\"fa fa-shopping-basket g-p-r-5\"");
 
 WriteLiteral("></i>\r\n                            ");
 
-WriteLiteral("\r\n                            \r\n                            <a");
+WriteLiteral("\r\n\r\n                            <a");
 
 WriteLiteral(" class=\"primary\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 11670), Tuple.Create("\"", 11688)
-, Tuple.Create(Tuple.Create("", 11677), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
-, 11677), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 12895), Tuple.Create("\"", 12913)
+, Tuple.Create(Tuple.Create("", 12902), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
+, 12902), false)
 );
 
 WriteLiteral(">\r\n                                <strong>Basket (<span");
@@ -909,7 +931,7 @@ WriteLiteral(" class=\"basketQuantity\"");
 WriteLiteral(">");
 
             
-            #line 251 "..\..\Views\Shared\Header.cshtml"
+            #line 254 "..\..\Views\Shared\Header.cshtml"
                                                                         Write(bt.Quantity);
 
             
@@ -922,7 +944,7 @@ WriteLiteral(" class=\"basketTotal\"");
 WriteLiteral(">");
 
             
-            #line 251 "..\..\Views\Shared\Header.cshtml"
+            #line 254 "..\..\Views\Shared\Header.cshtml"
                                                                                                                                  Write((bt.GrandTotalExcVat >= bt.Delivery ? basketTotal.Item2 - bt.Delivery : basketTotal.Item2).ToString("#,###,##0.00"));
 
             
@@ -935,7 +957,7 @@ WriteLiteral(" class=\"g-fc-tt g-fs-sm\"");
 WriteLiteral(">");
 
             
-            #line 251 "..\..\Views\Shared\Header.cshtml"
+            #line 254 "..\..\Views\Shared\Header.cshtml"
                                                                                                                                                                                                                                                                                                      Write(basketTotal.Item1);
 
             
@@ -949,13 +971,13 @@ WriteLiteral(" class=\"pull-right\"");
 WriteLiteral(">\r\n");
 
             
-            #line 255 "..\..\Views\Shared\Header.cshtml"
+            #line 258 "..\..\Views\Shared\Header.cshtml"
                             
             
             #line default
             #line hidden
             
-            #line 255 "..\..\Views\Shared\Header.cshtml"
+            #line 258 "..\..\Views\Shared\Header.cshtml"
                              if (HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() == "Checkout")
                             {
 
@@ -973,7 +995,7 @@ WriteLiteral(" title=\"Checkout\"");
 WriteLiteral(">Checkout</button>\r\n");
 
             
-            #line 258 "..\..\Views\Shared\Header.cshtml"
+            #line 261 "..\..\Views\Shared\Header.cshtml"
                             }
                             else
                             {
@@ -985,9 +1007,9 @@ WriteLiteral("                                <a");
 
 WriteLiteral(" class=\"btn g-butt-primary g-butt-lg\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 12608), Tuple.Create("\"", 12626)
-, Tuple.Create(Tuple.Create("", 12615), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
-, 12615), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 13833), Tuple.Create("\"", 13851)
+, Tuple.Create(Tuple.Create("", 13840), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
+, 13840), false)
 );
 
 WriteLiteral(" role=\"button\"");
@@ -995,7 +1017,7 @@ WriteLiteral(" role=\"button\"");
 WriteLiteral(">Checkout</a>\r\n");
 
             
-            #line 262 "..\..\Views\Shared\Header.cshtml"
+            #line 265 "..\..\Views\Shared\Header.cshtml"
                             }
 
             
@@ -1004,16 +1026,16 @@ WriteLiteral(">Checkout</a>\r\n");
 WriteLiteral("                        </div>\r\n                    </div>\r\n");
 
             
-            #line 265 "..\..\Views\Shared\Header.cshtml"
+            #line 268 "..\..\Views\Shared\Header.cshtml"
                 }
                 else
                 {
-                   
+
 
             
             #line default
             #line hidden
-WriteLiteral("                       <div");
+WriteLiteral("                    <div");
 
 WriteLiteral(" class=\"hdr-basket pull-right clearfix hidden-xs hidden-sm\"");
 
@@ -1029,9 +1051,9 @@ WriteLiteral("></i>\r\n                            <a");
 
 WriteLiteral(" class=\"primary open-mini-cart\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 13111), Tuple.Create("\"", 13129)
-, Tuple.Create(Tuple.Create("", 13118), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
-, 13118), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 14314), Tuple.Create("\"", 14332)
+, Tuple.Create(Tuple.Create("", 14321), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
+, 14321), false)
 );
 
 WriteLiteral(">\r\n                                <strong>Basket (<span");
@@ -1041,7 +1063,7 @@ WriteLiteral(" class=\"basketQuantity\"");
 WriteLiteral(">");
 
             
-            #line 273 "..\..\Views\Shared\Header.cshtml"
+            #line 276 "..\..\Views\Shared\Header.cshtml"
                                                                         Write(bt.Quantity);
 
             
@@ -1054,7 +1076,7 @@ WriteLiteral(" class=\"basketTotal\"");
 WriteLiteral(">");
 
             
-            #line 273 "..\..\Views\Shared\Header.cshtml"
+            #line 276 "..\..\Views\Shared\Header.cshtml"
                                                                                                                                  Write((bt.GrandTotalExcVat >= bt.Delivery ? basketTotal.Item2 - bt.Delivery : basketTotal.Item2).ToString("#,###,##0.00"));
 
             
@@ -1067,7 +1089,7 @@ WriteLiteral(" class=\"g-fc-tt g-fs-sm\"");
 WriteLiteral(">");
 
             
-            #line 273 "..\..\Views\Shared\Header.cshtml"
+            #line 276 "..\..\Views\Shared\Header.cshtml"
                                                                                                                                                                                                                                                                                                      Write(basketTotal.Item1);
 
             
@@ -1081,13 +1103,13 @@ WriteLiteral(" class=\"pull-right\"");
 WriteLiteral(">\r\n");
 
             
-            #line 277 "..\..\Views\Shared\Header.cshtml"
+            #line 280 "..\..\Views\Shared\Header.cshtml"
                             
             
             #line default
             #line hidden
             
-            #line 277 "..\..\Views\Shared\Header.cshtml"
+            #line 280 "..\..\Views\Shared\Header.cshtml"
                              if (HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() == "Checkout")
                             {
 
@@ -1105,7 +1127,7 @@ WriteLiteral(" title=\"Checkout\"");
 WriteLiteral(">Checkout</button>\r\n");
 
             
-            #line 280 "..\..\Views\Shared\Header.cshtml"
+            #line 283 "..\..\Views\Shared\Header.cshtml"
                             }
                             else
                             {
@@ -1117,9 +1139,9 @@ WriteLiteral("                                <a");
 
 WriteLiteral(" class=\"btn g-butt-primary g-butt-lg\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 14049), Tuple.Create("\"", 14067)
-, Tuple.Create(Tuple.Create("", 14056), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
-, 14056), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 15252), Tuple.Create("\"", 15270)
+, Tuple.Create(Tuple.Create("", 15259), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
+, 15259), false)
 );
 
 WriteLiteral(" role=\"button\"");
@@ -1127,7 +1149,7 @@ WriteLiteral(" role=\"button\"");
 WriteLiteral(">Checkout</a>\r\n");
 
             
-            #line 284 "..\..\Views\Shared\Header.cshtml"
+            #line 287 "..\..\Views\Shared\Header.cshtml"
                             }
 
             
@@ -1136,7 +1158,7 @@ WriteLiteral(">Checkout</a>\r\n");
 WriteLiteral("                        </div>\r\n                    </div>\r\n");
 
             
-            #line 287 "..\..\Views\Shared\Header.cshtml"
+            #line 290 "..\..\Views\Shared\Header.cshtml"
                 }
 
             
@@ -1149,13 +1171,13 @@ WriteLiteral(" class=\"hdr-search g-p-t-10-md pull-right g-w-100p g-ps-r hidden-
 WriteLiteral(">\r\n");
 
             
-            #line 289 "..\..\Views\Shared\Header.cshtml"
+            #line 292 "..\..\Views\Shared\Header.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 289 "..\..\Views\Shared\Header.cshtml"
+            #line 292 "..\..\Views\Shared\Header.cshtml"
                      using (Html.BeginForm("Index",
                         "Search",
                         FormMethod.Post,
@@ -1174,7 +1196,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                            ");
 
             
-            #line 295 "..\..\Views\Shared\Header.cshtml"
+            #line 298 "..\..\Views\Shared\Header.cshtml"
                        Write(Html.AntiForgeryToken());
 
             
@@ -1197,7 +1219,7 @@ WriteLiteral(" placeholder=\"Search by Brand, Printer or Cartridge Number ...\""
 WriteLiteral(" data-token=\"");
 
             
-            #line 296 "..\..\Views\Shared\Header.cshtml"
+            #line 299 "..\..\Views\Shared\Header.cshtml"
                                                                                                                                                                                                         Write(Model.EncryptedDate);
 
             
@@ -1208,7 +1230,7 @@ WriteLiteral("\"");
 WriteLiteral(" ");
 
             
-            #line 296 "..\..\Views\Shared\Header.cshtml"
+            #line 299 "..\..\Views\Shared\Header.cshtml"
                                                                                                                                                                                                                               Write(searchadd);
 
             
@@ -1222,14 +1244,14 @@ WriteLiteral(" id=\"token\"");
 
 WriteLiteral(" name=\"token\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 14933), Tuple.Create("\"", 14961)
+WriteAttribute("value", Tuple.Create(" value=\"", 16136), Tuple.Create("\"", 16164)
             
-            #line 297 "..\..\Views\Shared\Header.cshtml"
-, Tuple.Create(Tuple.Create("", 14941), Tuple.Create<System.Object, System.Int32>(Model.EncryptedDate
+            #line 300 "..\..\Views\Shared\Header.cshtml"
+, Tuple.Create(Tuple.Create("", 16144), Tuple.Create<System.Object, System.Int32>(Model.EncryptedDate
             
             #line default
             #line hidden
-, 14941), false)
+, 16144), false)
 );
 
 WriteLiteral(" />\r\n                            <input");
@@ -1260,7 +1282,7 @@ WriteLiteral("></i>\r\n                                </button>\r\n            
 "pan>\r\n                        </div>\r\n");
 
             
-            #line 305 "..\..\Views\Shared\Header.cshtml"
+            #line 308 "..\..\Views\Shared\Header.cshtml"
                     }
 
             
@@ -1322,14 +1344,14 @@ WriteLiteral(" src=\"/Content/Images/1pxTrans.png\"");
 
 WriteLiteral(" class=\"msp_siteLogo visible-xs-inline visible-sm-inline navbar-brand g-m-t-10\"");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 16239), Tuple.Create("\"", 16292)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 17442), Tuple.Create("\"", 17495)
             
-            #line 324 "..\..\Views\Shared\Header.cshtml"
-                                                           , Tuple.Create(Tuple.Create("", 16245), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "SiteName")
+            #line 327 "..\..\Views\Shared\Header.cshtml"
+                                                           , Tuple.Create(Tuple.Create("", 17448), Tuple.Create<System.Object, System.Int32>(Html.RawFromDict(Model.CommonData, "SiteName")
             
             #line default
             #line hidden
-, 16245), false)
+, 17448), false)
 );
 
 WriteLiteral(" />\r\n            </a>\r\n            <div");
@@ -1355,9 +1377,9 @@ WriteLiteral("></i>\r\n                </a>\r\n                ");
 
 WriteLiteral("\r\n                <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 16880), Tuple.Create("\"", 16898)
-, Tuple.Create(Tuple.Create("", 16887), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
-, 16887), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 18085), Tuple.Create("\"", 18103)
+, Tuple.Create(Tuple.Create("", 18092), Tuple.Create<System.Object, System.Int32>(Href("~/checkout/")
+, 18092), false)
 );
 
 WriteLiteral(" class=\"open-mini-cart\"");
@@ -1377,7 +1399,7 @@ WriteLiteral(" class=\"basket-counter g-bc-primary g-fc-st g-fs-sm g-fw-b fa-sta
 WriteLiteral(">");
 
             
-            #line 336 "..\..\Views\Shared\Header.cshtml"
+            #line 339 "..\..\Views\Shared\Header.cshtml"
                                                                                              Write(bt.Quantity);
 
             
@@ -1386,29 +1408,29 @@ WriteLiteral(">");
 WriteLiteral("</i>\r\n                    </span>\r\n                </a>\r\n            </div>\r\n    " +
 "    </div>\r\n        <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 17282), Tuple.Create("\"", 17397)
-, Tuple.Create(Tuple.Create("", 17290), Tuple.Create("navbar-collapse", 17290), true)
-, Tuple.Create(Tuple.Create(" ", 17305), Tuple.Create("collapse", 17306), true)
-, Tuple.Create(Tuple.Create(" ", 17314), Tuple.Create("g-ps-a", 17315), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 18487), Tuple.Create("\"", 18602)
+, Tuple.Create(Tuple.Create("", 18495), Tuple.Create("navbar-collapse", 18495), true)
+, Tuple.Create(Tuple.Create(" ", 18510), Tuple.Create("collapse", 18511), true)
+, Tuple.Create(Tuple.Create(" ", 18519), Tuple.Create("g-ps-a", 18520), true)
             
-            #line 341 "..\..\Views\Shared\Header.cshtml"
-, Tuple.Create(Tuple.Create(" ", 17321), Tuple.Create<System.Object, System.Int32>(Authentication.IsAuthenticated() ? "authenticated" : "not-authenticated"
+            #line 344 "..\..\Views\Shared\Header.cshtml"
+, Tuple.Create(Tuple.Create(" ", 18526), Tuple.Create<System.Object, System.Int32>(Authentication.IsAuthenticated() ? "authenticated" : "not-authenticated"
             
             #line default
             #line hidden
-, 17322), false)
+, 18527), false)
 );
 
 WriteLiteral(">\r\n");
 
             
-            #line 342 "..\..\Views\Shared\Header.cshtml"
+            #line 345 "..\..\Views\Shared\Header.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 342 "..\..\Views\Shared\Header.cshtml"
+            #line 345 "..\..\Views\Shared\Header.cshtml"
              if (!Model.IsMobile)
             {
                 
@@ -1416,14 +1438,14 @@ WriteLiteral(">\r\n");
             #line default
             #line hidden
             
-            #line 344 "..\..\Views\Shared\Header.cshtml"
+            #line 347 "..\..\Views\Shared\Header.cshtml"
            Write(Html.Raw(Model.Menu));
 
             
             #line default
             #line hidden
             
-            #line 344 "..\..\Views\Shared\Header.cshtml"
+            #line 347 "..\..\Views\Shared\Header.cshtml"
                                      
             }
             else
@@ -1433,14 +1455,14 @@ WriteLiteral(">\r\n");
             #line default
             #line hidden
             
-            #line 348 "..\..\Views\Shared\Header.cshtml"
+            #line 351 "..\..\Views\Shared\Header.cshtml"
            Write(Html.Raw(Model.MobileMenu));
 
             
             #line default
             #line hidden
             
-            #line 348 "..\..\Views\Shared\Header.cshtml"
+            #line 351 "..\..\Views\Shared\Header.cshtml"
                                            
             }
 
@@ -1466,13 +1488,13 @@ WriteLiteral(" class=\"col-md-12\"");
 WriteLiteral(">\r\n");
 
             
-            #line 359 "..\..\Views\Shared\Header.cshtml"
+            #line 362 "..\..\Views\Shared\Header.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 359 "..\..\Views\Shared\Header.cshtml"
+            #line 362 "..\..\Views\Shared\Header.cshtml"
               
                 Dictionary<string, string> replacements = new Dictionary<string, string>();
                 replacements.Add("[Review-Score]", Html.RawFromDict(Model.FeeFoScore, "FiveStar").ToString());
@@ -1486,7 +1508,7 @@ WriteLiteral("\r\n");
 WriteLiteral("            ");
 
             
-            #line 364 "..\..\Views\Shared\Header.cshtml"
+            #line 367 "..\..\Views\Shared\Header.cshtml"
         Write(Html.RawFromDict(Model.CommonData, "ConfidenceBanner", replacements));
 
             
@@ -1495,7 +1517,7 @@ WriteLiteral("            ");
 WriteLiteral("\r\n        </div>\r\n    </div>\r\n</section>\r\n\r\n");
 
             
-            #line 369 "..\..\Views\Shared\Header.cshtml"
+            #line 372 "..\..\Views\Shared\Header.cshtml"
  if (Model.IsFirstTime && Model.FirstTimePopup != "")
 {
     
@@ -1503,14 +1525,14 @@ WriteLiteral("\r\n        </div>\r\n    </div>\r\n</section>\r\n\r\n");
             #line default
             #line hidden
             
-            #line 371 "..\..\Views\Shared\Header.cshtml"
+            #line 374 "..\..\Views\Shared\Header.cshtml"
 Write(Html.Raw(Model.FirstTimePopup));
 
             
             #line default
             #line hidden
             
-            #line 371 "..\..\Views\Shared\Header.cshtml"
+            #line 374 "..\..\Views\Shared\Header.cshtml"
                                    
 }
 
