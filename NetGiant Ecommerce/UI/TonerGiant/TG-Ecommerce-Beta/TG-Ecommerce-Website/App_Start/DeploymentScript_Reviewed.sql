@@ -598,14 +598,14 @@ WHERE controllerName = 'WebsiteInfoCard';
 
 -- REVIEW FIX: same duplicate-row risk as the WebsiteInfoCard actionLink INSERT above -
 -- guarded so re-running this script is safe.
-IF NOT EXISTS (SELECT 1 FROM [ngmd].[actionLink] WHERE controllerName = 'ProductAddon' AND actionName = 'Export')
+IF NOT EXISTS (SELECT 1 FROM [ngmd].[actionLink] where actionName = 'ProductAddon')
 BEGIN
     INSERT INTO [ngmd].[actionLink]
         (actionLinkDesc, actionLinkLevel,
         parentLevelID, actionLinkURL, actionName,
         controllerName, active, dateLastUpdate, roles, area)
     VALUES
-        ('Export Product Add Ons', 3, 49, NULL, 'ProductAddon',
+        ('Export Product Add Ons', 3, 49, NULL, 'ProductAddon', 
         'Export', 1, GETDATE(), 'IntranetAdmin,PMSAdmin', NULL);
 END
 -- REVIEW FIX: original script had no GO here before ALTER PROCEDURE [ngmd].[GetSummaryData]

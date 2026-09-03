@@ -2629,6 +2629,13 @@ $(function () {
             var price = 0;
             var qty = $(this).attr('data-qty');
             var refremove = $(this).attr('data-removeid');
+            // Same "already on the basket page" reasoning as the .atb-add/.add-btn handlers
+            // above - #basketSummary is the basket-page's own container div (BasketDetails.cshtml
+            // / BasketDetailsv2.cshtml only). Unlike .atb-add (which still offers further add-ons
+            // after adding a new product), a "Switch Now" click here is just swapping an existing
+            // line to its compatible equivalent - the mini-cart flyout and "You May Also Need"
+            // popup shouldn't appear at all on top of the basket page the customer is already on.
+            var fromBasketPage = $(this).closest('#basketSummary').length > 0;
 
             $.ajax({
                 url: "/Product/BasketReplace/",
@@ -2650,7 +2657,9 @@ $(function () {
                     }
                     refreshViewBasket();
                     renderPaypalButtonV2();
-                    maybeShowAddSellPopupAfterAdd();
+                    if (!fromBasketPage) {
+                        maybeShowAddSellPopupAfterAdd();
+                    }
 
                 },
                 error: function (xhr, textStatus, thrownError) {
@@ -2708,6 +2717,9 @@ $(function () {
             });
         });
     $(document).on("click", "#btnSwitchAll", function () {
+        // Same "already on the basket page" reasoning as .atb-replace above - #btnSwitchAll only
+        // lives inside #basketSummary on BasketDetails.cshtml/BasketDetailsv2.cshtml.
+        var fromBasketPage = $(this).closest('#basketSummary').length > 0;
         $.ajax({
             url: "/Product/BasketReplaceAll/",
             type: "POST",
@@ -2723,7 +2735,9 @@ $(function () {
 
                 refreshViewBasket();
                 renderPaypalButtonV2();
-                maybeShowAddSellPopupAfterAdd();
+                if (!fromBasketPage) {
+                    maybeShowAddSellPopupAfterAdd();
+                }
             },
 
             error: function (xhr, textStatus, thrownError) {

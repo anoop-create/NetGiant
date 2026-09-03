@@ -712,32 +712,72 @@
                     }
                     else
                     {
-                        // FIX: TG delivery message - UPDATED per explicit new business rules from
-                        // the client (Sept 2026), overriding an earlier standing instruction not
-                        // to touch this message (client was told this override was happening
-                        // before this change was made). Mon-Thu before 5:30pm, and Friday before
-                        // 5:30pm (cutoff unified to 5:30pm every weekday - was 5pm on Fridays
-                        // only), both deliver next working day: "Free Next Day Delivery Order
-                        // Before 5:30pm". Friday after 5:30pm, and all of Saturday/Sunday, deliver
-                        // the following Tuesday: "Free Delivery" - also used for the one case the
-                        // client didn't explicitly cover (Mon-Thu after 5:30pm), per their
-                        // instruction to match the new message style there; the single cutoff
-                        // check below naturally covers it, since it isn't a weekday-before-cutoff
-                        // case either. This also fixes a pre-existing gap noted in an earlier
-                        // review: unlike MiniBasket.cshtml, this branch had no day-of-week check
-                        // at all, so it could show a "before cutoff" message on a Saturday
-                        // morning; isDeliveryWeekday below closes that.
-                        bool isDeliveryWeekday = DateTime.Now.DayOfWeek >= DayOfWeek.Monday && DateTime.Now.DayOfWeek <= DayOfWeek.Friday;
-                        TimeSpan cutoff = new TimeSpan(17, 30, 0);
-                        bool beforeCutoff = isDeliveryWeekday && DateTime.Now.TimeOfDay < cutoff;
-                        string cutoffTime = DateTime.Today.Add(cutoff).ToString("h:mmtt").ToLower();
+                        // TG delivery message, three windows:
+                        // Mon-Thu before 5:30pm -> delivered next day: "Free Next Day Delivery
+                        // Order Before 5:30pm".
+                        // Thu after 5:30pm through Fri before 5:30pm -> delivered the following
+                        // Monday: "Free Next Working Day Delivery Order Before 5:30pm".
+                        // Fri after 5:30pm through the weekend (and Mon-Wed after 5:30pm, which
+                        // still ships the next weekday rather than skipping to Monday) -> "Free
+                        // Delivery".
+                        DateTime now = DateTime.Now;
+                        DayOfWeek day = now.DayOfWeek;
 
-                        if (beforeCutoff)
+                        TimeSpan cutoff = new TimeSpan(17, 30, 0);
+                        bool beforeCutoff = now.TimeOfDay < cutoff;
+
+                        string cutoffTime = now.Date
+                            .Add(cutoff)
+                            .ToString("h:mmtt")
+                            .ToLower();
+
+                        if (day == DayOfWeek.Monday ||day == DayOfWeek.Tuesday ||day == DayOfWeek.Wednesday)
                         {
-                            deliveryMessage = Html.Raw("Free Next Day Delivery Order Before " + cutoffTime);
+                            //if (beforeCutoff)
+                            //{
+                            deliveryMessage = Html.Raw(
+                                "Free Next Day Delivery Order Before " + cutoffTime
+                            );
+                            //}
+                            //else
+                            //{
+                            //    // After 5:30pm Mon-Wed still ships the very next weekday - not a
+                            //    // "next working day" (weekend-skip) case, so it falls to the same
+                            //    // "Free Delivery" message as the rest of the unspecified window.
+                            //    deliveryMessage = Html.Raw("Free Delivery");
+                            //}
+                        }
+                        else if (day == DayOfWeek.Thursday) 
+                        {
+                            if (beforeCutoff)
+                            {
+                                deliveryMessage = Html.Raw(
+                                    "Free Next Day Delivery Order Before " + cutoffTime
+                                );
+                            }
+                            else
+                            {
+                                deliveryMessage = Html.Raw(
+                                    "Free Next Working Day Delivery Order Before " + cutoffTime
+                                );
+                            }
+                        }
+                        else if (day == DayOfWeek.Friday)
+                        {
+                            if (beforeCutoff)
+                            {
+                                deliveryMessage = Html.Raw(
+                                    "Free Next Working Day Delivery Order Before " + cutoffTime
+                                );
+                            }
+                            else
+                            {
+                                deliveryMessage = Html.Raw("Free Delivery");
+                            }
                         }
                         else
                         {
+                            // Saturday / Sunday
                             deliveryMessage = Html.Raw("Free Delivery");
                         }
                     }

@@ -1104,7 +1104,7 @@ namespace BusinessLogic.ViewModels
 
                 var addons = db.ProductAddons
                     .Where(x => basketProductIds.Contains(x.ProductId) && x.IsActive)
-                    .OrderByDescending(x => x.CreatedDate).Take(3)
+                    .OrderBy(x => x.DisplayOrder).Take(3)
                     .ToList();
                 ProductViewModel pv= new ProductViewModel();
 
@@ -1146,7 +1146,7 @@ namespace BusinessLogic.ViewModels
                                         && pa.IsActive
                                         && (p.productStatusFK == 1 || p.productStatusFK == 8)
                                         && (p.productItemTypeFK == 1 || p.productItemTypeFK == 2)
-                                     orderby pa.CreatedDate descending
+                                     orderby pa.DisplayOrder
                                      select pa.AddonProductId)
                                      .Take(3)
                                      .ToList();
